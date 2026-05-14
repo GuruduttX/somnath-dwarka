@@ -1,7 +1,9 @@
-import Footer from '@/utils/Footer'
-import TourHero from '@/components/TourArchive/TourHero'
-import Navbar from '@/utils/Navbar'
-import ProductsShowcase from '@/components/Home/ProductsShowcase'
+import Footer from '@/src/utils/Footer'
+import TourHero from '@/src/components/TourArchive/TourHero'
+import Navbar from '@/src/utils/Navbar'
+import ProductsShowcase from '@/src/components/Home/ProductsShowcase'
+import TourArchiveCTA from '@/src/components/TourArchive/TourArchiveCTA'
+import TourArchiveFAQ from '@/src/components/TourArchive/TourArchiveFAQS'
 
 export default function page(){
     return (
@@ -9,6 +11,8 @@ export default function page(){
           <Navbar/>
           <TourHero/>
           <ProductsShowcase/>
+          <TourArchiveCTA/>
+          <TourArchiveFAQ/>
           <Footer/>
 
         </div>

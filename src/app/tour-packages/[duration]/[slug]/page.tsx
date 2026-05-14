@@ -1,21 +1,22 @@
-import TourArchiveCTA from "@/components/TourArchive/TourArchiveCTA";
-import DestinationRoute from "@/components/TourPackage/DestinationRoute";
-import InclusionExclusion from "@/components/TourPackage/InclusionExclusion";
-import ItineraryAccordion from "@/components/TourPackage/ItineraryAccordion";
-import KnowBeforeYouGo from "@/components/TourPackage/KnowBeforeYouGo";
-import PackageDurationStrip from "@/components/TourPackage/PackageDurationStrip";
-import PackageFaqSection from "@/components/TourPackage/PackageFaqSection";
-import PackageHero from "@/components/TourPackage/PackageHero";
-import PackageHighlights from "@/components/TourPackage/PackageHighlights";
-import PackageInclusionsStrip from "@/components/TourPackage/PackageInclusionsStrip";
-import PackageTestimonials from "@/components/TourPackage/PackageTestimonials";
-import Policies from "@/components/TourPackage/Policies";
-import ProductRatings from "@/components/TourPackage/ProductRatings";
-import SideForm from "@/components/TourPackage/SideForm";
-import LuxuryFooter from "@/utils/Footer";
-import Navbar from "@/utils/Navbar";
-import TrustBuildingSection from "@/utils/TrustBuildingSection";
+import TourArchiveCTA from "@/src/components/TourArchive/TourArchiveCTA";
+import DestinationRoute from "@/src/components/TourPackage/DestinationRoute";
+import InclusionExclusion from "@/src/components/TourPackage/InclusionExclusion";
+import ItineraryAccordion from "@/src/components/TourPackage/ItineraryAccordion";
+import KnowBeforeYouGo from "@/src/components/TourPackage/KnowBeforeYouGo";
+import PackageDurationStrip from "@/src/components/TourPackage/PackageDurationStrip";
+import PackageFaqSection from "@/src/components/TourPackage/PackageFaqSection";
+import PackageHero from "@/src/components/TourPackage/PackageHero";
+import PackageHighlights from "@/src/components/TourPackage/PackageHighlights";
+import PackageInclusionsStrip from "@/src/components/TourPackage/PackageInclusionsStrip";
+import PackageTestimonials from "@/src/components/TourPackage/PackageTestimonials";
+import Policies from "@/src/components/TourPackage/Policies";
+import ProductRatings from "@/src/components/TourPackage/ProductRatings";
+import SideForm from "@/src/components/TourPackage/SideForm";
+import LuxuryFooter from "@/src/utils/Footer";
+import Navbar from "@/src/utils/Navbar";
+import TrustBuildingSection from "@/src/utils/TrustBuildingSection";
 import { DiVisualstudio } from "react-icons/di";
+import PackageOverview from "@/src/components/TourPackage/PackageOverview";
 
 const PackageData = {
   title: "Somnath Dwarka Tour Package",
@@ -325,6 +326,12 @@ export default async function Page() {
 
               <DestinationRoute
                 routeData={PackageData.routes}
+              />
+              <PackageOverview
+                overview={[
+                  "A 5 Days Mathura Vrindavan... first paragraph.",
+                  "What makes this journey work well for families..."
+                ]}
               />
 
               <PackageHighlights
