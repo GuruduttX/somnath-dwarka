@@ -175,6 +175,7 @@ styling, CWV + WCAG AA, schema validates with zero errors.
 
 ---
 
+
 ## Pre-launch checklist (SOP §14) — gate before production
 - [ ] Every URL resolves; trailing-slash + www/https 301s single-hop
 - [ ] View-source confirms critical content in raw HTML on every template
