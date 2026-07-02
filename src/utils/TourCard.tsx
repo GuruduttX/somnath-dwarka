@@ -9,6 +9,8 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  Star,
+  ArrowUpRight,
 } from "lucide-react";
 import type { TourPackage } from "./TourData";
 import CommonEnquiryForm from "./CommanEnquiryForm";
@@ -101,7 +103,7 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [open, setOpen] = useState(false);
 
-  const packageUrl = `/tour-packages/${pkg.duration}/${pkg?.slug}`;
+  const packageUrl = pkg.href;
 
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
@@ -123,14 +125,14 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
         />
       )}
 
-      <div className="group overflow-hidden rounded-3xl bg-white shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+      <div className="group overflow-hidden rounded-[28px] border border-orange-100/80 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(15,23,42,0.12)]">
 
         {/* ── IMAGE GRID ── */}
-        <div className="flex h-[240px] gap-1.5 p-2">
+        <div className="relative p-3">
 
           {/* Big left image */}
           <div
-            className="relative flex-[1.7] cursor-pointer overflow-hidden rounded-2xl"
+            className="relative h-[200px] cursor-pointer overflow-hidden rounded-[22px] bg-gray-100 sm:h-[220px]"
             onClick={() => openLightbox(0)}
           >
             <img
@@ -142,87 +144,100 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
                   "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=70";
               }}
             />
+            <div className="absolute inset-0 bg-linear-to-t from-black/45 via-transparent to-black/15" />
             {/* Days badge */}
-            <span className="absolute left-3 top-3 rounded-xl bg-white/90 px-3 py-1 text-[12px] font-bold text-gray-800 shadow-sm backdrop-blur-sm">
-              {pkg.days} Days
+            <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[12px] font-bold text-gray-900 shadow-sm backdrop-blur-sm">
+              {pkg.days} {pkg.days === 1 ? "Day" : "Days"}
             </span>
             {pkg.badge && (
-              <span className="absolute right-3 top-3 rounded-xl bg-orange-500 px-3 py-1 text-[11px] font-bold text-white shadow-sm">
+              <span className="absolute right-3 top-3 rounded-full bg-orange-500 px-3 py-1.5 text-[11px] font-bold text-white shadow-sm">
                 {pkg.badge}
               </span>
             )}
+
+            {pkg.rating ? (
+              <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[12px] font-bold text-gray-900 shadow-sm backdrop-blur-sm">
+                <Star size={13} className="fill-orange-400 text-orange-400" />
+                {pkg.rating.toFixed(1)}
+                {pkg.reviews ? <span className="font-semibold text-gray-500">({pkg.reviews})</span> : null}
+              </span>
+            ) : null}
           </div>
 
-          {/* 2×2 right grid */}
-          <div className="grid flex-1 grid-cols-2 gap-1.5">
-            {thumbs.map((img, i) => {
-              const isLast = i === 3;
-              return (
-                <div
-                  key={i}
-                  className="relative cursor-pointer overflow-hidden rounded-xl"
-                  onClick={() => openLightbox(i + 1)}
-                >
-                  <img
-                    src={img}
-                    alt=""
-                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src =
-                        "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=300&q=70";
-                    }}
-                  />
-                  {isLast && (
-                    <div
-                      className="absolute inset-0 flex items-center justify-center bg-black/50 text-white font-semibold text-[13px] hover:bg-black/60 transition-colors"
-                    >
-                      More +
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+          {/* Compact thumbnails */}
+          <div className="absolute bottom-5 right-5 hidden gap-2 sm:flex">
+            {thumbs.slice(0, 3).map((img, i) => (
+              <button
+                key={i}
+                className="relative h-12 w-12 cursor-pointer overflow-hidden rounded-xl border-2 border-white bg-gray-100 shadow-lg"
+                onClick={() => openLightbox(i + 1)}
+                aria-label={`Open ${pkg.title} image ${i + 2}`}
+              >
+                <img
+                  src={img}
+                  alt=""
+                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src =
+                      "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=300&q=70";
+                  }}
+                />
+                {i === 2 && (
+                  <span className="absolute inset-0 grid place-items-center bg-black/45 text-[11px] font-bold text-white">
+                    More
+                  </span>
+                )}
+              </button>
+            ))}
           </div>
         </div>
 
         {/* ── CARD BODY ── */}
         <Link href={packageUrl} className="block">
-        <div className="px-5 pb-5 pt-4">
+        <div className="px-5 pb-5 pt-1">
 
           {/* Title */}
-          <h3 className="text-[19px] font-bold text-orange-500 leading-snug">
+          <h3 className="text-[19px] font-bold leading-snug text-gray-950 sm:text-[20px]">
             {pkg.title}
           </h3>
 
           {/* Meta row */}
-          <div className="mt-2.5 flex flex-wrap items-center gap-4 text-[13px] text-orange-400 font-medium">
+          <div className="mt-2.5 flex flex-wrap items-center gap-2 text-[12.5px] font-semibold text-gray-600">
             <span className="flex items-center gap-1.5">
-              <MapPin size={14} strokeWidth={2} />
+              <MapPin size={14} strokeWidth={2.2} className="text-orange-500" />
               {pkg.location}
             </span>
+            <span className="h-1 w-1 rounded-full bg-orange-300" />
             <span className="flex items-center gap-1.5">
-              <Clock size={14} strokeWidth={2} />
+              <Clock size={14} strokeWidth={2.2} className="text-orange-500" />
               {pkg.duration}
             </span>
+            <span className="h-1 w-1 rounded-full bg-orange-300" />
             <span className="flex items-center gap-1.5">
-              <Users size={14} strokeWidth={2} />
+              <Users size={14} strokeWidth={2.2} className="text-orange-500" />
               {pkg.groupType}
             </span>
           </div>
 
+          {pkg.overview ? (
+            <p className="mt-2 line-clamp-2 text-[13.5px] leading-relaxed text-gray-500">
+              {pkg.overview}
+            </p>
+          ) : null}
+
           {/* Divider */}
-          <div className="my-3.5 h-px bg-gray-100" />
+          <div className="my-3 h-px bg-gray-100" />
 
           {/* Inclusions */}
-          <div className="grid grid-cols-2 gap-y-2.5 gap-x-3">
-            {pkg.inclusions.map((item) => (
-              <div key={item} className="flex items-center gap-2 text-[13.5px] text-gray-700">
+          <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+            {(pkg.inclusions.length ? pkg.inclusions : ["Private trip planning", "Flexible itinerary"]).map((item) => (
+              <div key={item} className="flex min-w-0 items-center gap-2 text-[13px] font-medium text-gray-700">
                 <CheckCircle2
                   size={16}
                   strokeWidth={2}
-                  className="flex-shrink-0 text-orange-400"
+                  className="flex-shrink-0 text-emerald-500"
                 />
-                {item}
+                <span className="truncate">{item}</span>
               </div>
             ))}
           </div>
@@ -231,11 +246,21 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
           <div className="my-4 h-px bg-gray-100" />
 
           {/* Price + CTA */}
-        <div className="mt-4 flex gap-3">
+        <div className="mt-3 flex items-end justify-between gap-3">
+          <div>
+            <span className="block text-[12px] font-semibold uppercase tracking-[0.12em] text-gray-400">
+              Starts from
+            </span>
+            <span className="text-[23px] font-extrabold text-gray-950">
+              {pkg.price ? `₹${pkg.price.toLocaleString("en-IN")}` : "Custom"}
+            </span>
+          </div>
+          <div className="flex gap-2">
           <div
-            className="flex-1 rounded-2xl cursor-pointer bg-orange-500 px-6 py-3 text-center text-[14.5px] font-bold text-white shadow-md shadow-orange-200 transition-all duration-200 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg hover:shadow-orange-200 active:translate-y-0"
+            className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-full bg-orange-500 px-5 text-center text-[14px] font-bold text-white shadow-md shadow-orange-200 transition-all duration-200 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg active:translate-y-0"
           >
-            View More
+            View
+            <ArrowUpRight size={16} />
           </div>
 
           <button
@@ -244,10 +269,11 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
               e.stopPropagation();
               setOpen(true);
             }}
-            className="min-w-[140px] cursor-pointer rounded-2xl border border-orange-200 bg-white px-6 py-3 text-[14px] font-bold text-orange-500 transition-all duration-200 hover:bg-orange-50"
+            className="h-11 min-w-[112px] cursor-pointer rounded-full border border-orange-200 bg-white px-5 text-[14px] font-bold text-orange-600 transition-all duration-200 hover:bg-orange-50"
           >
             Enquire
           </button>
+          </div>
         </div>
         </div>
         </Link>

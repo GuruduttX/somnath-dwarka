@@ -17,6 +17,9 @@ import HomeFaqSection from "@/src/components/Home/HomeFaqSection";
 import { buildMetadata, faqSchema } from "@/src/lib/seo";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { HOME_FAQS } from "@/src/config/homeFaqs";
+import { getPublishedPackages } from "@/src/lib/content";
+import { ADMIN_DEMO_PACKAGES } from "@/src/lib/seed/adminPackages";
+import { mapAdminPackagesToTourCards } from "@/src/utils/TourData";
 
 export const metadata: Metadata = buildMetadata({
   title: "Somnath Dwarka Tour Package | Itinerary, Cab & Hotel",
@@ -25,15 +28,20 @@ export const metadata: Metadata = buildMetadata({
   path: "/",
 });
 
-export default function Home() {
+export default async function Home() {
+  const adminPackages = await getPublishedPackages();
+  const packages = mapAdminPackagesToTourCards(
+    adminPackages.length ? adminPackages : ADMIN_DEMO_PACKAGES,
+  );
+
   return (
     <>
       <Navbar />
       <main id="main-content">
         <HomeHero />
-        <ProductsShowcase />
+        <ProductsShowcase packages={packages} />
         <TravelCTA />
-        <PopularTourPackages />
+        <PopularTourPackages packages={packages} />
         <HomeTrustBuildingSection />
         <DwarkaTourPackage />
         <BookDarshanCTA />

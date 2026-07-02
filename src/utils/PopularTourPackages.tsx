@@ -4,90 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import CommonEnquiryForm from "./CommanEnquiryForm";
+import type { TourPackage } from "./TourData";
 
-const CAROUSEL_PACKAGES = [
-  {
-    id: 1,
-    title: "Statue of Unity Escape",
-    slug: "statue-of-unity-escape",
-    duration: "3 days & 2 nights",
-    originalPrice: "₹18,999",
-    price: "₹14,499",
-    tag: "Bestseller",
-    tagBg: "rgba(249,115,22,0.92)",
-    image:
-      "https://images.unsplash.com/photo-1627894483216-2138af692e32?q=80&w=1600&auto=format&fit=crop",
-  },
-  {
-    id: 2,
-    title: "Dwarka Spiritual Journey",
-    slug: "dwarka-spiritual-journey",
-    duration: "4 days & 3 nights",
-    originalPrice: "₹22,499",
-    price: "₹17,999",
-    tag: "Most Popular",
-    tagBg: "rgba(234,88,12,0.92)",
-    image:
-      "https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=1600&auto=format&fit=crop",
-  },
-  {
-    id: 3,
-    title: "Somnath Jyotirlinga Tour",
-    slug: "somnath-jyotirlinga-tour",
-    duration: "3 days & 2 nights",
-    originalPrice: "₹16,999",
-    price: "₹12,499",
-    tag: "Spiritual",
-    tagBg: "rgba(245,158,11,0.92)",
-    image:
-      "https://images.unsplash.com/photo-1599661046289-e31897846e41?q=80&w=1600&auto=format&fit=crop",
-  },
-  {
-    id: 4,
-    title: "Dwarka–Somnath Premium Yatra",
-    slug: "dwarka-somnath-premium-yatra",
-    duration: "6 days & 5 nights",
-    originalPrice: "₹34,999",
-    price: "₹28,499",
-    tag: "Premium",
-    tagBg: "rgba(251,146,60,0.92)",
-    image:
-      "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?q=80&w=1600&auto=format&fit=crop",
-  },
-  {
-    id: 5,
-    title: "Gir National Park Safari",
-    slug: "gir-national-park-safari",
-    duration: "3 days & 2 nights",
-    originalPrice: "₹19,999",
-    price: "₹15,999",
-    tag: "Wildlife",
-    tagBg: "rgba(217,119,6,0.92)",
-    image:
-      "https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=1600&auto=format&fit=crop",
-  },
-  {
-    id: 6,
-    title: "Rann of Kutch Experience",
-    slug: "rann-of-kutch-experience",
-    duration: "4 days & 3 nights",
-    originalPrice: "₹29,999",
-    price: "₹23,999",
-    tag: "Seasonal",
-    tagBg: "rgba(253,186,116,0.92)",
-    image:
-      "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=1600&auto=format&fit=crop",
-  },
-];
-
-// Three copies so the user can scroll freely in both directions
-const tripled = [
-  ...CAROUSEL_PACKAGES,
-  ...CAROUSEL_PACKAGES,
-  ...CAROUSEL_PACKAGES,
-];
-
-export default function PopularTourPackages() {
+export default function PopularTourPackages({ packages }: { packages: TourPackage[] }) {
   const headRef = useRef<HTMLDivElement>(null);
   const [headVisible, setHeadVisible] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -98,6 +17,7 @@ export default function PopularTourPackages() {
   const isDragging = useRef(false);
   const dragStartX = useRef(0);
   const dragStart = useRef(0);
+  const tripled = [...packages, ...packages, ...packages];
 
   useEffect(() => {
     const node = headRef.current;
@@ -195,7 +115,7 @@ export default function PopularTourPackages() {
 
       <section
         id="packages"
-        className="pt-28 pb-5 lg:pt-36 lg:pb-8 overflow-hidden " 
+        className="pt-28 pb-5 lg:pt-12 lg:pb-8 overflow-hidden " 
       >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 mb-12">
         <div
@@ -300,11 +220,11 @@ function PackageCard({
   pkg,
   onGetQuotes,
 }: {
-  pkg: (typeof CAROUSEL_PACKAGES)[number];
+  pkg: TourPackage;
   onGetQuotes: () => void;
 }) {
   return (
-    <Link href={`/tour-packages/${pkg.duration.replace(/\s/g, '-')}/${pkg.slug}`}>
+    <Link href={pkg.href}>
     <article
       className="group relative shrink-0 rounded-3xl overflow-hidden cursor-pointer"
       style={{
@@ -314,7 +234,7 @@ function PackageCard({
       }}
     >
       <Image
-        src={pkg.image}
+        src={pkg.images[0]}
         alt={pkg.title}
         fill
         unoptimized
@@ -328,12 +248,12 @@ function PackageCard({
         <span
           className="text-white text-[0.62rem] font-semibold px-3 py-1 rounded-full"
           style={{
-            background: pkg.tagBg,
+            background: "rgba(249,115,22,0.92)",
             backdropFilter: "blur(8px)",
             WebkitBackdropFilter: "blur(8px)",
           }}
         >
-          {pkg.tag || "Bestseller"}
+          {pkg.badge || "Featured"}
         </span>
       </div>
 
@@ -348,10 +268,10 @@ function PackageCard({
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0">
             <span className="text-white/45 text-[0.65rem] line-through block leading-none">
-              {pkg.originalPrice}
+            {pkg.originalPrice ? `₹${pkg.originalPrice.toLocaleString("en-IN")}` : ""}
             </span>
             <span className="text-white font-bold text-[1.22rem] leading-tight">
-              {pkg.price}
+              {pkg.price ? `₹${pkg.price.toLocaleString("en-IN")}` : "Custom quote"}
             </span>
           </div>
 

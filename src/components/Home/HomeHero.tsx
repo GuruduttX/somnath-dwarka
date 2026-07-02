@@ -17,7 +17,12 @@ const STATS = [
   { value: 4.9, suffix: "★", label: "Rating" },
 ] as const;
 
-const AVATARS = ["#F59E0B", "#EA580C", "#FB7185", "#A855F7"];
+const AVATARS = [
+  "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=120&h=120&auto=format&fit=crop&crop=faces",
+  "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=120&h=120&auto=format&fit=crop&crop=faces",
+  "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=120&h=120&auto=format&fit=crop&crop=faces",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&auto=format&fit=crop&crop=faces",
+];
 
 export default function HomeHero() {
   const [open, setOpen] = useState(false);
@@ -182,12 +187,12 @@ export default function HomeHero() {
             {/* Trust row */}
             <div className="h-anim hd5 mt-7 flex items-center gap-3">
               <div className="flex -space-x-2.5">
-                {AVATARS.map((c, i) => (
-                  <span
+                {AVATARS.map((src, i) => (
+                  <img
                     key={i}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white text-[10px] font-bold text-white shadow-sm"
-                    style={{ background: `linear-gradient(135deg,${c},#FDBA74)` }}
-                    aria-hidden="true"
+                    src={src}
+                    alt=""
+                    className="h-8 w-8 rounded-full border-2 border-white object-cover shadow-sm"
                   />
                 ))}
               </div>

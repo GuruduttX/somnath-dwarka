@@ -68,7 +68,7 @@ export const STATIC_ROUTES: StaticRoute[] = [
 
 /** Primary nav — money hubs reachable ≤2 clicks from home (SOP §8). */
 export const PRIMARY_NAV = [
-  { label: "Tour packages", path: "/somnath-dwarka-tour-package/" },
+  { label: "Tours", path: "/somnath-dwarka-tour-package/" },
   { label: "Taxi service", path: "/somnath-dwarka-taxi-service/" },
   { label: "Hotels", path: "/hotels/" },
   { label: "Somnath", path: "/somnath/" },
