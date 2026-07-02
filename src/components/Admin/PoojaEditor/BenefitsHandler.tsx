@@ -1,6 +1,6 @@
 import React from "react";
 import { Plus, Trash2 } from "lucide-react";
-import { BenefitType } from "@/app/admin-x9AqP7mK2/pooja/create-pooja/page";
+import { BenefitType } from "@/src/types/poojaTypes";
 
 const inputClass = `
   mt-2 w-full px-5 py-3 rounded-xl

@@ -1,5 +1,5 @@
-import { getUserAllTaxiController} from "@/controllers/users/taxiControllers";
-import { connectDB } from "@/lib/mongodb";
+import { getUserAllTaxiController} from "@/src/controllers/users/taxiControllers";
+import { connectDB } from "@/src/lib/mongodb";
 import { NextResponse } from "next/server";
 
 

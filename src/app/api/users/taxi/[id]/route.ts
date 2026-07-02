@@ -1,5 +1,5 @@
-import { connectDB } from "@/lib/mongodb";
-import { getUserTaxiBySlugController } from "@/controllers/admin/taxiControllers";
+import { connectDB } from "@/src/lib/mongodb";
+import { getUserTaxiBySlugController } from "@/src/controllers/users/taxiControllers";
 import { NextResponse } from "next/server";
 
 

@@ -1,5 +1,5 @@
-import { getUserPoojaBySlugController } from "@/controllers/users/poojaController";
-import { connectDB } from "@/lib/mongodb";
+import { getUserPoojaBySlugController } from "@/src/controllers/users/poojaController";
+import { connectDB } from "@/src/lib/mongodb";
 import { NextResponse } from "next/server";
 
 export async function GET(req : Request, { params } : { params: Promise<{ slug: string }> }) {

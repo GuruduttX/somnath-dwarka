@@ -1,5 +1,5 @@
-import { getUserAllHotelsController } from "@/controllers/users/hotelControllers";
-import { connectDB } from "@/lib/mongodb";
+import { getUserAllHotelsController } from "@/src/controllers/users/hotelControllers";
+import { connectDB } from "@/src/lib/mongodb";
 import { NextResponse } from "next/server";
 
 

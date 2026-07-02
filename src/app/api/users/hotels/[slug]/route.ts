@@ -1,5 +1,5 @@
-import { getUserHotelBySlugController } from "@/controllers/users/hotelControllers";
-import { connectDB } from "@/lib/mongodb";
+import { getUserHotelBySlugController } from "@/src/controllers/users/hotelControllers";
+import { connectDB } from "@/src/lib/mongodb";
 
 
 export async function GET(req: Request, { params }: { params: Promise<{ slug: string }> }) {

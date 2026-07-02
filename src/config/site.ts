@@ -1,0 +1,96 @@
+/**
+ * Single source of truth for brand, NAP, contact and the SOP's core
+ * "verified" facts (SOP §11 llms.txt + §2 verify fields).
+ *
+ * Anything tagged `verify: false` below is a PLACEHOLDER awaiting client
+ * confirmation (SOP §16). Never present a placeholder as a verified fact —
+ * the UI renders a "last verified" stamp + source only when verify === true.
+ */
+
+export const SITE_ENV = process.env.NEXT_PUBLIC_SITE_ENV ?? "production";
+export const IS_STAGING = SITE_ENV === "staging";
+
+/** Canonical origin, no trailing slash. Override via env in each environment. */
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://somnathdwarkatourpackage.com"
+).replace(/\/$/, "");
+
+export const BRAND = {
+  name: "Somnath Dwarka Tour Package",
+  shortName: "Somnath Dwarka Tours",
+  legalName: "Somnath Dwarka Tour Package",
+  tagline: "Itinerary, Cab & Hotel for your Somnath–Dwarka pilgrimage",
+  // Client dependency (SOP §16 — brand assets)
+  logo: `${SITE_URL}/images/logo.png`,
+  ogImage: `${SITE_URL}/images/home/HomeHero.webp`,
+} as const;
+
+/** Contact / NAP — client to confirm (SOP §16). */
+export const CONTACT = {
+  phone: process.env.NEXT_PUBLIC_PHONE ?? "+919999999999",
+  phoneDisplay: process.env.NEXT_PUBLIC_PHONE_DISPLAY ?? "+91 99999 99999",
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "919999999999",
+  email: process.env.NEXT_PUBLIC_EMAIL ?? "hello@somnathdwarkatourpackage.com",
+  // LocalBusiness schema renders ONLY when napConfirmed is true (SOP §12 gate).
+  napConfirmed: false,
+  address: {
+    street: "",
+    locality: "Dwarka",
+    region: "Gujarat",
+    postalCode: "",
+    country: "IN",
+  },
+} as const;
+
+export const waLink = (text?: string) =>
+  `https://wa.me/${CONTACT.whatsapp}${
+    text ? `?text=${encodeURIComponent(text)}` : ""
+  }`;
+export const telLink = () => `tel:${CONTACT.phone}`;
+
+/**
+ * Core verified facts (SOP §11). These must also appear as plain crawlable
+ * on-page text where relevant. Flip `verify` to true + add `source` + `date`
+ * once the client confirms.
+ */
+export type VerifiedFact = {
+  key: string;
+  label: string;
+  value: string;
+  verify: boolean;
+  source?: string;
+  date?: string; // ISO — "last verified"
+};
+
+export const CORE_FACTS: Record<string, VerifiedFact> = {
+  dwarkaSomnathDistance: {
+    key: "dwarkaSomnathDistance",
+    label: "Dwarka ↔ Somnath road distance",
+    value: "≈ 233 km",
+    verify: false,
+  },
+  dwarkaSomnathDuration: {
+    key: "dwarkaSomnathDuration",
+    label: "Dwarka ↔ Somnath drive time",
+    value: "~ 4.5–5 hours",
+    verify: false,
+  },
+  circuitLength: {
+    key: "circuitLength",
+    label: "Typical circuit",
+    value: "4–5 days",
+    verify: false,
+  },
+  somnathAarti: {
+    key: "somnathAarti",
+    label: "Somnath aarti timings",
+    value: "07:00, 12:00, 19:00 (approx)",
+    verify: false,
+  },
+  dwarkadhishDarshan: {
+    key: "dwarkadhishDarshan",
+    label: "Dwarkadhish darshan timings",
+    value: "06:30–13:00, 17:00–21:30 (approx)",
+    verify: false,
+  },
+};

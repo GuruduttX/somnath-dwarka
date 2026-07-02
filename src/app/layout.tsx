@@ -1,20 +1,33 @@
 import type { Metadata } from "next";
-import { Poppins } from 'next/font/google';
+import { Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/src/utils/Navbar";
+import { SITE_URL, BRAND, IS_STAGING } from "@/src/config/site";
+import { organizationSchema, websiteSchema, localBusinessSchema } from "@/src/lib/seo";
+import JsonLd from "@/src/components/seo/JsonLd";
+import StickyContactBar from "@/src/components/shared/StickyContactBar";
+import Analytics from "@/src/components/seo/Analytics";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"], 
+  weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
+  display: "swap",
 });
 
-
+/**
+ * Sitewide defaults. Staging is noindex sitewide (SOP §15); production is
+ * index,follow by default — per-page noindex comes from each page's metadata.
+ */
 export const metadata: Metadata = {
-  robots: {
-    index: false,
-    follow: false,
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${BRAND.name} | Itinerary, Cab & Hotel`,
+    template: `%s — ${BRAND.shortName}`,
   },
+  description: BRAND.tagline,
+  robots: IS_STAGING
+    ? { index: false, follow: false }
+    : { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -24,10 +37,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${poppins.className} antialiased`}
-      >
+      <body className={`${poppins.className} antialiased`}>
+        <JsonLd
+          data={[organizationSchema(), websiteSchema(), localBusinessSchema()]}
+        />
+        <a href="#main-content" className="skip-to-content">
+          Skip to content
+        </a>
         {children}
+        <StickyContactBar />
+        <Analytics />
       </body>
     </html>
   );

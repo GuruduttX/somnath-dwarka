@@ -10,7 +10,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import type { TourPackage } from "./tourData";
+import type { TourPackage } from "./TourData";
 import CommonEnquiryForm from "./CommanEnquiryForm";
 import Link from "next/link";
 
