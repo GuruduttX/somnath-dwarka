@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, Phone, ArrowRight, MapPin, Compass } from "lucide-react";
 import CommonEnquiryForm from "./CommanEnquiryForm";
@@ -19,9 +19,8 @@ const HUB_ICONS: Record<string, string> = {
   Guides: "📖",
 };
 
-/** Home + every hub (SOP §8 — money hubs reachable ≤2 clicks from home). */
+/** Primary hubs (home stays available through the logo). */
 const navItems = [
-  { label: "Home", url: "/", icon: "🏠" },
   ...PRIMARY_NAV.map((n) => ({
     label: n.label,
     url: n.path,
@@ -29,10 +28,22 @@ const navItems = [
   })),
 ];
 
+const normalizePath = (path: string) => {
+  if (path === "/") return path;
+  return path.replace(/\/+$/, "");
+};
+
+const isActivePath = (itemUrl: string, pathname: string) => {
+  const currentPath = normalizePath(pathname);
+  const targetPath = normalizePath(itemUrl);
+
+  if (targetPath === "/") return currentPath === "/";
+  return currentPath === targetPath || currentPath.startsWith(`${targetPath}/`);
+};
+
 export default function Navbar() {
   const pathname = usePathname();
 
-  const [active, setActive] = useState("Home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -45,15 +56,6 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // ACTIVE TAB
-  useEffect(() => {
-    const currentTab = navItems.find((item) => {
-      if (item.url === "/") return pathname === "/";
-      return pathname.startsWith(item.url);
-    });
-    if (currentTab) setActive(currentTab.label);
-  }, [pathname]);
 
   // CLOSE MENU ON RESIZE
   useEffect(() => {
@@ -79,10 +81,9 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMobileMenuOpen]);
 
-  const handleNavClick = useCallback((label: string) => {
-    setActive(label);
+  const handleNavClick = () => {
     setIsMobileMenuOpen(false);
-  }, []);
+  };
 
   return (
     <>
@@ -137,15 +138,16 @@ export default function Navbar() {
               border border-gray-100/80
               overflow-x-auto hide-scrollbar">
               {navItems.map((item) => {
-                const isActive = active === item.label;
+                const isActive = isActivePath(item.url, pathname);
                 return (
                   <Link
                     href={item.url}
                     key={item.label}
-                    onClick={() => handleNavClick(item.label)}
-                    className={`relative flex items-center gap-1.5 px-3.5 xl:px-4 py-2 rounded-full
+                    onClick={handleNavClick}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`relative flex h-9 items-center gap-1.5 rounded-full px-2.5 py-2 xl:px-3.5
                       whitespace-nowrap flex-shrink-0
-                      font-medium text-sm transition-all duration-200 group
+                      font-medium text-[13px] transition-colors duration-200 group xl:text-sm
                       ${isActive
                         ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-200"
                         : "text-gray-600 hover:text-amber-700 hover:bg-white hover:shadow-sm"
@@ -228,15 +230,13 @@ export default function Navbar() {
               {/* Nav links */}
               <div className="flex flex-col p-3 gap-1 max-h-[60vh] overflow-y-auto">
                 {navItems.map((item) => {
-                  const isActive = active === item.label;
+                  const isActive = isActivePath(item.url, pathname);
                   return (
                     <Link
                       href={item.url}
                       key={item.label}
-                      onClick={() => {
-                        setActive(item.label);
-                        setIsMobileMenuOpen(false);
-                      }}
+                      onClick={handleNavClick}
+                      aria-current={isActive ? "page" : undefined}
                       className={`flex items-center gap-3 px-5 py-3.5 rounded-2xl
                         text-base font-medium transition-all duration-200
                         ${isActive
