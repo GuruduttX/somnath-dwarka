@@ -52,45 +52,38 @@
 }
 .verify-stamp--pending { color: #B85C10; }
 
-/* Sticky WhatsApp + Call bar (SOP §6, §13) */
+/* Sticky Call + WhatsApp buttons — icon only, Call at page-left, WhatsApp at page-right (SOP §6, §13) */
 .sticky-contact-bar {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
   z-index: 9990;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: rgba(0, 0, 0, 0.08);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none; /* let clicks pass through the empty middle */
 }
 .sticky-contact-bar a {
+  pointer-events: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 14px 12px;
-  font-weight: 600;
-  font-size: 15px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
   color: #fff;
+  font-size: 24px;
   text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.sticky-contact-bar a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
 }
 .sticky-contact-bar .scb-call { background: #E87722; }
 .sticky-contact-bar .scb-wa { background: #25D366; }
-@media (min-width: 768px) {
-  .sticky-contact-bar {
-    left: auto;
-    right: 20px;
-    bottom: 20px;
-    width: auto;
-    grid-template-columns: auto auto;
-    gap: 10px;
-    background: transparent;
-    box-shadow: none;
-  }
-  .sticky-contact-bar a { border-radius: 99px; box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
-}
 
 /* Breadcrumb + answer-first + related links (SOP §5, §6, §8) */
 .answer-first {

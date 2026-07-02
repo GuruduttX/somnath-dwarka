@@ -64,8 +64,8 @@ export default function QuickQuery({ setOpen, form, setForm }: any) {
             <line
               key={i}
               x1="100" y1="100"
-              x2={100 + 90 * Math.cos((i * 45 * Math.PI) / 180)}
-              y2={100 + 90 * Math.sin((i * 45 * Math.PI) / 180)}
+              x2={(100 + 90 * Math.cos((i * 45 * Math.PI) / 180)).toFixed(3)}
+              y2={(100 + 90 * Math.sin((i * 45 * Math.PI) / 180)).toFixed(3)}
               stroke="white" strokeWidth="0.6"
             />
           ))}

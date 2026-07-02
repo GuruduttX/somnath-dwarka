@@ -26,8 +26,8 @@ export default function BookDarshanCTA() {
               ))}
               {[...Array(12)].map((_,i)=>(
                 <line key={i} x1="150" y1="150"
-                  x2={150+130*Math.cos(i*30*Math.PI/180)}
-                  y2={150+130*Math.sin(i*30*Math.PI/180)}
+                  x2={(150+130*Math.cos(i*30*Math.PI/180)).toFixed(3)}
+                  y2={(150+130*Math.sin(i*30*Math.PI/180)).toFixed(3)}
                   stroke="white" strokeWidth="0.6"/>
               ))}
             </svg>

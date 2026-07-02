@@ -23,6 +23,10 @@ const quickLinks = [
   { label: "About Us", href: "/about" },
 ];
 
+// Round trig-derived coords to a fixed precision so server and client emit
+// identical SVG attribute strings (avoids React hydration mismatch).
+const f = (n: number) => Number(n.toFixed(3));
+
 function MandalaSvg() {
   return (
     <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" className="w-full h-full" aria-hidden="true">
@@ -42,22 +46,23 @@ function MandalaSvg() {
         const rad = (angle * Math.PI) / 180;
         const x = 160 + 90 * Math.cos(rad);
         const y = 160 + 90 * Math.sin(rad);
+        const ex = f((160 + x) / 2); const ey = f((160 + y) / 2);
         return (
-          <ellipse key={i} cx={(160 + x) / 2} cy={(160 + y) / 2} rx="32" ry="10"
+          <ellipse key={i} cx={ex} cy={ey} rx="32" ry="10"
             fill="none" stroke="#F97316" strokeOpacity="0.2" strokeWidth="0.7"
-            transform={`rotate(${angle}, ${(160 + x) / 2}, ${(160 + y) / 2})`} />
+            transform={`rotate(${angle}, ${ex}, ${ey})`} />
         );
       })}
       {Array.from({ length: 8 }).map((_, i) => {
         const a = (i * 45 * Math.PI) / 180;
-        const x1 = 160 + 60 * Math.cos(a); const y1 = 160 + 60 * Math.sin(a);
-        const x2 = 160 + 130 * Math.cos(a + (22.5 * Math.PI) / 180);
-        const y2 = 160 + 130 * Math.sin(a + (22.5 * Math.PI) / 180);
+        const x1 = f(160 + 60 * Math.cos(a)); const y1 = f(160 + 60 * Math.sin(a));
+        const x2 = f(160 + 130 * Math.cos(a + (22.5 * Math.PI) / 180));
+        const y2 = f(160 + 130 * Math.sin(a + (22.5 * Math.PI) / 180));
         return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#EA580C" strokeOpacity="0.15" strokeWidth="0.6" />;
       })}
       {Array.from({ length: 8 }).map((_, i) => {
         const angle = (i * 45 * Math.PI) / 180;
-        const cx = 160 + 55 * Math.cos(angle); const cy = 160 + 55 * Math.sin(angle);
+        const cx = f(160 + 55 * Math.cos(angle)); const cy = f(160 + 55 * Math.sin(angle));
         return <ellipse key={i} cx={cx} cy={cy} rx="18" ry="7" fill="none" stroke="#F97316" strokeOpacity="0.22" strokeWidth="0.7" transform={`rotate(${i * 45}, ${cx}, ${cy})`} />;
       })}
       <circle cx="160" cy="160" r="5" fill="#F97316" fillOpacity="0.35" />

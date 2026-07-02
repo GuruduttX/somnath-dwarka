@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import { Menu, X, Phone, ArrowRight, MapPin, Compass } from "lucide-react";
 import CommonEnquiryForm from "./CommanEnquiryForm";
 import { PRIMARY_NAV } from "@/src/config/routes";
-import { CONTACT, telLink } from "@/src/config/site";
 
 const HUB_ICONS: Record<string, string> = {
   "Tour packages": "🗺️",
@@ -171,21 +170,6 @@ export default function Navbar() {
 
             {/* ── RIGHT SECTION ── */}
             <div className="flex items-center gap-2">
-
-              {/* Phone number — visible md+ */}
-              <a
-                href={telLink()}
-                className="hidden md:flex items-center gap-1.5
-                  text-sm font-medium text-gray-600 hover:text-amber-700
-                  transition-colors duration-200 px-3 py-2 rounded-full
-                  hover:bg-amber-50 group"
-              >
-                <Phone size={14} className="text-amber-500 group-hover:scale-110 transition-transform" />
-                <span className="hidden xl:inline">{CONTACT.phoneDisplay}</span>
-              </a>
-
-              {/* Divider */}
-              <div className="hidden md:block w-px h-6 bg-amber-100" />
 
               {/* CTA BUTTON */}
               <button

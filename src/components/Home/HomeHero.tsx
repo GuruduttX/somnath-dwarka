@@ -4,9 +4,7 @@ import { useState, useEffect } from "react";
 import {
   Star,
   ArrowRight,
-  MessageCircle,
   MapPin,
-  ChevronDown,
   Sparkles,
 } from "lucide-react";
 import CountUp from "@/src/utils/CountUp";
@@ -211,17 +209,6 @@ export default function HomeHero() {
                 Explore Packages
                 <ArrowRight size={15} />
               </button>
-
-              {/* 7302265809 */}
-              <a
-                href="https://wa.me/917302265809"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex w-full items-center justify-center gap-[9px] rounded-[14px] border border-white/30 bg-white/[0.08] px-6 py-3.5 text-sm font-medium text-white/90 backdrop-blur-sm transition-all duration-200 hover:-translate-y-px hover:border-white/50 hover:bg-white/[0.14] sm:w-auto"
-              >
-                <MessageCircle size={15} />
-                WhatsApp Us
-              </a>
             </div>
 
             {/* Stats — last item in left col, NO bottom margin/padding after this */}
@@ -296,26 +283,6 @@ export default function HomeHero() {
               </div>
             </div>
 
-            {/* Jyotirlinga chip */}
-            <div className="float-c absolute right-[10px] top-0 flex items-center gap-[10px] rounded-2xl border border-white/20 bg-white/10 px-[14px] py-[10px] shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-lg">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[linear-gradient(135deg,#FF6B1A,#FF9A45)] shadow-[0_4px_12px_rgba(255,100,20,0.4)]">
-                <Star size={16} className="text-white" />
-              </div>
-              <div>
-                <div className="text-[12.5px] font-semibold text-white">Jyotirlinga Darshan</div>
-                <div className="mt-[1px] text-[10px] text-white/50">1 of 12 sacred Shiva shrines</div>
-              </div>
-            </div>
-
-            {/* Stars chip */}
-            <div className="float-a-delay absolute bottom-[0] left-[10px] flex items-center gap-[6px] rounded-xl border border-white/20 bg-white/10 px-3 py-2 shadow-[0_6px_20px_rgba(0,0,0,0.25)] backdrop-blur-lg">
-              <div className="flex gap-[2px]">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={11} className="fill-[#FFA928] text-[#FFA928]" />
-                ))}
-              </div>
-              <span className="text-[11px] font-medium text-white/85">4.9 · 2,400+ reviews</span>
-            </div>
           </div>
         </div>
 
@@ -333,14 +300,6 @@ export default function HomeHero() {
           </svg>
         </div>
 
-        {/* Scroll hint — floats above wave */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-[108px] left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-1 opacity-30 lg:flex"
-        >
-          <span className="text-[8px] uppercase tracking-[0.2em] text-white">Scroll</span>
-          <ChevronDown size={12} className="text-white" />
-        </div>
       </section>
     </>
   );

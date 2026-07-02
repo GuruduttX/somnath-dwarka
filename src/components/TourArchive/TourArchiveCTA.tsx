@@ -44,8 +44,8 @@ export default function TourArchiveCTA() {
               <line
                 key={i}
                 x1="200" y1="200"
-                x2={200 + 200 * Math.cos((i * 30 * Math.PI) / 180)}
-                y2={200 + 200 * Math.sin((i * 30 * Math.PI) / 180)}
+                x2={(200 + 200 * Math.cos((i * 30 * Math.PI) / 180)).toFixed(3)}
+                y2={(200 + 200 * Math.sin((i * 30 * Math.PI) / 180)).toFixed(3)}
                 stroke="white" strokeWidth="0.5"
               />
             ))}
