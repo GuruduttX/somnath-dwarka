@@ -6,11 +6,28 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, Phone, ArrowRight, MapPin, Compass } from "lucide-react";
 import CommonEnquiryForm from "./CommanEnquiryForm";
+import { PRIMARY_NAV } from "@/src/config/routes";
+import { CONTACT, telLink } from "@/src/config/site";
 
+const HUB_ICONS: Record<string, string> = {
+  "Tour packages": "🗺️",
+  "Taxi service": "🚗",
+  Hotels: "🏨",
+  Somnath: "🛕",
+  Dwarka: "🛕",
+  Plan: "🧭",
+  Festivals: "🎉",
+  Guides: "📖",
+};
+
+/** Home + every hub (SOP §8 — money hubs reachable ≤2 clicks from home). */
 const navItems = [
   { label: "Home", url: "/", icon: "🏠" },
-  { label: "Tours", url: "/tour-packages", icon: "🗺️" },
-  { label: "About", url: "/about", icon: "✨" },
+  ...PRIMARY_NAV.map((n) => ({
+    label: n.label,
+    url: n.path,
+    icon: HUB_ICONS[n.label] ?? "📍",
+  })),
 ];
 
 export default function Navbar() {
@@ -116,9 +133,10 @@ export default function Navbar() {
             </Link>
 
             {/* ── DESKTOP NAV ── */}
-            <div className="hidden lg:flex items-center gap-1
+            <div className="hidden lg:flex items-center gap-1 min-w-0
               bg-gray-50/70 rounded-full px-1.5 py-1.5
-              border border-gray-100/80">
+              border border-gray-100/80
+              overflow-x-auto hide-scrollbar">
               {navItems.map((item) => {
                 const isActive = active === item.label;
                 return (
@@ -126,7 +144,8 @@ export default function Navbar() {
                     href={item.url}
                     key={item.label}
                     onClick={() => handleNavClick(item.label)}
-                    className={`relative flex items-center gap-2 px-5 py-2 rounded-full
+                    className={`relative flex items-center gap-1.5 px-3.5 xl:px-4 py-2 rounded-full
+                      whitespace-nowrap flex-shrink-0
                       font-medium text-sm transition-all duration-200 group
                       ${isActive
                         ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-200"
@@ -141,7 +160,7 @@ export default function Navbar() {
                     <span>{item.label}</span>
                     {/* Hover underline for non-active */}
                     {!isActive && (
-                      <span className="absolute bottom-1.5 left-5 right-5 h-px
+                      <span className="absolute bottom-1.5 left-4 right-4 h-px
                         bg-amber-400 scale-x-0 group-hover:scale-x-100
                         transition-transform duration-200 origin-left" />
                     )}
@@ -155,14 +174,14 @@ export default function Navbar() {
 
               {/* Phone number — visible md+ */}
               <a
-                href="tel:+919876543210"
+                href={telLink()}
                 className="hidden md:flex items-center gap-1.5
                   text-sm font-medium text-gray-600 hover:text-amber-700
                   transition-colors duration-200 px-3 py-2 rounded-full
                   hover:bg-amber-50 group"
               >
                 <Phone size={14} className="text-amber-500 group-hover:scale-110 transition-transform" />
-                <span className="hidden xl:inline">+91 7302265809</span>
+                <span className="hidden xl:inline">{CONTACT.phoneDisplay}</span>
               </a>
 
               {/* Divider */}
@@ -223,7 +242,7 @@ export default function Navbar() {
               rounded-3xl overflow-hidden">
 
               {/* Nav links */}
-              <div className="flex flex-col p-3 gap-1">
+              <div className="flex flex-col p-3 gap-1 max-h-[60vh] overflow-y-auto">
                 {navItems.map((item) => {
                   const isActive = active === item.label;
                   return (

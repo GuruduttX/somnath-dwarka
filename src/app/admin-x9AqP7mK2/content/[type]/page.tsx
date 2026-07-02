@@ -8,7 +8,5 @@ export default async function ContentTypePage({ params }: { params: Promise<{ ty
   const { type } = await params;
   const def = getContentType(type);
   if (!def) notFound();
-  return (
-    <ContentManager type={def.key} label={def.label} pathHint={def.pathHint} typeFields={def.typeFields} />
-  );
+  return <ContentManager type={def.key} label={def.label} pathHint={def.pathHint} />;
 }
