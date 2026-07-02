@@ -16,8 +16,8 @@ import { useRouter } from "next/navigation";
 const menu = [
     { name: "Dashboard", icon: LayoutDashboard, slug: "/admin-x9AqP7mK2" },
     { name: "Blogs", icon: FileText, slug: "/admin-x9AqP7mK2/blogs" },
-   
     { name: "Packages", icon: Package, slug: "/admin-x9AqP7mK2/packages" },
+    { name: "Content", icon: Settings, slug: "/admin-x9AqP7mK2/content" },
 ];
 
 export default function Sidebar({

@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // One trailing-slash convention; Next 301s the non-slash variant (SOP §3).
+  trailingSlash: true,
   images: {
     remotePatterns: [
       {

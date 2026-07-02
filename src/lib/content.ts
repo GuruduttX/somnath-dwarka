@@ -11,6 +11,10 @@ import Blog from "@/src/models/blogModel";
 
 export type SitemapEntry = { path: string; lastModified?: Date };
 
+/** A URL-safe slug: lowercase letters, digits and hyphens only (SOP §3). */
+export const isValidSlug = (slug: unknown): slug is string =>
+  typeof slug === "string" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
+
 /** Package variant canonical path (SOP §3). */
 export const packagePath = (slug: string) => `/somnath-dwarka-tour-package/${slug}/`;
 /** Guides replace the old /blog path (SOP §3). */
@@ -41,7 +45,9 @@ export async function getPackageBySlug(slug: string) {
 export async function getPublishedGuides() {
   try {
     await connectDB();
-    return await Blog.find({ status: "published" }).sort({ createdAt: -1 }).lean();
+    const guides = await Blog.find({ status: "published" }).sort({ createdAt: -1 }).lean();
+    // Skip legacy/invalid slugs (e.g. containing spaces) so we never emit broken links.
+    return (guides as Array<Record<string, unknown>>).filter((g) => isValidSlug(g.slug));
   } catch {
     return [];
   }

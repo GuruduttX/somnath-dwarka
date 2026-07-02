@@ -8,6 +8,57 @@ Legend: 🔴 blocker · 🟠 Phase 1 · 🟡 Phase 2 · 🟢 Phase 3 · ✅ alre
 
 ---
 
+## BUILD STATUS (updated after implementation pass)
+
+**Done end-to-end and verified (build passes, health-check clean):**
+
+- ✅ **Phase 0 blockers**: env-driven robots (staging noindex + `X-Robots-Tag`),
+  broken taxi/hotel/pooja API layer fixed (+ models/services/controllers),
+  `@/*` alias fixed, detail pages CMS-driven.
+- ✅ **SEO foundation**: `site` config, `lib/seo` (metadata + gated JSON-LD),
+  `robots.ts`, `sitemap.ts` (49 URLs, static+seed+CMS), `llms.txt`, HTML
+  `/sitemap`, `/thank-you`, GA4 scaffold + events, security headers.
+- ✅ **Content models (all SOP §2 types)**: Package (existing) + Taxi, Hotel,
+  Pooja, Destination, TempleInfo, Journey, Place, Festival, Comparison, Tool,
+  Author — each with shared fields, four-tag + verify support.
+- ✅ **Component library (SOP §6)**: answer-first, verify stamp, four-tag badge,
+  DOM-persistent FAQ + itinerary accordions, data tables, breadcrumb, TOC,
+  trust band, sticky WhatsApp+Call bar, related-links, enquiry form, map embed.
+- ✅ **Routing (SOP §3)** to the canonical scheme + 301 legacy redirects +
+  trailing-slash convention. Root `[cabRoute]` for `/{origin}-to-{dest}-taxi/`.
+- ✅ **All 16 templates** built, SSR, with required blocks in raw HTML, single
+  H1, breadcrumb + JSON-LD, answer-first, FAQPage, rotated internal links,
+  verify stamps, gated schema (no Offer/Event/Review/LocalBusiness w/o real data).
+- ✅ **Admin**: generic Content CRUD (`/admin-x9AqP7mK2/content`) + API
+  (`/api/admin/content/[type]`) covering all new types, auth-guarded, in sidebar.
+- ✅ **Internal-linking rules** (`lib/links`) + `scripts/health-check.mjs`
+  (orphan / click-depth / anchor-dominance / h1 / canonical) → `npm run health-check`.
+- ✅ **CMS editor guide** (`CMS-EDITOR-GUIDE.md`, SOP §15).
+
+**Content is placeholder pending client data (SOP §16):** every price, timing,
+fare, distance and the author bio render with an "awaiting confirmation" stamp —
+flip `verified: true` + add source in the CMS once the client confirms. Real NAP,
+reviews and festival dates unlock their gated schema automatically.
+
+**Also completed in the follow-up engineering pass:**
+
+- ✅ `airport-taxi/{airport}/` route + hub (Diu, Rajkot, Jamnagar, Ahmedabad),
+  linked from CabHub, in sitemap.
+- ✅ 3-day and 4-day `/plan/` itinerary pages (the full SOP §7 `/plan/` set).
+
+**Deliberately deferred (per instruction, not engineering blockers):**
+
+- ⏸️ Hindi/Gujarati **hreflang** i18n (Phase 3) — skipped for now.
+- ⏸️ **Lighthouse + axe CI** workflow (SOP §9/§10) — left for later; the local
+  `npm run health-check` covers orphans/depth/anchors/h1/canonical in the meantime.
+
+**Truly remaining = content breadth only (data entry, SOP §16):** additional
+from-city/addon/traveller package variants, more cab routes, more place spokes,
+and flipping placeholder facts to `verified` once the client confirms them. No
+further engineering/architecture work is required for these.
+
+---
+
 ## 0. Current state summary
 
 | Area | State |
