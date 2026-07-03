@@ -2,9 +2,18 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { MapPin, Clock, ArrowRight, Users, Check, Shield, Compass, Navigation } from "lucide-react";
+import { MapPin, Clock, ArrowRight, Users, Check, Shield, Compass, Navigation, Plane } from "lucide-react";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+
+// Map a vehicle name to the closest fleet photo.
+function vehicleImage(name: string): string {
+  const n = name.toLowerCase();
+  if (n.includes("innova") || n.includes("crysta")) return "/images/taxi/suv.jpg";
+  if (n.includes("ertiga") || n.includes("mpv") || n.includes("suv") || n.includes("carnival")) return "/images/taxi/mpv.jpg";
+  return "/images/taxi/sedan.jpg";
+}
 
 // Route Card Component
 interface RouteItem {
@@ -142,30 +151,45 @@ export function VehicleCardGrid({ vehicles, hubPath }: { vehicles: VehicleItem[]
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: idx * 0.05 }}
               viewport={{ once: true }}
-              className="group relative flex flex-col justify-between bg-white border border-orange-100 hover:border-orange-300 rounded-2xl p-5 shadow-xs hover:shadow-md transition-all duration-300"
+              className="group relative flex flex-col justify-between bg-white border border-orange-100 hover:border-orange-300 rounded-2xl overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300"
             >
-              {/* Highlight badge for Innova */}
-              {vehicle.vehicle_name.toLowerCase().includes("innova") && (
-                <div className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider text-orange-700 bg-orange-100/70 border border-orange-200 px-2.5 py-0.5 rounded-full">
-                  Recommended
-                </div>
-              )}
+              {/* Image banner */}
+              <div className="relative h-44 w-full overflow-hidden">
+                <Image
+                  src={vehicleImage(vehicle.vehicle_name)}
+                  alt={`${vehicle.vehicle_name} cab for Somnath Dwarka trips`}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* readability + brand wash */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-orange-600/25 to-transparent mix-blend-multiply" />
 
-              <div>
-                {/* Header info */}
-                <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600">
-                    <Navigation size={18} />
+                {/* Recommended badge for Innova */}
+                {vehicle.vehicle_name.toLowerCase().includes("innova") && (
+                  <div className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider text-orange-700 bg-white/90 border border-orange-200 px-2.5 py-1 rounded-full shadow-sm backdrop-blur-sm">
+                    ★ Recommended
                   </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-900">{vehicle.vehicle_name}</h3>
-                    <div className="flex items-center gap-1.5 text-xs text-[#E87722] font-semibold mt-0.5">
-                      <Users size={12} />
-                      <span>Max {vehicle.seats} Passengers</span>
-                    </div>
-                  </div>
+                )}
+
+                {/* Seats pill */}
+                <div className="absolute top-3 right-3 flex items-center gap-1.5 text-[11px] font-bold text-white bg-black/45 border border-white/20 px-2.5 py-1 rounded-full backdrop-blur-sm">
+                  <Users size={12} />
+                  {vehicle.seats} Seats
                 </div>
 
+                {/* Name overlaid on image */}
+                <div className="absolute inset-x-0 bottom-0 p-4">
+                  <h3 className="text-xl font-bold text-white drop-shadow-sm">{vehicle.vehicle_name}</h3>
+                  <div className="flex items-center gap-1.5 text-[11px] text-orange-200 font-semibold mt-0.5">
+                    <Navigation size={12} />
+                    <span>Private AC Cab</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-5 flex flex-col flex-1">
                 <p className="text-xs text-gray-500 leading-relaxed min-h-[36px]">
                   {vehicle.suitable_for}
                 </p>
@@ -179,12 +203,11 @@ export function VehicleCardGrid({ vehicles, hubPath }: { vehicles: VehicleItem[]
                     </li>
                   ))}
                 </ul>
-              </div>
 
-              {/* Actions */}
-              <div className="flex gap-2 border-t border-orange-50 pt-4 mt-5">
-                <Link
-                  href={`${hubPath}${vehicle.slug}/`}
+                {/* Actions */}
+                <div className="flex gap-2 border-t border-orange-50 pt-4 mt-auto">
+                  <Link
+                    href={`${hubPath}${vehicle.slug}/`}
                   className="flex-1 text-center py-2 px-3 text-xs font-semibold border border-orange-100 hover:border-orange-300 text-gray-700 bg-white hover:bg-orange-50/20 rounded-xl transition"
                 >
                   View Fares
@@ -196,6 +219,7 @@ export function VehicleCardGrid({ vehicles, hubPath }: { vehicles: VehicleItem[]
                   <span>Book Cab</span>
                   <ArrowRight size={11} className="transition-transform group-hover/btn:translate-x-0.5" />
                 </button>
+                </div>
               </div>
             </motion.div>
           );
@@ -229,12 +253,25 @@ export function AirportCardGrid({ airports, basePath }: { airports: AirportItem[
         >
           <Link
             href={`${basePath}${airport.slug}/`}
-            className="relative block h-full p-4 rounded-2xl border border-orange-100 bg-white hover:border-orange-300 hover:shadow-md transition-all duration-300"
+            className="relative flex h-full overflow-hidden rounded-2xl border border-orange-100 bg-white hover:border-orange-300 hover:shadow-lg transition-all duration-300"
           >
-            {/* Top orange line */}
-            <div className="absolute top-0 left-4 right-4 h-[2px] bg-orange-200/50 group-hover:bg-orange-500 transition-colors rounded-full" />
+            {/* Airplane image side */}
+            <div className="relative w-28 shrink-0 overflow-hidden sm:w-36">
+              <Image
+                src="/images/taxi/airplane.jpg"
+                alt="Airport transfer taxi service"
+                fill
+                sizes="150px"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-600/20 via-transparent to-white/80" />
+              <div className="absolute left-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-orange-600 shadow-sm backdrop-blur-sm">
+                <Plane size={14} />
+              </div>
+            </div>
 
-            <div className="flex justify-between items-start pt-1">
+            {/* Content side */}
+            <div className="flex flex-1 items-start justify-between p-4">
               <div>
                 <span className="inline-block text-[9px] font-bold uppercase tracking-wider text-orange-600 bg-orange-50 px-2 py-0.5 rounded-md mb-2">
                   Meet & Greet Transfer
