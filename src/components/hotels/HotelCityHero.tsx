@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Sparkles, Star, MapPin, BedDouble, MessageSquare, ArrowRight, ChevronRight } from "lucide-react";
-import HotelEnquiryPopup from "@/src/utils/HotelEnquiryPopUp";
+import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 import { waLink } from "@/src/config/site";
 
 interface Tier {
@@ -27,7 +27,7 @@ export default function HotelCityHero({ city, h1, nearTemple, image, tiers, coun
 
   return (
     <>
-      <HotelEnquiryPopup open={open} onClose={() => setOpen(false)} />
+      <CommonEnquiryForm open={open} onClose={() => setOpen(false)} defaultService="Hotel Booking" />
 
       <style>{`
         @keyframes hcUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }

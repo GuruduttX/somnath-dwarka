@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Sparkles, Star, MapPin, Waves, BedDouble, ShieldCheck, MessageSquare, ArrowRight, BadgeCheck, Wifi } from "lucide-react";
-import HotelEnquiryPopup from "@/src/utils/HotelEnquiryPopUp";
+import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 import { waLink } from "@/src/config/site";
 
 const HERO_IMG = "/images/hotels/hero.jpg";
@@ -26,7 +26,7 @@ export default function HotelHero() {
 
   return (
     <>
-      <HotelEnquiryPopup open={open} onClose={() => setOpen(false)} />
+      <CommonEnquiryForm open={open} onClose={() => setOpen(false)} defaultService="Hotel Booking" />
 
       <style>{`
         @keyframes hotelUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
