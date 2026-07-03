@@ -84,7 +84,7 @@ export default function HotelCityHero({ city, h1, nearTemple, image, tiers, coun
           {/* tier price summary */}
           <div className="hc-up hc3 mt-6 grid max-w-2xl grid-cols-1 gap-2.5 sm:grid-cols-3">
             {tiers.map((t) => (
-              <div key={t.tier} className="rounded-2xl border border-white/20 bg-white/10 p-3.5 backdrop-blur-md">
+              <div key={t.tier} className="rounded-2xl border border-white/25 bg-black/35 p-3.5 shadow-lg backdrop-blur-xl">
                 <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-orange-200">{t.tier}</p>
                 <p className="mt-1 text-lg font-black text-white">{t.typical_range}</p>
                 <p className="mt-0.5 text-[11px] text-white/65">/ night · {t.area}</p>
