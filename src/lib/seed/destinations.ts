@@ -496,6 +496,13 @@ export type SeedFestival = {
   travel_advice: string;
   event_venue: string;
   date_this_year: string; // empty until confirmed -> no Event schema
+  // Display fields (also admin-editable via the Festival model).
+  image: string;
+  deity: string;
+  city: string;
+  season: string; // e.g. "Aug – Sep"
+  crowd: "Very high" | "High" | "Moderate";
+  highlights: string[];
   faq: { question: string; answer: string }[];
 };
 
@@ -513,6 +520,12 @@ export const SEED_FESTIVALS: SeedFestival[] = [
       "Expect heavy crowds and higher tariffs; reserve hotels and transport 6–10 weeks ahead and plan darshan timing around the rush.",
     event_venue: "Dwarkadhish Temple, Dwarka",
     date_this_year: "",
+    image: "/images/home/DwarikaLongImage.webp",
+    deity: "Lord Krishna",
+    city: "Dwarka",
+    season: "Aug – Sep",
+    crowd: "Very high",
+    highlights: ["Midnight birth aarti", "Special darshan", "Temple decorations", "Fasting & bhajans"],
     faq: [
       { question: "When is Janmashtami celebrated in Dwarka?", answer: "Janmashtami falls in August–September and the exact date changes yearly with the Hindu calendar. Confirmed dates are published before the season." },
     ],
@@ -530,8 +543,37 @@ export const SEED_FESTIVALS: SeedFestival[] = [
       "Crowds peak overnight; arrange accommodation and transport 6–10 weeks in advance and allow extra time for darshan queues.",
     event_venue: "Somnath Temple, Somnath",
     date_this_year: "",
+    image: "/images/home/SomnathLongImage.webp",
+    deity: "Lord Shiva",
+    city: "Somnath",
+    season: "Feb – Mar",
+    crowd: "Very high",
+    highlights: ["Night-long vigil", "Bilva leaf offerings", "Continuous aartis", "Jyotirlinga darshan"],
     faq: [
       { question: "Is Maha Shivratri special at Somnath?", answer: "Yes — as a Shiva jyotirlinga site, Somnath sees night-long worship and special aartis on Maha Shivratri, with very large crowds." },
+    ],
+  },
+  {
+    slug: "kartik-purnima-somnath",
+    festival: "Kartik Purnima",
+    title: "Kartik Purnima at Somnath — Dev Diwali, Rituals & Travel",
+    h1: "Kartik Purnima at Somnath",
+    answer_first:
+      "Kartik Purnima, also observed as Dev Diwali, brings a serene festival atmosphere to Somnath with a holy dip at Triveni Sangam, lamp-lighting and special aartis. It is quieter than Shivratri but a beautiful time to visit. Exact dates change each year and are confirmed before publishing.",
+    rituals:
+      "In tradition, devotees take a holy dip at Triveni Sangam at dawn, light rows of lamps (deep-daan) and offer special evening aartis by the sea.",
+    travel_advice:
+      "Crowds are moderate; book stays 3–5 weeks ahead. Mornings at Triveni Sangam are busiest, so plan darshan and the dip early.",
+    event_venue: "Somnath Temple & Triveni Sangam",
+    date_this_year: "",
+    image: "/images/festivals/hero.jpg",
+    deity: "Lord Shiva / Dev Diwali",
+    city: "Somnath",
+    season: "Nov",
+    crowd: "Moderate",
+    highlights: ["Triveni Sangam holy dip", "Deep-daan (lamps)", "Sea-side aarti", "Calmer atmosphere"],
+    faq: [
+      { question: "What is Kartik Purnima at Somnath?", answer: "Kartik Purnima (Dev Diwali) is marked by a dawn holy dip at Triveni Sangam, lamp-lighting and special aartis. It falls in November and exact dates change yearly." },
     ],
   },
 ];

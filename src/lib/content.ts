@@ -8,6 +8,7 @@
 import { connectDB } from "@/src/lib/mongodb";
 import TourPackageModel from "@/src/models/packageModel";
 import Blog from "@/src/models/blogModel";
+import FestivalModel from "@/src/models/festivalModel";
 
 export type SitemapEntry = { path: string; lastModified?: Date };
 
@@ -60,6 +61,17 @@ export async function getGuideBySlug(slug: string) {
     return g ?? null;
   } catch {
     return null;
+  }
+}
+
+/** Published festivals for the /festivals hub (admin-managed). */
+export async function getPublishedFestivals() {
+  try {
+    await connectDB();
+    const items = await FestivalModel.find({ status: "published" }).sort({ createdAt: -1 }).lean();
+    return (items as Array<Record<string, unknown>>).filter((f) => isValidSlug(f.slug));
+  } catch {
+    return [];
   }
 }
 

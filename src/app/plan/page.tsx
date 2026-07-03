@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Sparkles } from "lucide-react";
 import { buildMetadata } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
-import AnswerFirst from "@/src/components/shared/AnswerFirst";
-import Section from "@/src/components/shared/Section";
 import CtaBand from "@/src/components/shared/CtaBand";
+import PlanHero from "@/src/components/plan/PlanHero";
+import { PlanCards } from "@/src/components/plan/PlanCards";
 import { SEED_JOURNEYS } from "@/src/lib/seed/destinations";
 
 const PATH = "/plan/";
@@ -20,30 +20,30 @@ export const metadata: Metadata = buildMetadata({
 export default function PlanHubPage() {
   return (
     <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Plan your trip", path: PATH }]}>
-      <div className="max-w-5xl mx-auto px-4 pt-6">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Plan your Somnath Dwarka trip</h1>
-        <AnswerFirst>
-          These planning guides answer the practical questions before you book: how far Dwarka
-          is from Somnath, how many days you need, which temple to visit first, and how a
-          typical 3–5 day itinerary flows. Start with the question closest to your trip.
-        </AnswerFirst>
-      </div>
+      <PlanHero />
 
-      <Section id="guides" title="Planning guides">
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {SEED_JOURNEYS.map((j) => (
-            <li key={j.slug}>
-              <Link
-                href={`/plan/${j.slug}/`}
-                className="block h-full p-4 rounded-xl border border-orange-100 bg-white hover:border-[#E87722] hover:shadow-sm transition"
-              >
-                <span className="block font-semibold text-gray-800">{j.question}</span>
-                <span className="block text-sm text-gray-500 mt-1 line-clamp-2">{j.direct_answer}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Section>
+      {/* ── Planning guides ── */}
+      <div className="bg-white">
+        <div className="mx-auto max-w-7xl px-4 pt-12 sm:px-6 sm:pt-16 lg:px-10">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange-700">
+              <Sparkles size={14} />
+              Planning guides
+            </span>
+            <h2 className="mt-5 text-3xl font-black leading-[1.1] tracking-[-0.02em] text-[#111827] sm:text-4xl">
+              Answers before you <span className="text-orange-500">book</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-gray-500">
+              Start with the question closest to your trip — distance, trip length, route order,
+              or a ready-made day-wise itinerary.
+            </p>
+          </div>
+
+          <div className="mt-10 pb-4">
+            <PlanCards journeys={SEED_JOURNEYS} />
+          </div>
+        </div>
+      </div>
 
       <CtaBand context="Somnath Dwarka trip planning" />
     </PageShell>

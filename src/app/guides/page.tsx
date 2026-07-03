@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
+import { Sparkles } from "lucide-react";
 import { buildMetadata } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
-import AnswerFirst from "@/src/components/shared/AnswerFirst";
-import Section from "@/src/components/shared/Section";
 import CtaBand from "@/src/components/shared/CtaBand";
-import { getPublishedGuides, guidePath } from "@/src/lib/content";
+import GuidesHero from "@/src/components/guides/GuidesHero";
+import { GuidesGrid, type GuideItem } from "@/src/components/guides/GuidesGrid";
+import { getPublishedGuides } from "@/src/lib/content";
 
 const PATH = "/guides/";
 export const revalidate = 3600;
@@ -19,41 +18,41 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function GuidesHubPage() {
-  const guides = (await getPublishedGuides()) as Array<Record<string, unknown>>;
+  const raw = (await getPublishedGuides()) as Array<Record<string, unknown>>;
+  const guides: GuideItem[] = raw.map((g) => ({
+    slug: String(g.slug),
+    title: String(g.title ?? "Untitled guide"),
+    subContent: g.subContent ? String(g.subContent) : undefined,
+    image: g.image ? String(g.image) : undefined,
+    alt: g.alt ? String(g.alt) : undefined,
+  }));
 
   return (
     <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Guides", path: PATH }]}>
-      <div className="max-w-5xl mx-auto px-4 pt-6">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Somnath Dwarka guides</h1>
-        <AnswerFirst>
-          Practical, first-hand guides to help you plan the Somnath–Dwarka circuit — from
-          itineraries and temple timings to travel tips and what to expect on the ground.
-        </AnswerFirst>
-      </div>
+      <GuidesHero count={guides.length} />
 
-      <Section id="all" title="All guides">
-        {guides.length ? (
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {guides.map((g) => (
-              <li key={String(g.slug)}>
-                <Link href={guidePath(String(g.slug))} className="block rounded-xl overflow-hidden border border-orange-100 bg-white hover:shadow-sm transition">
-                  {g.image ? (
-                    <div className="relative aspect-video">
-                      <Image src={String(g.image)} alt={String(g.alt || g.title)} fill className="object-cover" sizes="(max-width:768px) 100vw, 33vw" />
-                    </div>
-                  ) : null}
-                  <div className="p-4">
-                    <span className="block font-semibold text-gray-800">{String(g.title)}</span>
-                    <span className="block text-sm text-gray-500 mt-1 line-clamp-2">{String(g.subContent || "")}</span>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-gray-500">Guides are being published. Check back soon.</p>
-        )}
-      </Section>
+      {/* ── All guides ── */}
+      <div id="all-guides" className="scroll-mt-24 bg-white">
+        <div className="mx-auto max-w-7xl px-4 pt-12 sm:px-6 sm:pt-16 lg:px-10">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange-700">
+              <Sparkles size={14} />
+              All guides
+            </span>
+            <h2 className="mt-5 text-3xl font-black leading-[1.1] tracking-[-0.02em] text-[#111827] sm:text-4xl">
+              Read up before you <span className="text-orange-500">go</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-gray-500">
+              Practical, first-hand advice on temples, timings, routes and local tips for the
+              Somnath–Dwarka circuit.
+            </p>
+          </div>
+
+          <div className="mt-10 pb-4">
+            <GuidesGrid guides={guides} />
+          </div>
+        </div>
+      </div>
 
       <CtaBand context="Somnath Dwarka trip planning" />
     </PageShell>

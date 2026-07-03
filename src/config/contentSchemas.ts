@@ -156,6 +156,12 @@ export const CONTENT_SCHEMAS: Record<string, FieldDef[]> = {
   festival: [
     { name: "title", label: "Title", type: "text" },
     { name: "festival", label: "Festival name", type: "text" },
+    { name: "image", label: "Card image", type: "text", hint: "e.g. /images/festivals/hero.jpg or a full URL" },
+    { name: "deity", label: "Deity / occasion", type: "text", hint: "e.g. Lord Krishna" },
+    { name: "city", label: "City", type: "text", hint: "Somnath or Dwarka" },
+    { name: "season", label: "Season", type: "text", hint: "e.g. Aug – Sep" },
+    { name: "crowd", label: "Crowd level", type: "select", options: ["Very high", "High", "Moderate"] },
+    { name: "highlights", label: "Highlights", type: "list", hint: "Short bullets shown on the card" },
     { name: "date_this_year", label: "Date this year (ISO, e.g. 2026-08-15)", type: "text" },
     { name: "date_verified", label: "Date verified?", type: "checkbox" },
     { name: "rituals", label: "Rituals (faith-tagged)", type: "textarea" },

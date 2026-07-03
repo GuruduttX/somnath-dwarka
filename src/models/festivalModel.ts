@@ -13,6 +13,13 @@ export type IFestival = SharedFields & {
   rituals?: string; // faith-tagged
   travel_advice?: string;
   event_venue?: string;
+  // Display fields (admin-editable, rendered on the festivals hub cards).
+  image?: string;
+  deity?: string;
+  city?: string;
+  season?: string;
+  crowd?: string;
+  highlights?: string[];
 };
 
 const FestivalSchema = new Schema<IFestival>(
@@ -25,6 +32,12 @@ const FestivalSchema = new Schema<IFestival>(
     rituals: { type: String, default: "" },
     travel_advice: { type: String, default: "" },
     event_venue: { type: String, default: "" },
+    image: { type: String, default: "" },
+    deity: { type: String, default: "" },
+    city: { type: String, default: "" },
+    season: { type: String, default: "" },
+    crowd: { type: String, default: "" },
+    highlights: { type: [String], default: [] },
   },
   { timestamps: true }
 );

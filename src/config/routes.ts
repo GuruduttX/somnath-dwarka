@@ -73,8 +73,8 @@ export const PRIMARY_NAV = [
   { label: "Hotels", path: "/hotels/" },
   { label: "Somnath", path: "/somnath/" },
   { label: "Dwarka", path: "/dwarka/" },
-  { label: "Plan", path: "/plan/" },
   { label: "Festivals", path: "/festivals/" },
+  { label: "Plan", path: "/plan/" },
   { label: "Guides", path: "/guides/" },
 ];
 
