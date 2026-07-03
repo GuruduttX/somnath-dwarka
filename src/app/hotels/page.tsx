@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Sparkles } from "lucide-react";
 import { buildMetadata } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
-import AnswerFirst from "@/src/components/shared/AnswerFirst";
-import Section from "@/src/components/shared/Section";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
+import HotelHero from "@/src/components/hotels/HotelHero";
+import { HotelCityCards } from "@/src/components/hotels/HotelCityCards";
 import { SEED_HOTELS } from "@/src/lib/seed/destinations";
 import { buildRelatedLinks } from "@/src/lib/links";
 
@@ -31,30 +31,30 @@ export default function HotelHubPage() {
 
   return (
     <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Hotels", path: PATH }]}>
-      <div className="max-w-5xl mx-auto px-4 pt-6">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Hotels for Somnath &amp; Dwarka</h1>
-        <AnswerFirst>
-          We help you choose and book the right stay near the Somnath and Dwarka temples,
-          across budget, mid-range and premium tiers. We do not list fabricated inventory or
-          ratings — you get honest area guidance and assistance to book a real hotel for your dates.
-        </AnswerFirst>
-      </div>
+      <HotelHero />
 
-      <Section id="cities" title="By city">
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {SEED_HOTELS.map((h) => (
-            <li key={h.slug}>
-              <Link
-                href={`/hotels/${h.slug}/`}
-                className="block h-full p-4 rounded-xl border border-orange-100 bg-white hover:border-[#E87722] hover:shadow-sm transition"
-              >
-                <span className="block font-semibold text-gray-800">Hotels in {h.city}</span>
-                <span className="block text-sm text-gray-500 mt-1">Near {h.near_temple}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Section>
+      {/* ── CITY CARDS ── */}
+      <div className="relative bg-white">
+        <div className="mx-auto max-w-6xl px-4 pt-14 sm:px-6 sm:pt-16">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange-700">
+              <Sparkles size={14} />
+              Choose your city
+            </span>
+            <h2 className="mt-5 text-3xl font-black leading-[1.1] tracking-[-0.02em] text-[#111827] sm:text-4xl">
+              Stays near <span className="text-orange-500">Somnath &amp; Dwarka</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-gray-500 sm:text-base">
+              Pick a temple town and we&apos;ll match you with the right hotel tier — from
+              walkable budget lodges to sea-facing premium stays.
+            </p>
+          </div>
+
+          <div className="mt-10 pb-4">
+            <HotelCityCards hotels={SEED_HOTELS} />
+          </div>
+        </div>
+      </div>
 
       <CtaBand context="Hotel assistance for Somnath Dwarka" title="Get hotel help" subtitle="Tell us your dates and budget and we'll recommend and book a stay." />
       <RelatedLinks links={related} />

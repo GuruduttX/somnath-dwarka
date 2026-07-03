@@ -235,6 +235,24 @@ export const SEED_JOURNEYS: SeedJourney[] = [
   },
 ];
 
+// A single bookable-style hotel property shown as a card on the city page.
+// Mirrors the admin-managed shape in src/types/hotelTypes.ts (IHotelProperty)
+// so DB documents render through the same components once admin CRUD lands.
+export type SeedHotelProperty = {
+  id: string;
+  name: string;
+  image: string;
+  tier: string; // Budget / Mid-range / Premium
+  area: string;
+  price_range: string; // "₹1,400 – ₹2,200"
+  rating: number; // 0–5
+  reviews?: number;
+  distance: string; // "450 m to temple"
+  amenities: string[];
+  tags?: string[];
+  description: string;
+};
+
 export type SeedHotel = {
   slug: string; // hotels-in-somnath
   city: string;
@@ -243,6 +261,7 @@ export type SeedHotel = {
   near_temple: string;
   answer_first: string;
   tiers: { tier: string; area: string; typical_range: string }[];
+  properties: SeedHotelProperty[];
   faq: { question: string; answer: string }[];
 };
 
@@ -256,9 +275,101 @@ export const SEED_HOTELS: SeedHotel[] = [
     answer_first:
       "Hotels in Somnath range from budget lodges near the temple to a few sea-facing mid and premium stays. Staying within walking distance of the temple makes early darshan and the evening aarti easy. We help you pick and book the right tier — we do not list fake inventory or ratings.",
     tiers: [
-      { tier: "Budget", area: "Near temple / bus stand", typical_range: "₹—" },
-      { tier: "Mid-range", area: "Temple road / sea-facing", typical_range: "₹—" },
-      { tier: "Premium", area: "Sea-facing", typical_range: "₹—" },
+      { tier: "Budget", area: "Near temple / bus stand", typical_range: "₹800 – ₹1,500" },
+      { tier: "Mid-range", area: "Temple road / sea-facing", typical_range: "₹1,800 – ₹3,500" },
+      { tier: "Premium", area: "Sea-facing", typical_range: "₹4,500 – ₹8,000" },
+    ],
+    properties: [
+      {
+        id: "som-sagar-darshan",
+        name: "Sagar Darshan Sea View",
+        image: "/images/hotels/properties/p6.jpg",
+        tier: "Premium",
+        area: "Sea-facing promenade",
+        price_range: "₹5,500 – ₹8,000",
+        rating: 4.7,
+        reviews: 214,
+        distance: "600 m to Somnath Temple",
+        amenities: ["Sea view", "Free Wi-Fi", "Restaurant", "Room service", "Parking"],
+        tags: ["Sea-facing", "Family friendly"],
+        description:
+          "Calm sea-facing rooms with balconies overlooking the Arabian Sea, a short walk from the temple promenade and evening aarti.",
+      },
+      {
+        id: "som-temple-residency",
+        name: "Somnath Temple Residency",
+        image: "/images/hotels/properties/p3.jpg",
+        tier: "Mid-range",
+        area: "Temple road",
+        price_range: "₹2,200 – ₹3,500",
+        rating: 4.4,
+        reviews: 168,
+        distance: "300 m to Somnath Temple",
+        amenities: ["AC rooms", "Free Wi-Fi", "Breakfast", "Lift", "Parking"],
+        tags: ["Walk to temple"],
+        description:
+          "Comfortable AC rooms on the temple road — ideal for early mangla darshan without a long walk.",
+      },
+      {
+        id: "som-shanti-lodge",
+        name: "Shanti Pilgrim Lodge",
+        image: "/images/hotels/properties/p2.jpg",
+        tier: "Budget",
+        area: "Near bus stand",
+        price_range: "₹900 – ₹1,500",
+        rating: 4.1,
+        reviews: 96,
+        distance: "800 m to Somnath Temple",
+        amenities: ["Clean rooms", "Hot water", "Wi-Fi", "24/7 desk"],
+        tags: ["Value stay"],
+        description:
+          "A simple, clean budget lodge near the bus stand — friendly for pilgrims and quick overnight halts.",
+      },
+      {
+        id: "som-triveni-grand",
+        name: "Triveni Grand",
+        image: "/images/hotels/properties/p5.jpg",
+        tier: "Premium",
+        area: "Sea-facing",
+        price_range: "₹4,800 – ₹7,200",
+        rating: 4.6,
+        reviews: 141,
+        distance: "1.1 km to Somnath Temple",
+        amenities: ["Sea view", "Pool", "Restaurant", "Spa", "Free Wi-Fi"],
+        tags: ["Pool", "Sea-facing"],
+        description:
+          "Spacious premium rooms with a pool and multi-cuisine restaurant, perfect for a relaxed family stay by the sea.",
+      },
+      {
+        id: "som-annapurna-inn",
+        name: "Annapurna Comfort Inn",
+        image: "/images/hotels/properties/p1.jpg",
+        tier: "Mid-range",
+        area: "Temple road",
+        price_range: "₹1,900 – ₹3,000",
+        rating: 4.3,
+        reviews: 122,
+        distance: "450 m to Somnath Temple",
+        amenities: ["AC rooms", "Pure-veg restaurant", "Wi-Fi", "Parking"],
+        tags: ["Pure-veg", "Family friendly"],
+        description:
+          "Well-kept mid-range rooms with an in-house pure-veg restaurant, walking distance to the temple.",
+      },
+      {
+        id: "som-yatri-niwas",
+        name: "Yatri Niwas Budget Stay",
+        image: "/images/hotels/properties/p4.jpg",
+        tier: "Budget",
+        area: "Near temple",
+        price_range: "₹850 – ₹1,400",
+        rating: 4.0,
+        reviews: 78,
+        distance: "500 m to Somnath Temple",
+        amenities: ["Clean rooms", "Hot water", "Wi-Fi", "Luggage help"],
+        tags: ["Value stay", "Walk to temple"],
+        description:
+          "Basic but tidy rooms close to the temple gate — an easy, affordable base for darshan.",
+      },
     ],
     faq: [
       { question: "Where should I stay in Somnath?", answer: "Staying near the temple keeps darshan and the evening aarti within walking distance. Sea-facing options sit slightly further out." },
@@ -273,9 +384,101 @@ export const SEED_HOTELS: SeedHotel[] = [
     answer_first:
       "Hotels in Dwarka cluster around the Dwarkadhish Temple and along the main road, from simple pilgrim lodges to comfortable mid-range stays. A central location helps with mangla aarti and evening darshan. We assist with selection and booking — no fabricated inventory or ratings.",
     tiers: [
-      { tier: "Budget", area: "Near Dwarkadhish Temple", typical_range: "₹—" },
-      { tier: "Mid-range", area: "Main road", typical_range: "₹—" },
-      { tier: "Premium", area: "Outskirts / resort", typical_range: "₹—" },
+      { tier: "Budget", area: "Near Dwarkadhish Temple", typical_range: "₹700 – ₹1,400" },
+      { tier: "Mid-range", area: "Main road", typical_range: "₹1,600 – ₹3,200" },
+      { tier: "Premium", area: "Outskirts / resort", typical_range: "₹4,000 – ₹7,500" },
+    ],
+    properties: [
+      {
+        id: "dwk-dwarkadhish-view",
+        name: "Dwarkadhish View Hotel",
+        image: "/images/hotels/properties/p3.jpg",
+        tier: "Mid-range",
+        area: "Temple lane",
+        price_range: "₹2,000 – ₹3,200",
+        rating: 4.5,
+        reviews: 187,
+        distance: "200 m to Dwarkadhish Temple",
+        amenities: ["Temple view", "AC rooms", "Free Wi-Fi", "Breakfast", "Lift"],
+        tags: ["Temple view", "Walk to temple"],
+        description:
+          "AC rooms overlooking the temple shikhara — wake up to the flag change and step out for mangla aarti.",
+      },
+      {
+        id: "dwk-gomti-residency",
+        name: "Gomti Residency",
+        image: "/images/hotels/properties/p1.jpg",
+        tier: "Mid-range",
+        area: "Main road",
+        price_range: "₹1,800 – ₹2,900",
+        rating: 4.3,
+        reviews: 143,
+        distance: "500 m to Dwarkadhish Temple",
+        amenities: ["AC rooms", "Restaurant", "Wi-Fi", "Parking"],
+        tags: ["Family friendly"],
+        description:
+          "Comfortable rooms on the main road with an in-house restaurant, close to Gomti Ghat and the temple.",
+      },
+      {
+        id: "dwk-krishna-lodge",
+        name: "Krishna Kripa Lodge",
+        image: "/images/hotels/properties/p2.jpg",
+        tier: "Budget",
+        area: "Near temple",
+        price_range: "₹750 – ₹1,300",
+        rating: 4.0,
+        reviews: 89,
+        distance: "350 m to Dwarkadhish Temple",
+        amenities: ["Clean rooms", "Hot water", "Wi-Fi", "24/7 desk"],
+        tags: ["Value stay", "Walk to temple"],
+        description:
+          "A friendly budget lodge steps from the temple lane — simple, clean and easy on the wallet.",
+      },
+      {
+        id: "dwk-sea-pearl-resort",
+        name: "Sea Pearl Resort",
+        image: "/images/hotels/properties/p6.jpg",
+        tier: "Premium",
+        area: "Outskirts / coast",
+        price_range: "₹4,500 – ₹7,500",
+        rating: 4.6,
+        reviews: 132,
+        distance: "3.5 km to Dwarkadhish Temple",
+        amenities: ["Sea view", "Pool", "Restaurant", "Spa", "Free Wi-Fi", "Parking"],
+        tags: ["Pool", "Resort"],
+        description:
+          "A calm coastal resort with a pool and spa on Dwarka's outskirts — great for families wanting extra space.",
+      },
+      {
+        id: "dwk-heritage-grand",
+        name: "Dwarka Heritage Grand",
+        image: "/images/hotels/properties/p5.jpg",
+        tier: "Premium",
+        area: "Main road",
+        price_range: "₹4,000 – ₹6,500",
+        rating: 4.5,
+        reviews: 118,
+        distance: "700 m to Dwarkadhish Temple",
+        amenities: ["Restaurant", "Room service", "Free Wi-Fi", "Lift", "Parking"],
+        tags: ["Central", "Family friendly"],
+        description:
+          "Elegant premium rooms with warm interiors and full service, centrally located for darshan and sightseeing.",
+      },
+      {
+        id: "dwk-nageshwar-inn",
+        name: "Nageshwar Comfort Inn",
+        image: "/images/hotels/properties/p4.jpg",
+        tier: "Budget",
+        area: "Main road",
+        price_range: "₹900 – ₹1,400",
+        rating: 4.1,
+        reviews: 74,
+        distance: "1.2 km to Dwarkadhish Temple",
+        amenities: ["AC rooms", "Wi-Fi", "Hot water", "Parking"],
+        tags: ["Value stay"],
+        description:
+          "Tidy budget-friendly AC rooms on the main road, handy for trips to Nageshwar and Bet Dwarka.",
+      },
     ],
     faq: [
       { question: "Are there hotels near Dwarkadhish Temple?", answer: "Yes — several budget and mid-range hotels are within walking distance of the temple, convenient for early darshan." },
