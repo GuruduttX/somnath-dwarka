@@ -67,15 +67,15 @@ export default function HotelCityHero({ city, h1, nearTemple, image, tiers, coun
 
           {/* meta row */}
           <div className="hc-up hc2 mt-5 flex flex-wrap items-center gap-3 text-sm text-white/85">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 font-semibold backdrop-blur-md">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/35 px-3 py-1.5 font-semibold shadow-lg backdrop-blur-xl">
               <MapPin size={14} className="text-orange-300" />
               Near {nearTemple}
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 font-semibold backdrop-blur-md">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/35 px-3 py-1.5 font-semibold shadow-lg backdrop-blur-xl">
               <Star size={14} className="fill-orange-300 text-orange-300" />
               {rating.toFixed(1)} avg rating
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 font-semibold backdrop-blur-md">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/35 px-3 py-1.5 font-semibold shadow-lg backdrop-blur-xl">
               <BedDouble size={14} className="text-orange-300" />
               {count} handpicked hotels
             </span>
