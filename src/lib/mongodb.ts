@@ -19,7 +19,6 @@ if (!cached) {
 export async function connectDB() {
 
     if (cached.conn) {
-        console.log("THE MONGODB CONNECTION IS ALREADY EXISTED : ");
         return cached.conn
     }
 

@@ -7,16 +7,19 @@ export default function Section({
   title,
   children,
   className = "",
+  wide = false,
 }: {
   id?: string;
   title?: string;
   children: React.ReactNode;
   className?: string;
+  /** Widen the content column from max-w-5xl to max-w-7xl (e.g. multi-card grids). */
+  wide?: boolean;
 }) {
   return (
     <section
       id={id}
-      className={`max-w-5xl mx-auto px-4 py-8 scroll-mt-24 ${className}`}
+      className={`${wide ? "max-w-7xl" : "max-w-5xl"} mx-auto px-4 py-8 scroll-mt-24 sm:px-6 lg:px-8 ${className}`}
       aria-labelledby={id ? `${id}-h` : undefined}
     >
       {title ? (

@@ -132,7 +132,7 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
 
           {/* Big left image */}
           <div
-            className="relative h-[200px] cursor-pointer overflow-hidden rounded-[22px] bg-gray-100 sm:h-[220px]"
+            className="relative h-[170px] cursor-pointer overflow-hidden rounded-[22px] bg-gray-100 sm:h-[185px]"
             onClick={() => openLightbox(0)}
           >
             <img
@@ -194,15 +194,15 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
 
         {/* ── CARD BODY ── */}
         <Link href={packageUrl} className="block">
-        <div className="px-5 pb-5 pt-1">
+        <div className="px-5 pb-4 pt-0.5">
 
           {/* Title */}
-          <h3 className="text-[19px] font-bold leading-snug text-gray-950 sm:text-[20px]">
+          <h3 className="text-[18px] font-bold leading-snug text-gray-950 sm:text-[19px]">
             {pkg.title}
           </h3>
 
           {/* Meta row */}
-          <div className="mt-2.5 flex flex-wrap items-center gap-2 text-[12.5px] font-semibold text-gray-600">
+          <div className="mt-2 flex flex-wrap items-center gap-2 text-[12.5px] font-semibold text-gray-600">
             <span className="flex items-center gap-1.5">
               <MapPin size={14} strokeWidth={2.2} className="text-orange-500" />
               {pkg.location}
@@ -219,14 +219,8 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
             </span>
           </div>
 
-          {pkg.overview ? (
-            <p className="mt-2 line-clamp-2 text-[13.5px] leading-relaxed text-gray-500">
-              {pkg.overview}
-            </p>
-          ) : null}
-
           {/* Divider */}
-          <div className="my-3 h-px bg-gray-100" />
+          <div className="my-2.5 h-px bg-gray-100" />
 
           {/* Inclusions */}
           <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
@@ -243,36 +237,36 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
           </div>
 
           {/* Divider */}
-          <div className="my-4 h-px bg-gray-100" />
+          <div className="my-3 h-px bg-gray-100" />
 
           {/* Price + CTA */}
-        <div className="mt-3 flex items-end justify-between gap-3">
-          <div>
-            <span className="block text-[12px] font-semibold uppercase tracking-[0.12em] text-gray-400">
+        <div className="mt-2">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-[12px] font-semibold uppercase tracking-[0.12em] text-gray-400">
               Starts from
             </span>
             <span className="text-[23px] font-extrabold text-gray-950">
               {pkg.price ? `₹${pkg.price.toLocaleString("en-IN")}` : "Custom"}
             </span>
           </div>
-          <div className="flex gap-2">
-          <div
-            className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-full bg-orange-500 px-5 text-center text-[14px] font-bold text-white shadow-md shadow-orange-200 transition-all duration-200 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg active:translate-y-0"
-          >
-            View
-            <ArrowUpRight size={16} />
-          </div>
+          <div className="mt-3 flex gap-2.5">
+            <div
+              className="inline-flex h-10 flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-full bg-orange-500 px-4 text-[14px] font-bold text-white shadow-md shadow-orange-200 transition-all duration-200 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg active:translate-y-0"
+            >
+              View
+              <ArrowUpRight size={16} />
+            </div>
 
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setOpen(true);
-            }}
-            className="h-11 min-w-[112px] cursor-pointer rounded-full border border-orange-200 bg-white px-5 text-[14px] font-bold text-orange-600 transition-all duration-200 hover:bg-orange-50"
-          >
-            Enquire
-          </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setOpen(true);
+              }}
+              className="h-10 flex-1 cursor-pointer rounded-full border border-orange-200 bg-white px-4 text-[14px] font-bold text-orange-600 transition-all duration-200 hover:bg-orange-50"
+            >
+              Enquire
+            </button>
           </div>
         </div>
         </div>

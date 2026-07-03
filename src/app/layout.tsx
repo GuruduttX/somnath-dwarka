@@ -6,6 +6,7 @@ import { organizationSchema, websiteSchema, localBusinessSchema } from "@/src/li
 import JsonLd from "@/src/components/seo/JsonLd";
 import StickyContactBar from "@/src/components/shared/StickyContactBar";
 import Analytics from "@/src/components/seo/Analytics";
+import SuppressPrefetchFetchErrors from "@/src/components/shared/SuppressPrefetchFetchErrors";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -44,6 +45,7 @@ export default function RootLayout({
         <a href="#main-content" className="skip-to-content">
           Skip to content
         </a>
+        <SuppressPrefetchFetchErrors />
         {children}
         <StickyContactBar />
         <Analytics />

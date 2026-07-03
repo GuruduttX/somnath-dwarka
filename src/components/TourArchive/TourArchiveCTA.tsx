@@ -19,7 +19,7 @@ export default function TourArchiveCTA() {
 
   return (
     <>
-      <section className="relative w-full overflow-hidden bg-gradient-to-br from-orange-600 via-orange-500 to-orange-400">
+      <section className="relative w-full mt-4 mb-4 overflow-hidden bg-gradient-to-br from-orange-600 via-orange-500 to-orange-400">
 
         {/* ── TOP WAVE — smooth single curve, white above bleeds in ── */}
         <svg
@@ -183,6 +183,7 @@ export default function TourArchiveCTA() {
                   src="/images/CTA.webp"
                   alt="Somnath Dwarka Tour Package"
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 384px, 400px"
                   loading="lazy"
                   placeholder="blur"
                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
