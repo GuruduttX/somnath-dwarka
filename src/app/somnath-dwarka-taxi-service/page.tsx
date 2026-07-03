@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { buildMetadata, serviceSchema } from "@/src/lib/seo";
 import { CORE_FACTS } from "@/src/config/site";
 import PageShell from "@/src/components/shared/PageShell";
-import AnswerFirst from "@/src/components/shared/AnswerFirst";
 import Section from "@/src/components/shared/Section";
 import DataTable from "@/src/components/shared/DataTable";
 import Faq from "@/src/components/shared/Faq";
@@ -12,6 +10,8 @@ import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { SEED_CAB_ROUTES, SEED_VEHICLES, SEED_AIRPORT_TAXIS } from "@/src/lib/seed/cabs";
 import { buildRelatedLinks } from "@/src/lib/links";
+import TaxiHero from "@/src/components/taxi/TaxiHero";
+import { RouteCardGrid, VehicleCardGrid, AirportCardGrid } from "@/src/components/taxi/TaxiCardGrids";
 
 const PATH = "/somnath-dwarka-taxi-service/";
 export const revalidate = 3600;
@@ -52,63 +52,75 @@ export default function CabHubPage() {
     },
   ];
 
+  const crumbs = [{ name: "Home", path: "/" }, { name: "Taxi service", path: PATH }];
+
   return (
-    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Taxi service", path: PATH }]}>
-      <div className="max-w-5xl mx-auto px-4 pt-6">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Somnath Dwarka Taxi Service</h1>
-        <AnswerFirst>
-          We arrange private cabs for the entire Somnath–Dwarka circuit — one-way transfers,
-          round trips and full multi-day tours. Choose a sedan, SUV or Innova with an
-          experienced driver. The Somnath–Dwarka leg is about {CORE_FACTS.dwarkaSomnathDistance.value}
-          {" "}(~{CORE_FACTS.dwarkaSomnathDuration.value}); fares are indicative until confirmed at booking.
-        </AnswerFirst>
+    <PageShell crumbs={crumbs}>
+      <TaxiHero
+        title="Somnath Dwarka Taxi Service"
+        description={`Book premium private cabs for the complete Somnath–Dwarka pilgrimage circuit. We arrange one-way transfers, round trips, and customized multi-day tours with experienced drivers.`}
+        breadcrumbs={crumbs}
+        badge="Saurashtra Cabs"
+        ctaContext="Somnath Dwarka Taxi Service"
+        distance={CORE_FACTS.dwarkaSomnathDistance.value}
+        duration={CORE_FACTS.dwarkaSomnathDuration.value}
+      />
+
+      {/* Routes Section - Full Width Gradient */}
+      <div className="w-full bg-gradient-to-br from-amber-50/45 via-white to-orange-50/50 border-b border-orange-100/30 relative overflow-hidden py-10">
+        {/* Winding road SVG decoration */}
+        <svg className="absolute right-0 top-4 w-60 h-40 opacity-[0.12] text-orange-500 pointer-events-none" viewBox="0 0 200 100" fill="none">
+          <path d="M 0,50 Q 50,20 100,50 T 200,50" stroke="currentColor" strokeWidth="2" strokeDasharray="4 6" />
+          <circle cx="100" cy="50" r="4" fill="currentColor" />
+        </svg>
+
+        <Section id="routes" title="Popular taxi routes" wide={true} className="!py-0">
+          <p className="text-sm text-gray-600 mb-4 max-w-2xl">
+            Compare driving distances and estimated durations for key pilgrimage connections. Select a route to see details.
+          </p>
+          <RouteCardGrid routes={SEED_CAB_ROUTES} />
+          <div className="mt-6 bg-white/60 backdrop-blur-xs p-3 rounded-2xl border border-orange-100/40">
+            <DataTable columns={["Route Quick List", "Est. Distance", "Est. Drive Time"]} rows={routeRows} />
+          </div>
+        </Section>
       </div>
 
-      <Section id="routes" title="Popular routes">
-        <DataTable columns={["Route", "Distance", "Time"]} rows={routeRows} />
-        <ul className="flex flex-wrap gap-2 mt-2">
-          {SEED_CAB_ROUTES.map((r) => (
-            <li key={r.slug}>
-              <Link href={`/${r.slug}/`} className="text-sm px-3 py-1 rounded-full border border-orange-100 hover:border-[#E87722]">
-                {r.origin} → {r.destination}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Section>
+      {/* Vehicles Section - Full Width Gradient */}
+      <div className="w-full bg-gradient-to-br from-orange-50/60 via-white to-amber-50/70 border-b border-orange-100/30 relative overflow-hidden py-10">
+        {/* Rotating Compass SVG decoration */}
+        <svg className="absolute -left-10 top-10 w-44 h-44 opacity-[0.08] text-orange-500 pointer-events-none animate-spin-slow" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ animationDuration: '40s' }}>
+          <circle cx="50" cy="50" r="40" />
+          <line x1="50" y1="10" x2="50" y2="90" />
+          <line x1="10" y1="50" x2="90" y2="50" />
+          <path d="M 50,10 L 55,45 L 90,50 L 55,55 L 50,90 L 45,55 L 10,50 L 45,45 Z" fill="currentColor" fillOpacity="0.1" />
+        </svg>
 
-      <Section id="airport" title="Airport transfers">
-        <p className="text-gray-600 mb-3">
-          Pre-booked meet-and-greet taxis from the nearest airports to Somnath and Dwarka.
-        </p>
-        <ul className="flex flex-wrap gap-2">
-          <li>
-            <Link href="/somnath-dwarka-taxi-service/airport-taxi/" className="text-sm px-3 py-1 rounded-full border border-orange-100 hover:border-[#E87722] font-medium">
-              All airport taxis
-            </Link>
-          </li>
-          {SEED_AIRPORT_TAXIS.map((a) => (
-            <li key={a.slug}>
-              <Link href={`/somnath-dwarka-taxi-service/airport-taxi/${a.slug}/`} className="text-sm px-3 py-1 rounded-full border border-orange-100 hover:border-[#E87722]">
-                {a.airport} airport
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Section>
+        <Section id="vehicles" title="Vehicles & fleet options" wide={true} className="!py-0">
+          <p className="text-sm text-gray-600 mb-4 max-w-2xl">
+            We maintain well-serviced, air-conditioned sedans, SUVs, and premium Innovas to accommodate groups of all sizes.
+          </p>
+          <VehicleCardGrid vehicles={SEED_VEHICLES} hubPath={PATH} />
+          <div className="mt-6 bg-white/60 backdrop-blur-xs p-3 rounded-2xl border border-orange-100/40">
+            <DataTable columns={["Vehicle Fleet", "Passenger Seating", "Best Suited For"]} rows={vehicleRows} />
+          </div>
+        </Section>
+      </div>
 
-      <Section id="vehicles" title="Vehicles & fares">
-        <DataTable columns={["Vehicle", "Capacity", "Best for"]} rows={vehicleRows} />
-        <ul className="flex flex-wrap gap-2 mt-2">
-          {SEED_VEHICLES.map((v) => (
-            <li key={v.slug}>
-              <Link href={`${PATH}${v.slug}/`} className="text-sm px-3 py-1 rounded-full border border-orange-100 hover:border-[#E87722]">
-                {v.vehicle_name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Section>
+      {/* Airport Section - Full Width Gradient */}
+      <div className="w-full bg-gradient-to-br from-sky-50/40 via-white to-orange-50/40 border-b border-orange-100/30 relative overflow-hidden py-10">
+        {/* Map pin connection SVG decoration */}
+        <svg className="absolute right-10 bottom-6 w-32 h-32 opacity-[0.06] text-blue-500 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+          <path d="M2 22 L22 2 M18 6 L20 4 M14 10 L16 8" />
+          <path d="M12 18 L19 11 L17 9 L10 16 Z" fill="currentColor" fillOpacity="0.2" />
+        </svg>
+
+        <Section id="airport" title="Airport transfers & pickups" wide={true} className="!py-0">
+          <p className="text-sm text-gray-600 mb-4 max-w-2xl">
+            Arriving by air? Book meet-and-greet transfers from Diu, Rajkot, Jamnagar, or Ahmedabad airports directly to your temple destination.
+          </p>
+          <AirportCardGrid airports={SEED_AIRPORT_TAXIS} basePath={`${PATH}airport-taxi/`} />
+        </Section>
+      </div>
 
       <Faq items={faq} heading="Taxi service FAQs" />
       <CtaBand context="Somnath Dwarka taxi booking" title="Book a cab" subtitle="Tell us your route and dates for a firm fare." />

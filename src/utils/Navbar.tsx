@@ -96,13 +96,7 @@ export default function Navbar() {
       <header className="fixed top-6 left-0 w-full z-40 flex justify-center">
         <div ref={mobileMenuRef} className="relative w-[92vw] sm:w-[90vw] xl:w-[85vw]">
 
-          {/* Ambient glow — stronger when scrolled */}
-          <div
-            className={`absolute inset-0 rounded-full transition-opacity duration-500
-              bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400
-              blur-2xl pointer-events-none
-              ${scrolled ? "opacity-40" : "opacity-20"}`}
-          />
+
 
           {/* Navbar pill */}
           <nav
@@ -110,8 +104,8 @@ export default function Navbar() {
               px-3 sm:px-5 lg:px-6 rounded-full
               border transition-all duration-300
               ${scrolled
-                ? "bg-white/98 border-amber-200/70 shadow-2xl shadow-amber-100/60"
-                : "bg-white/92 border-amber-100/50 shadow-xl"
+                ? "bg-white border-slate-200/80 shadow-md"
+                : "bg-white/95 border-slate-100/60 shadow-sm"
               }
               backdrop-blur-xl`}
           >

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { STATIC_ROUTES } from "@/src/config/routes";
 import { getPublishedPackages, getPublishedGuides, packagePath, guidePath } from "@/src/lib/content";
 import { buildMetadata } from "@/src/lib/seo";
-import Breadcrumb from "@/src/components/shared/Breadcrumb";
 
 export const revalidate = 3600;
 
@@ -42,7 +41,6 @@ export default async function HtmlSitemap() {
 
   return (
     <main id="main-content">
-      <Breadcrumb crumbs={[{ name: "Home", path: "/" }, { name: "Sitemap", path: "/sitemap/" }]} />
       <div className="max-w-5xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Sitemap</h1>
         <div className="grid gap-8 md:grid-cols-2">

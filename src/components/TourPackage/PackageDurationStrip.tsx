@@ -30,16 +30,15 @@ export default function PackageDurationStrip({
   const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="px-4 md:px-6 py-0 sm:py-4">
-      <div className="max-w-7xl mx-auto ">
+    <div className="w-full py-1">
+      <div className="w-full">
         {/* ── DESKTOP ── */}
         <motion.div
-        
-          className="hidden md:flex items-stretch gap-0 overflow-x-auto  no-scrollbar
-            rounded-xl border border-orange-100 bg-white shadow-sm max-w-4xl"
+          className="hidden md:flex items-stretch gap-0 overflow-x-auto hide-scrollbar
+            rounded-2xl border border-orange-100 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)] w-full"
         >
           {/* Duration badge cell */}
-          <div className="flex items-center shrink-0 px-5 py-4 border-r border-orange-100 bg-orange-50">
+          <div className="flex items-center shrink-0 px-6 py-4 border-r border-orange-100 bg-orange-50/50">
             <span
               className="inline-flex items-center rounded-full text-white px-4 py-1.5
                 text-sm font-bold tracking-wide whitespace-nowrap
@@ -55,7 +54,7 @@ export default function PackageDurationStrip({
             const { num, suffix } = ordinal(index + 1);
             return (
               <motion.div
-              
+                key={item.id}
                 className="flex items-center shrink-0 gap-3 px-5 py-4
         border-r border-orange-100 last:border-r-0
         hover:bg-orange-50/60 transition-colors duration-150 group cursor-pointer"
@@ -104,7 +103,7 @@ export default function PackageDurationStrip({
           <div className="relative">
             <div
               ref={scrollRef}
-              className="flex overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory"
+              className="flex overflow-x-auto hide-scrollbar scroll-smooth snap-x snap-mandatory"
               style={{ WebkitOverflowScrolling: "touch" }}
             >
               {breakdown.map((item, index) => {
@@ -161,6 +160,6 @@ export default function PackageDurationStrip({
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

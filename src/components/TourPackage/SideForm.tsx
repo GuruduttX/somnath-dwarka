@@ -91,33 +91,29 @@ export default function SideForm() {
 
 
   return (
-    <div className="w-full max-w-sm z-10">
+    <div className="w-full z-10">
       {/* FORM CARD */}
-      <div className="bg-white rounded-2xl border border-gray-400 p-6 shadow-lg">
-        <h3 className="text-xl font-semibold text-orange-900 mb-6">
+      <div className="bg-white rounded-2xl border border-orange-100/70 p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)] relative overflow-hidden">
+        {/* Subtle orange accent top bar */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 via-amber-400 to-orange-500" />
+        
+        <h3 className="text-xl font-bold text-slate-800 mb-5 flex items-center gap-2">
           Enquire About This Package
         </h3>
 
         {step === 1 && (
-        <Step1 form={form} setForm={setForm} next={() => setStep(2)} />
-      )}
+          <Step1 form={form} setForm={setForm} next={() => setStep(2)} />
+        )}
 
-      {step === 2 && (
-        <Step2 form={form} setForm={setForm} next={() => setStep(3)} />
-      )}
+        {step === 2 && (
+          <Step2 form={form} setForm={setForm} next={() => setStep(3)} />
+        )}
 
-      {step === 3 && (
-        <Step3 form={form} setForm={setForm} handleSubmit={handleSubmit} />
-      )}
+        {step === 3 && (
+          <Step3 form={form} setForm={setForm} handleSubmit={handleSubmit} />
+        )}
 
-       {step === 4 && <Success form={form} />}
-
-        
-        {/* {success && (
-          <p className="mt-3 text-xs text-green-700 text-center">
-            Enquiry sent successfully ✔ Redirecting to WhatsApp…
-          </p>
-        )} */}
+        {step === 4 && <Success form={form} />}
       </div>
     </div>
   );
@@ -148,7 +144,7 @@ const Step1 = ({ form, setForm, next }: any) => {
 
       {/* Phone */}
       <div className="flex gap-2">
-        <div className="w-20 border rounded-xl flex items-center justify-center text-sm">
+        <div className="w-20 border border-gray-300 bg-gray-50/50 text-gray-500 font-semibold rounded-xl flex items-center justify-center text-sm">
           +91
         </div>
         <div className="flex-1">
@@ -169,9 +165,9 @@ const Step1 = ({ form, setForm, next }: any) => {
           value={form.travelDate}
           onChange={(e)=>setForm({...form, travelDate:e.target.value})}
           required
-          className="peer w-full rounded-xl border border-gray-300 px-4 pt-5 pb-2"
+          className="peer w-full rounded-xl border border-gray-300 px-4 pt-5 pb-2 text-sm text-slate-800 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-200 transition-colors"
         />
-        <label className="absolute left-3 top-1 text-xs text-gray-500">
+        <label className="absolute left-4 top-1.5 text-[10px] font-semibold text-gray-500 uppercase tracking-wider">
           Travel Date *
         </label>
       </div>
@@ -193,7 +189,7 @@ const Step1 = ({ form, setForm, next }: any) => {
 
       <button
          type="submit"
-        className="w-full bg-orange-500 text-white py-3 rounded-xl"
+        className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-3.5 rounded-xl transition-all duration-300 shadow-md shadow-orange-500/10 hover:shadow-lg hover:shadow-orange-500/20 active:scale-[0.98] cursor-pointer"
       >
         Continue
       </button>
@@ -208,68 +204,64 @@ const Step2 = ({ form, setForm, next } : any) => {
   const options = ["Solo", "Spouse", "Family", "Friends"];
 
   return (
-    <div className="space-y-4 ">
+    <div className="space-y-4">
        {/* Header */}
-      <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center text-white text-lg">
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-sm shadow-sm">
           ✓
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold">
+          <h2 className="text-base font-bold text-slate-800">
             Awesome{" "}
-            <span className="text-orange-500">
-              {form?.name || "Traveler"}!
+            <span className="text-orange-600">
+              {form?.name?.split(" ")[0] || "Traveler"}!
             </span>
           </h2>
-          <p className="text-sm text-gray-500">
-            Couple of more details to a personalised quotation.
+          <p className="text-xs text-gray-500 font-medium">
+            Just a few more details to customize your quote.
           </p>
         </div>
       </div>
 
-      <h3 className="text-xl font-semibold">
+      <h3 className="text-base font-bold text-slate-700 mt-2">
         Who are you planning this vacation with?
       </h3>
 
-      <div className="">
-
+      <div className="space-y-3 mt-3">
         {options.map((opt) => {
-        const isSelected = form.travelWith === opt;
+          const isSelected = form.travelWith === opt;
 
-        return (
-          <div
-            key={opt}
-            onClick={() => {
-              setForm({ ...form, travelWith: opt });
-              setTimeout(() => next(), 200); // smooth feel
-            }}
-            className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all my-4 
-              ${isSelected 
-                ? "border-orange-500 bg-orange-50 shadow-md" 
-                : "border-gray-300 hover:border-orange-400 hover:shadow-sm"}
-            `}
-          >
-            {/* Custom Radio */}
+          return (
             <div
-              className={`w-5 h-5 rounded-full border-2 flex items-center justify-center
-                ${isSelected ? "border-orange-500" : "border-gray-400"}
+              key={opt}
+              onClick={() => {
+                setForm({ ...form, travelWith: opt });
+                setTimeout(() => next(), 250); // smooth transition
+              }}
+              className={`flex items-center gap-3.5 p-3.5 rounded-xl border cursor-pointer transition-all active:scale-[0.99]
+                ${isSelected 
+                  ? "border-orange-500 bg-orange-50/50 shadow-sm" 
+                  : "border-slate-200 hover:border-orange-300 hover:bg-orange-50/10"}
               `}
             >
-              {isSelected && (
-                <div className="w-2.5 h-2.5 bg-orange-500 rounded-full"></div>
-              )}
+              {/* Custom Radio */}
+              <div
+                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors
+                  ${isSelected ? "border-orange-500 bg-orange-500/10" : "border-slate-300"}
+                `}
+              >
+                {isSelected && (
+                  <div className="w-2.5 h-2.5 bg-orange-500 rounded-full"></div>
+                )}
+              </div>
+
+              {/* Label */}
+              <span className="text-slate-800 text-sm font-semibold">{opt}</span>
             </div>
-
-            {/* Label */}
-            <span className="text-gray-800 font-medium">{opt}</span>
-          </div>
-        );
-      })}
-
+          );
+        })}
       </div>
-
-      
     </div>
   );
 };
@@ -285,69 +277,68 @@ const Step3 = ({ form, setForm, handleSubmit }: any) => {
   ];
 
   return (
-    <div className="space-y-4  md:h-[420px] slim-scroll overflow-y-auto">
-      
+    <div className="space-y-4">
       {/* Header */}
-      <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center text-white text-lg">
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-sm shadow-sm">
           ✓
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold">
-            Awesome{" "}
-            <span className="text-orange-500">
-              {form?.name || "Traveler"}!
+          <h2 className="text-base font-bold text-slate-800">
+            Almost done{" "}
+            <span className="text-orange-600">
+              {form?.name?.split(" ")[0] || "Traveler"}!
             </span>
           </h2>
-          <p className="text-sm text-gray-500">
-            Couple of more details to a personalised quotation.
+          <p className="text-xs text-gray-500 font-medium">
+            Final step to generate your custom tour package.
           </p>
         </div>
       </div>
 
       {/* Question */}
-      <h3 className="text-lg font-semibold">
+      <h3 className="text-base font-bold text-slate-700 mt-2">
         How soon would you like to book this trip?
       </h3>
 
       {/* Options */}
-      {options.map((opt) => {
-        const isSelected = form.bookingTime === opt;
+      <div className="space-y-3 mt-3">
+        {options.map((opt) => {
+          const isSelected = form.bookingTime === opt;
 
-        return (
-          <div
-            key={opt}
-           onClick={async () => {
-              const updatedForm = { ...form, bookingTime: opt };
-
-              setForm(updatedForm);
-              await handleSubmit(updatedForm);
-            }}
-            className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all
-              ${
-                isSelected
-                  ? "border-orange-500 bg-orange-50 shadow-md"
-                  : "border-gray-300 hover:border-orange-400 hover:shadow-sm"
-              }
-            `}
-          >
-            {/* Custom Radio */}
+          return (
             <div
-              className={`w-5 h-5 rounded-full border-2 flex items-center justify-center
-                ${isSelected ? "border-orange-500" : "border-gray-400"}
+              key={opt}
+              onClick={async () => {
+                const updatedForm = { ...form, bookingTime: opt };
+                setForm(updatedForm);
+                await handleSubmit(updatedForm);
+              }}
+              className={`flex items-center gap-3.5 p-3.5 rounded-xl border cursor-pointer transition-all active:scale-[0.99]
+                ${isSelected
+                  ? "border-orange-500 bg-orange-50/50 shadow-sm"
+                  : "border-slate-200 hover:border-orange-300 hover:bg-orange-50/10"
+                }
               `}
             >
-              {isSelected && (
-                <div className="w-2.5 h-2.5 bg-orange-500 rounded-full"></div>
-              )}
-            </div>
+              {/* Custom Radio */}
+              <div
+                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors
+                  ${isSelected ? "border-orange-500 bg-orange-500/10" : "border-slate-300"}
+                `}
+              >
+                {isSelected && (
+                  <div className="w-2.5 h-2.5 bg-orange-500 rounded-full"></div>
+                )}
+              </div>
 
-            {/* Label */}
-            <span className="text-gray-800 font-medium">{opt}</span>
-          </div>
-        );
-      })}
+              {/* Label */}
+              <span className="text-slate-800 text-sm font-semibold">{opt}</span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

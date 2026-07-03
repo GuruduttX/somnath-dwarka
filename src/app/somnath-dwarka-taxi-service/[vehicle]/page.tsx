@@ -2,16 +2,15 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { buildMetadata, serviceSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
-import AnswerFirst from "@/src/components/shared/AnswerFirst";
 import Section from "@/src/components/shared/Section";
 import DataTable from "@/src/components/shared/DataTable";
 import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
-import VerifyStamp from "@/src/components/shared/VerifyStamp";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { SEED_VEHICLES } from "@/src/lib/seed/cabs";
 import { buildRelatedLinks } from "@/src/lib/links";
+import TaxiHero from "@/src/components/taxi/TaxiHero";
 
 const HUB = "/somnath-dwarka-taxi-service/";
 export const revalidate = 3600;
@@ -45,27 +44,61 @@ export default async function VehiclePage({ params }: Params) {
     })),
   });
 
+  const crumbs = [
+    { name: "Home", path: "/" },
+    { name: "Taxi service", path: HUB },
+    { name: v.vehicle_name, path: `${HUB}${vehicle}/` },
+  ];
+
   return (
-    <PageShell
-      crumbs={[
-        { name: "Home", path: "/" },
-        { name: "Taxi service", path: HUB },
-        { name: v.vehicle_name, path: `${HUB}${vehicle}/` },
-      ]}
-    >
-      <div className="max-w-5xl mx-auto px-4 pt-6">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{v.h1}</h1>
-        <AnswerFirst>{v.answer_first}</AnswerFirst>
+    <PageShell crumbs={crumbs}>
+      <TaxiHero
+        title={v.h1}
+        description={v.answer_first}
+        breadcrumbs={crumbs}
+        badge="Vehicle Fleet"
+        ctaContext={`${v.vehicle_name} for Somnath Dwarka`}
+        vehicleName={v.vehicle_name}
+        seats={v.seats}
+      />
+
+      {/* Indicative Fares Section - Full Width Gradient */}
+      <div className="w-full bg-gradient-to-br from-amber-50/45 via-white to-orange-50/50 border-b border-orange-100/30 relative overflow-hidden py-10">
+        {/* Winding road SVG decoration */}
+        <svg className="absolute right-0 top-4 w-60 h-40 opacity-[0.12] text-orange-500 pointer-events-none" viewBox="0 0 200 100" fill="none">
+          <path d="M 0,50 Q 50,20 100,50 T 200,50" stroke="currentColor" strokeWidth="2" strokeDasharray="4 6" />
+          <circle cx="100" cy="50" r="4" fill="currentColor" />
+        </svg>
+
+        <Section id="fares" title="Indicative fares" wide={true} className="!py-0">
+          <p className="text-sm text-gray-600 mb-4 max-w-2xl">
+            Estimated base rates for major segments and daily operations. Tolls, parking, and driver allowances are extra.
+          </p>
+          <div className="bg-white/60 backdrop-blur-xs p-3 rounded-2xl border border-orange-100/40">
+            <DataTable columns={["Route / Basis", "Indicative Rate"]} rows={v.fares.map((f) => [f.route, f.rate])} />
+          </div>
+        </Section>
       </div>
 
-      <Section id="fares" title="Indicative fares">
-        <DataTable columns={["Route / basis", "Rate"]} rows={v.fares.map((f) => [f.route, f.rate])} />
-        <VerifyStamp fact={{ key: "fare", label: "Fares", value: "", verify: false }} />
-      </Section>
+      {/* Best Suited For Section - Full Width Gradient */}
+      <div className="w-full bg-gradient-to-br from-orange-50/60 via-white to-amber-50/70 border-b border-orange-100/30 relative overflow-hidden py-10">
+        {/* Rotating Compass SVG decoration */}
+        <svg className="absolute -left-10 top-6 w-36 h-36 opacity-[0.08] text-orange-500 pointer-events-none animate-spin-slow" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ animationDuration: '40s' }}>
+          <circle cx="50" cy="50" r="40" />
+          <line x1="50" y1="10" x2="50" y2="90" />
+          <line x1="10" y1="50" x2="90" y2="50" />
+          <path d="M 50,10 L 55,45 L 90,50 L 55,55 L 50,90 L 45,55 L 10,50 L 45,45 Z" fill="currentColor" fillOpacity="0.1" />
+        </svg>
 
-      <Section id="suitability" title="Who it suits">
-        <p className="text-gray-700">{v.suitable_for}. Seats up to {v.seats} passengers.</p>
-      </Section>
+        <Section id="suitability" title="Best suited for" wide={true} className="!py-0">
+          <div className="p-5 rounded-2xl bg-white/80 backdrop-blur-xs border border-orange-100/50 shadow-2xs max-w-4xl">
+            <p className="text-gray-700 leading-relaxed font-semibold">{v.suitable_for}.</p>
+            <p className="text-sm text-gray-500 mt-2">
+              Comfortably accommodates up to {v.seats} passengers with luggage capacity. Equipped with individual air-conditioning controls, responsive suspension, and a professional driver for a relaxed highway travel experience.
+            </p>
+          </div>
+        </Section>
+      </div>
 
       <Faq items={v.faq} heading={`${v.vehicle_name} FAQs`} />
       <CtaBand context={`${v.vehicle_name} for Somnath Dwarka`} title="Book this vehicle" subtitle="Share your route and dates for a firm fare." />

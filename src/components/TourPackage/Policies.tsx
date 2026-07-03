@@ -31,6 +31,27 @@ export default function Policies({ PackageData }: any) {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  const DEFAULT_POLICIES = [
+    {
+      title: "Refund",
+      description: "Refunds are processed within 7-10 working days after cancellation approval, subject to bank processing times.",
+    },
+    {
+      title: "Cancel",
+      description: "Cancellations made 15 days or more prior to departure are eligible for a full refund. Cancellations between 7-14 days will receive a 50% refund.",
+    },
+    {
+      title: "Payment",
+      description: "Secure your pilgrimage with a 20% advance booking amount. The remaining balance can be settled upon arrival or trip start.",
+    },
+    {
+      title: "Confirmation",
+      description: "Your booking will be formally confirmed via email/WhatsApp once the advance payment is received and hotel availability is locked.",
+    },
+  ];
+
+  const policiesList = PackageData?.policies?.length ? PackageData.policies : DEFAULT_POLICIES;
+
   return (
     <section className="max-w-6xl mx-auto py-6 md:py-20 px-6">
       <div className="mb-14 text-center md:text-start">
@@ -39,17 +60,17 @@ export default function Policies({ PackageData }: any) {
         </h2>
         <p className="mt-4 text-gray-600 max-w-2xl leading-relaxed">
           Please review the following policies carefully before confirming your
-          Mathura–Vrindavan yatra.
+          Somnath–Dwarka yatra.
         </p>
       </div>
 
       <div className="space-y-4">
-        {PackageData.policies.map((item: any, index: number) => {
+        {policiesList.map((item: any, index: number) => {
           const isOpen = openIndex === index;
           return (
             <div
               key={index}
-              className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+              className={`rounded-2xl border transition-colors duration-300 overflow-hidden ${
                 isOpen
                   ? "border-orange-300 bg-orange-50"
                   : "border-orange-100/80 bg-white hover:border-orange-300"

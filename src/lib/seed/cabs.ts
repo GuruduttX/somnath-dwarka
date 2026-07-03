@@ -138,6 +138,24 @@ export const SEED_VEHICLES: SeedVehicle[] = [
       { question: "Is an Ertiga good for the Somnath Dwarka trip?", answer: "Yes — it seats up to 6 comfortably and is a cost-effective private option for the circuit." },
     ],
   },
+  {
+    slug: "swift-dzire",
+    kind: "vehicle",
+    title: "Swift Dzire for Somnath Dwarka — Fare & Booking",
+    h1: "Swift Dzire for Somnath Dwarka Tour",
+    vehicle_name: "Swift Dzire",
+    seats: 4,
+    suitable_for: "Couples, solo travellers and small families of up to 4 passengers",
+    answer_first:
+      "A Swift Dzire seats up to 4 and is a highly cost-effective and nimble choice for the Somnath–Dwarka route. It offers a comfortable air-conditioned ride for small families. Share your dates for a custom quote.",
+    fares: [
+      { route: "Somnath ↔ Dwarka", rate: "₹—" },
+      { route: "Full circuit (per day)", rate: "₹—" },
+    ],
+    faq: [
+      { question: "Is Swift Dzire good for a small family pilgrimage?", answer: "Yes, it is highly budget-friendly and comfortable for up to 4 passengers with standard luggage." },
+    ],
+  },
 ];
 
 export type SeedAirportTaxi = {

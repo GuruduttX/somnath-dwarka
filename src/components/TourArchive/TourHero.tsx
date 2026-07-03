@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Star, ArrowRight, MessageCircle, MapPin, ChevronRight, Sparkles } from "lucide-react";
+import { Star, ArrowRight, MessageCircle, MapPin, Sparkles } from "lucide-react";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 
 const CARD_SOMNATH = "/images/home/SomnathLongImage.webp";
@@ -91,16 +90,6 @@ export default function TourPackagesHero() {
 
         {/* ── BG image (very subtle) ── */}
         
-
-        {/* ── Breadcrumb ── */}
-        <nav
-          className="a0 relative z-10 flex flex-wrap items-center gap-1.5 px-5 pt-5 text-[11px] font-medium tracking-wide text-white/35 sm:px-8 lg:px-14"
-          aria-label="Breadcrumb"
-        >
-          <Link href="/" className="hover:text-[#FF9A45] transition-colors">Home</Link>
-          <ChevronRight size={11} className="text-white/20" />
-          <span className="font-semibold text-[#FF9A45]">Tour Packages</span>
-        </nav>
 
         {/* ── Main grid ── */}
         <div className="relative z-[2] grid grid-cols-1 gap-6 px-5 pb-0 pt-4 sm:px-8 md:grid-cols-2 md:items-stretch md:gap-8 lg:px-14 lg:pt-5">

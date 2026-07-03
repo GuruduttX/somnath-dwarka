@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Star, Clock, ChevronRight, Home, MapPin, Users, ShieldCheck, Phone } from "lucide-react";
-import Link from "next/link";
+import { Star, Clock, MapPin, Users, ShieldCheck, Phone } from "lucide-react";
 import { useState } from "react";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 import QuickEnquiry from "@/src/utils/QuickQuery";
@@ -23,37 +22,6 @@ export default function PackageHero({ PackageData }: any) {
     <section className="w-full h-full">
 
        <div className="relaive">
-
-        {/* ── Breadcrumb ── */}
-        <nav className=" pb-4 px-6 sm:px-8 lg:px-20">
-          <ol className="flex items-center gap-1 text-sm flex-nowrap overflow-hidden md:ml-13">
-            <li className="flex-shrink-0">
-              <Link href="/" className="flex items-center gap-1 text-gray-400 hover:text-orange-600 transition-colors">
-                <Home className="w-3.5 h-3.5" />
-                <span>Home</span>
-              </Link>
-            </li>
-            <li className="text-gray-300 flex-shrink-0">
-              <ChevronRight className="w-3.5 h-3.5" />
-            </li>
-            <li className="flex-shrink-0">
-              <Link href="/tour-packages/#tours" className="text-gray-400 hover:text-orange-600 transition-colors">
-                Packages
-              </Link>
-            </li>
-            <li className="text-gray-300 flex-shrink-0">
-              <ChevronRight className="w-3.5 h-3.5" />
-            </li>
-            <li className="min-w-0">
-              <span
-                className="px-3 py-1 rounded-full text-xs font-medium bg-orange-50 text-orange-700 border border-orange-100/80 truncate block"
-                title={PackageData.title}
-              >
-                {PackageData.title}
-              </span>
-            </li>
-          </ol>
-        </nav>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 md:pb-16">
 

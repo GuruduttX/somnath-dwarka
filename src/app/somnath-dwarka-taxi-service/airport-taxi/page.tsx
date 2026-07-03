@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { buildMetadata } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
-import AnswerFirst from "@/src/components/shared/AnswerFirst";
 import Section from "@/src/components/shared/Section";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import { SEED_AIRPORT_TAXIS } from "@/src/lib/seed/cabs";
 import { buildRelatedLinks } from "@/src/lib/links";
+import TaxiHero from "@/src/components/taxi/TaxiHero";
+import { AirportCardGrid } from "@/src/components/taxi/TaxiCardGrids";
 
 const HUB = "/somnath-dwarka-taxi-service/";
 const PATH = `${HUB}airport-taxi/`;
@@ -28,38 +28,37 @@ export default function AirportTaxiHubPage() {
     siblings: [{ target: "/somnath-to-dwarka-taxi/", anchor: "Somnath to Dwarka taxi", type: "sibling" }],
   });
 
-  return (
-    <PageShell
-      crumbs={[
-        { name: "Home", path: "/" },
-        { name: "Taxi service", path: HUB },
-        { name: "Airport taxi", path: PATH },
-      ]}
-    >
-      <div className="max-w-5xl mx-auto px-4 pt-6">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Airport taxi for Somnath &amp; Dwarka</h1>
-        <AnswerFirst>
-          Arriving by air? We arrange pre-booked airport taxis from Diu, Rajkot, Jamnagar and
-          Ahmedabad to Somnath and Dwarka, with meet-and-greet at arrivals. Choose your airport
-          below for distance, drive time and indicative fares by vehicle.
-        </AnswerFirst>
-      </div>
+  const crumbs = [
+    { name: "Home", path: "/" },
+    { name: "Taxi service", path: HUB },
+    { name: "Airport taxi", path: PATH },
+  ];
 
-      <Section id="airports" title="By airport">
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {SEED_AIRPORT_TAXIS.map((a) => (
-            <li key={a.slug}>
-              <Link
-                href={`${PATH}${a.slug}/`}
-                className="block h-full p-4 rounded-xl border border-orange-100 bg-white hover:border-[#E87722] hover:shadow-sm transition"
-              >
-                <span className="block font-semibold text-gray-800">{a.airportName}</span>
-                <span className="block text-sm text-gray-500 mt-1">Serves {a.serves} · {a.distance}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Section>
+  return (
+    <PageShell crumbs={crumbs}>
+      <TaxiHero
+        title="Airport Taxi for Somnath &amp; Dwarka"
+        description="Arriving by air? We arrange pre-booked airport taxis from Diu, Rajkot, Jamnagar, and Ahmedabad to Somnath and Dwarka, with meet-and-greet reception right at the arrival terminal."
+        breadcrumbs={crumbs}
+        badge="Airport pick-up"
+        ctaContext="Airport taxi to Somnath Dwarka"
+      />
+
+      {/* Airports Section - Full Width Gradient */}
+      <div className="w-full bg-gradient-to-br from-sky-50/40 via-white to-orange-50/40 border-b border-orange-100/30 relative overflow-hidden py-10">
+        {/* Plane SVG decoration */}
+        <svg className="absolute right-10 bottom-6 w-32 h-32 opacity-[0.06] text-blue-500 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+          <path d="M2 22 L22 2 M18 6 L20 4 M14 10 L16 8" />
+          <path d="M12 18 L19 11 L17 9 L10 16 Z" fill="currentColor" fillOpacity="0.2" />
+        </svg>
+
+        <Section id="airports" title="Select departure airport" wide={true} className="!py-0">
+          <p className="text-sm text-gray-600 mb-4 max-w-2xl">
+            Choose the airport you are landing at to view driving distances, travel times, and vehicle fare options.
+          </p>
+          <AirportCardGrid airports={SEED_AIRPORT_TAXIS} basePath={PATH} />
+        </Section>
+      </div>
 
       <CtaBand context="Airport taxi to Somnath Dwarka" title="Book an airport transfer" subtitle="Share your flight details for a firm fare." />
       <RelatedLinks links={related} />
