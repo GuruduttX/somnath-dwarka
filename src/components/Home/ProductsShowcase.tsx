@@ -36,7 +36,7 @@ export default function ProductsShowcase({ packages }: { packages: TourPackage[]
   return (
     <>
       <CommonEnquiryForm open={open} onClose={()=>setOpen(false)}/>
-      <section className="w-full bg-[#fffaf5] py-16 px-4 sm:px-8 lg:px-16 xl:px-24">
+      <section className="w-full bg-white py-16 px-4 sm:px-8 lg:px-16 xl:px-24">
 
       {/* ── SECTION HEADER ── */}
       <div className="mx-auto mb-10 flex max-w-3xl flex-col items-center text-center">
@@ -55,30 +55,33 @@ export default function ProductsShowcase({ packages }: { packages: TourPackage[]
       </div>
 
       {/* ── FILTER PILLS + COUNT ── */}
-      <div className="mb-9 flex flex-wrap items-center justify-between gap-4 rounded-3xl border border-orange-100 bg-white/80 p-3 shadow-sm backdrop-blur">
-        <div className="flex flex-wrap gap-2">
-          {FILTERS.map((f) => (
-            <button
-              key={f}
-              onClick={() => handleFilter(f)}
-              className={`
-                rounded-full px-5 py-2.5 text-[13.5px] cursor-pointer font-semibold transition-all duration-200
-                ${activeFilter === f
-                  ? "bg-orange-500 text-white shadow-md shadow-orange-200"
-                  : "bg-white text-gray-600 border border-gray-200 hover:border-orange-300 hover:text-orange-600"
-                }
-              `}
-            >
-              {f}
-            </button>
-          ))}
-        </div>
+      <div className="mb-9 rounded-3xl border border-orange-100 bg-white/80 p-3 shadow-sm backdrop-blur">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
+          {/* pills: single swipeable row on mobile, wrap on ≥sm */}
+          <div className="-mx-1 flex flex-nowrap gap-2 overflow-x-auto px-1 sm:mx-0 sm:flex-wrap sm:px-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {FILTERS.map((f) => (
+              <button
+                key={f}
+                onClick={() => handleFilter(f)}
+                className={`
+                  shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-[13px] cursor-pointer font-semibold transition-all duration-200 sm:px-5 sm:py-2.5 sm:text-[13.5px]
+                  ${activeFilter === f
+                    ? "bg-orange-500 text-white shadow-md shadow-orange-200"
+                    : "bg-white text-gray-600 border border-gray-200 hover:border-orange-300 hover:text-orange-600"
+                  }
+                `}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
 
-        <div className="flex items-center gap-2 px-3 text-[13px] font-medium text-gray-500">
-          <Filter size={14} strokeWidth={2} />
-          <span>
-            Showing {Math.min(visibleCount, filtered.length)} of {filtered.length} package{filtered.length !== 1 ? "s" : ""}
-          </span>
+          <div className="flex shrink-0 items-center gap-2 pl-1 text-[13px] font-medium text-gray-500 sm:px-3">
+            <Filter size={14} strokeWidth={2} />
+            <span>
+              Showing {Math.min(visibleCount, filtered.length)} of {filtered.length} package{filtered.length !== 1 ? "s" : ""}
+            </span>
+          </div>
         </div>
       </div>
 

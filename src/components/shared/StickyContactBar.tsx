@@ -10,7 +10,7 @@ export default function StickyContactBar() {
   return (
     <nav className="sticky-contact-bar" aria-label="Contact us">
       <a className="scb-call" href={telLink()} aria-label={`Call ${CONTACT.phoneDisplay}`}>
-        <FaPhone aria-hidden="true" />
+        <FaPhone size={24} aria-hidden="true" />
       </a>
       <a
         className="scb-wa"
@@ -19,7 +19,7 @@ export default function StickyContactBar() {
         rel="noopener noreferrer"
         aria-label={`WhatsApp ${CONTACT.phoneDisplay}`}
       >
-        <FaWhatsapp aria-hidden="true" />
+        <FaWhatsapp size={28} aria-hidden="true" />
       </a>
     </nav>
   );
