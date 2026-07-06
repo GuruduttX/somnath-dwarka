@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Sparkles } from "lucide-react";
 import { buildMetadata } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
+import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import GuidesHero from "@/src/components/guides/GuidesHero";
 import { GuidesGrid, type GuideItem } from "@/src/components/guides/GuidesGrid";
@@ -16,6 +17,29 @@ export const metadata: Metadata = buildMetadata({
     "In-depth guides for planning a Somnath–Dwarka pilgrimage: itineraries, temple tips, travel advice and local know-how from our team.",
   path: PATH,
 });
+
+const FAQ = [
+  {
+    question: "What do your travel guides cover?",
+    answer:
+      "Day-wise itineraries, temple timings and darshan tips, routes and distances, the best time to visit, and practical local know-how for the Somnath–Dwarka pilgrimage circuit.",
+  },
+  {
+    question: "Are the guides free to read?",
+    answer:
+      "Yes, every guide is free to read. When you're ready, you can request a matching tour package, cab or hotel quote from the same page.",
+  },
+  {
+    question: "How current is the information?",
+    answer:
+      "We review and refresh the guides regularly and clearly flag any detail that is still pending confirmation, so faith or legend is never presented as verified fact.",
+  },
+  {
+    question: "Can you turn a guide into a booked trip?",
+    answer:
+      "Yes. Tell us which itinerary suits you and we arrange stays, private transport and darshan planning across Somnath and Dwarka.",
+  },
+];
 
 export default async function GuidesHubPage() {
   const raw = (await getPublishedGuides()) as Array<Record<string, unknown>>;
@@ -53,6 +77,8 @@ export default async function GuidesHubPage() {
           </div>
         </div>
       </div>
+
+      <Faq items={FAQ} heading="Travel guide FAQs" subheading="How our Somnath–Dwarka guides work." />
 
       <CtaBand context="Somnath Dwarka trip planning" />
     </PageShell>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Sparkles, CalendarClock, Users, BedDouble } from "lucide-react";
 import { buildMetadata } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
+import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import FestivalsHero from "@/src/components/festivals/FestivalsHero";
 import { FestivalCards, type FestivalItem } from "@/src/components/festivals/FestivalCards";
@@ -34,6 +35,34 @@ function fromDb(f: Record<string, unknown>): FestivalItem {
     highlights: Array.isArray(f.highlights) ? (f.highlights as string[]) : [],
   };
 }
+
+const FAQ = [
+  {
+    question: "What are the biggest festivals at Somnath and Dwarka?",
+    answer:
+      "Janmashtami at Dwarka (Krishna's birth) and Maha Shivratri at Somnath are the largest celebrations. Kartik Purnima (Dev Diwali) at Somnath is a quieter, scenic alternative with a holy dip at Triveni Sangam.",
+  },
+  {
+    question: "When is Janmashtami celebrated in Dwarka?",
+    answer:
+      "Janmashtami falls in August–September and the exact date changes each year with the Hindu calendar. We confirm the dates before each season rather than publishing an unverified one.",
+  },
+  {
+    question: "How early should I book for a festival trip?",
+    answer:
+      "Reserve stays and cabs 6–10 weeks ahead for peak festivals. Tariffs rise and rooms near the temples fill quickly during Janmashtami and Maha Shivratri.",
+  },
+  {
+    question: "Are the temples very crowded during festivals?",
+    answer:
+      "Yes — expect heavy crowds and long darshan queues, especially overnight on Maha Shivratri and around midnight on Janmashtami. Plan your darshan around the aarti timings to avoid the biggest rush.",
+  },
+  {
+    question: "Can you plan a festival itinerary for me?",
+    answer:
+      "Yes. We arrange hotels, transport and a festival-ready day-wise itinerary covering both temple towns, timed around the crowds.",
+  },
+];
 
 export default async function FestivalHubPage() {
   const dbFestivals = (await getPublishedFestivals()) as Array<Record<string, unknown>>;
@@ -99,6 +128,8 @@ export default async function FestivalHubPage() {
           ))}
         </div>
       </div>
+
+      <Faq items={FAQ} heading="Festival FAQs" subheading="Planning a trip around Somnath and Dwarka's festivals." />
 
       <CtaBand context="Festival trip to Somnath Dwarka" />
     </PageShell>

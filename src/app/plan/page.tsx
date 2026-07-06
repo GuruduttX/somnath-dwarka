@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Sparkles } from "lucide-react";
 import { buildMetadata } from "@/src/lib/seo";
+import { CORE_FACTS } from "@/src/config/site";
 import PageShell from "@/src/components/shared/PageShell";
+import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import PlanHero from "@/src/components/plan/PlanHero";
 import { PlanCards } from "@/src/components/plan/PlanCards";
@@ -16,6 +18,33 @@ export const metadata: Metadata = buildMetadata({
     "Planning guides for the Somnath–Dwarka pilgrimage: distance and drive time, how many days you need, which temple to visit first, and sample itineraries.",
   path: PATH,
 });
+
+const FAQ = [
+  {
+    question: "How many days do you need for Somnath and Dwarka?",
+    answer:
+      "Plan 3–5 days. Three days covers both temples at a brisk pace; four to five days adds Nageshwar, Bet Dwarka and Porbandar with unhurried darshan and no long single-day drives.",
+  },
+  {
+    question: "What is the distance between Somnath and Dwarka?",
+    answer: `The road distance is ${CORE_FACTS.dwarkaSomnathDistance.value} and takes ${CORE_FACTS.dwarkaSomnathDuration.value}, typically via Porbandar.`,
+  },
+  {
+    question: "Should I visit Somnath or Dwarka first?",
+    answer:
+      "Either order works — pick the temple town closer to your entry point to avoid backtracking. Flying into Diu, start with Somnath; arriving via Jamnagar, start with Dwarka.",
+  },
+  {
+    question: "What is the best time to visit?",
+    answer:
+      "October to March offers pleasant coastal weather. Avoid peak monsoon if you plan the Bet Dwarka ferry crossing, which can be disrupted by rough seas.",
+  },
+  {
+    question: "Is there a direct train between Somnath and Dwarka?",
+    answer:
+      "There is no convenient direct train. Most pilgrims cover the route by road, which is the practical option when visiting both temples.",
+  },
+];
 
 export default function PlanHubPage() {
   return (
@@ -44,6 +73,8 @@ export default function PlanHubPage() {
           </div>
         </div>
       </div>
+
+      <Faq items={FAQ} heading="Trip planning FAQs" subheading="Quick answers to the questions travellers ask before booking." />
 
       <CtaBand context="Somnath Dwarka trip planning" />
     </PageShell>

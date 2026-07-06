@@ -50,6 +50,26 @@ export default function CabHubPage() {
       question: "What is the distance between Somnath and Dwarka by taxi?",
       answer: `The road distance is ${CORE_FACTS.dwarkaSomnathDistance.value} and takes ${CORE_FACTS.dwarkaSomnathDuration.value}, typically via Porbandar.`,
     },
+    {
+      question: "Which vehicles are available?",
+      answer:
+        "We offer air-conditioned sedans, SUVs and premium Innovas for groups of all sizes — pick by seating and comfort, with luggage space confirmed for airport transfers.",
+    },
+    {
+      question: "Do you provide airport pickups?",
+      answer:
+        "Yes. We arrange meet-and-greet transfers from Diu, Rajkot, Jamnagar and Ahmedabad airports directly to your temple destination.",
+    },
+    {
+      question: "Can I book a multi-day cab for the whole circuit?",
+      answer:
+        "Yes. We arrange one-way transfers, round trips and multi-day tours with the same experienced driver covering both Somnath and Dwarka, plus stops like Nageshwar and Bet Dwarka.",
+    },
+    {
+      question: "Are tolls, parking and driver charges included?",
+      answer:
+        "Your firm quote spells out exactly what's included so there are no surprises. Share your route and dates and we'll confirm an all-in fare before booking.",
+    },
   ];
 
   const crumbs = [{ name: "Home", path: "/" }, { name: "Taxi service", path: PATH }];

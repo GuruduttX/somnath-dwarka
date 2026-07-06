@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Sparkles } from "lucide-react";
 import { buildMetadata } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
+import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import HotelHero from "@/src/components/hotels/HotelHero";
@@ -18,6 +19,34 @@ export const metadata: Metadata = buildMetadata({
     "Hotel guidance for Somnath and Dwarka: where to stay near the temples across budget, mid-range and premium tiers. We help you pick and book — no fake inventory.",
   path: PATH,
 });
+
+const FAQ = [
+  {
+    question: "Where should I stay in Somnath and Dwarka?",
+    answer:
+      "Staying near the temple keeps early darshan and the evening aarti within walking distance. In Somnath, temple-road and sea-facing stays are popular; in Dwarka, hotels cluster around Dwarkadhish Temple and the main road.",
+  },
+  {
+    question: "Do you have budget hotels near the temples?",
+    answer:
+      "Yes. Clean budget lodges near Somnath Temple and Dwarkadhish start from roughly ₹700–₹1,500 a night. We help you pick and book the right tier — we never list fake inventory or ratings.",
+  },
+  {
+    question: "Can you book the hotel for me?",
+    answer:
+      "Yes. Share your dates, city and budget and we recommend and book a suitable stay across budget, mid-range or premium tiers, confirming availability before you pay.",
+  },
+  {
+    question: "How far in advance should I book a room?",
+    answer:
+      "For regular dates a week's notice is usually fine. For peak festivals like Janmashtami in Dwarka or Maha Shivratri at Somnath, book 6–10 weeks ahead as rooms fill fast and tariffs rise.",
+  },
+  {
+    question: "Are there sea-facing hotels in Somnath?",
+    answer:
+      "Yes — a few mid-range and premium sea-facing hotels sit along the promenade, a short walk from the temple and the evening light-and-sound show.",
+  },
+];
 
 export default function HotelHubPage() {
   const related = buildRelatedLinks({
@@ -55,6 +84,8 @@ export default function HotelHubPage() {
           </div>
         </div>
       </div>
+
+      <Faq items={FAQ} heading="Hotel FAQs" subheading="Common questions about staying near Somnath and Dwarka." />
 
       <CtaBand context="Hotel assistance for Somnath Dwarka" title="Get hotel help" subtitle="Tell us your dates and budget and we'll recommend and book a stay." />
       <RelatedLinks links={related} />
