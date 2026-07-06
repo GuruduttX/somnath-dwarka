@@ -40,7 +40,7 @@ function DPSection({
   return (
     <section
       id={id}
-      className={`${wide ? "max-w-6xl" : "max-w-5xl"} mx-auto scroll-mt-24 px-4 py-10 sm:px-6 lg:px-8`}
+      className={`${wide ? "max-w-7xl" : "max-w-6xl"} mx-auto scroll-mt-24 px-4 py-10 sm:px-6 lg:px-8`}
       aria-labelledby={`${id}-h`}
     >
       <Reveal className="mb-6">
@@ -81,8 +81,8 @@ export default function DestinationPillar({ slug }: { slug: string }) {
       <DestinationHero meta={meta} destination={d.destination} h1={d.h1} answerFirst={d.answer_first} />
 
       {/* Answer-first intro card */}
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <Reveal className="-mt-4">
+      <div className="mx-auto max-w-6xl px-4 pt-14 sm:px-6 lg:px-8">
+        <Reveal>
           <div className="relative overflow-hidden rounded-3xl border border-orange-100 bg-white p-6 shadow-[0_18px_50px_rgba(234,88,12,0.10)] sm:p-8">
             <span className="pointer-events-none absolute -right-6 -top-8 select-none font-serif text-[120px] leading-none text-orange-500/[0.05]">
               {meta.glyph}
