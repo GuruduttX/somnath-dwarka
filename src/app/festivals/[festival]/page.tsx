@@ -79,6 +79,7 @@ export default async function FestivalPage({ params }: Params) {
         { name: "Festivals", path: "/festivals/" },
         { name: f.festival, path: `/festivals/${festival}/` },
       ]}
+      flushHero
     >
       <FestivalDetailHero
         image={f.image}
@@ -94,7 +95,7 @@ export default async function FestivalPage({ params }: Params) {
       />
 
       {/* ── At a glance ── */}
-      <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+      <section id="at-a-glance" className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {glance.map((g, i) => (
             <Reveal key={g.label} delay={i * 0.06}>
@@ -111,7 +112,7 @@ export default async function FestivalPage({ params }: Params) {
       </section>
 
       {/* ── Rituals ── */}
-      <section className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+      <section id="rituals" className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
         <Head eyebrow="Traditions" title="Rituals & observances" />
         <Reveal>
           <div className="relative overflow-hidden rounded-3xl border border-orange-100 bg-[linear-gradient(135deg,#FFF8F1_0%,#FFEEDD_100%)] p-6 shadow-[0_16px_44px_rgba(234,88,12,0.08)] sm:p-8">
@@ -124,7 +125,7 @@ export default async function FestivalPage({ params }: Params) {
 
       {/* ── Highlights ── */}
       {f.highlights?.length ? (
-        <section className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+        <section id="highlights" className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
           <Head eyebrow="What to expect" title="Festival highlights" />
           <div className="grid gap-4 sm:grid-cols-2">
             {f.highlights.map((h, i) => (
@@ -142,7 +143,7 @@ export default async function FestivalPage({ params }: Params) {
       ) : null}
 
       {/* ── Travel & booking advice ── */}
-      <section className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+      <section id="travel-advice" className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
         <Head eyebrow="Plan smart" title="Travel & booking advice" sub={f.travel_advice} />
         <div className="grid gap-4 sm:grid-cols-3">
           {tips.map((t, i) => (

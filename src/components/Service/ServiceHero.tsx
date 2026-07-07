@@ -59,7 +59,7 @@ export default function ServiceHero({
   stats         = DEFAULT_STATS,
 }: ServiceHeroProps) {
   return (
-    <section className="w-full py-22 : md:py-26 px-4 sm:px-6 ">
+    <section id="service-hero" className="w-full py-22 : md:py-26 px-4 sm:px-6 ">
       <div className="max-w-4xl mx-auto text-center">
 
         {/* Eyebrow pill */}

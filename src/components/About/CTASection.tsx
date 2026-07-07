@@ -35,7 +35,7 @@ export default function CTASection() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-gradient-to-br from-orange-600 via-orange-500 to-amber-600 py-12 sm:py-16 px-6 lg:px-20 -my-5">
+      <section id="about-cta" className="relative overflow-hidden bg-gradient-to-br from-orange-600 via-orange-500 to-amber-600 py-12 sm:py-16 px-6 lg:px-20 -my-5">
         {/* Background orbs */}
         <div className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-orange-400/30 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-20 -right-20 h-72 w-72 rounded-full bg-amber-500/30 blur-3xl pointer-events-none" />

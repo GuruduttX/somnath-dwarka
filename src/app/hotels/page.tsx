@@ -60,7 +60,7 @@ export default function HotelHubPage() {
   });
 
   return (
-    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Hotels", path: PATH }]}>
+    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Hotels", path: PATH }]} flushHero>
       <HotelHero />
 
       {/* ── CITY CARDS ── */}

@@ -19,7 +19,7 @@ export default function TourArchiveCTA() {
 
   return (
     <>
-      <section className="relative w-full mt-4 mb-4 overflow-hidden bg-gradient-to-br from-orange-600 via-orange-500 to-orange-400">
+      <section id="cta" className="relative w-full mt-4 mb-4 overflow-hidden bg-gradient-to-br from-orange-600 via-orange-500 to-orange-400">
 
         {/* ── TOP WAVE — smooth single curve, white above bleeds in ── */}
         <svg

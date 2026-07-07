@@ -198,7 +198,7 @@ export default function BeyondTemples() {
         onClose={() => setIsFormOpen(false)}
         defaultService="Tour Package"
       />
-    <section id="packages" className="pt-24 pb-5 lg:pt-32 lg:pb-8 overflow-hidden">
+    <section id="beyond-temples" className="pt-24 pb-5 lg:pt-32 lg:pb-8 overflow-hidden">
       {/* Header */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 mb-10">
         <div ref={headRef}>

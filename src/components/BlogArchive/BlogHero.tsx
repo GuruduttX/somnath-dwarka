@@ -81,7 +81,7 @@ export default function BlogArchiveHero() {
       `}</style>
       {/* bg-[#FDFAF5] */}
 
- <section className="hero-editorial relative overflow-hidden py-14">
+ <section id="blog-hero" className="hero-editorial relative overflow-hidden py-14">
 
     {/* ───────────────── BREADCRUMB ───────────────── */}
   <div className="relative z-20 mx-auto max-w-7xl px-5 pt-5 sm:px-10 lg:px-16 xl:px-24">

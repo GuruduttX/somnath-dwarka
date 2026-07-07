@@ -84,7 +84,7 @@ export default function HomeHero() {
         }
       `}</style>
 
-      <section className="font-dm relative flex flex-col overflow-hidden">
+      <section id="hero" className="font-dm relative flex flex-col overflow-hidden">
 
         {/* ── LIGHT WARM BACKGROUND ── */}
         <div className="absolute inset-0 z-0" aria-hidden="true">

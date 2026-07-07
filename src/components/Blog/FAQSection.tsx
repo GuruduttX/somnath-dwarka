@@ -11,7 +11,7 @@ export default function FAQSection({faqs} : {faqs : IFAQ[]}) {
   };
 
   return (
-    <section className="bg-white py-10 md:py-20 px-6 lg:px-16">
+    <section id="faq" className="bg-white py-10 md:py-20 px-6 lg:px-16">
       <div className="max-w-4xl mx-auto">
 
         {/* Heading */}

@@ -24,7 +24,7 @@ export default function HotelCTA() {
         defaultService="Hotel Booking"
       />
 
-      <section className="py-10 md:py-16 px-4 sm:px-6 bg-gradient-to-b from-amber-50/60 via-white to-amber-50/40">
+      <section id="hotel-cta" className="py-10 md:py-16 px-4 sm:px-6 bg-gradient-to-b from-amber-50/60 via-white to-amber-50/40">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 40 }}

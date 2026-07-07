@@ -53,6 +53,7 @@ export default function TempleInfo({ destination, topic }: { destination: string
         { name: parent?.destination ?? destination, path: `/${destination}/` },
         { name: t.h1, path: `/${destination}/${topic}/` },
       ]}
+      flushHero
     >
       {/* speakable: answer-first summary lives inside the hero */}
       <div className="speakable">

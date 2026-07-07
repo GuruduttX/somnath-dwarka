@@ -26,7 +26,7 @@ const delays = ["80", "160", "280", "400"] as const;
 
 export default function AboutWhoWeAre() {
   return (
-    <section className="relative overflow-hidden bg-white py-5 md:py-20">
+    <section id="who-we-are" className="relative overflow-hidden bg-white py-5 md:py-20">
 
       {/* Decorative blob */}
       <div className="pointer-events-none absolute top-0 right-0 h-72 w-72 rounded-full bg-orange-50 blur-3xl opacity-70" />

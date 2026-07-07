@@ -56,7 +56,7 @@ export default function FestivalDetailHero({
         @media (prefers-reduced-motion: reduce){ .fd-up,.fd-spark,.fd-flame{ animation:none!important; opacity:1!important; } }
       `}</style>
 
-      <section className="relative -mt-28 flex min-h-[86vh] w-full items-end overflow-hidden">
+      <section id="festival-hero" className="relative -mt-28 flex min-h-[86vh] w-full items-end overflow-hidden">
         {/* background image */}
         <div className="absolute inset-0 z-0" aria-hidden="true">
           <Image src={image || FALLBACK} alt={`${festival} at ${city}`} fill priority sizes="100vw" className="object-cover" />

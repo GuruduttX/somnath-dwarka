@@ -12,7 +12,7 @@ const facts = [
 
 export default function AboutDifferent() {
   return (
-    <section className="relative overflow-hidden bg-white py-20">
+    <section id="what-sets-us-apart" className="relative overflow-hidden bg-white py-20">
       {/* Background Decorations */}
       <div className="pointer-events-none absolute top-0 right-0 h-72 w-72 rounded-full bg-orange-50 blur-3xl opacity-70" />
       <div className="pointer-events-none absolute bottom-10 left-10 h-48 w-48 rounded-full bg-amber-50 blur-3xl opacity-50" />

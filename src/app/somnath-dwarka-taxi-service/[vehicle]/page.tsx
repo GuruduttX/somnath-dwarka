@@ -51,7 +51,7 @@ export default async function VehiclePage({ params }: Params) {
   ];
 
   return (
-    <PageShell crumbs={crumbs}>
+    <PageShell crumbs={crumbs} flushHero>
       <TaxiHero
         title={v.h1}
         description={v.answer_first}

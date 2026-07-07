@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function AboutMissionSection() {
     return (
-        <section className="bg-[#f7f8fa] py-20">
+        <section id="mission" className="bg-[#f7f8fa] py-20">
             <div className="max-w-7xl mx-auto px-6">
                 {/* Top Content */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">

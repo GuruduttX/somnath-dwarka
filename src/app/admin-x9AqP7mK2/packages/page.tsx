@@ -109,7 +109,7 @@ export default function PackagesPage() {
   }
 
   return (
-    <section className="min-h-screen">
+    <section id="admin-packages" className="min-h-screen">
 
       <DeleteConfirmModal
         open={open}

@@ -33,7 +33,7 @@ export default function PlanHero() {
         @media (prefers-reduced-motion: reduce){ .pl-up,.pl-dash{ animation:none!important; opacity:1!important; } }
       `}</style>
 
-      <section className="font-dm relative -mt-28 flex w-full flex-col overflow-hidden">
+      <section id="plan-hero" className="font-dm relative -mt-28 flex w-full flex-col overflow-hidden">
         {/* warm bg */}
         <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
           <div className="absolute inset-0 bg-[linear-gradient(180deg,#FFF9F2_0%,#FFEFE0_45%,#FFF6EC_100%)]" />
@@ -43,7 +43,7 @@ export default function PlanHero() {
           <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "radial-gradient(circle,#EA580C 1px,transparent 1px)", backgroundSize: "26px 26px" }} />
         </div>
 
-        <div className="relative z-10 mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-center gap-10 px-5 pt-28 pb-9 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-14 lg:pt-[8.5rem] lg:pb-[3.25rem] xl:px-20">
+        <div className="relative z-10 mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-center gap-10 px-5 pt-36 pb-9 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-14 lg:pt-[8.5rem] lg:pb-[3.25rem] xl:px-20">
 
           {/* LEFT */}
           <div className="flex flex-col">

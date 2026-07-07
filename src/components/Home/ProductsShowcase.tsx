@@ -36,7 +36,7 @@ export default function ProductsShowcase({ packages }: { packages: TourPackage[]
   return (
     <>
       <CommonEnquiryForm open={open} onClose={()=>setOpen(false)}/>
-      <section className="w-full bg-white py-16 px-4 sm:px-8 lg:px-16 xl:px-24">
+      <section id="featured-packages" className="w-full bg-white py-16 px-4 sm:px-8 lg:px-16 xl:px-24">
 
       {/* ── SECTION HEADER ── */}
       <div className="mx-auto mb-10 flex max-w-3xl flex-col items-center text-center">

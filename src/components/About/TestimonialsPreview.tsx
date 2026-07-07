@@ -37,7 +37,7 @@ export default function TestimonialsPreview() {
   }, []);
 
   return (
-    <section className="relative bg-amber-50 py-16 md:py-24 overflow-hidden">
+    <section id="testimonials" className="relative bg-amber-50 py-16 md:py-24 overflow-hidden">
       
       {/* Background Blur Shapes */}
       <div className="absolute top-0 left-0 w-72 h-72 bg-amber-300/30 rounded-full blur-3xl -z-10" />

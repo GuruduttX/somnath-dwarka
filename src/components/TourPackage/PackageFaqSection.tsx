@@ -18,7 +18,7 @@ export default function PackageFaqSection({
   const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i);
 
   return (
-    <section className="py-10 md:py-16 bg-white px-4 sm:px-6">
+    <section id="faq" className="py-10 md:py-16 bg-white px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
 
         {/* Header */}

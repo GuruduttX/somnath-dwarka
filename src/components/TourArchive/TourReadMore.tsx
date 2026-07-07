@@ -7,7 +7,7 @@ export default function ToursReadMore() {
   const [open, setOpen] = useState(false);
 
   return (
-    <section
+    <section id="about-tours"
       className="relative py-16 sm:py-20 overflow-hidden"
       style={{
         background:

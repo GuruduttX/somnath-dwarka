@@ -77,7 +77,7 @@ const BlogList: React.FC = () => {
         ["All Blogs", ...new Set(blogs.map(b => b.category))], [blogs]);
 
     return (
-        <section className="w-full bg-white py-12">
+        <section id="blog-list" className="w-full bg-white py-12">
             <div className="mx-auto max-w-7xl px-5 sm:px-10 lg:px-16">
 
                 {/* ── SECTION HEADER ───────────────────────────────── */}

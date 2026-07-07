@@ -49,7 +49,7 @@ const FAQ = [
 
 export default function PlanHubPage() {
   return (
-    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Plan your trip", path: PATH }]}>
+    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Plan your trip", path: PATH }]} flushHero>
       <PlanHero />
 
       {/* ── Planning guides ── */}

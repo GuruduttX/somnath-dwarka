@@ -77,7 +77,7 @@ export default function DestinationPillar({ slug }: { slug: string }) {
   });
 
   return (
-    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: d.destination, path: `/${slug}/` }]}>
+    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: d.destination, path: `/${slug}/` }]} flushHero>
       <DestinationHero meta={meta} destination={d.destination} h1={d.h1} answerFirst={d.answer_first} />
 
       {/* Answer-first intro card */}

@@ -16,7 +16,7 @@ export default function PackageHighlights({
   const highlights = PackageData.highlights;
 
   return (
-    <section className="w-full px-6">
+    <section id="highlights" className="w-full px-6">
 
       {/* ── HEADER ─────────────────────────────────────────────── */}
       <div className="mb-5">

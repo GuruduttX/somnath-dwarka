@@ -11,7 +11,7 @@ const SIGNALS = [
 
 export default function TrustBand() {
   return (
-    <section className="bg-orange-50/60 border-y border-orange-100" aria-label="Why travellers choose us">
+    <section id="trust-band" className="bg-orange-50/60 border-y border-orange-100" aria-label="Why travellers choose us">
       <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
         {SIGNALS.map((s) => (
           <div key={s.label} className="flex flex-col items-center text-center gap-2">

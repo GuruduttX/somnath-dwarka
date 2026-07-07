@@ -61,7 +61,7 @@ export default async function CabRoutePage({ params }: Params) {
   ];
 
   return (
-    <PageShell crumbs={crumbs}>
+    <PageShell crumbs={crumbs} flushHero>
       <TaxiHero
         title={r.h1}
         description={r.answer_first}

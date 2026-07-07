@@ -75,7 +75,7 @@ export default function CabHubPage() {
   const crumbs = [{ name: "Home", path: "/" }, { name: "Taxi service", path: PATH }];
 
   return (
-    <PageShell crumbs={crumbs}>
+    <PageShell crumbs={crumbs} flushHero>
       <TaxiHero
         title="Somnath Dwarka Taxi Service"
         description={`Book premium private cabs for the complete Somnath–Dwarka pilgrimage circuit. We arrange one-way transfers, round trips, and customized multi-day tours with experienced drivers.`}

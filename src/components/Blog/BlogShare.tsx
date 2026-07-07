@@ -8,7 +8,7 @@ export default function BlogShare({ url, title }: BlogShareProps) {
   const encodedTitle = encodeURIComponent(title);
 
   return (
-    <section className="px-6 lg:px-20 py-12 bg-white">
+    <section id="blog-share" className="px-6 lg:px-20 py-12 bg-white">
       <div className="mx-auto max-w-3xl border-t border-gray-200 pt-10">
 
         <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">

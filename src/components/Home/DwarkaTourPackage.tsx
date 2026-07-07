@@ -161,7 +161,7 @@ export default function DwarkaTourPackage() {
         onClose={() => setIsFormOpen(false)}
         defaultService="Tour Package"
       />
-    <section className="relative py-20 md:py-28 overflow-hidden">
+    <section id="dwarka-packages" className="relative py-20 md:py-28 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-transparent pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-5 md:px-8">

@@ -19,7 +19,7 @@ export default function PackageHero({ PackageData }: any) {
         phone={form.phone}
         name={form.name}
       />
-    <section className="w-full h-full">
+    <section id="package-hero" className="w-full h-full">
 
        <div className="relaive">
 

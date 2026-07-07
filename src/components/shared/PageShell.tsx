@@ -15,31 +15,42 @@ import { breadcrumbSchema, type Crumb } from "@/src/lib/seo";
  * Navbar is `position: fixed` and floats above the page, so it doesn't push
  * content down on its own — the pt-28 wrapper below reserves that space.
  *
- * The visible breadcrumb is skipped for a lone "Home" crumb and for flush
- * full-bleed heroes (noPaddingTop), where `showBreadcrumb` defaults to false;
- * the JSON-LD still renders so structured data stays complete.
+ * The visible breadcrumb shows on every page (skipped only for a lone "Home"
+ * crumb). On full-bleed hero pages (`flushHero`) the hero bleeds up under the
+ * navbar, so the breadcrumb is rendered as a light overlay pinned just below
+ * the navbar instead of an inline strip — that keeps the hero flush (no white
+ * gap) while the crumb stays visible. The matching JSON-LD always renders.
  */
 export default function PageShell({
   crumbs,
   children,
   noPaddingTop = false,
-  showBreadcrumb,
+  flushHero = false,
 }: {
   crumbs: Crumb[];
   children: React.ReactNode;
   noPaddingTop?: boolean;
-  showBreadcrumb?: boolean;
+  flushHero?: boolean;
 }) {
-  const renderCrumb =
-    (showBreadcrumb ?? !noPaddingTop) && (crumbs?.length ?? 0) > 1;
+  const renderCrumb = (crumbs?.length ?? 0) > 1;
   return (
     <>
       <Navbar />
-      <div className={noPaddingTop ? "" : "pt-28"}>
+      <div className={`relative ${noPaddingTop ? "" : "pt-28"}`}>
         {crumbs?.length ? (
           <JsonLd data={breadcrumbSchema(crumbs)} />
         ) : null}
-        {renderCrumb ? <Breadcrumb crumbs={crumbs} /> : null}
+        {renderCrumb ? (
+          flushHero ? (
+            <div className="pointer-events-none absolute inset-x-0 top-20 z-30">
+              <div className="pointer-events-auto">
+                <Breadcrumb crumbs={crumbs} />
+              </div>
+            </div>
+          ) : (
+            <Breadcrumb crumbs={crumbs} />
+          )
+        ) : null}
         <main id="main-content" className="pb-24">
           {children}
         </main>

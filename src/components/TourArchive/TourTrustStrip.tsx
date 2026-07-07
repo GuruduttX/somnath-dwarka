@@ -33,7 +33,7 @@ export default function TourTrustStrip() {
   const [form, setForm] = useState({name:"", phone:""});
   
   return (
-    <section className="bg-[linear-gradient(180deg,#FFF7ED_0%,#ffffff_100%)] border-t border-amber-100">
+    <section id="trust" className="bg-[linear-gradient(180deg,#FFF7ED_0%,#ffffff_100%)] border-t border-amber-100">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-20 py-6 sm:py-10">
         <motion.div
           className="md:hidden mb-6"

@@ -49,7 +49,7 @@ export default function TourPackagesHero() {
         }
       `}</style>
 
-      <section
+      <section id="tour-hero"
         className="relative flex flex-col overflow-hidden py-20"
         
       >

@@ -36,7 +36,7 @@ export default function DestinationHero({
         @media (prefers-reduced-motion: reduce){ .dh-up,.dh-spin,.dh-spin-r,.dh-particle{ animation:none!important; opacity:1!important; } }
       `}</style>
 
-      <section className="relative -mt-28 w-full">
+      <section id="destination-hero" className="relative -mt-28 w-full">
         {/* ── Panoramic image stage ── */}
         <div className="relative flex h-[82vh] min-h-[600px] w-full items-center justify-center overflow-hidden pb-28 sm:pb-24">
           <Image src={meta.heroImage} alt={`${destination}, Gujarat`} fill priority sizes="100vw" className="object-cover" />

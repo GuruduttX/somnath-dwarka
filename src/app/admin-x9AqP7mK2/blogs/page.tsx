@@ -130,7 +130,7 @@ export default function BlogsPage() {
   }
 
   return (
-    <section className="min-h-screen">
+    <section id="admin-blogs" className="min-h-screen">
       <DeleteConfirmModal
         open={open}
         onConfirm={handleDelete}

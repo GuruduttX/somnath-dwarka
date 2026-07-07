@@ -44,7 +44,7 @@ export default function AboutHero() {
     }`;
 
   return (
-    <section className="relative overflow-hidden">
+    <section id="about-hero" className="relative overflow-hidden">
 
   {/* ───────────────── BACKGROUND ───────────────── */}
   <div className="absolute inset-0 z-0">

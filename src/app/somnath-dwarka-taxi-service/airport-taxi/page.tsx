@@ -36,7 +36,7 @@ export default function AirportTaxiHubPage() {
   ];
 
   return (
-    <PageShell crumbs={crumbs}>
+    <PageShell crumbs={crumbs} flushHero>
       <TaxiHero
         title="Airport Taxi for Somnath &amp; Dwarka"
         description="Arriving by air? We arrange pre-booked airport taxis from Diu, Rajkot, Jamnagar, and Ahmedabad to Somnath and Dwarka, with meet-and-greet reception right at the arrival terminal."

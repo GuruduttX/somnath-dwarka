@@ -14,7 +14,7 @@ export default function PackageOverview({ overview }: PackageOverviewProps) {
       : overview.split(/\n\n+/).map((p) => p.trim()).filter(Boolean);
 
   return (
-    <section className="w-full py-8 md:py-12 px-4 sm:px-6">
+    <section id="overview" className="w-full py-8 md:py-12 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto">
 
         {/* ── Header ── */}

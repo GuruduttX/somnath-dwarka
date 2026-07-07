@@ -54,7 +54,7 @@ export default function FinalCTA() {
         onClose={() => setOpen(false)} 
         defaultService="Tour Package" 
       />
-      <section className="relative overflow-hidden py-14 md:py-20 ">
+      <section id="home-cta" className="relative overflow-hidden py-14 md:py-20 ">
 
       {/* Subtle top border accent */}
       <div className="absolute top-0 left-0 right-0 h-px bg-orange-200" />

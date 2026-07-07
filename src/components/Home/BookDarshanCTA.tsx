@@ -7,7 +7,7 @@ export default function BookDarshanCTA() {
   const [formData, setFormData] = useState({ name: "", phone: "" });
 
   return (
-    <section className="relative overflow-hidden bg-white py-8 md:py-12">
+    <section id="book-darshan" className="relative overflow-hidden bg-white py-8 md:py-12">
 
       {/* ── BACKGROUND ──────────────────────────────────────────── */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">

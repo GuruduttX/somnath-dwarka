@@ -54,7 +54,7 @@ export default async function HtmlSitemap() {
         <div className="grid gap-8 md:grid-cols-2">
           {groups.map((g) =>
             g.items.length ? (
-              <section key={g.heading}>
+              <section key={g.heading} id={g.heading.toLowerCase().replace(/\s+/g, "-")} className="scroll-mt-24">
                 <h2 className="text-lg font-semibold text-[#B85C10] mb-3">{g.heading}</h2>
                 <ul className="space-y-1">
                   {g.items.map((it) => (

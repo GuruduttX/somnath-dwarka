@@ -91,7 +91,7 @@ export default function TaxiHero({
         }
       `}</style>
 
-      <section className="font-dm relative -mt-28 flex w-full flex-col overflow-hidden">
+      <section id="taxi-hero" className="font-dm relative -mt-28 flex w-full flex-col overflow-hidden">
 
         {/* ── LIGHT WARM BACKGROUND (Matches Tours Page) ── */}
         <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
@@ -106,7 +106,7 @@ export default function TaxiHero({
         </div>
 
         {/* ── HERO INNER ── */}
-        <div className="relative z-10 mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-center gap-8 px-5 pt-28 pb-9 sm:px-8 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10 lg:px-14 lg:pt-[8.5rem] lg:pb-[3.25rem] xl:px-20">
+        <div className="relative z-10 mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-center gap-8 px-5 pt-36 pb-9 sm:px-8 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10 lg:px-14 lg:pt-[8.5rem] lg:pb-[3.25rem] xl:px-20">
 
           {/* ══ LEFT — Copy & booking ══ */}
           <div className="flex flex-col">

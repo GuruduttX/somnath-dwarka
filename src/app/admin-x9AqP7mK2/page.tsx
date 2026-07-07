@@ -41,7 +41,7 @@ export default function DashboardPage() {
     }, []);
 
     return (
-      <section className="min-h-screen">
+      <section id="admin-dashboard" className="min-h-screen">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-semibold text-pink-100">

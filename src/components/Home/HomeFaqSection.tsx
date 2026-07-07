@@ -26,7 +26,7 @@ export default function HomeFaqSection() {
         onClose={() => setOpen(false)} 
         defaultService="Tour Package" 
       />
-    <section className="relative overflow-hidden bg-[#FCFBF8] py-20 md:py-28">
+    <section id="faq" className="relative overflow-hidden bg-[#FCFBF8] py-20 md:py-28">
       
       {/* SOFT GLOW */}
       <div className="absolute inset-0 pointer-events-none">

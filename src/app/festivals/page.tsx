@@ -85,7 +85,7 @@ export default async function FestivalHubPage() {
       }));
 
   return (
-    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Festivals", path: PATH }]}>
+    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Festivals", path: PATH }]} flushHero>
       <FestivalsHero count={festivals.length} />
 
       {/* ── Festival guides ── */}

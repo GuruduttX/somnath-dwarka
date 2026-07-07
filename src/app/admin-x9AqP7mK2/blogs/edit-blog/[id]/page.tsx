@@ -287,7 +287,7 @@ export default function EditBlog() {
 
   return (
 
-    <section className="relative min-h-screen p-6">
+    <section id="admin-edit-blog" className="relative min-h-screen p-6">
 
       <div className="max-w-8xl mx-auto p-8 rounded-2xl
       bg-[#1e0d14]

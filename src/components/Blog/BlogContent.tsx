@@ -4,9 +4,9 @@ interface BlogContentProps {
 
 export default function BlogContent({ content }: BlogContentProps) {
   return (
-    <section className="py-20 bg-white">
+    <section id="blog-content" className="py-20 bg-white">
     
-            <section className="mx-auto px-4 ">
+            <section id="blog-article" className="mx-auto px-4 ">
                 <div className="BlogContent
                     prose prose-slate max-w-none
                     prose-ul:list-disc prose-ul:pl-6

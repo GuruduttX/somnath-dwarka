@@ -7,7 +7,7 @@ export default function ItineraryAccordion({ PackageData }: any) {
   const [active, setActive] = useState<number | null>(0);
 
   return (
-    <section className="w-full px-6">
+    <section id="itinerary" className="w-full px-6">
       {/* ── HEADER ─────────────────────────────────────────────── */}
       <div className="mb-5 flex items-center justify-between">
         <div>

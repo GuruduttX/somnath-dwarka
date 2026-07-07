@@ -12,7 +12,7 @@ export default function KnowBeforeYouGo({
   PackageData: ItemType[];
 }) {
   return (
-    <section className="w-full py-8 md:py-12 px-4 sm:px-6">
+    <section id="know-before-you-go" className="w-full py-8 md:py-12 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}

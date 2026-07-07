@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function GlobalCTA() {
   return (
-    <section className="relative overflow-hidden bg-amber-50 py-28 px-6 lg:px-20">
+    <section id="blog-cta" className="relative overflow-hidden bg-amber-50 py-28 px-6 lg:px-20">
 
       {/* Animated Gradient Background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(236,72,153,0.15),transparent_40%),radial-gradient(circle_at_bottom_right,_rgba(244,63,94,0.15),transparent_40%)] animate-pulse-slow"></div>

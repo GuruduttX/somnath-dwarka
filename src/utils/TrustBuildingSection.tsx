@@ -45,7 +45,7 @@ const trustCards = [
 
 export default function TrustBuildingSection() {
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section id="trust-building" className="relative py-20 overflow-hidden">
       {/* Soft Background Glow
       <div className="absolute -top-40 -left-40 w-96 h-96 bg-amber-200/30 blur-3xl rounded-full" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-amber-300/20 blur-3xl rounded-full" /> */}

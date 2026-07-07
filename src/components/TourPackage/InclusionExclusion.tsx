@@ -15,7 +15,7 @@ export default function InclusionExclusion({
   PackageData: PackageType;
 }) {
   return (
-    <section className=" px-6">
+    <section id="inclusions" className=" px-6">
       <div className="max-w-6xl mx-auto">
         {/* TITLE */}
         <h2 className="text-2xl font-semibold text-orange-600 mb-4 md:mb-12">

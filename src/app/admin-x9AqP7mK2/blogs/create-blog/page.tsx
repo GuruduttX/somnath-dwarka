@@ -402,7 +402,7 @@ export default function CreateNewBlog() {
   };
 
   return (
-    <section className="relative min-h-screen p-6">
+    <section id="admin-create-blog" className="relative min-h-screen p-6">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-10 w-72 h-72 bg-pink-500/10 blur-3xl" />
         <div className="absolute bottom-0 right-10 w-72 h-72 bg-pink-400/10 blur-3xl" />

@@ -28,7 +28,7 @@ export default function TravelCTA() {
         onClose={() => setIsFormOpen(false)}
         defaultService="Tour Package"
       />
-      <section className="py-6 sm:py-8 md:py-10 px-3 sm:px-6 lg:px-8">
+      <section id="travel-cta" className="py-6 sm:py-8 md:py-10 px-3 sm:px-6 lg:px-8">
         <div className="w-full max-w-[1600px] mx-auto">
           <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 shadow-xl shadow-orange-500/25">
             {/* Dot pattern */}

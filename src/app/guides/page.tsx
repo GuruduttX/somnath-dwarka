@@ -53,7 +53,7 @@ export default async function GuidesHubPage() {
   }));
 
   return (
-    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Guides", path: PATH }]}>
+    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Guides", path: PATH }]} flushHero>
       <GuidesHero count={guides.length} />
 
       {/* ── All guides ── */}

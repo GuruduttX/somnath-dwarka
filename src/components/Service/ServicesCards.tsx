@@ -118,7 +118,7 @@ export default function ServicesCards({
   subtitle  = "Handpicked pilgrimage services — designed with care, every step of the way.",
 }: ServicesCardsProps) {
   return (
-    <section className="w-full py-10 md:py-16 px-4 sm:px-6">
+    <section id="services" className="w-full py-10 md:py-16 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
 
         {/* ── Section header ── */}

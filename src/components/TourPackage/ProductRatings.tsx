@@ -27,7 +27,7 @@ const features = [
 
 export default function ProductRatings() {
   return (
-    <section className="w-full py-8 md:py-20 ">
+    <section id="ratings" className="w-full py-8 md:py-20 ">
       <div className="max-w-7xl mx-auto px-6">
         <div className="rounded-3xl border border-orange-100/80 bg-white shadow-sm shadow-orange-100/60 overflow-hidden">
           <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 overflow-x-auto snap-x snap-mandatory no-scrollbar">

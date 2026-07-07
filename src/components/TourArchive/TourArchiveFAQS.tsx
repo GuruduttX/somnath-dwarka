@@ -61,7 +61,7 @@ export default function TourArchiveFAQ() {
         onClose={() => setIsFormOpen(false)}
         defaultService="Tour Package"
       />
-    <section className="relative overflow-hidden  py-20 md:py-28">
+    <section id="faq" className="relative overflow-hidden  py-20 md:py-28">
       
       {/* TOP GLOW */}
       <div className="absolute inset-0 pointer-events-none">

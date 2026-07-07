@@ -32,7 +32,7 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="w-full bg-amber-50 py-16 md:py-24">
+    <section id="why-choose-us" className="w-full bg-amber-50 py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-16">
 
         {/* Section Heading */}

@@ -52,7 +52,7 @@ export default async function AirportTaxiPage({ params }: Params) {
   ];
 
   return (
-    <PageShell crumbs={crumbs}>
+    <PageShell crumbs={crumbs} flushHero>
       <TaxiHero
         title={a.h1}
         description={a.answer_first}

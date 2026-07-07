@@ -17,7 +17,7 @@ export default function BlogAuthor({
   articleCount = 0,
 }: BlogAuthorProps) {
   return (
-    <section className="px-6 lg:px-20 py-16 bg-white">
+    <section id="blog-author" className="px-6 lg:px-20 py-16 bg-white">
       <div className="mx-auto max-w-3xl">
         <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white shadow-sm">
 

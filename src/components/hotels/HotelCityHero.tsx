@@ -36,7 +36,7 @@ export default function HotelCityHero({ city, h1, nearTemple, image, tiers, coun
         @media (prefers-reduced-motion: reduce){ .hc-up{ animation:none!important; opacity:1!important; } }
       `}</style>
 
-      <section className="font-dm relative -mt-28 flex min-h-[600px] w-full flex-col justify-end overflow-hidden lg:min-h-[660px]">
+      <section id="hotel-city-hero" className="font-dm relative -mt-28 flex min-h-[600px] w-full flex-col justify-end overflow-hidden lg:min-h-[660px]">
         {/* ── Background image ── */}
         <div className="absolute inset-0 z-0">
           <Image src={image} alt={`Hotels in ${city} near ${nearTemple}`} fill priority className="object-cover" sizes="100vw" />

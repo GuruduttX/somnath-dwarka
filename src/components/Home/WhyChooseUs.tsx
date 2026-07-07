@@ -60,7 +60,7 @@ export default function DwarkaSomnathTrustSection() {
         defaultService="Tour Package"
       />
        
-       <section className="relative py-16 md:py-24 overflow-hidden ">
+       <section id="why-choose-us" className="relative py-16 md:py-24 overflow-hidden ">
       {/* Decorative Elements */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-orange-200/30 blur-3xl rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-amber-200/30 blur-3xl rounded-full pointer-events-none translate-x-1/2 translate-y-1/2" />

@@ -66,7 +66,7 @@ export default function TaxiShowCase() {
     }
   }
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section id="taxi-showcase" className="relative py-24 overflow-hidden">
 
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-white to-orange-50"></div>

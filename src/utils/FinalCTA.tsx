@@ -10,7 +10,7 @@ export default function FinalCTA() {
     const [isFormOpen, setIsFromOpen] = useState(false);
     return (
       <>
-        <section className="py-10 md:py-20">
+        <section id="final-cta-banner" className="py-10 md:py-20">
           <div className="max-w-6xl mx-auto px-6 text-center">
             {/* headline */}
 

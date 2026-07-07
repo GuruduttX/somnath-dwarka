@@ -180,9 +180,10 @@ export default async function PackagePillarPage() {
         { name: "Home", path: "/" },
         { name: "Tour packages", path: PATH },
       ]}
+      flushHero
     >
       {/* ── HERO ── */}
-      <section className="font-dm relative -mt-28 flex flex-col overflow-hidden">
+      <section id="hero" className="font-dm relative -mt-28 flex flex-col overflow-hidden">
         <style>{`
           @keyframes pkgHeroUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
           .pkg-anim { opacity:0; animation: pkgHeroUp .8s cubic-bezier(.22,.7,0,1) forwards; }
@@ -279,7 +280,7 @@ export default async function PackagePillarPage() {
         </svg>
 
         {/* ── HERO INNER ── */}
-        <div className="relative z-[2] mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-center gap-8 px-5 pt-28 pb-9 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:px-14 lg:pt-[8.5rem] lg:pb-[3.25rem] xl:px-20">
+        <div className="relative z-[2] mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-center gap-8 px-5 pt-36 pb-9 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:px-14 lg:pt-[8.5rem] lg:pb-[3.25rem] xl:px-20">
 
           {/* ══ LEFT ══ */}
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left">

@@ -43,7 +43,7 @@ export default function TempleInfoHero({
         @media (prefers-reduced-motion: reduce){ .ti-up,.ti-hour,.ti-min,.ti-spin,.ti-float{ animation:none!important; opacity:1!important; } }
       `}</style>
 
-      <section className="relative -mt-28 w-full overflow-hidden">
+      <section id="temple-hero" className="relative -mt-28 w-full overflow-hidden">
         {/* ambient bg */}
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
           <div className="absolute inset-0 bg-[linear-gradient(180deg,#FFF9F2_0%,#FFEEDD_46%,#FFFFFF_100%)]" />

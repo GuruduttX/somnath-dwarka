@@ -85,7 +85,7 @@ export default function PopularHotels() {
   const scrollRight = () => scrollRef.current?.scrollBy({ left: 360, behavior: "smooth" });
 
   return (
-    <section className="relative py-16 md:py-24 overflow-hidden bg-gradient-to-b from-amber-50/60 via-white to-amber-50/40">
+    <section id="popular-hotels" className="relative py-16 md:py-24 overflow-hidden bg-gradient-to-b from-amber-50/60 via-white to-amber-50/40">
       {/* Blobs */}
       <div className="absolute top-0 left-0 w-80 h-80 bg-amber-300/20 blur-3xl rounded-full pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-80 h-80 bg-orange-300/20 blur-3xl rounded-full pointer-events-none" />

@@ -81,7 +81,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="relative py-10 md:py-20 overflow-hidden bg-gradient-to-b from-white via-amber-50/40 to-white">
+    <section id="services" className="relative py-10 md:py-20 overflow-hidden bg-gradient-to-b from-white via-amber-50/40 to-white">
 
       <div className="absolute top-0 left-0 w-80 h-80 bg-orange-200/20 blur-3xl rounded-full pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-80 h-80 bg-amber-200/20 blur-3xl rounded-full pointer-events-none" />

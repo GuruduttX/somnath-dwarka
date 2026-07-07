@@ -195,7 +195,7 @@ export default function TestimonialsSection() {
   const t = displayedT;
 
   return (
-    <section className="relative py-6 md:py-16 overflow-hidden">
+    <section id="testimonials" className="relative py-6 md:py-16 overflow-hidden">
 
       {/* Dot bg */}
       <div

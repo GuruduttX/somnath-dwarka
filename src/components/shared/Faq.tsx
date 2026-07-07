@@ -26,7 +26,7 @@ export default function Faq({
 }) {
   if (!items?.length) return null;
   return (
-    <section
+    <section id="faq"
       className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8"
       aria-labelledby="faq-heading"
     >

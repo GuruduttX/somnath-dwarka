@@ -40,7 +40,7 @@ const relatedBlogs: Blog[] = [
 
 export default function RelatedBlogs() {
   return (
-    <section className="bg-white py-20 px-6 lg:px-16">
+    <section id="related-blogs" className="bg-white py-20 px-6 lg:px-16">
       <div className="max-w-6xl mx-auto">
 
         {/* Heading */}

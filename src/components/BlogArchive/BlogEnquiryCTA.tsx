@@ -4,7 +4,7 @@ import { Phone, Mail } from "lucide-react";
 
 export default function BlogEnquiryCTA() {
     return (
-        <section className="w-full bg-white py-6 md:py-10 px-6 md:px-12 lg:px-20">
+        <section id="blog-enquiry-cta" className="w-full bg-white py-6 md:py-10 px-6 md:px-12 lg:px-20">
 
             <div className="max-w-6xl mx-auto rounded-3xl border border-gray-200 shadow-sm p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8">
 

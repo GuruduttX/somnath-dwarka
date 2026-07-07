@@ -53,7 +53,7 @@ export default function Policies({ PackageData }: any) {
   const policiesList = PackageData?.policies?.length ? PackageData.policies : DEFAULT_POLICIES;
 
   return (
-    <section className="max-w-6xl mx-auto py-6 md:py-20 px-6">
+    <section id="policies" className="max-w-6xl mx-auto py-6 md:py-20 px-6">
       <div className="mb-14 text-center md:text-start">
         <h2 className="text-3xl font-semibold text-gray-900">
           Policies & Important Information
