@@ -42,9 +42,6 @@ export default function RootLayout({
         <JsonLd
           data={[organizationSchema(), websiteSchema(), localBusinessSchema()]}
         />
-        <a href="#main-content" className="skip-to-content">
-          Skip to content
-        </a>
         <SuppressPrefetchFetchErrors />
         {children}
         <StickyContactBar />
