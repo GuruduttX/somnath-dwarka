@@ -333,22 +333,22 @@ export default async function PackagePillarPage() {
             </div>
 
             {/* Stats strip */}
-            <div className="pkg-anim pkg-d4 mt-7 flex flex-wrap items-center justify-center gap-6 border-t border-orange-200/60 pt-5 lg:justify-start lg:gap-9">
+            <div className="pkg-anim pkg-d4 mt-7 flex flex-nowrap items-center justify-center gap-4 border-t border-orange-200/60 pt-5 sm:gap-6 lg:justify-start lg:gap-9">
               <div className="shrink-0 text-center lg:text-left">
-                <div className="font-playfair text-3xl font-bold leading-none text-orange-600">{variants.length}+</div>
-                <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#9a7358]">Curated plans</div>
+                <div className="font-playfair text-2xl font-bold leading-none text-orange-600 sm:text-3xl">{variants.length}+</div>
+                <div className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#9a7358] sm:text-[10px] sm:tracking-[0.12em]">Curated plans</div>
               </div>
               <div className="h-9 w-px shrink-0 bg-orange-200/70" />
               <div className="shrink-0 text-center lg:text-left">
-                <div className="font-playfair text-3xl font-bold leading-none text-orange-600">
+                <div className="font-playfair text-2xl font-bold leading-none text-orange-600 sm:text-3xl">
                   {minPrice ? `₹${minPrice.toLocaleString("en-IN")}` : "Custom"}
                 </div>
-                <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#9a7358]">Starts from*</div>
+                <div className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#9a7358] sm:text-[10px] sm:tracking-[0.12em]">Starts from*</div>
               </div>
               <div className="h-9 w-px shrink-0 bg-orange-200/70" />
               <div className="shrink-0 text-center lg:text-left">
-                <div className="font-playfair text-3xl font-bold leading-none text-orange-600">4–5</div>
-                <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#9a7358]">Days circuit</div>
+                <div className="font-playfair text-2xl font-bold leading-none text-orange-600 sm:text-3xl">4–5</div>
+                <div className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#9a7358] sm:text-[10px] sm:tracking-[0.12em]">Days circuit</div>
               </div>
             </div>
           </div>

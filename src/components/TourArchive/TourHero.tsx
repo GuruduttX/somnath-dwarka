@@ -172,9 +172,9 @@ export default function TourPackagesHero() {
             </div>
 
             {/* Stats */}
-            <div className="a4 flex flex-wrap items-center gap-5 border-t border-white/[0.08] pt-4">
+            <div className="a4 flex flex-nowrap items-center gap-3 border-t border-white/[0.08] pt-4 sm:gap-5">
               {STATS.map(({ value, label }, i) => (
-                <div key={label} className="flex items-center gap-5">
+                <div key={label} className="flex items-center gap-3 sm:gap-5">
                   <div>
                     <p className="font-playfair text-[1.3rem] font-bold leading-none text-[#FF9A45]">
                       {value}

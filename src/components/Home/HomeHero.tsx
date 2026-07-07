@@ -205,14 +205,14 @@ export default function HomeHero() {
             </div>
 
             {/* Stats */}
-            <div className="h-anim hd6 mt-7 flex flex-wrap items-center justify-center gap-6 border-t border-orange-200/60 pt-6 lg:justify-start lg:gap-9">
+            <div className="h-anim hd6 mt-7 flex flex-nowrap items-center justify-center gap-4 border-t border-orange-200/60 pt-6 sm:gap-6 lg:justify-start lg:gap-9">
               {STATS.map(({ value, suffix, label }, i) => (
                 <React.Fragment key={label}>
                   <div className="shrink-0 text-center lg:text-left">
-                    <div className="font-playfair text-3xl font-bold leading-none text-orange-600">
+                    <div className="font-playfair text-2xl font-bold leading-none text-orange-600 sm:text-3xl">
                       <CountUp end={value} duration={600} suffix={suffix} />
                     </div>
-                    <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#9a7358]">{label}</div>
+                    <div className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#9a7358] sm:text-[10px] sm:tracking-[0.12em]">{label}</div>
                   </div>
                   {i < STATS.length - 1 && <div className="h-9 w-px shrink-0 bg-orange-200/70" />}
                 </React.Fragment>

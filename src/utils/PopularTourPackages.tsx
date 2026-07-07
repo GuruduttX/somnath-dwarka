@@ -76,9 +76,12 @@ export default function PopularTourPackages({ packages }: { packages: TourPackag
     };
   }, []);
 
-  /* ── Pointer drag handlers (mouse + touch) ── */
+  /* ── Pointer drag handlers (mouse only; touch uses native scrolling) ── */
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (e.pointerType === "mouse" && e.button !== 0) return;
+    // Touch/pen devices scroll the track natively (touch-action: auto),
+    // so JS drag is limited to mouse to avoid hijacking native momentum.
+    if (e.pointerType !== "mouse") return;
+    if (e.button !== 0) return;
     const el = trackRef.current;
     if (!el) return;
 
@@ -173,7 +176,7 @@ export default function PopularTourPackages({ packages }: { packages: TourPackag
 
         <div
           ref={trackRef}
-          className="[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] overflow-x-auto cursor-grab active:cursor-grabbing select-none touch-pan-y"
+          className="[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] overflow-x-auto cursor-grab active:cursor-grabbing select-none touch-auto"
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={stopDrag}

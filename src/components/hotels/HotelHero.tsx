@@ -113,16 +113,16 @@ export default function HotelHero() {
             </div>
 
             {/* Stats */}
-            <div className="h-up hd5 mt-8 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-orange-200/60 pt-5">
+            <div className="h-up hd5 mt-8 flex flex-nowrap items-center gap-3 border-t border-orange-200/60 pt-5 sm:gap-x-8">
               {[
                 { v: "2", l: "Temple towns" },
                 { v: "3", l: "Comfort tiers" },
                 { v: "100%", l: "Real bookings" },
               ].map((s, i) => (
-                <div key={s.l} className="flex items-center gap-8">
+                <div key={s.l} className="flex items-center gap-3 sm:gap-8">
                   <div>
-                    <div className="text-2xl font-black leading-none text-orange-600">{s.v}</div>
-                    <div className="mt-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#9a7358]">{s.l}</div>
+                    <div className="text-xl font-black leading-none text-orange-600 sm:text-2xl">{s.v}</div>
+                    <div className="mt-1.5 text-[9px] font-bold uppercase tracking-[0.1em] text-[#9a7358] sm:text-[10px] sm:tracking-[0.12em]">{s.l}</div>
                   </div>
                   {i < 2 && <div className="h-9 w-px bg-orange-200/70" />}
                 </div>

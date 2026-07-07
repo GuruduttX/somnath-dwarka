@@ -140,19 +140,19 @@ export default function FinalCTA() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
 
               {/* Trust stats */}
-              <div className="flex items-center gap-6 flex-wrap">
+              <div className="flex flex-nowrap items-center gap-3 sm:gap-6">
                 {trustStats.map((s, i) => (
-                  <div key={s.label} className="flex items-center gap-5">
+                  <div key={s.label} className="flex items-center gap-3 sm:gap-5">
                     <div className="text-center">
-                      <p className="text-[18px] font-extrabold text-orange-500 leading-none">
+                      <p className="text-[16px] font-extrabold text-orange-500 leading-none sm:text-[18px]">
                         {s.value}
                       </p>
-                      <p className="text-[10px] uppercase tracking-[0.1em] text-stone-400 mt-1">
+                      <p className="text-[9px] uppercase tracking-[0.08em] text-stone-400 mt-1 sm:text-[10px] sm:tracking-[0.1em]">
                         {s.label}
                       </p>
                     </div>
                     {i < trustStats.length - 1 && (
-                      <div className="w-px h-7 bg-stone-200 hidden sm:block" />
+                      <div className="w-px h-7 bg-stone-200" />
                     )}
                   </div>
                 ))}
