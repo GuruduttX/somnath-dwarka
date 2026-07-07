@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { buildMetadata } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema } from "@/src/lib/seo";
 import { CONTACT, waLink, telLink } from "@/src/config/site";
 import PageShell from "@/src/components/shared/PageShell";
+import JsonLd from "@/src/components/seo/JsonLd";
 import AnswerFirst from "@/src/components/shared/AnswerFirst";
 import Section from "@/src/components/shared/Section";
 import EnquiryForm from "@/src/components/shared/EnquiryForm";
@@ -49,6 +50,20 @@ export default function ContactPage() {
           <EnquiryForm context="Contact page enquiry" />
         </div>
       </Section>
+
+      <JsonLd
+        data={webPageSchema({
+          type: "ContactPage",
+          name: "Contact — Somnath Dwarka Tour Package",
+          description:
+            "Get in touch to plan your Somnath–Dwarka trip by call, WhatsApp or enquiry form.",
+          path: PATH,
+          crumbs: [
+            { name: "Home", path: "/" },
+            { name: "Contact", path: PATH },
+          ],
+        })}
+      />
     </PageShell>
   );
 }

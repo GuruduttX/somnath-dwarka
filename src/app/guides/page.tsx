@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Sparkles } from "lucide-react";
-import { buildMetadata } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema } from "@/src/lib/seo";
+import JsonLd from "@/src/components/seo/JsonLd";
 import PageShell from "@/src/components/shared/PageShell";
 import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
@@ -81,6 +82,20 @@ export default async function GuidesHubPage() {
       <Faq items={FAQ} heading="Travel guide FAQs" subheading="How our Somnath–Dwarka guides work." />
 
       <CtaBand context="Somnath Dwarka trip planning" />
+
+      <JsonLd
+        data={webPageSchema({
+          type: "CollectionPage",
+          name: "Somnath Dwarka Travel Guides",
+          description:
+            "Practical travel guides for planning a Somnath–Dwarka pilgrimage — itineraries, distances, timings and tips.",
+          path: PATH,
+          crumbs: [
+            { name: "Home", path: "/" },
+            { name: "Guides", path: PATH },
+          ],
+        })}
+      />
     </PageShell>
   );
 }

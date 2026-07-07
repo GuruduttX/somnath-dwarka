@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { buildMetadata } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema } from "@/src/lib/seo";
+import JsonLd from "@/src/components/seo/JsonLd";
 import PageShell from "@/src/components/shared/PageShell";
 import AnswerFirst from "@/src/components/shared/AnswerFirst";
 import Section from "@/src/components/shared/Section";
@@ -43,6 +44,20 @@ export default function ToolsHubPage() {
           ))}
         </ul>
       </Section>
+
+      <JsonLd
+        data={webPageSchema({
+          type: "CollectionPage",
+          name: "Somnath Dwarka Trip Tools",
+          description:
+            "Free trip-planning tools for Somnath and Dwarka — an itinerary planner and a cab fare calculator.",
+          path: PATH,
+          crumbs: [
+            { name: "Home", path: "/" },
+            { name: "Tools", path: PATH },
+          ],
+        })}
+      />
     </PageShell>
   );
 }

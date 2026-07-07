@@ -111,10 +111,49 @@ export function localBusinessSchema() {
   };
 }
 
+/**
+ * Generic page node — use for pages without a more specific type. `type` may be
+ * narrowed to AboutPage / ContactPage / CollectionPage / FAQPage etc. Wires the
+ * page to the sitewide WebSite + Organization nodes and (optionally) its
+ * BreadcrumbList so search/answer engines get one connected graph.
+ */
+export function webPageSchema(opts: {
+  name: string;
+  description: string;
+  path: string;
+  type?:
+    | "WebPage"
+    | "AboutPage"
+    | "ContactPage"
+    | "CollectionPage"
+    | "CheckoutPage";
+  crumbs?: Crumb[];
+  primaryImage?: string;
+}) {
+  const url = abs(opts.path);
+  return {
+    "@context": "https://schema.org",
+    "@type": opts.type ?? "WebPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: clamp(opts.name, 110),
+    description: clamp(opts.description, 300),
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    about: { "@id": `${SITE_URL}/#organization` },
+    ...(opts.primaryImage ? { primaryImageOfPage: opts.primaryImage } : {}),
+    ...(opts.crumbs?.length
+      ? { breadcrumb: { "@id": `${url}#breadcrumb` } }
+      : {}),
+  };
+}
+
 export function breadcrumbSchema(crumbs: Crumb[]) {
+  // Anchor the list to the current (last) crumb so webPageSchema can reference it.
+  const selfPath = crumbs.length ? crumbs[crumbs.length - 1].path : "/";
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
+    "@id": `${abs(selfPath)}#breadcrumb`,
     itemListElement: crumbs.map((c, i) => ({
       "@type": "ListItem",
       position: i + 1,

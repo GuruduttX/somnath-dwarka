@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildMetadata } from "@/src/lib/seo";
+import { buildMetadata, serviceSchema } from "@/src/lib/seo";
+import JsonLd from "@/src/components/seo/JsonLd";
 import PageShell from "@/src/components/shared/PageShell";
 import Section from "@/src/components/shared/Section";
 import CtaBand from "@/src/components/shared/CtaBand";
@@ -62,6 +63,16 @@ export default function AirportTaxiHubPage() {
 
       <CtaBand context="Airport taxi to Somnath Dwarka" title="Book an airport transfer" subtitle="Share your flight details for a firm fare." />
       <RelatedLinks links={related} />
+
+      <JsonLd
+        data={serviceSchema({
+          name: "Airport Taxi for Somnath & Dwarka",
+          description:
+            "Pre-booked meet-and-greet airport transfers from Diu, Rajkot, Jamnagar and Ahmedabad to Somnath and Dwarka.",
+          path: PATH,
+          areaServed: "Saurashtra, Gujarat",
+        })}
+      />
     </PageShell>
   );
 }

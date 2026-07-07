@@ -1,5 +1,5 @@
 import { Sparkles, Shirt, Camera, ExternalLink, BadgeCheck, AlertCircle, Sunrise, Sun, Sunset } from "lucide-react";
-import { buildMetadata, faqSchema } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
@@ -166,7 +166,19 @@ export default function TempleInfo({ destination, topic }: { destination: string
       <CtaBand context={`${t.h1}`} title="Plan darshan with us" subtitle="We time the itinerary around aarti and darshan windows." />
       <RelatedLinks links={related} />
 
-      <JsonLd data={faqSchema(t.faq)} />
+      {/* FAQPage is emitted by <Faq> above; here we add the page-type node. */}
+      <JsonLd
+        data={webPageSchema({
+          name: t.title,
+          description: t.answer_first,
+          path: `/${destination}/${topic}/`,
+          crumbs: [
+            { name: "Home", path: "/" },
+            { name: parent?.destination ?? destination, path: `/${destination}/` },
+            { name: t.h1, path: `/${destination}/${topic}/` },
+          ],
+        })}
+      />
     </PageShell>
   );
 }

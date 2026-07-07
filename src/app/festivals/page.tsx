@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Sparkles, CalendarClock, Users, BedDouble } from "lucide-react";
-import { buildMetadata } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
+import JsonLd from "@/src/components/seo/JsonLd";
 import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import FestivalsHero from "@/src/components/festivals/FestivalsHero";
@@ -132,6 +133,20 @@ export default async function FestivalHubPage() {
       <Faq items={FAQ} heading="Festival FAQs" subheading="Planning a trip around Somnath and Dwarka's festivals." />
 
       <CtaBand context="Festival trip to Somnath Dwarka" />
+
+      <JsonLd
+        data={webPageSchema({
+          type: "CollectionPage",
+          name: "Somnath & Dwarka Festivals",
+          description:
+            "Guides to major festivals at Somnath and Dwarka — dates, rituals and how to plan darshan around the crowds.",
+          path: PATH,
+          crumbs: [
+            { name: "Home", path: "/" },
+            { name: "Festivals", path: PATH },
+          ],
+        })}
+      />
     </PageShell>
   );
 }

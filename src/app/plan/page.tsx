@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Sparkles } from "lucide-react";
-import { buildMetadata } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema } from "@/src/lib/seo";
+import JsonLd from "@/src/components/seo/JsonLd";
 import { CORE_FACTS } from "@/src/config/site";
 import PageShell from "@/src/components/shared/PageShell";
 import Faq from "@/src/components/shared/Faq";
@@ -77,6 +78,20 @@ export default function PlanHubPage() {
       <Faq items={FAQ} heading="Trip planning FAQs" subheading="Quick answers to the questions travellers ask before booking." />
 
       <CtaBand context="Somnath Dwarka trip planning" />
+
+      <JsonLd
+        data={webPageSchema({
+          type: "CollectionPage",
+          name: "Plan Your Somnath Dwarka Trip",
+          description:
+            "Trip-planning answers for Somnath and Dwarka — how many days, best routes, distances and season tips.",
+          path: PATH,
+          crumbs: [
+            { name: "Home", path: "/" },
+            { name: "Plan your trip", path: PATH },
+          ],
+        })}
+      />
     </PageShell>
   );
 }

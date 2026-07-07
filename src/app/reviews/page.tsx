@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { buildMetadata } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema } from "@/src/lib/seo";
+import JsonLd from "@/src/components/seo/JsonLd";
 import PageShell from "@/src/components/shared/PageShell";
 import AnswerFirst from "@/src/components/shared/AnswerFirst";
 import Section from "@/src/components/shared/Section";
@@ -51,6 +52,21 @@ export default function ReviewsPage() {
       </Section>
 
       <CtaBand context="Somnath Dwarka tour enquiry" />
+
+      {/* WebPage node only — no Review/AggregateRating until genuine reviews exist (SOP §12). */}
+      <JsonLd
+        data={webPageSchema({
+          type: "CollectionPage",
+          name: "Reviews — Somnath Dwarka Tour Package",
+          description:
+            "Genuine traveller reviews for our Somnath–Dwarka tours. We publish only real reviews.",
+          path: PATH,
+          crumbs: [
+            { name: "Home", path: "/" },
+            { name: "Reviews", path: PATH },
+          ],
+        })}
+      />
     </PageShell>
   );
 }

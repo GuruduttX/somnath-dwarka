@@ -175,7 +175,12 @@ export default async function PackagePillarPage() {
     ) : null;
 
   return (
-    <PageShell crumbs={[]}>
+    <PageShell
+      crumbs={[
+        { name: "Home", path: "/" },
+        { name: "Tour packages", path: PATH },
+      ]}
+    >
       {/* ── HERO ── */}
       <section className="font-dm relative -mt-28 flex flex-col overflow-hidden">
         <style>{`

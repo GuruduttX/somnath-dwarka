@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { buildMetadata } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema } from "@/src/lib/seo";
+import JsonLd from "@/src/components/seo/JsonLd";
 import PageShell from "@/src/components/shared/PageShell";
 import AnswerFirst from "@/src/components/shared/AnswerFirst";
 import Section from "@/src/components/shared/Section";
@@ -44,6 +45,20 @@ export default function CompareHubPage() {
       </Section>
 
       <CtaBand context="Somnath Dwarka trip planning" />
+
+      <JsonLd
+        data={webPageSchema({
+          type: "CollectionPage",
+          name: "Somnath Dwarka Comparisons",
+          description:
+            "Side-by-side comparisons to plan your Somnath–Dwarka trip, with clear verdicts and recommendations.",
+          path: PATH,
+          crumbs: [
+            { name: "Home", path: "/" },
+            { name: "Compare", path: PATH },
+          ],
+        })}
+      />
     </PageShell>
   );
 }

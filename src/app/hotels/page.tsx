@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Sparkles } from "lucide-react";
-import { buildMetadata } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema } from "@/src/lib/seo";
+import JsonLd from "@/src/components/seo/JsonLd";
 import PageShell from "@/src/components/shared/PageShell";
 import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
@@ -89,6 +90,20 @@ export default function HotelHubPage() {
 
       <CtaBand context="Hotel assistance for Somnath Dwarka" title="Get hotel help" subtitle="Tell us your dates and budget and we'll recommend and book a stay." />
       <RelatedLinks links={related} />
+
+      <JsonLd
+        data={webPageSchema({
+          type: "CollectionPage",
+          name: "Hotels near Somnath & Dwarka",
+          description:
+            "Curated stays near Somnath and Dwarka across budget, mid-range and premium tiers, booked to your dates.",
+          path: PATH,
+          crumbs: [
+            { name: "Home", path: "/" },
+            { name: "Hotels", path: PATH },
+          ],
+        })}
+      />
     </PageShell>
   );
 }

@@ -1,5 +1,7 @@
 import PageShell from "@/src/components/shared/PageShell";
 import Section from "@/src/components/shared/Section";
+import JsonLd from "@/src/components/seo/JsonLd";
+import { webPageSchema } from "@/src/lib/seo";
 
 /** Plain-content policy/trust page (SOP §5 #16). */
 export default function PolicyPage({
@@ -13,8 +15,9 @@ export default function PolicyPage({
   intro: string;
   sections: { heading: string; body: string[] }[];
 }) {
+  const crumbs = [{ name: "Home", path: "/" }, { name: title, path }];
   return (
-    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: title, path }]}>
+    <PageShell crumbs={crumbs}>
       <div className="max-w-3xl mx-auto px-4 pt-6">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{title}</h1>
         <p className="text-gray-600 mt-3">{intro}</p>
@@ -28,6 +31,8 @@ export default function PolicyPage({
           ))}
         </Section>
       ))}
+
+      <JsonLd data={webPageSchema({ name: title, description: intro, path, crumbs })} />
     </PageShell>
   );
 }

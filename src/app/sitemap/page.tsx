@@ -2,15 +2,23 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { STATIC_ROUTES } from "@/src/config/routes";
 import { getPublishedPackages, getPublishedGuides, packagePath, guidePath } from "@/src/lib/content";
-import { buildMetadata } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema, breadcrumbSchema } from "@/src/lib/seo";
+import JsonLd from "@/src/components/seo/JsonLd";
 
 export const revalidate = 3600;
+
+const PATH = "/sitemap/";
 
 export const metadata: Metadata = buildMetadata({
   title: "Sitemap — all pages",
   description: "Browse every page on the Somnath Dwarka tour package site: packages, cabs, hotels, destinations, guides and more.",
-  path: "/sitemap/",
+  path: PATH,
 });
+
+const CRUMBS = [
+  { name: "Home", path: "/" },
+  { name: "Sitemap", path: PATH },
+];
 
 export default async function HtmlSitemap() {
   const [packages, guides] = await Promise.all([
@@ -62,6 +70,19 @@ export default async function HtmlSitemap() {
           )}
         </div>
       </div>
+      <JsonLd
+        data={[
+          webPageSchema({
+            type: "CollectionPage",
+            name: "Sitemap — all pages",
+            description:
+              "Browse every page on the Somnath Dwarka tour package site.",
+            path: PATH,
+            crumbs: CRUMBS,
+          }),
+          breadcrumbSchema(CRUMBS),
+        ]}
+      />
     </main>
   );
 }
