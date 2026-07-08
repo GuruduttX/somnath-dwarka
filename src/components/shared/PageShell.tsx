@@ -42,7 +42,7 @@ export default function PageShell({
         ) : null}
         {renderCrumb ? (
           flushHero ? (
-            <div className="pointer-events-none absolute inset-x-0 top-20 z-30">
+            <div className="pointer-events-none absolute inset-x-0 top-24 z-30">
               <div className="pointer-events-auto">
                 <Breadcrumb crumbs={crumbs} />
               </div>

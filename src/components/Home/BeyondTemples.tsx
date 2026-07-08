@@ -39,7 +39,7 @@ const PACKAGES = [
     price: "₹7,499",
     tag: "Heritage",
     tagColor: "rgba(99,102,241,0.88)",
-    image: "https://images.unsplash.com/photo-1605368361254-21015f8a0058?w=700&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1622396481328-9b1b78cdd9fd?w=700&auto=format&fit=crop",
     layout: "wide",
   },
   {
@@ -148,6 +148,12 @@ export default function BeyondTemples() {
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
+
+    // Start scroll position in the middle set once scrollWidth is populated
+    requestAnimationFrame(() => {
+      if (el) el.scrollLeft = el.scrollWidth / 3;
+    });
+
     const prefersReduced =
       typeof window !== "undefined" &&
       window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
@@ -157,7 +163,20 @@ export default function BeyondTemples() {
     const tick = (now: number) => {
       const dt = Math.min(last ? (now - last) / 1000 : 0, 0.05);
       last = now;
-      if (!prefersReduced && !isPaused.current) el.scrollLeft += SPEED * dt;
+      if (!isDragging.current) {
+        if (!prefersReduced && !isPaused.current) {
+          el.scrollLeft += SPEED * dt;
+        }
+      }
+
+      const sWidth = el.scrollWidth / 3;
+      if (sWidth > 0) {
+        if (el.scrollLeft >= sWidth * 2) {
+          el.scrollLeft -= sWidth;
+        } else if (el.scrollLeft <= 0) {
+          el.scrollLeft += sWidth;
+        }
+      }
       rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
@@ -198,7 +217,7 @@ export default function BeyondTemples() {
         onClose={() => setIsFormOpen(false)}
         defaultService="Tour Package"
       />
-    <section id="beyond-temples" className="pt-24 pb-5 lg:pt-32 lg:pb-8 overflow-hidden">
+    <section id="beyond-temples" className="pt-10 pb-5 lg:pt-14 lg:pb-8 overflow-hidden">
       {/* Header */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 mb-10">
         <div ref={headRef}>
@@ -255,17 +274,19 @@ export default function BeyondTemples() {
           onMouseLeave={() => { isPaused.current = false; }}
         >
           <div className="flex gap-3.5 w-max pb-4 pl-6 lg:pl-12 pr-6 items-start">
-            {COLUMNS.map((col, ci) => (
-              <div key={ci} className="flex flex-col gap-3.5">
-                {col.map((pkg) => (
-                  <PackageCard
-                    key={pkg.id}
-                    pkg={pkg}
-                    onEnquire={() => setIsFormOpen(true)}
-                  />
-                ))}
-              </div>
-            ))}
+            {Array.from({ length: 3 }).flatMap((_, loopIdx) =>
+              COLUMNS.map((col, ci) => (
+                <div key={`${loopIdx}-${ci}`} className="flex flex-col gap-3.5">
+                  {col.map((pkg) => (
+                    <PackageCard
+                      key={`${loopIdx}-${pkg.id}`}
+                      pkg={pkg}
+                      onEnquire={() => setIsFormOpen(true)}
+                    />
+                  ))}
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

@@ -8,7 +8,6 @@ import {
 import { buildMetadata, touristTripSchema } from "@/src/lib/seo";
 import { CORE_FACTS, waLink } from "@/src/config/site";
 import PageShell from "@/src/components/shared/PageShell";
-import Section from "@/src/components/shared/Section";
 import Faq from "@/src/components/shared/Faq";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
@@ -16,9 +15,10 @@ import { getPublishedPackages, packagePath } from "@/src/lib/content";
 import { SEED_PACKAGES, type SeedPackage } from "@/src/lib/seed/packages";
 import { buildRelatedLinks } from "@/src/lib/links";
 import { mapAdminPackagesToTourCards, type TourPackage } from "@/src/utils/TourData";
-import TourCard from "@/src/utils/TourCard";
+import PackageExplorer from "@/src/components/TourArchive/PackageExplorer";
 import TourArchiveCTA from "@/src/components/TourArchive/TourArchiveCTA";
 import CustomPackageCTA from "@/src/components/shared/CustomPackageCTA";
+import HangingDiyas from "@/src/components/TourArchive/HangingDiyas";
 
 const PATH = "/somnath-dwarka-tour-package/";
 
@@ -165,15 +165,6 @@ export default async function PackagePillarPage() {
     },
   ];
 
-  const CardGrid = ({ items }: { items: TourPackage[] }) =>
-    items.length ? (
-      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 xl:grid-cols-3">
-        {items.map((pkg) => (
-          <TourCard key={pkg.id} pkg={pkg} />
-        ))}
-      </div>
-    ) : null;
-
   return (
     <PageShell
       crumbs={[
@@ -190,13 +181,32 @@ export default async function PackagePillarPage() {
           .pkg-d0{animation-delay:.05s}.pkg-d1{animation-delay:.15s}.pkg-d2{animation-delay:.27s}
           .pkg-d3{animation-delay:.39s}.pkg-d4{animation-delay:.51s}.pkg-d5{animation-delay:.63s}
 
-          @keyframes pkgArchRise { from { opacity:0; transform: translateY(40px) scale(.96); } to { opacity:1; transform: translateY(0) scale(1); } }
-          .pkg-gate { opacity:0; animation: pkgArchRise .9s cubic-bezier(.22,.7,0,1) forwards; }
-          .pkg-g0{animation-delay:.35s}.pkg-g1{animation-delay:.5s}.pkg-g2{animation-delay:.65s}
+          @keyframes pkgSpin { to { transform: rotate(360deg); } }
+          .pkg-aura {
+            animation: pkgSpin 65s linear infinite;
+            transform-box: fill-box;
+            transform-origin: center;
+          }
 
-          @keyframes pkgSway { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-10px); } }
-          .pkg-sway  { animation: pkgSway 6.5s ease-in-out infinite; }
-          .pkg-sway2 { animation: pkgSway 7.5s ease-in-out infinite; animation-delay:-2.5s; }
+          @keyframes windBlow {
+            0%, 100% { transform: scaleX(1) skewY(0deg); }
+            50% { transform: scaleX(0.88) skewY(-2.5deg); }
+          }
+          .pkg-flag-wave {
+            transform-origin: left center;
+            transform-box: fill-box;
+            animation: windBlow 2.5s ease-in-out infinite;
+          }
+
+          @keyframes pkgFloatUp {
+            0% { transform: translateY(40px) scale(0.5); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-260px) scale(1.25); opacity: 0; }
+          }
+          .pkg-sparkle {
+            animation: pkgFloatUp ease-in-out infinite;
+          }
 
           @keyframes pkgDiyaRise {
             0% { transform: translateY(14px) scale(.85); opacity:0; }
@@ -225,7 +235,7 @@ export default async function PackagePillarPage() {
           }
 
           @media (prefers-reduced-motion: reduce) {
-            .pkg-anim,.pkg-gate,.pkg-sway,.pkg-sway2,.pkg-diya,.pkg-flame,.pkg-btn-shine::after {
+            .pkg-anim, .pkg-flame, .pkg-btn-shine::after, .pkg-aura, .pkg-flag-wave, .pkg-sparkle {
               animation: none !important; opacity: 1 !important;
             }
           }
@@ -243,72 +253,37 @@ export default async function PackagePillarPage() {
           />
         </div>
 
-        {/* Dwarka temple silhouette — behind the temple gateways (right column) */}
-        <svg
-          className="pointer-events-none absolute left-[73%] top-1/2 z-[1] hidden h-[620px] w-[520px] -translate-x-1/2 -translate-y-[52%] text-[#C2410C]/[0.16] lg:block"
-          viewBox="0 0 220 280" fill="currentColor" aria-hidden="true"
-        >
-          {/* Flag pole + dhwaja */}
-          <rect x="108.5" y="10" width="3" height="30" rx="1.5" />
-          <path d="M111.5 12 L138 20 L111.5 28 Z" />
-          {/* Kalash + amalaka on central spire */}
-          <circle cx="110" cy="44" r="6" />
-          <ellipse cx="110" cy="55" rx="13" ry="5" />
-          {/* Central shikhara (curved spire) with vertical ribs */}
-          <path d="M110 57 C 90 100, 88 150, 82 196 L 138 196 C 132 150, 130 100, 110 57 Z" />
-          <path d="M110 70 L110 196" stroke="#FFF6EC" strokeOpacity="0.5" strokeWidth="2" fill="none" />
-          <path d="M98 110 L94 196" stroke="#FFF6EC" strokeOpacity="0.4" strokeWidth="1.6" fill="none" />
-          <path d="M122 110 L126 196" stroke="#FFF6EC" strokeOpacity="0.4" strokeWidth="1.6" fill="none" />
-          {/* Side shikharas */}
-          <circle cx="64" cy="120" r="4" />
-          <path d="M64 124 C 54 148, 53 174, 50 196 L 78 196 C 75 174, 74 148, 64 124 Z" />
-          <circle cx="156" cy="120" r="4" />
-          <path d="M156 124 C 146 148, 145 174, 142 196 L 170 196 C 167 174, 166 148, 156 124 Z" />
-          {/* Entablature */}
-          <rect x="44" y="196" width="132" height="12" rx="2" />
-          {/* Mandapa pillars (gaps read as arch openings) */}
-          <rect x="52" y="208" width="10" height="48" rx="2" />
-          <rect x="82" y="208" width="10" height="48" rx="2" />
-          <rect x="128" y="208" width="10" height="48" rx="2" />
-          <rect x="158" y="208" width="10" height="48" rx="2" />
-          {/* Central doorway arch */}
-          <path d="M100 256 L100 224 Q110 214 120 224 L120 256 Z" />
-          {/* Steps */}
-          <rect x="46" y="256" width="128" height="7" rx="2" />
-          <rect x="38" y="263" width="144" height="7" rx="2" />
-          <rect x="30" y="270" width="160" height="8" rx="2" />
-        </svg>
+
 
         {/* ── HERO INNER ── */}
-        <div className="relative z-[2] mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-center gap-8 px-5 pt-36 pb-9 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:px-14 lg:pt-[8.5rem] lg:pb-[3.25rem] xl:px-20">
+        <div className="relative z-[2] mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-center gap-8 px-5 pt-34 pb-6 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:px-14 lg:pt-[8.5rem] lg:pb-[3.25rem] xl:px-20">
 
           {/* ══ LEFT ══ */}
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
 
-            {/* Mobile temple-gateway image */}
-            <div className="pkg-anim pkg-d1 relative mt-2 lg:hidden">
-              <Kalash className="absolute -top-6 left-1/2 z-[4] h-7 w-6 -translate-x-1/2" />
-              <div className="relative h-[240px] w-[200px] overflow-hidden rounded-t-[100px] rounded-b-[20px] border-[5px] border-white shadow-[0_22px_50px_rgba(234,88,12,0.24)]">
+            {/* Mobile rounded rectangle image box */}
+            <div className="pkg-anim pkg-d1 relative mt-2 lg:hidden w-full flex justify-center">
+              <div className="relative w-full max-w-[440px] [aspect-ratio:16/11] overflow-hidden rounded-[26px] border-4 border-white shadow-[0_20px_50px_rgba(234,88,12,0.25)]">
                 <img src={HERO_MOBILE} alt="Somnath and Dwarka temples" className="h-full w-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/5 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 px-3 pb-3 text-white">
-                  <p className="font-playfair text-sm font-bold">Somnath &amp; Dwarka</p>
-                  <p className="mt-0.5 flex items-center justify-center gap-1 text-[10px] text-white/80"><MapPin size={9} /> Gujarat, India</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 px-4 pb-3.5 pt-8 text-left text-white">
+                  <p className="font-playfair text-base font-bold">Somnath &amp; Dwarka</p>
+                  <p className="mt-0.5 flex items-center gap-1.5 text-[11px] text-white/85"><MapPin size={10} /> Gujarat, India</p>
                 </div>
               </div>
             </div>
 
             {/* Headline */}
-            <h1 className="font-playfair pkg-anim pkg-d1 mt-5 text-5xl font-black leading-[1.12] tracking-[-0.03em] text-[#3a2416] sm:text-6xl lg:mt-0 lg:text-[4rem]">
+            <h1 className="font-playfair pkg-anim pkg-d1 mt-6 text-4xl font-black leading-[1.15] tracking-[-0.03em] text-[#3a2416] sm:text-5xl lg:mt-0 lg:text-[4rem]">
               Tour{" "}
               <span className="pkg-headline-grad inline-block pr-[0.12em] pb-[0.1em] italic">Packages</span>
-              <span className="mt-2.5 block font-dm text-lg font-bold not-italic tracking-normal text-[#7a5238] sm:text-xl lg:text-2xl">
+              <span className="mt-2.5 block font-dm text-sm font-bold not-italic tracking-normal text-[#7a5238] sm:text-lg lg:text-2xl">
                 Handpicked Spiritual Experiences
               </span>
             </h1>
 
             {/* Description */}
-            <p className="pkg-anim pkg-d2 mt-4 max-w-[560px] text-[15px] leading-[1.7] text-[#6b4c38] lg:text-base">
+            <p className="pkg-anim pkg-d2 mt-3 max-w-[560px] text-[13px] leading-[1.6] text-[#6b4c38] sm:text-[15px] sm:leading-[1.7] lg:text-base">
               Our Somnath Dwarka tour packages cover{" "}
               <strong className="font-semibold text-orange-700">Dwarkadhish Temple</strong>, Nageshwar Jyotirlinga,
               Bet Dwarka and{" "}
@@ -318,61 +293,158 @@ export default async function PackagePillarPage() {
             </p>
 
             {/* CTAs */}
-            <div className="pkg-anim pkg-d3 mt-6 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+            <div className="pkg-anim pkg-d3 mt-5 flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row">
               <a
                 href="#by-duration"
-                className="pkg-btn-shine group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(234,88,12,0.4)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
+                className="pkg-btn-shine group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-6 py-2.5 text-xs sm:px-7 sm:py-3.5 sm:text-sm font-semibold text-white shadow-[0_12px_30px_rgba(234,88,12,0.4)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
               >
-                <Sparkles size={15} className="relative z-[1]" />
+                <Sparkles size={14} className="relative z-[1]" />
                 <span className="relative z-[1]">Browse Packages</span>
-                <ArrowRight size={15} className="relative z-[1] transition-transform group-hover:translate-x-1" />
+                <ArrowRight size={14} className="relative z-[1] transition-transform group-hover:translate-x-1" />
               </a>
               <a
                 href={waLink("Hi, I'd like a Somnath Dwarka tour package quote")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-7 py-3.5 text-sm font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-6 py-2.5 text-xs sm:px-7 sm:py-3.5 sm:text-sm font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white"
               >
-                <Navigation size={15} />
+                <Navigation size={14} />
                 Chat on WhatsApp
               </a>
             </div>
 
             {/* Stats strip */}
-            <div className="pkg-anim pkg-d4 mt-7 flex flex-nowrap items-center justify-center gap-4 border-t border-orange-200/60 pt-5 sm:gap-6 lg:justify-start lg:gap-9">
-              <div className="shrink-0 text-center lg:text-left">
-                <div className="font-playfair text-2xl font-bold leading-none text-orange-600 sm:text-3xl">{variants.length}+</div>
-                <div className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#9a7358] sm:text-[10px] sm:tracking-[0.12em]">Curated plans</div>
+            <div className="pkg-anim pkg-d4 mt-6 sm:mt-12 flex flex-row items-center justify-between gap-2 rounded-2xl border border-orange-200/40 bg-white/45 p-3 sm:p-4 shadow-sm backdrop-blur-xs w-full sm:w-auto">
+              <div className="flex-1 text-center px-2">
+                <div className="font-playfair text-xl font-black leading-none text-orange-600 sm:text-3xl">{variants.length}+</div>
+                <div className="mt-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.08em] text-[#8c5e40] whitespace-nowrap">Curated plans</div>
               </div>
-              <div className="h-9 w-px shrink-0 bg-orange-200/70" />
-              <div className="shrink-0 text-center lg:text-left">
-                <div className="font-playfair text-2xl font-bold leading-none text-orange-600 sm:text-3xl">
+              <div className="w-px h-8 sm:h-10 bg-orange-200/50 shrink-0" />
+              <div className="flex-1 text-center px-2">
+                <div className="font-playfair text-xl font-black leading-none text-orange-600 sm:text-3xl">
                   {minPrice ? `₹${minPrice.toLocaleString("en-IN")}` : "Custom"}
                 </div>
-                <div className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#9a7358] sm:text-[10px] sm:tracking-[0.12em]">Starts from*</div>
+                <div className="mt-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.08em] text-[#8c5e40] whitespace-nowrap">Starts from*</div>
               </div>
-              <div className="h-9 w-px shrink-0 bg-orange-200/70" />
-              <div className="shrink-0 text-center lg:text-left">
-                <div className="font-playfair text-2xl font-bold leading-none text-orange-600 sm:text-3xl">4–5</div>
-                <div className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#9a7358] sm:text-[10px] sm:tracking-[0.12em]">Days circuit</div>
+              <div className="w-px h-8 sm:h-10 bg-orange-200/50 shrink-0" />
+              <div className="flex-1 text-center px-2">
+                <div className="font-playfair text-xl font-black leading-none text-orange-600 sm:text-3xl">4–5</div>
+                <div className="mt-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.08em] text-[#8c5e40] whitespace-nowrap">Days circuit</div>
               </div>
             </div>
           </div>
 
-          {/* ══ RIGHT — temple gateways (desktop) ══ */}
-          <div className="relative hidden h-[540px] w-full items-end justify-center lg:flex">
+          {/* ══ RIGHT — Animated Temple & Solar Aura (desktop) ══ */}
+          <div className="relative hidden h-[500px] w-full items-center justify-center lg:flex overflow-visible">
+            
+            {/* Divine spinning solar chakra / aura */}
+            <svg
+              className="pkg-aura pointer-events-none absolute h-[460px] w-[460px] text-[#C2410C]/[0.08]"
+              viewBox="0 0 200 200"
+              fill="none"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <circle cx="100" cy="100" r="90" strokeWidth="1" strokeDasharray="3 6" />
+              <circle cx="100" cy="100" r="75" strokeWidth="1.5" />
+              <circle cx="100" cy="100" r="60" strokeWidth="0.8" strokeDasharray="4 4" />
+              <circle cx="100" cy="100" r="30" strokeWidth="1.2" />
 
-            {/* soft glow behind gateways */}
-            <div className="pointer-events-none absolute bottom-[8%] h-[440px] w-[440px] rounded-full bg-[radial-gradient(circle,rgba(251,146,60,0.28)_0%,transparent_68%)]" aria-hidden="true" />
+              {/* Rays / spokes */}
+              {Array.from({ length: 32 }).map((_, i) => (
+                <line
+                  key={i}
+                  x1="100"
+                  y1="100"
+                  x2="100"
+                  y2="15"
+                  strokeWidth="1"
+                  transform={`rotate(${i * 11.25} 100 100)`}
+                  strokeOpacity={i % 2 === 0 ? "0.4" : "0.15"}
+                />
+              ))}
+
+              {/* Intricate flame petals on the outer rim */}
+              {Array.from({ length: 16 }).map((_, i) => (
+                <path
+                  key={`p-${i}`}
+                  d="M100 10 C105 18 95 18 100 10"
+                  fill="currentColor"
+                  fillOpacity="0.25"
+                  transform={`rotate(${i * 22.5} 100 100)`}
+                />
+              ))}
+            </svg>
+
+            {/* Glowing Golden Temple Silhouette SVG */}
+            <svg
+              className="pointer-events-none relative z-[2] h-[480px] w-[400px]"
+              viewBox="0 0 220 280"
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient id="temple-outline-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#FFF4E6" stopOpacity="0.85" />
+                  <stop offset="50%" stopColor="#FFE4C4" stopOpacity="0.75" />
+                  <stop offset="100%" stopColor="#FFD8A8" stopOpacity="0.55" />
+                </linearGradient>
+                <linearGradient id="temple-stroke-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#F59E0B" />
+                  <stop offset="60%" stopColor="#EA580C" />
+                  <stop offset="100%" stopColor="#C2410C" />
+                </linearGradient>
+              </defs>
+
+              {/* Spire outlines with the warm gradients */}
+              <g fill="url(#temple-outline-grad)" stroke="url(#temple-stroke-grad)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+                {/* Kalash + amalaka on central spire */}
+                <circle cx="110" cy="44" r="6" />
+                <ellipse cx="110" cy="55" rx="13" ry="5" />
+                {/* Central shikhara (spire spire) with vertical ribs */}
+                <path d="M110 57 C 90 100, 88 150, 82 196 L 138 196 C 132 150, 130 100, 110 57 Z" />
+                
+                {/* Side shikharas */}
+                <circle cx="64" cy="120" r="4" />
+                <path d="M64 124 C 54 148, 53 174, 50 196 L 78 196 C 75 174, 74 148, 64 124 Z" />
+                <circle cx="156" cy="120" r="4" />
+                <path d="M156 124 C 146 148, 145 174, 142 196 L 170 196 C 167 174, 166 148, 156 124 Z" />
+                
+                {/* Entablature */}
+                <rect x="44" y="196" width="132" height="12" rx="2" />
+                {/* Mandapa pillars (gaps read as arch openings) */}
+                <rect x="52" y="208" width="10" height="48" rx="2" />
+                <rect x="82" y="208" width="10" height="48" rx="2" />
+                <rect x="128" y="208" width="10" height="48" rx="2" />
+                <rect x="158" y="208" width="10" height="48" rx="2" />
+                {/* Central doorway arch */}
+                <path d="M100 256 L100 224 Q110 214 120 224 L120 256 Z" />
+                {/* Steps */}
+                <rect x="46" y="256" width="128" height="7" rx="2" />
+                <rect x="38" y="263" width="144" height="7" rx="2" />
+                <rect x="30" y="270" width="160" height="8" rx="2" />
+              </g>
+
+              {/* Rib highlights */}
+              <g stroke="#FFF" strokeOpacity="0.45" strokeWidth="1.5" fill="none">
+                <path d="M110 70 L110 196" />
+                <path d="M98 110 L94 196" />
+                <path d="M122 110 L126 196" />
+              </g>
+
+              {/* Flag pole (static) */}
+              <rect x="108.5" y="10" width="3" height="30" rx="1.5" fill="url(#temple-stroke-grad)" />
+              {/* Waving saffron flag (animated) */}
+              <path className="pkg-flag-wave" d="M111.5 12 L138 20 L111.5 28 Z" fill="#EA580C" />
+            </svg>
 
             {/* Rising diya lamps */}
             <div className="pointer-events-none absolute inset-0 z-[3]" aria-hidden="true">
               {[
-                { l: "20%", b: "40%", c: "pkg-diya1" },
-                { l: "36%", b: "26%", c: "pkg-diya2" },
-                { l: "50%", b: "46%", c: "pkg-diya3" },
-                { l: "64%", b: "26%", c: "pkg-diya4" },
-                { l: "80%", b: "40%", c: "pkg-diya5" },
+                { l: "15%", b: "10%", c: "pkg-diya1" },
+                { l: "32%", b: "26%", c: "pkg-diya2" },
+                { l: "50%", b: "5%", c: "pkg-diya3" },
+                { l: "68%", b: "26%", c: "pkg-diya4" },
+                { l: "85%", b: "10%", c: "pkg-diya5" },
               ].map((d, i) => (
                 <div key={i} className={`pkg-diya ${d.c} absolute`} style={{ left: d.l, bottom: d.b }}>
                   <svg width="15" height="21" viewBox="0 0 14 20" fill="none">
@@ -384,36 +456,36 @@ export default async function PackagePillarPage() {
               ))}
             </div>
 
-            {/* Arches (overlapping like a temple facade) */}
-            <div className="relative z-[2] flex items-end justify-center">
-              {HERO_GATES.map((g, i) => {
-                const isMid = i === 1;
-                return (
-                  <div
-                    key={g.name}
-                    className={`pkg-gate ${i === 0 ? "pkg-g0" : i === 1 ? "pkg-g1" : "pkg-g2"} ${isMid ? "pkg-sway z-[2]" : "pkg-sway2 z-[1]"} relative ${i > 0 ? "-ml-7" : ""}`}
-                  >
-                    <Kalash className={`absolute left-1/2 z-[4] -translate-x-1/2 ${isMid ? "-top-8 h-8 w-6" : "-top-6 h-6 w-5"}`} />
-                    <div
-                      className={`relative overflow-hidden rounded-t-[110px] rounded-b-[20px] border-[5px] border-white bg-white shadow-[0_26px_55px_rgba(234,88,12,0.24)] ${
-                        isMid ? "h-[456px] w-[216px]" : "h-[388px] w-[186px]"
-                      }`}
-                    >
-                      <img src={g.img} alt={`${g.name} Temple`} className="h-full w-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/72 via-black/10 to-transparent" />
-                      <span className="absolute left-1/2 top-3 -translate-x-1/2 rounded-full bg-white/85 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-orange-700 backdrop-blur-sm">
-                        {g.tag}
-                      </span>
-                      <div className="absolute inset-x-0 bottom-0 px-3 pb-4 text-center text-white">
-                        <p className="font-playfair text-[15px] font-bold leading-tight">{g.name}</p>
-                        <p className="mt-0.5 flex items-center justify-center gap-1 text-[10px] text-white/80">
-                          <MapPin size={9} /> {g.place}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+            {/* Floating Sparkles (Divine Particles) */}
+            <div className="pointer-events-none absolute inset-0 z-[2]" aria-hidden="true">
+              {[
+                { l: "20%", d: "0.2s", t: "4.5s", s: "0.6" },
+                { l: "36%", d: "1.5s", t: "5.5s", s: "0.85" },
+                { l: "50%", d: "0.8s", t: "4.8s", s: "0.5" },
+                { l: "64%", d: "2.3s", t: "6.0s", s: "1.0" },
+                { l: "80%", d: "1.1s", t: "5.2s", s: "0.75" },
+              ].map((p, idx) => (
+                <svg
+                  key={`sp-${idx}`}
+                  className="pkg-sparkle absolute"
+                  style={{
+                    left: p.l,
+                    bottom: "10%",
+                    animationDelay: p.d,
+                    animationDuration: p.t,
+                    transform: `scale(${p.s})`,
+                  }}
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4Z"
+                    fill="#FBBF24"
+                  />
+                </svg>
+              ))}
             </div>
 
           </div>
@@ -431,14 +503,12 @@ export default async function PackagePillarPage() {
 
       {/* ── PACKAGE GRIDS ── */}
       <div className="relative bg-white">
+        <HangingDiyas />
 
         {/* Section intro */}
-        <div className="mx-auto max-w-3xl px-4 pt-14 text-center sm:pt-16">
-          <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.18em] text-orange-700">
-            <Sparkles size={14} />
-            Divine Gujarat Packages
-          </span>
-          <h2 className="font-playfair mt-6 text-4xl font-black leading-[1.08] tracking-[-0.02em] sm:text-5xl">
+        <div className="relative z-20 mx-auto max-w-3xl px-4 pt-14 text-center sm:pt-16">
+        
+          <h2 className="font-playfair mt-20 text-4xl font-black leading-[1.08] tracking-[-0.02em] sm:text-5xl">
             <span className="text-orange-500">Somnath &amp; Dwarka</span>
             <span className="mt-1 block text-[#111827]">Tour Packages</span>
           </h2>
@@ -448,41 +518,19 @@ export default async function PackagePillarPage() {
           </p>
         </div>
 
-        <Section id="by-duration" title="Choose by duration" wide>
-          <p className="-mt-2 mb-5 max-w-2xl text-[15px] text-gray-500">
-            From a quick 3-day darshan to a relaxed 5-day circuit — pick the pace that suits your trip.
-          </p>
-          <CardGrid items={byDuration} />
-        </Section>
-
-        <div className="bg-orange-50/40">
-          <Section id="by-city" title="Choose by starting city" wide>
-            <p className="-mt-2 mb-5 max-w-2xl text-[15px] text-gray-500">
-              Private round trips with pickup and drop from your city.
-            </p>
-            <CardGrid items={byCity} />
-          </Section>
-        </div>
-
-        {byType.length ? (
-          <Section id="by-traveller" title="Choose by traveller & budget" wide>
-            <p className="-mt-2 mb-5 max-w-2xl text-[15px] text-gray-500">
-              Plans tuned for families or a lean, budget-friendly circuit.
-            </p>
-            <CardGrid items={byType} />
-          </Section>
-        ) : null}
+        <PackageExplorer duration={byDuration} city={byCity} traveller={byType} />
       </div>
 
       <CustomPackageCTA />
-
-      <TourArchiveCTA />
 
       <Faq
         items={pillarFaq}
         heading="Everything About Your Divine Gujarat Journey"
         subheading="Find answers to the most common questions about Dwarka Somnath tours, spiritual journeys, temple darshan and Gujarat pilgrimage experiences."
       />
+
+      <TourArchiveCTA />
+
       <RelatedLinks links={related} />
 
       <JsonLd

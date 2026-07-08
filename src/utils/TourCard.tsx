@@ -194,81 +194,80 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
 
         {/* ── CARD BODY ── */}
         <Link href={packageUrl} className="block">
-        <div className="px-5 pb-4 pt-0.5">
+        <div className="px-4 pb-3.5 pt-1.5">
 
           {/* Title */}
-          <h3 className="text-[18px] font-bold leading-snug text-gray-950 sm:text-[19px]">
+          <h3 className="text-[16px] font-bold leading-snug text-gray-950 sm:text-[17px] group-hover:text-orange-600 transition-colors">
             {pkg.title}
           </h3>
 
           {/* Meta row */}
-          <div className="mt-2 flex flex-wrap items-center gap-2 text-[12.5px] font-semibold text-gray-600">
-            <span className="flex items-center gap-1.5">
-              <MapPin size={14} strokeWidth={2.2} className="text-orange-500" />
-              {pkg.location}
+          <div className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[12px] font-semibold text-gray-500">
+            <span className="flex items-center gap-1">
+              <MapPin size={13} strokeWidth={2.2} className="text-orange-500 shrink-0" />
+              <span className="truncate max-w-[170px]">{pkg.location}</span>
             </span>
-            <span className="h-1 w-1 rounded-full bg-orange-300" />
-            <span className="flex items-center gap-1.5">
-              <Clock size={14} strokeWidth={2.2} className="text-orange-500" />
-              {pkg.duration}
-            </span>
-            <span className="h-1 w-1 rounded-full bg-orange-300" />
-            <span className="flex items-center gap-1.5">
-              <Users size={14} strokeWidth={2.2} className="text-orange-500" />
-              {pkg.groupType}
+            <span className="h-3 w-px bg-gray-200" />
+            <span className="flex items-center gap-1">
+              <Users size={13} strokeWidth={2.2} className="text-orange-500 shrink-0" />
+              <span>{pkg.groupType}</span>
             </span>
           </div>
 
-          {/* Divider */}
-          <div className="my-2.5 h-px bg-gray-100" />
-
-          {/* Inclusions */}
-          <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
-            {(pkg.inclusions.length ? pkg.inclusions : ["Private trip planning", "Flexible itinerary"]).map((item) => (
-              <div key={item} className="flex min-w-0 items-center gap-2 text-[13px] font-medium text-gray-700">
-                <CheckCircle2
-                  size={16}
-                  strokeWidth={2}
-                  className="flex-shrink-0 text-emerald-500"
-                />
-                <span className="truncate">{item}</span>
-              </div>
-            ))}
+          {/* Inclusions (Pill badges) */}
+          <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
+            {(pkg.inclusions.length ? pkg.inclusions : ["Private Cab", "Hotel Stay"]).slice(0, 3).map((item) => {
+              const shortInclusion = (desc: string) => {
+                const lower = desc.toLowerCase();
+                if (lower.includes("breakfast")) return "Breakfast";
+                if (lower.includes("stay") || lower.includes("hotel")) return "Hotel Stay";
+                if (lower.includes("transfer") || lower.includes("cab") || lower.includes("car")) return "AC Cab";
+                if (lower.includes("sightseeing")) return "Sightseeing";
+                if (lower.includes("toll") || lower.includes("parking")) return "Tolls & Tax";
+                return desc;
+              };
+              return (
+                <span key={item} className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700">
+                  <span className="text-[10px] font-extrabold">✓</span>
+                  {shortInclusion(item)}
+                </span>
+              );
+            })}
           </div>
 
           {/* Divider */}
           <div className="my-3 h-px bg-gray-100" />
 
           {/* Price + CTA */}
-        <div className="mt-2">
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-[12px] font-semibold uppercase tracking-[0.12em] text-gray-400">
-              Starts from
-            </span>
-            <span className="text-[23px] font-extrabold text-gray-950">
-              {pkg.price ? `₹${pkg.price.toLocaleString("en-IN")}` : "Custom"}
-            </span>
-          </div>
-          <div className="mt-3 flex gap-2.5">
-            <div
-              className="inline-flex h-10 flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-full bg-orange-500 px-4 text-[14px] font-bold text-white shadow-md shadow-orange-200 transition-all duration-200 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg active:translate-y-0"
-            >
-              View
-              <ArrowUpRight size={16} />
+          <div className="mt-2">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400">
+                Starts from
+              </span>
+              <span className="text-[21px] font-extrabold text-gray-950">
+                {pkg.price ? `₹${pkg.price.toLocaleString("en-IN")}` : "Custom"}
+              </span>
             </div>
+            <div className="mt-2.5 flex gap-2">
+              <div
+                className="inline-flex h-9 flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-full bg-orange-500 px-4 text-[13px] font-bold text-white shadow-sm shadow-orange-100 transition-all duration-200 hover:-translate-y-0.5 hover:bg-orange-600 active:translate-y-0"
+              >
+                View
+                <ArrowUpRight size={14} />
+              </div>
 
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setOpen(true);
-              }}
-              className="h-10 flex-1 cursor-pointer rounded-full border border-orange-200 bg-white px-4 text-[14px] font-bold text-orange-600 transition-all duration-200 hover:bg-orange-50"
-            >
-              Enquire
-            </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setOpen(true);
+                }}
+                className="h-9 flex-1 cursor-pointer rounded-full border border-orange-200 bg-white px-4 text-[13px] font-bold text-orange-600 transition-all duration-200 hover:bg-orange-50"
+              >
+                Enquire
+              </button>
+            </div>
           </div>
-        </div>
         </div>
         </Link>
       </div>
