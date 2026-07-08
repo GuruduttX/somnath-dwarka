@@ -60,10 +60,7 @@ export default function HotelHero() {
 
           {/* ══ LEFT ══ */}
           <div className="flex flex-col">
-            <div className="h-up hd0 inline-flex w-fit items-center gap-1.5 rounded-full border border-orange-200/80 bg-white/70 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-orange-800 shadow-sm backdrop-blur-sm">
-              <Sparkles size={12} className="text-orange-500" />
-              Curated Pilgrim Stays
-            </div>
+        
 
             <h1 className="h-up hd1 mt-4 text-4xl font-black leading-[1.08] tracking-[-0.02em] text-[#3a2416] sm:text-5xl lg:text-[3.35rem]">
               Where to Stay near{" "}
