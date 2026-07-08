@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Flame, CalendarDays, Users, MapPin, Sparkles, Check, CalendarClock, BedDouble, Clock, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import { Flame, CalendarDays, Users, MapPin, Sparkles, Check, CalendarClock, BedDouble, Clock, ShieldCheck, ArrowUpRight, Compass, Map, Building2, Calendar } from "lucide-react";
 import { buildMetadata, eventSchema, faqSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
-import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import FactTag from "@/src/components/shared/FactTag";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { SEED_FESTIVALS, findSeedFestival } from "@/src/lib/seed/destinations";
@@ -80,6 +80,7 @@ export default async function FestivalPage({ params }: Params) {
         { name: f.festival, path: `/festivals/${festival}/` },
       ]}
       flushHero
+      lightCrumb
     >
       <FestivalDetailHero
         image={f.image}
@@ -143,7 +144,7 @@ export default async function FestivalPage({ params }: Params) {
       ) : null}
 
       {/* ── Travel & booking advice ── */}
-      <section id="travel-advice" className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+      <section id="travel-advice" className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
         <Head eyebrow="Plan smart" title="Travel & booking advice" sub={f.travel_advice} />
         <div className="grid gap-4 sm:grid-cols-3">
           {tips.map((t, i) => (
@@ -173,8 +174,59 @@ export default async function FestivalPage({ params }: Params) {
       </section>
 
       <Faq items={f.faq} heading={`${f.festival} FAQs`} />
+
       <CtaBand context={`${f.festival} at ${f.event_venue}`} />
-      <RelatedLinks links={related} />
+
+      {/* ── Related guides & packages (Below CTA) ── */}
+      <section id="related-pages" className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="border-t border-orange-100/60 pt-8">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-orange-600 mb-4 flex items-center gap-1.5">
+            <Sparkles size={11} className="text-orange-500" />
+            <span>Related guides & packages</span>
+          </p>
+          <ul className="grid gap-4 sm:grid-cols-3">
+            {related.map((l) => {
+              let Icon = Calendar;
+              let label = "Read more";
+              if (l.type === "pillar") {
+                Icon = Compass;
+                label = "Travel guide";
+              } else if (l.type === "money") {
+                Icon = Building2;
+                label = "Book & compare";
+              } else if (l.type === "sibling") {
+                Icon = Map;
+                label = "Plan your trip";
+              }
+              
+              return (
+                <li key={l.target + l.anchor}>
+                  <Link
+                    href={l.target}
+                    className="group flex h-full items-center gap-3.5 rounded-2xl border border-orange-100 bg-white p-4 shadow-[0_4px_20px_rgba(234,88,12,0.03)] transition-all duration-250 hover:-translate-y-0.5 hover:border-orange-250 hover:shadow-[0_12px_36px_rgba(234,88,12,0.08)]"
+                  >
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-orange-50 text-orange-600 transition-colors group-hover:bg-orange-500 group-hover:text-white">
+                      <Icon size={18} />
+                    </span>
+                    <span className="min-w-0 flex-1 leading-tight">
+                      <span className="block text-[9.5px] font-bold uppercase tracking-wider text-orange-400">
+                        {label}
+                      </span>
+                      <span className="mt-1 block text-sm font-extrabold text-[#2a1a10] capitalize line-clamp-1">
+                        {l.anchor}
+                      </span>
+                    </span>
+                    <ArrowUpRight
+                      size={16}
+                      className="shrink-0 text-gray-300 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-orange-600"
+                    />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </section>
 
       {/* Event schema is gated: only renders when a real date is set (SOP §12) */}
       <JsonLd

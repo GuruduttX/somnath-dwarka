@@ -33,13 +33,13 @@ export default function GuidesHero({ count }: { count: number }) {
           <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "radial-gradient(circle,#EA580C 1px,transparent 1px)", backgroundSize: "26px 26px" }} />
         </div>
 
-        <div className="relative z-10 mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-center gap-10 px-5 pt-36 pb-9 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-14 lg:pt-[8.5rem] lg:pb-[3.25rem] xl:px-20">
+        <div className="relative z-10 mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-center gap-10 px-5 pt-44 pb-16 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-14 lg:pt-[11.5rem] lg:pb-[7rem] xl:px-20">
 
           {/* LEFT */}
           <div className="flex flex-col">
             <div className="gd-up gd0 inline-flex w-fit items-center gap-1.5 rounded-full border border-orange-200/80 bg-white/70 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-orange-800 shadow-sm backdrop-blur-sm">
-              <BookOpen size={12} className="text-orange-500" />
-              Travel Guides
+              <Compass size={12} className="text-orange-500" />
+              Verified Travel Guides
             </div>
 
             <h1 className="gd-up gd1 mt-4 text-4xl font-black leading-[1.08] tracking-[-0.02em] text-[#3a2416] sm:text-5xl lg:text-[3.35rem]">

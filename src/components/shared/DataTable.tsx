@@ -19,16 +19,16 @@ export default function DataTable({
 }) {
   if (!rows?.length) return null;
   return (
-    <figure className="my-6">
+    <figure className="my-4">
       {caption ? (
-        <figcaption className="mb-2 font-semibold text-gray-800">{caption}</figcaption>
+        <figcaption className="mb-3 text-xs font-bold uppercase tracking-wider text-orange-700">{caption}</figcaption>
       ) : null}
-      <div className="overflow-x-auto rounded-xl border border-orange-100">
-        <table className="w-full text-sm border-collapse">
+      <div className="overflow-x-auto rounded-xl border border-orange-200 bg-white shadow-[0_4px_24px_rgba(234,88,12,0.02)]">
+        <table className="w-full text-xs sm:text-sm border-collapse">
           <thead>
-            <tr className="bg-gradient-to-r from-[#E87722] to-[#FF8A2A] text-white">
+            <tr className="bg-gradient-to-r from-orange-50/90 via-amber-50/60 to-orange-50/90 text-[#2D1B10] border-b border-orange-200/80 text-[10px] sm:text-xs font-extrabold uppercase tracking-wider">
               {columns.map((c) => (
-                <th key={c} className="px-4 py-3 text-left font-semibold whitespace-nowrap">
+                <th key={c} className="px-5 py-3.5 text-left whitespace-nowrap">
                   {c}
                 </th>
               ))}
@@ -36,9 +36,12 @@ export default function DataTable({
           </thead>
           <tbody>
             {rows.map((r, ri) => (
-              <tr key={ri} className={ri % 2 ? "bg-orange-50/40" : "bg-white"}>
+              <tr 
+                key={ri} 
+                className={`transition-colors hover:bg-orange-50/25 ${ri % 2 ? "bg-orange-50/10" : "bg-white"}`}
+              >
                 {r.map((cell, ci) => (
-                  <td key={ci} className="px-4 py-3 text-gray-700 border-b border-orange-50">
+                  <td key={ci} className="px-5 py-3 text-slate-700 font-medium border-b border-orange-100/40">
                     {cell}
                   </td>
                 ))}

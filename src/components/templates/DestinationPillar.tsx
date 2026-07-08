@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, Clock, Star, Route, Sparkles, MapPinned, CalendarHeart } from "lucide-react";
+import { ArrowUpRight, Clock, Star, Route, Sparkles, MapPinned, CalendarHeart, ArrowRight, ShieldCheck } from "lucide-react";
 import { buildMetadata, placeSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import Toc from "@/src/components/shared/Toc";
@@ -40,16 +40,16 @@ function DPSection({
   return (
     <section
       id={id}
-      className={`${wide ? "max-w-7xl" : "max-w-6xl"} mx-auto scroll-mt-24 px-4 py-10 sm:px-6 lg:px-8`}
+      className={`${wide ? "max-w-7xl" : "max-w-6xl"} mx-auto scroll-mt-24 px-4 py-8 sm:px-6 lg:px-8`}
       aria-labelledby={`${id}-h`}
     >
       <Reveal className="mb-6">
-        <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-orange-700">
-          <Sparkles size={12} />
+        <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50/70 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-orange-800">
+          <Sparkles size={11} className="text-orange-500" />
           {eyebrow}
         </span>
-        <h2 id={`${id}-h`} className="mt-3 flex items-center gap-3 text-2xl font-black tracking-tight text-[#2a1a10] sm:text-[1.9rem]">
-          <span className="h-7 w-1.5 rounded-full bg-gradient-to-b from-orange-500 to-amber-400" />
+        <h2 id={`${id}-h`} className="mt-3.5 flex items-center gap-3 text-2.5xl font-black tracking-tight text-[#2D1B10] sm:text-3xl">
+          <span className="h-6 w-1 rounded-full bg-gradient-to-b from-orange-600 to-amber-500 animate-pulse" />
           {title}
         </h2>
       </Reveal>
@@ -77,197 +77,306 @@ export default function DestinationPillar({ slug }: { slug: string }) {
   });
 
   return (
-    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: d.destination, path: `/${slug}/` }]} flushHero>
+    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: d.destination, path: `/${slug}/` }]} flushHero lightCrumb>
       <DestinationHero meta={meta} destination={d.destination} h1={d.h1} answerFirst={d.answer_first} />
 
-      {/* Answer-first intro card */}
-      <div className="mx-auto max-w-6xl px-4 pt-14 sm:px-6 lg:px-8">
+      {/* Answer-first intro & TOC merged into one section (orange theme light) */}
+      <div className="mx-auto max-w-6xl px-4 pt-18 sm:px-6 lg:px-8">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-orange-100 bg-white p-6 shadow-[0_18px_50px_rgba(234,88,12,0.10)] sm:p-8">
-            <span className="pointer-events-none absolute -right-6 -top-8 select-none font-serif text-[120px] leading-none text-orange-500/[0.05]">
+          <div 
+            className="relative overflow-hidden rounded-3xl border border-orange-200 bg-gradient-to-br from-white via-orange-50/30 to-orange-100/10 p-6 sm:p-7.5 shadow-[0_16px_40px_rgba(234,88,12,0.06)] backdrop-blur-md transition-all hover:border-orange-300/80"
+          >
+            {/* Ambient decorative watermark glyph */}
+            <span 
+              className="pointer-events-none absolute -right-5 -top-6 select-none font-serif text-[120px] leading-none text-orange-500/[0.03] animate-spin-slow hidden sm:block"
+              style={{ animationDuration: '100s' }}
+            >
               {meta.glyph}
             </span>
-            <div className="mb-3"><FactTag type="verified" /></div>
-            <p className="relative text-[15.5px] leading-[1.85] text-[#4a3527] sm:text-base">{d.answer_first}</p>
+            
+            <div className="mb-3.5"><FactTag type="verified" /></div>
+            
+            <p className="relative text-[14.5px] sm:text-[15px] leading-relaxed text-[#4a3223] font-medium">
+              {d.answer_first}
+            </p>
+
+            {/* Subtle Divider Line */}
+            <div className="my-5 border-t border-orange-100/50" />
+
+            {/* In-page navigation jump links (sleek orange theme) */}
+            <nav aria-label="On this page" className="relative flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
+              <span className="font-extrabold uppercase tracking-wider text-orange-650 flex items-center gap-1.5">
+                <Sparkles size={11} className="text-orange-500" />
+                <span>On this page</span>
+              </span>
+              <span className="hidden sm:inline text-orange-200">|</span>
+              <ul className="flex flex-wrap gap-x-4 gap-y-1.5 font-bold text-[#6b4c38] tracking-wide">
+                {[
+                  { id: "significance", label: "Significance" },
+                  { id: "reach", label: "How to reach" },
+                  { id: "temple", label: "Temple timings" },
+                  { id: "places", label: "Places to visit" },
+                  { id: "distances", label: "Key distances" },
+                  { id: "map", label: "Map" },
+                ].map((it) => (
+                  <li key={it.id}>
+                    <a href={`#${it.id}`} className="hover:text-orange-650 transition-colors">
+                      {it.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
         </Reveal>
       </div>
 
-      <Toc
-        items={[
-          { id: "significance", label: "Significance" },
-          { id: "reach", label: "How to reach" },
-          { id: "temple", label: "Temple timings" },
-          { id: "places", label: "Places to visit" },
-          { id: "distances", label: "Key distances" },
-          { id: "map", label: "Map" },
-        ]}
-      />
-
       {/* ── Significance ── */}
-      <DPSection id="significance" eyebrow="Why it matters" title="Spiritual significance">
-        <div className="grid gap-5 lg:grid-cols-[1.35fr_1fr]">
-          <Reveal>
-            <div
-              className="relative h-full overflow-hidden rounded-3xl border p-6 sm:p-7"
-              style={{ borderColor: `${meta.accent}22`, background: `linear-gradient(135deg,#FFF8F1 0%, ${meta.accent}0a 100%)` }}
-            >
-              <div className="mb-3"><FactTag type="faith" /></div>
-              <p className="text-[15.5px] leading-[1.85] text-[#4a3527]">{d.significance}</p>
-              <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-[12.5px] font-semibold text-orange-700 shadow-sm">
-                <span className="h-2 w-2 rounded-full" style={{ background: meta.accent }} />
-                {meta.deity}
+      <div className="w-full bg-gradient-to-b from-orange-50/15 via-white to-amber-50/10 border-b border-orange-100/20 py-4 relative">
+        <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: "radial-gradient(#ea580c 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
+        <DPSection id="significance" eyebrow="Why it matters" title="Spiritual significance">
+          <div className="grid gap-6 lg:grid-cols-[1.35fr_1fr]">
+            <Reveal>
+              <div
+                className="relative h-full overflow-hidden rounded-3xl border border-orange-200 p-6 sm:p-8 flex flex-col justify-between hover:shadow-md transition-shadow bg-gradient-to-br from-white via-orange-50/20 to-orange-100/10 [&_.fact-tag--faith]:bg-orange-50 [&_.fact-tag--faith]:text-orange-750 [&_.fact-tag--faith]:border-orange-200/60"
+              >
+                <div>
+                  <div className="mb-4"><FactTag type="faith" /></div>
+                  <p className="text-[15px] sm:text-[15.5px] leading-relaxed text-[#4a3223] font-medium">{d.significance}</p>
+                </div>
+                <div className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-white border border-orange-200 px-4 py-2 text-xs font-bold text-orange-850 shadow-xs">
+                  <span className="h-2.5 w-2.5 rounded-full animate-pulse bg-orange-500 shadow-[0_0_8px_#f97316]" />
+                  {meta.deity}
+                </div>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
 
-          <Reveal delay={0.08}>
-            <div className="flex h-full flex-col gap-4 rounded-3xl border border-amber-100 bg-[linear-gradient(160deg,#FFFDF9,#FFF3E4)] p-6 shadow-sm sm:p-7">
-              <div className="flex items-center gap-3">
-                <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-white shadow-md">
-                  <CalendarHeart size={20} />
-                </span>
-                <div>
-                  <p className="text-[11px] font-bold uppercase tracking-wide text-orange-500">Best time to visit</p>
-                  <p className="text-[15px] font-bold text-[#2a1a10]">{d.best_time}</p>
+            <Reveal delay={0.08}>
+              <div className="flex h-full flex-col justify-between gap-6 rounded-3xl border border-orange-200 bg-gradient-to-br from-[#FFFDF9] via-white to-[#FFF3E4] p-6 shadow-sm sm:p-8 hover:shadow-md transition-shadow">
+                <div className="flex items-center gap-4">
+                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-md">
+                    <CalendarHeart size={20} />
+                  </span>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-orange-650">Best time to visit</p>
+                    <p className="text-base font-extrabold text-[#2a1a10] mt-0.5">{d.best_time}</p>
+                  </div>
+                </div>
+                <div className="h-px bg-gradient-to-r from-orange-200/50 to-transparent" />
+                <div className="flex items-center gap-4">
+                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-md">
+                    <Star size={20} />
+                  </span>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-orange-650">Devotion Target</p>
+                    <p className="text-base font-extrabold text-[#2a1a10] mt-0.5">{meta.deityShort}</p>
+                  </div>
                 </div>
               </div>
-              <div className="h-px bg-gradient-to-r from-orange-200/60 to-transparent" />
-              <div className="flex items-center gap-3">
-                <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-white shadow-md">
-                  <Star size={20} />
-                </span>
-                <div>
-                  <p className="text-[11px] font-bold uppercase tracking-wide text-orange-500">Devotion</p>
-                  <p className="text-[15px] font-bold text-[#2a1a10]">{meta.deityShort}</p>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </DPSection>
+            </Reveal>
+          </div>
+        </DPSection>
+      </div>
 
       {/* ── How to reach ── */}
-      <DPSection id="reach" eyebrow="Getting there" title="How to reach">
-        <div className="grid gap-5 sm:grid-cols-3">
-          {meta.reach.map((r, i) => {
-            const Icon = ICONS[r.icon];
-            return (
-              <Reveal key={r.mode} delay={i * 0.08}>
-                <div className="group relative h-full overflow-hidden rounded-3xl border border-orange-100 bg-white p-6 shadow-[0_10px_30px_rgba(234,88,12,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_22px_50px_rgba(234,88,12,0.14)]">
-                  <span className="absolute -right-5 -top-5 h-20 w-20 rounded-full bg-orange-50 transition-transform duration-300 group-hover:scale-125" />
-                  <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-white shadow-md">
-                    <Icon size={22} />
-                  </span>
-                  <p className="relative mt-4 text-lg font-black text-[#2a1a10]">{r.mode}</p>
-                  <p className="relative mt-1 text-[13.5px] leading-relaxed text-[#6b4c38]">{r.detail}</p>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
-        <Reveal delay={0.1}>
-          <p className="mt-5 rounded-2xl border border-orange-100 bg-orange-50/50 px-5 py-4 text-[14px] leading-relaxed text-[#6b4c38]">
-            {d.how_to_reach}
-          </p>
-        </Reveal>
-      </DPSection>
+      <div className="w-full bg-gradient-to-b from-amber-50/10 via-white to-[#F2F7FB]/40 border-b border-orange-100/20 py-4 relative">
+        <div className="absolute inset-0 opacity-[0.01] pointer-events-none" style={{ backgroundImage: "radial-gradient(#3b82f6 1px, transparent 1px)", backgroundSize: "22px 22px" }} />
+        <DPSection id="reach" eyebrow="Getting there" title="How to reach">
+          <div className="grid gap-6 sm:grid-cols-3">
+            {meta.reach.map((r, i) => {
+              const Icon = ICONS[r.icon];
+              return (
+                <Reveal key={r.mode} delay={i * 0.08}>
+                  <div className="group relative h-full overflow-hidden rounded-3xl border border-orange-100 bg-white p-6 shadow-[0_10px_30px_rgba(234,88,12,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-350 hover:shadow-[0_22px_50px_rgba(234,88,12,0.12)]">
+                    <span className="absolute -right-5 -top-5 h-20 w-20 rounded-full bg-orange-50/60 transition-transform duration-300 group-hover:scale-130" />
+                    <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-md group-hover:scale-108 transition-transform">
+                      <Icon size={22} />
+                    </span>
+                    <h3 className="relative mt-5 text-lg font-black text-[#2D1B10]">{r.mode}</h3>
+                    <p className="relative mt-1.5 text-xs sm:text-[13px] leading-relaxed text-[#6b4c38] font-semibold">{r.detail}</p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+          <Reveal delay={0.1}>
+            <div className="mt-6 rounded-2xl border border-orange-100/80 bg-orange-50/40 p-4 sm:p-5 flex items-start gap-3.5 shadow-inner">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-600">
+                <ShieldCheck size={15} />
+              </span>
+              <p className="text-xs sm:text-[13px] leading-relaxed text-[#6b4c38] font-medium">
+                {d.how_to_reach}
+              </p>
+            </div>
+          </Reveal>
+        </DPSection>
+      </div>
 
       {/* ── Temple timings ── */}
       {temples.length ? (
-        <DPSection id="temple" eyebrow="Darshan & aarti" title="Temple timings & darshan">
-          <div className="grid gap-5 sm:grid-cols-2">
-            {temples.map((t, i) => (
-              <Reveal key={t.slug} delay={i * 0.08}>
-                <Link
-                  href={`/${slug}/${t.slug}/`}
-                  className="group flex h-full flex-col overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-[0_10px_30px_rgba(234,88,12,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_22px_50px_rgba(234,88,12,0.14)]"
-                >
-                  <div className="flex items-center justify-between bg-[linear-gradient(120deg,#FFF3E4,#FFE7CE)] px-6 py-5">
-                    <div className="flex items-center gap-3">
-                      <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-white shadow-md">
-                        <Clock size={20} />
-                      </span>
-                      <span className="font-black text-[#2a1a10]">{t.h1}</span>
+        <div className="w-full bg-gradient-to-b from-[#F2F7FB]/40 via-white to-orange-50/15 border-b border-orange-100/20 py-4 relative">
+          <DPSection id="temple" eyebrow="Darshan & aarti" title="Temple timings & darshan">
+            <div className="relative">
+              {temples.map((t, i) => (
+                <Reveal key={t.slug} delay={i * 0.08}>
+                  <div
+                    className="relative overflow-hidden rounded-3xl border border-orange-200 bg-gradient-to-br from-white via-[#FFFDF9] to-orange-50/15 p-6 sm:p-8 shadow-[0_16px_40px_rgba(234,88,12,0.06)] backdrop-blur-md"
+                  >
+                    <div className="grid gap-4 md:gap-8 md:grid-cols-12 items-center">
+                      
+                      {/* Left Column: Timings list */}
+                      <div className="md:col-span-7 flex flex-col justify-between h-full">
+                        <div>
+                          <div className="flex items-center gap-3 mb-5 pb-3.5 border-b border-orange-100/60">
+                            <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-sm">
+                              <Clock size={18} />
+                            </span>
+                            <span className="font-extrabold text-[#2a1a10] text-lg">{t.h1}</span>
+                          </div>
+                          <ul className="flex flex-col gap-3">
+                            {t.timings.slice(0, 4).map((tm) => (
+                              <li key={tm.label} className="flex items-center justify-between gap-3 text-xs sm:text-sm font-semibold">
+                                <span className="text-[#6b4c38]">{tm.label}</span>
+                                <span className="rounded-lg bg-orange-50 border border-orange-100/50 px-3 py-1 font-extrabold text-orange-700">
+                                  {tm.open}
+                                  {tm.close && tm.close !== "—" ? ` – ${tm.close}` : ""}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        
+                        <Link 
+                          href={`/${slug}/${t.slug}/`}
+                          className="group/btn mt-6 inline-flex w-fit items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-orange-655 hover:text-orange-755 transition-colors pt-3 border-t border-orange-100/30"
+                        >
+                          <span>Detailed Darshan & Aarti Schedule</span>
+                          <ArrowRight size={13} className="transition-transform group-hover/btn:translate-x-0.5" />
+                        </Link>
+                      </div>
+
+                      {/* Right Column: Beautiful Glowing Temple SVG Illustration */}
+                      <div className="md:col-span-5 flex items-center justify-center p-0 md:p-4 relative min-h-[140px] md:min-h-[220px] mt-4 md:mt-0">
+                        {/* Background subtle glowing radial washes */}
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(253,186,116,0.10)_0%,transparent_70%)]" />
+                        
+                        <svg viewBox="0 0 200 220" className="w-full max-w-[140px] md:max-w-[200px] h-auto drop-shadow-[0_8px_20px_rgba(234,88,12,0.08)] relative z-10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          {/* Sun/Mandala behind the spire */}
+                          <circle cx="100" cy="95" r="45" fill="url(#sunGlow)" opacity="0.18" />
+                          <circle cx="100" cy="95" r="42" stroke="url(#templeOrange)" strokeWidth="0.8" strokeDasharray="3 6" opacity="0.45" className="animate-spin-slow" style={{ animationDuration: '75s' }} />
+
+                          {/* Temple Spire (Shikhara) Line Art */}
+                          <path d="M100 18 L100 36 M100 18 L116 25 L100 32" stroke="url(#templeOrange)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M96 36 C96 33, 104 33, 104 36 C104 39, 96 39, 96 36 Z" fill="url(#templeOrange)" />
+                          <path d="M98 40 C98 38, 102 38, 102 40" stroke="url(#templeOrange)" strokeWidth="1.5" />
+                          <path d="M92 48 L100 40 L108 48 Z" stroke="url(#templeOrange)" strokeWidth="1.5" strokeLinejoin="round" />
+                          <path d="M86 60 L100 50 L114 60 Z" stroke="url(#templeOrange)" strokeWidth="1.5" strokeLinejoin="round" />
+                          <path d="M80 74 L100 62 L120 74 Z" stroke="url(#templeOrange)" strokeWidth="1.5" strokeLinejoin="round" />
+                          <path d="M74 90 L100 76 L126 90 Z" stroke="url(#templeOrange)" strokeWidth="1.8" strokeLinejoin="round" />
+                          <path d="M68 110 L100 92 L132 110 Z" stroke="url(#templeOrange)" strokeWidth="1.8" strokeLinejoin="round" />
+
+                          {/* Sanctuary Base */}
+                          <rect x="62" y="110" width="76" height="38" rx="2" stroke="url(#templeOrange)" strokeWidth="1.8" />
+                          <path d="M82 148 C82 132, 118 132, 118 148" stroke="url(#templeOrange)" strokeWidth="1.5" />
+                          <path d="M38 148 C38 120, 62 120, 62 148" stroke="url(#templeOrange)" strokeWidth="1.5" />
+                          <path d="M138 148 C138 120, 162 120, 162 148" stroke="url(#templeOrange)" strokeWidth="1.5" />
+                          
+                          {/* Platform Steps */}
+                          <rect x="25" y="148" width="150" height="8" rx="1.5" fill="url(#templeOrange)" opacity="0.8" />
+                          <rect x="15" y="156" width="170" height="8" rx="1.5" fill="url(#templeOrange)" />
+                          <rect x="5" y="164" width="190" height="6" rx="1" fill="url(#templeOrange)" opacity="0.6" />
+
+                          <defs>
+                            <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+                              <stop offset="0%" stopColor="#EA580C" />
+                              <stop offset="100%" stopColor="#F59E0B" stopOpacity="0" />
+                            </radialGradient>
+                            <linearGradient id="templeOrange" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="0%" stopColor="#F59E0B" />
+                              <stop offset="50%" stopColor="#EA580C" />
+                              <stop offset="100%" stopColor="#B85C10" />
+                            </linearGradient>
+                          </defs>
+                        </svg>
+                      </div>
                     </div>
-                    <ArrowUpRight size={18} className="shrink-0 text-orange-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
-                  <div className="p-6">
-                    <ul className="flex flex-col gap-2">
-                      {t.timings.slice(0, 4).map((tm) => (
-                        <li key={tm.label} className="flex items-center justify-between gap-3 text-[13.5px]">
-                          <span className="text-[#6b4c38]">{tm.label}</span>
-                          <span className="rounded-lg bg-orange-50 px-2.5 py-1 font-bold text-orange-700">
-                            {tm.open}
-                            {tm.close && tm.close !== "—" ? ` – ${tm.close}` : ""}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="mt-4 text-[12.5px] font-semibold text-orange-600">Timings, aarti &amp; darshan details →</p>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </DPSection>
+                </Reveal>
+              ))}
+            </div>
+          </DPSection>
+        </div>
       ) : null}
 
       {/* ── Places to visit ── */}
-      <DPSection id="places" eyebrow="Things to do" title="Places to visit" wide>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {d.top_places.map((p, i) => {
-            const Icon = ICONS[meta.placeIcon];
-            return (
-              <Reveal key={p.slug} delay={(i % 3) * 0.08}>
-                <Link
-                  href={`/${slug}/places/${p.slug}/`}
-                  className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-orange-100 bg-white p-6 shadow-[0_10px_30px_rgba(234,88,12,0.06)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-300 hover:shadow-[0_24px_55px_rgba(234,88,12,0.15)]"
-                >
-                  <span className="pointer-events-none absolute -right-3 -top-4 select-none text-[64px] font-black leading-none text-orange-500/[0.07]">
-                    {i + 1}
-                  </span>
-                  <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-white shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                    <Icon size={22} />
-                  </span>
-                  <p className="mt-4 text-lg font-black text-[#2a1a10]">{p.name}</p>
-                  <p className="mt-1.5 flex-1 text-[13.5px] leading-relaxed text-[#6b4c38]">{p.blurb}</p>
-                  <span className="mt-4 inline-flex items-center gap-1.5 text-[12.5px] font-bold text-orange-600">
-                    <MapPinned size={14} /> Explore
-                    <ArrowUpRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </span>
-                </Link>
-              </Reveal>
-            );
-          })}
-        </div>
-      </DPSection>
+      <div className="w-full bg-gradient-to-b from-orange-50/15 via-white to-[#FAF6EE] border-b border-orange-100/20 py-4 relative">
+        <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: "radial-gradient(#ea580c 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
+        <DPSection id="places" eyebrow="Things to do" title="Places to visit">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {d.top_places.map((p, i) => {
+              const Icon = ICONS[meta.placeIcon];
+              return (
+                <Reveal key={p.slug} delay={(i % 3) * 0.08}>
+                  <Link
+                    href={`/${slug}/places/${p.slug}/`}
+                    className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-orange-100/80 bg-white p-6 shadow-[0_10px_30px_rgba(234,88,12,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-355 hover:shadow-[0_24px_55px_rgba(234,88,12,0.12)]"
+                  >
+                    {/* Outline number watermark */}
+                    <span className="pointer-events-none absolute -right-2.5 -top-4 select-none text-7xl font-black leading-none text-orange-500/[0.06] transition-transform duration-500 group-hover:-translate-x-2 group-hover:scale-108 font-mono">
+                      0{i + 1}
+                    </span>
+                    
+                    <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-md transition-all duration-305 group-hover:scale-108 group-hover:rotate-3">
+                      <Icon size={20} />
+                    </span>
+                    <h3 className="mt-5 text-lg font-black text-[#2D1B10]">{p.name}</h3>
+                    <p className="mt-2 flex-1 text-xs sm:text-[13px] leading-relaxed text-[#6b4c38] font-semibold">{p.blurb}</p>
+                    
+                    <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-orange-600 group-hover:text-orange-700 pt-2 border-t border-orange-50/30">
+                      <MapPinned size={13} className="text-orange-500" />
+                      <span>Explore Route Guide</span>
+                      <ArrowRight size={12} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
+                </Reveal>
+              );
+            })}
+          </div>
+        </DPSection>
+      </div>
 
       {/* ── Key distances ── */}
-      <DPSection id="distances" eyebrow="Plan the drive" title="Key distances">
-        <Reveal>
-          <div className="mb-5 flex flex-wrap items-center gap-3 rounded-2xl border border-orange-100 bg-[linear-gradient(120deg,#FFF8F1,#FFF3E4)] px-5 py-4">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-400 text-white shadow-md">
-              <Route size={18} />
-            </span>
-            <p className="text-[14px] font-semibold text-[#4a3527]">
-              {d.destination} sits on the Somnath–{other} pilgrimage circuit — most travellers pair both temples over 3–5 days.
-            </p>
-          </div>
-          <DataTable
-            columns={["From", "To", "Distance", "Time"]}
-            rows={d.key_distances.map((k) => [k.from, k.to, k.distance, k.duration])}
-            verify={{ key: "dist", label: "Distances", value: "", verify: false }}
-          />
-        </Reveal>
-      </DPSection>
+      <div className="w-full bg-gradient-to-b from-[#FAF6EE] via-white to-[#F6FAFD] border-b border-orange-100/20 py-4 relative">
+        <DPSection id="distances" eyebrow="Plan the drive" title="Key distances">
+          <Reveal>
+            <div className="mb-6 flex flex-wrap items-center gap-3.5 rounded-2xl border border-orange-100/80 bg-gradient-to-br from-orange-50/40 to-amber-50/30 px-5 py-4.5 shadow-inner">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-md">
+                <Route size={18} />
+              </span>
+              <p className="text-xs sm:text-[14px] font-bold text-[#4a3223] leading-relaxed">
+                {d.destination} sits on the Somnath–{other} pilgrimage circuit — most travellers pair both temples over 3–5 days.
+              </p>
+            </div>
+            
+            <div className="bg-white/70 backdrop-blur-md p-4 sm:p-6 rounded-2xl border border-orange-100/60 shadow-[0_12px_36px_rgba(234,88,12,0.03)]">
+              <DataTable
+                columns={["From", "To", "Distance", "Time"]}
+                rows={d.key_distances.map((k) => [k.from, k.to, k.distance, k.duration])}
+                verify={{ key: "dist", label: "Distances", value: "", verify: false }}
+              />
+            </div>
+          </Reveal>
+        </DPSection>
+      </div>
 
       {/* ── Map ── */}
-      <DPSection id="map" eyebrow="Find it" title={`${d.destination} on the map`}>
-        <Reveal className="[&_div]:my-0 [&_div]:rounded-3xl [&_div]:shadow-[0_18px_50px_rgba(234,88,12,0.10)]">
-          <MapEmbed query={d.map_query} title={`Map of ${d.destination}`} />
-        </Reveal>
-      </DPSection>
+      <div className="w-full bg-gradient-to-b from-[#F6FAFD] via-white to-[#FFFDFC] py-4 relative">
+        <DPSection id="map" eyebrow="Find it" title={`${d.destination} on the map`}>
+          <Reveal className="[&_div]:my-0 [&_div]:rounded-3xl overflow-hidden [&_div]:shadow-[0_18px_50px_rgba(234,88,12,0.10)] border border-orange-100/60 rounded-3xl">
+            <MapEmbed query={d.map_query} title={`Map of ${d.destination}`} />
+          </Reveal>
+        </DPSection>
+      </div>
 
       <Faq items={d.faq} heading={`${d.destination} FAQs`} />
       <CtaBand context={`${d.destination} trip`} />

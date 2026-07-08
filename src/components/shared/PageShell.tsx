@@ -26,11 +26,13 @@ export default function PageShell({
   children,
   noPaddingTop = false,
   flushHero = false,
+  lightCrumb = false,
 }: {
   crumbs: Crumb[];
   children: React.ReactNode;
   noPaddingTop?: boolean;
   flushHero?: boolean;
+  lightCrumb?: boolean;
 }) {
   const renderCrumb = (crumbs?.length ?? 0) > 1;
   return (
@@ -44,7 +46,7 @@ export default function PageShell({
           flushHero ? (
             <div className="pointer-events-none absolute inset-x-0 top-24 z-30">
               <div className="pointer-events-auto">
-                <Breadcrumb crumbs={crumbs} />
+                <Breadcrumb crumbs={crumbs} light={lightCrumb} />
               </div>
             </div>
           ) : (

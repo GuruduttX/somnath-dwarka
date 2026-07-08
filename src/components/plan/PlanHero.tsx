@@ -47,10 +47,6 @@ export default function PlanHero() {
 
           {/* LEFT */}
           <div className="flex flex-col">
-            <div className="pl-up pl0 inline-flex w-fit items-center gap-1.5 rounded-full border border-orange-200/80 bg-white/70 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-orange-800 shadow-sm backdrop-blur-sm">
-              <Compass size={12} className="text-orange-500" />
-              Trip Planning
-            </div>
 
             <h1 className="pl-up pl1 mt-4 text-4xl font-black leading-[1.08] tracking-[-0.02em] text-[#3a2416] sm:text-5xl lg:text-[3.35rem]">
               Plan your{" "}

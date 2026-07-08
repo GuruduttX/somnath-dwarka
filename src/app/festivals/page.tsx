@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Sparkles, CalendarClock, Users, BedDouble } from "lucide-react";
+import Link from "next/link";
+import { Sparkles, CalendarClock, Users, BedDouble, ArrowUpRight, Compass, Map, Building2, Calendar } from "lucide-react";
 import { buildMetadata, webPageSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import JsonLd from "@/src/components/seo/JsonLd";
@@ -85,7 +86,7 @@ export default async function FestivalHubPage() {
       }));
 
   return (
-    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Festivals", path: PATH }]} flushHero>
+    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Festivals", path: PATH }]} flushHero lightCrumb>
       <FestivalsHero count={festivals.length} />
 
       {/* ── Festival guides ── */}
@@ -112,19 +113,20 @@ export default async function FestivalHubPage() {
       </div>
 
       {/* ── Plan-ahead strip ── */}
-      <div className="mx-auto max-w-5xl px-4 pt-12 pb-2">
+      <div className="mx-auto max-w-5xl px-4 py-12">
         <div className="grid gap-4 sm:grid-cols-3">
           {[
             { Icon: CalendarClock, t: "Book early", s: "Reserve stays and cabs 6–10 weeks ahead for peak festivals." },
             { Icon: Users, t: "Time your darshan", s: "Plan queues around aarti timings to avoid the biggest rush." },
             { Icon: BedDouble, t: "We handle logistics", s: "Hotels, transport and a festival-ready itinerary in one place." },
           ].map(({ Icon, t, s }) => (
-            <div key={t} className="rounded-2xl border border-orange-100 bg-orange-50/40 p-5">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-orange-600 ring-1 ring-orange-100">
+            <div key={t} className="group relative h-full overflow-hidden rounded-3xl border border-orange-100 bg-white p-6 shadow-[0_10px_30px_rgba(234,88,12,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_22px_50px_rgba(234,88,12,0.14)]">
+              <span className="absolute -right-6 -top-6 h-20 w-20 rounded-full bg-orange-50 transition-transform duration-300 group-hover:scale-125" />
+              <span className="relative grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-white shadow-md">
                 <Icon size={18} />
               </span>
-              <p className="mt-3 text-[15px] font-bold text-[#3a2416]">{t}</p>
-              <p className="mt-1 text-[13px] leading-relaxed text-[#6b4c38]">{s}</p>
+              <p className="relative mt-4 text-[15px] font-bold text-[#3a2416]">{t}</p>
+              <p className="relative mt-1 text-[13px] leading-relaxed text-[#6b4c38]">{s}</p>
             </div>
           ))}
         </div>
@@ -133,6 +135,62 @@ export default async function FestivalHubPage() {
       <Faq items={FAQ} heading="Festival FAQs" subheading="Planning a trip around Somnath and Dwarka's festivals." />
 
       <CtaBand context="Festival trip to Somnath Dwarka" />
+
+      {/* ── Related guides & services (Below CTA) ── */}
+      <div className="mx-auto max-w-5xl px-4 py-12">
+        <div className="border-t border-orange-100/60 pt-8">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-orange-600 mb-4 flex items-center gap-1.5">
+            <Sparkles size={11} className="text-orange-500" />
+            <span>Related guides & services</span>
+          </p>
+          <ul className="grid gap-4 sm:grid-cols-4">
+            {[
+              { target: "/somnath/", anchor: "Somnath Travel Guide", type: "pillar" },
+              { target: "/dwarka/", anchor: "Dwarka Travel Guide", type: "pillar" },
+              { target: "/somnath-dwarka-taxi-service/", anchor: "Book Taxi Service", type: "sibling" },
+              { target: "/somnath-dwarka-tour-package/", anchor: "Tour Packages", type: "money" },
+            ].map((l) => {
+              let Icon = Calendar;
+              let label = "Read more";
+              if (l.type === "pillar") {
+                Icon = Compass;
+                label = "Travel guide";
+              } else if (l.type === "money") {
+                Icon = Building2;
+                label = "Book & compare";
+              } else if (l.type === "sibling") {
+                Icon = Map;
+                label = "Plan your trip";
+              }
+              
+              return (
+                <li key={l.target + l.anchor}>
+                  <Link
+                    href={l.target}
+                    className="group flex h-full items-center gap-3 rounded-2xl border border-orange-100 bg-white p-4 shadow-[0_4px_20px_rgba(234,88,12,0.03)] transition-all duration-250 hover:-translate-y-0.5 hover:border-orange-250 hover:shadow-[0_12px_36px_rgba(234,88,12,0.08)]"
+                  >
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-orange-50 text-orange-600 transition-colors group-hover:bg-orange-500 group-hover:text-white">
+                      <Icon size={18} />
+                    </span>
+                    <span className="min-w-0 flex-1 leading-tight">
+                      <span className="block text-[9.5px] font-bold uppercase tracking-wider text-orange-400">
+                        {label}
+                      </span>
+                      <span className="mt-1 block text-xs sm:text-sm font-extrabold text-[#2a1a10] capitalize line-clamp-2">
+                        {l.anchor}
+                      </span>
+                    </span>
+                    <ArrowUpRight
+                      size={16}
+                      className="shrink-0 text-gray-300 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-orange-600"
+                    />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
 
       <JsonLd
         data={webPageSchema({
