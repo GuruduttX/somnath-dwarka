@@ -270,10 +270,40 @@ export type SeedJourney = {
   direct_answer: string;
   modes: { mode: string; distance: string; duration: string; note: string }[];
   itinerary?: { day: number; title: string; description: string; stops?: string[] }[];
+  /** Month-grid table (URL map extraction_format for best-time-to-visit pages). */
+  month_table?: { month: string; weather: string; crowd: string; note: string }[];
   faq: { question: string; answer: string }[];
 };
 
 export const SEED_JOURNEYS: SeedJourney[] = [
+  {
+    slug: "best-time-to-visit-gujarat",
+    title: "Best Time to Visit Gujarat — Month-by-Month Guide",
+    h1: "Best Time to Visit Gujarat",
+    question: "When is the best time to visit Gujarat?",
+    direct_answer:
+      "October to March is the best window for Gujarat. The coast is pleasant, the White Rann is open, and Gir safaris run. April to June is genuinely hot inland, and Gir closes for the monsoon from mid-June to mid-October.",
+    modes: [],
+    month_table: [
+      { month: "October", weather: "Warm, drying out", crowd: "Rising", note: "Navratri; Gir reopens mid-month" },
+      { month: "November", weather: "Pleasant", crowd: "High", note: "Rann Utsav season opens" },
+      { month: "December", weather: "Cool, cold at night in Kutch", crowd: "Peak", note: "Best all-round month; book early" },
+      { month: "January", weather: "Cool", crowd: "Peak", note: "Uttarayan kite festival" },
+      { month: "February", weather: "Mild, warming", crowd: "High", note: "Maha Shivratri at Somnath" },
+      { month: "March", weather: "Warm", crowd: "Moderate", note: "Rann season closes; Dakor padyatra" },
+      { month: "April", weather: "Hot", crowd: "Low", note: "Coastal towns bearable, inland is not" },
+      { month: "May", weather: "Very hot", crowd: "Low", note: "Avoid inland sightseeing at midday" },
+      { month: "June", weather: "Hot, monsoon arrives late", crowd: "Low", note: "Gir closes from mid-June" },
+      { month: "July", weather: "Monsoon", crowd: "Low", note: "Gir closed; Bet Dwarka ferry disrupted" },
+      { month: "August", weather: "Monsoon", crowd: "Moderate", note: "Janmashtami at Dwarka" },
+      { month: "September", weather: "Monsoon easing", crowd: "Rising", note: "Gir still closed; Navratri may begin" },
+    ],
+    faq: [
+      { question: "What is the single best month for Gujarat?", answer: "December, if you can take the crowds and book early: the coast is pleasant, the White Rann is open and Gir safaris are running." },
+      { question: "Is Gir open all year?", answer: "No. Gir National Park closes for the monsoon, roughly mid-June to mid-October. Confirm the current dates before planning a safari." },
+      { question: "Can I visit Somnath and Dwarka in the monsoon?", answer: "Yes, the temples stay open, but the Bet Dwarka ferry can be suspended in rough weather and Gir will be closed." },
+    ],
+  },
   {
     slug: "dwarka-to-somnath-distance",
     title: "Dwarka to Somnath Distance — Route & Itinerary",
@@ -427,6 +457,25 @@ export const SEED_HOTELS: SeedHotel[] = [
     faq: [
       { question: "Do dharamshalas in Dwarka take advance bookings?", answer: "Practice varies by dharamshala; many are direct-booking and some are walk-in only. Around Janmashtami they fill well in advance." },
       { question: "Is a dharamshala right for my family?", answer: "They are simple and inexpensive but facilities are basic. We will say so honestly and suggest a private hotel when that suits you better." },
+    ],
+  },
+  {
+    slug: "sasan-gir-hotels",
+    city: "Sasan Gir",
+    title: "Sasan Gir Hotels & Resorts — Areas, Tariff & Booking Help",
+    h1: "Sasan Gir Hotels & Resorts",
+    near_temple: "Gir National Park (Sasan gate)",
+    answer_first:
+      "Stays at Sasan Gir run from simple lodges in the village to forest-edge resorts near the Sasan gate. Where you stay matters less than how early your safari permit is booked, since permits sell out well before rooms do. We help you sequence both.",
+    tiers: [
+      { tier: "Budget", area: "Sasan village", typical_range: "Confirmed on request" },
+      { tier: "Mid-range", area: "Near Sasan gate", typical_range: "Confirmed on request" },
+      { tier: "Resort", area: "Forest edge / Devalia road", typical_range: "Confirmed on request" },
+    ],
+    properties: [],
+    faq: [
+      { question: "Should I book the hotel or the safari permit first?", answer: "The permit. Gir safari permits are limited and released on a fixed schedule; rooms are far easier to find late than a permit is." },
+      { question: "How far is Sasan Gir from Somnath?", answer: "Roughly a two-hour drive, which is why Gir is commonly added to a Somnath–Dwarka circuit as an extra night." },
     ],
   },
   {
@@ -671,6 +720,81 @@ export type SeedFestival = {
 
 export const SEED_FESTIVALS: SeedFestival[] = [
   {
+    // date_this_year is left empty across all festivals until the calendar is
+    // confirmed — an empty string suppresses the Event schema rather than
+    // publishing a date nobody has checked.
+    slug: "navratri-garba-gujarat",
+    festival: "Navratri",
+    title: "Navratri & Garba in Gujarat — Dates, Venues & Experience",
+    h1: "Navratri & Garba in Gujarat",
+    answer_first:
+      "Navratri is Gujarat's largest festival: nine nights of garba danced in every town, with the biggest organised grounds in Ahmedabad, Vadodara and Rajkot. Dates shift each year with the Hindu calendar and are confirmed before the season.",
+    rituals:
+      "In tradition, the nine nights honour the goddess Durga in her forms; devotees fast, perform aarti before the garbo lamp, and dance garba and dandiya-raas through the night.",
+    travel_advice:
+      "Hotels in the main garba cities fill months ahead and tariffs rise sharply. Large commercial grounds require passes bought in advance; neighbourhood garbas are usually open and free.",
+    event_venue: "Ahmedabad, Vadodara, Rajkot and towns across Gujarat",
+    date_this_year: "",
+    image: "/images/home/HomeHero.webp",
+    deity: "Goddess Durga",
+    city: "Statewide",
+    season: "Sep – Oct",
+    crowd: "Very high",
+    highlights: ["Nine nights of garba", "Dandiya-raas", "Aarti before the garbo", "Traditional chaniya choli"],
+    faq: [
+      { question: "When is Navratri in Gujarat?", answer: "It falls in September or October and moves each year with the Hindu calendar. We publish confirmed dates before the season rather than estimate them." },
+      { question: "Can visitors join the garba?", answer: "Yes. Neighbourhood garbas welcome visitors and are usually free; the large commercial grounds sell passes well in advance." },
+    ],
+  },
+  {
+    slug: "kutch-rann-utsav-festival",
+    festival: "Rann Utsav",
+    title: "Rann Utsav Festival — Dates, What to Expect & Plan",
+    h1: "Rann Utsav Festival",
+    answer_first:
+      "Rann Utsav is a winter festival on the White Rann of Kutch, built around the salt desert under a full moon, a tent city at Dhordo, and craft villages nearby. The season runs across the cool months and the exact window is announced each year.",
+    rituals:
+      "Not a religious festival: it is a state-supported cultural season of Kutchi music, craft and food staged on the salt flats.",
+    travel_advice:
+      "Full-moon nights sell out first and cost the most. Nights on the Rann are genuinely cold, so pack layers. A permit is required to enter the border area and is arranged with your booking.",
+    event_venue: "Dhordo tent city, White Rann of Kutch",
+    date_this_year: "",
+    image: "/images/CTA.webp",
+    deity: "",
+    city: "Kutch",
+    season: "Nov – Mar",
+    crowd: "High",
+    highlights: ["White Rann at full moon", "Dhordo tent city", "Kutchi craft villages", "Folk music & food"],
+    faq: [
+      { question: "When is Rann Utsav held?", answer: "Across the cool months, broadly November to March. The exact opening and closing dates are announced each year; we confirm them before quoting." },
+      { question: "Do I need a permit for the White Rann?", answer: "Yes. The Rann sits in a border area and entry needs a permit, which is arranged as part of your booking." },
+    ],
+  },
+  {
+    slug: "dakor-fagun-purnima-padyatra",
+    festival: "Fagun Purnima Padyatra",
+    title: "Dakor Fagun Purnima Padyatra — Dates & Travel Guide",
+    h1: "Dakor Fagun Purnima Padyatra",
+    answer_first:
+      "On Fagun Purnima, hundreds of thousands of pilgrims walk to the Ranchhodrai Temple at Dakor, many on foot from Ahmedabad and the surrounding districts. Roads into Dakor are heavily managed for several days around the full moon.",
+    rituals:
+      "In tradition, devotees walk the padyatra chanting for Ranchhodrai — a form of Krishna — and take darshan on the full-moon night of Fagun.",
+    travel_advice:
+      "Expect road diversions and long queues around the full moon. If you are not walking, arrive a day early or visit outside the padyatra window; local stays are limited and fill early.",
+    event_venue: "Ranchhodrai Temple, Dakor",
+    date_this_year: "",
+    image: "/images/home/SomnathLongImage.webp",
+    deity: "Ranchhodrai (Krishna)",
+    city: "Dakor",
+    season: "Feb – Mar",
+    crowd: "Very high",
+    highlights: ["Padyatra on foot", "Full-moon darshan", "Ranchhodrai Temple", "Community bhojan"],
+    faq: [
+      { question: "When is the Dakor padyatra?", answer: "On Fagun Purnima, the full moon of the month of Fagun, falling in February or March. The date moves each year and is confirmed before the season." },
+      { question: "Can I drive to Dakor during the padyatra?", answer: "Roads are heavily diverted around the full moon and parking is far from the temple. Arriving a day early, or outside the window, is easier." },
+    ],
+  },
+  {
     slug: "janmashtami-dwarka",
     festival: "Janmashtami",
     title: "Janmashtami in Dwarka — Dates, Rituals & Travel Guide",
@@ -747,9 +871,12 @@ export type SeedComparison = {
   h1: string;
   optionA: string;
   optionB: string;
+  /** Optional third option — the URL map has three-way comparisons
+   *  (package vs self-drive vs cab, train vs cab vs flight). */
+  optionC?: string;
   answer_first: string;
   verdict: string;
-  rows: { criterion: string; a: string; b: string }[];
+  rows: { criterion: string; a: string; b: string; c?: string }[];
   recommended_target: string;
   faq: { question: string; answer: string }[];
 };
@@ -773,6 +900,122 @@ export const SEED_COMPARISONS: SeedComparison[] = [
     recommended_target: "/somnath-dwarka-tour-package/",
     faq: [
       { question: "Should I visit Somnath or Dwarka?", answer: "If possible, visit both — they combine into one circuit. If choosing one, decide by whether you follow Shiva (Somnath) or Krishna (Dwarka) and your arrival city." },
+    ],
+  },
+  {
+    slug: "best-somnath-dwarka-package",
+    title: "Best Somnath Dwarka Package — An Honest Comparison",
+    h1: "Best Somnath Dwarka Package — Honest Comparison",
+    optionA: "3-day package",
+    optionB: "4–5 day package",
+    answer_first:
+      "There is no single best Somnath Dwarka package — the honest answer depends on how many days you have and whether you want unhurried darshan or the shortest viable trip. A 3-day plan covers both temples; 4 to 5 days adds Nageshwar, Bet Dwarka and Porbandar without long single-day drives.",
+    verdict:
+      "Take the 3-day package if your leave is tight and you accept a brisk pace. Take 4–5 days if elders are travelling, or if you want to see the evening aarti without watching the clock.",
+    rows: [
+      { criterion: "Temples covered", a: "Somnath, Dwarkadhish", b: "Both + Nageshwar, Bet Dwarka" },
+      { criterion: "Pace", a: "Brisk; long drive days", b: "Unhurried; shorter legs" },
+      { criterion: "Suits", a: "Short leave, fit travellers", b: "Families, elders, first visit" },
+      { criterion: "Porbandar detour", a: "Usually skipped", b: "Fits comfortably" },
+    ],
+    recommended_target: "/somnath-dwarka-tour-package/",
+    faq: [
+      { question: "Which package do most travellers choose?", answer: "The 4-day plan is the most common: it covers both temples plus Nageshwar and Bet Dwarka without a punishing drive schedule." },
+      { question: "Is a cheaper package worse?", answer: "Not necessarily. A lower price usually reflects hotel tier and vehicle, not the itinerary. Ask what is different rather than assuming quality." },
+    ],
+  },
+  {
+    slug: "package-vs-self-drive-vs-cab",
+    title: "Package vs Self-Drive vs Cab — An Honest Comparison",
+    h1: "Package vs Self Drive vs Cab — Honest Comparison",
+    optionA: "Tour package",
+    optionB: "Self-drive",
+    optionC: "Private cab",
+    answer_first:
+      "A package bundles stay, vehicle and itinerary; a private cab gives you a driver but you book your own stay; self-drive gives you total freedom and total responsibility. On the Somnath–Dwarka circuit, most travellers who try self-drive underestimate the highway hours.",
+    verdict:
+      "Take a package on a first visit or with elders. Take a private cab if you already know where you want to stay. Self-drive only if you are comfortable with long unfamiliar highway stretches and parking near crowded temples.",
+    rows: [
+      { criterion: "Stay included", a: "Yes", b: "No", c: "No" },
+      { criterion: "Who drives", a: "Driver", b: "You", c: "Driver" },
+      { criterion: "Itinerary planning", a: "Done for you", b: "Yours", c: "Shared" },
+      { criterion: "Flexibility", a: "Moderate", b: "Highest", c: "High" },
+      { criterion: "Best for", a: "First visit, elders", b: "Confident drivers", c: "Repeat visitors" },
+    ],
+    recommended_target: "/somnath-dwarka-tour-package/",
+    faq: [
+      { question: "Is self-drive cheaper?", answer: "Sometimes, once fuel, tolls and a one-way drop charge are counted, the gap narrows. Compare the full figure rather than the headline rental rate." },
+      { question: "Do I need a package if I only want a cab?", answer: "No. If you are happy to book your own hotels, a private cab with a driver covers the hard part, which is the driving." },
+    ],
+  },
+  {
+    slug: "3-day-vs-5-day-itinerary",
+    title: "3 Day vs 5 Day Somnath Dwarka — An Honest Comparison",
+    h1: "3 Day vs 5 Day Somnath Dwarka — Honest Comparison",
+    optionA: "3-day itinerary",
+    optionB: "5-day itinerary",
+    answer_first:
+      "Three days is the minimum that covers both Somnath and Dwarka properly. Five days turns the same route into a relaxed circuit with Nageshwar, Bet Dwarka, Porbandar and time to sit through an aarti without rushing to the car.",
+    verdict:
+      "Three days works if you arrive rested and accept two long drive days. Five days is the better trip, and it is the one people say they wish they had booked.",
+    rows: [
+      { criterion: "Drive days", a: "2 long legs", b: "Spread across the trip" },
+      { criterion: "Aarti attendance", a: "One, if timing holds", b: "Both temples, unhurried" },
+      { criterion: "Bet Dwarka ferry", a: "Tight; weather-dependent", b: "Comfortable buffer" },
+      { criterion: "Porbandar", a: "Skipped", b: "Included" },
+      { criterion: "Suits elders", a: "Less comfortably", b: "Yes" },
+    ],
+    recommended_target: "/somnath-dwarka-tour-package/",
+    faq: [
+      { question: "Can I do Somnath and Dwarka in 2 days?", answer: "Only as a rushed transit. You would spend most of it driving 233 km between the towns and risk missing the aarti at either end." },
+      { question: "What does the 5th day add?", answer: "Usually Porbandar and a slower Bet Dwarka morning, plus a buffer if the ferry or weather does not cooperate." },
+    ],
+  },
+  {
+    slug: "budget-vs-luxury",
+    title: "Budget vs Luxury Package — An Honest Comparison",
+    h1: "Budget vs Luxury Package — Honest Comparison",
+    optionA: "Budget package",
+    optionB: "Luxury package",
+    answer_first:
+      "Budget and luxury packages on this circuit usually run the same itinerary and the same temples. What changes is the hotel tier, the vehicle and how much waiting you do. Nobody gets a different darshan for paying more.",
+    verdict:
+      "Choose budget if the temples are the point and the room is only for sleeping. Choose luxury if long drives and hotel comfort materially affect whether your family enjoys the trip.",
+    rows: [
+      { criterion: "Itinerary", a: "Same", b: "Same" },
+      { criterion: "Hotel tier", a: "Clean, basic, near temple", b: "Sea-facing or premium" },
+      { criterion: "Vehicle", a: "Sedan or shared", b: "Innova or larger, private" },
+      { criterion: "Meals", a: "Breakfast typically", b: "Breakfast, often dinner" },
+      { criterion: "Darshan access", a: "Same as everyone", b: "Same as everyone" },
+    ],
+    recommended_target: "/somnath-dwarka-tour-package/",
+    faq: [
+      { question: "Does a luxury package get faster darshan?", answer: "No. Any special or VIP darshan arrangement is set by the temple trust, not by your tour operator or the price you paid." },
+      { question: "What is the honest difference?", answer: "Hotel, vehicle and meals. If someone claims more than that, ask them to name exactly what changes." },
+    ],
+  },
+  {
+    slug: "train-vs-cab-vs-flight",
+    title: "Train vs Cab vs Flight — Gujarat Circuit Compared",
+    h1: "Train Vs Cab Vs Flight Gujarat Circuit — Honest Comparison",
+    optionA: "Train",
+    optionB: "Private cab",
+    optionC: "Flight",
+    answer_first:
+      "No single mode covers the Somnath–Dwarka circuit end to end. Flights reach Rajkot, Jamnagar or Diu but not the temple towns; trains reach Veraval and Dwarka but not each other conveniently; a cab connects everything and is what most itineraries use for the middle of the trip.",
+    verdict:
+      "Fly or take a train into Gujarat, then use a private cab for the circuit itself. Trying to do the 233 km between the temples by rail costs you a day.",
+    rows: [
+      { criterion: "Reaches Somnath", a: "Veraval railhead (~7 km)", b: "Door to door", c: "Diu (~85 km)" },
+      { criterion: "Reaches Dwarka", a: "Dwarka station", b: "Door to door", c: "Jamnagar (~130 km)" },
+      { criterion: "Somnath to Dwarka", a: "Awkward; slow", b: "≈ 233 km, 4.5–5 hr", c: "No direct link" },
+      { criterion: "Luggage & elders", a: "Harder", b: "Easiest", c: "Transfers needed" },
+      { criterion: "Typical role", a: "Getting into Gujarat", b: "The circuit itself", c: "Getting into Gujarat" },
+    ],
+    recommended_target: "/somnath-dwarka-taxi-service/",
+    faq: [
+      { question: "Is there a direct flight to Somnath or Dwarka?", answer: "No. The nearest airports are Diu for Somnath and Jamnagar for Dwarka, and both need a road transfer." },
+      { question: "Can I do the whole trip by train?", answer: "In principle, but the leg between the two temple towns is slow and indirect. Almost every practical itinerary uses a cab for that stretch." },
     ],
   },
 ];

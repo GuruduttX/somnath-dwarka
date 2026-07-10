@@ -68,6 +68,15 @@ export default async function JourneyPage({ params }: Params) {
         </Section>
       ) : null}
 
+      {j.month_table?.length ? (
+        <Section id="month-grid" title="Month by month">
+          <DataTable
+            columns={["Month", "Weather", "Crowds", "Worth knowing"]}
+            rows={j.month_table.map((m) => [m.month, m.weather, m.crowd, m.note])}
+          />
+        </Section>
+      ) : null}
+
       {j.itinerary?.length ? (
         <Section id="itinerary" title="Sample itinerary">
           <ItineraryAccordion days={j.itinerary} />

@@ -18,6 +18,7 @@ import ItinearyMaker from '@/src/components/Admin/PackageEditor/Itinerary';
 import DANDestination from '@/src/components/Admin/PackageEditor/DANDestination';
 import ChildImagePicker from '@/src/components/Admin/PackageEditor/ChildImagePicker';
 import CMSSchema from '@/src/components/Admin/CMS/CMSSchema';
+import { withIds } from '@/src/utils/withIds';
 import DurationSection from '@/src/components/Admin/PackageEditor/DurationSection';
 import DestRoutes from '@/src/components/Admin/PackageEditor/DestRoute';
 import SelectedInclusion from '@/src/components/Admin/PackageEditor/SelectedInclusion';
@@ -165,17 +166,23 @@ export default function page() {
         reviews: data.reviews ?? ""
       });
 
-      setFaqs(data.faqs ?? []);
+      // Records written outside the editor (seed scripts, imports) may carry
+      // array items with no `id`. The editor lists key on it, so normalise here.
+      setFaqs(withIds(data.faqs));
 
-      setTestimonials(data.testimonials ?? [])
-      setHighLights(data.highlights ?? [])
-      setInclusions(data.inclusions ?? [])
-      setExclusions(data.exclusions ?? [])
-      setDocuments(data.knowBeforeYouGo ?? [])
-      setItinerary(data.itinerary ?? [])
-      setChildImage(data.childImages ?? []);
-      setBreakdown(data.durationbreakdown ?? []);
-      setRoute(data.routes ?? { source: "", destination: "", segments: [] })
+      setTestimonials(withIds(data.testimonials))
+      setHighLights(withIds(data.highlights))
+      setInclusions(withIds(data.inclusions))
+      setExclusions(withIds(data.exclusions))
+      setDocuments(withIds(data.knowBeforeYouGo))
+      setItinerary(withIds(data.itinerary))
+      setChildImage(withIds(data.childImages));
+      setBreakdown(withIds(data.durationbreakdown));
+      setRoute({
+        source: data.routes?.source ?? "",
+        destination: data.routes?.destination ?? "",
+        segments: withIds(data.routes?.segments),
+      })
       setAvailableSrc(data.availableSrc ?? []);
       
 

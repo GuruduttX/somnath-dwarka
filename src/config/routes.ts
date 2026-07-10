@@ -77,12 +77,22 @@ export const PRIMARY_NAV = [
   { label: "Tours", path: "/somnath-dwarka-tour-package/" },
   { label: "Taxi service", path: "/somnath-dwarka-taxi-service/" },
   { label: "Hotels", path: "/hotels/" },
-  { label: "Somnath", path: "/somnath/" },
-  { label: "Dwarka", path: "/dwarka/" },
   { label: "Temples", path: "/temples/" },
   { label: "Festivals", path: "/festivals/" },
   { label: "Plan", path: "/plan/" },
   { label: "Guides", path: "/guides/" },
+];
+
+/**
+ * Destination pillars, shown as a nav dropdown. Somnath and Dwarka moved here
+ * from the flat bar so the four pillars sit together rather than two of them
+ * being top-level and two unreachable from the header.
+ */
+export const DESTINATIONS_NAV = [
+  { label: "Somnath", path: "/somnath/" },
+  { label: "Dwarka", path: "/dwarka/" },
+  { label: "Gir", path: "/gir/" },
+  { label: "Junagadh Girnar", path: "/junagadh-girnar/" },
 ];
 
 /**

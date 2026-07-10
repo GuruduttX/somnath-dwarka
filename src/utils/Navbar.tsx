@@ -4,29 +4,50 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone, ArrowRight, MapPin, Compass } from "lucide-react";
+import { Menu, X, Phone, ArrowRight, MapPin, Compass, ChevronDown } from "lucide-react";
 import CommonEnquiryForm from "./CommanEnquiryForm";
-import { PRIMARY_NAV } from "@/src/config/routes";
+import { PRIMARY_NAV, DESTINATIONS_NAV } from "@/src/config/routes";
 
 const HUB_ICONS: Record<string, string> = {
   "Tour packages": "🗺️",
   "Taxi service": "🚗",
   Hotels: "🏨",
+  Destinations: "🛕",
+  Temples: "🛕",
   Somnath: "🛕",
   Dwarka: "🛕",
+  Gir: "🦁",
+  "Junagadh Girnar": "⛰️",
   Plan: "🧭",
   Festivals: "🎉",
   Guides: "📖",
 };
 
-/** Primary hubs (home stays available through the logo). */
-const navItems = [
-  ...PRIMARY_NAV.map((n) => ({
-    label: n.label,
-    url: n.path,
-    icon: HUB_ICONS[n.label] ?? "📍",
-  })),
-];
+type NavLink = { label: string; url: string; icon: string };
+type NavGroup = { label: string; icon: string; children: NavLink[] };
+type NavItem = NavLink | NavGroup;
+
+const isGroup = (item: NavItem): item is NavGroup => "children" in item;
+
+const toLink = (n: { label: string; path: string }): NavLink => ({
+  label: n.label,
+  url: n.path,
+  icon: HUB_ICONS[n.label] ?? "📍",
+});
+
+const DESTINATIONS_GROUP: NavGroup = {
+  label: "Destinations",
+  icon: HUB_ICONS.Destinations,
+  children: DESTINATIONS_NAV.map(toLink),
+};
+
+/**
+ * Primary hubs (home stays available through the logo). The destinations
+ * dropdown sits where Somnath and Dwarka used to be as flat items.
+ */
+const navItems: NavItem[] = PRIMARY_NAV.flatMap((n) =>
+  n.label === "Hotels" ? [toLink(n), DESTINATIONS_GROUP] : [toLink(n)],
+);
 
 const normalizePath = (path: string) => {
   if (path === "/") return path;
@@ -47,14 +68,43 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  /** Label of the open desktop dropdown, or null. */
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  /** Which groups are expanded in the mobile sheet. */
+  const [openMobileGroups, setOpenMobileGroups] = useState<string[]>([]);
+  /**
+   * Only open on hover where hovering is real. On a touch screen a tap fires
+   * mouseenter and then click, so a hover-opened menu would be toggled shut by
+   * the very tap that opened it.
+   */
+  const [canHover, setCanHover] = useState(false);
+
+  // Close the dropdown when the route changes — including on browser back and
+  // forward, which never fire the links' onClick. Adjusting state during render
+  // rather than in an effect avoids a second render pass with a stale menu open.
+  const [lastPathname, setLastPathname] = useState(pathname);
+  if (lastPathname !== pathname) {
+    setLastPathname(pathname);
+    setOpenGroup(null);
+  }
 
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // SCROLL DETECTION
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // POINTER CAPABILITY — a hybrid laptop can gain or lose a mouse, so track it.
+  useEffect(() => {
+    const query = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const sync = () => setCanHover(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
   }, []);
 
   // CLOSE MENU ON RESIZE
@@ -81,9 +131,40 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMobileMenuOpen]);
 
+  // The dropdown is a separate popover from the mobile sheet: close it when a
+  // click lands outside it, and on Escape.
+  useEffect(() => {
+    if (!openGroup) return;
+
+    const onPointerDown = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpenGroup(null);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpenGroup(null);
+    };
+
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [openGroup]);
+
   const handleNavClick = () => {
     setIsMobileMenuOpen(false);
+    setOpenGroup(null);
   };
+
+  const toggleMobileGroup = (label: string) =>
+    setOpenMobileGroups((prev) =>
+      prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label],
+    );
+
+  const isGroupActive = (group: NavGroup) =>
+    group.children.some((child) => isActivePath(child.url, pathname));
 
   return (
     <>
@@ -126,12 +207,87 @@ export default function Navbar() {
               </div>
             </Link>
 
-            {/* ── DESKTOP NAV ── */}
-            <div className="hidden lg:flex items-center gap-1 min-w-0
+            {/* ── DESKTOP NAV ──
+                overflow-visible, not overflow-x-auto: a scroll container clips
+                the absolutely-positioned dropdown panel. */}
+            <div
+              ref={dropdownRef}
+              className="hidden lg:flex items-center gap-1 min-w-0
               bg-gray-50/70 rounded-full px-1.5 py-1.5
-              border border-gray-100/80
-              overflow-x-auto hide-scrollbar">
+              border border-gray-100/80 overflow-visible"
+            >
               {navItems.map((item) => {
+                if (isGroup(item)) {
+                  const isActive = isGroupActive(item);
+                  const isOpen = openGroup === item.label;
+                  return (
+                    <div
+                      key={item.label}
+                      className="relative flex-shrink-0"
+                      onMouseEnter={canHover ? () => setOpenGroup(item.label) : undefined}
+                      onMouseLeave={canHover ? () => setOpenGroup(null) : undefined}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setOpenGroup(isOpen ? null : item.label)}
+                        onFocus={() => setOpenGroup(item.label)}
+                        aria-expanded={isOpen}
+                        aria-haspopup="true"
+                        className={`relative flex h-9 cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-2 xl:px-3.5
+                          whitespace-nowrap
+                          font-medium text-[13px] transition-colors duration-200 group xl:text-sm
+                          ${isActive || isOpen
+                            ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-200"
+                            : "text-gray-600 hover:text-amber-700 hover:bg-white hover:shadow-sm"
+                          }`}
+                      >
+                        <span>{item.label}</span>
+                        <ChevronDown
+                          size={14}
+                          className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                          aria-hidden="true"
+                        />
+                      </button>
+
+                      {/* pt-2 is a hover bridge, not decoration: the gap between
+                          the button and the card must stay inside the wrapper,
+                          or crossing it fires mouseleave and shuts the menu. */}
+                      <div
+                        className={`absolute left-1/2 top-full z-50 w-56 -translate-x-1/2 pt-2
+                          origin-top transition-all duration-200
+                          ${isOpen
+                            ? "visible scale-100 opacity-100"
+                            : "pointer-events-none invisible scale-95 opacity-0"
+                          }`}
+                      >
+                        <div className="rounded-2xl border border-amber-200/60 bg-white p-2
+                          shadow-xl shadow-amber-100/50">
+                          {item.children.map((child) => {
+                            const childActive = isActivePath(child.url, pathname);
+                            return (
+                              <Link
+                                key={child.label}
+                                href={child.url}
+                                onClick={handleNavClick}
+                                aria-current={childActive ? "page" : undefined}
+                                className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5
+                                  text-sm font-medium transition-colors duration-150
+                                  ${childActive
+                                    ? "bg-amber-50 text-amber-700"
+                                    : "text-gray-700 hover:bg-amber-50 hover:text-amber-700"
+                                  }`}
+                              >
+                                <span className="text-base">{child.icon}</span>
+                                <span>{child.label}</span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
                 const isActive = isActivePath(item.url, pathname);
                 return (
                   <Link
@@ -224,6 +380,62 @@ export default function Navbar() {
               {/* Nav links */}
               <div className="flex flex-col p-3 gap-1 max-h-[60vh] overflow-y-auto">
                 {navItems.map((item) => {
+                  if (isGroup(item)) {
+                    const isActive = isGroupActive(item);
+                    const isExpanded = openMobileGroups.includes(item.label);
+                    return (
+                      <div key={item.label}>
+                        <button
+                          type="button"
+                          onClick={() => toggleMobileGroup(item.label)}
+                          aria-expanded={isExpanded}
+                          className={`flex w-full cursor-pointer items-center gap-3 px-5 py-3.5 rounded-2xl
+                            text-base font-medium transition-all duration-200
+                            ${isActive
+                              ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-100"
+                              : "text-gray-700 hover:bg-amber-50 hover:text-amber-700"
+                            }`}
+                        >
+                          <span className="text-lg">{item.icon}</span>
+                          <span>{item.label}</span>
+                          <ChevronDown
+                            size={16}
+                            aria-hidden="true"
+                            className={`ml-auto transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+                          />
+                        </button>
+
+                        {isExpanded ? (
+                          <div className="mt-1 ml-4 flex flex-col gap-1 border-l border-amber-100 pl-3">
+                            {item.children.map((child) => {
+                              const childActive = isActivePath(child.url, pathname);
+                              return (
+                                <Link
+                                  key={child.label}
+                                  href={child.url}
+                                  onClick={handleNavClick}
+                                  aria-current={childActive ? "page" : undefined}
+                                  className={`flex items-center gap-3 px-4 py-3 rounded-xl
+                                    text-[15px] font-medium transition-all duration-200
+                                    ${childActive
+                                      ? "bg-amber-50 text-amber-700"
+                                      : "text-gray-600 hover:bg-amber-50 hover:text-amber-700"
+                                    }`}
+                                >
+                                  <span className="text-base">{child.icon}</span>
+                                  <span>{child.label}</span>
+                                  {childActive && (
+                                    <ArrowRight size={14} className="ml-auto opacity-70" />
+                                  )}
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        ) : null}
+                      </div>
+                    );
+                  }
+
                   const isActive = isActivePath(item.url, pathname);
                   return (
                     <Link

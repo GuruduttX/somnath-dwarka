@@ -47,7 +47,12 @@ export default async function ComparisonPage({ params }: Params) {
       crumbs={[
         { name: "Home", path: "/" },
         { name: "Compare", path: "/compare/" },
-        { name: `${c.optionA} vs ${c.optionB}`, path: `/compare/${slug}/` },
+        {
+          name: c.optionC
+            ? `${c.optionA} vs ${c.optionB} vs ${c.optionC}`
+            : `${c.optionA} vs ${c.optionB}`,
+          path: `/compare/${slug}/`,
+        },
       ]}
     >
       <div className="max-w-4xl mx-auto px-4 pt-6">
@@ -56,9 +61,17 @@ export default async function ComparisonPage({ params }: Params) {
       </div>
 
       <Section id="table" title="Side by side">
+        {/* The URL map has three-way comparisons; the third column renders only
+            when the record defines optionC. */}
         <DataTable
-          columns={["Criterion", c.optionA, c.optionB]}
-          rows={c.rows.map((r) => [r.criterion, r.a, r.b])}
+          columns={
+            c.optionC
+              ? ["Criterion", c.optionA, c.optionB, c.optionC]
+              : ["Criterion", c.optionA, c.optionB]
+          }
+          rows={c.rows.map((r) =>
+            c.optionC ? [r.criterion, r.a, r.b, r.c ?? "—"] : [r.criterion, r.a, r.b],
+          )}
         />
       </Section>
 

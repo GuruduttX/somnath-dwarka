@@ -122,6 +122,77 @@ export const SEED_CAB_ROUTES: SeedCabRoute[] = [
       { question: "Can I add Nageshwar Jyotirlinga on the way?", answer: "Yes. Nageshwar sits close to the Dwarka approach and is a common halt on this route; tell us and the driver plans for it." },
     ],
   },
+  {
+    // The URL map spells this spoke "-cab", not "-taxi": it targets the
+    // "dwarka to somnath cab" head term, the reverse of somnath-to-dwarka-taxi.
+    slug: "dwarka-to-somnath-cab",
+    kind: "route",
+    title: "Dwarka to Somnath Cab — Fare, Distance & Booking",
+    h1: "Dwarka to Somnath Cab",
+    origin: "Dwarka",
+    destination: "Somnath",
+    distance: "≈ 233 km",
+    duration: "~ 4.5–5 hours",
+    verified: false,
+    answer_first:
+      "A Dwarka to Somnath cab covers about 233 km in roughly 4.5 to 5 hours along the coast. Most travellers leave after morning darshan at Dwarkadhish and break at Porbandar, reaching Somnath in time for the evening aarti.",
+    fares: [
+      { vehicle: "Sedan (Dzire/Etios)", seats: 4, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "SUV (Ertiga)", seats: 6, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "Innova Crysta", seats: 7, oneWay: "₹—", roundTrip: "₹—" },
+    ],
+    stops: ["Porbandar", "Madhavpur"],
+    faq: [
+      { question: "How long does Dwarka to Somnath take by cab?", answer: "Roughly 4.5 to 5 hours for about 233 km, depending on halts. Confirmed at booking." },
+      { question: "Can I stop at Porbandar on the way?", answer: "Yes. Porbandar sits on this road and the Gandhi birthplace is a common halt. Tell us in advance and the driver plans the timing around it." },
+    ],
+  },
+  {
+    slug: "jamnagar-to-dwarka-taxi",
+    kind: "route",
+    title: "Jamnagar to Dwarka Taxi — Fare, Distance & Booking",
+    h1: "Jamnagar to Dwarka Taxi",
+    origin: "Jamnagar",
+    destination: "Dwarka",
+    distance: "≈ 130 km",
+    duration: "~ 2.5 hours",
+    verified: false,
+    answer_first:
+      "A Jamnagar to Dwarka taxi covers roughly 130 km in about 2.5 hours. Jamnagar is the nearest airport to Dwarka, so this is the usual transfer for travellers flying in for darshan.",
+    fares: [
+      { vehicle: "Sedan (Dzire/Etios)", seats: 4, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "SUV (Ertiga)", seats: 6, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "Innova Crysta", seats: 7, oneWay: "₹—", roundTrip: "₹—" },
+    ],
+    stops: ["Khambhalia"],
+    faq: [
+      { question: "Is Jamnagar the closest airport to Dwarka?", answer: "Yes. Jamnagar is the nearest airport, roughly 130 km away, about a 2.5 hour drive." },
+      { question: "Can the cab meet my flight?", answer: "Yes. Share your flight number and the driver tracks the arrival, waiting at no extra charge for a reasonable delay." },
+    ],
+  },
+  {
+    slug: "veraval-to-dwarka-taxi",
+    kind: "route",
+    title: "Veraval to Dwarka Taxi — Fare, Distance & Booking",
+    h1: "Veraval to Dwarka Taxi",
+    origin: "Veraval",
+    destination: "Dwarka",
+    distance: "≈ 240 km",
+    duration: "~ 4.5–5 hours",
+    verified: false,
+    answer_first:
+      "A Veraval to Dwarka taxi covers about 240 km in roughly 4.5 to 5 hours. Veraval is the railhead for Somnath, about 7 km from the temple, so this run suits travellers arriving by train and continuing to Dwarka.",
+    fares: [
+      { vehicle: "Sedan (Dzire/Etios)", seats: 4, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "SUV (Ertiga)", seats: 6, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "Innova Crysta", seats: 7, oneWay: "₹—", roundTrip: "₹—" },
+    ],
+    stops: ["Somnath", "Porbandar"],
+    faq: [
+      { question: "Is Veraval the station for Somnath?", answer: "Yes. Veraval is the closest railhead to Somnath Temple, roughly 7 km away." },
+      { question: "Can I see Somnath before continuing to Dwarka?", answer: "Yes. A darshan halt at Somnath on the way out is the usual plan; tell us and the driver builds it into the day." },
+    ],
+  },
 ];
 
 /**
@@ -185,6 +256,25 @@ export const SEED_VEHICLES: SeedVehicle[] = [
     ],
     faq: [
       { question: "Is Swift Dzire good for a small family pilgrimage?", answer: "Yes, it is highly budget-friendly and comfortable for up to 4 passengers with standard luggage." },
+    ],
+  },
+  {
+    slug: "tempo-traveller",
+    kind: "vehicle",
+    title: "Tempo Traveller Hire Somnath Dwarka — Fare & Booking",
+    h1: "Tempo Traveller Hire for Somnath Dwarka",
+    vehicle_name: "Tempo Traveller",
+    seats: 12,
+    suitable_for: "Extended families, satsang mandals and group yatras of 9 to 17 passengers",
+    answer_first:
+      "A tempo traveller seats a group of roughly 12 with luggage and is the usual choice for satsang mandals and extended families doing the Somnath–Dwarka circuit together. Seat count varies by configuration, so tell us your group size and we confirm the right vehicle.",
+    fares: [
+      { route: "Somnath ↔ Dwarka", rate: "₹—" },
+      { route: "Full circuit (per day)", rate: "₹—" },
+    ],
+    faq: [
+      { question: "How many people fit in a tempo traveller?", answer: "Configurations vary — commonly 9, 12, 14 or 17 seats. Share your group size and we confirm the exact vehicle and seat count before booking." },
+      { question: "Is a tempo traveller comfortable for elders?", answer: "Push-back seats and a high roof make boarding easier than an SUV for most elders. For long drives we plan extra halts." },
     ],
   },
 ];
