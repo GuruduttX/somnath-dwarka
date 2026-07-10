@@ -165,10 +165,16 @@ export const getPublishedPillars = () => findPublished(DestinationModel);
 export const getPillarBySlug = (slug: string) => findOnePublished(DestinationModel, { slug });
 
 export const getPublishedPillarSpokes = () => findPublished(TempleInfoModel);
+/** Every published topic spoke under one pillar, e.g. all of /gir/{topic}/. */
+export const getPillarSpokesFor = (destination: string) =>
+  findPublished(TempleInfoModel, { destination });
 export const getPillarSpoke = (destination: string, slug: string) =>
   findOnePublished(TempleInfoModel, { destination, slug });
 
 export const getPublishedPlaces = () => findPublished(PlaceModel);
+/** Every published place under one pillar, e.g. all of /gir/places/{slug}/. */
+export const getPlacesFor = (parent_destination: string) =>
+  findPublished(PlaceModel, { parent_destination });
 export const getPlace = (parent_destination: string, slug: string) =>
   findOnePublished(PlaceModel, { parent_destination, slug });
 

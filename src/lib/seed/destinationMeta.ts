@@ -22,7 +22,12 @@ export type IconKey =
 
 export type DestinationMeta = {
   slug: string;
-  heroImage: string;
+  /**
+   * Optional. Without it the hero paints an accent-tinted backdrop instead of a
+   * photo — better than shipping a stock image of the wrong place. Gir has no
+   * photograph in the repo yet.
+   */
+  heroImage?: string;
   /** Devotional line under the eyebrow, e.g. "Lord Shiva · First Jyotirlinga". */
   deity: string;
   deityShort: string;
@@ -38,6 +43,35 @@ export type DestinationMeta = {
 };
 
 export const DESTINATION_META: Record<string, DestinationMeta> = {
+  /** Gir is not a temple town, so `deity` carries what people actually come for. */
+  gir: {
+    slug: "gir",
+    heroImage: "/images/gir/gir-hero.jpg",
+    deity: "Asiatic Lion · Sasan Gir",
+    deityShort: "Asiatic lion",
+    accent: "#15803D",
+    accentSoft: "rgba(21,128,61,0.16)",
+    glyph: "गिर",
+    tagline:
+      "The only place on earth where the Asiatic lion still lives wild — safari permits, Devalia, and the drive from Somnath.",
+    chips: [
+      { icon: "star", label: "Only wild Asiatic lions" },
+      { icon: "landmark", label: "Sasan gate · Devalia" },
+      { icon: "sun", label: "Dec – Mar best" },
+    ],
+    stats: [
+      { value: "1", label: "wild lion range on earth", icon: "star" },
+      { value: "1–2 nights", label: "typical stay", icon: "clock" },
+      { value: "2", label: "gates: Sasan & Devalia", icon: "landmark" },
+      { value: "45 km", label: "to Somnath", icon: "route" },
+    ],
+    reach: [
+      { icon: "plane", mode: "By Air", detail: "Rajkot ~160 km · Diu ~110 km" },
+      { icon: "train", mode: "By Rail", detail: "Sasan Gir halt · Junagadh ~60 km" },
+      { icon: "car", mode: "By Road", detail: "From Somnath, Junagadh or Veraval" },
+    ],
+    placeIcon: "landmark",
+  },
   somnath: {
     slug: "somnath",
     heroImage: "/images/home/SomnathLongImage.webp",

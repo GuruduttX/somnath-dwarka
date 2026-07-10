@@ -48,14 +48,26 @@ export default function DestinationHero({
         
         {/* Panoramic image stage */}
         <div className="relative flex h-[85vh] min-h-[620px] w-full items-center justify-center overflow-hidden pb-28 sm:pb-24">
-          <Image 
-            src={meta.heroImage} 
-            alt={`${destination}, Gujarat`} 
-            fill 
-            priority 
-            sizes="100vw" 
-            className="object-cover transition-transform duration-[12s] ease-out hover:scale-103" 
-          />
+          {meta.heroImage ? (
+            <Image
+              src={meta.heroImage}
+              alt={`${destination}, Gujarat`}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover transition-transform duration-[12s] ease-out hover:scale-103"
+            />
+          ) : (
+            /* No photograph for this destination yet — paint the accent instead
+               of shipping a stock image of somewhere else. */
+            <div
+              aria-hidden="true"
+              className="absolute inset-0"
+              style={{
+                background: `radial-gradient(ellipse at 50% 20%, ${meta.accent}66 0%, transparent 55%), linear-gradient(to bottom, #0d2419 0%, #14301f 45%, #140902 100%)`,
+              }}
+            />
+          )}
 
           {/* Color overlays & washes */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-[#140902]/30 to-[#140902]/95" />

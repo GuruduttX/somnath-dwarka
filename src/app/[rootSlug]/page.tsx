@@ -10,6 +10,7 @@ import {
   TrustSections,
 } from "@/src/components/templates/cms/blocks";
 import { buildRelatedLinks } from "@/src/lib/links";
+import GirPillar from "@/src/components/templates/GirPillar";
 import { getRootSlugs, resolveRootSlug } from "@/src/lib/content";
 import {
   bool,
@@ -107,6 +108,15 @@ function HubBody({ slug, d }: { slug: string; d: Doc }) {
   );
 }
 
+/**
+ * Pillars that have a bespoke, designed page instead of the generic CMS shell.
+ * Add a slug here and its component takes over; everything else keeps rendering
+ * through PillarBody. The pillar's spokes are unaffected either way.
+ */
+const PILLAR_TEMPLATES: Record<string, (props: { doc: Doc }) => Promise<React.ReactNode>> = {
+  gir: GirPillar,
+};
+
 function PillarBody({ slug, d }: { slug: string; d: Doc }) {
   const related = buildRelatedLinks({
     self: `/${slug}/`,
@@ -165,6 +175,10 @@ export default async function RootSlugPage({ params }: Params) {
   if (!match) notFound();
 
   if (match.kind === "hub") return <HubBody slug={rootSlug} d={match.doc} />;
-  if (match.kind === "pillar") return <PillarBody slug={rootSlug} d={match.doc} />;
+  if (match.kind === "pillar") {
+    const Bespoke = PILLAR_TEMPLATES[rootSlug];
+    if (Bespoke) return <Bespoke doc={match.doc} />;
+    return <PillarBody slug={rootSlug} d={match.doc} />;
+  }
   return <TrustBody slug={rootSlug} d={match.doc} />;
 }

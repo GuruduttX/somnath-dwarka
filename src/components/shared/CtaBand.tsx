@@ -18,10 +18,17 @@ export default function CtaBand({
   context,
   title,
   subtitle,
+  priceFrom,
 }: {
   context: string;
   title?: string | React.ReactNode;
   subtitle?: string | React.ReactNode;
+  /**
+   * "From ₹X" badge — opt-in, and OPS-CONFIRM gated. This was a hardcoded
+   * "From ₹4,999" that rendered on every page using CtaBand, including pages
+   * where no such package exists. Pass a confirmed figure to show it.
+   */
+  priceFrom?: string;
 }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -211,9 +218,11 @@ export default function CtaBand({
                       <MapPin size={8} className="text-orange-500" /> Gujarat, India
                     </p>
                   </div>
-                  <span className="rounded-lg bg-orange-100 px-2.5 py-1 text-[10px] font-semibold text-orange-700">
-                    From ₹4,999
-                  </span>
+                  {priceFrom ? (
+                    <span className="rounded-lg bg-orange-100 px-2.5 py-1 text-[10px] font-semibold text-orange-700">
+                      From {priceFrom}
+                    </span>
+                  ) : null}
                 </div>
               </div>
 
