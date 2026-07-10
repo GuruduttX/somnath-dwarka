@@ -15,6 +15,41 @@ export const MONEY_PAGES = {
   hotels: "/hotels/",
 } as const;
 
+/** Duration -> the package variant that actually exists, else the hub. */
+const DURATION_SLUGS: Record<number, string> = {
+  2: "2-days-1-night",
+  3: "3-days-2-nights",
+  4: "4-days-3-nights",
+  5: "5-days-4-nights",
+};
+
+/**
+ * Href for a duration-led package card. Home-page cards used to build
+ * `/tour-packages/{days}/{slug}` links, which 308'd to package slugs that were
+ * never created — a 404 hidden behind a redirect. Resolve to a real page or
+ * fall back to the hub.
+ */
+export const packageVariantHref = (days: number): string =>
+  DURATION_SLUGS[days] ? `${MONEY_PAGES.packages}${DURATION_SLUGS[days]}/` : MONEY_PAGES.packages;
+
+/**
+ * Destination-led home cards map to the hub that owns that destination's head
+ * term. Slugs without a hub yet fall back to the Gujarat umbrella hub.
+ */
+const DESTINATION_HUBS: Record<string, string> = {
+  "gir-lion-safari": "/gir-tour-package/",
+  "rann-of-kutch-white-desert": "/kutch-tour-package/",
+  "desert-camp-under-the-stars": "/kutch-tour-package/",
+  "statue-of-unity-escape": "/statue-of-unity-tour-package/",
+  "ahmedabad-old-city-walk": "/heritage-tours-gujarat/",
+  "dwarka-coastal-trail": "/dwarka/",
+  "saputara-hill-retreat": "/gujarat-tour-packages/",
+  "polo-forest-tribal-walk": "/gujarat-tour-packages/",
+};
+
+export const destinationCardHref = (slug: string): string =>
+  DESTINATION_HUBS[slug] ?? "/gujarat-tour-packages/";
+
 /** Anchor pools for money pages — rotate to avoid sitewide exact-match repeats. */
 const ANCHOR_POOL: Record<string, string[]> = {
   [MONEY_PAGES.packages]: [

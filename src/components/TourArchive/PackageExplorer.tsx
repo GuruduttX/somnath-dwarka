@@ -16,14 +16,15 @@ import TourCard from "@/src/utils/TourCard";
 import type { TourPackage } from "@/src/utils/TourData";
 import YatraBanner from "./YatraBanner";
 
-type Group = "duration" | "city" | "traveller";
+/** Mirrors PackageBucket in config/packageSpokes.ts. */
+type Group = "duration" | "city" | "traveller" | "route" | "transport";
 type Sort = "popular" | "price-asc" | "price-desc";
 
 const GROUP_META: Record<Group, { id: string; title: string; blurb: string; icon: typeof Clock }> = {
   duration: {
     id: "by-duration",
     title: "Choose by duration",
-    blurb: "From a quick 3-day darshan to a relaxed 5-day circuit.",
+    blurb: "From a single-day darshan to a relaxed 6-day circuit.",
     icon: Clock,
   },
   city: {
@@ -38,7 +39,21 @@ const GROUP_META: Record<Group, { id: string; title: string; blurb: string; icon
     blurb: "Plans tuned for families or a lean, budget-friendly circuit.",
     icon: Users,
   },
+  route: {
+    id: "by-route",
+    title: "Add a destination",
+    blurb: "Extend the circuit with Gir, Diu, Porbandar or the Statue of Unity.",
+    icon: Compass,
+  },
+  transport: {
+    id: "by-transport",
+    title: "Choose by transport",
+    blurb: "Travel by car, tempo traveller, train or bus.",
+    icon: ArrowDownUp,
+  },
 };
+
+const GROUP_ORDER: Group[] = ["duration", "city", "traveller", "route", "transport"];
 
 const LENGTH_BUCKETS = [
   { key: "short", label: "Up to 3 Days", test: (d: number) => d <= 3 },
@@ -52,18 +67,24 @@ export default function PackageExplorer({
   duration,
   city,
   traveller,
+  route = [],
+  transport = [],
 }: {
   duration: TourPackage[];
   city: TourPackage[];
   traveller: TourPackage[];
+  route?: TourPackage[];
+  transport?: TourPackage[];
 }) {
   const all = useMemo<Tagged[]>(
     () => [
       ...duration.map((p) => ({ ...p, group: "duration" as const })),
       ...city.map((p) => ({ ...p, group: "city" as const })),
       ...traveller.map((p) => ({ ...p, group: "traveller" as const })),
+      ...route.map((p) => ({ ...p, group: "route" as const })),
+      ...transport.map((p) => ({ ...p, group: "transport" as const })),
     ],
-    [duration, city, traveller],
+    [duration, city, traveller, route, transport],
   );
 
   const priceBounds = useMemo(() => {
@@ -75,7 +96,7 @@ export default function PackageExplorer({
   }, [all]);
 
   const availableGroups = useMemo(
-    () => (["duration", "city", "traveller"] as Group[]).filter((g) => all.some((p) => p.group === g)),
+    () => GROUP_ORDER.filter((g) => all.some((p) => p.group === g)),
     [all],
   );
   const availableLengths = useMemo(

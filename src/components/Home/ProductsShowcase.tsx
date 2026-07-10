@@ -36,7 +36,7 @@ export default function ProductsShowcase({ packages }: { packages: TourPackage[]
   return (
     <>
       <CommonEnquiryForm open={open} onClose={()=>setOpen(false)}/>
-      <section id="featured-packages" className="w-full bg-white py-16 px-4 sm:px-8 lg:px-16 xl:px-24">
+      <section id="featured-packages" className="w-full bg-white py-1 px-4 sm:px-8 lg:px-16 xl:px-24">
 
       {/* ── SECTION HEADER ── */}
       <div className="mx-auto mb-10 flex max-w-3xl flex-col items-center text-center">
@@ -100,20 +100,7 @@ export default function ProductsShowcase({ packages }: { packages: TourPackage[]
         </div>
       )}
 
-      {/* ── VIEW MORE ── */}
-      {hasMore && (
-        <div className="mt-10 flex flex-col items-center gap-2">
-          <button
-            onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-            className="rounded-full bg-orange-500 px-10 py-3.5 text-[14.5px] font-bold text-white shadow-md shadow-orange-200 transition-all duration-200 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg active:translate-y-0"
-          >
-            View More Packages
-          </button>
-          <p className="text-[13px] text-gray-400">
-            {remaining} more package{remaining !== 1 ? "s" : ""} available
-          </p>
-        </div>
-      )}
+ 
 
       {/* ── BOTTOM CTA ── */}
       <div className="mt-12 flex flex-col items-center gap-3 text-center">

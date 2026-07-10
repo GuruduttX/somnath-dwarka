@@ -9,6 +9,15 @@ import { connectDB } from "@/src/lib/mongodb";
 import TourPackageModel from "@/src/models/packageModel";
 import Blog from "@/src/models/blogModel";
 import FestivalModel from "@/src/models/festivalModel";
+import HubModel from "@/src/models/hubModel";
+import HubSpokeModel from "@/src/models/hubSpokeModel";
+import TempleModel from "@/src/models/templeModel";
+import TrustModel from "@/src/models/trustModel";
+import DataPageModel from "@/src/models/dataPageModel";
+import ItineraryModel from "@/src/models/itineraryModel";
+import DestinationModel from "@/src/models/destinationModel";
+import TempleInfoModel from "@/src/models/templeInfoModel";
+import PlaceModel from "@/src/models/placeModel";
 
 export type SitemapEntry = { path: string; lastModified?: Date };
 
@@ -75,25 +84,163 @@ export async function getPublishedFestivals() {
   }
 }
 
+/* ------------------------------------------------------------------ *
+ * Hub-and-spoke layer (SOP §3, §8)
+ *
+ * Root-level slugs are owned by four collections at once (cab routes, hubs,
+ * pillars, trust pages), so `resolveRootSlug` is the single dispatcher the
+ * /[rootSlug]/ route consults. Static app-router folders always win over the
+ * dynamic segment, so those slugs are reserved and never dispatched here.
+ * ------------------------------------------------------------------ */
+
+export const hubPath = (slug: string) => `/${slug}/`;
+export const hubSpokePath = (hub: string, slug: string) => `/${hub}/${slug}/`;
+export const templePath = (slug: string) => `/temples/${slug}/`;
+export const dataPath = (slug: string) => `/data/${slug}/`;
+export const trustPath = (slug: string) => `/${slug}/`;
+export const itineraryPath = (slug: string) => `/plan/itinerary/${slug}/`;
+export const pillarPath = (slug: string) => `/${slug}/`;
+
+/** Root slugs served by static folders — never resolved by /[rootSlug]/. */
+export const RESERVED_ROOT_SLUGS = new Set([
+  "about", "author", "booking-policy", "cancellation-refund", "compare",
+  "contact", "dwarka", "festivals", "guides", "hotels", "plan", "privacy",
+  "reviews", "sitemap", "somnath", "somnath-dwarka-taxi-service",
+  "somnath-dwarka-tour-package", "terms", "thank-you", "tools", "llms.txt",
+]);
+
+type Doc = Record<string, unknown>;
+
+const published = { status: "published" as const };
+
+async function findPublished(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  model: { find: (q: any) => any },
+  extra: Record<string, unknown> = {}
+): Promise<Doc[]> {
+  try {
+    await connectDB();
+    const docs = await model.find({ ...published, ...extra }).lean();
+    return (docs as Doc[]).filter((d) => isValidSlug(d.slug));
+  } catch {
+    return [];
+  }
+}
+
+async function findOnePublished(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  model: { findOne: (q: any) => any },
+  query: Record<string, unknown>
+): Promise<Doc | null> {
+  try {
+    await connectDB();
+    const doc = await model.findOne({ ...published, ...query }).lean();
+    return (doc as Doc) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export const getPublishedHubs = () => findPublished(HubModel);
+export const getHubBySlug = (slug: string) => findOnePublished(HubModel, { slug });
+
+export const getPublishedHubSpokes = () => findPublished(HubSpokeModel);
+export const getHubSpoke = (hub: string, slug: string) =>
+  findOnePublished(HubSpokeModel, { hub, slug });
+
+export const getPublishedTemples = () => findPublished(TempleModel);
+export const getTempleBySlug = (slug: string) => findOnePublished(TempleModel, { slug });
+
+export const getPublishedTrustPages = () => findPublished(TrustModel);
+export const getTrustBySlug = (slug: string) => findOnePublished(TrustModel, { slug });
+
+export const getPublishedDataPages = () => findPublished(DataPageModel);
+export const getDataPageBySlug = (slug: string) => findOnePublished(DataPageModel, { slug });
+
+export const getPublishedItineraries = () => findPublished(ItineraryModel);
+export const getItineraryBySlug = (slug: string) => findOnePublished(ItineraryModel, { slug });
+
+export const getPublishedPillars = () => findPublished(DestinationModel);
+export const getPillarBySlug = (slug: string) => findOnePublished(DestinationModel, { slug });
+
+export const getPublishedPillarSpokes = () => findPublished(TempleInfoModel);
+export const getPillarSpoke = (destination: string, slug: string) =>
+  findOnePublished(TempleInfoModel, { destination, slug });
+
+export const getPublishedPlaces = () => findPublished(PlaceModel);
+export const getPlace = (parent_destination: string, slug: string) =>
+  findOnePublished(PlaceModel, { parent_destination, slug });
+
+export type RootKind = "hub" | "pillar" | "trust";
+export type RootMatch = { kind: RootKind; doc: Doc };
+
+/**
+ * Resolve a root-level slug to the collection that owns it. Order matters only
+ * for diagnostics — slugs are disjoint across collections by construction.
+ */
+export async function resolveRootSlug(slug: string): Promise<RootMatch | null> {
+  if (!isValidSlug(slug) || RESERVED_ROOT_SLUGS.has(slug)) return null;
+  const hub = await getHubBySlug(slug);
+  if (hub) return { kind: "hub", doc: hub };
+  const pillar = await getPillarBySlug(slug);
+  if (pillar) return { kind: "pillar", doc: pillar };
+  const trust = await getTrustBySlug(slug);
+  if (trust) return { kind: "trust", doc: trust };
+  return null;
+}
+
+/** All root slugs to prerender, minus the ones static folders already own. */
+export async function getRootSlugs(): Promise<string[]> {
+  const [hubs, pillars, trust] = await Promise.all([
+    getPublishedHubs(),
+    getPublishedPillars(),
+    getPublishedTrustPages(),
+  ]);
+  return [...hubs, ...pillars, ...trust]
+    .map((d) => String(d.slug))
+    .filter((s) => !RESERVED_ROOT_SLUGS.has(s));
+}
+
 /** All dynamic, index-safe URLs for the sitemap (SOP §11). */
 export async function getSitemapEntries(): Promise<SitemapEntry[]> {
-  const [packages, guides] = await Promise.all([
+  const [
+    packages, guides, hubs, hubSpokes, temples,
+    trust, dataPages, itineraries, pillars, pillarSpokes, places,
+  ] = await Promise.all([
     getPublishedPackages(),
     getPublishedGuides(),
+    getPublishedHubs(),
+    getPublishedHubSpokes(),
+    getPublishedTemples(),
+    getPublishedTrustPages(),
+    getPublishedDataPages(),
+    getPublishedItineraries(),
+    getPublishedPillars(),
+    getPublishedPillarSpokes(),
+    getPublishedPlaces(),
   ]);
 
   const entries: SitemapEntry[] = [];
+  /** noindex pages are excluded: an unverified scaffold must never be submitted. */
+  const add = (docs: Doc[], toPath: (d: Doc) => string | null) => {
+    for (const d of docs) {
+      if (d.noindex) continue;
+      const path = toPath(d);
+      if (path) entries.push({ path, lastModified: d.updatedAt as Date });
+    }
+  };
 
-  for (const p of packages as Array<Record<string, unknown>>) {
-    if (p.noindex) continue;
-    if (typeof p.slug === "string")
-      entries.push({ path: packagePath(p.slug), lastModified: p.updatedAt as Date });
-  }
-  for (const g of guides as Array<Record<string, unknown>>) {
-    if (g.noindex) continue;
-    if (typeof g.slug === "string")
-      entries.push({ path: guidePath(g.slug), lastModified: g.updatedAt as Date });
-  }
+  add(packages as Doc[], (d) => (typeof d.slug === "string" ? packagePath(d.slug) : null));
+  add(guides as Doc[], (d) => (typeof d.slug === "string" ? guidePath(d.slug) : null));
+  add(hubs, (d) => hubPath(String(d.slug)));
+  add(hubSpokes, (d) => (d.hub ? hubSpokePath(String(d.hub), String(d.slug)) : null));
+  add(temples, (d) => templePath(String(d.slug)));
+  add(trust, (d) => trustPath(String(d.slug)));
+  add(dataPages, (d) => dataPath(String(d.slug)));
+  add(itineraries, (d) => itineraryPath(String(d.slug)));
+  add(pillars, (d) => pillarPath(String(d.slug)));
+  add(pillarSpokes, (d) => (d.destination ? `/${d.destination}/${d.slug}/` : null));
+  add(places, (d) => (d.parent_destination ? `/${d.parent_destination}/places/${d.slug}/` : null));
 
   return entries;
 }

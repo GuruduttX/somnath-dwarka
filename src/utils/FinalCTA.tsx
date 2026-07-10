@@ -58,7 +58,7 @@ export default function FinalCTA() {
                 <p className="text-gray-600 text-sm mt-2">
                   Discover divine temples and spiritual places in Braj.
                 </p>
-                <Link href="/tour-packages#tours">
+                <Link href="/somnath-dwarka-tour-package/">
                   <button
                     className=" mt-6
                                             px-6

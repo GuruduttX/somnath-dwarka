@@ -62,6 +62,73 @@ export type VerifiedFact = {
   date?: string; // ISO — "last verified"
 };
 
+/**
+ * Home §2 — credentials trust bar (home-page map v6).
+ *
+ * Binding honesty gate: publish ONLY genuinely-held registrations, memberships
+ * and numbers. A credential renders when `verify === true` and `value` is set;
+ * the bar renders nothing at all when none qualify. Do not invent an IATO/TAAI
+ * membership or a travellers-served figure to fill the strip.
+ */
+export type Credential = VerifiedFact;
+
+export const CREDENTIALS: Credential[] = [
+  { key: "gujaratTourismReg", label: "Gujarat Tourism registration", value: "", verify: false },
+  { key: "gstRegistered", label: "GST registered", value: "", verify: false },
+  { key: "association", label: "Industry association", value: "", verify: false },
+  { key: "securePayments", label: "Secure payments", value: "UPI & Razorpay", verify: false },
+  { key: "onTripSupport", label: "On-trip support", value: "24×7 local team", verify: false },
+  { key: "travellersServed", label: "Travellers served", value: "", verify: false },
+];
+
+/**
+ * Home §7 — live offers hook. OPS-CONFIRM: real, current, honoured offers only.
+ * An empty array renders no ribbon. Never add a fake deadline to manufacture
+ * urgency.
+ */
+export type Offer = {
+  id: string;
+  label: string;
+  detail: string;
+  /** Paths this offer applies to, e.g. ["/somnath-dwarka-tour-package/"]. */
+  appliesTo: string[];
+  confirmed: boolean;
+  expiresAt?: string; // ISO
+};
+
+export const OFFERS: Offer[] = [];
+
+/**
+ * Offers live for a given path at a given instant. `now` is injected rather
+ * than read from the clock so this stays pure and callers control the boundary
+ * (a component must not read the clock during render).
+ */
+export const liveOffers = (path: string, now: number): Offer[] =>
+  OFFERS.filter(
+    (o) =>
+      o.confirmed &&
+      o.appliesTo.includes(path) &&
+      (!o.expiresAt || new Date(o.expiresAt).getTime() > now)
+  );
+
+/**
+ * Home §9 — experience video. Original or permissioned footage only; official
+ * darshan streams are linked, never embedded as ours. null renders no embed.
+ */
+export const EXPERIENCE_VIDEO: {
+  youtubeId: string;
+  title: string;
+  transcript: string;
+} | null = null;
+
+/** Home §14 — response SLA is an operational claim, so it is verify-gated too. */
+export const RESPONSE_SLA: VerifiedFact = {
+  key: "responseSla",
+  label: "Typical response time",
+  value: "",
+  verify: false,
+};
+
 export const CORE_FACTS: Record<string, VerifiedFact> = {
   dwarkaSomnathDistance: {
     key: "dwarkaSomnathDistance",

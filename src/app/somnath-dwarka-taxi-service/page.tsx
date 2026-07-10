@@ -8,7 +8,7 @@ import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { SEED_CAB_ROUTES, SEED_VEHICLES, SEED_AIRPORT_TAXIS } from "@/src/lib/seed/cabs";
+import { SEED_CAB_ROUTES, SEED_VEHICLES, SEED_AIRPORT_TAXIS, cabPath } from "@/src/lib/seed/cabs";
 import { buildRelatedLinks } from "@/src/lib/links";
 import TaxiHero from "@/src/components/taxi/TaxiHero";
 import { RouteCardGrid, VehicleCardGrid, AirportCardGrid } from "@/src/components/taxi/TaxiCardGrids";
@@ -36,7 +36,7 @@ export default function CabHubPage() {
     self: PATH,
     money: "packages",
     siblings: [
-      ...SEED_CAB_ROUTES.slice(0, 2).map((r) => ({ target: `/${r.slug}/`, anchor: `${r.origin} to ${r.destination} taxi`, type: "sibling" as const })),
+      ...SEED_CAB_ROUTES.slice(0, 2).map((r) => ({ target: cabPath(r.slug), anchor: `${r.origin} to ${r.destination} taxi`, type: "sibling" as const })),
       { target: "/plan/dwarka-to-somnath-distance/", anchor: "Dwarka to Somnath distance", type: "sibling" },
     ],
   });

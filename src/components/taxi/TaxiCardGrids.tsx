@@ -94,7 +94,7 @@ export function RouteCardGrid({ routes }: { routes: RouteItem[] }) {
 
             {/* Actions */}
             <div className="flex gap-2.5 border-t border-orange-50/70 pt-4 mt-5">
-              <Link href={`/${route.slug}/`} className="flex-1 text-center py-2.5 px-3 text-xs font-bold border border-orange-200 hover:border-orange-300 text-orange-950 bg-white hover:bg-orange-50/30 rounded-xl transition">
+              <Link href={`/somnath-dwarka-taxi-service/${route.slug}/`} className="flex-1 text-center py-2.5 px-3 text-xs font-bold border border-orange-200 hover:border-orange-300 text-orange-950 bg-white hover:bg-orange-50/30 rounded-xl transition">
                 Fares & Details
               </Link>
               <button

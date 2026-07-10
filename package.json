@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "health-check": "node scripts/health-check.mjs"
+    "health-check": "node scripts/health-check.mjs",
+    "import:urlmap": "node --env-file=.env.local scripts/import-url-map.mjs",
+    "seed:packages": "node --env-file=.env.local scripts/seed-packages.mjs"
   },
   "dependencies": {
     "@tiptap/pm": "^3.23.4",

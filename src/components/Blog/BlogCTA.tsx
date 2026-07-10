@@ -51,7 +51,7 @@ export default function BlogCTA() {
         </div>
 
         {/* Button */}
-        <Link href="/tour-packages">
+        <Link href="/somnath-dwarka-tour-package/">
           <button className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-600 to-orange-700 px-8 py-3.5 text-white text-[15px] font-medium transition-all duration-300 hover:shadow-lg hover:shadow-orange-300 hover:-translate-y-0.5">
             🧭 Explore Tour Packages →
           </button>

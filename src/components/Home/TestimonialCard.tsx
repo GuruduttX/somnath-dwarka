@@ -450,7 +450,7 @@ export default function TestimonialsSection() {
         {/* ── CTA ── */}
         <div className="text-center mt-12">
           <Link
-            href="/tour-packages"
+            href="/somnath-dwarka-tour-package/"
             className="inline-flex items-center gap-2 rounded-full bg-[#EA580C] hover:bg-[#C2410C] text-white px-8 py-3.5 text-[14px] font-bold transition-all duration-200 hover:-translate-y-0.5"
             style={{ boxShadow: "0 8px 24px rgba(234,88,12,0.28)" }}
           >

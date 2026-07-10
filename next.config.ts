@@ -55,6 +55,15 @@ const nextConfig: NextConfig = {
       { source: "/blog", destination: "/guides/", permanent: true },
       { source: "/blog/:slug", destination: "/guides/:slug/", permanent: true },
       { source: "/services", destination: "/somnath-dwarka-taxi-service/", permanent: true },
+      // Cab routes moved under the taxi hub to match the URL map, which defines
+      // no root-level -taxi URL. Old root paths 301 to their nested canonical.
+      // [^/]+ is load-bearing: `.*-taxi` would also match the nested path and
+      // redirect it onto itself.
+      {
+        source: "/:route([^/]+-taxi)",
+        destination: "/somnath-dwarka-taxi-service/:route/",
+        permanent: true,
+      },
     ];
   },
   async headers() {

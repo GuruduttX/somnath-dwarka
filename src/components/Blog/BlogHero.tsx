@@ -232,7 +232,7 @@ export default function BlogHero({
           {/* BUTTONS */}
           <div className="flex flex-wrap items-center gap-3">
             
-            <Link href="/tour-packages">
+            <Link href="/somnath-dwarka-tour-package/">
               <button
                 className="
                   rounded-full

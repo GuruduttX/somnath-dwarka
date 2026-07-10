@@ -93,9 +93,18 @@ export type SeedTempleInfo = {
   faq: { question: string; answer: string }[];
 };
 
+/**
+ * Topic spokes under the Somnath and Dwarka pillars. Slugs match the URL map
+ * (gujarat-360-url-map-v5): /somnath/somnath-temple-timings/ etc. `live-darshan`
+ * repeats across both pillars — findSeedTempleInfo keys on destination + slug.
+ *
+ * Every timing here is indicative and carries verified: false. The darshan and
+ * live-darshan pages ship with no timings table at all rather than an invented
+ * one; official streams are linked, never embedded.
+ */
 export const SEED_TEMPLE_INFO: SeedTempleInfo[] = [
   {
-    slug: "timings",
+    slug: "somnath-temple-timings",
     destination: "somnath",
     topic: "timings",
     title: "Somnath Temple Timings & Aarti — Darshan Schedule",
@@ -119,11 +128,69 @@ export const SEED_TEMPLE_INFO: SeedTempleInfo[] = [
     ],
   },
   {
-    slug: "darshan",
-    destination: "dwarka",
+    slug: "somnath-aarti-timings",
+    destination: "somnath",
+    topic: "aarti",
+    title: "Somnath Aarti Timings — Morning, Noon & Evening",
+    h1: "Somnath Aarti Timings",
+    answer_first:
+      "Somnath holds three aartis a day — morning, noon and evening — and the evening aarti is the one most visitors plan around. The indicative times below are pending confirmation against the official source, and they shift on festival days.",
+    timings: [
+      { label: "Morning aarti", open: "07:00", close: "—" },
+      { label: "Noon aarti", open: "12:00", close: "—" },
+      { label: "Evening aarti", open: "19:00", close: "—" },
+    ],
+    verified: false,
+    official_source_url: "https://somnath.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering.",
+    photography_rule: "Photography and phones are typically restricted inside the sanctum.",
+    faq: [
+      { question: "Which Somnath aarti should I attend?", answer: "The evening aarti draws the largest crowd and is usually followed by the light-and-sound show. Arrive well before the indicative start time." },
+      { question: "Do aarti timings change?", answer: "Yes. Timings shift seasonally and on festival days. Confirm against the official temple source before you travel." },
+    ],
+  },
+  {
+    slug: "somnath-darshan",
+    destination: "somnath",
     topic: "darshan",
-    title: "Dwarkadhish Temple Darshan Timings — Aarti Schedule",
-    h1: "Dwarkadhish Temple Darshan & Aarti Timings",
+    title: "Somnath Darshan & VIP Darshan — A Local Team's Guide",
+    h1: "Somnath Darshan & VIP Darshan",
+    answer_first:
+      "Darshan at Somnath is open to all visitors, with separate queues at peak hours and around the aartis. Any special or VIP darshan arrangement, and whether a fee applies, is set by the temple trust — we confirm the current position with the trust rather than quote a figure here.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://somnath.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering.",
+    photography_rule: "Photography and phones are typically restricted inside the sanctum.",
+    faq: [
+      { question: "Is there a VIP darshan at Somnath?", answer: "Arrangements and any associated fee are decided by the temple trust and change from time to time. Ask us and we will confirm the current position with the trust before you travel." },
+      { question: "When is the queue shortest?", answer: "Early morning, outside the aarti windows, is generally quietest. Festival days and weekends are busiest." },
+    ],
+  },
+  {
+    slug: "live-darshan",
+    destination: "somnath",
+    topic: "live-darshan",
+    title: "Somnath Live Darshan — Official Stream & Aarti Times",
+    h1: "Somnath Live Darshan Today",
+    answer_first:
+      "Somnath Temple's live darshan is streamed by the temple trust on its own official channel. We link to that stream rather than re-hosting it, so you always watch the authentic feed at the source.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://somnath.org/",
+    dress_code: "",
+    photography_rule: "",
+    faq: [
+      { question: "Where can I watch Somnath live darshan?", answer: "On the temple trust's own official channel. We link to it directly; we do not re-host or embed the stream." },
+      { question: "Is the live stream running all day?", answer: "The feed generally follows the temple's darshan and aarti windows. Check the official channel for the current schedule." },
+    ],
+  },
+  {
+    slug: "dwarkadhish-temple-timings",
+    destination: "dwarka",
+    topic: "timings",
+    title: "Dwarkadhish Temple Timings — Darshan & Aarti Schedule",
+    h1: "Dwarkadhish Temple Timings",
     answer_first:
       "Dwarkadhish Temple opens in the early morning and closes late at night, with a midday break, mangla aarti at dawn and multiple darshan windows. The indicative schedule below is pending confirmation against the official source before you travel.",
     timings: [
@@ -137,6 +204,60 @@ export const SEED_TEMPLE_INFO: SeedTempleInfo[] = [
     photography_rule: "Photography is usually not allowed inside the temple.",
     faq: [
       { question: "What are Dwarkadhish darshan timings?", answer: "Darshan is typically in the morning and evening with a midday break; mangla aarti is around dawn. Confirm exact times against the official temple source." },
+    ],
+  },
+  {
+    slug: "dwarka-aarti-timings",
+    destination: "dwarka",
+    topic: "aarti",
+    title: "Dwarka Aarti & Dhwaja Timings — Mangla to Shayan",
+    h1: "Dwarka Aarti & Dhwaja Timings",
+    answer_first:
+      "The day at Dwarkadhish begins with mangla aarti around dawn, and the temple's flag — the dhwaja — is changed several times a day by families who book the honour in advance. The indicative time below is pending confirmation against the official source.",
+    timings: [{ label: "Mangla aarti", open: "06:30", close: "—" }],
+    verified: false,
+    official_source_url: "https://dwarkadhish.org/",
+    dress_code: "Traditional/modest attire; footwear removed before entry.",
+    photography_rule: "Photography is usually not allowed inside the temple.",
+    faq: [
+      { question: "How often is the Dwarka dhwaja changed?", answer: "The flag is changed several times each day. The exact number of changes and how to book the honour are set by the temple; confirm against the official source." },
+      { question: "What time is mangla aarti?", answer: "Indicatively around dawn. Times shift seasonally, so confirm before you travel." },
+    ],
+  },
+  {
+    slug: "dwarkadhish-darshan",
+    destination: "dwarka",
+    topic: "darshan",
+    title: "Dwarkadhish Darshan & VIP Darshan — A Local Team's Guide",
+    h1: "Dwarkadhish Darshan & VIP Darshan",
+    answer_first:
+      "Darshan at Dwarkadhish runs in a morning and an evening window with a midday break. Any special or VIP darshan arrangement, and whether a fee applies, is set by the temple — we confirm the current position rather than quote a figure here.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://dwarkadhish.org/",
+    dress_code: "Traditional/modest attire; footwear removed before entry.",
+    photography_rule: "Photography is usually not allowed inside the temple.",
+    faq: [
+      { question: "Is there a VIP darshan at Dwarkadhish?", answer: "Arrangements and any associated fee are decided by the temple and change from time to time. Ask us and we will confirm the current position before you travel." },
+      { question: "How long does darshan take?", answer: "Outside festival days a queue of thirty to sixty minutes is typical, but this varies sharply with the season and the aarti windows." },
+    ],
+  },
+  {
+    slug: "live-darshan",
+    destination: "dwarka",
+    topic: "live-darshan",
+    title: "Dwarka Live Darshan — Official Stream & Aarti Times",
+    h1: "Dwarkadhish Live Darshan Today",
+    answer_first:
+      "Dwarkadhish Temple's live darshan is streamed on the temple's own official channel. We link to that stream rather than re-hosting it, so you always watch the authentic feed at the source.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://dwarkadhish.org/",
+    dress_code: "",
+    photography_rule: "",
+    faq: [
+      { question: "Where can I watch Dwarka live darshan?", answer: "On the temple's own official channel. We link to it directly; we do not re-host or embed the stream." },
+      { question: "Does the stream cover mangla aarti?", answer: "The feed generally follows the temple's darshan and aarti windows. Check the official channel for the current schedule." },
     ],
   },
 ];
@@ -170,7 +291,7 @@ export const SEED_JOURNEYS: SeedJourney[] = [
     ],
   },
   {
-    slug: "somnath-or-dwarka-first",
+    slug: "somnath-or-dwarka-which-first",
     title: "Somnath or Dwarka First? — How to Plan the Route",
     h1: "Should You Visit Somnath or Dwarka First?",
     question: "Should you visit Somnath or Dwarka first?",
@@ -266,6 +387,48 @@ export type SeedHotel = {
 };
 
 export const SEED_HOTELS: SeedHotel[] = [
+  /**
+   * MVP-wave trust/dharamshala pages. Tariffs are set by the temple trusts and
+   * change without notice, so no figure is printed here — we confirm the current
+   * tariff with the trust on request. `properties` is empty by design: we do not
+   * list inventory we have not verified.
+   */
+  {
+    slug: "somnath-trust-guest-house-booking",
+    city: "Somnath",
+    title: "Somnath Trust Guest House Booking — Tariff & Help",
+    h1: "Somnath Trust Guest House Booking",
+    near_temple: "Somnath Temple",
+    answer_first:
+      "The Shree Somnath Trust runs guest houses close to the temple, booked through the trust's own channels rather than through travel agents. We help you understand the options and the process; the current tariff and availability are confirmed with the trust before you commit.",
+    tiers: [
+      { tier: "Trust guest house", area: "Temple complex / walking distance", typical_range: "Confirmed with the trust on request" },
+      { tier: "Dharamshala", area: "Near temple", typical_range: "Confirmed with the trust on request" },
+    ],
+    properties: [],
+    faq: [
+      { question: "Can you book a Somnath Trust guest house for me?", answer: "Trust accommodation is booked through the trust's own channels. We help with the process, timing and what to expect, and we will tell you plainly when a private hotel is the faster option." },
+      { question: "What does a trust guest house cost?", answer: "Tariffs are set by the trust and revised from time to time. We confirm the current figure with the trust rather than quote a stale number here." },
+    ],
+  },
+  {
+    slug: "dwarka-guest-house-dharamshala",
+    city: "Dwarka",
+    title: "Dwarka Guest House & Dharamshala — Tariff & Help",
+    h1: "Dwarka Guest House & Dharamshala",
+    near_temple: "Dwarkadhish Temple",
+    answer_first:
+      "Dwarka has trust-run guest houses and community dharamshalas within walking distance of Dwarkadhish Temple, alongside private hotels. Dharamshalas are typically booked directly and fill quickly around Janmashtami. We confirm the current tariff and availability before you commit.",
+    tiers: [
+      { tier: "Trust guest house", area: "Near Dwarkadhish Temple", typical_range: "Confirmed with the trust on request" },
+      { tier: "Community dharamshala", area: "Temple lanes", typical_range: "Confirmed on request" },
+    ],
+    properties: [],
+    faq: [
+      { question: "Do dharamshalas in Dwarka take advance bookings?", answer: "Practice varies by dharamshala; many are direct-booking and some are walk-in only. Around Janmashtami they fill well in advance." },
+      { question: "Is a dharamshala right for my family?", answer: "They are simple and inexpensive but facilities are basic. We will say so honestly and suggest a private hotel when that suits you better." },
+    ],
+  },
   {
     slug: "hotels-in-somnath",
     city: "Somnath",
@@ -641,7 +804,7 @@ export const SEED_TOOLS: SeedTool[] = [
     ],
   },
   {
-    slug: "fare-calculator",
+    slug: "distance-fare-calculator",
     tool_type: "fare-calculator",
     title: "Somnath Dwarka Cab Fare Calculator — Estimate Costs",
     h1: "Somnath Dwarka Cab Fare Calculator",

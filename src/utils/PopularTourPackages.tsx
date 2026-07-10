@@ -120,7 +120,7 @@ export default function PopularTourPackages({ packages }: { packages: TourPackag
         id="packages"
         className="pt-28 pb-5 lg:pt-12 lg:pb-8 overflow-hidden " 
       >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 mb-12">
+      <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 mb-12">
         <div
           ref={headRef}
           className="flex flex-col sm:flex-row sm:items-end justify-between gap-5"
@@ -201,9 +201,9 @@ export default function PopularTourPackages({ packages }: { packages: TourPackag
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 mt-12 text-center">
+      <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 mt-12 text-center">
         <Link
-          href="/tour-packages"
+          href="/somnath-dwarka-tour-package/"
           className="inline-flex items-center gap-2.5 rounded-full px-8 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
           style={{
             background: "linear-gradient(120deg, #EA580C 0%, #F97316 100%)",
@@ -231,8 +231,8 @@ function PackageCard({
     <article
       className="group relative shrink-0 rounded-3xl overflow-hidden cursor-pointer"
       style={{
-        width: "340px",
-        height: "500px",
+        width: "360px",
+        height: "520px",
         boxShadow: "0 12px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10)",
       }}
     >
@@ -241,7 +241,7 @@ function PackageCard({
         alt={pkg.title}
         fill
         unoptimized
-        sizes="340px"
+        sizes="360px"
         className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
       />
 

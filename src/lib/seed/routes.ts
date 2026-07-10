@@ -19,7 +19,8 @@ export function getSeedRoutePaths(): string[] {
   const paths: string[] = [];
 
   SEED_PACKAGES.forEach((p) => paths.push(`/somnath-dwarka-tour-package/${p.slug}/`));
-  SEED_CAB_ROUTES.forEach((r) => paths.push(`/${r.slug}/`));
+  SEED_CAB_ROUTES.forEach((r) => paths.push(`/somnath-dwarka-taxi-service/${r.slug}/`));
+  paths.push("/somnath-dwarka-taxi-service/fare-rate-card/");
   SEED_VEHICLES.forEach((v) => paths.push(`/somnath-dwarka-taxi-service/${v.slug}/`));
   paths.push("/somnath-dwarka-taxi-service/airport-taxi/");
   SEED_AIRPORT_TAXIS.forEach((a) => paths.push(`/somnath-dwarka-taxi-service/airport-taxi/${a.slug}/`));

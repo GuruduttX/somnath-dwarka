@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import type { CarouselCard } from "@/src/utils/TourData";
 import {
   ChevronLeft,
   ChevronRight,
@@ -18,103 +19,6 @@ import {
 import { useRef, useState } from "react";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 
-const packages = [
-  {
-    id: 1,
-    title: "Somnath Divine Escape",
-    image: "https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=1600&auto=format&fit=crop",
-    destination: "Somnath, Gujarat",
-    days: 4,
-    nights: 3,
-    rating: 4.9,
-    reviews: 128,
-    price: "₹12,999",
-    originalPrice: 15999,
-    priceNum: 12999,
-    category: "Spiritual",
-    slug: "somnath-divine-escape",
-    isStayIncluded: true,
-    isBreakfastIncluded: true,
-    isSightseeingIncluded: true,
-    isTransferIncluded: false,
-  },
-  {
-    id: 2,
-    title: "Somnath Jyotirlinga Yatra",
-    image: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?q=80&w=1600&auto=format&fit=crop",
-    destination: "Somnath, Gujarat",
-    days: 3,
-    nights: 2,
-    rating: 4.8,
-    reviews: 96,
-    price: "₹10,499",
-    originalPrice: 13999,
-    priceNum: 10499,
-    category: "Pilgrimage",
-    slug: "somnath-jyotirlinga-yatra",
-    isStayIncluded: true,
-    isBreakfastIncluded: false,
-    isSightseeingIncluded: true,
-    isTransferIncluded: true,
-  },
-  {
-    id: 3,
-    title: "Somnath Premium Sacred Tour",
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1600&auto=format&fit=crop",
-    destination: "Somnath, Gujarat",
-    days: 6,
-    nights: 5,
-    rating: 5.0,
-    reviews: 214,
-    price: "₹18,999",
-    originalPrice: 24999,
-    priceNum: 18999,
-    category: "Premium",
-    slug: "somnath-premium-sacred-tour",
-    isStayIncluded: true,
-    isBreakfastIncluded: true,
-    isSightseeingIncluded: true,
-    isTransferIncluded: true,
-  },
-  {
-    id: 4,
-    title: "Somnath Coastal Journey",
-    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1600&auto=format&fit=crop",
-    destination: "Somnath, Gujarat",
-    days: 2,
-    nights: 1,
-    rating: 4.7,
-    reviews: 73,
-    price: "₹7,999",
-    originalPrice: 9999,
-    priceNum: 7999,
-    category: "Weekend",
-    slug: "somnath-coastal-journey",
-    isStayIncluded: true,
-    isBreakfastIncluded: false,
-    isSightseeingIncluded: true,
-    isTransferIncluded: true,
-  },
-  {
-    id: 5,
-    title: "Somnath Temple Darshan",
-    image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?q=80&w=1600&auto=format&fit=crop",
-    destination: "Somnath, Gujarat",
-    days: 5,
-    nights: 4,
-    rating: 4.9,
-    reviews: 157,
-    price: "₹15,499",
-    originalPrice: 19999,
-    priceNum: 15499,
-    category: "Spiritual",
-    slug: "somnath-temple-darshan",
-    isStayIncluded: true,
-    isBreakfastIncluded: true,
-    isSightseeingIncluded: true,
-    isTransferIncluded: false,
-  },
-];
 
 const inclusions = [
   { key: "isStayIncluded", label: "Stay", Icon: BedDouble },
@@ -123,7 +27,7 @@ const inclusions = [
   { key: "isTransferIncluded", label: "Transfer", Icon: Car },
 ] as const;
 
-export default function SomnathTourPackage() {
+export default function SomnathTourPackage({ packages }: { packages: CarouselCard[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -164,7 +68,7 @@ export default function SomnathTourPackage() {
     <section id="somnath-packages" className="relative py-20 md:py-28 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-transparent pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-5 md:px-8">
+      <div className="relative w-full px-4 sm:px-8 lg:px-16 xl:px-24">
 
         {/* HEADER */}
         <div className="flex items-end justify-between gap-6 mb-10 md:mb-14">
@@ -215,16 +119,12 @@ export default function SomnathTourPackage() {
           }`}
         >
           {packages.map((pkg) => {
-            const discount = Math.round(
-              ((pkg.originalPrice - pkg.priceNum) / pkg.originalPrice) * 100
-            );
-
             return (
               <Link
                 key={pkg.id}
-                href={`/tour-packages/${pkg.days}/${pkg.slug}`}
+                href={pkg.href}
                 draggable={false}
-                className="group relative shrink-0 w-[300px] md:w-[340px] rounded-[22px] overflow-hidden bg-white border border-stone-200 shadow-[0_8px_32px_rgba(0,0,0,0.06)] flex flex-col transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(234,88,12,0.13)] snap-start"
+                className="group relative shrink-0 w-[320px] md:w-[360px] rounded-[22px] overflow-hidden bg-white border border-stone-200 shadow-[0_8px_32px_rgba(0,0,0,0.06)] flex flex-col transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(234,88,12,0.13)] snap-start"
               >
                 {/* IMAGE */}
                 <div className="relative h-[210px] flex-shrink-0 overflow-hidden">
@@ -237,20 +137,15 @@ export default function SomnathTourPackage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
 
-                  {/* DISCOUNT BADGE */}
-                  <div className="absolute top-3 left-3">
-                    <span className="text-[11px] font-bold px-3 py-1.5 rounded-full bg-orange-600 text-white shadow-md">
-                      {discount}% OFF
-                    </span>
-                  </div>
-
-                  {/* RATING */}
-                  <div className="absolute top-3 right-3">
-                    <div className="flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 shadow-lg">
-                      <Star size={11} className="fill-amber-400 text-amber-400" />
-                      <span className="text-[12px] font-bold text-slate-800">{pkg.rating}</span>
+                  {/* RATING — only when the CMS holds a real one */}
+                  {pkg.rating ? (
+                    <div className="absolute top-3 right-3">
+                      <div className="flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 shadow-lg">
+                        <Star size={11} className="fill-amber-400 text-amber-400" />
+                        <span className="text-[12px] font-bold text-slate-800">{pkg.rating}</span>
+                      </div>
                     </div>
-                  </div>
+                  ) : null}
 
                   {/* BOTTOM INFO */}
                   <div className="absolute bottom-0 left-0 right-0 p-5">
@@ -281,7 +176,7 @@ export default function SomnathTourPackage() {
                   {/* INCLUSIONS */}
                   <div className="flex items-center gap-3 px-3 py-2.5 bg-orange-50 rounded-xl border border-orange-100">
                     {inclusions.map(({ key, label, Icon }) => {
-                      const active = pkg[key as keyof typeof pkg] as boolean;
+                      const active = Boolean(pkg[key as keyof CarouselCard]);
                       return (
                         <div
                           key={key}
@@ -303,11 +198,17 @@ export default function SomnathTourPackage() {
 
                   {/* RATING ROW */}
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <Star size={13} className="fill-amber-400 text-amber-400" />
-                      <span className="text-[13px] font-semibold text-slate-800">{pkg.rating}</span>
-                      <span className="text-[11px] text-stone-400">({pkg.reviews})</span>
-                    </div>
+                    {pkg.rating ? (
+                      <div className="flex items-center gap-1.5">
+                        <Star size={13} className="fill-amber-400 text-amber-400" />
+                        <span className="text-[13px] font-semibold text-slate-800">{pkg.rating}</span>
+                        {pkg.reviews ? (
+                          <span className="text-[11px] text-stone-400">({pkg.reviews})</span>
+                        ) : null}
+                      </div>
+                    ) : (
+                      <span />
+                    )}
                     <div className="flex items-center gap-1 text-[11px] text-stone-400">
                       <Users size={12} strokeWidth={1.5} />
                       Groups &amp; Couples

@@ -8,19 +8,35 @@ import CommonEnquiryForm from "./CommanEnquiryForm";
 
 
 const tourPackages = [
-  { label: "Dwarka Divine Escape", href: "/tour-packages/dwarka-divine-escape" },
-  { label: "Somnath Jyotirlinga Tour", href: "/tour-packages/somnath-jyotirlinga" },
-  { label: "Dwarka Somnath Premium Yatra", href: "/tour-packages/dwarka-somnath-yatra" },
-  { label: "Bet Dwarka Spiritual Journey", href: "/tour-packages/bet-dwarka" },
-  { label: "Gujarat Spiritual Circuit", href: "/tour-packages/gujarat-spiritual-circuit" },
-  { label: "Nageshwar Jyotirlinga Tour", href: "/tour-packages/nageshwar" },
-  { label: "Somnath Coastal Retreat", href: "/tour-packages/somnath-coastal" },
+  { label: "4 Days 3 Nights", href: "/somnath-dwarka-tour-package/4-days-3-nights/" },
+  { label: "3 Days 2 Nights", href: "/somnath-dwarka-tour-package/3-days-2-nights/" },
+  { label: "5 Days 4 Nights", href: "/somnath-dwarka-tour-package/5-days-4-nights/" },
+  { label: "From Ahmedabad", href: "/somnath-dwarka-tour-package/from-ahmedabad/" },
+  { label: "From Rajkot", href: "/somnath-dwarka-tour-package/from-rajkot/" },
+  { label: "From Mumbai", href: "/somnath-dwarka-tour-package/from-mumbai/" },
+  { label: "Family Yatra", href: "/somnath-dwarka-tour-package/for-family/" },
 ];
 
+/**
+ * Every package hub, the cab hub and both vertical hubs — the v6 footer spec.
+ * Hubs created in admin resolve here; later waves (Palitana, Saputara, Diu,
+ * Ahmedabad, Porbandar) are added to this list as their records are authored.
+ */
 const quickLinks = [
-  { label: "All Packages", href: "/tour-packages" },
-  { label: "Custom Yatra", href: "/" },
-  { label: "About Us", href: "/about" },
+  { label: "All Packages", href: "/somnath-dwarka-tour-package/" },
+  { label: "Somnath Dwarka Gir", href: "/somnath-dwarka-gir-tour-package/" },
+  { label: "Gujarat Tour Packages", href: "/gujarat-tour-packages/" },
+  { label: "Gir Tour Package", href: "/gir-tour-package/" },
+  { label: "Kutch Tour Package", href: "/kutch-tour-package/" },
+  { label: "Statue of Unity", href: "/statue-of-unity-tour-package/" },
+  { label: "Ambaji Tour Package", href: "/ambaji-tour-package/" },
+  { label: "Heritage Tours", href: "/heritage-tours-gujarat/" },
+  { label: "Wildlife & Nature", href: "/wildlife-nature-tours/" },
+  { label: "Temples of Gujarat", href: "/temples/" },
+  { label: "Taxi Service", href: "/somnath-dwarka-taxi-service/" },
+  { label: "Travel Guides", href: "/guides/" },
+  { label: "Festival Calendar", href: "/festivals/" },
+  { label: "About Us", href: "/about/" },
 ];
 
 // Round trig-derived coords to a fixed precision so server and client emit
@@ -293,9 +309,9 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-4">
             {[
-              { label: "Privacy Policy", href: "/privacy" },
-              { label: "Terms", href: "/terms" },
-              { label: "Refund Policy", href: "/refund" },
+              { label: "Privacy Policy", href: "/privacy/" },
+              { label: "Terms", href: "/terms/" },
+              { label: "Refund Policy", href: "/cancellation-refund/" },
             ].map((l) => (
               <Link key={l.label} href={l.href} className="text-[11px] sm:text-[11.5px] transition-colors duration-200 hover:text-orange-400 whitespace-nowrap"
                 style={{ color: "#6B4C2A", fontFamily: "sans-serif" }}>

@@ -99,7 +99,38 @@ export const SEED_CAB_ROUTES: SeedCabRoute[] = [
       { question: "Which route does the cab take to Dwarka?", answer: "Typically via Rajkot and Jamnagar. The driver adjusts for road conditions on the day." },
     ],
   },
+  {
+    slug: "rajkot-to-dwarka-taxi",
+    kind: "route",
+    title: "Rajkot to Dwarka Taxi — Fare, Distance & Cab Booking",
+    h1: "Rajkot to Dwarka Taxi",
+    origin: "Rajkot",
+    destination: "Dwarka",
+    distance: "≈ 225 km",
+    duration: "~ 4–4.5 hours",
+    verified: false,
+    answer_first:
+      "A Rajkot to Dwarka taxi covers roughly 225 km in about 4 to 4.5 hours on the Jamnagar highway. Many travellers leave Rajkot in the morning to reach Dwarka in time for an afternoon darshan, adding Nageshwar on the way in.",
+    fares: [
+      { vehicle: "Sedan (Dzire/Etios)", seats: 4, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "SUV (Ertiga)", seats: 6, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "Innova Crysta", seats: 7, oneWay: "₹—", roundTrip: "₹—" },
+    ],
+    stops: ["Jamnagar", "Khambhalia"],
+    faq: [
+      { question: "How long does Rajkot to Dwarka take by cab?", answer: "About 4 to 4.5 hours for roughly 225 km, depending on halts and traffic. Confirmed at booking." },
+      { question: "Can I add Nageshwar Jyotirlinga on the way?", answer: "Yes. Nageshwar sits close to the Dwarka approach and is a common halt on this route; tell us and the driver plans for it." },
+    ],
+  },
 ];
+
+/**
+ * Canonical cab-route path. The URL map places every cab route *under* the taxi
+ * hub (/somnath-dwarka-taxi-service/{slug}/) and contains no root-level -taxi
+ * URL at all. The old root URLs 301 here via next.config.ts.
+ */
+export const CAB_HUB = "/somnath-dwarka-taxi-service/";
+export const cabPath = (slug: string) => `${CAB_HUB}${slug}/`;
 
 export const SEED_VEHICLES: SeedVehicle[] = [
   {

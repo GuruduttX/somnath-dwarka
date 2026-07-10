@@ -118,7 +118,10 @@ export function mapAdminPackageToTourCard(
     groupType: pkg.category || "Private Trip",
     days,
     price: Number(pkg.price || 0),
-    originalPrice: pkg.price ? Math.round(pkg.price * 1.18) : 0,
+    // Was `Math.round(pkg.price * 1.18)` — a strikethrough "was" price invented
+    // from the current one. The CMS carries no former price, so there is no
+    // discount to show. Add an originalPrice field before rendering one again.
+    originalPrice: 0,
     inclusions: inclusions.slice(0, 4),
     images: [...images, ...FALLBACK_IMAGES].slice(0, 5),
     href: packagePath(pkg.slug),
@@ -135,4 +138,61 @@ export function mapAdminPackagesToTourCards(packages: AdminPackageRecord[]) {
     .filter((pkg) => pkg.status !== "draft")
     .map(mapAdminPackageToTourCard)
     .filter((pkg): pkg is TourPackage => Boolean(pkg));
+}
+
+/** Shape consumed by the destination carousels on the home page. */
+export type CarouselCard = {
+  id: string;
+  slug: string;
+  title: string;
+  href: string;
+  image: string;
+  destination: string;
+  days: number;
+  nights: number;
+  category: string;
+  rating?: number;
+  reviews?: number;
+  isStayIncluded?: boolean;
+  isBreakfastIncluded?: boolean;
+  isSightseeingIncluded?: boolean;
+  isTransferIncluded?: boolean;
+};
+
+/**
+ * Cards for a destination carousel, drawn from published CMS packages.
+ *
+ * `rating` and `reviews` pass through only when the CMS actually holds them: the
+ * carousels used to hardcode a 4.9 and a review count for packages that did not
+ * exist, alongside a discount computed from an invented "original" price.
+ */
+export function toCarouselCards(
+  records: AdminPackageRecord[],
+  destination: string,
+): CarouselCard[] {
+  const needle = destination.toLowerCase();
+
+  return records
+    .map((record, index) => ({ record, card: mapAdminPackageToTourCard(record, index) }))
+    .filter(
+      (entry): entry is { record: AdminPackageRecord; card: TourPackage } =>
+        Boolean(entry.card) && entry.card!.location.toLowerCase().includes(needle),
+    )
+    .map(({ record, card }) => ({
+      id: card.id,
+      slug: card.slug,
+      title: card.title,
+      href: card.href,
+      image: card.images[0],
+      destination: card.location,
+      days: card.days,
+      nights: Number(record.nights ?? Math.max(card.days - 1, 0)),
+      category: card.groupType,
+      rating: card.rating,
+      reviews: card.reviews,
+      isStayIncluded: record.isStayIncluded,
+      isBreakfastIncluded: record.isBreakfastIncluded,
+      isSightseeingIncluded: record.isSightseeingIncluded,
+      isTransferIncluded: record.isTransferIncluded,
+    }));
 }

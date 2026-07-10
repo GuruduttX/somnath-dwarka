@@ -30,7 +30,7 @@ export default function GlobalCTA() {
         <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
 
           {/* Shimmer Button */}
-          <Link href="/tour-packages">
+          <Link href="/somnath-dwarka-tour-package/">
             <button className="relative overflow-hidden rounded-full px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-amber-600 to-orange-500 transition-all duration-300 hover:scale-105 hover:shadow-xl">
 
               <span className="relative z-10">Plan My Trip</span>

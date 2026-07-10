@@ -26,7 +26,7 @@ export default function PageShell({
   children,
   noPaddingTop = false,
   flushHero = false,
-  lightCrumb = false,
+  lightCrumb = true,
 }: {
   crumbs: Crumb[];
   children: React.ReactNode;

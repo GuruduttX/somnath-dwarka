@@ -775,3 +775,79 @@
                         background:#F0E8DC;display:flex;align-items:center;justify-content:center;
                         transition:background .15s }
 .ceq-close:hover     { background:#E4D4C4 }
+
+/* Custom Animations for Home Page Cards - Triggered on parent group hover */
+.group:hover .animate-wave {
+  animation: wave 2.5s ease-in-out infinite;
+  transform-origin: bottom center;
+  transform-box: fill-box;
+}
+.group:hover .animate-flicker {
+  animation: flicker 1.8s ease-in-out infinite;
+  transform-origin: bottom center;
+  transform-box: fill-box;
+}
+.group:hover .animate-swing {
+  animation: swing 3s ease-in-out infinite;
+  transform-origin: 50% 10%;
+  transform-box: fill-box;
+}
+.group:hover .animate-float-slow {
+  animation: float-slow 4s ease-in-out infinite;
+  transform-box: fill-box;
+}
+.group:hover .animate-road-slide {
+  animation: road-slide 1s linear infinite;
+}
+.group:hover .animate-orbit {
+  animation: orbit 15s linear infinite;
+  transform-origin: 32px 32px;
+  transform-box: view-box;
+}
+.group:hover .animate-pulse-ring {
+  animation: pulse-ring 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.group:hover .animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(8deg); }
+}
+@keyframes flicker {
+  0%, 100% { transform: scale(1) translateY(0); opacity: 0.85; }
+  50% { transform: scale(1.1) translateY(-0.7px); opacity: 1; }
+  25% { transform: scale(0.95) translateY(0); opacity: 0.8; }
+  75% { transform: scale(1.05) translateY(-0.3px); opacity: 0.95; }
+}
+@keyframes swing {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(10deg); }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes road-slide {
+  from { stroke-dashoffset: 12; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes pulse-ring {
+  0%, 100% { transform: scale(0.92); opacity: 0.25; }
+  50% { transform: scale(1.08); opacity: 0.55; }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+

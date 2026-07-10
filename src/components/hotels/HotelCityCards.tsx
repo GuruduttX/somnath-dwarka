@@ -16,12 +16,21 @@ interface HotelCity {
   city: string;
   near_temple: string;
   tiers?: Tier[];
+  h1?: string;
 }
 
-const CITY_IMAGE: Record<string, string> = {
-  Somnath: "/images/hotels/somnath.jpg",
-  Dwarka: "/images/hotels/dwarka.jpg",
+const SLUG_IMAGE: Record<string, string> = {
+  "somnath-trust-guest-house-booking": "/images/hotels/somnath.jpg",
+  "dwarka-guest-house-dharamshala": "/images/hotels/dwarka.jpg",
+  "hotels-in-somnath": "/images/hotels/properties/p6.jpg",
+  "hotels-in-dwarka": "/images/hotels/properties/p3.jpg",
 };
+
+function getCtaText(slug: string, city: string) {
+  if (slug.includes("trust")) return `Explore trust stays in ${city}`;
+  if (slug.includes("dharamshala")) return `Explore dharamshalas in ${city}`;
+  return `Explore hotels in ${city}`;
+}
 
 // Icon + accent per comfort tier.
 function tierMeta(tier: string) {
@@ -49,8 +58,8 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
             {/* Image banner */}
             <div className="relative h-56 w-full overflow-hidden">
               <Image
-                src={CITY_IMAGE[h.city] ?? "/images/hotels/hero.jpg"}
-                alt={`Hotels in ${h.city} near ${h.near_temple}`}
+                src={SLUG_IMAGE[h.slug] ?? "/images/hotels/hero.jpg"}
+                alt={h.h1 || `Hotels in ${h.city} near ${h.near_temple}`}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover transition-transform duration-[600ms] group-hover:scale-105"
@@ -66,7 +75,7 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
 
               {/* title over image */}
               <div className="absolute inset-x-0 bottom-0 p-5">
-                <h3 className="text-2xl font-black text-white drop-shadow-sm">Hotels in {h.city}</h3>
+                <h3 className="text-xl sm:text-2xl font-black text-white drop-shadow-sm leading-tight">{h.h1 || `Hotels in ${h.city}`}</h3>
                 <p className="mt-1 flex items-center gap-1.5 text-[12px] font-medium text-orange-100">
                   <MapPin size={13} />
                   Near {h.near_temple}
@@ -98,7 +107,7 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
               {/* CTA row */}
               <div className="mt-5 flex items-center justify-between border-t border-orange-50 pt-4">
                 <span className="text-[13px] font-bold text-orange-700 transition-colors group-hover:text-[#E87722]">
-                  Explore stays in {h.city}
+                  {getCtaText(h.slug, h.city)}
                 </span>
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-50 text-orange-600 transition-colors group-hover:bg-orange-500 group-hover:text-white">
                   <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />

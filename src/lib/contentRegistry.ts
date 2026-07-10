@@ -15,6 +15,12 @@ import FestivalModel from "@/src/models/festivalModel";
 import ComparisonModel from "@/src/models/comparisonModel";
 import ToolModel from "@/src/models/toolModel";
 import AuthorModel from "@/src/models/authorModel";
+import HubModel from "@/src/models/hubModel";
+import HubSpokeModel from "@/src/models/hubSpokeModel";
+import TempleModel from "@/src/models/templeModel";
+import TrustModel from "@/src/models/trustModel";
+import DataPageModel from "@/src/models/dataPageModel";
+import ItineraryModel from "@/src/models/itineraryModel";
 
 export type ContentTypeDef = {
   key: string;
@@ -28,6 +34,48 @@ export type ContentTypeDef = {
 };
 
 export const CONTENT_TYPES: Record<string, ContentTypeDef> = {
+  hub: {
+    key: "hub",
+    label: "Hubs (money & vertical)",
+    model: HubModel,
+    pathHint: "/{slug}/ — e.g. /gir-tour-package/, /temples/, /data/",
+    typeFields: ["title", "hub_kind", "head_term", "pillar_path", "sibling_hubs", "variants", "price_from", "inclusions", "exclusions", "answer_template", "serp_feature_target"],
+  },
+  "hub-spoke": {
+    key: "hub-spoke",
+    label: "Hub variants",
+    model: HubSpokeModel,
+    pathHint: "/{hub}/{slug}/",
+    typeFields: ["title", "hub", "spoke_kind", "duration", "price_from", "inclusions", "exclusions", "itinerary_days", "answer_template"],
+  },
+  temple: {
+    key: "temple",
+    label: "Temples (/temples)",
+    model: TempleModel,
+    pathHint: "/temples/{slug}/",
+    typeFields: ["title", "temple", "deity", "town", "district", "significance", "timings_table", "timings_verified", "official_source_url", "how_to_reach", "distance_from_ahmedabad", "dress_code", "map_query"],
+  },
+  trust: {
+    key: "trust",
+    label: "Trust pages",
+    model: TrustModel,
+    pathHint: "/{slug}/ — team, methodology, editorial-policy, referral",
+    typeFields: ["title", "page_kind", "sections"],
+  },
+  "data-page": {
+    key: "data-page",
+    label: "Data & research",
+    model: DataPageModel,
+    pathHint: "/data/{slug}/",
+    typeFields: ["title", "dataset_name", "methodology", "methodology_url", "last_updated", "source_note", "rows"],
+  },
+  itinerary: {
+    key: "itinerary",
+    label: "Itineraries (/plan/itinerary)",
+    model: ItineraryModel,
+    pathHint: "/plan/itinerary/{slug}/",
+    typeFields: ["title", "days", "question", "direct_answer", "itinerary_days"],
+  },
   taxi: {
     key: "taxi",
     label: "Cab routes & vehicles",

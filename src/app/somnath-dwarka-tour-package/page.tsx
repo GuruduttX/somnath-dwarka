@@ -13,6 +13,7 @@ import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { getPublishedPackages, packagePath } from "@/src/lib/content";
 import { SEED_PACKAGES, type SeedPackage } from "@/src/lib/seed/packages";
+import { isAuthorisedPackage, packageBucket, type PackageBucket } from "@/src/config/packageSpokes";
 import { buildRelatedLinks } from "@/src/lib/links";
 import { mapAdminPackagesToTourCards, type TourPackage } from "@/src/utils/TourData";
 import PackageExplorer from "@/src/components/TourArchive/PackageExplorer";
@@ -105,7 +106,8 @@ function seedToTourPackage(seed: SeedPackage, index: number): TourPackage {
     groupType,
     days,
     price: seed.price_from,
-    originalPrice: Math.round(seed.price_from * 1.18),
+    // No invented "was" price: a strikethrough must reflect a real former rate.
+    originalPrice: 0,
     inclusions: seed.inclusions.slice(0, 4),
     images: rotated.slice(0, 5),
     href: packagePath(seed.slug),
@@ -120,13 +122,24 @@ export default async function PackagePillarPage() {
   const cmsSlugs = new Set(cmsTourPackages.map((p) => p.slug));
 
   const seedTourPackages = SEED_PACKAGES.filter((s) => !cmsSlugs.has(s.slug)).map(seedToTourPackage);
-  const variants: TourPackage[] = [...cmsTourPackages, ...seedTourPackages];
 
-  const byDuration = variants.filter(
-    (v) => !v.slug.startsWith("from-") && (/days|nights/i.test(v.duration) || /\d-days/.test(v.slug)),
+  // Only variants the URL map authorises are listed. A record outside the map is
+  // not part of the planned architecture, so it never reaches the money page.
+  const variants: TourPackage[] = [...cmsTourPackages, ...seedTourPackages].filter((v) =>
+    isAuthorisedPackage(v.slug),
   );
-  const byCity = variants.filter((v) => v.slug.startsWith("from-"));
-  const byType = variants.filter((v) => ["for-family", "budget", "senior-citizen"].includes(v.slug));
+
+  // Bucket from the map, not from the slug's shape. The old test required a
+  // plural "days", so 1-day-somnath and 1-day-dwarka matched no group and were
+  // silently dropped from the explorer.
+  const inBucket = (bucket: PackageBucket) =>
+    variants.filter((v) => packageBucket(v.slug) === bucket);
+
+  const byDuration = inBucket("duration");
+  const byCity = inBucket("city");
+  const byType = inBucket("traveller");
+  const byRoute = inBucket("route");
+  const byTransport = inBucket("transport");
 
   const prices = variants.map((v) => v.price).filter((p) => p > 0);
   const minPrice = prices.length ? Math.min(...prices) : 0;
@@ -518,7 +531,13 @@ export default async function PackagePillarPage() {
           </p>
         </div>
 
-        <PackageExplorer duration={byDuration} city={byCity} traveller={byType} />
+        <PackageExplorer
+          duration={byDuration}
+          city={byCity}
+          traveller={byType}
+          route={byRoute}
+          transport={byTransport}
+        />
       </div>
 
       <CustomPackageCTA />
