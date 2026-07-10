@@ -12,6 +12,7 @@ import { buildRelatedLinks } from "@/src/lib/links";
 import {
   RESERVED_ROOT_SLUGS,
   getDataPageBySlug,
+  getHubBySlug,
   getHubSpoke,
   getPublishedDataPages,
   getPublishedHubSpokes,
@@ -53,7 +54,13 @@ type Resolved =
   | { kind: "pillar-spoke"; doc: Doc; pillarTitle: string };
 
 async function resolve(rootSlug: string, spoke: string): Promise<Resolved | null> {
-  const parent = await resolveRootSlug(rootSlug);
+  let parent = null;
+  if (rootSlug === "temples") {
+    const hub = await getHubBySlug("temples");
+    if (hub) parent = { kind: "hub" as const, doc: hub };
+  } else {
+    parent = await resolveRootSlug(rootSlug);
+  }
   if (!parent) return null;
 
   if (parent.kind === "hub") {

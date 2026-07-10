@@ -107,6 +107,7 @@ export const RESERVED_ROOT_SLUGS = new Set([
   "contact", "dwarka", "festivals", "guides", "hotels", "plan", "privacy",
   "reviews", "sitemap", "somnath", "somnath-dwarka-taxi-service",
   "somnath-dwarka-tour-package", "terms", "thank-you", "tools", "llms.txt",
+  "temples",
 ]);
 
 type Doc = Record<string, unknown>;

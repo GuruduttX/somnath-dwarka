@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Sparkles, CalendarClock, Users, BedDouble, ArrowUpRight, Compass, Map, Building2, Calendar } from "lucide-react";
+import { Sparkles, CalendarClock, Users, BedDouble, ArrowUpRight, Compass, Map, Building2, Calendar, ArrowRight } from "lucide-react";
 import { buildMetadata, webPageSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import JsonLd from "@/src/components/seo/JsonLd";
@@ -106,7 +106,33 @@ export default async function FestivalHubPage() {
             </p>
           </div>
 
-          <div className="mt-10 pb-2">
+          {/* ── Festival Calendar Banner ── */}
+          <div className="mt-8 mx-auto max-w-3xl">
+            <Link
+              href="/festivals/festival-calendar/"
+              className="flex flex-col sm:flex-row items-center justify-between gap-4 rounded-3xl border border-orange-100 bg-gradient-to-r from-orange-50/60 via-amber-50/20 to-orange-50/60 p-6 shadow-sm hover:shadow-md hover:border-orange-350 transition duration-300 group"
+            >
+              <div className="flex items-center gap-4 text-left">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-md">
+                  <CalendarClock size={20} className="animate-pulse" />
+                </span>
+                <div>
+                  <h3 className="text-[15px] font-extrabold text-[#3a2416] leading-tight">
+                    Explore the Complete Festival Calendar
+                  </h3>
+                  <p className="text-xs text-[#6b4c38] mt-1 leading-relaxed">
+                    View upcoming dates (2026 – 2027), auspicious timing details, locations, and special darshan crowd tips.
+                  </p>
+                </div>
+              </div>
+              <span className="flex items-center gap-1.5 px-4.5 py-2.5 rounded-full bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold transition shadow-md shadow-orange-600/10 group-hover:shadow-orange-600/20 whitespace-nowrap">
+                Open Calendar
+                <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </Link>
+          </div>
+
+          <div className="mt-12 pb-2">
             <FestivalCards festivals={festivals} />
           </div>
         </div>

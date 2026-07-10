@@ -47,6 +47,7 @@ export const STATIC_ROUTES: StaticRoute[] = [
   // Info pillars
   { path: "/somnath/", type: "destinationPillar", label: "Somnath", priority: 0.8 },
   { path: "/dwarka/", type: "destinationPillar", label: "Dwarka", priority: 0.8 },
+  { path: "/temples/", type: "destinationPillar", label: "Temples", priority: 0.8 },
 
   // Supporting hubs
   { path: "/plan/", type: "journey", label: "Plan your trip", priority: 0.7 },
