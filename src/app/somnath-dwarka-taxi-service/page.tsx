@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { buildMetadata, serviceSchema } from "@/src/lib/seo";
 import { CORE_FACTS } from "@/src/config/site";
 import PageShell from "@/src/components/shared/PageShell";
@@ -12,7 +13,7 @@ import { SEED_CAB_ROUTES, SEED_VEHICLES, SEED_AIRPORT_TAXIS, cabPath } from "@/s
 import { buildRelatedLinks } from "@/src/lib/links";
 import TaxiHero from "@/src/components/taxi/TaxiHero";
 import { RouteCardGrid, VehicleCardGrid, AirportCardGrid } from "@/src/components/taxi/TaxiCardGrids";
-import { Sparkles, MapPin, Compass, Shield } from "lucide-react";
+import { Sparkles, MapPin, Compass, Shield, ArrowRight, ReceiptText } from "lucide-react";
 
 const PATH = "/somnath-dwarka-taxi-service/";
 export const revalidate = 3600;
@@ -102,17 +103,29 @@ export default function CabHubPage() {
 
         <Section id="routes" wide={true} className="!py-0 relative z-10">
           {/* Custom styled section header */}
-          <div className="mb-8 max-w-3xl">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-200 bg-orange-50/70 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-orange-850">
-              <Compass size={11} className="text-orange-500 animate-pulse" />
-              Saurashtra Highway Segments
-            </span>
-            <h2 className="mt-3 text-3xl font-black text-[#2d1b10] tracking-tight sm:text-4xl">
-              Popular Taxi Routes
-            </h2>
-            <p className="mt-2 text-sm text-gray-650 leading-relaxed">
-              Compare driving distances and estimated durations for key pilgrimage connections. Select a route to see details and base rates.
-            </p>
+          <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div className="max-w-3xl">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-200 bg-orange-50/70 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-orange-850">
+                <Compass size={11} className="text-orange-500 animate-pulse" />
+                Saurashtra Highway Segments
+              </span>
+              <h2 className="mt-3 text-3xl font-black text-[#2d1b10] tracking-tight sm:text-4xl">
+                Popular Taxi Routes
+              </h2>
+              <p className="mt-2 text-sm text-gray-650 leading-relaxed">
+                Compare driving distances and estimated durations for key pilgrimage connections. Select a route to see details and base rates.
+              </p>
+            </div>
+
+            {/* Full rate card — per-route and per-vehicle rates on one page. */}
+            <Link
+              href="/somnath-dwarka-taxi-service/fare-rate-card/"
+              className="group inline-flex shrink-0 items-center gap-2.5 rounded-full border border-orange-200 bg-white px-5 py-3 text-sm font-bold text-orange-800 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50 hover:shadow-md"
+            >
+              <ReceiptText size={16} className="text-orange-500" />
+              View fare rate card
+              <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+            </Link>
           </div>
 
           <RouteCardGrid routes={SEED_CAB_ROUTES} />

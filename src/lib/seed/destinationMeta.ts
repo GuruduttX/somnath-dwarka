@@ -43,6 +43,35 @@ export type DestinationMeta = {
 };
 
 export const DESTINATION_META: Record<string, DestinationMeta> = {
+  /** Junagadh–Girnar: a sacred mountain climb rather than a single temple. */
+  "junagadh-girnar": {
+    slug: "junagadh-girnar",
+    heroImage: "/images/junagadh-girnar/junagadh-girnar-hero.jpg",
+    deity: "Girnar · Jain & Hindu tirth",
+    deityShort: "Girnar climb",
+    accent: "#B45309",
+    accentSoft: "rgba(180,83,9,0.16)",
+    glyph: "गिरनार",
+    tagline:
+      "A sacred mountain of roughly ten thousand steps — Jain and Hindu summit temples, the ropeway, Uparkot Fort and the Bhavnath fair.",
+    chips: [
+      { icon: "landmark", label: "~10,000 steps to the top" },
+      { icon: "route", label: "Ropeway to Amba Mata" },
+      { icon: "sun", label: "Oct – Mar best" },
+    ],
+    stats: [
+      { value: "~10k", label: "steps to the summit", icon: "landmark" },
+      { value: "2 days", label: "comfortable stay", icon: "clock" },
+      { value: "2 faiths", label: "Jain & Hindu tirth", icon: "star" },
+      { value: "85 km", label: "to Somnath", icon: "route" },
+    ],
+    reach: [
+      { icon: "plane", mode: "By Air", detail: "Rajkot ~100 km" },
+      { icon: "train", mode: "By Rail", detail: "Junagadh station · Ahmedabad–Veraval line" },
+      { icon: "car", mode: "By Road", detail: "From Rajkot, Somnath or Gir" },
+    ],
+    placeIcon: "landmark",
+  },
   /** Gir is not a temple town, so `deity` carries what people actually come for. */
   gir: {
     slug: "gir",

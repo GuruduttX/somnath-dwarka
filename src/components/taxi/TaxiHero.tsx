@@ -91,7 +91,7 @@ const CITY_OPTIONS = [
 ];
 
 const VEHICLE_OPTIONS = [
-  { value: "sedan", label: "Swift Dzire (Sedan)", seats: 4, bags: "2 bags", rate: 12.5, image: "/images/taxi/sedan.jpg" },
+  { value: "sedan", label: "Sedan (Dzire / Etios)", seats: 4, bags: "2 bags", rate: 12.5, image: "/images/taxi/sedan.jpg" },
   { value: "suv", label: "Ertiga (SUV)", seats: 6, bags: "3 bags", rate: 16.0, image: "/images/taxi/mpv.jpg" },
   { value: "innova", label: "Innova Crysta (Premium)", seats: 7, bags: "4 bags", rate: 21.0, image: "/images/taxi/suv.jpg" },
 ];

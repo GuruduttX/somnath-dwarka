@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { serviceSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import Section from "@/src/components/shared/Section";
@@ -55,8 +56,24 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
           <p className="text-sm text-gray-600 mb-4 max-w-2xl">
             Estimated base rates for major segments and daily operations. Tolls, parking, and driver allowances are extra.
           </p>
-          <div className="bg-white/60 backdrop-blur-xs p-3 rounded-2xl border border-orange-100/40">
-            <DataTable columns={["Route / Basis", "Indicative Rate"]} rows={v.fares.map((f) => [f.route, f.rate])} />
+          <div className={`grid gap-5 ${v.image ? "lg:grid-cols-[1.4fr_1fr]" : ""}`}>
+            <div className="bg-white/60 backdrop-blur-xs p-3 rounded-2xl border border-orange-100/40">
+              <DataTable columns={["Route / Basis", "Indicative Rate"]} rows={v.fares.map((f) => [f.route, f.rate])} />
+            </div>
+            {v.image ? (
+              <figure className="relative overflow-hidden rounded-2xl border border-orange-100/40 bg-white shadow-sm">
+                <Image
+                  src={v.image.src}
+                  alt={v.image.alt}
+                  width={800}
+                  height={500}
+                  className="h-full w-full object-cover"
+                />
+                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-4 py-2.5 text-xs font-semibold text-white">
+                  {v.vehicle_name} — up to {v.seats} seats
+                </figcaption>
+              </figure>
+            ) : null}
           </div>
         </Section>
       </div>

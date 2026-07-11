@@ -9,6 +9,7 @@ import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import PlanHero from "@/src/components/plan/PlanHero";
 import { PlanCards } from "@/src/components/plan/PlanCards";
+import CompareSection from "@/src/components/plan/CompareSection";
 import { SEED_JOURNEYS } from "@/src/lib/seed/destinations";
 
 const PATH = "/plan/";
@@ -75,6 +76,9 @@ export default function PlanHubPage() {
           </div>
         </div>
       </div>
+
+      {/* ── Compare & decide ── */}
+      <CompareSection />
 
       <Faq items={FAQ} heading="Trip planning FAQs" subheading="Quick answers to the questions travellers ask before booking." />
 

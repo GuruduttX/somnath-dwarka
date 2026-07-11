@@ -11,6 +11,7 @@ import {
 } from "@/src/components/templates/cms/blocks";
 import { buildRelatedLinks } from "@/src/lib/links";
 import GirPillar from "@/src/components/templates/GirPillar";
+import JunagadhGirnarPillar from "@/src/components/templates/JunagadhGirnarPillar";
 import { getRootSlugs, resolveRootSlug } from "@/src/lib/content";
 import {
   bool,
@@ -115,6 +116,7 @@ function HubBody({ slug, d }: { slug: string; d: Doc }) {
  */
 const PILLAR_TEMPLATES: Record<string, (props: { doc: Doc }) => Promise<React.ReactNode>> = {
   gir: GirPillar,
+  "junagadh-girnar": JunagadhGirnarPillar,
 };
 
 function PillarBody({ slug, d }: { slug: string; d: Doc }) {

@@ -28,6 +28,8 @@ export type SeedVehicle = {
   suitable_for: string;
   answer_first: string;
   fares: { route: string; rate: string }[];
+  /** Optional photo of the actual vehicle, shown on its page. */
+  image?: { src: string; alt: string };
   faq: { question: string; answer: string }[];
 };
 
@@ -241,24 +243,6 @@ export const SEED_VEHICLES: SeedVehicle[] = [
     ],
   },
   {
-    slug: "swift-dzire",
-    kind: "vehicle",
-    title: "Swift Dzire for Somnath Dwarka — Fare & Booking",
-    h1: "Swift Dzire for Somnath Dwarka Tour",
-    vehicle_name: "Swift Dzire",
-    seats: 4,
-    suitable_for: "Couples, solo travellers and small families of up to 4 passengers",
-    answer_first:
-      "A Swift Dzire seats up to 4 and is a highly cost-effective and nimble choice for the Somnath–Dwarka route. It offers a comfortable air-conditioned ride for small families. Share your dates for a custom quote.",
-    fares: [
-      { route: "Somnath ↔ Dwarka", rate: "₹—" },
-      { route: "Full circuit (per day)", rate: "₹—" },
-    ],
-    faq: [
-      { question: "Is Swift Dzire good for a small family pilgrimage?", answer: "Yes, it is highly budget-friendly and comfortable for up to 4 passengers with standard luggage." },
-    ],
-  },
-  {
     slug: "tempo-traveller",
     kind: "vehicle",
     title: "Tempo Traveller Hire Somnath Dwarka — Fare & Booking",
@@ -272,6 +256,7 @@ export const SEED_VEHICLES: SeedVehicle[] = [
       { route: "Somnath ↔ Dwarka", rate: "₹—" },
       { route: "Full circuit (per day)", rate: "₹—" },
     ],
+    image: { src: "/images/taxi/tempo-traveller.jpg", alt: "A tempo traveller minibus for group travel" },
     faq: [
       { question: "How many people fit in a tempo traveller?", answer: "Configurations vary — commonly 9, 12, 14 or 17 seats. Share your group size and we confirm the exact vehicle and seat count before booking." },
       { question: "Is a tempo traveller comfortable for elders?", answer: "Push-back seats and a high roof make boarding easier than an SUV for most elders. For long drives we plan extra halts." },
