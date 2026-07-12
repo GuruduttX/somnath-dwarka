@@ -91,8 +91,10 @@ export default function PlanHubPage() {
             <Sparkles size={11} className="text-orange-500" />
             <span>Related guides & services</span>
           </p>
-          <ul className="grid gap-4 sm:grid-cols-4">
+          <ul className="grid gap-4 sm:grid-cols-3">
             {[
+              { target: "/tools/itinerary-planner/", anchor: "Gujarat Itinerary Planner", type: "tool" },
+              { target: "/circuits/gandhi-circuit-gujarat/", anchor: "Gandhi Circuit Gujarat", type: "circuit" },
               { target: "/somnath/", anchor: "Somnath Travel Guide", type: "pillar" },
               { target: "/dwarka/", anchor: "Dwarka Travel Guide", type: "pillar" },
               { target: "/somnath-dwarka-taxi-service/", anchor: "Book Taxi Service", type: "sibling" },
@@ -109,6 +111,12 @@ export default function PlanHubPage() {
               } else if (l.type === "sibling") {
                 Icon = Map;
                 label = "Plan your trip";
+              } else if (l.type === "tool") {
+                Icon = Calendar;
+                label = "Free tool";
+              } else if (l.type === "circuit") {
+                Icon = Map;
+                label = "Circuit route";
               }
               
               return (

@@ -36,6 +36,12 @@ export const SEED_DESTINATIONS: SeedDestination[] = [
       { name: "Somnath Temple", slug: "somnath-temple", blurb: "The main jyotirlinga temple and evening aarti." },
       { name: "Triveni Sangam", slug: "triveni-sangam", blurb: "Confluence of three rivers meeting the sea." },
       { name: "Bhalka Tirth", slug: "bhalka-tirth", blurb: "Associated with the final days of Lord Krishna." },
+      { name: "Gita Mandir", slug: "gita-mandir", blurb: "Riverside temple inscribed with verses of the Bhagavad Gita, near Triveni Sangam." },
+      { name: "Prabhas Patan Museum", slug: "prabhas-patan-museum", blurb: "Archaeological museum with sculptures and remains from the older Somnath temples." },
+      { name: "Somnath Beach", slug: "somnath-beach", blurb: "The shore beside the temple, popular for sunsets and the evening sea breeze." },
+      { name: "Panchpandav Gufa", slug: "panchpandav-gufa", blurb: "A cave shrine linked to the Pandavas, close to the temple complex." },
+      { name: "Old Somnath (Ahilyabai Temple)", slug: "old-somnath-ahilyabai-temple", blurb: "The older Somnath temple built by Ahilyabai Holkar, beside the main shrine." },
+      { name: "Dehotsarg Tirth", slug: "dehotsarg-tirth", blurb: "The tirth on the Hiran river marking Lord Krishna's final departure." },
     ],
     key_distances: [
       { from: "Somnath", to: "Dwarka", distance: "≈ 233 km", duration: "~ 4.5–5 hr" },
@@ -64,6 +70,16 @@ export const SEED_DESTINATIONS: SeedDestination[] = [
       { name: "Dwarkadhish Temple", slug: "dwarkadhish-temple", blurb: "The main Krishna temple and aarti." },
       { name: "Nageshwar Jyotirlinga", slug: "nageshwar-jyotirlinga", blurb: "One of the twelve jyotirlingas, near Dwarka." },
       { name: "Bet Dwarka", slug: "bet-dwarka", blurb: "Island reached by ferry, linked to Krishna's life." },
+      { name: "Rukmini Temple", slug: "rukmini-temple", blurb: "Temple dedicated to Rukmini, Krishna's consort, a short drive from Dwarka town." },
+      { name: "Gomti Ghat", slug: "gomti-ghat", blurb: "Steps on the Gomti creek where pilgrims bathe before Dwarkadhish darshan." },
+      { name: "Sudama Setu", slug: "sudama-setu", blurb: "A pedestrian suspension bridge across the Gomti to the far-bank shrines." },
+      { name: "Gopi Talav", slug: "gopi-talav", blurb: "A sacred pond linked to the gopis' devotion, on the road towards Bet Dwarka." },
+      { name: "Shivrajpur Beach", slug: "shivrajpur-beach", blurb: "A Blue Flag–certified beach near Dwarka, known for clear water and water sports." },
+      { name: "Sudarshan Setu", slug: "sudarshan-setu", blurb: "India's longest cable-stayed bridge, linking Okha with Bet Dwarka." },
+      { name: "Dwarka Lighthouse", slug: "dwarka-lighthouse", blurb: "The seafront lighthouse offering coastal views near the temple town." },
+      { name: "Hanuman Dandi", slug: "hanuman-dandi", blurb: "A Hanuman temple on Bet Dwarka, revered for its father-and-son Hanuman idols." },
+      { name: "ISKCON Dwarka", slug: "iskcon-dwarka", blurb: "The ISKCON Krishna temple in Dwarka with daily aarti and bhajans." },
+      { name: "Okha Port", slug: "okha-port", blurb: "The port town and jetty from which ferries and the bridge reach Bet Dwarka." },
     ],
     key_distances: [
       { from: "Dwarka", to: "Somnath", distance: "≈ 233 km", duration: "~ 4.5–5 hr" },
@@ -260,6 +276,264 @@ export const SEED_TEMPLE_INFO: SeedTempleInfo[] = [
       { question: "Does the stream cover mangla aarti?", answer: "The feed generally follows the temple's darshan and aarti windows. Check the official channel for the current schedule." },
     ],
   },
+
+  // ---- Somnath topic spokes ----
+  {
+    slug: "somnath-temple-history",
+    destination: "somnath",
+    topic: "history",
+    title: "Somnath Temple History — Rebuilt Through the Ages",
+    h1: "Somnath Temple History",
+    answer_first:
+      "Somnath Temple is one of India's most storied shrines, traditionally regarded as the first of the twelve jyotirlingas. It was destroyed and rebuilt many times over the centuries; the present temple was reconstructed after independence and completed in 1951 in the Chalukya style.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://somnath.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering.",
+    photography_rule: "Photography and phones are typically restricted inside the sanctum.",
+    faq: [
+      { question: "Why was Somnath Temple rebuilt so many times?", answer: "The temple was raided and demolished repeatedly through history and rebuilt each time; the current structure was reconstructed after independence and completed in 1951." },
+      { question: "Who rebuilt the present Somnath Temple?", answer: "The modern reconstruction was driven after independence, associated with Sardar Vallabhbhai Patel's initiative, and completed in 1951." },
+    ],
+  },
+  {
+    slug: "somnath-jyotirlinga",
+    destination: "somnath",
+    topic: "jyotirlinga",
+    title: "Somnath Jyotirlinga — The First of the Twelve",
+    h1: "Somnath Jyotirlinga",
+    answer_first:
+      "Somnath is traditionally counted as the first of the twelve jyotirlingas, the most sacred shrines of Lord Shiva. Pilgrims come for darshan of the jyotirlinga and the evening aarti in the temple's dramatic seaside setting on the Arabian Sea.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://somnath.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering.",
+    photography_rule: "Photography and phones are typically restricted inside the sanctum.",
+    faq: [
+      { question: "Is Somnath the first jyotirlinga?", answer: "Yes, Somnath is traditionally listed as the first of the twelve jyotirlingas of Lord Shiva." },
+      { question: "What makes the Somnath jyotirlinga special?", answer: "Beyond its status as the first jyotirlinga, its seaside location and the resilience of a temple rebuilt many times give it deep significance for pilgrims." },
+    ],
+  },
+  {
+    slug: "somnath-temple-dress-code",
+    destination: "somnath",
+    topic: "dress-code",
+    title: "Somnath Temple Dress Code — What to Wear",
+    h1: "Somnath Temple Dress Code",
+    answer_first:
+      "Somnath Temple expects modest, respectful attire covering the shoulders and knees. Footwear is removed before entering, and phones and cameras are generally restricted inside. Dress comfortably for the sea breeze and the walk to the temple.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://somnath.org/",
+    dress_code: "Modest clothing covering shoulders and knees; footwear removed before entry.",
+    photography_rule: "Phones and cameras are generally not allowed inside; deposit them as directed.",
+    faq: [
+      { question: "Is there a strict dress code at Somnath?", answer: "There is no uniform requirement, but modest attire covering shoulders and knees is expected out of respect. Footwear is removed before entering." },
+      { question: "Can I carry my phone into Somnath Temple?", answer: "Phones and cameras are generally restricted inside; there are usually deposit facilities near the entrance. Confirm the current rule on site." },
+    ],
+  },
+  {
+    slug: "somnath-rudrabhishek-pooja-booking",
+    destination: "somnath",
+    topic: "pooja-booking",
+    title: "Somnath Rudrabhishek Pooja Booking — How It Works",
+    h1: "Somnath Rudrabhishek Pooja Booking",
+    answer_first:
+      "Rudrabhishek and other poojas at Somnath are arranged through the temple trust, which sets the procedure and any dakshina. The trust is the official channel for booking; we help you understand the process and timing, and confirm the current position with the trust rather than quote a figure here.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://somnath.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering.",
+    photography_rule: "Photography and phones are typically restricted inside the sanctum.",
+    faq: [
+      { question: "How do I book a Rudrabhishek at Somnath?", answer: "Poojas are arranged through the Shree Somnath Trust, the official channel. We help with the process and timing and confirm the current arrangement with the trust." },
+      { question: "What does the Rudrabhishek pooja cost?", answer: "Any dakshina or fee is set by the temple trust and revised from time to time, so we confirm the current figure with the trust rather than print a stale number." },
+    ],
+  },
+  {
+    slug: "somnath-light-and-sound-show",
+    destination: "somnath",
+    topic: "light-and-sound-show",
+    title: "Somnath Light & Sound Show — Timing & What to Expect",
+    h1: "Somnath Light & Sound Show",
+    answer_first:
+      "The Somnath light-and-sound show is an evening spectacle staged near the temple, narrating the shrine's history against the backdrop of the sea. It usually runs after the evening aarti; exact timings vary by season, so confirm on the day. The indicative timing below is pending confirmation.",
+    timings: [
+      { label: "Light & sound show (indicative)", open: "20:00", close: "21:00" },
+    ],
+    verified: false,
+    official_source_url: "https://somnath.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering the temple.",
+    photography_rule: "Photography of the show may be restricted; follow the on-site instructions.",
+    faq: [
+      { question: "What time is the Somnath light and sound show?", answer: "It typically runs in the evening after the aarti, indicatively around 20:00, but timings change seasonally. Confirm on the day or with the official source." },
+      { question: "Do I need a separate ticket for the show?", answer: "The show is usually ticketed separately from temple entry. Confirm the current arrangement and price on site." },
+    ],
+  },
+  {
+    slug: "how-to-reach-somnath",
+    destination: "somnath",
+    topic: "how-to-reach",
+    title: "How to Reach Somnath — Airport, Train & Road",
+    h1: "How to Reach Somnath",
+    answer_first:
+      "Somnath is reached via Veraval, its nearest railhead about 7 km away, or Diu Airport (~85 km); Rajkot and Ahmedabad airports are the larger gateways further out. By road it is roughly 233 km from Dwarka and 400 km from Ahmedabad. A private cab is the most flexible option for pilgrims.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://somnath.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering.",
+    photography_rule: "Photography and phones are typically restricted inside the sanctum.",
+    faq: [
+      { question: "Which is the nearest railway station to Somnath?", answer: "Veraval, about 7 km from the temple, is the nearest railhead. A short taxi ride completes the journey." },
+      { question: "Which is the nearest airport to Somnath?", answer: "Diu Airport (~85 km) is closest, with Rajkot and Ahmedabad as larger gateways further away, each followed by a road transfer." },
+    ],
+  },
+  {
+    slug: "best-time-to-visit-somnath",
+    destination: "somnath",
+    topic: "best-time",
+    title: "Best Time to Visit Somnath — Season Guide",
+    h1: "Best Time to Visit Somnath",
+    answer_first:
+      "The best time to visit Somnath is October to March, when the coastal weather is pleasant for darshan, the seafront and the evening light-and-sound show. Summers (April to June) are hot and humid, and the monsoon brings rain but keeps crowds lighter. Maha Shivratri is the biggest festival draw.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://somnath.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering.",
+    photography_rule: "Photography and phones are typically restricted inside the sanctum.",
+    faq: [
+      { question: "When is the best season to visit Somnath?", answer: "October to March offers the most comfortable coastal weather for temple visits and the seafront. Maha Shivratri (Feb–Mar) is the biggest festival occasion." },
+      { question: "Is Somnath good to visit in the monsoon?", answer: "The temple stays open and the sea is dramatic, but expect rain. Crowds are lighter than in peak winter." },
+    ],
+  },
+
+  // ---- Dwarka topic spokes ----
+  {
+    slug: "dhwaja-flag-ceremony",
+    destination: "dwarka",
+    topic: "dhwaja-ceremony",
+    title: "Dwarkadhish Dhwaja (Flag) Ceremony — What to Know",
+    h1: "Dwarkadhish Dhwaja Flag Ceremony",
+    answer_first:
+      "The dhwaja ceremony at Dwarkadhish Temple is the changing of the temple's flag atop the shikhara, performed several times a day by sponsoring families as a cherished offering. The flag is visible from afar and the ritual draws devotees; sponsoring a dhwaja is arranged through the temple.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://dwarkadhish.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering.",
+    photography_rule: "Photography is generally restricted inside the sanctum; follow on-site rules.",
+    faq: [
+      { question: "How often is the Dwarkadhish flag changed?", answer: "The dhwaja is changed several times a day by sponsoring families. The exact number and timings are set by the temple; confirm on site." },
+      { question: "Can I sponsor the dhwaja ceremony?", answer: "Yes, families sponsor the flag as an offering; it is arranged through the temple. We can help you understand the process and confirm the current arrangement." },
+    ],
+  },
+  {
+    slug: "dwarkadhish-vip-darshan",
+    destination: "dwarka",
+    topic: "vip-darshan",
+    title: "Dwarkadhish VIP Darshan — How It Works",
+    h1: "Dwarkadhish VIP Darshan",
+    answer_first:
+      "Any special or VIP darshan arrangement at Dwarkadhish Temple, and whether a fee applies, is decided by the temple administration. Darshan is open to all, with separate queues at peak hours and around the aartis. We confirm the current position with the temple rather than quote a figure here.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://dwarkadhish.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering.",
+    photography_rule: "Photography is generally restricted inside the sanctum; follow on-site rules.",
+    faq: [
+      { question: "Is there a VIP darshan at Dwarkadhish Temple?", answer: "Any special-darshan arrangement and associated fee are set by the temple administration and change from time to time. We confirm the current position before you travel." },
+      { question: "When is the Dwarkadhish queue shortest?", answer: "Early morning around mangla aarti and outside peak aarti windows is generally quietest. Festival days and weekends are busiest." },
+    ],
+  },
+  {
+    slug: "dwarkadhish-history",
+    destination: "dwarka",
+    topic: "history",
+    title: "Dwarkadhish Temple History — Krishna's Kingdom",
+    h1: "Dwarkadhish Temple History",
+    answer_first:
+      "The Dwarkadhish Temple, also called Jagat Mandir, honours Lord Krishna as the king of Dwarka. Tradition attributes its origins to Krishna's great-grandson Vajranabha, with the present five-storey structure dating largely to later centuries, built on the site of Krishna's legendary city on the Arabian Sea.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://dwarkadhish.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering.",
+    photography_rule: "Photography is generally restricted inside the sanctum; follow on-site rules.",
+    faq: [
+      { question: "How old is the Dwarkadhish Temple?", answer: "Tradition traces its origins to Krishna's great-grandson Vajranabha; the present multi-storey structure dates largely to later centuries on the ancient Dwarka site." },
+      { question: "Why is it called Jagat Mandir?", answer: "Jagat Mandir means 'temple of the universe', another name for the Dwarkadhish Temple dedicated to Lord Krishna." },
+    ],
+  },
+  {
+    slug: "char-dham-significance",
+    destination: "dwarka",
+    topic: "char-dham",
+    title: "Dwarka's Char Dham Significance — The Western Abode",
+    h1: "Dwarka's Char Dham Significance",
+    answer_first:
+      "Dwarka is the western dham among the four Char Dham — Badrinath, Puri, Rameswaram and Dwarka — that together form a pan-India pilgrimage. As Lord Krishna's legendary kingdom, a Dwarka darshan carries special significance and is often combined with Somnath and Bet Dwarka.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://dwarkadhish.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering.",
+    photography_rule: "Photography is generally restricted inside the sanctum; follow on-site rules.",
+    faq: [
+      { question: "Why is Dwarka one of the Char Dham?", answer: "Dwarka is the western abode of the four Char Dham, revered as Lord Krishna's kingdom, alongside Badrinath, Puri and Rameswaram." },
+      { question: "Is Dwarka part of the Chota Char Dham?", answer: "No — the Chota Char Dham (Yamunotri, Gangotri, Kedarnath, Badrinath) is a separate Himalayan circuit. Dwarka belongs to the main Char Dham." },
+    ],
+  },
+  {
+    slug: "dwarkadhish-temple-dress-code",
+    destination: "dwarka",
+    topic: "dress-code",
+    title: "Dwarkadhish Temple Dress Code — What to Wear",
+    h1: "Dwarkadhish Temple Dress Code",
+    answer_first:
+      "Dwarkadhish Temple expects modest, respectful attire covering the shoulders and knees. Footwear is removed before entering and phones and cameras are generally restricted inside. Dress comfortably for the queues and the walk from the Gomti ghat side.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://dwarkadhish.org/",
+    dress_code: "Modest clothing covering shoulders and knees; footwear removed before entry.",
+    photography_rule: "Phones and cameras are generally not allowed inside; deposit them as directed.",
+    faq: [
+      { question: "Is there a dress code at Dwarkadhish Temple?", answer: "There is no uniform, but modest attire covering shoulders and knees is expected. Footwear is removed before entering." },
+      { question: "Can I take my phone inside Dwarkadhish Temple?", answer: "Phones and cameras are generally restricted inside; deposit facilities are usually available near the entrance. Confirm the current rule on site." },
+    ],
+  },
+  {
+    slug: "how-to-reach-dwarka",
+    destination: "dwarka",
+    topic: "how-to-reach",
+    title: "How to Reach Dwarka — Airport, Train & Road",
+    h1: "How to Reach Dwarka",
+    answer_first:
+      "Dwarka has its own railway station on the Western Railway with direct trains, and Jamnagar Airport (~130 km) is the nearest airport, with Rajkot and Ahmedabad as larger gateways. By road it is roughly 233 km from Somnath and 440 km from Ahmedabad. A private cab is the most flexible option.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://dwarkadhish.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering.",
+    photography_rule: "Photography is generally restricted inside the sanctum; follow on-site rules.",
+    faq: [
+      { question: "Does Dwarka have a railway station?", answer: "Yes, Dwarka is on the Western Railway with direct trains, making rail a convenient way to arrive." },
+      { question: "Which is the nearest airport to Dwarka?", answer: "Jamnagar Airport (~130 km) is nearest, with Rajkot and Ahmedabad as larger gateways, each followed by a road transfer." },
+    ],
+  },
+  {
+    slug: "best-time-to-visit-dwarka",
+    destination: "dwarka",
+    topic: "best-time",
+    title: "Best Time to Visit Dwarka — Season Guide",
+    h1: "Best Time to Visit Dwarka",
+    answer_first:
+      "The best time to visit Dwarka is October to March, when the coastal weather is pleasant for darshan, Bet Dwarka and the seafront. Summers (April to June) are hot and humid, and the monsoon can disrupt the Bet Dwarka ferry in rough weather. Janmashtami is the biggest festival draw.",
+    timings: [],
+    verified: false,
+    official_source_url: "https://dwarkadhish.org/",
+    dress_code: "Modest attire recommended; remove footwear before entering.",
+    photography_rule: "Photography is generally restricted inside the sanctum; follow on-site rules.",
+    faq: [
+      { question: "When is the best season to visit Dwarka?", answer: "October to March offers the most comfortable coastal weather for the temple, Bet Dwarka and the seafront. Janmashtami (Aug–Sep) is the biggest festival occasion." },
+      { question: "Can I visit Bet Dwarka in the monsoon?", answer: "The temples stay open, but the Bet Dwarka ferry can be suspended in rough weather, so check conditions before planning that leg." },
+    ],
+  },
 ];
 
 export type SeedJourney = {
@@ -382,6 +656,291 @@ export const SEED_JOURNEYS: SeedJourney[] = [
     ],
     faq: [
       { question: "Is 4 days ideal for Somnath and Dwarka?", answer: "Four days is a comfortable length — it covers both temples plus Bet Dwarka and Nageshwar without long single-day drives." },
+    ],
+  },
+
+  // ---- Wave C: distance / how-to-reach pages (mode table + answer-first) ----
+  {
+    slug: "ahmedabad-to-dwarka-distance",
+    title: "Ahmedabad to Dwarka Distance — Route, Time & Modes",
+    h1: "Ahmedabad to Dwarka Distance",
+    question: "How far is Dwarka from Ahmedabad and how long does it take?",
+    direct_answer:
+      "Ahmedabad to Dwarka is approximately 440 km by road and takes about 7.5–8.5 hours, usually via Rajkot and Jamnagar. Direct trains also run to Dwarka; the nearest airport is Jamnagar (~140 km). Confirm live train and flight timings before you book.",
+    modes: [
+      { mode: "Road (car)", distance: "≈ 440 km", duration: "~ 7.5–8.5 hr", note: "Via Rajkot–Jamnagar; most flexible for pilgrims." },
+      { mode: "Train", distance: "Direct services run", duration: "~ 8–9 hr", note: "Dwarka is on the Western Railway; confirm current schedule." },
+      { mode: "Air", distance: "Nearest: Jamnagar ≈ 140 km", duration: "+ road transfer", note: "No mainstream scheduled flights into Dwarka itself." },
+    ],
+    faq: [
+      { question: "Is there a direct train from Ahmedabad to Dwarka?", answer: "Yes, direct trains run to Dwarka on the Western Railway, taking roughly 8–9 hours. Check the current timetable for exact timings." },
+      { question: "Which is the nearest airport to Dwarka?", answer: "Jamnagar (about 140 km) is the nearest practical airport, followed by Rajkot; you then continue by road." },
+    ],
+  },
+  {
+    slug: "ahmedabad-to-statue-of-unity",
+    title: "Ahmedabad to Statue of Unity — Distance, Time & Modes",
+    h1: "Ahmedabad to Statue of Unity",
+    question: "How far is the Statue of Unity from Ahmedabad and how do you get there?",
+    direct_answer:
+      "Ahmedabad to the Statue of Unity (Kevadia / Ekta Nagar) is approximately 200 km by road and takes about 3.5–4 hours. Direct trains serve Ekta Nagar station, and the nearest airport is Vadodara (~90 km). Confirm live train and flight timings before you book.",
+    modes: [
+      { mode: "Road (car)", distance: "≈ 200 km", duration: "~ 3.5–4 hr", note: "Via NH-48/Vadodara; day-trip friendly." },
+      { mode: "Train", distance: "To Ekta Nagar station", duration: "Varies", note: "Direct services run to Ekta Nagar (Kevadia); confirm schedule." },
+      { mode: "Air", distance: "Nearest: Vadodara ≈ 90 km", duration: "+ road transfer", note: "Vadodara airport, then road to Kevadia." },
+    ],
+    faq: [
+      { question: "Can I visit the Statue of Unity as a day trip from Ahmedabad?", answer: "Yes. At about 200 km and 3.5–4 hours each way, it is a long but doable day trip; an overnight in Kevadia is more relaxed." },
+      { question: "Is there a train to the Statue of Unity?", answer: "Yes, Ekta Nagar (Kevadia) railway station serves the site with direct trains from several cities; check the current timetable." },
+    ],
+  },
+  {
+    slug: "bhuj-to-white-rann",
+    title: "Bhuj to White Rann Distance — Route & Modes",
+    h1: "Bhuj to White Rann Distance",
+    question: "How far is the White Rann from Bhuj and how do you reach it?",
+    direct_answer:
+      "Bhuj to the White Rann at Dhordo is approximately 80 km by road and takes about 1.5–2 hours. Bhuj is the nearest airport and railhead; there is no rail to Dhordo itself. A permit is checked at Bhirandiyara en route. Confirm Rann Utsav dates and any permit fee locally.",
+    modes: [
+      { mode: "Road (car)", distance: "≈ 80 km", duration: "~ 1.5–2 hr", note: "Bhuj → Bhirandiyara (permit) → Dhordo." },
+      { mode: "Train", distance: "Railhead: Bhuj", duration: "+ road", note: "No railway to Dhordo; continue by road from Bhuj." },
+      { mode: "Air", distance: "Nearest: Bhuj airport", duration: "+ road", note: "Bhuj is the closest airport to the White Rann." },
+    ],
+    faq: [
+      { question: "Do I need a permit for the White Rann?", answer: "Yes, a permit is required and is typically issued at the Bhirandiyara check-post on the way to Dhordo. Confirm the current fee and process locally." },
+      { question: "Is the White Rann open all year?", answer: "The white salt desert is best from roughly November to February and can be flooded during and after the monsoon. Confirm current conditions and Rann Utsav dates before travelling." },
+    ],
+  },
+  {
+    slug: "how-to-reach-rann-of-kutch",
+    title: "How to Reach the Rann of Kutch — Gateways & Modes",
+    h1: "How to Reach the Rann of Kutch",
+    question: "How do you reach the Rann of Kutch?",
+    direct_answer:
+      "The gateway to the Great Rann of Kutch is Dhordo, about 80 km (1.5–2 hours) north of Bhuj. Bhuj is the nearest airport and major railhead; Ahmedabad is roughly 400 km away by road. A permit is checked at Bhirandiyara en route. Confirm current permit fees and Rann Utsav dates locally.",
+    modes: [
+      { mode: "Road from Bhuj", distance: "≈ 80 km to Dhordo", duration: "~ 1.5–2 hr", note: "Permit checked at Bhirandiyara." },
+      { mode: "Road from Ahmedabad", distance: "≈ 400 km to Bhuj", duration: "~ 7–8 hr", note: "Then continue to Dhordo." },
+      { mode: "Train / Air", distance: "Bhuj railhead & airport", duration: "+ road", note: "Reach Bhuj by train or flight, then road to the Rann." },
+    ],
+    faq: [
+      { question: "Which is the nearest city to the Rann of Kutch?", answer: "Bhuj is the nearest city, airport and major railhead; Dhordo, the White Rann gateway, is about 80 km further north." },
+      { question: "Can I reach the Rann of Kutch by train?", answer: "You can take a train to Bhuj, but there is no rail to Dhordo — the final stretch to the Rann is by road." },
+    ],
+  },
+  {
+    slug: "roro-ferry-ghogha-hazira",
+    title: "RoRo Ferry Ghogha–Hazira — Route, Crossing & Modes",
+    h1: "RoRo Ferry: Ghogha to Hazira",
+    question: "How does the Ghogha–Hazira RoRo ferry work?",
+    direct_answer:
+      "The RoRo ferry links Ghogha (near Bhavnagar) with Hazira (near Surat) across the Gulf of Khambhat, with a sea crossing of roughly 1.5 hours that replaces a long road detour of around 350–370 km. It carries passengers and vehicles. Schedules and fares change with the season and tides — confirm current timings and fares with the operator before travelling.",
+    modes: [
+      { mode: "RoRo ferry", distance: "Sea crossing (Gulf of Khambhat)", duration: "~ 1.5 hr crossing", note: "Passengers and vehicles; schedule/fare vary — confirm with operator." },
+      { mode: "Road (around the gulf)", distance: "≈ 350–370 km", duration: "~ 6–7 hr", note: "The long detour the ferry is designed to avoid." },
+    ],
+    faq: [
+      { question: "Can I take my car on the Ghogha–Hazira ferry?", answer: "Yes, it is a roll-on/roll-off (RoRo) service that carries vehicles as well as passengers. Vehicle space and fares vary — confirm with the operator." },
+      { question: "How long is the ferry crossing?", answer: "The sea crossing takes roughly 1.5 hours, versus about 6–7 hours to drive around the Gulf of Khambhat." },
+    ],
+  },
+  {
+    slug: "somnath-dwarka-by-bus",
+    title: "Somnath to Dwarka by Bus — GSRTC & Private Options",
+    h1: "Somnath to Dwarka by Bus",
+    question: "Can you travel between Somnath and Dwarka by bus?",
+    direct_answer:
+      "Yes. GSRTC and private operators run buses on the roughly 233 km Somnath–Dwarka corridor, typically via Porbandar, taking about 5–6 hours. There is no single high-frequency non-stop express, so most services make stops. Confirm current GSRTC timings and fares before you travel.",
+    modes: [
+      { mode: "GSRTC bus", distance: "≈ 233 km", duration: "~ 5–6 hr", note: "State-run service via Porbandar; confirm current timetable." },
+      { mode: "Private / tour bus", distance: "≈ 233 km", duration: "~ 5–6 hr", note: "Operators and package coaches also run the route." },
+      { mode: "Car / cab", distance: "≈ 233 km", duration: "~ 4.5–5 hr", note: "Faster and more flexible than the bus." },
+    ],
+    faq: [
+      { question: "Is there a direct bus from Somnath to Dwarka?", answer: "Buses run the corridor via Porbandar in about 5–6 hours, but they usually make stops rather than running non-stop. Check GSRTC and private schedules." },
+      { question: "How much does the Somnath–Dwarka bus cost?", answer: "Fares vary by operator and bus type and change over time, so confirm the current fare with GSRTC or the private operator when you book." },
+    ],
+  },
+  {
+    slug: "day-trips-from-ahmedabad",
+    title: "Day Trips from Ahmedabad — Best Options & Distances",
+    h1: "Day Trips from Ahmedabad",
+    question: "What are the best day trips from Ahmedabad?",
+    direct_answer:
+      "The best day trips from Ahmedabad include Modhera Sun Temple with Patan's Rani ki Vav, Lothal, Nalsarovar bird sanctuary, Adalaj stepwell, and Gandhinagar's Akshardham. Most are within about 30–110 km, making comfortable half- or full-day outings by car. Confirm site timings and any entry fees before you set out.",
+    modes: [
+      { mode: "Adalaj Stepwell", distance: "≈ 18 km", duration: "Half day", note: "Intricate 15th-century stepwell." },
+      { mode: "Gandhinagar (Akshardham)", distance: "≈ 25 km", duration: "Half day", note: "Large temple complex; check timings." },
+      { mode: "Nalsarovar", distance: "≈ 65 km", duration: "Half–full day", note: "Bird sanctuary; best in winter mornings." },
+      { mode: "Lothal", distance: "≈ 80 km", duration: "Full day", note: "Ancient Indus Valley dockyard site." },
+      { mode: "Modhera + Patan", distance: "≈ 100 km", duration: "Full day", note: "Sun Temple and Rani ki Vav stepwell." },
+    ],
+    faq: [
+      { question: "What is the best short day trip from Ahmedabad?", answer: "Adalaj stepwell (about 18 km) or Gandhinagar's Akshardham (about 25 km) make easy half-day trips close to the city." },
+      { question: "Can I combine Modhera and Patan in one day?", answer: "Yes. Modhera Sun Temple and Patan's Rani ki Vav are close together, roughly 100 km from Ahmedabad, and pair well as a full-day trip." },
+    ],
+  },
+  {
+    slug: "weekend-getaways-from-ahmedabad",
+    title: "Weekend Getaways from Ahmedabad — Where to Go",
+    h1: "Weekend Getaways from Ahmedabad",
+    question: "What are the best weekend getaways from Ahmedabad?",
+    direct_answer:
+      "Popular weekend getaways from Ahmedabad include the Statue of Unity at Kevadia, the hill retreat of Saputara, Polo Forest, Gir for wildlife, and Kutch/Bhuj for the Rann. Distances range from about 200 km to 400 km, suiting one- or two-night trips by road. Confirm safari, Rann and site timings by season.",
+    modes: [
+      { mode: "Statue of Unity (Kevadia)", distance: "≈ 200 km", duration: "1 night", note: "Statue, valley of flowers, viewpoints." },
+      { mode: "Polo Forest", distance: "≈ 160 km", duration: "1 night", note: "Forest, ruins and monsoon greenery." },
+      { mode: "Saputara", distance: "≈ 400 km", duration: "1–2 nights", note: "Gujarat's hill station; cool and green." },
+      { mode: "Gir / Sasan", distance: "≈ 340 km", duration: "1–2 nights", note: "Asiatic lion safari; park closed in monsoon." },
+      { mode: "Kutch / Bhuj", distance: "≈ 400 km", duration: "2 nights", note: "Rann, handicraft villages; Rann best Nov–Feb." },
+    ],
+    faq: [
+      { question: "Which is the best weekend getaway from Ahmedabad for families?", answer: "The Statue of Unity at Kevadia (about 200 km) is family-friendly, with the statue, gardens and activities packed into a one-night trip." },
+      { question: "Is Saputara a good weekend trip from Ahmedabad?", answer: "Yes, though at about 400 km it is best as a two-night trip. It is Gujarat's only hill station and is especially pleasant in and just after the monsoon." },
+    ],
+  },
+  {
+    slug: "how-to-reach-gujarat",
+    title: "How to Reach Gujarat — Airports, Trains & Gateways",
+    h1: "How to Reach Gujarat — Airports, Trains & Gateways",
+    question: "How do you reach Gujarat?",
+    direct_answer:
+      "Gujarat's main gateways are Ahmedabad (international) and Surat airports, backed by Rajkot, Vadodara, Bhuj and Jamnagar for regional flights. The state is well connected by rail, with Ahmedabad and Vadodara as major junctions, and by the NH-48 highway corridor from Mumbai and Delhi. Confirm current flight and train schedules before you book.",
+    modes: [
+      { mode: "Air (main)", distance: "Ahmedabad (SVPI), Surat", duration: "—", note: "Ahmedabad has international flights; Surat is a growing hub." },
+      { mode: "Air (regional)", distance: "Rajkot, Vadodara, Bhuj, Jamnagar", duration: "—", note: "Useful for Saurashtra and Kutch." },
+      { mode: "Train", distance: "Ahmedabad & Vadodara junctions", duration: "—", note: "Extensive Western Railway network across the state." },
+      { mode: "Road", distance: "NH-48 corridor", duration: "—", note: "Well-linked to Mumbai, Rajasthan and Delhi by highway." },
+    ],
+    faq: [
+      { question: "Which is the main airport in Gujarat?", answer: "Ahmedabad's Sardar Vallabhbhai Patel International Airport is the primary gateway, with Surat as a significant second hub and several regional airports." },
+      { question: "Is Gujarat well connected by train?", answer: "Yes. Gujarat sits on the Western Railway network with major junctions at Ahmedabad and Vadodara and good links to Mumbai and Delhi." },
+    ],
+  },
+  {
+    slug: "asthi-visarjan-gujarat",
+    title: "Asthi Visarjan in Gujarat — Chandod & Triveni Sangam",
+    h1: "Asthi Visarjan in Gujarat",
+    question: "Where is asthi visarjan performed in Gujarat?",
+    direct_answer:
+      "In Gujarat, asthi visarjan is traditionally performed at the Triveni Sangam at Chandod–Kubereshwar near Vadodara, where the Narmada, Orsang and Saraswati are believed to meet, and also at the Triveni Sangam beside Somnath. Local priests assist with the rituals. Confirm any charges and the current process directly with the priests on site.",
+    modes: [],
+    faq: [
+      { question: "Which is the main asthi visarjan site in Gujarat?", answer: "The Triveni Sangam at Chandod (near Vadodara) on the Narmada is the best-known site; the Triveni Sangam at Somnath is also used, especially by pilgrims completing the Saurashtra circuit." },
+      { question: "Do I need to arrange a priest for the rituals?", answer: "Priests who conduct the rituals are available at these sangam sites. It is best to confirm the process and any charges with them directly on the day." },
+    ],
+  },
+  {
+    slug: "nri-gujarat-yatra",
+    title: "NRI Gujarat Yatra — Planning a Roots & Pilgrimage Trip",
+    h1: "NRI Gujarat Yatra — Roots & Pilgrimage Trip",
+    question: "How should an NRI plan a Gujarat roots and pilgrimage trip?",
+    direct_answer:
+      "NRIs planning a Gujarat yatra usually travel October to March, fly into Ahmedabad, and combine an ancestral-village visit with a pilgrimage circuit such as Somnath–Dwarka. Carry OCI/visa documents, allow 7–10 days for a relaxed pace, and hire a private car for flexibility. Confirm document requirements with the relevant authorities before you travel.",
+    modes: [],
+    faq: [
+      { question: "What is the best time for an NRI Gujarat trip?", answer: "October to March offers the most comfortable weather across the coast, Kutch and inland Gujarat, and aligns with festivals like Navratri and Rann Utsav." },
+      { question: "How many days should an NRI plan for a roots trip?", answer: "Seven to ten days is comfortable for combining an ancestral-village visit with a pilgrimage circuit such as Somnath and Dwarka, without long single-day drives." },
+    ],
+  },
+  {
+    slug: "solo-women-travel-gujarat",
+    title: "Solo Female Travel in Gujarat — Safety & Tips",
+    h1: "Solo Female Travel in Gujarat",
+    question: "Is Gujarat safe for solo female travellers?",
+    direct_answer:
+      "Gujarat is generally regarded as one of India's safer states for solo female travellers, helped by its status as a dry (alcohol-prohibition) state. Standard precautions still apply: prefer daytime intercity travel, use reputable cabs or trains, dress modestly at temples, and keep to well-lit areas at night. Trust your judgement and confirm arrangements in advance.",
+    modes: [],
+    faq: [
+      { question: "Is Gujarat a dry state?", answer: "Yes. Gujarat has alcohol prohibition, which many solo travellers find contributes to a calmer environment; permits exist for visitors but availability is limited." },
+      { question: "What precautions should solo women take in Gujarat?", answer: "Favour daytime intercity travel, use reputable cab operators or trains, dress modestly at religious sites, and keep to well-lit, busy areas after dark — the usual sensible precautions." },
+    ],
+  },
+
+  // ---- Wave D2: planning & accessibility pages ----
+  {
+    slug: "gujarat-for-foreign-tourists",
+    title: "Gujarat for Foreign Tourists — Essential Guide",
+    h1: "Gujarat Guide for Foreign Tourists",
+    question: "What should foreign tourists know before visiting Gujarat?",
+    direct_answer:
+      "Foreign tourists to Gujarat generally need an Indian visa (an e-visa is available for many nationalities), should plan for October to March, and must note that Gujarat is a dry state where alcohol needs a permit. Highlights include the Rann of Kutch, Gir's Asiatic lions and Ahmedabad's UNESCO-listed old city. Confirm current visa rules with official sources before you travel.",
+    modes: [],
+    faq: [
+      { question: "Do foreign tourists need a visa for Gujarat?", answer: "Yes, foreign visitors need an Indian visa; many nationalities can apply for an e-visa online. Check the official Indian visa portal for current eligibility and rules." },
+      { question: "Can foreign tourists drink alcohol in Gujarat?", answer: "Gujarat is a dry state. Visitors can apply for a liquor permit, but availability is limited, so plan accordingly." },
+    ],
+  },
+  {
+    slug: "gujarat-with-kids",
+    title: "Gujarat with Kids — Family-Friendly Itinerary Ideas",
+    h1: "Gujarat with Kids",
+    question: "What is Gujarat like for a family trip with children?",
+    direct_answer:
+      "Gujarat works well for families: child-friendly highlights include the Statue of Unity at Kevadia, Ahmedabad's Science City and Kankaria lakefront, the beaches at Diu and Mandvi, and a gentle Gir safari. Keep drives shorter and the pace relaxed, and plan for October to March weather. Confirm site timings and safari bookings in advance.",
+    modes: [],
+    faq: [
+      { question: "Is the Statue of Unity good for kids?", answer: "Yes — the statue, gardens, viewing gallery and activity zones at Kevadia are popular with children and make an easy family stop." },
+      { question: "Which Gujarat beaches are best for families?", answer: "Diu and Mandvi (near Bhuj) have calmer, more developed beaches that suit families better than the busier pilgrimage-town shores." },
+    ],
+  },
+  {
+    slug: "monsoon-in-gujarat",
+    title: "Gujarat in Monsoon — Where to Go (Saputara & More)",
+    h1: "Gujarat in the Monsoon",
+    question: "Is the monsoon a good time to visit Gujarat?",
+    direct_answer:
+      "The monsoon (roughly July to September) turns Gujarat green and is best enjoyed at Saputara, the state's only hill station, and around Polo Forest and Wilson Hills. Note that Gir National Park closes for the monsoon and the Bet Dwarka ferry can be disrupted in rough weather. Confirm park and ferry status before travelling.",
+    modes: [],
+    faq: [
+      { question: "Where should I go in Gujarat during the monsoon?", answer: "Saputara is the classic monsoon choice — cool, green and misty — along with Polo Forest and the Wilson Hills near Valsad." },
+      { question: "Is Gir open during the monsoon?", answer: "No. Gir National Park closes for the monsoon, roughly mid-June to mid-October. Confirm the current reopening date before planning a safari." },
+    ],
+  },
+  {
+    slug: "somnath-to-dwarka-route",
+    title: "Somnath to Dwarka Route — Stops & Modes",
+    h1: "Somnath to Dwarka Route",
+    question: "What is the route from Somnath to Dwarka and what are the stops?",
+    direct_answer:
+      "The Somnath to Dwarka route runs about 233 km along the Saurashtra coast via Porbandar, taking around 4.5–5 hours by road. Common stops are Porbandar (Kirti Mandir and Sudama Temple), Madhavpur beach and the Harsiddhi Mata temple. Road is the practical option; there is no convenient direct train. Confirm any temple timings before you go.",
+    modes: [
+      { mode: "Road (car)", distance: "≈ 233 km", duration: "~ 4.5–5 hr", note: "Coastal route via Porbandar; most common." },
+      { mode: "Bus", distance: "≈ 233 km", duration: "~ 5–6 hr", note: "GSRTC and private services; usually with stops." },
+      { mode: "Train", distance: "Indirect", duration: "Varies", note: "No convenient direct service; road preferred." },
+    ],
+    faq: [
+      { question: "What are the best stops between Somnath and Dwarka?", answer: "Porbandar (Kirti Mandir and Sudama Temple), Madhavpur beach and the Harsiddhi Mata temple are the popular stops along the coastal route." },
+      { question: "How long does the Somnath to Dwarka drive take?", answer: "About 4.5–5 hours for the roughly 233 km via Porbandar, a little longer if you stop along the way." },
+    ],
+  },
+  {
+    slug: "trains-dwarka-veraval",
+    title: "Trains Between Dwarka and Veraval — What to Know",
+    h1: "Trains Between Dwarka and Veraval",
+    question: "Are there trains between Dwarka and Veraval?",
+    direct_answer:
+      "Dwarka and Veraval (the railhead for Somnath, about 7 km away) both sit on the Western Railway, and some trains connect them, though services are limited and often routed via Rajkot or Jamnagar rather than a short coastal hop. Many pilgrims cover the roughly 230 km by road instead. Confirm the current timetable, as schedules change.",
+    modes: [
+      { mode: "Train", distance: "Both on Western Railway", duration: "Varies (limited services)", note: "Often via Rajkot/Jamnagar; confirm current schedule." },
+      { mode: "Road (car/bus)", distance: "≈ 230 km via Porbandar", duration: "~ 4.5–6 hr", note: "The practical option most pilgrims use." },
+    ],
+    faq: [
+      { question: "Is Veraval the station for Somnath?", answer: "Yes. Veraval is the nearest railhead to Somnath, about 7 km from the temple." },
+      { question: "Should I take the train or drive between Dwarka and Veraval?", answer: "Direct rail options are limited and can be indirect, so many pilgrims drive the roughly 230 km via Porbandar. Check the current timetable before deciding." },
+    ],
+  },
+  {
+    slug: "wheelchair-accessible-gujarat",
+    title: "Wheelchair-Accessible Gujarat Yatra — Planning Guide",
+    h1: "Wheelchair-Accessible Gujarat Yatra",
+    question: "How accessible is a Gujarat pilgrimage for wheelchair users?",
+    direct_answer:
+      "A wheelchair-accessible Gujarat yatra is workable with planning: major temples like Somnath and Dwarkadhish have some ramp access and assistance, though older lanes and steps remain challenging. Newer railway stations and airports are more accessible, and a private car with a helper gives the most control. Confirm specific ramp, wheelchair and assistance availability with each site in advance.",
+    modes: [],
+    faq: [
+      { question: "Are Somnath and Dwarka temples wheelchair accessible?", answer: "Both have some ramp access and can arrange assistance, but surrounding lanes and certain areas still have steps. Contact the temple trusts ahead to confirm current facilities." },
+      { question: "What is the best way to travel accessibly around Gujarat?", answer: "A private car with a helper offers the most flexibility; newer airports and railway stations are generally more accessible than older infrastructure." },
     ],
   },
 ];
@@ -696,6 +1255,152 @@ export const SEED_HOTELS: SeedHotel[] = [
       { question: "Are there hotels near Dwarkadhish Temple?", answer: "Yes — several budget and mid-range hotels are within walking distance of the temple, convenient for early darshan." },
     ],
   },
+  {
+    slug: "hotels-near-somnath-temple",
+    city: "Somnath",
+    title: "Hotels Near Somnath Temple — Areas, Tariff Range & Booking Help",
+    h1: "Hotels Near Somnath Temple",
+    near_temple: "Somnath Temple",
+    answer_first:
+      "Hotels near Somnath Temple range from simple pilgrim lodges by the temple gate to sea-facing mid-range and premium stays a short walk away. Staying close keeps the morning darshan and evening aarti within walking distance. We help you pick and book the right tier — no fabricated inventory or ratings.",
+    tiers: [
+      { tier: "Budget", area: "Temple gate / walking distance", typical_range: "₹800 – ₹1,600" },
+      { tier: "Mid-range", area: "Near temple / sea road", typical_range: "₹1,800 – ₹3,500" },
+      { tier: "Premium", area: "Sea-facing / resort", typical_range: "₹4,000 – ₹8,000" },
+    ],
+    properties: [],
+    faq: [
+      { question: "How close can I stay to Somnath Temple?", answer: "Several hotels sit within a short walk of the temple gate, which is ideal for the early morning darshan and the evening aarti." },
+      { question: "Do you book the hotel for me?", answer: "Yes — we help you choose the right tier and handle the booking. We confirm current tariffs rather than print a figure that may be stale." },
+    ],
+  },
+  {
+    slug: "budget-hotels-in-somnath",
+    city: "Somnath",
+    title: "Budget Hotels in Somnath — Areas, Tariff Range & Booking Help",
+    h1: "Budget Hotels in Somnath",
+    near_temple: "Somnath Temple",
+    answer_first:
+      "Budget hotels in Somnath cluster around the temple and the main road, offering clean, no-frills rooms close to darshan. They suit pilgrims who want an affordable base within walking distance. We help with selection and booking; the current tariff is confirmed before you commit.",
+    tiers: [
+      { tier: "Value lodge", area: "Temple gate / main road", typical_range: "₹600 – ₹1,200" },
+      { tier: "Budget AC", area: "Near temple", typical_range: "₹1,200 – ₹2,000" },
+    ],
+    properties: [],
+    faq: [
+      { question: "How cheap are budget hotels in Somnath?", answer: "Simple rooms are available at value tariffs, with budget AC options a little higher. We confirm the current rate for your dates rather than quote a stale figure." },
+      { question: "Are budget hotels close to the temple?", answer: "Many sit near the temple gate or on the main road, within walking distance of darshan and the evening aarti." },
+    ],
+  },
+  {
+    slug: "luxury-hotels-in-somnath",
+    city: "Somnath",
+    title: "Luxury Hotels in Somnath — Areas, Tariff Range & Booking Help",
+    h1: "Luxury Hotels in Somnath",
+    near_temple: "Somnath Temple",
+    answer_first:
+      "Luxury hotels in Somnath are mostly sea-facing premium properties a short drive from the temple, with better rooms, dining and service. They suit travellers who want comfort to match the pilgrimage. We help you select and book; current tariffs are confirmed before you commit.",
+    tiers: [
+      { tier: "Premium", area: "Sea-facing / near temple", typical_range: "₹4,000 – ₹7,500" },
+      { tier: "Luxury", area: "Resort / seafront", typical_range: "₹7,500 – ₹12,000+" },
+    ],
+    properties: [],
+    faq: [
+      { question: "Are there luxury hotels in Somnath?", answer: "Yes — a handful of premium and sea-facing properties offer upgraded rooms and dining, typically a short drive from the temple." },
+      { question: "Can you arrange a sea-facing luxury room?", answer: "Yes. Tell us your dates and we confirm availability and the current tariff for a sea-facing or resort stay." },
+    ],
+  },
+  {
+    slug: "hotels-near-dwarkadhish",
+    city: "Dwarka",
+    title: "Hotels Near Dwarkadhish Temple — Areas, Tariff Range & Booking Help",
+    h1: "Hotels Near Dwarkadhish Temple",
+    near_temple: "Dwarkadhish Temple",
+    answer_first:
+      "Hotels near Dwarkadhish Temple run from simple pilgrim lodges in the temple lanes to comfortable mid-range stays on the main road. A central location helps with mangla aarti and evening darshan. We help you choose and book the right tier — no fabricated inventory or ratings.",
+    tiers: [
+      { tier: "Budget", area: "Temple lanes", typical_range: "₹700 – ₹1,400" },
+      { tier: "Mid-range", area: "Main road", typical_range: "₹1,600 – ₹3,200" },
+      { tier: "Premium", area: "Outskirts / resort", typical_range: "₹4,000 – ₹7,500" },
+    ],
+    properties: [],
+    faq: [
+      { question: "How close can I stay to Dwarkadhish Temple?", answer: "Several hotels are within a short walk in the temple lanes, convenient for mangla aarti and evening darshan." },
+      { question: "Do you handle the booking?", answer: "Yes — we help you pick the tier and book it, confirming the current tariff rather than printing a figure that may be out of date." },
+    ],
+  },
+  {
+    slug: "budget-hotels-in-dwarka",
+    city: "Dwarka",
+    title: "Budget Hotels in Dwarka — Areas, Tariff Range & Booking Help",
+    h1: "Budget Hotels in Dwarka",
+    near_temple: "Dwarkadhish Temple",
+    answer_first:
+      "Budget hotels in Dwarka are concentrated in the temple lanes and along the main road, offering clean, affordable rooms close to darshan. They suit pilgrims wanting a value base within walking distance. We help with selection and booking; the current tariff is confirmed before you commit.",
+    tiers: [
+      { tier: "Value lodge", area: "Temple lanes / main road", typical_range: "₹700 – ₹1,300" },
+      { tier: "Budget AC", area: "Near temple", typical_range: "₹1,300 – ₹2,100" },
+    ],
+    properties: [],
+    faq: [
+      { question: "Are budget hotels in Dwarka near the temple?", answer: "Many are in the temple lanes or on the main road, within walking distance of Dwarkadhish darshan." },
+      { question: "What do budget rooms in Dwarka cost?", answer: "Simple rooms are available at value tariffs, with budget AC a little higher. We confirm the current rate for your dates." },
+    ],
+  },
+  {
+    slug: "luxury-hotels-in-dwarka",
+    city: "Dwarka",
+    title: "Luxury Hotels in Dwarka — Areas, Tariff Range & Booking Help",
+    h1: "Luxury Hotels in Dwarka",
+    near_temple: "Dwarkadhish Temple",
+    answer_first:
+      "Luxury hotels in Dwarka are mostly premium properties on the outskirts and towards the coast, with upgraded rooms, dining and service a short drive from the temple. They suit travellers wanting extra comfort. We help you select and book; current tariffs are confirmed before you commit.",
+    tiers: [
+      { tier: "Premium", area: "Main road / near coast", typical_range: "₹4,000 – ₹7,500" },
+      { tier: "Luxury", area: "Resort / outskirts", typical_range: "₹7,500 – ₹12,000+" },
+    ],
+    properties: [],
+    faq: [
+      { question: "Are there luxury hotels in Dwarka?", answer: "Yes — a few premium and resort-style properties offer upgraded rooms and dining, usually a short drive from the temple." },
+      { question: "Can you book a premium stay for darshan?", answer: "Yes. Share your dates and we confirm availability and the current tariff for a premium or resort stay." },
+    ],
+  },
+  {
+    slug: "heritage-hotels-palace-stays-gujarat",
+    city: "Gujarat",
+    title: "Heritage Hotels & Palace Stays in Gujarat — Areas, Tariff Range & Booking Help",
+    h1: "Heritage Hotels & Palace Stays in Gujarat",
+    near_temple: "Across Gujarat",
+    answer_first:
+      "Heritage hotels and palace stays in Gujarat let you stay in converted royal residences and old havelis, found around places like Wankaner, Rajkot, Bhavnagar, Poshina and Balaram. They add character to a Saurashtra or Kutch circuit. We help match a heritage stay to your route and confirm current tariffs.",
+    tiers: [
+      { tier: "Heritage haveli", area: "Saurashtra / north Gujarat", typical_range: "₹4,000 – ₹8,000" },
+      { tier: "Palace stay", area: "Former royal residences", typical_range: "₹8,000 – ₹18,000+" },
+    ],
+    properties: [],
+    faq: [
+      { question: "Where are Gujarat's heritage hotels?", answer: "They are spread across the state — around Wankaner, Rajkot, Bhavnagar, Poshina, Balaram and other former princely estates — and can be woven into a Saurashtra or north-Gujarat route." },
+      { question: "Can a palace stay be added to a pilgrimage trip?", answer: "Yes. A heritage night pairs well with a Somnath–Dwarka or Kutch circuit; tell us your route and we suggest options and confirm tariffs." },
+    ],
+  },
+  {
+    slug: "homestays-in-kutch",
+    city: "Kutch",
+    title: "Homestays in Kutch (Hodka & Around) — Areas, Tariff Range & Booking Help",
+    h1: "Homestays in Kutch",
+    near_temple: "Kutch / White Rann",
+    answer_first:
+      "Homestays in Kutch — around Hodka, Bhujodi and the villages near the White Rann — offer traditional bhunga huts and family hospitality close to the craft villages and the salt desert. They suit travellers wanting an authentic Rann experience. We help with selection and booking; tariffs are confirmed before you commit.",
+    tiers: [
+      { tier: "Village homestay", area: "Hodka, Bhujodi & nearby villages", typical_range: "₹1,500 – ₹3,500" },
+      { tier: "Rann resort tent", area: "Near Dhordo / White Rann", typical_range: "₹3,500 – ₹8,000+" },
+    ],
+    properties: [],
+    faq: [
+      { question: "What is a Kutch homestay like?", answer: "Many are traditional bhunga (round mud huts) run by local families near craft villages like Hodka and Bhujodi, offering home-cooked Kutchi food and an authentic stay." },
+      { question: "Are homestays near the White Rann?", answer: "Yes — several villages near Dhordo offer homestays and resort tents within reach of the White Rann. A permit is needed for the Rann area, which we help arrange." },
+    ],
+  },
 ];
 
 export type SeedFestival = {
@@ -863,6 +1568,150 @@ export const SEED_FESTIVALS: SeedFestival[] = [
       { question: "What is Kartik Purnima at Somnath?", answer: "Kartik Purnima (Dev Diwali) is marked by a dawn holy dip at Triveni Sangam, lamp-lighting and special aartis. It falls in November and exact dates change yearly." },
     ],
   },
+  {
+    slug: "kartik-purnima-somnath-fair",
+    festival: "Kartik Purnima Fair",
+    title: "Kartik Purnima Somnath Fair — Dates, Schedule & Travel Guide",
+    h1: "Kartik Purnima Somnath Fair",
+    answer_first:
+      "The Kartik Purnima fair at Somnath is a large November gathering around the full moon, when pilgrims take a dawn holy dip at Triveni Sangam and a fair fills the temple town. Exact dates follow the Hindu calendar and are confirmed before the season.",
+    rituals:
+      "In tradition, devotees bathe at the Triveni Sangam at dawn, light deep-daan lamps and offer special aartis on the full-moon night of Kartik.",
+    travel_advice:
+      "Somnath is busiest around the full moon, so book rooms early. The dawn dip and morning darshan are the calmest windows before the fair crowds build.",
+    event_venue: "Triveni Sangam & Somnath temple town",
+    date_this_year: "",
+    image: "/images/home/SomnathLongImage.webp",
+    deity: "Shiva",
+    city: "Somnath",
+    season: "Nov",
+    crowd: "High",
+    highlights: ["Full-moon holy dip", "Temple-town fair", "Deep-daan lamps", "Special aartis"],
+    faq: [
+      { question: "When is the Kartik Purnima fair at Somnath?", answer: "It falls on the Kartik full moon in November and shifts each year with the Hindu calendar; we confirm dates before the season." },
+      { question: "What happens at the fair?", answer: "Pilgrims take a dawn dip at Triveni Sangam, and a fair with stalls and cultural activity fills the temple town around the full moon." },
+    ],
+  },
+  {
+    slug: "madhavpur-ghed-fair",
+    festival: "Madhavpur Ghed Fair",
+    title: "Madhavpur Ghed Fair (Ram Navami) — Dates, Schedule & Travel Guide",
+    h1: "Madhavpur Ghed Fair",
+    answer_first:
+      "The Madhavpur Ghed fair, held around Ram Navami at the coastal village of Madhavpur near Porbandar, celebrates the wedding of Lord Krishna and Rukmini with a ceremonial procession over several days. Exact dates follow the Hindu calendar and are confirmed before the season.",
+    rituals:
+      "In tradition, the festival re-enacts the divine marriage of Krishna and Rukmini, with a decorated palanquin procession, folk performances and rituals at the Madhavrai temple.",
+    travel_advice:
+      "Madhavpur is a small coastal village, so accommodation is limited during the fair — many visitors base in Porbandar. It sits on the Dwarka–Somnath coastal road.",
+    event_venue: "Madhavrai Temple, Madhavpur (near Porbandar)",
+    date_this_year: "",
+    image: "/images/home/HomeHero.webp",
+    deity: "Krishna",
+    city: "Madhavpur (Porbandar)",
+    season: "Mar – Apr",
+    crowd: "Moderate",
+    highlights: ["Krishna–Rukmini wedding re-enactment", "Palanquin procession", "Folk performances", "Coastal village setting"],
+    faq: [
+      { question: "What is the Madhavpur Ghed fair?", answer: "A multi-day fair around Ram Navami celebrating the wedding of Krishna and Rukmini at Madhavpur, near Porbandar." },
+      { question: "When is it held?", answer: "Around Ram Navami in March or April; the exact dates move each year with the Hindu calendar." },
+    ],
+  },
+  {
+    slug: "ambaji-bhadarvi-poonam",
+    festival: "Ambaji Bhadarvi Poonam Mela",
+    title: "Ambaji Bhadarvi Poonam Mela — Dates, Schedule & Travel Guide",
+    h1: "Ambaji Bhadarvi Poonam Mela",
+    answer_first:
+      "The Bhadarvi Poonam mela at Ambaji is one of Gujarat's largest religious fairs, drawing huge crowds of pilgrims — many walking on foot — to the Ambaji Shakti shrine on the Bhadrapada full moon. Exact dates follow the Hindu calendar and are confirmed before the season.",
+    rituals:
+      "In tradition, devotees walk long distances to Ambaji for darshan of the goddess on the full moon, offering prayers at the Shakti shrine; the temple stays open extended hours.",
+    travel_advice:
+      "Expect very large crowds and long queues on the full-moon days; roads to Ambaji get congested and rooms are scarce. Plan buffers and confirm darshan arrangements ahead.",
+    event_venue: "Ambaji Temple, Banaskantha (north Gujarat)",
+    date_this_year: "",
+    image: "/images/home/HomeHero.webp",
+    deity: "Goddess Amba",
+    city: "Ambaji",
+    season: "Aug – Sep",
+    crowd: "Very high",
+    highlights: ["Bhadrapada full-moon darshan", "Pilgrims walking on foot", "Extended temple hours", "One of Gujarat's largest melas"],
+    faq: [
+      { question: "When is the Ambaji Bhadarvi Poonam mela?", answer: "On the Bhadrapada full moon, around August–September; the exact date shifts each year with the Hindu calendar." },
+      { question: "How crowded does it get?", answer: "Very — it is one of Gujarat's largest fairs, with huge crowds and many pilgrims arriving on foot, so plan for queues and congestion." },
+    ],
+  },
+  {
+    slug: "vautha-mela",
+    festival: "Vautha Mela",
+    title: "Vautha Mela — Dates, Schedule & Travel Guide",
+    h1: "Vautha Mela",
+    answer_first:
+      "The Vautha mela is a large Kartik Purnima fair at the confluence of the Sabarmati and Vatrak rivers near Ahmedabad, famous historically for its donkey and livestock trade alongside a holy dip. Exact dates follow the Hindu calendar and are confirmed before the season.",
+    rituals:
+      "In tradition, pilgrims take a holy dip at the sangam on Kartik Purnima; the fair also features a well-known animal fair and folk activity.",
+    travel_advice:
+      "Vautha is a rural site near Dholka; visit as a day trip from Ahmedabad. Facilities are basic during the fair, so carry essentials.",
+    event_venue: "Sabarmati–Vatrak sangam, Vautha (near Ahmedabad)",
+    date_this_year: "",
+    image: "/images/home/HomeHero.webp",
+    deity: "",
+    city: "Vautha (Ahmedabad)",
+    season: "Nov",
+    crowd: "High",
+    highlights: ["Kartik Purnima holy dip", "Historic animal fair", "River-confluence setting", "Folk stalls"],
+    faq: [
+      { question: "What is the Vautha mela known for?", answer: "A Kartik Purnima holy dip at the Sabarmati–Vatrak confluence and its historic animal and livestock fair near Ahmedabad." },
+      { question: "When is the Vautha mela held?", answer: "Around Kartik Purnima in November; the date shifts each year with the Hindu calendar." },
+    ],
+  },
+  {
+    slug: "saputara-monsoon-festival",
+    festival: "Saputara Monsoon Festival",
+    title: "Saputara Monsoon Festival — Dates, Schedule & Travel Guide",
+    h1: "Saputara Monsoon Festival",
+    answer_first:
+      "The Saputara Monsoon Festival is a state-run cultural festival held through the rains at Gujarat's only hill station, with music, adventure activities and food against lush green hills. It is a seasonal event, not a religious one; exact dates are announced each year.",
+    rituals:
+      "Not a religious festival: it is a tourism-and-culture season staged by the state, featuring performances, boat rides, paragliding and local crafts.",
+    travel_advice:
+      "Saputara is busiest at weekends during the festival; book stays ahead. Roads can be slippery in heavy rain, so allow extra travel time.",
+    event_venue: "Saputara hill station, Dang district",
+    date_this_year: "",
+    image: "/images/home/HomeHero.webp",
+    deity: "",
+    city: "Saputara",
+    season: "Jul – Sep",
+    crowd: "Moderate",
+    highlights: ["Monsoon greenery", "Cultural performances", "Boating & paragliding", "Local Dang crafts"],
+    faq: [
+      { question: "When is the Saputara Monsoon Festival?", answer: "Through the monsoon months, roughly July to September; the state announces exact dates each year." },
+      { question: "Is it a religious festival?", answer: "No — it is a cultural and tourism festival celebrating the monsoon at Gujarat's only hill station." },
+    ],
+  },
+  {
+    slug: "kankaria-carnival",
+    festival: "Kankaria Carnival",
+    title: "Kankaria Carnival — Dates, Schedule & Travel Guide",
+    h1: "Kankaria Carnival",
+    answer_first:
+      "The Kankaria Carnival is a week-long cultural festival around Kankaria Lake in Ahmedabad, held in late December with music, performances, food stalls and activities for families. It is a civic celebration, not a religious one; dates are announced each year.",
+    rituals:
+      "Not a religious festival: it is a city carnival with cultural performances, adventure activities, art and food around the Kankaria lakefront.",
+    travel_advice:
+      "Held in the pleasant winter season, it draws large local crowds, especially in the evenings and at weekends. Use the lakefront's ticketed entry and plan for busy evenings.",
+    event_venue: "Kankaria Lakefront, Ahmedabad",
+    date_this_year: "",
+    image: "/images/home/HomeHero.webp",
+    deity: "",
+    city: "Ahmedabad",
+    season: "Dec",
+    crowd: "High",
+    highlights: ["Lakefront cultural shows", "Food & craft stalls", "Family activities", "Winter-evening atmosphere"],
+    faq: [
+      { question: "When is the Kankaria Carnival?", answer: "In late December, typically the last week, around Kankaria Lake in Ahmedabad; exact dates are announced each year." },
+      { question: "What happens at the carnival?", answer: "A week of cultural performances, food and craft stalls, and family activities around the Kankaria lakefront." },
+    ],
+  },
 ];
 
 export type SeedComparison = {
@@ -1018,6 +1867,75 @@ export const SEED_COMPARISONS: SeedComparison[] = [
       { question: "Can I do the whole trip by train?", answer: "In principle, but the leg between the two temple towns is slow and indirect. Almost every practical itinerary uses a cab for that stretch." },
     ],
   },
+  {
+    slug: "gir-triangle-vs-somnath-dwarka-only",
+    title: "Gir Triangle vs Somnath–Dwarka Only — Which Circuit?",
+    h1: "Gir Triangle vs Somnath–Dwarka Only",
+    optionA: "Somnath–Dwarka only",
+    optionB: "Gir triangle (+ Gir)",
+    answer_first:
+      "The Somnath–Dwarka circuit is a pure pilgrimage covering both temple towns in 3–4 days. The Gir triangle adds an Asiatic-lion safari at Sasan Gir, turning it into a temples-plus-wildlife trip of 5–6 days. Choose by whether you want darshan only or darshan plus a safari — and note Gir closes in the monsoon.",
+    verdict:
+      "Pick Somnath–Dwarka only if your focus is darshan and time is tight. Add the Gir triangle if you have 5–6 days and want a lion safari — but check Gir's seasonal closure (roughly mid-June to mid-October) first.",
+    rows: [
+      { criterion: "Focus", a: "Temples only", b: "Temples + wildlife" },
+      { criterion: "Typical length", a: "3–4 days", b: "5–6 days" },
+      { criterion: "Key addition", a: "—", b: "Sasan Gir safari" },
+      { criterion: "Season sensitivity", a: "Year-round", b: "Gir closed in monsoon" },
+      { criterion: "Best for", a: "Focused pilgrims, short leave", b: "Families wanting a safari too" },
+    ],
+    recommended_target: "/somnath-dwarka-gir-tour-package/",
+    faq: [
+      { question: "Is Gir worth adding to a Somnath–Dwarka trip?", answer: "If you have the extra two days and travel outside the monsoon closure, a Gir safari is a memorable addition and fits naturally between Somnath and the coast." },
+      { question: "When is Gir closed?", answer: "Gir National Park closes for the monsoon, roughly mid-June to mid-October. Confirm the current reopening date before planning the triangle." },
+    ],
+  },
+  {
+    slug: "local-operator-vs-ota",
+    title: "Local Operator vs OTA — How to Book a Gujarat Tour",
+    h1: "Local Operator vs Online Travel Agency (OTA)",
+    optionA: "Local operator",
+    optionB: "Online travel agency (OTA)",
+    answer_first:
+      "A local operator plans the Somnath–Dwarka circuit with on-ground knowledge, direct drivers and flexibility to adjust for aarti timings; a large OTA offers a slick booking flow and payment protection but often less local nuance and a call-centre for changes. For a temple circuit with tight darshan windows, on-ground knowledge usually matters more.",
+    verdict:
+      "Use a local operator for the pilgrimage circuit itself, where darshan timing and driver familiarity count. Use an OTA when you mainly want standardised hotels and flights with a self-service booking and refund process.",
+    rows: [
+      { criterion: "Local knowledge", a: "High", b: "Variable" },
+      { criterion: "Itinerary flexibility", a: "High; adjusts on ground", b: "Fixed packages" },
+      { criterion: "Support during trip", a: "Direct, local", b: "Call centre / app" },
+      { criterion: "Payment & refunds", a: "Ask about terms", b: "Standardised" },
+      { criterion: "Best for", a: "Temple circuits, custom plans", b: "Standard hotels & flights" },
+    ],
+    recommended_target: "/somnath-dwarka-tour-package/",
+    faq: [
+      { question: "Is a local operator safe to book with?", answer: "Yes, provided you confirm the itinerary, inclusions and cancellation terms in writing. The advantage is on-ground support and flexibility during the trip." },
+      { question: "Are OTAs cheaper than local operators?", answer: "Not necessarily. Headline OTA prices can exclude transfers and sightseeing that a circuit operator bundles in — compare the full inclusions, not just the price." },
+    ],
+  },
+  {
+    slug: "gujarat-heritage-vs-wildlife-tour",
+    title: "Gujarat Heritage vs Wildlife Tour — Which to Choose?",
+    h1: "Gujarat Heritage vs Wildlife Tour",
+    optionA: "Heritage tour",
+    optionB: "Wildlife tour",
+    answer_first:
+      "A Gujarat heritage tour centres on temples, stepwells and old cities — Somnath, Dwarka, Modhera, Patan, Champaner and Ahmedabad's heritage core. A wildlife tour centres on Gir's Asiatic lions, the Wild Ass Sanctuary in the Little Rann and coastal birding. Many travellers blend the two, but the emphasis changes the route and season.",
+    verdict:
+      "Choose the heritage route for temples, architecture and history year-round. Choose the wildlife route for safaris, best in winter and closed in the monsoon. With 6+ days you can combine a core heritage circuit with one safari.",
+    rows: [
+      { criterion: "Highlights", a: "Temples, stepwells, old cities", b: "Gir lions, Wild Ass, birding" },
+      { criterion: "Best season", a: "Year-round (Oct–Mar ideal)", b: "Winter; parks closed in monsoon" },
+      { criterion: "Pace", a: "Sightseeing-led", b: "Early-morning safaris" },
+      { criterion: "Signature stop", a: "Modhera / Rani ki Vav", b: "Sasan Gir safari" },
+      { criterion: "Best for", a: "History & architecture lovers", b: "Nature & safari lovers" },
+    ],
+    recommended_target: "/heritage-tours-gujarat/",
+    faq: [
+      { question: "Can I combine heritage and wildlife in one Gujarat trip?", answer: "Yes. With about six days or more you can pair a core heritage circuit with a Gir safari, though it works best outside the monsoon when the park is open." },
+      { question: "Which is better for families?", answer: "Wildlife tends to excite children, while heritage suits those interested in architecture and history. A blended itinerary keeps both engaged." },
+    ],
+  },
 ];
 
 export type SeedTool = {
@@ -1058,6 +1976,21 @@ export const SEED_TOOLS: SeedTool[] = [
     result_cta_target: "/somnath-dwarka-taxi-service/",
     faq: [
       { question: "How is the cab fare calculated?", answer: "By route distance and vehicle type, with one-way and round-trip options. Final rates are confirmed at booking." },
+    ],
+  },
+  {
+    slug: "itinerary-planner",
+    tool_type: "itinerary-planner",
+    title: "Gujarat Itinerary Planner — Build Your Trip",
+    h1: "Gujarat Itinerary Planner",
+    answer_first:
+      "Use the Gujarat itinerary planner to choose your days, entry city and interests — temples, wildlife, Kutch or heritage — and get a suggested day-wise plan across Gujarat. The static outline below works without JavaScript; the interactive planner refines it.",
+    static_shell_copy:
+      "A common frame: start at Ahmedabad, add Somnath–Dwarka for temples, Gir for wildlife and Kutch for the Rann, then trim to your available days. Adjust the sequence to your entry point and season.",
+    result_cta_target: "/somnath-dwarka-tour-package/",
+    faq: [
+      { question: "How does the Gujarat itinerary planner work?", answer: "Pick your days, entry city and interests and it suggests a sequenced Gujarat itinerary. You can then request a matching package quote." },
+      { question: "Can it plan more than Somnath and Dwarka?", answer: "Yes — it frames a wider Gujarat trip across temples, Gir wildlife, Kutch and heritage, which you can trim to your available days." },
     ],
   },
 ];

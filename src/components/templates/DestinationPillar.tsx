@@ -187,11 +187,11 @@ export default function DestinationPillar({ slug }: { slug: string }) {
               const subTemples = temples.filter((t) => t.slug !== mainTemple.slug);
 
               return (
-                <div className="grid gap-6 lg:grid-cols-12 items-stretch mt-6">
-                  
-                  {/* Left Column: Primary Timings Card */}
-                  <Reveal className="lg:col-span-7 h-full">
-                    <div className="relative overflow-hidden rounded-3xl border border-orange-200 bg-white p-6 sm:p-8 shadow-[0_16px_40px_rgba(234,88,12,0.06)] h-full flex flex-col justify-between">
+                <div className="mt-6 space-y-6">
+
+                  {/* Primary Timings Card (full width) */}
+                  <Reveal>
+                    <div className="relative overflow-hidden rounded-3xl border border-orange-200 bg-white p-6 sm:p-8 shadow-[0_16px_40px_rgba(234,88,12,0.06)] flex flex-col">
                       {/* Ambient Watermark Spire */}
                       <div className="absolute right-0 bottom-4 pointer-events-none opacity-[0.03] translate-x-4 translate-y-4">
                         <svg viewBox="0 0 200 220" className="w-44 h-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -244,7 +244,7 @@ export default function DestinationPillar({ slug }: { slug: string }) {
                         </p>
 
                         {/* Timings Rows */}
-                        <div className="space-y-2.5">
+                        <div className="grid gap-2.5 sm:grid-cols-2">
                           {mainTemple.timings.map((tm) => (
                             <div key={tm.label} className="flex items-center justify-between gap-3 text-xs sm:text-sm font-semibold py-2.5 px-3.5 rounded-2xl bg-orange-50/20 border border-orange-100/30 hover:border-orange-200 transition-colors">
                               <span className="text-[#6b4c38]">{tm.label}</span>
@@ -298,8 +298,8 @@ export default function DestinationPillar({ slug }: { slug: string }) {
                     </div>
                   </Reveal>
 
-                  {/* Right Column: Secondary Quick-Guides Cards */}
-                  <div className="lg:col-span-5 flex flex-col gap-4 h-full">
+                  {/* Secondary Quick-Guides Cards */}
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {subTemples.map((sub, i) => {
                       const getIcon = (topic: string) => {
                         switch (topic) {
@@ -315,14 +315,27 @@ export default function DestinationPillar({ slug }: { slug: string }) {
                       };
 
                       const getCtaLabel = (topic: string) => {
-                        if (topic === "live-darshan") return "Watch Live Stream Guide";
-                        if (topic === "aarti") return "View Aarti Timings";
-                        return "Read Darshan Guide";
+                        switch (topic) {
+                          case "aarti": return "View Aarti Timings";
+                          case "live-darshan": return "Watch Live Stream";
+                          case "darshan":
+                          case "vip-darshan": return "Read Darshan Guide";
+                          case "history": return "Read History";
+                          case "jyotirlinga":
+                          case "char-dham": return "Read Guide";
+                          case "dress-code": return "View Dress Code";
+                          case "best-time": return "See Best Time";
+                          case "how-to-reach": return "See Route Guide";
+                          case "pooja-booking": return "Booking Details";
+                          case "light-and-sound-show": return "Show Details";
+                          case "dhwaja-ceremony": return "Read More";
+                          default: return "Read Full Guide";
+                        }
                       };
 
                       return (
-                        <Reveal key={sub.slug} delay={(i + 1) * 0.08} className="flex-1 flex flex-col">
-                          <div className="group relative overflow-hidden rounded-3xl border border-orange-100 bg-white p-5 shadow-[0_4px_20px_rgba(234,88,12,0.02)] transition-all duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_16px_40px_rgba(234,88,12,0.08)] flex-1 flex flex-col justify-between">
+                        <Reveal key={sub.slug} delay={(i + 1) * 0.08} className="h-full">
+                          <div className="group relative overflow-hidden rounded-3xl border border-orange-100 bg-white p-5 shadow-[0_4px_20px_rgba(234,88,12,0.02)] transition-all duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_16px_40px_rgba(234,88,12,0.08)] h-full flex flex-col justify-between">
                             <div className="flex items-center justify-between gap-3 mb-2.5">
                               <div className="flex items-center gap-2.5">
                                 <span className="grid h-8 w-8 place-items-center rounded-xl bg-orange-50 text-orange-650 ring-1 ring-orange-100/60 transition-colors group-hover:bg-orange-500 group-hover:text-white">

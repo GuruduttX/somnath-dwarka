@@ -195,6 +195,98 @@ export const SEED_CAB_ROUTES: SeedCabRoute[] = [
       { question: "Can I see Somnath before continuing to Dwarka?", answer: "Yes. A darshan halt at Somnath on the way out is the usual plan; tell us and the driver builds it into the day." },
     ],
   },
+  {
+    slug: "veraval-to-somnath-taxi",
+    kind: "route",
+    title: "Veraval to Somnath Taxi — Fare, Distance & Booking",
+    h1: "Veraval to Somnath Taxi",
+    origin: "Veraval",
+    destination: "Somnath",
+    distance: "≈ 7 km",
+    duration: "~ 15–20 minutes",
+    verified: false,
+    answer_first:
+      "A Veraval to Somnath taxi is a short 7 km hop of about 15–20 minutes. Veraval is the nearest railhead to Somnath, so a pre-booked cab meets your train and drops you at the temple in time for darshan or the evening aarti. Fares depend on vehicle type.",
+    fares: [
+      { vehicle: "Sedan (Dzire/Etios)", seats: 4, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "SUV (Ertiga)", seats: 6, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "Innova Crysta", seats: 7, oneWay: "₹—", roundTrip: "₹—" },
+    ],
+    stops: ["Somnath Temple"],
+    faq: [
+      { question: "How far is Somnath from Veraval station?", answer: "About 7 km, roughly 15–20 minutes by road. A pre-booked taxi is the easiest transfer from the train." },
+      { question: "Can the taxi wait while I have darshan?", answer: "Yes. On a round trip the driver waits and returns you to Veraval; tell us your train timing and we plan the halt." },
+    ],
+  },
+  {
+    slug: "ahmedabad-to-statue-of-unity-taxi",
+    kind: "route",
+    title: "Ahmedabad to Statue of Unity Taxi — Fare, Distance & Booking",
+    h1: "Ahmedabad to Statue of Unity Taxi",
+    origin: "Ahmedabad",
+    destination: "Statue of Unity (Kevadia)",
+    distance: "≈ 200 km",
+    duration: "~ 3.5–4 hours",
+    verified: false,
+    answer_first:
+      "An Ahmedabad to Statue of Unity taxi covers about 200 km in roughly 3.5 to 4 hours via Vadodara. A private cab makes it a comfortable day trip to Kevadia (Ekta Nagar), with time for the statue, viewing gallery and gardens. Fares depend on vehicle type and one-way vs round-trip.",
+    fares: [
+      { vehicle: "Sedan (Dzire/Etios)", seats: 4, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "SUV (Ertiga)", seats: 6, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "Innova Crysta", seats: 7, oneWay: "₹—", roundTrip: "₹—" },
+    ],
+    stops: ["Vadodara"],
+    faq: [
+      { question: "How far is the Statue of Unity from Ahmedabad?", answer: "About 200 km, roughly 3.5–4 hours by road via Vadodara. Exact figures are confirmed at booking." },
+      { question: "Is a day trip to the Statue of Unity possible from Ahmedabad?", answer: "Yes. With an early start it works as a long day trip; a round-trip cab waits while you visit and returns the same day." },
+    ],
+  },
+  {
+    slug: "bhuj-to-white-rann-taxi",
+    kind: "route",
+    title: "Bhuj to White Rann Taxi — Fare, Distance & Booking",
+    h1: "Bhuj to White Rann Taxi",
+    origin: "Bhuj",
+    destination: "White Rann (Dhordo)",
+    distance: "≈ 80 km",
+    duration: "~ 1.5–2 hours",
+    verified: false,
+    answer_first:
+      "A Bhuj to White Rann taxi covers about 80 km to Dhordo in roughly 1.5 to 2 hours. A permit is checked at Bhirandiyara en route. A private cab lets you time the visit for sunset and the full moon over the salt desert. Fares depend on vehicle type; confirm any permit fee locally.",
+    fares: [
+      { vehicle: "Sedan (Dzire/Etios)", seats: 4, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "SUV (Ertiga)", seats: 6, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "Innova Crysta", seats: 7, oneWay: "₹—", roundTrip: "₹—" },
+    ],
+    stops: ["Bhirandiyara (permit check)"],
+    faq: [
+      { question: "How far is the White Rann from Bhuj?", answer: "About 80 km to Dhordo, roughly 1.5–2 hours by road. A permit is checked at Bhirandiyara on the way." },
+      { question: "Should I visit the White Rann at a particular time?", answer: "Sunset and full-moon nights are the most striking. A private cab lets you stay for the evening and return to Bhuj afterwards." },
+    ],
+  },
+  {
+    slug: "rajkot-to-virpur-chotila-taxi",
+    kind: "route",
+    title: "Rajkot to Virpur & Chotila Taxi — Fare, Distance & Booking",
+    h1: "Rajkot to Virpur & Chotila Taxi",
+    origin: "Rajkot",
+    destination: "Virpur & Chotila",
+    distance: "≈ 55–65 km each",
+    duration: "~ 1–1.5 hours each",
+    verified: false,
+    answer_first:
+      "A Rajkot to Virpur and Chotila taxi covers two popular pilgrimage stops near Rajkot — the Jalaram temple at Virpur and the Chamunda Mata temple atop Chotila hill — each roughly an hour away. A private cab pairs both in a single day. Fares depend on vehicle type and the itinerary.",
+    fares: [
+      { vehicle: "Sedan (Dzire/Etios)", seats: 4, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "SUV (Ertiga)", seats: 6, oneWay: "₹—", roundTrip: "₹—" },
+      { vehicle: "Innova Crysta", seats: 7, oneWay: "₹—", roundTrip: "₹—" },
+    ],
+    stops: ["Virpur (Jalaram Temple)", "Chotila (Chamunda Mata)"],
+    faq: [
+      { question: "Can I cover both Virpur and Chotila in one day from Rajkot?", answer: "Yes. Both are within about an hour of Rajkot, so a private cab comfortably pairs the Jalaram temple at Virpur and Chotila hill in a single day." },
+      { question: "Is there a climb at Chotila?", answer: "Yes. The Chamunda Mata temple sits atop Chotila hill, reached by a stepped climb; allow time and a water break." },
+    ],
+  },
 ];
 
 /**
@@ -362,6 +454,27 @@ export const SEED_AIRPORT_TAXIS: SeedAirportTaxi[] = [
     ],
     faq: [
       { question: "Is Ahmedabad Airport good for a Somnath Dwarka trip?", answer: "Yes — it has the best flight connectivity. A private taxi can start the full circuit from the airport over 4–6 days." },
+    ],
+  },
+  {
+    slug: "porbandar",
+    airport: "Porbandar",
+    airportName: "Porbandar Airport (PBD)",
+    title: "Porbandar Airport Taxi to Dwarka & Somnath — Fare & Booking",
+    h1: "Porbandar Airport Taxi",
+    serves: "Dwarka & Somnath",
+    distance: "≈ 100 km to Dwarka",
+    duration: "~ 2 hours",
+    verified: false,
+    answer_first:
+      "Porbandar Airport sits midway on the coastal route, about 100 km (~2 hours) from Dwarka and a similar distance from Somnath. A pre-booked airport taxi meets your flight and can begin the temple circuit in either direction. Fares depend on vehicle type.",
+    fares: [
+      { vehicle: "Sedan (Dzire/Etios)", seats: 4, rate: "₹—" },
+      { vehicle: "SUV (Ertiga)", seats: 6, rate: "₹—" },
+      { vehicle: "Innova Crysta", seats: 7, rate: "₹—" },
+    ],
+    faq: [
+      { question: "How far is Porbandar Airport from Dwarka?", answer: "About 100 km, roughly 2 hours by road. Porbandar sits between Dwarka and Somnath, so a taxi can start the circuit either way." },
     ],
   },
 ];

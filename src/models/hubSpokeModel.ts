@@ -25,6 +25,10 @@ export type IHubSpoke = SharedFields & {
 const HubSpokeSchema = new Schema<IHubSpoke>(
   {
     ...sharedFields,
+    // A spoke slug (e.g. "from-ahmedabad", "3-days") is reused across many hubs,
+    // so it is NOT globally unique here — uniqueness is per (hub, slug). This
+    // overrides the global `unique: true` that sharedFields sets on slug.
+    slug: { type: String, required: true, index: true, trim: true },
     title: { type: String, required: true, trim: true },
     hub: { type: String, required: true, index: true },
     spoke_kind: { type: String, required: true, enum: ["money", "info"], default: "money" },
@@ -44,6 +48,11 @@ const HubSpokeSchema = new Schema<IHubSpoke>(
   },
   { timestamps: true }
 );
+
+// Uniqueness is on the (hub, slug) pair, not slug alone, so the same spoke slug
+// can exist under different hubs (e.g. /gir-tour-package/from-ahmedabad/ and
+// /kutch-tour-package/from-ahmedabad/). Pages resolve by this compound key.
+HubSpokeSchema.index({ hub: 1, slug: 1 }, { unique: true });
 
 const HubSpokeModel: Model<IHubSpoke> =
   mongoose.models.HubSpoke || mongoose.model<IHubSpoke>("HubSpoke", HubSpokeSchema);

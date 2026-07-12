@@ -23,7 +23,22 @@ const DRY = process.argv.includes("--dry");
 const here = path.dirname(fileURLToPath(import.meta.url));
 const MAP = JSON.parse(readFileSync(path.join(here, "data", "url-map-v5.json"), "utf8"));
 
-const WAVES = new Set(["MVP", "A", "B"]);
+const WAVES = new Set(["MVP", "A", "B", "C", "D1", "D2"]);
+
+/**
+ * Root slugs that are destination PILLARS (Destination model), identified by a
+ * "pillar-*" silo on their root row. A 2-segment spoke is a pillar-spoke only if
+ * its parent is one of these; otherwise the parent is a hub and the spoke is a
+ * hub-spoke — even if the spoke's own silo says "pillar-*" (the URL map mislabels
+ * a few, e.g. /wildlife-nature-tours/saputara-hill-station/ under a money hub).
+ * Routing by the spoke's own silo would store it in the wrong collection and the
+ * hub resolver would 404 it.
+ */
+const PILLAR_SLUGS = new Set(
+  MAP.rows
+    .filter((r) => r.url.split("/").filter(Boolean).length === 1 && (r.silo || "").startsWith("pillar"))
+    .map((r) => r.url.split("/").filter(Boolean)[0])
+);
 
 /* ----------------------------- helpers ----------------------------- */
 
@@ -69,6 +84,20 @@ const SYNTHESISED = [
     role: "HUB",
     parent_hub: "/",
     h1_pattern: "Our Data & Research on Gujarat Pilgrimage Travel",
+    serp_feature_target: "",
+    aeo_answer_snippet_template: "",
+    schema_set: "CollectionPage+Breadcrumb",
+    conversion_action: "nurture_optin",
+  },
+  {
+    // The map has /circuits/{spoke} rows but no /circuits/ hub row — a gap, like
+    // /data/. Without a hub the spoke's parent never resolves and it 404s.
+    url: "/circuits/",
+    wave: "C",
+    silo: "circuits",
+    role: "HUB",
+    parent_hub: "/",
+    h1_pattern: "Gujarat Tour Circuits — Themed Multi-Stop Routes",
     serp_feature_target: "",
     aeo_answer_snippet_template: "",
     schema_set: "CollectionPage+Breadcrumb",
@@ -121,7 +150,8 @@ function classify(row) {
   if (p.length === 2) {
     if (p[0] === "temples") return { type: "temple", slug: p[1] };
     if (p[0] === "data") return { type: "data-page", slug: p[1] };
-    if (silo.startsWith("pillar")) return { type: "pillar-spoke", parent: p[0], slug: p[1] };
+    if (silo.startsWith("pillar") && PILLAR_SLUGS.has(p[0]))
+      return { type: "pillar-spoke", parent: p[0], slug: p[1] };
     return { type: "hub-spoke", parent: p[0], slug: p[1] };
   }
 
@@ -144,7 +174,7 @@ const shared = {
 
 const model = (name, extra) =>
   mongoose.models[name] ||
-  mongoose.model(name, new mongoose.Schema({ ...shared, ...extra }, { timestamps: true, strict: false }));
+  mongoose.model(name, new mongoose.Schema({ ...shared, ...extra }, { timestamps: true, strict: false, autoIndex: false }));
 
 const Hub = model("Hub", {
   title: String, hub_kind: String, head_term: String, pillar_path: String,
@@ -243,13 +273,38 @@ async function main() {
       !isReserved(r.url)
   );
 
-  for (const url of PULLED_FORWARD) if (byUrl.has(url)) inScope.push(byUrl.get(url));
+  // PULLED_FORWARD rows are pulled in for earlier waves; once their own wave is
+  // in scope they already appear above, so only add the ones not already present.
+  const scoped = new Set(inScope.map((r) => r.url));
+  for (const url of PULLED_FORWARD)
+    if (byUrl.has(url) && !scoped.has(url)) inScope.push(byUrl.get(url));
   inScope.push(...SYNTHESISED);
 
+  // Every collection carries a GLOBALLY unique `slug` index (models/shared.ts),
+  // so two rows that share a slug within one collection cannot both be stored —
+  // and, worse, a slug-only upsert lets the second row clobber the first's
+  // spec-derived fields (e.g. breadcrumb_parent). Hub-spokes are keyed on the
+  // (hub, slug) PAIR — the model now carries a compound unique index — so the
+  // same generic spoke slug (from-ahmedabad, 3-days, …) can live under many
+  // hubs. Other collections still enforce a globally unique slug, so those are
+  // deduped by slug alone and any true collision is skipped and reported.
+  const dedupeKey = (kind) =>
+    kind.type === "hub-spoke"
+      ? `hub-spoke:${kind.parent}:${kind.slug}`
+      : `${kind.type}:${kind.slug}`;
+
   const planned = [];
+  const skippedCollisions = [];
+  const seen = new Set();
   for (const row of inScope) {
     const kind = classify(row);
     if (!kind || !kind.slug) continue;
+    const key = dedupeKey(kind);
+    if (seen.has(key)) {
+      skippedCollisions.push({ row, kind });
+      continue;
+    }
+    seen.add(key);
     planned.push({ row, kind });
   }
 
@@ -281,8 +336,11 @@ async function main() {
       continue;
     }
 
+    // Hub-spokes are identified by (hub, slug); every other collection by slug.
+    const filter =
+      kind.type === "hub-spoke" ? { hub: kind.parent, slug: kind.slug } : { slug: kind.slug };
     const res = await Model.updateOne(
-      { slug: kind.slug },
+      filter,
       {
         $setOnInsert: insertOnlyFields(kind, row, kind.slug),
         $set: specDerivedFields(kind, row, kind.slug, ctx),
@@ -297,6 +355,15 @@ async function main() {
   for (const [k, v] of Object.entries(counts).sort()) console.log(`  ${k.padEnd(14)} ${v}`);
   console.log(`  ${"TOTAL".padEnd(14)} ${planned.length}`);
   if (!DRY) console.log(`\ncreated ${created}, refreshed ${refreshed} (all noindex until verified)`);
+
+  if (skippedCollisions.length) {
+    console.log(
+      `\n${skippedCollisions.length} URL(s) skipped — slug already owned by another page in the same collection`
+    );
+    console.log("(the model enforces a globally unique slug; these cannot be stored as-is):");
+    for (const { row, kind } of skippedCollisions)
+      console.log(`  ${kind.type.padEnd(13)} ${row.url}  (slug "${kind.slug}" taken)`);
+  }
 }
 
 const run = async () => {
