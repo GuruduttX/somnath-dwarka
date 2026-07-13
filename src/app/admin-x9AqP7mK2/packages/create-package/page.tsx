@@ -98,31 +98,31 @@ export default function CreateNewPackage() {
 
   const [loading, setLoading] = useState(false);
   const [childImage, setChildImage] = useState<ChildImage[]>([
-    { id: crypto.randomUUID(), image: "", alt: "" },
+    { id: "init-child-image", image: "", alt: "" },
   ]);
   const [faqs, setFaqs] = useState<FAQ[]>([
-    { id: crypto.randomUUID(), question: "", answer: "" },
+    { id: "init-faq", question: "", answer: "" },
   ]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([
-    { id: crypto.randomUUID(), name: "", description: "", rating: "" },
+    { id: "init-testimonial", name: "", description: "", rating: "" },
   ]);
   const [highLights, setHighLights] = useState<HighLights[]>([
-    { id: crypto.randomUUID(), description: "" },
+    { id: "init-highlight", description: "" },
   ]);
   const [inclusions, setInclusions] = useState<Inclusions[]>([
-    { id: crypto.randomUUID(), description: "" },
+    { id: "init-inclusion", description: "" },
   ]);
   const [exclusions, setExclusions] = useState<Exclusions[]>([
-    { id: crypto.randomUUID(), description: "" },
+    { id: "init-exclusion", description: "" },
   ]);
   const [documents, setDocuments] = useState<Documents[]>([
-    { id: crypto.randomUUID(), description: "" },
+    { id: "init-document", description: "" },
   ]);
   const [itinerary, setItinerary] = useState<Itinerary[]>([
-    { id: crypto.randomUUID(), day: 1, title: "", description: "" },
+    { id: "init-itinerary", day: 1, title: "", description: "" },
   ]);
   const [breakdown, setBreakdown] = useState<BreakdownItem[]>([
-    { id: crypto.randomUUID(), days: "0", place: "" },
+    { id: "init-breakdown", days: "0", place: "" },
   ]);
   const [route, setRoute] = useState<RouteType>({
     source: "",
