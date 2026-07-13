@@ -40,18 +40,18 @@ const TaxiInclusion = ({
     }
 
     return (
-        <div className="bg-[#1e0d14] border border-pink-900/40 rounded-2xl w-full p-6
+        <div className="bg-[#0b1220] border border-blue-900/40 rounded-2xl w-full p-6
         shadow-[0_0_25px_rgba(236,72,153,0.08)] transition">
 
             {/*  Title */}
-            <div className="text-2xl font-semibold text-pink-300 text-center mb-6">
+            <div className="text-2xl font-semibold text-blue-300 text-center mb-6">
                 Inclusions
             </div>
 
             {inclusions.map((inclusion , idx) => (
                 <div
                     key={inclusion.id || idx}
-                    className="bg-pink-950/30 border border-pink-900/40 rounded-xl w-full p-5
+                    className="bg-blue-950/30 border border-blue-900/40 rounded-xl w-full p-5
                     shadow-[0_0_15px_rgba(236,72,153,0.05)] mb-5"
                 >
 
@@ -61,10 +61,10 @@ const TaxiInclusion = ({
                         required
                         placeholder="Enter inclusion details..."
                         className="w-full px-4 py-3 rounded-lg
-                        bg-pink-950/40 text-pink-200
-                        border border-pink-900/40
-                        placeholder:text-pink-400/40
-                        focus:outline-none focus:ring-2 focus:ring-pink-500
+                        bg-blue-950/40 text-blue-200
+                        border border-blue-900/40
+                        placeholder:text-blue-400/40
+                        focus:outline-none focus:ring-2 focus:ring-blue-500
                         transition resize-none"
                         value={inclusion.description}
                         onChange={(e) =>
@@ -93,7 +93,7 @@ const TaxiInclusion = ({
                     onClick={handleAddInclusions}
                     type="button"
                     className="px-10 py-3 rounded-xl text-white
-                    bg-pink-600 hover:bg-pink-700
+                    bg-blue-600 hover:bg-blue-700
                     transition-all duration-300
                     shadow-[0_0_15px_rgba(236,72,153,0.4)]
                     hover:shadow-[0_0_25px_rgba(236,72,153,0.7)]

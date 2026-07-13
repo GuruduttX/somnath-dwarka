@@ -8,7 +8,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#12060a] text-white">
+    <div className="min-h-screen bg-[#020617] text-white">
 
       {/* Topbar (Fixed) */}
       <Topbar toggleSidebar={() => setIsOpen(true)} />

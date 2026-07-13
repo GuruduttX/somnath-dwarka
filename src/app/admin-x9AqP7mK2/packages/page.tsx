@@ -119,10 +119,10 @@ export default function PackagesPage() {
 
       {/* HEADER */}
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-pink-100">
+        <h1 className="text-2xl font-semibold text-blue-100">
           Packages Management
         </h1>
-        <p className="text-sm text-pink-400/70">
+        <p className="text-sm text-blue-400/70">
           Advanced CMS dashboard
         </p>
       </div>
@@ -145,17 +145,17 @@ export default function PackagesPage() {
           placeholder="Search packages..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="px-4 py-2 bg-pink-950/40 border cursor-pointer border-pink-900/40 rounded-lg text-pink-200"
+          className="px-4 py-2 bg-blue-950/40 border cursor-pointer border-blue-900/40 rounded-lg text-blue-200"
         />
 
         {/* Category */}
         <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
-          className="px-3 py-2 bg-pink-950/40 border cursor-pointer border-pink-900/40 rounded-lg text-pink-200"
+          className="px-3 py-2 bg-blue-950/40 border cursor-pointer border-blue-900/40 rounded-lg text-blue-200"
         >
           {categories.map((cat, i) => (
-            <option key={i} className="bg-pink-950 text-white cursor-pointer" value={cat}>
+            <option key={i} className="bg-blue-950 text-white cursor-pointer" value={cat}>
               {cat}
             </option>
           ))}
@@ -165,35 +165,35 @@ export default function PackagesPage() {
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value)}
-          className="px-3 py-2 bg-pink-950/40 border cursor-pointer border-pink-900/40 rounded-lg text-pink-200"
+          className="px-3 py-2 bg-blue-950/40 border cursor-pointer border-blue-900/40 rounded-lg text-blue-200"
         >
-          <option value="latest" className="bg-pink-950 text-white cursor-pointer">Latest</option>
-          <option value="oldest" className="bg-pink-950 text-white cursor-pointer">Oldest</option>
+          <option value="latest" className="bg-blue-950 text-white cursor-pointer">Latest</option>
+          <option value="oldest" className="bg-blue-950 text-white cursor-pointer">Oldest</option>
         </select>
 
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="px-3 py-2 bg-pink-950/40 border cursor-pointer border-pink-900/40 rounded-lg text-pink-200"
+          className="px-3 py-2 bg-blue-950/40 border cursor-pointer border-blue-900/40 rounded-lg text-blue-200"
         >
 
 
-          <option value="all" className="bg-pink-950 text-white cursor-pointer">All</option>
-          <option value="published" className="bg-pink-950 text-white cursor-pointer">Published</option>
-          <option value="draft" className="bg-pink-950 text-white cursor-pointer">Draft</option>
+          <option value="all" className="bg-blue-950 text-white cursor-pointer">All</option>
+          <option value="published" className="bg-blue-950 text-white cursor-pointer">Published</option>
+          <option value="draft" className="bg-blue-950 text-white cursor-pointer">Draft</option>
         </select>
 
         {/* View Toggle */}
-        <div className="flex bg-pink-950/40 rounded-lg border border-pink-900/40 cursor-pointer">
+        <div className="flex bg-blue-950/40 rounded-lg border border-blue-900/40 cursor-pointer">
           <button
             onClick={() => setView("card")}
-            className="px-3 py-2 hover:bg-pink-800 cursor-pointer"
+            className="px-3 py-2 hover:bg-blue-800 cursor-pointer"
           >
             <LayoutGrid size={16} />
           </button>
           <button
             onClick={() => setView("table")}
-            className="px-3 py-2 hover:bg-pink-800 cursor-pointer"
+            className="px-3 py-2 hover:bg-blue-800 cursor-pointer"
           >
             <Table size={16} />
           </button>
@@ -202,7 +202,7 @@ export default function PackagesPage() {
         {/* Create */}
         <Link
           href="/admin-x9AqP7mK2/packages/create-package"
-          className="px-4 py-2 bg-pink-600/30 rounded-lg cursor-pointer text-pink-200"
+          className="px-4 py-2 bg-blue-600/30 rounded-lg cursor-pointer text-blue-200"
         >
           + Create Package
         </Link>
@@ -210,7 +210,7 @@ export default function PackagesPage() {
 
       {/* CONTENT */}
       {filteredPackages.length === 0 ? (
-        <p className="text-pink-400">No results found</p>
+        <p className="text-blue-400">No results found</p>
       ) : view === "card" ? (
         <PackageCards
           packages={filteredPackages}
@@ -239,8 +239,8 @@ function PackageCards({ packages, setOpen, setSelectedId }: any) {
     >
       {packages.map((pkg: any) => (
         <div key={pkg._id}
-          className="group rounded-xl overflow-hidden bg-[#1e0d14]
-          border border-pink-900/40 hover:-translate-y-1 transition"
+          className="group rounded-xl overflow-hidden bg-[#0b1220]
+          border border-blue-900/40 hover:-translate-y-1 transition"
         >
           <div className="relative">
             {/* Status Badge */}
@@ -263,15 +263,15 @@ function PackageCards({ packages, setOpen, setSelectedId }: any) {
           </div>
 
           <div className="p-4">
-            <h3 className="text-pink-100 font-semibold mb-2">
+            <h3 className="text-blue-100 font-semibold mb-2">
               {pkg.title}
             </h3>
 
-            <p className="text-sm text-pink-400/60 line-clamp-3">
+            <p className="text-sm text-blue-400/60 line-clamp-3">
               {stripHtml(pkg.overview)}
             </p>
 
-            <div className="flex justify-between mt-4 text-xs text-pink-400">
+            <div className="flex justify-between mt-4 text-xs text-blue-400">
               <span>{pkg.category}</span>
               <span>₹ {pkg.price}</span>
             </div>
@@ -280,7 +280,7 @@ function PackageCards({ packages, setOpen, setSelectedId }: any) {
               <Link
                 href={`/admin-x9AqP7mK2/packages/edit-package/${pkg._id}`}
                 className="flex-1 text-center py-2 rounded-lg text-sm
-                bg-pink-600/20 text-pink-300"
+                bg-blue-600/20 text-blue-300"
               >
                 Edit
               </Link>
@@ -305,10 +305,10 @@ function PackageCards({ packages, setOpen, setSelectedId }: any) {
 
 function PackageTable({ packages, setOpen, setSelectedId }: any) {
   return (
-    <div className="overflow-x-auto border border-pink-900/40 rounded-xl">
-      <table className="w-full text-sm text-pink-200">
+    <div className="overflow-x-auto border border-blue-900/40 rounded-xl">
+      <table className="w-full text-sm text-blue-200">
 
-        <thead className="bg-pink-950/40 text-pink-300 text-xs uppercase">
+        <thead className="bg-blue-950/40 text-blue-300 text-xs uppercase">
           <tr>
             <th className="px-4 py-3">Title</th>
             <th className="px-4 py-3">Category</th>
@@ -321,7 +321,7 @@ function PackageTable({ packages, setOpen, setSelectedId }: any) {
         <tbody>
           {packages.map((pkg: any) => (
             <tr key={pkg._id}
-              className="border-t border-pink-900/30 hover:bg-pink-900/20"
+              className="border-t border-blue-900/30 hover:bg-blue-900/20"
             >
               <td className="px-4 py-3">{pkg.title}</td>
               <td className="px-4 py-3">{pkg.category}</td>
@@ -343,7 +343,7 @@ function PackageTable({ packages, setOpen, setSelectedId }: any) {
               <td className="px-4 py-3 flex gap-2 justify-center">
                 <Link
                   href={`/admin-x9AqP7mK2/packages/edit-package/${pkg._id}`}
-                  className="px-3 py-1 rounded text-xs bg-pink-600/20 text-pink-300"
+                  className="px-3 py-1 rounded text-xs bg-blue-600/20 text-blue-300"
                 >
                   Edit
                 </Link>
@@ -369,9 +369,9 @@ function PackageTable({ packages, setOpen, setSelectedId }: any) {
 
 function StatCard({ title, value }: any) {
   return (
-    <div className="bg-[#1e0d14] border border-pink-900/40 rounded-xl p-4">
-      <p className="text-pink-400 text-sm">{title}</p>
-      <h2 className="text-xl text-pink-100 font-bold">{value}</h2>
+    <div className="bg-[#0b1220] border border-blue-900/40 rounded-xl p-4">
+      <p className="text-blue-400 text-sm">{title}</p>
+      <h2 className="text-xl text-blue-100 font-bold">{value}</h2>
     </div>
   );
 }

@@ -17,7 +17,7 @@ const CMSContentSection = ({
 
       {/* ================= SUB CONTENT ================= */}
       <div>
-        <label className="text-sm text-pink-400/70">
+        <label className="text-sm text-blue-400/70">
           Sub Content
         </label>
 
@@ -28,9 +28,9 @@ const CMSContentSection = ({
           onChange={(e) => onChange("subContent", e.target.value)}
           placeholder="Let's be real for a second..."
           className="mt-2 w-full px-5 py-3 rounded-xl
-          bg-pink-950/40 text-pink-200
-          border border-pink-900/40
-          focus:ring-2 focus:ring-pink-600/40
+          bg-blue-950/40 text-blue-200
+          border border-blue-900/40
+          focus:ring-2 focus:ring-blue-600/40
           transition resize-none"
         />
       </div>
@@ -38,13 +38,13 @@ const CMSContentSection = ({
       {/* ================= EDITOR ================= */}
       <div
         className="relative rounded-2xl p-4
-        bg-[#1e0d14]
-        border border-pink-900/40
+        bg-[#0b1220]
+        border border-blue-900/40
         shadow-[0_0_30px_rgba(236,72,153,0.08)]
         transition"
       >
         {/* Glow Effect */}
-        <div className="text-black absolute -top-10 left-10 w-40 h-40 bg-pink-600/10 blur-3xl pointer-events-none hover:bg-pink-700" />
+        <div className="text-black absolute -top-10 left-10 w-40 h-40 bg-blue-600/10 blur-3xl pointer-events-none hover:bg-blue-700" />
 
         <RichTextEditor
           value={content}

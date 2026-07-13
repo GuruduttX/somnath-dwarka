@@ -3,7 +3,7 @@
 import type { FieldDef } from "@/src/config/contentSchemas";
 
 const inputCls =
-  "w-full px-3 py-2 rounded-lg bg-pink-950/30 text-pink-100 placeholder-pink-400/40 border border-pink-900/50 focus:outline-none focus:ring-2 focus:ring-pink-500/40 text-sm";
+  "w-full px-3 py-2 rounded-lg bg-blue-950/30 text-blue-100 placeholder-blue-400/40 border border-blue-900/50 focus:outline-none focus:ring-2 focus:ring-blue-500/40 text-sm";
 
 type Obj = Record<string, unknown>;
 
@@ -39,7 +39,7 @@ export default function FieldRenderer({
 
     case "checkbox":
       return (
-        <label className="flex items-center gap-2 text-sm text-pink-200">
+        <label className="flex items-center gap-2 text-sm text-blue-200">
           <input type="checkbox" checked={Boolean(value)} onChange={(e) => onChange(e.target.checked)} />
           {field.label}
         </label>
@@ -66,7 +66,7 @@ export default function FieldRenderer({
               <button type="button" onClick={() => onChange(arr.filter((_, k) => k !== i))} className="px-2 rounded-lg bg-red-900/40 text-red-300 text-sm">✕</button>
             </div>
           ))}
-          <button type="button" onClick={() => onChange([...arr, ""])} className="text-sm text-pink-300 hover:text-white">+ Add</button>
+          <button type="button" onClick={() => onChange([...arr, ""])} className="text-sm text-blue-300 hover:text-white">+ Add</button>
         </div>
       );
     }
@@ -75,9 +75,9 @@ export default function FieldRenderer({
       const v = (value as Obj) ?? {};
       const set = (k: string, val: unknown) => onChange({ ...v, [k]: val });
       return (
-        <div className="rounded-lg border border-pink-900/40 p-3 space-y-2">
+        <div className="rounded-lg border border-blue-900/40 p-3 space-y-2">
           <input className={inputCls} placeholder="Value (e.g. 233 km)" value={(v.value as string) ?? ""} onChange={(e) => set("value", e.target.value)} />
-          <label className="flex items-center gap-2 text-sm text-pink-200">
+          <label className="flex items-center gap-2 text-sm text-blue-200">
             <input type="checkbox" checked={Boolean(v.verified)} onChange={(e) => set("verified", e.target.checked)} />
             Verified (shows the “last verified” stamp)
           </label>
@@ -93,20 +93,20 @@ export default function FieldRenderer({
       return (
         <div className="space-y-3">
           {arr.map((row, i) => (
-            <div key={i} className="rounded-lg border border-pink-900/40 p-3 space-y-2 bg-pink-950/10">
+            <div key={i} className="rounded-lg border border-blue-900/40 p-3 space-y-2 bg-blue-950/10">
               <div className="flex justify-between items-center">
-                <span className="text-xs text-pink-300/60">#{i + 1}</span>
+                <span className="text-xs text-blue-300/60">#{i + 1}</span>
                 <button type="button" onClick={() => onChange(arr.filter((_, k) => k !== i))} className="text-red-300 text-xs">Remove</button>
               </div>
               {field.fields.map((sub) => (
                 <div key={sub.name}>
-                  {sub.type !== "checkbox" ? <label className="block text-xs text-pink-300/70 mb-1">{sub.label}</label> : null}
+                  {sub.type !== "checkbox" ? <label className="block text-xs text-blue-300/70 mb-1">{sub.label}</label> : null}
                   <FieldRenderer field={sub} value={row[sub.name]} onChange={(v) => setItem(i, { ...row, [sub.name]: v })} />
                 </div>
               ))}
             </div>
           ))}
-          <button type="button" onClick={() => onChange([...arr, blank()])} className="text-sm text-pink-300 hover:text-white">+ Add {field.label.toLowerCase()} row</button>
+          <button type="button" onClick={() => onChange([...arr, blank()])} className="text-sm text-blue-300 hover:text-white">+ Add {field.label.toLowerCase()} row</button>
         </div>
       );
     }

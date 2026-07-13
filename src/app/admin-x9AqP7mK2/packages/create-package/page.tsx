@@ -579,7 +579,7 @@ export default function CreateNewPackage() {
 
   return (
     <div
-      className=" p-8 rounded-2xl border border-pink-900/40
+      className=" p-8 rounded-2xl border border-blue-900/40
         shadow-[0_0_60px_-15px_rgba(236,72,153,0.15)]"
       style={{ background: "#1a0b11" }}
     >

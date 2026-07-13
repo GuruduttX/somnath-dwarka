@@ -2,10 +2,10 @@
 
 const inputClass = `
   mt-2 w-full px-5 py-3 rounded-xl
-  bg-pink-950/30 text-pink-100
-  placeholder-pink-400/40
-  border border-pink-900/50
-  focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-600/50
+  bg-blue-950/30 text-blue-100
+  placeholder-blue-400/40
+  border border-blue-900/50
+  focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-600/50
   transition
 `;
 
@@ -42,7 +42,7 @@ export default function PoojaMeta({
     <div className="space-y-6">
       {/* TITLE */}
       <div>
-        <label className="text-sm text-pink-300/70">Pooja Title</label>
+        <label className="text-sm text-blue-300/70">Pooja Title</label>
         <input
           value={title}
           onChange={(e) => updateForm("title", e.target.value)}
@@ -53,7 +53,7 @@ export default function PoojaMeta({
 
       {/* TEMPLE */}
       <div>
-        <label className="text-sm text-pink-300/70">Temple</label>
+        <label className="text-sm text-blue-300/70">Temple</label>
         <input
           value={temple}
           onChange={(e) => updateForm("temple", e.target.value)}
@@ -64,15 +64,15 @@ export default function PoojaMeta({
 
       {/* LOCATION */}
       <div>
-        <label className="text-sm text-pink-300/70">Location</label>
+        <label className="text-sm text-blue-300/70">Location</label>
         <select
           value={location}
           onChange={(e) => updateForm("location", e.target.value)}
           className={`${inputClass} cursor-pointer`}
         >
-          <option className="bg-pink-950 text-white cursor-pointer" value="">Select Location</option>
+          <option className="bg-blue-950 text-white cursor-pointer" value="">Select Location</option>
           {locations.map((loc, i) => (
-            <option className="bg-pink-950 text-white cursor-pointer" key={i} value={loc}>
+            <option className="bg-blue-950 text-white cursor-pointer" key={i} value={loc}>
               {loc}
             </option>
           ))}
@@ -81,7 +81,7 @@ export default function PoojaMeta({
 
       {/* SLUG */}
       <div>
-        <label className="text-sm text-pink-300/70">Slug</label>
+        <label className="text-sm text-blue-300/70">Slug</label>
         <input
           value={slug}
           onChange={(e) => updateForm("slug", e.target.value)}
@@ -92,7 +92,7 @@ export default function PoojaMeta({
 
       {/* RATING */}
       <div>
-        <label className="text-sm text-pink-300/70">rating ⭐️</label>
+        <label className="text-sm text-blue-300/70">rating ⭐️</label>
         <input
           type="number"
           value={rating}
@@ -103,7 +103,7 @@ export default function PoojaMeta({
       </div>
       {/* DURATION */}
       <div>
-        <label className="text-sm text-pink-300/70">Duration</label>
+        <label className="text-sm text-blue-300/70">Duration</label>
         <input
           value={duration}
           onChange={(e) => updateForm("duration", e.target.value)}

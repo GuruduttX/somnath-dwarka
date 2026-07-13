@@ -12,10 +12,10 @@ type ChildImage = {
 
 const inputClass = `
   mt-2 w-full px-5 py-3 rounded-xl
-  bg-pink-950/30 text-pink-100
-  placeholder-pink-400/40
-  border border-pink-900/50
-  focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-600/50
+  bg-blue-950/30 text-blue-100
+  placeholder-blue-400/40
+  border border-blue-900/50
+  focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-600/50
   transition
 `;
 
@@ -119,11 +119,11 @@ const ChildImagePicker = ({
   };
 
   return (
-    <div className="border border-pink-900/50 rounded-2xl w-full p-6 bg-pink-950/20 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+    <div className="border border-blue-900/50 rounded-2xl w-full p-6 bg-blue-950/20 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
 
-      <h3 className="text-base font-semibold text-pink-100 mb-6">
+      <h3 className="text-base font-semibold text-blue-100 mb-6">
         Other Four Images
-        <span className="ml-2 text-xs text-pink-400/50">
+        <span className="ml-2 text-xs text-blue-400/50">
           ({childImage.length}/4)
         </span>
       </h3>
@@ -132,20 +132,20 @@ const ChildImagePicker = ({
         {childImage.map((img) => (
           <div
             key={img.id}
-            className="border border-pink-900/50 rounded-2xl p-5 bg-pink-950/30"
+            className="border border-blue-900/50 rounded-2xl p-5 bg-blue-950/30"
           >
 
             {/* Upload */}
             <div>
-              <label className="text-sm text-pink-300/70">
+              <label className="text-sm text-blue-300/70">
                 Upload Child Image
               </label>
 
               <label
                 htmlFor={`image-${img.id}`}
-                className="mt-3 block rounded-xl border-2 border-dashed border-pink-900/50
+                className="mt-3 block rounded-xl border-2 border-dashed border-blue-900/50
                 p-6 text-center cursor-pointer
-                hover:border-pink-600/50 hover:bg-pink-950/20 transition"
+                hover:border-blue-600/50 hover:bg-blue-950/20 transition"
               >
                 {img.image ? (
                   <img
@@ -155,10 +155,10 @@ const ChildImagePicker = ({
                   />
                 ) : (
                   <>
-                    <p className="text-pink-400/60 text-sm">
-                      Drag & drop or <span className="text-pink-400">Browse</span>
+                    <p className="text-blue-400/60 text-sm">
+                      Drag & drop or <span className="text-blue-400">Browse</span>
                     </p>
-                    <p className="text-xs text-pink-500/40 mt-1">
+                    <p className="text-xs text-blue-500/40 mt-1">
                       Only .webp • Max 2MB
                     </p>
                   </>
@@ -176,7 +176,7 @@ const ChildImagePicker = ({
 
             {/* Alt */}
             <div className="mt-4">
-              <label className="text-sm text-pink-300/70">
+              <label className="text-sm text-blue-300/70">
                 Alt Tag For Image
               </label>
               <input
@@ -208,8 +208,8 @@ const ChildImagePicker = ({
           onClick={handleChildImageAdd}
           disabled={loading}
           className="flex items-center gap-2 px-6 py-2.5 rounded-full text-sm
-            bg-pink-600/20 text-pink-300 border border-pink-600/40
-            hover:bg-pink-600/30 transition disabled:opacity-50"
+            bg-blue-600/20 text-blue-300 border border-blue-600/40
+            hover:bg-blue-600/30 transition disabled:opacity-50"
         >
           <Plus size={15} /> Add Child Image
         </button>

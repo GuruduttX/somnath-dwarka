@@ -32,12 +32,12 @@ export default function Sidebar({
     return (
         <aside
             className={`fixed top-0 left-0 h-full w-64 z-50
-      bg-[#1e0d14] border-r border-pink-900/40
+      bg-[#0b1220] border-r border-blue-900/40
       transform transition-transform duration-300
       ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
             {/* Logo */}
-            <div className="border-b border-pink-900/40">
+            <div className="border-b border-blue-900/40">
                 <div className="p-2  bg-white rounded-full m-3">
                     <img
                         src="/images/Experience_my_India.webp"
@@ -51,7 +51,7 @@ export default function Sidebar({
                 {menu.map((item) => (
                     <Link key={item.name} href={item.slug} onClick={onClose}>
                         <div className="flex items-center gap-3 px-4 py-3 rounded-lg
-              text-pink-300 hover:bg-pink-900/30 cursor-pointer transition">
+              text-blue-300 hover:bg-blue-900/30 cursor-pointer transition">
                             <item.icon size={18} />
                             <span>{item.name}</span>
                         </div>

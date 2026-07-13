@@ -16,9 +16,9 @@ export default function SelectedInclusion({
 
   return (
     <>
-      <h3 className="text-sm mb-4 text-pink-300/70">Select Benefits Overview</h3>
+      <h3 className="text-sm mb-4 text-blue-300/70">Select Benefits Overview</h3>
 
-      <div className="p-6 rounded-xl border border-pink-900/50 bg-pink-950/30">
+      <div className="p-6 rounded-xl border border-blue-900/50 bg-blue-950/30">
         <div className="grid grid-cols-2 gap-4">
           {checkboxes.map(({ key, label, value }) => (
             <label key={key} className="flex items-center gap-3 cursor-pointer group">
@@ -26,9 +26,9 @@ export default function SelectedInclusion({
                 type="checkbox"
                 checked={value}
                 onChange={(e) => onChange(key, e.target.checked)}
-                className="w-5 h-5 accent-pink-500 cursor-pointer rounded"
+                className="w-5 h-5 accent-blue-500 cursor-pointer rounded"
               />
-              <span className="text-sm text-pink-100/80 group-hover:text-pink-200 transition">
+              <span className="text-sm text-blue-100/80 group-hover:text-blue-200 transition">
                 {label}
               </span>
             </label>

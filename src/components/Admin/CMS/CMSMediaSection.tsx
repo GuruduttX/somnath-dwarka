@@ -80,15 +80,15 @@ const CMSMediaSection = ({
 
       {/* IMAGE UPLOAD */}
       <div>
-        <label className="text-sm text-pink-300/70">
+        <label className="text-sm text-blue-300/70">
           {editorType} Image
         </label>
 
         <label
           htmlFor="image-upload"
-          className="relative mt-3 block rounded-xl border-2 border-dashed border-pink-900/50
+          className="relative mt-3 block rounded-xl border-2 border-dashed border-blue-900/50
             p-6 text-center cursor-pointer
-            hover:border-pink-600/50 hover:bg-pink-950/20
+            hover:border-blue-600/50 hover:bg-blue-950/20
             transition overflow-hidden"
         >
 
@@ -97,8 +97,8 @@ const CMSMediaSection = ({
             <div className="absolute inset-0 flex items-center justify-center
               bg-black/40 backdrop-blur-sm rounded-xl">
 
-              <div className="w-10 h-10 border-4 border-pink-500/30
-                border-t-pink-500 rounded-full animate-spin"></div>
+              <div className="w-10 h-10 border-4 border-blue-500/30
+                border-t-blue-500 rounded-full animate-spin"></div>
 
             </div>
           )}
@@ -111,11 +111,11 @@ const CMSMediaSection = ({
             />
           ) : (
             <>
-              <p className="text-pink-400/60 text-sm">
+              <p className="text-blue-400/60 text-sm">
                 Drag & drop image or{" "}
-                <span className="text-pink-400">Browse</span>
+                <span className="text-blue-400">Browse</span>
               </p>
-              <p className="text-xs text-pink-500/40 mt-1">
+              <p className="text-xs text-blue-500/40 mt-1">
                 Only .webp up to 2MB
               </p>
             </>
@@ -132,7 +132,7 @@ const CMSMediaSection = ({
 
       {/* ALT TEXT */}
       <div>
-        <label className="text-sm text-pink-300/70">
+        <label className="text-sm text-blue-300/70">
           Alt Tag For Image
         </label>
 
@@ -142,10 +142,10 @@ const CMSMediaSection = ({
           onChange={(e) => onChange("alt", e.target.value)}
           placeholder="Describe the image for SEO"
           className="mt-2 w-full px-5 py-3 rounded-xl
-            bg-pink-950/30 text-pink-100
-            placeholder-pink-400/40
-            border border-pink-900/50
-            focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-600/50
+            bg-blue-950/30 text-blue-100
+            placeholder-blue-400/40
+            border border-blue-900/50
+            focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-600/50
             transition"
         />
       </div>

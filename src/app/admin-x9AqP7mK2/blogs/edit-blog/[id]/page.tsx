@@ -290,7 +290,7 @@ export default function EditBlog() {
     <section id="admin-edit-blog" className="relative min-h-screen p-6">
 
       <div className="max-w-8xl mx-auto p-8 rounded-2xl
-      bg-[#1e0d14]
+      bg-[#0b1220]
       backdrop-blur-xl border border-white/10
       shadow-[0_0_60px_-15px_rgba(56,189,248,0.25)]">
 

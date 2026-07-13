@@ -91,10 +91,10 @@ const Templecategories = [
 
 const inputClass = `
   mt-2 w-full px-5 py-3 rounded-xl
-  bg-pink-950/30 text-pink-100
-  placeholder-pink-400/40
-  border border-pink-900/50
-  focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-600/50
+  bg-blue-950/30 text-blue-100
+  placeholder-blue-400/40
+  border border-blue-900/50
+  focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-600/50
   transition
 `;
 
@@ -112,7 +112,7 @@ const CMSMetaSection = ({
 
       {/* Title */}
       <div>
-        <label className="text-sm text-pink-300/70">{editorType} Title</label>
+        <label className="text-sm text-blue-300/70">{editorType} Title</label>
         <input
           value={title}
           placeholder="A Way to Grow Your Online Business With Krishna"
@@ -126,7 +126,7 @@ const CMSMetaSection = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         <div>
-          <label className="text-sm text-pink-300/70">Category</label>
+          <label className="text-sm text-blue-300/70">Category</label>
           <select
             required
             value={category}
@@ -166,7 +166,7 @@ const CMSMetaSection = ({
         </div>
 
         <div>
-          <label className="text-sm text-pink-300/70">
+          <label className="text-sm text-blue-300/70">
             Slug <span className="text-red-400">*</span>
           </label>
           <input

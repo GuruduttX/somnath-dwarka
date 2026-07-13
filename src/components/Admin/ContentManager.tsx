@@ -14,7 +14,7 @@ import { getSchema, FAQ_FIELD } from "@/src/config/contentSchemas";
 type Entry = Record<string, unknown> & { _id?: string; slug?: string };
 
 const inputCls =
-  "w-full px-4 py-2.5 rounded-lg bg-pink-950/30 text-pink-100 placeholder-pink-400/40 border border-pink-900/50 focus:outline-none focus:ring-2 focus:ring-pink-500/40";
+  "w-full px-4 py-2.5 rounded-lg bg-blue-950/30 text-blue-100 placeholder-blue-400/40 border border-blue-900/50 focus:outline-none focus:ring-2 focus:ring-blue-500/40";
 
 const STRIP = ["_id", "__v", "createdAt", "updatedAt"];
 
@@ -89,22 +89,22 @@ export default function ContentManager({
   }
 
   return (
-    <div className="p-6 text-pink-100">
+    <div className="p-6 text-blue-100">
       <div className="flex items-center justify-between mb-1">
         <h1 className="text-2xl font-bold">{label}</h1>
-        <button onClick={startNew} className="px-4 py-2 rounded-lg bg-pink-600 hover:bg-pink-500 text-white text-sm">
+        <button onClick={startNew} className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm">
           + New
         </button>
       </div>
-      <p className="text-pink-300/60 text-xs mb-6">Public path: {pathHint}</p>
+      <p className="text-blue-300/60 text-xs mb-6">Public path: {pathHint}</p>
 
       {form ? (
-        <div className="mb-8 rounded-xl border border-pink-900/40 bg-pink-950/20 p-5 space-y-5">
+        <div className="mb-8 rounded-xl border border-blue-900/40 bg-blue-950/20 p-5 space-y-5">
           <h2 className="font-semibold">{form._id ? "Edit" : "New"} entry</h2>
 
           {/* Shared SEO fields */}
           <div className="space-y-3">
-            <h3 className="text-xs uppercase tracking-wide text-pink-300/60">SEO &amp; page basics</h3>
+            <h3 className="text-xs uppercase tracking-wide text-blue-300/60">SEO &amp; page basics</h3>
             <div className="grid sm:grid-cols-2 gap-3">
               <label className="text-sm">Slug*
                 <input className={inputCls} value={String(form.slug ?? "")} onChange={(e) => setField("slug", e.target.value)} placeholder="e.g. from-surat" />
@@ -137,13 +137,13 @@ export default function ContentManager({
           {/* Type-specific fields */}
           {schema.length ? (
             <div className="space-y-4">
-              <h3 className="text-xs uppercase tracking-wide text-pink-300/60">{label} details</h3>
+              <h3 className="text-xs uppercase tracking-wide text-blue-300/60">{label} details</h3>
               {schema.map((field) => (
                 <div key={field.name}>
                   {field.type !== "checkbox" ? (
-                    <label className="block text-sm text-pink-200 mb-1">
+                    <label className="block text-sm text-blue-200 mb-1">
                       {field.label}
-                      {field.hint ? <span className="text-pink-300/50"> — {field.hint}</span> : null}
+                      {field.hint ? <span className="text-blue-300/50"> — {field.hint}</span> : null}
                     </label>
                   ) : null}
                   <FieldRenderer field={field} value={form[field.name]} onChange={(v) => setField(field.name, v)} />
@@ -154,23 +154,23 @@ export default function ContentManager({
 
           {/* FAQ (shared) */}
           <div className="space-y-2">
-            <h3 className="text-xs uppercase tracking-wide text-pink-300/60">FAQ (renders FAQPage schema)</h3>
+            <h3 className="text-xs uppercase tracking-wide text-blue-300/60">FAQ (renders FAQPage schema)</h3>
             <FieldRenderer field={FAQ_FIELD} value={form.faq} onChange={(v) => setField("faq", v)} />
           </div>
 
           <div className="flex gap-2 pt-2">
             <button onClick={save} className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-500 text-white text-sm">Save</button>
-            <button onClick={() => setForm(null)} className="px-4 py-2 rounded-lg bg-pink-950/40 border border-pink-900/50 text-sm">Cancel</button>
+            <button onClick={() => setForm(null)} className="px-4 py-2 rounded-lg bg-blue-950/40 border border-blue-900/50 text-sm">Cancel</button>
           </div>
         </div>
       ) : null}
 
       {loading ? (
-        <p className="text-pink-300/60">Loading…</p>
+        <p className="text-blue-300/60">Loading…</p>
       ) : (
-        <div className="rounded-xl border border-pink-900/40 overflow-hidden">
+        <div className="rounded-xl border border-blue-900/40 overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-pink-950/40 text-left">
+            <thead className="bg-blue-950/40 text-left">
               <tr>
                 <th className="px-4 py-2">Slug</th>
                 <th className="px-4 py-2">Status</th>
@@ -179,16 +179,16 @@ export default function ContentManager({
             </thead>
             <tbody>
               {entries.length ? entries.map((e) => (
-                <tr key={String(e._id)} className="border-t border-pink-900/30">
+                <tr key={String(e._id)} className="border-t border-blue-900/30">
                   <td className="px-4 py-2">{String(e.slug ?? "—")}</td>
                   <td className="px-4 py-2">{String(e.status ?? "draft")}</td>
                   <td className="px-4 py-2 text-right space-x-2">
-                    <button onClick={() => startEdit(e)} className="text-pink-300 hover:text-white">Edit</button>
+                    <button onClick={() => startEdit(e)} className="text-blue-300 hover:text-white">Edit</button>
                     <button onClick={() => remove(String(e._id))} className="text-red-400 hover:text-red-300">Delete</button>
                   </td>
                 </tr>
               )) : (
-                <tr><td className="px-4 py-6 text-pink-300/50 text-center" colSpan={3}>No entries yet. The seeded pages still render — add entries here to override them.</td></tr>
+                <tr><td className="px-4 py-6 text-blue-300/50 text-center" colSpan={3}>No entries yet. The seeded pages still render — add entries here to override them.</td></tr>
               )}
             </tbody>
           </table>

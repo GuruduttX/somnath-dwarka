@@ -139,10 +139,10 @@ export default function BlogsPage() {
 
       {/* HEADER */}
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-pink-100">
+        <h1 className="text-2xl font-semibold text-blue-100">
           Blog Management
         </h1>
-        <p className="text-sm text-pink-400/70">Advanced CMS dashboard</p>
+        <p className="text-sm text-blue-400/70">Advanced CMS dashboard</p>
       </div>
 
       {/* STATS */}
@@ -159,30 +159,30 @@ export default function BlogsPage() {
           placeholder="Search blogs..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="px-4 py-2 bg-pink-950/40 border border-pink-900/40 rounded-lg text-pink-200"
+          className="px-4 py-2 bg-blue-950/40 border border-blue-900/40 rounded-lg text-blue-200"
         />
 
         {/* Status Filter */}
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="px-3 py-2 bg-pink-950/40 border border-pink-900/40 rounded-lg text-pink-200 cursor-pointer"
+          className="px-3 py-2 bg-blue-950/40 border border-blue-900/40 rounded-lg text-blue-200 cursor-pointer"
         >
-          <option value="all" className="bg-pink-950 text-white cursor-pointer">All</option>
-          <option value="published" className="bg-pink-950 text-white cursor-pointer">Published</option>
-          <option value="draft" className="bg-pink-950 text-white cursor-pointer">Draft</option>
+          <option value="all" className="bg-blue-950 text-white cursor-pointer">All</option>
+          <option value="published" className="bg-blue-950 text-white cursor-pointer">Published</option>
+          <option value="draft" className="bg-blue-950 text-white cursor-pointer">Draft</option>
         </select>
 
         {/* Category Filter */}
         <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
-          className="px-3 py-2 bg-pink-950/40 border border-pink-900/40 rounded-lg text-pink-200 cursor-pointer"
+          className="px-3 py-2 bg-blue-950/40 border border-blue-900/40 rounded-lg text-blue-200 cursor-pointer"
         >
-          <option className="bg-pink-950 text-white cursor-pointer" value="all">All Categories</option>
+          <option className="bg-blue-950 text-white cursor-pointer" value="all">All Categories</option>
 
           {BLOG_CATEGORIES.map((cat) => (
-            <option className="bg-pink-950 text-white cursor-pointer py-2"  key={cat} value={cat}>
+            <option className="bg-blue-950 text-white cursor-pointer py-2"  key={cat} value={cat}>
               {cat}
             </option>
           ))}
@@ -192,27 +192,27 @@ export default function BlogsPage() {
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value)}
-          className="px-3 py-2 bg-pink-950/40 border border-pink-900/40 rounded-lg text-pink-200 cursor-pointer"
+          className="px-3 py-2 bg-blue-950/40 border border-blue-900/40 rounded-lg text-blue-200 cursor-pointer"
         >
-          <option value="latest" className="bg-pink-950 text-white cursor-pointer">
+          <option value="latest" className="bg-blue-950 text-white cursor-pointer">
             Latest
           </option>
-          <option value="oldest" className="bg-pink-950 text-white cursor-pointer">
+          <option value="oldest" className="bg-blue-950 text-white cursor-pointer">
             Oldest
           </option>
         </select>
 
         {/* View Toggle */}
-        <div className="flex bg-pink-950/40 rounded-lg border border-pink-900/40 cursor-pointer">
+        <div className="flex bg-blue-950/40 rounded-lg border border-blue-900/40 cursor-pointer">
           <button
             onClick={() => setView("card")}
-            className="px-3 py-2 hover:bg-pink-800 cursor-pointer"
+            className="px-3 py-2 hover:bg-blue-800 cursor-pointer"
           >
             <LayoutGrid size={16} />
           </button>
           <button
             onClick={() => setView("table")}
-            className="px-3 py-2 hover:bg-pink-800 cursor-pointer"
+            className="px-3 py-2 hover:bg-blue-800 cursor-pointer"
           >
             <Table size={16} />
           </button>
@@ -221,7 +221,7 @@ export default function BlogsPage() {
         {/* Create Blog */}
         <Link
           href="/admin-x9AqP7mK2/blogs/create-blog"
-          className="px-4 py-2 bg-pink-600/30 rounded-lg text-pink-200"
+          className="px-4 py-2 bg-blue-600/30 rounded-lg text-blue-200"
         >
           + Create Blog
         </Link>
@@ -229,7 +229,7 @@ export default function BlogsPage() {
 
       {/* CONTENT */}
       {filteredBlogs.length === 0 ? (
-        <p className="text-pink-400">No blogs found</p>
+        <p className="text-blue-400">No blogs found</p>
       ) : view === "card" ? (
         <BlogCards
           blogs={filteredBlogs}
@@ -258,8 +258,8 @@ function BlogCards({ blogs, setSelectedId, setOpen }: { blogs: IBlog[], setSelec
       {blogs.map((blog) => (
         <div
           key={blog._id.toString()}
-          className="group relative rounded-xl overflow-hidden bg-[#1e0d14]
-          border border-pink-900/40 hover:-translate-y-1 transition"
+          className="group relative rounded-xl overflow-hidden bg-[#0b1220]
+          border border-blue-900/40 hover:-translate-y-1 transition"
         >
 
           <span
@@ -282,15 +282,15 @@ function BlogCards({ blogs, setSelectedId, setOpen }: { blogs: IBlog[], setSelec
 
           <div className="p-4">
 
-            <h3 className="text-pink-100 font-semibold mb-2">
+            <h3 className="text-blue-100 font-semibold mb-2">
               {blog.title}
             </h3>
 
-            <p className="text-sm text-pink-400/60 line-clamp-3">
+            <p className="text-sm text-blue-400/60 line-clamp-3">
               {blog.subContent}
             </p>
 
-            <div className="flex justify-between mt-4 text-xs text-pink-400">
+            <div className="flex justify-between mt-4 text-xs text-blue-400">
               <span>{blog.category}</span>
               <span>{new Date(blog.createdAt!).toDateString()}</span>
             </div>
@@ -300,7 +300,7 @@ function BlogCards({ blogs, setSelectedId, setOpen }: { blogs: IBlog[], setSelec
               <Link
                 href={`/admin-x9AqP7mK2/blogs/edit-blog/${blog._id}`}
                 className="flex-1 text-center py-2 rounded-lg text-sm
-                bg-pink-600/20 text-pink-300"
+                bg-blue-600/20 text-blue-300"
               >
                 Edit
               </Link>
@@ -336,9 +336,9 @@ function BlogTable({
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
-    <div className="overflow-x-auto border border-pink-900/40 rounded-xl">
-      <table className="w-full text-sm text-pink-200">
-        <thead className="bg-pink-950/40 text-pink-300 text-xs uppercase">
+    <div className="overflow-x-auto border border-blue-900/40 rounded-xl">
+      <table className="w-full text-sm text-blue-200">
+        <thead className="bg-blue-950/40 text-blue-300 text-xs uppercase">
           <tr>
             <th className="px-4 py-3">Title</th>
             <th className="px-4 py-3">Category</th>
@@ -352,7 +352,7 @@ function BlogTable({
           {blogs.map((blog) => (
             <tr
               key={blog._id.toString()}
-              className="border-t border-pink-900/30 hover:bg-pink-900/20"
+              className="border-t border-blue-900/30 hover:bg-blue-900/20"
             >
               <td className="px-4 py-3">{blog.title}</td>
               <td className="px-4 py-3">{blog.category}</td>
@@ -376,7 +376,7 @@ function BlogTable({
               <td className="px-4 py-3 flex gap-2 justify-center">
                 <Link
                   href={`/admin-x9AqP7mK2/blogs/edit-blog/${blog._id}`}
-                  className="px-3 py-1 rounded text-xs bg-pink-600/20 text-pink-300"
+                  className="px-3 py-1 rounded text-xs bg-blue-600/20 text-blue-300"
                 >
                   Edit
                 </Link>
@@ -403,9 +403,9 @@ function BlogTable({
 
 function StatCard({ title, value }: any) {
   return (
-    <div className="bg-[#1e0d14] border border-pink-900/40 rounded-xl p-4">
-      <p className="text-pink-400 text-sm">{title}</p>
-      <h2 className="text-xl text-pink-100 font-bold">{value}</h2>
+    <div className="bg-[#0b1220] border border-blue-900/40 rounded-xl p-4">
+      <p className="text-blue-400 text-sm">{title}</p>
+      <h2 className="text-xl text-blue-100 font-bold">{value}</h2>
     </div>
   );
 }

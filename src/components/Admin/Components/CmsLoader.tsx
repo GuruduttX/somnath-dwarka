@@ -3,7 +3,7 @@ export default function CmsLoader() {
     <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
       {/* Outer glow ring */}
       <div className="relative flex items-center justify-center">
-        <div className="absolute w-24 h-24 rounded-full bg-pink-600/20 blur-2xl animate-pulse" />
+        <div className="absolute w-24 h-24 rounded-full bg-blue-600/20 blur-2xl animate-pulse" />
 
         {/* Spinning gradient ring */}
         <div
@@ -16,10 +16,10 @@ export default function CmsLoader() {
         />
 
         {/* Inner dark circle to create ring effect */}
-        <div className="absolute w-11 h-11 rounded-full bg-[#1e0d14]" />
+        <div className="absolute w-11 h-11 rounded-full bg-[#0b1220]" />
 
         {/* Center dot */}
-        <div className="absolute w-2 h-2 rounded-full bg-pink-400 shadow-[0_0_8px_2px_rgba(236,72,153,0.8)]" />
+        <div className="absolute w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_2px_rgba(236,72,153,0.8)]" />
       </div>
 
       {/* Shimmer text */}

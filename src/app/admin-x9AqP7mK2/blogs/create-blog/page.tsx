@@ -404,13 +404,13 @@ export default function CreateNewBlog() {
   return (
     <section id="admin-create-blog" className="relative min-h-screen p-6">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-10 w-72 h-72 bg-pink-500/10 blur-3xl" />
-        <div className="absolute bottom-0 right-10 w-72 h-72 bg-pink-400/10 blur-3xl" />
+        <div className="absolute top-0 left-10 w-72 h-72 bg-blue-500/10 blur-3xl" />
+        <div className="absolute bottom-0 right-10 w-72 h-72 bg-blue-400/10 blur-3xl" />
       </div>
 
       <div
         className="max-w-8xl mx-auto p-8 rounded-2xl
-      bg-[#1e0d14]
+      bg-[#0b1220]
       backdrop-blur-xl border border-white/10
       shadow-[0_0_60px_-15px_rgba(56,189,248,0.25)]"
       >

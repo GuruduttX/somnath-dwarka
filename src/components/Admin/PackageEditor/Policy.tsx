@@ -2,10 +2,10 @@ import React from 'react'
 
 const textareaClass = `
   mt-2 w-full px-5 py-3 rounded-xl
-  bg-pink-950/30 text-pink-100
-  placeholder-pink-400/40
-  border border-pink-900/50
-  focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-600/50
+  bg-blue-950/30 text-blue-100
+  placeholder-blue-400/40
+  border border-blue-900/50
+  focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-600/50
   transition resize-none
 `;
 
@@ -28,15 +28,15 @@ const Policy = ({
   ];
 
   return (
-    <div className="space-y-6 border border-pink-900/50 rounded-2xl w-full p-6 bg-pink-950/20 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+    <div className="space-y-6 border border-blue-900/50 rounded-2xl w-full p-6 bg-blue-950/20 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
 
-      <h3 className="text-base font-semibold text-pink-100">
+      <h3 className="text-base font-semibold text-blue-100">
         Policy & Terms and Conditions
       </h3>
 
       {policies.map(({ label, field, value }) => (
         <div key={field}>
-          <label className="text-sm text-pink-300/70">{label}</label>
+          <label className="text-sm text-blue-300/70">{label}</label>
           <textarea
             required
             rows={5}

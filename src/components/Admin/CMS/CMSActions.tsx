@@ -19,8 +19,8 @@ const CMSActions = ({
         type="submit"
         disabled={loading}
         className="px-6 py-2.5 rounded-lg text-sm font-medium
-          bg-pink-600/20 text-pink-300 border border-pink-600/40
-          hover:bg-pink-600/30 hover:border-pink-500/60 hover:text-pink-200
+          bg-blue-600/20 text-blue-300 border border-blue-600/40
+          hover:bg-blue-600/30 hover:border-blue-500/60 hover:text-blue-200
           transition active:scale-95 cursor-pointer
           disabled:opacity-40 disabled:cursor-not-allowed"
       >
@@ -33,8 +33,8 @@ const CMSActions = ({
           onClick={onSaveDraft}
 
           className="px-6 py-2.5 rounded-lg text-sm font-medium
-        bg-pink-600/20 text-pink-300 border border-pink-600/40
-        hover:bg-pink-600/30 hover:border-pink-500/60 hover:text-pink-200
+        bg-blue-600/20 text-blue-300 border border-blue-600/40
+        hover:bg-blue-600/30 hover:border-blue-500/60 hover:text-blue-200
         transition active:scale-95 cursor-pointer
         disabled:opacity-40 disabled:cursor-not-allowed"
         >
@@ -44,7 +44,7 @@ const CMSActions = ({
       
 
 
-      <span className="ml-auto text-xs text-pink-500/50 self-center">
+      <span className="ml-auto text-xs text-blue-500/50 self-center">
         Editing {editorType}
       </span>
 

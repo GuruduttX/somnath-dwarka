@@ -8,10 +8,10 @@ type Documents = {
 
 const inputClass = `
   mt-2 w-full px-5 py-3 rounded-xl
-  bg-pink-950/30 text-pink-100
-  placeholder-pink-400/40
-  border border-pink-900/50
-  focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-600/50
+  bg-blue-950/30 text-blue-100
+  placeholder-blue-400/40
+  border border-blue-900/50
+  focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-600/50
   transition resize-none
 `;
 
@@ -38,15 +38,15 @@ const Document = ({
   };
 
   return (
-    <div className="border border-pink-900/50 rounded-2xl w-full p-6 bg-pink-950/20 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+    <div className="border border-blue-900/50 rounded-2xl w-full p-6 bg-blue-950/20 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
 
-      <h3 className="text-base font-semibold text-pink-100 mb-6">Know Before You Go</h3>
+      <h3 className="text-base font-semibold text-blue-100 mb-6">Know Before You Go</h3>
 
       <div className="space-y-4">
         {documents.map((document) => (
           <div
             key={document.id}
-            className="border border-pink-900/50 rounded-2xl p-5 bg-pink-950/30"
+            className="border border-blue-900/50 rounded-2xl p-5 bg-blue-950/30"
           >
             <textarea
               rows={3}
@@ -75,8 +75,8 @@ const Document = ({
           type="button"
           onClick={handleAddDocument}
           className="flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium
-            bg-pink-600/20 text-pink-300 border border-pink-600/40
-            hover:bg-pink-600/30 hover:border-pink-500/60 hover:text-pink-200
+            bg-blue-600/20 text-blue-300 border border-blue-600/40
+            hover:bg-blue-600/30 hover:border-blue-500/60 hover:text-blue-200
             transition cursor-pointer"
         >
           <Plus size={15} /> Add Document
