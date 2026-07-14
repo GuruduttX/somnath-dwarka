@@ -42,7 +42,7 @@ function tierMeta(tier: string) {
 
 export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
   return (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {hotels.map((h, idx) => (
         <motion.div
           key={h.slug}
@@ -53,15 +53,15 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
         >
           <Link
             href={`/hotels/${h.slug}/`}
-            className="group flex h-full flex-col overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-[0_10px_30px_rgba(234,88,12,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_24px_55px_rgba(234,88,12,0.16)]"
+            className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/60 bg-white/50 shadow-[0_10px_30px_rgba(234,88,12,0.08)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:bg-white/70 hover:shadow-[0_24px_55px_rgba(234,88,12,0.18)]"
           >
             {/* Image banner */}
-            <div className="relative h-56 w-full overflow-hidden">
+            <div className="relative h-48 w-full overflow-hidden">
               <Image
                 src={SLUG_IMAGE[h.slug] ?? "/images/hotels/hero.jpg"}
                 alt={h.h1 || `Hotels in ${h.city} near ${h.near_temple}`}
                 fill
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 className="object-cover transition-transform duration-[600ms] group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
@@ -74,8 +74,8 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
               </div>
 
               {/* title over image */}
-              <div className="absolute inset-x-0 bottom-0 p-5">
-                <h3 className="text-xl sm:text-2xl font-black text-white drop-shadow-sm leading-tight">{h.h1 || `Hotels in ${h.city}`}</h3>
+              <div className="absolute inset-x-0 bottom-0 p-4">
+                <h3 className="text-lg font-black text-white drop-shadow-sm leading-tight">{h.h1 || `Hotels in ${h.city}`}</h3>
                 <p className="mt-1 flex items-center gap-1.5 text-[12px] font-medium text-orange-100">
                   <MapPin size={13} />
                   Near {h.near_temple}
@@ -84,16 +84,16 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
             </div>
 
             {/* Tier details */}
-            <div className="flex flex-1 flex-col p-5">
+            <div className="flex flex-1 flex-col p-4">
               <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#9a7358]">Choose your comfort tier</span>
 
-              <div className="mt-3 space-y-2.5">
-                {(h.tiers ?? []).map(({ tier, area }) => {
+              <div className="mt-2.5 space-y-2">
+                {(h.tiers ?? []).slice(0, 2).map(({ tier, area }) => {
                   const { Icon, cls } = tierMeta(tier);
                   return (
-                    <div key={tier} className="flex items-center gap-3 rounded-2xl border border-orange-50 bg-orange-50/30 p-2.5">
-                      <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ring-1 ${cls}`}>
-                        <Icon size={16} />
+                    <div key={tier} className="flex items-center gap-2.5 rounded-xl border border-white/70 bg-white/40 p-2 backdrop-blur-sm">
+                      <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ring-1 ${cls}`}>
+                        <Icon size={15} />
                       </span>
                       <div className="min-w-0 leading-tight">
                         <p className="text-[13px] font-bold text-[#3a2416]">{tier}</p>
@@ -105,11 +105,11 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
               </div>
 
               {/* CTA row */}
-              <div className="mt-5 flex items-center justify-between border-t border-orange-50 pt-4">
+              <div className="mt-auto flex items-center justify-between gap-2 border-t border-white/60 pt-3">
                 <span className="text-[13px] font-bold text-orange-700 transition-colors group-hover:text-[#E87722]">
                   {getCtaText(h.slug, h.city)}
                 </span>
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-50 text-orange-600 transition-colors group-hover:bg-orange-500 group-hover:text-white">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-orange-50 text-orange-600 transition-colors group-hover:bg-orange-500 group-hover:text-white">
                   <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
                 </span>
               </div>

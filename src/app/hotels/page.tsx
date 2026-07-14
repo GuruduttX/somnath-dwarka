@@ -64,8 +64,11 @@ export default function HotelHubPage() {
       <HotelHero />
 
       {/* ── CITY CARDS ── */}
-      <div className="relative bg-white">
-        <div className="mx-auto max-w-6xl px-4 pt-14 sm:px-6 sm:pt-16">
+      <div className="relative overflow-hidden bg-gradient-to-b from-orange-50/60 via-white to-amber-50/40">
+        {/* soft decorative glow behind glass cards */}
+        <div className="pointer-events-none absolute -left-24 top-24 h-72 w-72 rounded-full bg-orange-200/40 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 bottom-10 h-72 w-72 rounded-full bg-amber-200/40 blur-3xl" />
+        <div className="relative mx-auto max-w-7xl px-4 pt-14 sm:px-6 sm:pt-16">
           <div className="mx-auto max-w-2xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange-700">
               <Sparkles size={14} />
