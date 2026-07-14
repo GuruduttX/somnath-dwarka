@@ -204,7 +204,7 @@ export default function HomeFaqSection() {
                 from-orange-500
                 via-orange-600
                 to-orange-700
-                p-8 md:p-10
+                p-6 sm:p-8 md:p-10
                 text-white
                 shadow-[0_25px_60px_rgba(249,115,22,0.22)]
               "
@@ -218,7 +218,7 @@ export default function HomeFaqSection() {
                 {/* ICON */}
                 <div
                   className="
-                    flex h-14 w-14
+                    flex h-12 w-12 sm:h-14 sm:w-14
                     items-center justify-center
                     rounded-full
                     bg-white/15
@@ -229,14 +229,14 @@ export default function HomeFaqSection() {
                 </div>
 
                 {/* TITLE */}
-                <h3 className="mt-6 text-3xl font-bold leading-tight">
+                <h3 className="mt-4 sm:mt-6 text-2xl sm:text-3xl font-bold leading-tight">
                   Need Help Planning
                   <br />
                   Your Journey?
                 </h3>
 
                 {/* TEXT */}
-                <p className="mt-5 text-[15px] leading-8 text-orange-50/90">
+                <p className="mt-3 sm:mt-5 text-sm sm:text-[15px] leading-7 sm:leading-8 text-orange-50/90">
                   Our Gujarat travel experts are ready to help
                   you create a peaceful and comfortable
                   spiritual experience across Dwarka,
@@ -244,7 +244,7 @@ export default function HomeFaqSection() {
                 </p>
 
                 {/* FEATURES */}
-                <div className="mt-8 space-y-3">
+                <div className="mt-5 sm:mt-8 space-y-2.5 sm:space-y-3">
                   
                   <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-4 py-3 backdrop-blur-sm">
                     <ShieldCheck size={18} />
@@ -265,12 +265,12 @@ export default function HomeFaqSection() {
                 <button
                   onClick={() => setOpen(true)}
                   className="
-                    mt-8
+                    mt-5 sm:mt-8
                     flex w-full cursor-pointer
                     items-center justify-center
                     rounded-2xl
                     bg-white
-                    px-6 py-4
+                    px-6 py-3.5 sm:py-4
                     text-sm font-semibold
                     text-orange-600
                     transition-all duration-300

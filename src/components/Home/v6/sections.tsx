@@ -25,7 +25,7 @@ function LinkCard({ href, title, blurb }: { href: string; title: string; blurb?:
   );
 }
 
-function InterestCard({ href, title, blurb }: { href: string; title: string; blurb?: string }) {
+function InterestCard({ href, title, blurb, className = "" }: { href: string; title: string; blurb?: string; className?: string }) {
   const normHref = href.toLowerCase();
   
   let borderGradient = "from-orange-300/35 to-amber-300/35 group-hover:from-orange-400 group-hover:to-amber-400";
@@ -48,7 +48,7 @@ function InterestCard({ href, title, blurb }: { href: string; title: string; blu
   const slug = href.replace(/\//g, "");
 
   return (
-    <li>
+    <li className={className}>
       <Link
         href={href}
         className="group relative block h-full rounded-2xl p-[2px] bg-transparent"
@@ -60,7 +60,7 @@ function InterestCard({ href, title, blurb }: { href: string; title: string; blu
 
         {/* Card Body */}
         <div
-          className="relative h-full rounded-[14px] bg-white p-5 flex items-center justify-between gap-4 overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md"
+          className="relative h-full rounded-[14px] bg-white p-4 sm:p-5 flex flex-col-reverse items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md"
         >
           {/* Subtle background spotlight */}
           <div className="absolute -right-10 -bottom-10 h-32 w-32 rounded-full bg-orange-500/5 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
@@ -78,7 +78,7 @@ function InterestCard({ href, title, blurb }: { href: string; title: string; blu
           </div>
 
           {/* Right Icon */}
-          <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center bg-stone-50 rounded-xl border border-stone-100 transition-all duration-300 group-hover:scale-105 group-hover:bg-white group-hover:border-orange-100">
+          <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-stone-50 rounded-xl border border-stone-100 transition-all duration-300 group-hover:scale-105 group-hover:bg-white group-hover:border-orange-100">
             <DynamicIcon slug={slug} defaultType="interest" className="group-hover:scale-110" />
           </div>
         </div>
@@ -97,9 +97,13 @@ export function ExploreByInterest() {
   ];
   return (
     <Section id="explore-by-interest" title="Explore by interest" wide>
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {tiles.map((t) => (
-          <InterestCard key={t.href} {...t} />
+      <ul className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {tiles.map((t, i) => (
+          <InterestCard
+            key={t.href}
+            {...t}
+            className={i === tiles.length - 1 && tiles.length % 2 === 1 ? "col-span-2 sm:col-span-1" : ""}
+          />
         ))}
       </ul>
     </Section>
@@ -154,7 +158,7 @@ export function TrustLinks() {
 }
 
 /** §8 — the highest-intent planning questions, on the URL map's canonical slugs. */
-function EssentialCard({ href, title }: { href: string; title: string }) {
+function EssentialCard({ href, title, className = "" }: { href: string; title: string; className?: string }) {
   const normHref = href.toLowerCase();
   
   // Icon selector based on link target
@@ -202,13 +206,13 @@ function EssentialCard({ href, title }: { href: string; title: string }) {
   }
 
   return (
-    <li>
+    <li className={className}>
       <Link
         href={href}
         className="group relative block h-full rounded-2xl bg-transparent"
       >
         <div className="h-full rounded-2xl border border-stone-200 bg-white p-4 transition-all duration-300 group-hover:border-orange-300 group-hover:-translate-y-1 group-hover:shadow-sm">
-          <div className="flex items-center gap-3.5">
+          <div className="flex flex-col-reverse items-start gap-2.5 sm:flex-row sm:items-center sm:gap-3.5">
             {/* Mini Icon wrapper */}
             <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-stone-50 border border-stone-100 flex items-center justify-center transition-colors duration-300 group-hover:bg-orange-50/50 group-hover:border-orange-100">
               {icon}
@@ -238,9 +242,14 @@ export function PlanEssentials() {
   ];
   return (
     <Section id="plan-essentials" title="Plan-your-trip essentials" wide>
-      <ul className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
-        {links.map((l) => (
-          <EssentialCard key={l.href} href={l.href} title={l.title} />
+      <ul className="grid grid-cols-2 gap-3 sm:gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+        {links.map((l, i) => (
+          <EssentialCard
+            key={l.href}
+            href={l.href}
+            title={l.title}
+            className={i === links.length - 1 && links.length % 2 === 1 ? "col-span-2 sm:col-span-1" : ""}
+          />
         ))}
       </ul>
     </Section>

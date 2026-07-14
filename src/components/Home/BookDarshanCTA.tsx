@@ -3,6 +3,13 @@
 import { Phone, ArrowRight, ShieldCheck, Sparkles, MapPin, Star } from "lucide-react";
 import { useState } from "react";
 
+const AVATARS = [
+  "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=120&h=120&auto=format&fit=crop&crop=faces",
+  "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=120&h=120&auto=format&fit=crop&crop=faces",
+  "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=120&h=120&auto=format&fit=crop&crop=faces",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&auto=format&fit=crop&crop=faces",
+];
+
 export default function BookDarshanCTA() {
   const [formData, setFormData] = useState({ name: "", phone: "" });
 
@@ -32,14 +39,14 @@ export default function BookDarshanCTA() {
             <div className="absolute -bottom-10 right-0 h-80 w-80 rounded-full bg-amber-400/20 blur-3xl" />
           </div>
 
-          <div className="relative px-6 py-8 sm:px-10 md:py-10 lg:px-16">
-            <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div className="relative px-5 py-6 sm:px-10 md:py-10 lg:px-16">
+            <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-8 items-center">
 
               {/* ══ LEFT — Text ══════════════════════════════════════ */}
-              <div className="flex flex-col justify-center py-4">
+              <div className="flex flex-col justify-center py-0 lg:py-4">
 
                 {/* Badge */}
-                <span className="mb-4 inline-flex w-fit items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm">
+                <span className="mb-3 sm:mb-4 inline-flex w-fit items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm">
                   <Sparkles size={9} />
                   Divine Dwarka Experience
                 </span>
@@ -51,13 +58,13 @@ export default function BookDarshanCTA() {
                 </h2>
 
                 {/* Description */}
-                <p className="mt-4 max-w-md text-[14.5px] leading-relaxed text-white/80">
+                <p className="mt-3 sm:mt-4 max-w-md text-[13.5px] sm:text-[14.5px] leading-relaxed text-white/80">
                   Peaceful temple darshan, premium spiritual stays and divine Gujarat
                   journeys crafted with comfort and devotion.
                 </p>
 
                 {/* Feature pills */}
-                <div className="mt-6 flex flex-wrap gap-2.5">
+                <div className="mt-4 sm:mt-6 flex flex-wrap gap-2 sm:gap-2.5">
                   {[
                     { Icon: ShieldCheck, text: "Trusted Partner" },
                     { Icon: Phone, text: "Instant Assistance" },
@@ -74,10 +81,15 @@ export default function BookDarshanCTA() {
                 </div>
 
                 {/* Social proof */}
-                <div className="mt-8 flex items-center gap-3">
-                  <div className="flex -space-x-1.5">
-                    {["bg-amber-300", "bg-orange-300", "bg-white/60"].map((c, i) => (
-                      <div key={i} className={`h-7 w-7 rounded-full border-2 border-orange-500/80 ${c}`} />
+                <div className="mt-5 sm:mt-8 flex items-center gap-3">
+                  <div className="flex -space-x-2">
+                    {AVATARS.map((src, i) => (
+                      <img
+                        key={i}
+                        src={src}
+                        alt=""
+                        className="h-8 w-8 rounded-full border-2 border-white object-cover shadow-sm"
+                      />
                     ))}
                   </div>
                   <div>
@@ -92,11 +104,11 @@ export default function BookDarshanCTA() {
               </div>
 
               {/* ══ RIGHT — Form ═════════════════════════════════════ */}
-              <div className="flex items-center justify-center lg:justify-end py-4">
-                <div className="w-full max-w-md rounded-2xl bg-white p-7 shadow-2xl shadow-black/15">
+              <div className="flex items-center justify-center lg:justify-end py-0 lg:py-4">
+                <div className="w-full max-w-md rounded-2xl bg-white p-5 sm:p-7 shadow-2xl shadow-black/15">
 
                   {/* Form header */}
-                  <div className="mb-5">
+                  <div className="mb-4 sm:mb-5">
                     <p className="text-[10.5px] font-semibold uppercase tracking-widest text-orange-500">
                       Quick Enquiry
                     </p>
@@ -106,7 +118,7 @@ export default function BookDarshanCTA() {
                   </div>
 
                   {/* Fields */}
-                  <form className="flex flex-col gap-3.5">
+                  <form className="flex flex-col gap-3 sm:gap-3.5">
 
                     <div className="relative">
                       <input
@@ -137,7 +149,7 @@ export default function BookDarshanCTA() {
                     </button>
                   </form>
 
-                  <p className="mt-4 text-center text-[11px] leading-relaxed text-gray-400">
+                  <p className="mt-3 sm:mt-4 text-center text-[11px] leading-relaxed text-gray-400">
                     🔒 Your details are safe. We'll reach out to plan your journey.
                   </p>
                 </div>

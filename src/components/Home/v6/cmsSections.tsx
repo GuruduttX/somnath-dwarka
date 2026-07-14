@@ -83,7 +83,7 @@ function Card({ href, title, blurb, type }: { href: string; title: string; blurb
   );
 }
 
-function PersonaCard({ href, title, blurb, slug }: { href: string; title: string; blurb?: string; slug: string }) {
+function PersonaCard({ href, title, blurb, slug, className = "" }: { href: string; title: string; blurb?: string; slug: string; className?: string }) {
   let borderGradient = "from-orange-300/35 to-amber-300/35 group-hover:from-orange-400 group-hover:to-amber-400";
   let bgGradient = "from-amber-50/25 to-stone-50/20";
 
@@ -102,7 +102,7 @@ function PersonaCard({ href, title, blurb, slug }: { href: string; title: string
   }
 
   return (
-    <li>
+    <li className={className}>
       <Link
         href={href}
         className="group relative block h-full rounded-2xl p-[2px] bg-transparent"
@@ -114,7 +114,7 @@ function PersonaCard({ href, title, blurb, slug }: { href: string; title: string
 
         {/* Card Body */}
         <div
-          className="relative h-full rounded-[14px] bg-white p-5 flex items-center justify-between gap-4 overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md"
+          className="relative h-full rounded-[14px] bg-white p-4 sm:p-5 flex flex-col-reverse items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md"
         >
           {/* Subtle background spotlight */}
           <div className="absolute -right-10 -bottom-10 h-32 w-32 rounded-full bg-orange-500/5 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
@@ -132,7 +132,7 @@ function PersonaCard({ href, title, blurb, slug }: { href: string; title: string
           </div>
 
           {/* Right Icon */}
-          <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center bg-stone-50 rounded-xl border border-stone-100 transition-all duration-300 group-hover:scale-105 group-hover:bg-white group-hover:border-orange-100">
+          <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-stone-50 rounded-xl border border-stone-100 transition-all duration-300 group-hover:scale-105 group-hover:bg-white group-hover:border-orange-100">
             <DynamicIcon slug={slug} defaultType="persona" className="group-hover:scale-110" />
           </div>
         </div>
@@ -161,14 +161,15 @@ export async function PersonaRouting() {
 
   return (
     <Section id="plan-by-traveller-type" title="Plan by traveller type" wide>
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {tiles.map((t) => (
+      <ul className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {tiles.map((t, i) => (
           <PersonaCard
             key={t.slug}
             slug={t.slug}
             href={`/somnath-dwarka-tour-package/${t.slug}/`}
             title={t.label}
             blurb={t.blurb}
+            className={i === tiles.length - 1 && tiles.length % 2 === 1 ? "col-span-2 sm:col-span-1" : ""}
           />
         ))}
       </ul>

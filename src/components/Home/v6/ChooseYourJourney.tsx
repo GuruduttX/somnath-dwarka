@@ -21,12 +21,14 @@ function HubCard({
   blurb,
   kind,
   isFlagship = false,
+  className = "",
 }: {
   href: string;
   title: string;
   blurb?: string;
   kind: "circuit" | "destination";
   isFlagship?: boolean;
+  className?: string;
 }) {
   // Gradients matching pilgrimage (saffron) vs destinations (peach/coral)
   const borderGradient = isFlagship
@@ -44,7 +46,7 @@ function HubCard({
   const slug = href.replace(/\//g, "");
 
   return (
-    <li>
+    <li className={className}>
       <Link
         href={href}
         className="group relative block h-full rounded-2xl p-[2px] bg-transparent"
@@ -56,7 +58,7 @@ function HubCard({
 
         {/* Card Body */}
         <div
-          className="relative h-full rounded-[14px] bg-white p-5 flex items-center justify-between gap-4 overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md"
+          className="relative h-full rounded-[14px] bg-white p-4 sm:p-5 flex flex-col-reverse items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md"
         >
 
           {/* Subtle background spotlight */}
@@ -80,7 +82,7 @@ function HubCard({
           </div>
 
           {/* Right Icon */}
-          <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center bg-stone-50 rounded-xl border border-stone-100 transition-all duration-300 group-hover:scale-105 group-hover:bg-white group-hover:border-orange-100">
+          <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-stone-50 rounded-xl border border-stone-100 transition-all duration-300 group-hover:scale-105 group-hover:bg-white group-hover:border-orange-100">
             <DynamicIcon slug={slug} defaultType={kind} className="group-hover:scale-110" />
           </div>
         </div>
@@ -104,13 +106,14 @@ export default async function ChooseYourJourney() {
           Pilgrimage circuits
         </h3>
       </div>
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-10">
+      <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 mb-10">
         <HubCard
           href={`/${FLAGSHIP.slug}/`}
           title={FLAGSHIP.title}
           blurb={FLAGSHIP.blurb}
           kind="circuit"
           isFlagship
+          className="col-span-2 sm:col-span-1"
         />
         {circuits.map((h) => (
           <HubCard
@@ -132,14 +135,15 @@ export default async function ChooseYourJourney() {
               Destination packages
             </h3>
           </div>
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {destinations.map((h) => (
+          <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+            {destinations.map((h, i) => (
               <HubCard
                 key={String(h.slug)}
                 href={`/${h.slug}/`}
                 title={s(h, "title")}
                 blurb={s(h, "head_term")}
                 kind="destination"
+                className={i === destinations.length - 1 && destinations.length % 2 === 1 ? "col-span-2 sm:col-span-1" : ""}
               />
             ))}
           </ul>

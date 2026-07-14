@@ -60,7 +60,7 @@ export default function DwarkaSomnathTrustSection() {
         defaultService="Tour Package"
       />
        
-       <section id="why-choose-us" className="relative py-16 md:py-24 overflow-hidden ">
+       <section id="why-choose-us" className="relative py-12 md:py-24 overflow-hidden ">
       {/* Decorative Elements */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-orange-200/30 blur-3xl rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-amber-200/30 blur-3xl rounded-full pointer-events-none translate-x-1/2 translate-y-1/2" />
@@ -74,7 +74,7 @@ export default function DwarkaSomnathTrustSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
@@ -110,7 +110,7 @@ export default function DwarkaSomnathTrustSection() {
         </motion.div>
 
         {/* Trust Items Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6 lg:gap-8">
           {trustItems.map((item, index) => {
             const Icon = item.icon;
             return (
@@ -122,9 +122,9 @@ export default function DwarkaSomnathTrustSection() {
                 viewport={{ once: true }}
                 className="group relative"
               >
-                <div 
+                <div
                   onClick={() => setOpen(true)}
-                  className="relative h-full bg-white rounded-2xl p-6 shadow-lg shadow-orange-100/50 border border-orange-100/50 hover:shadow-xl hover:shadow-orange-200/50 hover:-translate-y-2 transition-all duration-300 overflow-hidden cursor-pointer"
+                  className="relative h-full bg-white rounded-2xl p-4 sm:p-6 shadow-lg shadow-orange-100/50 border border-orange-100/50 hover:shadow-xl hover:shadow-orange-200/50 hover:-translate-y-2 transition-all duration-300 overflow-hidden cursor-pointer"
                 >
                   {/* Top gradient accent */}
                   <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 via-orange-400 to-amber-400 opacity-80 group-hover:opacity-100 transition-opacity" />
@@ -134,31 +134,31 @@ export default function DwarkaSomnathTrustSection() {
                   
                   <div className="relative z-10">
                     {/* Icon & Stats row */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-200/50 group-hover:scale-110 transition-transform duration-300">
-                        <Icon size={26} className="text-white" />
+                    <div className="flex items-center justify-between gap-2 mb-3 sm:mb-4">
+                      <div className="shrink-0 w-10 h-10 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-200/50 group-hover:scale-110 transition-transform duration-300">
+                        <Icon className="text-white w-[18px] h-[18px] sm:w-[26px] sm:h-[26px]" />
                       </div>
-                      
-                      <div className="text-right">
-                        <div className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+
+                      <div className="text-right min-w-0">
+                        <div className="text-base sm:text-2xl font-bold leading-tight whitespace-nowrap bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
                           {item.stats}
                         </div>
-                        <div className="text-xs text-gray-400 font-medium uppercase tracking-wide">
+                        <div className="text-[9px] sm:text-xs text-gray-400 font-medium uppercase tracking-wide">
                           {item.statsLabel}
                         </div>
                       </div>
                     </div>
 
-                    <h3 className="font-bold text-gray-900 text-lg mb-2 group-hover:text-orange-700 transition-colors">
+                    <h3 className="font-bold text-gray-900 text-sm sm:text-lg leading-snug mb-1.5 sm:mb-2 group-hover:text-orange-700 transition-colors">
                       {item.title}
                     </h3>
-                    
-                    <p className="text-gray-500 text-sm leading-relaxed">
+
+                    <p className="text-gray-500 text-[12.5px] sm:text-sm leading-relaxed line-clamp-3 sm:line-clamp-none">
                       {item.description}
                     </p>
 
                     {/* Bottom accent */}
-                    <div className="mt-5 pt-4 border-t border-orange-100/50">
+                    <div className="mt-4 pt-3 sm:mt-5 sm:pt-4 border-t border-orange-100/50">
                       <div className="flex items-center gap-2 text-orange-600 text-sm font-semibold group-hover:gap-3 transition-all cursor-pointer">
                         <span>Learn more</span>
                         <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">

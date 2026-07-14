@@ -167,14 +167,14 @@ export default function HomeHero() {
 
             {/* CTAs */}
             <div className="h-anim hd4 mt-7 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-              <button
-                onClick={() => setOpen(true)}
+              <Link
+                href="/somnath-dwarka-tour-package/"
                 className="btn-shine group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(234,88,12,0.4)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
               >
                 <Star size={15} className="relative z-[1]" />
                 <span className="relative z-[1]">Explore Packages</span>
                 <ArrowRight size={15} className="relative z-[1] transition-transform group-hover:translate-x-1" />
-              </button>
+              </Link>
               <Link
                 href="/plan/"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-7 py-3.5 text-sm font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white"
