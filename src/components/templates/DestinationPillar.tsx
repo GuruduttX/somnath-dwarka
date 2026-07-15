@@ -13,6 +13,7 @@ import JsonLd from "@/src/components/seo/JsonLd";
 import { findSeedDestination, SEED_TEMPLE_INFO } from "@/src/lib/seed/destinations";
 import { findDestinationMeta } from "@/src/lib/seed/destinationMeta";
 import { buildRelatedLinks } from "@/src/lib/links";
+import { destinationPath, destinationPlacePath, destinationTopicPath } from "@/src/lib/destinationRoutes";
 import DestinationHero from "./destination/DestinationHero";
 import DPSection from "./destination/DPSection";
 import Reveal from "./destination/Reveal";
@@ -21,7 +22,7 @@ import { ICONS } from "./destination/icons";
 export function destinationMetadata(slug: string) {
   const d = findSeedDestination(slug);
   if (!d) return {};
-  return buildMetadata({ title: d.title, description: d.answer_first, path: `/${slug}/` });
+  return buildMetadata({ title: d.title, description: d.answer_first, path: destinationPath(slug) });
 }
 
 export default function DestinationPillar({ slug }: { slug: string }) {
@@ -31,19 +32,21 @@ export default function DestinationPillar({ slug }: { slug: string }) {
 
   const temples = SEED_TEMPLE_INFO.filter((t) => t.destination === slug);
   const other = slug === "somnath" ? "Dwarka" : "Somnath";
+  const selfPath = destinationPath(slug);
+  const otherPath = slug === "somnath" ? destinationPath("dwarka") : destinationPath("somnath");
 
   const related = buildRelatedLinks({
-    self: `/${slug}/`,
+    self: selfPath,
     money: "packages",
     siblings: [
-      { target: slug === "somnath" ? "/dwarka/" : "/somnath/", anchor: slug === "somnath" ? "Dwarka travel guide" : "Somnath travel guide", type: "pillar" },
+      { target: otherPath, anchor: slug === "somnath" ? "Dwarka travel guide" : "Somnath travel guide", type: "pillar" },
       { target: "/plan/how-many-days-for-somnath-dwarka/", anchor: "how many days you need", type: "sibling" },
       { target: "/somnath-dwarka-taxi-service/", anchor: "book a cab", type: "money" },
     ],
   });
 
   return (
-    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: d.destination, path: `/${slug}/` }]} flushHero lightCrumb>
+    <PageShell crumbs={[{ name: "Home", path: "/" }, { name: d.destination, path: selfPath }]} flushHero lightCrumb>
       <DestinationHero meta={meta} destination={d.destination} h1={d.h1} answerFirst={d.answer_first} />
 
       {/* Answer-first intro & TOC merged into one section (orange theme light) */}
@@ -287,7 +290,7 @@ export default function DestinationPillar({ slug }: { slug: string }) {
                         {/* Detailed page CTA */}
                         <div className="mt-5 flex justify-end">
                           <Link 
-                            href={`/${slug}/${mainTemple.slug}/`}
+                            href={destinationTopicPath(slug, mainTemple.slug)}
                             className="group/btn inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-orange-655 hover:text-orange-755 transition-colors"
                           >
                             <span>Detailed Darshan & Aarti Schedule</span>
@@ -350,7 +353,7 @@ export default function DestinationPillar({ slug }: { slug: string }) {
                             </p>
                             
                             <Link
-                              href={`/${slug}/${sub.slug}/`}
+                              href={destinationTopicPath(slug, sub.slug)}
                               className="mt-4 flex items-center justify-between border-t border-orange-50/50 pt-3"
                             >
                               <span className="text-[11.5px] font-extrabold uppercase tracking-wider text-orange-655 transition-colors group-hover:text-[#E87722]">
@@ -383,7 +386,7 @@ export default function DestinationPillar({ slug }: { slug: string }) {
               return (
                 <Reveal key={p.slug} delay={(i % 3) * 0.08}>
                   <Link
-                    href={`/${slug}/places/${p.slug}/`}
+                    href={destinationPlacePath(slug, p.slug)}
                     className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-orange-100/80 bg-white p-6 shadow-[0_10px_30px_rgba(234,88,12,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-355 hover:shadow-[0_24px_55px_rgba(234,88,12,0.12)]"
                   >
                     {/* Outline number watermark */}
@@ -451,7 +454,7 @@ export default function DestinationPillar({ slug }: { slug: string }) {
         data={placeSchema({
           name: d.destination,
           description: d.answer_first,
-          path: `/${slug}/`,
+          path: selfPath,
         })}
       />
     </PageShell>

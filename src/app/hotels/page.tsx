@@ -54,8 +54,8 @@ export default function HotelHubPage() {
     self: PATH,
     money: "packages",
     siblings: [
-      { target: "/somnath/", anchor: "Somnath travel guide", type: "sibling" },
-      { target: "/dwarka/", anchor: "Dwarka travel guide", type: "sibling" },
+      { target: "/somnath-tour-package/", anchor: "Somnath travel guide", type: "sibling" },
+      { target: "/dwarka-tour-package/", anchor: "Dwarka travel guide", type: "sibling" },
     ],
   });
 

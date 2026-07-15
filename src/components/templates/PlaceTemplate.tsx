@@ -10,6 +10,7 @@ import VerifyStamp from "@/src/components/shared/VerifyStamp";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { findSeedDestination } from "@/src/lib/seed/destinations";
 import { buildRelatedLinks } from "@/src/lib/links";
+import { destinationPath, destinationPlacePath } from "@/src/lib/destinationRoutes";
 
 function getPlace(destination: string, place: string) {
   const d = findSeedDestination(destination);
@@ -28,7 +29,7 @@ export function placeMetadata(destination: string, place: string) {
   return buildMetadata({
     title: `${p.name} — Timings, How to Reach & Guide`,
     description: `${p.name} in ${d.destination}: ${p.blurb} How to reach, timings and visitor tips.`,
-    path: `/${destination}/places/${place}/`,
+    path: destinationPlacePath(destination, place),
   });
 }
 
@@ -36,15 +37,17 @@ export default function PlaceTemplate({ destination, place }: { destination: str
   const found = getPlace(destination, place);
   if (!found) return null;
   const { d, p } = found;
+  const parentPath = destinationPath(destination);
+  const selfPath = destinationPlacePath(destination, place);
 
   const related = buildRelatedLinks({
-    self: `/${destination}/places/${place}/`,
-    pillar: { target: `/${destination}/`, anchor: `${d.destination} travel guide` },
+    self: selfPath,
+    pillar: { target: parentPath, anchor: `${d.destination} travel guide` },
     money: "packages",
     siblings: d.top_places
       .filter((x) => x.slug !== place)
       .slice(0, 3)
-      .map((x) => ({ target: `/${destination}/places/${x.slug}/`, anchor: x.name, type: "sibling" as const })),
+      .map((x) => ({ target: destinationPlacePath(destination, x.slug), anchor: x.name, type: "sibling" as const })),
   });
 
   const faq = [
@@ -58,8 +61,8 @@ export default function PlaceTemplate({ destination, place }: { destination: str
     <PageShell
       crumbs={[
         { name: "Home", path: "/" },
-        { name: d.destination, path: `/${destination}/` },
-        { name: p.name, path: `/${destination}/places/${place}/` },
+        { name: d.destination, path: parentPath },
+        { name: p.name, path: selfPath },
       ]}
     >
       <div className="max-w-4xl mx-auto px-4 pt-6">
@@ -90,7 +93,7 @@ export default function PlaceTemplate({ destination, place }: { destination: str
         data={placeSchema({
           name: p.name,
           description: p.blurb,
-          path: `/${destination}/places/${place}/`,
+          path: selfPath,
         })}
       />
     </PageShell>

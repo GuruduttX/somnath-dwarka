@@ -7,13 +7,14 @@ import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { findSeedTempleInfo, findSeedDestination } from "@/src/lib/seed/destinations";
 import { buildRelatedLinks } from "@/src/lib/links";
+import { destinationPath, destinationTopicPath } from "@/src/lib/destinationRoutes";
 import TempleInfoHero from "./temple/TempleInfoHero";
 import Reveal from "./destination/Reveal";
 
 export function templeMetadata(destination: string, topic: string) {
   const t = findSeedTempleInfo(destination, topic);
   if (!t) return {};
-  return buildMetadata({ title: t.title, description: t.answer_first, path: `/${destination}/${topic}/` });
+  return buildMetadata({ title: t.title, description: t.answer_first, path: destinationTopicPath(destination, topic) });
 }
 
 export function templeExists(destination: string, topic: string) {
@@ -35,10 +36,12 @@ export default function TempleInfo({ destination, topic }: { destination: string
   if (!t) return null;
 
   const kicker = topic === "darshan" ? "Darshan & Aarti Schedule" : "Timings & Aarti Schedule";
+  const parentPath = destinationPath(destination);
+  const selfPath = destinationTopicPath(destination, topic);
 
   const related = buildRelatedLinks({
-    self: `/${destination}/${topic}/`,
-    pillar: { target: `/${destination}/`, anchor: `${parent?.destination ?? destination} travel guide` },
+    self: selfPath,
+    pillar: { target: parentPath, anchor: `${parent?.destination ?? destination} travel guide` },
     money: "packages",
     siblings: [
       { target: "/somnath-dwarka-taxi-service/", anchor: "book a cab for darshan", type: "money" },
@@ -50,8 +53,8 @@ export default function TempleInfo({ destination, topic }: { destination: string
     <PageShell
       crumbs={[
         { name: "Home", path: "/" },
-        { name: parent?.destination ?? destination, path: `/${destination}/` },
-        { name: t.h1, path: `/${destination}/${topic}/` },
+        { name: parent?.destination ?? destination, path: parentPath },
+        { name: t.h1, path: selfPath },
       ]}
       flushHero
     >
@@ -61,7 +64,7 @@ export default function TempleInfo({ destination, topic }: { destination: string
           h1={t.h1}
           answerFirst={t.answer_first}
           destination={parent?.destination ?? destination}
-          destinationPath={`/${destination}/`}
+          destinationPath={parentPath}
           kicker={kicker}
           verified={t.verified}
           sessionCount={t.timings.length}
@@ -172,11 +175,11 @@ export default function TempleInfo({ destination, topic }: { destination: string
         data={webPageSchema({
           name: t.title,
           description: t.answer_first,
-          path: `/${destination}/${topic}/`,
+          path: selfPath,
           crumbs: [
             { name: "Home", path: "/" },
-            { name: parent?.destination ?? destination, path: `/${destination}/` },
-            { name: t.h1, path: `/${destination}/${topic}/` },
+            { name: parent?.destination ?? destination, path: parentPath },
+            { name: t.h1, path: selfPath },
           ],
         })}
       />

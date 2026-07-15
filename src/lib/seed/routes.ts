@@ -14,6 +14,7 @@ import {
   SEED_COMPARISONS,
   SEED_TOOLS,
 } from "./destinations";
+import { destinationPlacePath, destinationTopicPath } from "../destinationRoutes";
 
 export function getSeedRoutePaths(): string[] {
   const paths: string[] = [];
@@ -24,9 +25,9 @@ export function getSeedRoutePaths(): string[] {
   SEED_VEHICLES.forEach((v) => paths.push(`/somnath-dwarka-taxi-service/${v.slug}/`));
   paths.push("/somnath-dwarka-taxi-service/airport-taxi/");
   SEED_AIRPORT_TAXIS.forEach((a) => paths.push(`/somnath-dwarka-taxi-service/airport-taxi/${a.slug}/`));
-  SEED_TEMPLE_INFO.forEach((t) => paths.push(`/${t.destination}/${t.slug}/`));
+  SEED_TEMPLE_INFO.forEach((t) => paths.push(destinationTopicPath(t.destination, t.slug)));
   SEED_DESTINATIONS.forEach((d) =>
-    d.top_places.forEach((pl) => paths.push(`/${d.slug}/places/${pl.slug}/`))
+    d.top_places.forEach((pl) => paths.push(destinationPlacePath(d.slug, pl.slug)))
   );
   SEED_JOURNEYS.forEach((j) => paths.push(`/plan/${j.slug}/`));
   SEED_HOTELS.forEach((h) => paths.push(`/hotels/${h.slug}/`));

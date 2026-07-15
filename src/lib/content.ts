@@ -104,8 +104,8 @@ export const pillarPath = (slug: string) => `/${slug}/`;
 /** Root slugs served by static folders — never resolved by /[rootSlug]/. */
 export const RESERVED_ROOT_SLUGS = new Set([
   "about", "author", "booking-policy", "cancellation-refund", "compare",
-  "contact", "dwarka", "festivals", "guides", "hotels", "plan", "privacy",
-  "reviews", "sitemap", "somnath", "somnath-dwarka-taxi-service",
+  "contact", "dwarka", "dwarka-tour-package", "festivals", "guides", "hotels", "plan", "privacy",
+  "reviews", "sitemap", "somnath", "somnath-tour-package", "somnath-dwarka-taxi-service",
   "somnath-dwarka-tour-package", "terms", "thank-you", "tools", "llms.txt",
   "temples",
 ]);

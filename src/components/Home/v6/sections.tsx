@@ -217,14 +217,14 @@ function EssentialCard({ href, title, className = "" }: { href: string; title: s
 /** §8 — the highest-intent planning questions, on the URL map's canonical slugs. */
 export function PlanEssentials() {
   const links = [
-    { href: "/somnath/somnath-temple-timings/", title: "Somnath temple timings" },
-    { href: "/dwarka/dwarkadhish-temple-timings/", title: "Dwarkadhish temple timings" },
-    { href: "/somnath/somnath-aarti-timings/", title: "Somnath aarti timings" },
-    { href: "/dwarka/dwarkadhish-darshan/", title: "Dwarkadhish darshan" },
+    { href: "/somnath-tour-package/somnath-temple-timings/", title: "Somnath temple timings" },
+    { href: "/dwarka-tour-package/dwarkadhish-temple-timings/", title: "Dwarkadhish temple timings" },
+    { href: "/somnath-tour-package/somnath-aarti-timings/", title: "Somnath aarti timings" },
+    { href: "/dwarka-tour-package/dwarkadhish-darshan/", title: "Dwarkadhish darshan" },
     { href: "/plan/dwarka-to-somnath-distance/", title: "Dwarka to Somnath distance" },
     { href: "/plan/how-many-days-for-somnath-dwarka/", title: "How many days do you need?" },
     { href: "/plan/somnath-or-dwarka-which-first/", title: "Somnath or Dwarka first?" },
-    { href: "/somnath/live-darshan/", title: "Somnath live darshan" },
+    { href: "/somnath-tour-package/live-darshan/", title: "Somnath live darshan" },
   ];
   return (
     <Section id="plan-essentials" title="Plan-your-trip essentials" full>

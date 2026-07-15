@@ -148,8 +148,8 @@ export default async function PackagePillarPage() {
     self: PATH,
     money: "taxi",
     siblings: [
-      { target: "/somnath/", anchor: "Somnath travel guide", type: "pillar" },
-      { target: "/dwarka/", anchor: "Dwarka travel guide", type: "pillar" },
+      { target: "/somnath-tour-package/", anchor: "Somnath travel guide", type: "pillar" },
+      { target: "/dwarka-tour-package/", anchor: "Dwarka travel guide", type: "pillar" },
       { target: "/plan/how-many-days-for-somnath-dwarka/", anchor: "how many days you need", type: "sibling" },
       { target: "/hotels/", anchor: "hotels near the temples", type: "money" },
     ],

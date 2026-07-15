@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Section from "@/src/components/shared/Section";
 import { getPublishedHubs } from "@/src/lib/content";
+import { destinationPath } from "@/src/lib/destinationRoutes";
 import { s } from "@/src/lib/cms";
 import DestinationSlider, { type DestinationSlide } from "./DestinationSlider";
 
@@ -308,7 +309,7 @@ export default async function ChooseYourJourney() {
     const meta = DEST_META[slug];
     const heroUrl = (h.hero_image as { url?: string } | undefined)?.url;
     return {
-      href: `/${slug}/`,
+      href: destinationPath(slug),
       title: s(h, "title"),
       eyebrow: meta?.eyebrow ?? "Destination",
       image: heroUrl || meta?.image,
