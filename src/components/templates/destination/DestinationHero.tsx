@@ -70,7 +70,7 @@ export default function DestinationHero({
           )}
 
           {/* Color overlays & washes */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-[#140902]/30 to-[#140902]/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-[#140902]/45 to-[#140902]/95" />
           <div
             className="absolute inset-0 mix-blend-screen opacity-60"
             style={{ background: `radial-gradient(ellipse at 50% 30%, ${meta.accent}55 0%, transparent 60%)` }}
@@ -157,11 +157,20 @@ export default function DestinationHero({
             {meta.glyph}
           </span>
 
+          {/* Readability scrim — a soft dark cloud centred behind the text so the
+              white headline reads over bright hero images without darkening the
+              whole frame. */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            aria-hidden="true"
+            style={{ background: "radial-gradient(ellipse 78% 58% at 50% 44%, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.30) 45%, transparent 72%)" }}
+          />
+
           {/* Centered content */}
           <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-4 pt-12 text-center sm:px-6">
-            
+
             {/* Title Section */}
-            <h1 className="dh-up dh2 mt-6 sm:mt-0 text-[26px] xs:text-[32px] sm:text-5xl lg:text-[4.85rem] font-black leading-[1.1] tracking-tight text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.65)] font-dm">
+            <h1 className="dh-up dh2 mt-6 sm:mt-0 text-[30px] xs:text-[36px] sm:text-5xl lg:text-[4.25rem] font-black leading-[1.08] tracking-tight text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.8)] font-dm">
               <span className="inline-block mr-2">{h1.replace(/ Travel Guide$/, "")}</span>
               <span className="inline-block bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-500 bg-clip-text text-transparent font-black whitespace-nowrap">
                 Travel Guide
@@ -178,7 +187,7 @@ export default function DestinationHero({
             </div>
 
             {/* Tagline */}
-            <p className="dh-up dh4 mt-5 max-w-2xl text-sm leading-relaxed text-white/90 sm:text-base font-medium">
+            <p className="dh-up dh4 mt-5 max-w-2xl text-sm leading-relaxed text-white/95 sm:text-base font-medium drop-shadow-[0_1px_10px_rgba(0,0,0,0.7)]">
               {meta.tagline}
             </p>
 
@@ -221,22 +230,25 @@ export default function DestinationHero({
           </div>
         </div>
 
-        {/* ── Overlapping floating stat bar ── */}
-        <div className="relative z-20 mx-auto -mt-32 sm:-mt-24 max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="dh-up dh5 grid grid-cols-2 gap-[1px] overflow-hidden rounded-2xl border border-orange-100/60 bg-orange-100/40 shadow-md sm:grid-cols-4">
+        {/* ── Overlapping floating stat bar (glass) ── */}
+        <div className="relative z-20 mx-auto -mt-44 sm:-mt-36 max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div
+            className="dh-up dh5 grid grid-cols-2 divide-x divide-y divide-white/10 overflow-hidden rounded-2xl border border-white/20 bg-white/10 backdrop-blur-3xl sm:grid-cols-4 sm:divide-y-0"
+            style={{ boxShadow: "0 20px 50px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.28)" }}
+          >
             {meta.stats.map((s) => {
               const Icon = ICONS[s.icon];
               return (
-                <div 
-                  key={s.label} 
-                  className="flex items-center gap-2.5 bg-white px-4 py-2.5 transition-all duration-200 justify-center sm:justify-start"
+                <div
+                  key={s.label}
+                  className="flex items-center gap-3 px-4 py-4 transition-colors duration-200 justify-center sm:justify-start hover:bg-white/5"
                 >
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-xs">
-                    <Icon size={14} />
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 text-white shadow-[0_4px_12px_rgba(234,88,12,0.4)] ring-1 ring-white/20">
+                    <Icon size={15} />
                   </span>
                   <div className="leading-tight">
-                    <p className="text-sm font-extrabold text-[#2D1B10] sm:text-base tracking-tight">{s.value}</p>
-                    <p className="text-[8.5px] font-bold text-[#8c674e] uppercase tracking-wider">{s.label}</p>
+                    <p className="text-sm font-extrabold text-white sm:text-base tracking-tight drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]">{s.value}</p>
+                    <p className="text-[8.5px] font-bold text-white/65 uppercase tracking-wider">{s.label}</p>
                   </div>
                 </div>
               );

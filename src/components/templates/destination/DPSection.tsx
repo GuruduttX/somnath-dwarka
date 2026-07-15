@@ -22,7 +22,7 @@ export default function DPSection({
   return (
     <section
       id={id}
-      className={`${wide ? "max-w-7xl" : "max-w-6xl"} mx-auto scroll-mt-24 px-4 py-8 sm:px-6 lg:px-8`}
+      className={`${wide ? "max-w-[88rem]" : "max-w-7xl"} mx-auto scroll-mt-24 px-4 py-8 sm:px-6 lg:px-10 xl:px-12`}
       aria-labelledby={`${id}-h`}
     >
       <Reveal className="mb-6">
