@@ -65,7 +65,7 @@ const CONFIG: ClusterConfig = {
     pillar: { target: "/wildlife-nature-tours/", anchor: "wildlife tours across Gujarat" },
     money: "packages",
     siblings: [
-      { target: "/somnath-tour-package/", anchor: "Somnath travel guide", type: "sibling" },
+      { target: "/somnath/", anchor: "Somnath travel guide", type: "sibling" },
       { target: "/junagadh-girnar/", anchor: "Junagadh & Girnar", type: "sibling" },
     ],
     extra: [{ target: "/gir-tour-package/", anchor: "Gir tour packages", type: "money" }],

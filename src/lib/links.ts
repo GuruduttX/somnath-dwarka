@@ -42,7 +42,7 @@ const DESTINATION_HUBS: Record<string, string> = {
   "desert-camp-under-the-stars": "/kutch-tour-package/",
   "statue-of-unity-escape": "/statue-of-unity-tour-package/",
   "ahmedabad-old-city-walk": "/heritage-tours-gujarat/",
-  "dwarka-coastal-trail": "/dwarka-tour-package/",
+  "dwarka-coastal-trail": "/dwarka/",
   "saputara-hill-retreat": "/gujarat-tour-packages/",
   "polo-forest-tribal-walk": "/gujarat-tour-packages/",
 };

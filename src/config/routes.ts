@@ -45,8 +45,8 @@ export const STATIC_ROUTES: StaticRoute[] = [
   { path: "/hotels/", type: "hotelHub", label: "Hotels", priority: 0.8 },
 
   // Info pillars
-  { path: "/somnath-tour-package/", type: "destinationPillar", label: "Somnath", priority: 0.8 },
-  { path: "/dwarka-tour-package/", type: "destinationPillar", label: "Dwarka", priority: 0.8 },
+  { path: "/somnath/", type: "destinationPillar", label: "Somnath", priority: 0.8 },
+  { path: "/dwarka/", type: "destinationPillar", label: "Dwarka", priority: 0.8 },
   { path: "/temples/", type: "destinationPillar", label: "Temples", priority: 0.8 },
 
   // Supporting hubs
@@ -89,8 +89,8 @@ export const PRIMARY_NAV = [
  * being top-level and two unreachable from the header.
  */
 export const DESTINATIONS_NAV = [
-  { label: "Somnath", path: "/somnath-tour-package/" },
-  { label: "Dwarka", path: "/dwarka-tour-package/" },
+  { label: "Somnath", path: "/somnath/" },
+  { label: "Dwarka", path: "/dwarka/" },
   { label: "Gir", path: "/gir/" },
   { label: "Junagadh Girnar", path: "/junagadh-girnar/" },
 ];
@@ -158,8 +158,8 @@ export const FOOTER_NAV = [
   {
     heading: "Destinations",
     links: [
-      { label: "Somnath", path: "/somnath-tour-package/" },
-      { label: "Dwarka", path: "/dwarka-tour-package/" },
+      { label: "Somnath", path: "/somnath/" },
+      { label: "Dwarka", path: "/dwarka/" },
       { label: "Plan your trip", path: "/plan/" },
       { label: "Festivals", path: "/festivals/" },
     ],

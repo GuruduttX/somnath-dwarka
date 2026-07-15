@@ -37,8 +37,8 @@ export default async function ComparisonPage({ params }: Params) {
     pillar: { target: "/compare/", anchor: "all comparisons" },
     money: "packages",
     siblings: [
-      { target: "/somnath-tour-package/", anchor: "Somnath travel guide", type: "sibling" },
-      { target: "/dwarka-tour-package/", anchor: "Dwarka travel guide", type: "sibling" },
+      { target: "/somnath/", anchor: "Somnath travel guide", type: "sibling" },
+      { target: "/dwarka/", anchor: "Dwarka travel guide", type: "sibling" },
     ],
   });
 

@@ -171,8 +171,8 @@ export default async function FestivalHubPage() {
           </p>
           <ul className="grid gap-4 sm:grid-cols-4">
             {[
-              { target: "/somnath-tour-package/", anchor: "Somnath Travel Guide", type: "pillar" },
-              { target: "/dwarka-tour-package/", anchor: "Dwarka Travel Guide", type: "pillar" },
+              { target: "/somnath/", anchor: "Somnath Travel Guide", type: "pillar" },
+              { target: "/dwarka/", anchor: "Dwarka Travel Guide", type: "pillar" },
               { target: "/somnath-dwarka-taxi-service/", anchor: "Book Taxi Service", type: "sibling" },
               { target: "/somnath-dwarka-tour-package/", anchor: "Tour Packages", type: "money" },
             ].map((l) => {

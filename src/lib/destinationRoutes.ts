@@ -1,6 +1,6 @@
 const DESTINATION_ROUTE_SLUGS: Record<string, string> = {
-  somnath: "somnath-tour-package",
-  dwarka: "dwarka-tour-package",
+  somnath: "somnath",
+  dwarka: "dwarka",
 };
 
 export function destinationRouteSlug(destination: string): string {

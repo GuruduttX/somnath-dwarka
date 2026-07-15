@@ -74,7 +74,7 @@ const CONFIG: ClusterConfig = {
     money: "packages",
     siblings: [
       { target: "/gir/", anchor: "Gir travel guide", type: "sibling" },
-      { target: "/somnath-tour-package/", anchor: "Somnath travel guide", type: "sibling" },
+      { target: "/somnath/", anchor: "Somnath travel guide", type: "sibling" },
     ],
     extra: [{ target: "/somnath-dwarka-gir-tour-package/", anchor: "Somnath Dwarka Gir packages", type: "money" }],
   },

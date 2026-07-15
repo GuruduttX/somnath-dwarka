@@ -95,8 +95,8 @@ export default function PlanHubPage() {
             {[
               { target: "/tools/itinerary-planner/", anchor: "Gujarat Itinerary Planner", type: "tool" },
               { target: "/circuits/gandhi-circuit-gujarat/", anchor: "Gandhi Circuit Gujarat", type: "circuit" },
-              { target: "/somnath-tour-package/", anchor: "Somnath Travel Guide", type: "pillar" },
-              { target: "/dwarka-tour-package/", anchor: "Dwarka Travel Guide", type: "pillar" },
+              { target: "/somnath/", anchor: "Somnath Travel Guide", type: "pillar" },
+              { target: "/dwarka/", anchor: "Dwarka Travel Guide", type: "pillar" },
               { target: "/somnath-dwarka-taxi-service/", anchor: "Book Taxi Service", type: "sibling" },
               { target: "/somnath-dwarka-tour-package/", anchor: "Tour Packages", type: "money" },
             ].map((l) => {

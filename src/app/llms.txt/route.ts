@@ -23,8 +23,8 @@ export function GET() {
 - Hotels: ${SITE_URL}/hotels/
 
 ## Destinations
-- Somnath: ${SITE_URL}/somnath-tour-package/
-- Dwarka: ${SITE_URL}/dwarka-tour-package/
+- Somnath: ${SITE_URL}/somnath/
+- Dwarka: ${SITE_URL}/dwarka/
 - Plan your trip: ${SITE_URL}/plan/
 
 ## Core facts
