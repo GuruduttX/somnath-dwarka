@@ -144,7 +144,7 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
       <DestinationHero meta={meta} destination={config.label} h1={config.heroTitle} answerFirst={answerFirst} />
 
       {/* ── Answer-first intro + on-page nav ── */}
-      <div className="mx-auto max-w-7xl px-4 pt-28 sm:px-6 lg:px-10 xl:px-12">
+      <div className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 sm:pt-28 lg:px-10 xl:px-12">
         <Reveal>
           <div className="relative overflow-hidden rounded-3xl border border-orange-200 bg-gradient-to-br from-white via-orange-50/30 to-orange-100/10 p-6 shadow-[0_16px_40px_rgba(234,88,12,0.06)] backdrop-blur-md transition-all hover:border-orange-300/80 sm:p-7.5">
             <span

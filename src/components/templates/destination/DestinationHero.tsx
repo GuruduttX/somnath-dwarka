@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { MapPin, Sparkles, ArrowRight, MessageSquare } from "lucide-react";
+import { Sparkles, ArrowRight } from "lucide-react";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
-import { waLink } from "@/src/config/site";
 import type { DestinationMeta } from "@/src/lib/seed/destinationMeta";
 import { ICONS } from "./icons";
 
@@ -47,7 +46,7 @@ export default function DestinationHero({
       <section id="destination-hero" className="relative -mt-28 w-full bg-[#140902]">
         
         {/* Panoramic image stage */}
-        <div className="relative flex h-[85vh] min-h-[620px] w-full items-center justify-center overflow-hidden pb-28 sm:pb-24">
+        <div className="relative flex h-auto min-h-[600px] w-full items-center justify-center overflow-hidden pb-32 pt-28 sm:h-[85vh] sm:min-h-[620px] sm:pb-24 sm:pt-0">
           {meta.heroImage ? (
             <Image
               src={meta.heroImage}
@@ -167,10 +166,10 @@ export default function DestinationHero({
           />
 
           {/* Centered content */}
-          <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-4 pt-12 text-center sm:px-6">
+          <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-4 pt-4 text-center sm:px-6 sm:pt-12">
 
             {/* Title Section */}
-            <h1 className="dh-up dh2 mt-6 sm:mt-0 text-[30px] xs:text-[36px] sm:text-5xl lg:text-[4.25rem] font-black leading-[1.08] tracking-tight text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.8)] font-dm">
+            <h1 className="dh-up dh2 mt-0 text-[28px] xs:text-[34px] sm:text-5xl lg:text-[4.25rem] font-black leading-[1.1] tracking-tight text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.8)] font-dm">
               <span className="inline-block mr-2">{h1.replace(/ Travel Guide$/, "")}</span>
               <span className="inline-block bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-500 bg-clip-text text-transparent font-black whitespace-nowrap">
                 Travel Guide
@@ -179,7 +178,7 @@ export default function DestinationHero({
 
             {/* Deity Badge with Glow */}
             <div
-              className="dh-up dh3 mt-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-bold text-white backdrop-blur-md transition-all duration-300"
+              className="dh-up dh3 mt-4 sm:mt-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-bold text-white backdrop-blur-md transition-all duration-300"
               style={{ boxShadow: `0 0 16px ${meta.accent}33` }}
             >
               <span className="h-2 w-2 rounded-full animate-pulse" style={{ background: meta.accent, boxShadow: `0 0 10px 2px ${meta.accent}` }} />
@@ -187,18 +186,18 @@ export default function DestinationHero({
             </div>
 
             {/* Tagline */}
-            <p className="dh-up dh4 mt-5 max-w-2xl text-sm leading-relaxed text-white/95 sm:text-base font-medium drop-shadow-[0_1px_10px_rgba(0,0,0,0.7)]">
+            <p className="dh-up dh4 mt-4 sm:mt-5 max-w-2xl text-[13px] leading-relaxed text-white/95 sm:text-base font-medium drop-shadow-[0_1px_10px_rgba(0,0,0,0.7)]">
               {meta.tagline}
             </p>
 
             {/* Chips Grid */}
-            <div className="dh-up dh4 mt-6 flex flex-wrap justify-center gap-2.5">
+            <div className="dh-up dh4 mt-4 sm:mt-6 flex flex-wrap justify-center gap-2">
               {meta.chips.map(({ icon, label }) => {
                 const Icon = ICONS[icon];
                 return (
                   <span 
                     key={label} 
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/8 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur-md hover:bg-white/15 transition-colors"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/20 px-4 py-1.5 text-xs font-semibold text-white shadow-[0_2px_10px_rgba(0,0,0,0.25)] backdrop-blur-xl hover:bg-white/25 transition-colors"
                   >
                     <Icon size={12} className="text-amber-400" />
                     {label}
@@ -208,30 +207,21 @@ export default function DestinationHero({
             </div>
 
             {/* CTA buttons */}
-            <div className="dh-up dh5 mt-8 flex flex-col gap-3 sm:flex-row w-full sm:w-auto">
+            <div className="dh-up dh5 mt-6 sm:mt-8 flex w-full flex-row items-stretch justify-center gap-2.5 sm:w-auto sm:gap-3">
               <button
                 onClick={() => setOpen(true)}
-                className="group inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 px-8 py-3.5 text-sm font-bold text-white shadow-[0_16px_36px_rgba(234,88,12,0.45)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 font-dm"
+                className="group inline-flex flex-1 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 px-4 py-3 text-[13px] font-bold text-white shadow-[0_16px_36px_rgba(234,88,12,0.45)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:flex-none sm:gap-2 sm:px-8 sm:py-3.5 sm:text-sm font-dm"
               >
-                <Sparkles size={14} className="animate-spin-slow" style={{ animationDuration: '6s' }} />
+                <Sparkles size={14} className="shrink-0 animate-spin-slow" style={{ animationDuration: '6s' }} />
                 Plan a {destination} Trip
-                <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                <ArrowRight size={14} className="shrink-0 transition-transform group-hover:translate-x-1" />
               </button>
-              <a
-                href={waLink(`Hi, I want to plan a trip to ${destination}`)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/15 active:translate-y-0 font-dm"
-              >
-                <MessageSquare size={14} className="text-orange-300" />
-                Ask on WhatsApp
-              </a>
             </div>
           </div>
         </div>
 
         {/* ── Overlapping floating stat bar (glass) ── */}
-        <div className="relative z-20 mx-auto -mt-44 sm:-mt-36 max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div className="relative z-20 mx-auto -mt-28 sm:-mt-36 max-w-4xl px-4 pb-10 sm:px-6 sm:pb-0 lg:px-8">
           <div
             className="dh-up dh5 grid grid-cols-2 divide-x divide-y divide-white/10 overflow-hidden rounded-2xl border border-white/20 bg-white/10 backdrop-blur-3xl sm:grid-cols-4 sm:divide-y-0"
             style={{ boxShadow: "0 20px 50px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.28)" }}
