@@ -70,7 +70,7 @@ export default function DestinationHero({
           )}
 
           {/* Color overlays & washes */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-[#140902]/45 to-[#140902]/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-[#140902]/35 to-[#140902]/92" />
           <div
             className="absolute inset-0 mix-blend-screen opacity-60"
             style={{ background: `radial-gradient(ellipse at 50% 30%, ${meta.accent}55 0%, transparent 60%)` }}
@@ -163,7 +163,7 @@ export default function DestinationHero({
           <div
             className="pointer-events-none absolute inset-0"
             aria-hidden="true"
-            style={{ background: "radial-gradient(ellipse 78% 58% at 50% 44%, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.30) 45%, transparent 72%)" }}
+            style={{ background: "radial-gradient(ellipse 78% 58% at 50% 44%, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.20) 45%, transparent 72%)" }}
           />
 
           {/* Centered content */}
