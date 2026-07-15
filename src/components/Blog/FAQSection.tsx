@@ -16,7 +16,7 @@ export default function FAQSection({faqs} : {faqs : IFAQ[]}) {
 
         {/* Heading */}
         <div className="text-center mb-5 md:mb-12">
-          <h2 className="text-2xl md:text-4xl font-bold text-gray-900">
+          <h2 className="text-2xl -mt-4 md:text-4xl font-bold text-gray-900">
             Frequently Asked Questions
           </h2>
           <div className="mx-auto mt-4 h-1 w-20 rounded-full bg-gradient-to-r from-amber-500 to-orange-400"></div>

@@ -16,7 +16,7 @@ export default function BookDarshanCTA() {
   return (
     <section id="book-darshan" className="py-2 sm:py-3 md:py-4 px-3 sm:px-6 lg:px-8 bg-white">
       <div className="w-full max-w-[1600px] mx-auto">
-        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-orange-500 via-orange-500 to-amber-500 shadow-xl shadow-orange-500/20">
+        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-orange-500 via-orange-500 to-amber-500">
 
           {/* Decorative SVG mandala & background patterns */}
           <div className="pointer-events-none absolute inset-0" aria-hidden="true">

@@ -350,20 +350,21 @@ export default function TestimonialsSection() {
         {/* ── MOBILE / TABLET LAYOUT ── */}
         <div className="lg:hidden">
 
-          {/* Featured card */}
-          <div className="relative rounded-[18px] p-6 sm:p-8 mb-5 overflow-hidden" style={{ background: "#EA580C" }}>
+          {/* Featured card — fixed min-height so swapping reviews of different
+              lengths doesn't push the cards/dots below up and down. */}
+          <div className="relative flex flex-col rounded-[18px] p-6 sm:p-8 mb-5 overflow-hidden min-h-[320px] sm:min-h-[300px]" style={{ background: "#EA580C" }}>
             <div className="absolute -top-8 -right-8 w-36 h-36 rounded-full pointer-events-none" style={{ background: "rgba(255,255,255,0.07)" }} />
             <span aria-hidden="true" className="absolute top-2 left-5 text-[60px] leading-none pointer-events-none select-none" style={{ color: "rgba(255,255,255,0.14)", fontFamily: "Georgia,serif" }}>"</span>
 
-            <div className="relative z-10">
+            <div className="relative z-10 flex flex-1 flex-col">
               <StarRow count={t.rating} size={14} color="#FDE68A" />
               <p
-                className="mt-3 text-[14px] sm:text-[15px] leading-[1.8] text-white/95 italic transition-all duration-200"
+                className="mt-3 text-[14px] sm:text-[15px] leading-[1.75] text-white/95 italic transition-all duration-200 line-clamp-6"
                 style={{ opacity: featFading ? 0 : 1, transform: featFading ? "translateY(6px)" : "translateY(0)" }}
               >
                 "{t.review}"
               </p>
-              <div className="flex items-center justify-between flex-wrap gap-3 mt-5 pt-4 border-t border-white/15">
+              <div className="flex items-center justify-between flex-wrap gap-3 mt-auto pt-4 border-t border-white/15">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-bold text-white flex-shrink-0" style={{ background: "rgba(255,255,255,0.2)", border: "2px solid rgba(255,255,255,0.3)" }}>
                     {t.initials}

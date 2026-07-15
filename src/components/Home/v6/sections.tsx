@@ -26,24 +26,9 @@ function LinkCard({ href, title, blurb }: { href: string; title: string; blurb?:
 }
 
 function InterestCard({ href, title, blurb, className = "" }: { href: string; title: string; blurb?: string; className?: string }) {
-  const normHref = href.toLowerCase();
-  
-  let borderGradient = "from-orange-300/35 to-amber-300/35 group-hover:from-orange-400 group-hover:to-amber-400";
-  let bgGradient = "from-amber-50/25 to-stone-50/20";
-  
-  if (normHref.includes("heritage")) {
-    borderGradient = "from-stone-400/35 to-amber-400/35 group-hover:from-stone-500 group-hover:to-amber-500";
-    bgGradient = "from-stone-50/30 to-amber-50/15";
-  } else if (normHref.includes("wildlife") || normHref.includes("nature")) {
-    borderGradient = "from-emerald-400/35 to-teal-400/35 group-hover:from-emerald-500 group-hover:to-teal-500";
-    bgGradient = "from-emerald-50/25 to-stone-50/20";
-  } else if (normHref.includes("temples") || normHref.includes("temple")) {
-    borderGradient = "from-orange-400/35 to-amber-400/35 group-hover:from-orange-500 group-hover:to-amber-500";
-    bgGradient = "from-orange-50/25 to-amber-50/20";
-  } else if (normHref.includes("taxi") || normHref.includes("cab") || normHref.includes("service")) {
-    borderGradient = "from-sky-400/35 to-indigo-400/35 group-hover:from-sky-500 group-hover:to-indigo-500";
-    bgGradient = "from-sky-50/25 to-stone-50/20";
-  }
+  // One orange scheme for every tile — no per-topic accent colours.
+  const borderGradient =
+    "from-orange-300/35 to-amber-300/35 group-hover:from-orange-400 group-hover:to-amber-400";
 
   const slug = href.replace(/\//g, "");
 
@@ -77,8 +62,9 @@ function InterestCard({ href, title, blurb, className = "" }: { href: string; ti
             ) : null}
           </div>
 
-          {/* Right Icon */}
-          <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-stone-50 rounded-xl border border-stone-100 transition-all duration-300 group-hover:scale-105 group-hover:bg-white group-hover:border-orange-100">
+          {/* Right Icon — tinted orange so every tile reads as one palette (the source SVGs
+              carry their own multi-colour gradients). */}
+          <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-orange-50 rounded-xl border border-orange-100 transition-all duration-300 group-hover:scale-105 group-hover:bg-white group-hover:border-orange-200 [&_svg]:[filter:grayscale(1)_sepia(1)_saturate(6)_hue-rotate(-12deg)]">
             <DynamicIcon slug={slug} defaultType="interest" className="group-hover:scale-110" />
           </div>
         </div>
@@ -96,7 +82,7 @@ export function ExploreByInterest() {
     { href: "/somnath-dwarka-taxi-service/", title: "Private cabs", blurb: "Fixed fares, verified routes" },
   ];
   return (
-    <Section id="explore-by-interest" title="Explore by interest" wide>
+    <Section id="explore-by-interest" title="Explore by interest" full className="!pt-0">
       <ul className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {tiles.map((t, i) => (
           <InterestCard
@@ -241,7 +227,7 @@ export function PlanEssentials() {
     { href: "/somnath/live-darshan/", title: "Somnath live darshan" },
   ];
   return (
-    <Section id="plan-essentials" title="Plan-your-trip essentials" wide>
+    <Section id="plan-essentials" title="Plan-your-trip essentials" full>
       <ul className="grid grid-cols-2 gap-3 sm:gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
         {links.map((l, i) => (
           <EssentialCard

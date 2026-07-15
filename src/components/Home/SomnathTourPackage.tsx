@@ -7,10 +7,8 @@ import {
   ChevronLeft,
   ChevronRight,
   MapPin,
-  Clock,
-  Star,
-  ArrowRight,
-  Users,
+  CloudSun,
+  ArrowUpRight,
   BedDouble,
   Coffee,
   Eye,
@@ -65,8 +63,7 @@ export default function SomnathTourPackage({ packages }: { packages: CarouselCar
         onClose={() => setIsFormOpen(false)}
         defaultService="Tour Package"
       />
-    <section id="somnath-packages" className="relative py-20 md:py-28 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-transparent pointer-events-none" />
+    <section id="somnath-packages" className="relative bg-white pt-8 pb-6 md:pt-10 md:pb-20 overflow-hidden">
 
       <div className="relative w-full px-4 sm:px-8 lg:px-16 xl:px-24">
 
@@ -119,120 +116,101 @@ export default function SomnathTourPackage({ packages }: { packages: CarouselCar
           }`}
         >
           {packages.map((pkg) => {
+            const [firstWord, ...restWords] = pkg.title.split(" ");
+            const restTitle = restWords.join(" ");
             return (
               <Link
                 key={pkg.id}
                 href={pkg.href}
                 draggable={false}
-                className="group relative shrink-0 w-[320px] md:w-[360px] rounded-[22px] overflow-hidden bg-white border border-stone-200 shadow-[0_8px_32px_rgba(0,0,0,0.06)] flex flex-col transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(234,88,12,0.13)] snap-start"
+                className="group relative shrink-0 w-[320px] md:w-[360px] rounded-[26px] overflow-hidden bg-white border border-stone-200/70 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex flex-col transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(234,88,12,0.14)] snap-start"
               >
                 {/* IMAGE */}
-                <div className="relative h-[210px] flex-shrink-0 overflow-hidden">
-                  <Image
-                    src={pkg.image}
-                    alt={pkg.title}
-                    fill
-                    draggable={false}
-                    className="object-cover transition-transform duration-[1800ms] group-hover:scale-[1.05]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
+                <div className="p-2.5">
+                  <div className="relative h-[200px] overflow-hidden rounded-[20px]">
+                    <Image
+                      src={pkg.image}
+                      alt={pkg.title}
+                      fill
+                      draggable={false}
+                      className="object-cover transition-transform duration-[1800ms] group-hover:scale-[1.05]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-transparent" />
 
-                  {/* RATING — only when the CMS holds a real one */}
-                  {pkg.rating ? (
-                    <div className="absolute top-3 right-3">
-                      <div className="flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 shadow-lg">
-                        <Star size={11} className="fill-amber-400 text-amber-400" />
-                        <span className="text-[12px] font-bold text-slate-800">{pkg.rating}</span>
-                      </div>
+                    {/* LOCATION PILL */}
+                    <div className="absolute top-3 left-3">
+                      <span
+                        className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-white text-[12.5px] font-semibold shadow-md"
+                        style={{ background: "linear-gradient(105deg, #F97316 0%, #FB923C 100%)" }}
+                      >
+                        <MapPin size={13} strokeWidth={2.5} />
+                        {pkg.destination}
+                      </span>
                     </div>
-                  ) : null}
-
-                  {/* BOTTOM INFO */}
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <div className="flex items-center gap-1.5 text-white/75 text-[12px] mb-2">
-                      <MapPin size={12} />
-                      {pkg.destination}
-                    </div>
-                    <h3 className="text-[20px] font-bold text-white leading-tight tracking-tight">
-                      {pkg.title}
-                    </h3>
                   </div>
                 </div>
 
                 {/* BODY */}
-                <div className="p-5 flex flex-col gap-3 flex-1">
+                <div className="px-4 pt-1.5 pb-3 flex flex-col gap-3.5 flex-1">
+
+                  {/* TITLE */}
+                  <h3 className="text-[22px] font-extrabold leading-tight tracking-tight min-h-[2.5em] line-clamp-2">
+                    <span className="text-slate-900">{firstWord} </span>
+                    <span className="text-orange-500">{restTitle}</span>
+                  </h3>
 
                   {/* CATEGORY + DURATION */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-orange-50 text-orange-800 border border-orange-100 uppercase tracking-wide">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-[13px] font-semibold px-3.5 py-2 rounded-xl text-orange-500 border border-orange-200">
                       {pkg.category}
                     </span>
-                    <div className="flex items-center gap-1.5 text-slate-600 text-[12px] font-medium">
-                      <Clock size={12} className="text-orange-500" />
-                      {pkg.days} Days / {pkg.nights} Nights
+                    <div className="flex items-center gap-2 text-slate-700 text-[14px] font-semibold">
+                      <CloudSun size={20} className="text-orange-400" />
+                      {pkg.days}days / {pkg.nights} nights
                     </div>
                   </div>
 
                   {/* INCLUSIONS */}
-                  <div className="flex items-center gap-3 px-3 py-2.5 bg-orange-50 rounded-xl border border-orange-100">
+                  <div className="flex items-center gap-2 px-3 py-3 rounded-2xl border border-orange-100 bg-orange-50/40">
                     {inclusions.map(({ key, label, Icon }) => {
                       const active = Boolean(pkg[key as keyof CarouselCard]);
                       return (
                         <div
                           key={key}
-                          className={`flex flex-col items-center gap-1 flex-1 transition-colors ${
-                            active ? "text-orange-600" : "text-stone-300"
+                          className={`flex flex-col items-center gap-1.5 flex-1 transition-colors ${
+                            active ? "text-orange-500" : "text-stone-300"
                           }`}
                         >
-                          <Icon size={14} strokeWidth={1.6} />
-                          <span className={`text-[9px] font-700 uppercase tracking-wide ${active ? "text-orange-800" : "text-stone-300"}`}>
+                          <Icon size={18} strokeWidth={1.8} />
+                          <span className={`text-[11.5px] font-medium ${active ? "text-slate-700" : "text-stone-300"}`}>
                             {label}
                           </span>
                         </div>
                       );
                     })}
                   </div>
-
-                  {/* DIVIDER */}
-                  <div className="border-t border-stone-100 mt-auto" />
-
-                  {/* RATING ROW */}
-                  <div className="flex items-center justify-between">
-                    {pkg.rating ? (
-                      <div className="flex items-center gap-1.5">
-                        <Star size={13} className="fill-amber-400 text-amber-400" />
-                        <span className="text-[13px] font-semibold text-slate-800">{pkg.rating}</span>
-                        {pkg.reviews ? (
-                          <span className="text-[11px] text-stone-400">({pkg.reviews})</span>
-                        ) : null}
-                      </div>
-                    ) : (
-                      <span />
-                    )}
-                    <div className="flex items-center gap-1 text-[11px] text-stone-400">
-                      <Users size={12} strokeWidth={1.5} />
-                      Groups &amp; Couples
-                    </div>
-                  </div>
                 </div>
 
                 {/* FOOTER */}
-                <div className="flex border-t border-stone-100">
+                <div className="flex items-stretch mt-auto">
                   <button
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                       setIsFormOpen(true);
                     }}
-                    className="flex-1 py-3 text-[13px] font-semibold text-slate-600 border-r border-stone-100 hover:bg-orange-50 hover:text-orange-600 transition-all duration-200 cursor-pointer"
+                    className="flex-1 py-4 text-[15px] font-semibold text-slate-800 bg-orange-50/60 hover:bg-orange-100/70 transition-all duration-200 cursor-pointer"
                   >
-                    Enquire Now
+                    Enquire now
                   </button>
-                  <div className="flex-1 py-3 bg-orange-500 hover:bg-orange-600 text-white text-[13px] font-bold text-center flex items-center justify-center gap-1.5 transition-all duration-200">
+                  <div
+                    className="flex-1 py-4 text-white text-[15px] font-bold text-center flex items-center justify-center gap-1.5 transition-all duration-200"
+                    style={{ background: "linear-gradient(105deg, #F97316 0%, #FBBF24 100%)" }}
+                  >
                     View Tour
-                    <ArrowRight
-                      size={14}
-                      className="transition-transform duration-300 group-hover:translate-x-1"
+                    <ArrowUpRight
+                      size={17}
+                      className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                     />
                   </div>
                 </div>
@@ -242,7 +220,7 @@ export default function SomnathTourPackage({ packages }: { packages: CarouselCar
         </div>
 
         {/* MOBILE BUTTONS */}
-        <div className="flex md:hidden items-center justify-center gap-3 mt-8">
+        <div className="flex md:hidden items-center justify-center gap-3 mt-4">
           <button
             onClick={() => scroll("left")}
             className="h-11 w-11 rounded-full bg-white border border-stone-200 flex items-center justify-center text-slate-700 shadow-sm"

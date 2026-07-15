@@ -60,14 +60,18 @@ export default function DwarkaSomnathTrustSection() {
         defaultService="Tour Package"
       />
        
-       <section id="why-choose-us" className="relative py-12 md:py-24 overflow-hidden ">
+       <section id="why-choose-us" className="relative py-12 md:py-24 -mt-3 sm:-mt-14 overflow-hidden ">
       {/* Decorative Elements */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-orange-200/30 blur-3xl rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-amber-200/30 blur-3xl rounded-full pointer-events-none translate-x-1/2 translate-y-1/2" />
+
+      {/* Fade top & bottom edges into white so the section merges with its neighbors */}
+      <div className="absolute inset-x-0 top-0 h-24 z-[1] pointer-events-none bg-gradient-to-b from-white to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-24 z-[1] pointer-events-none bg-gradient-to-t from-white to-transparent" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-orange-100 rounded-full opacity-30 pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-orange-200/50 rounded-full opacity-20 pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}

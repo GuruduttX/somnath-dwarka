@@ -80,7 +80,7 @@ export default function FinalCTA() {
         }}
       />
 
-      <div className="relative max-w-5xl mx-auto px-5 md:px-8">
+      <div className="relative w-full px-4 sm:px-8 lg:px-16 xl:px-24">
 
         {/* Main card */}
         <div className="relative rounded-3xl bg-white border border-orange-100 shadow-[0_8px_48px_rgba(234,88,12,0.08)] overflow-hidden">

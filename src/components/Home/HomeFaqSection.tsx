@@ -26,7 +26,7 @@ export default function HomeFaqSection() {
         onClose={() => setOpen(false)} 
         defaultService="Tour Package" 
       />
-    <section id="faq" className="relative overflow-hidden bg-[#FCFBF8] py-20 md:py-28">
+    <section id="faq" className="relative overflow-hidden bg-[#FCFBF8] py-10 md:py-28">
       
       {/* SOFT GLOW */}
       <div className="absolute inset-0 pointer-events-none">
@@ -79,10 +79,10 @@ export default function HomeFaqSection() {
           {/* DESCRIPTION */}
           <p
             className="
-              mx-auto mt-6
+              mx-auto mt-4 md:mt-6
               max-w-2xl
               text-[15px]
-              leading-8
+              leading-relaxed md:leading-8
               text-slate-600
               md:text-[17px]
             "

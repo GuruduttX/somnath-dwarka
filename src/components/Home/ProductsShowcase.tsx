@@ -42,7 +42,7 @@ export default function ProductsShowcase({ packages }: { packages: TourPackage[]
       <div className="mx-auto mb-10 flex max-w-3xl flex-col items-center text-center">
         <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white px-4 py-1.5 text-[11.5px] font-semibold uppercase tracking-[0.13em] text-orange-600 shadow-sm">
           <Sparkles size={12} strokeWidth={2.5} />
-          Live packages from admin
+          Tour Packages
         </span>
 
         <h2 className="max-w-[660px] text-[clamp(30px,4vw,48px)] font-bold leading-tight tracking-tight text-gray-950">

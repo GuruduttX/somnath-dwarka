@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Sun, Moon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import CommonEnquiryForm from "./CommanEnquiryForm";
 import type { TourPackage } from "./TourData";
@@ -118,7 +119,7 @@ export default function PopularTourPackages({ packages }: { packages: TourPackag
 
       <section
         id="packages"
-        className="pt-28 pb-5 lg:pt-12 lg:pb-8 overflow-hidden " 
+        className="bg-white pt-6 pb-5 lg:pt-12 lg:pb-8 overflow-hidden "
       >
       <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 mb-12">
         <div
@@ -171,8 +172,8 @@ export default function PopularTourPackages({ packages }: { packages: TourPackag
       </div>
 
       <div className="relative">
-        <div className="hidden sm:block pointer-events-none absolute inset-y-0 left-0 w-20 z-10 bg-linear-to-r from-orange-50 to-transparent" />
-        <div className="hidden sm:block pointer-events-none absolute inset-y-0 right-0 w-20 z-10 bg-linear-to-l from-orange-50 to-transparent" />
+        <div className="hidden sm:block pointer-events-none absolute inset-y-0 left-0 w-20 z-10 bg-linear-to-r from-white to-transparent" />
+        <div className="hidden sm:block pointer-events-none absolute inset-y-0 right-0 w-20 z-10 bg-linear-to-l from-white to-transparent" />
 
         <div
           ref={trackRef}
@@ -226,65 +227,93 @@ function PackageCard({
   pkg: TourPackage;
   onGetQuotes: () => void;
 }) {
+  const nights = Math.max(pkg.days - 1, 0);
+
   return (
     <Link href={pkg.href}>
     <article
-      className="group relative shrink-0 rounded-3xl overflow-hidden cursor-pointer"
+      className="group relative shrink-0 rounded-[24px] cursor-pointer overflow-hidden"
       style={{
         width: "360px",
-        height: "520px",
-        boxShadow: "0 12px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10)",
+        height: "440px",
+        boxShadow: "0 4px 14px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
       }}
     >
-      <Image
-        src={pkg.images[0]}
-        alt={pkg.title}
-        fill
-        unoptimized
-        sizes="360px"
-        className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
-      />
+      <div className="relative h-full w-full overflow-hidden rounded-[24px]">
+        <Image
+          src={pkg.images[0]}
+          alt={pkg.title}
+          fill
+          unoptimized
+          sizes="360px"
+          className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
+        />
 
-      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent" />
-
-      <div className="absolute top-4 left-4 z-10">
+        {/* Corner ribbon badge */}
         <span
-          className="text-white text-[0.62rem] font-semibold px-3 py-1 rounded-full"
+          className="absolute top-0 left-0 z-20 rounded-tl-[24px] rounded-br-[22px] px-6 py-2.5 text-white font-bold text-[1.15rem] leading-none"
           style={{
-            background: "rgba(249,115,22,0.92)",
-            backdropFilter: "blur(8px)",
-            WebkitBackdropFilter: "blur(8px)",
+            background: "linear-gradient(105deg, #F97316 0%, #FBBF24 100%)",
           }}
         >
           {pkg.badge || "Featured"}
         </span>
-      </div>
 
-      <div className="absolute inset-x-0 bottom-0 z-10 p-5">
-        <h3 className="text-white font-bold text-[1.02rem] leading-snug mb-0.5 truncate">
-          {pkg.title}
-        </h3>
-        <p className="text-white/55 text-[0.7rem] mb-3">{pkg.duration}</p>
+        {/* Glassmorphic info card */}
+        <div
+          className="absolute inset-x-3 bottom-3 z-10 rounded-[22px] px-4 py-2.5"
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 100%)",
+            backdropFilter: "blur(18px) saturate(160%)",
+            WebkitBackdropFilter: "blur(18px) saturate(160%)",
+            border: "1px solid rgba(255,255,255,0.35)",
+            boxShadow:
+              "0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.4)",
+          }}
+        >
+          <h3
+            className="text-white font-bold text-[1.2rem] leading-tight mb-1 truncate"
+            style={{ textShadow: "0 1px 10px rgba(0,0,0,0.35)" }}
+          >
+            {pkg.title}
+          </h3>
 
-        <div className="mb-3 h-px bg-white/15" />
-
-        <div className="flex items-center justify-between gap-3">
-          <div className="min-w-0">
-            <span className="text-white/45 text-[0.65rem] line-through block leading-none">
-            {pkg.originalPrice ? `₹${pkg.originalPrice.toLocaleString("en-IN")}` : ""}
+          <div className="flex items-center gap-4 text-white/90 text-[0.85rem] font-medium mb-2.5">
+            <span className="flex items-center gap-1.5">
+              <Sun size={16} strokeWidth={2} className="text-white" />
+              {pkg.days}days
             </span>
-            <span className="text-white font-bold text-[1.22rem] leading-tight">
-              {pkg.price ? `₹${pkg.price.toLocaleString("en-IN")}` : "Custom quote"}
+            <span className="flex items-center gap-1.5">
+              <Moon size={16} strokeWidth={2} className="text-white" />
+              {nights}nights
             </span>
           </div>
 
-          <button
-            onClick={(e) => {e.preventDefault();
-               e.stopPropagation(); onGetQuotes(); }}
-            className="shrink-0 rounded-full bg-white px-4 py-2 text-[0.72rem] font-semibold text-slate-900 transition-all duration-200 hover:bg-orange-50 hover:shadow-md cursor-pointer"
-          >
-            Get Quotes
-          </button>
+          <div className="flex items-center justify-between gap-3">
+            <span
+              className="flex items-baseline gap-1 text-white font-bold text-[1.5rem] leading-none"
+              style={{ textShadow: "0 1px 10px rgba(0,0,0,0.35)" }}
+            >
+              <span className="text-orange-300">₹</span>
+              {pkg.price ? pkg.price.toLocaleString("en-IN") : "—"}
+            </span>
+
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onGetQuotes();
+              }}
+              className="shrink-0 rounded-full px-5 py-2 text-[0.88rem] font-semibold text-white transition-all duration-200 hover:brightness-105 hover:shadow-lg cursor-pointer"
+              style={{
+                background: "linear-gradient(105deg, #F59E0B 0%, #FBBF24 100%)",
+                boxShadow: "0 4px 16px rgba(245,158,11,0.4)",
+              }}
+            >
+              Enquiry now
+            </button>
+          </div>
         </div>
       </div>
     </article>

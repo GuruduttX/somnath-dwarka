@@ -84,22 +84,9 @@ function Card({ href, title, blurb, type }: { href: string; title: string; blurb
 }
 
 function PersonaCard({ href, title, blurb, slug, className = "" }: { href: string; title: string; blurb?: string; slug: string; className?: string }) {
-  let borderGradient = "from-orange-300/35 to-amber-300/35 group-hover:from-orange-400 group-hover:to-amber-400";
-  let bgGradient = "from-amber-50/25 to-stone-50/20";
-
-  if (slug === "for-family") {
-    borderGradient = "from-rose-400/35 to-orange-400/35 group-hover:from-rose-500 group-hover:to-orange-400";
-    bgGradient = "from-rose-50/25 to-stone-50/20";
-  } else if (slug === "for-senior-citizens") {
-    borderGradient = "from-teal-400/35 to-emerald-400/35 group-hover:from-teal-500 group-hover:to-emerald-500";
-    bgGradient = "from-teal-50/25 to-stone-50/20";
-  } else if (slug === "group") {
-    borderGradient = "from-amber-400/35 to-orange-400/35 group-hover:from-amber-500 group-hover:to-orange-500";
-    bgGradient = "from-amber-50/25 to-stone-50/20";
-  } else if (slug === "for-nri-international") {
-    borderGradient = "from-cyan-400/35 to-indigo-400/35 group-hover:from-cyan-500 group-hover:to-indigo-500";
-    bgGradient = "from-cyan-50/25 to-stone-50/20";
-  }
+  // One orange scheme for every tile — no per-persona accent colours.
+  const borderGradient =
+    "from-orange-300/35 to-amber-300/35 group-hover:from-orange-400 group-hover:to-amber-400";
 
   return (
     <li className={className}>
@@ -131,8 +118,9 @@ function PersonaCard({ href, title, blurb, slug, className = "" }: { href: strin
             ) : null}
           </div>
 
-          {/* Right Icon */}
-          <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-stone-50 rounded-xl border border-stone-100 transition-all duration-300 group-hover:scale-105 group-hover:bg-white group-hover:border-orange-100">
+          {/* Right Icon — tinted orange so every tile reads as one palette (the source SVGs
+              carry their own multi-colour gradients). */}
+          <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-orange-50 rounded-xl border border-orange-100 transition-all duration-300 group-hover:scale-105 group-hover:bg-white group-hover:border-orange-200 [&_svg]:[filter:grayscale(1)_sepia(1)_saturate(6)_hue-rotate(-12deg)]">
             <DynamicIcon slug={slug} defaultType="persona" className="group-hover:scale-110" />
           </div>
         </div>
@@ -160,7 +148,7 @@ export async function PersonaRouting() {
   if (!tiles.length) return null;
 
   return (
-    <Section id="plan-by-traveller-type" title="Plan by traveller type" wide>
+    <Section id="plan-by-traveller-type" title="Plan by traveller type" full>
       <ul className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {tiles.map((t, i) => (
           <PersonaCard

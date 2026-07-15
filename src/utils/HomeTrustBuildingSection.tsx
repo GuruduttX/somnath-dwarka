@@ -27,8 +27,8 @@ export default function HomeTrustBuildingSection() {
         onClose={() => setIsFormOpen(false)}
         defaultService="Tour Package"
       />
-      <section id="home-trust" className="py-6 sm:py-8 px-4 sm:px-6 bg-gradient-to-b from-orange-50/50 to-white">
-        <div className="max-w-6xl mx-auto">
+      <section id="home-trust" className="py-6 sm:py-8 px-4 sm:px-8 lg:px-16 xl:px-24 bg-gradient-to-b from-orange-50/50 to-white">
+        <div className="w-full mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

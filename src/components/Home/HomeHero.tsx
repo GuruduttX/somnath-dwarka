@@ -166,23 +166,24 @@ export default function HomeHero() {
             </p>
 
             {/* CTAs */}
-            <div className="h-anim hd4 mt-7 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+            <div className="h-anim hd4 mt-7 flex w-full flex-row gap-2.5 sm:w-auto sm:gap-3">
               <Link
                 href="/somnath-dwarka-tour-package/"
-                className="btn-shine group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(234,88,12,0.4)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
+                className="btn-shine group relative inline-flex flex-1 items-center justify-center gap-2 overflow-hidden rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-4 py-3.5 text-[13px] font-semibold text-white shadow-[0_12px_30px_rgba(234,88,12,0.4)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:flex-none sm:px-7 sm:text-sm"
               >
-                <Star size={15} className="relative z-[1]" />
-                <span className="relative z-[1]">Explore Packages</span>
-                <ArrowRight size={15} className="relative z-[1] transition-transform group-hover:translate-x-1" />
+                <Star size={15} className="relative z-[1] shrink-0" />
+                <span className="relative z-[1] whitespace-nowrap">Explore Packages</span>
+                <ArrowRight size={15} className="relative z-[1] hidden shrink-0 transition-transform group-hover:translate-x-1 sm:inline" />
               </Link>
               <Link
                 href="/plan/"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-7 py-3.5 text-sm font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-4 py-3.5 text-[13px] font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white sm:flex-none sm:px-7 sm:text-sm"
               >
-                <Navigation size={15} />
-                Plan Your Trip
+                <Navigation size={15} className="shrink-0" />
+                <span className="whitespace-nowrap">Plan Your Trip</span>
               </Link>
             </div>
+
 
             {/* Trust row */}
             <div className="h-anim hd5 mt-7 flex items-center gap-3">
