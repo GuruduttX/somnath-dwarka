@@ -14,13 +14,38 @@ export default function ProductsShowcase({ packages }: { packages: TourPackage[]
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [open, setOpen] = useState(false)
 
+  // Searchable text per package so filters match title, route, category and badge —
+  // not just `location` (which is "Somnath Dwarka" on most packages).
+  const haystack = (pkg: TourPackage) =>
+    `${pkg.title} ${pkg.location} ${pkg.groupType} ${pkg.badge ?? ""}`.toLowerCase();
+
+  // Budget threshold derived from the data (median price) rather than a hardcoded
+  // number, so "Budget Picks" always returns the cheaper half of what's published.
+  const sortedPrices = packages.map((p) => p.price).filter((p) => p > 0).sort((a, b) => a - b);
+  const medianPrice = sortedPrices.length ? sortedPrices[Math.floor(sortedPrices.length / 2)] : 0;
+
   const filtered: TourPackage[] = packages.filter((pkg) => {
-    if (activeFilter === "All Packages") return true;
-    if (activeFilter === "Somnath") return pkg.location.toLowerCase().includes("somnath");
-    if (activeFilter === "Dwarka") return pkg.location.toLowerCase().includes("dwarka");
-    if (activeFilter === "Combo Tours") return pkg.days >= 4 || pkg.location.toLowerCase().includes("dwarka");
-    if (activeFilter === "Budget Picks") return Boolean(pkg.price && pkg.price < 13000);
-    return true;
+    const h = haystack(pkg);
+    switch (activeFilter) {
+      case "All Packages":
+        return true;
+      case "Somnath":
+        return h.includes("somnath");
+      case "Dwarka":
+        return h.includes("dwarka");
+      case "Combo Tours":
+        return (
+          (h.includes("somnath") && h.includes("dwarka")) ||
+          h.includes("gir") ||
+          h.includes("kutch") ||
+          h.includes("gujarat") ||
+          pkg.days >= 5
+        );
+      case "Budget Picks":
+        return h.includes("budget") || (medianPrice > 0 && pkg.price > 0 && pkg.price <= medianPrice);
+      default:
+        return true;
+    }
   });
 
   // Reset visible count whenever filter changes
