@@ -217,6 +217,13 @@ const TourPackageSchema: Schema<ITourPackage> = new Schema(
         description: { type: String, required : function () : boolean {
             return this.status === "published";
           } },
+        // Optional hour-by-hour schedule for a day (Time -> activity).
+        steps: [
+          {
+            time: { type: String, default: "" },
+            activity: { type: String, default: "" },
+          },
+        ],
       },
     ],
 
@@ -253,6 +260,18 @@ const TourPackageSchema: Schema<ITourPackage> = new Schema(
         answer: { type: String, required :  function () : boolean {
             return this.status === "published";
           } },
+      },
+    ],
+
+    // Per-tier price breakdown (3/4/5 star) — optional, shown as a table on the
+    // spoke page. Never gated on publish so existing packages are unaffected.
+    priceTiers: [
+      {
+        id: { type: String, default: "" },
+        tier: { type: String, default: "" },
+        perNight: { type: Number, default: 0 },
+        total: { type: Number, default: 0 },
+        hotel: { type: String, default: "" },
       },
     ],
 

@@ -26,7 +26,9 @@ export default function PageShell({
   children,
   noPaddingTop = false,
   flushHero = false,
-  lightCrumb = true,
+  // Grey by default so the crumb stays visible on light-hero pages. Destination
+  // templates with a dark image hero pass `lightCrumb` explicitly to keep white.
+  lightCrumb = false,
 }: {
   crumbs: Crumb[];
   children: React.ReactNode;

@@ -37,6 +37,118 @@ export const CONTENT_SCHEMAS: Record<string, FieldDef[]> = {
     { name: "exclusions", label: "Exclusions", type: "list" },
     { name: "answer_template", label: "Answer template (from URL map)", type: "textarea", hint: "Resolve every {placeholder} before publishing" },
     { name: "serp_feature_target", label: "SERP feature target", type: "text" },
+
+    { name: "chooser_intro", label: "Chooser intro", type: "textarea", hint: "Paragraph above the 'Choose your version' tables" },
+    {
+      name: "duration_matrix",
+      label: "By duration (chooser + price matrix)",
+      type: "objectList",
+      fields: [
+        { name: "plan", label: "Plan", type: "text", hint: "e.g. 4 days 3 nights" },
+        { name: "nights", label: "Nights", type: "text" },
+        { name: "price_3star", label: "3 star, pp", type: "text" },
+        { name: "price_4star", label: "4 star, pp", type: "text" },
+        { name: "price_5star", label: "5 star, pp", type: "text" },
+        { name: "best_for", label: "Best for", type: "text" },
+        { name: "slug", label: "Spoke slug (optional link)", type: "text", hint: "e.g. 4-days-3-nights" },
+      ],
+    },
+    {
+      name: "start_cities",
+      label: "By start city",
+      type: "objectList",
+      fields: [
+        { name: "city", label: "City", type: "text" },
+        { name: "road_reality", label: "Road reality", type: "text" },
+        { name: "slug", label: "Spoke slug (optional link)", type: "text", hint: "e.g. from-ahmedabad" },
+      ],
+    },
+    { name: "chooser_note", label: "Chooser closing note", type: "textarea" },
+    { name: "constraint_intro", label: "Constraints — intro", type: "textarea", hint: "Above 'the clock that decides this circuit' table" },
+    {
+      name: "constraint_table",
+      label: "Constraint table (the clock)",
+      type: "objectList",
+      fields: [
+        { name: "constraint", label: "Fixed constraint", type: "text" },
+        { name: "time", label: "The time", type: "textarea" },
+        { name: "forces", label: "What it forces", type: "textarea" },
+      ],
+    },
+    { name: "constraint_footnote", label: "Constraints — footnote", type: "textarea" },
+    { name: "itinerary_intro", label: "Hour-by-hour — intro", type: "textarea" },
+    {
+      name: "hourly_itinerary",
+      label: "Hour-by-hour itinerary",
+      type: "objectList",
+      fields: [
+        { name: "day", label: "Day heading", type: "text", hint: "e.g. Day 1: Ahmedabad to Dwarka" },
+        {
+          name: "steps",
+          label: "Steps",
+          type: "objectList",
+          fields: [
+            { name: "time", label: "Time", type: "text", hint: "e.g. 05:30" },
+            { name: "activity", label: "What happens", type: "textarea" },
+          ],
+        },
+      ],
+    },
+    { name: "itinerary_footnote", label: "Hour-by-hour — footnote", type: "textarea" },
+    { name: "price_intro", label: "Price sheet — intro", type: "textarea" },
+    {
+      name: "price_tiers",
+      label: "Price tiers",
+      type: "objectList",
+      fields: [
+        { name: "tier", label: "Tier", type: "text", hint: "e.g. 3 star" },
+        { name: "price", label: "Per person, per night", type: "text" },
+        { name: "hotels", label: "Hotels we use", type: "text" },
+        { name: "included", label: "Included", type: "text" },
+      ],
+    },
+    { name: "price_tier_note", label: "5 star tier note (plain talk)", type: "textarea" },
+    { name: "vehicle_note", label: "Vehicle — intro note", type: "textarea" },
+    {
+      name: "vehicle_table",
+      label: "Vehicle by group size",
+      type: "objectList",
+      fields: [
+        { name: "travellers", label: "Travellers", type: "text", hint: "e.g. Up to 6" },
+        { name: "vehicle", label: "Vehicle", type: "text" },
+      ],
+    },
+    { name: "exclusions_note", label: "Not-included note", type: "textarea", hint: "Prose around the exclusions list" },
+    { name: "fraud_advisory", label: "Fraud advisory", type: "textarea", hint: "Shree Somnath Trust buyer-protection paragraph" },
+    { name: "why_choose_intro", label: "Why choose — intro", type: "textarea" },
+    {
+      name: "why_choose",
+      label: "Why choose us (points)",
+      type: "objectList",
+      fields: [
+        { name: "heading", label: "Heading (optional)", type: "text" },
+        { name: "text", label: "Text", type: "textarea" },
+      ],
+    },
+    {
+      name: "not_for_you",
+      label: "This circuit is not for you if…",
+      type: "objectList",
+      fields: [
+        { name: "heading", label: "Heading (optional)", type: "text" },
+        { name: "text", label: "Text", type: "textarea" },
+      ],
+    },
+    {
+      name: "practical_notes",
+      label: "Practical notes",
+      type: "objectList",
+      fields: [
+        { name: "label", label: "Label", type: "text", hint: "e.g. Dress code" },
+        { name: "text", label: "Text", type: "textarea" },
+      ],
+    },
+    { name: "final_cta_note", label: "Final CTA note", type: "textarea" },
   ],
   "hub-spoke": [
     { name: "title", label: "Title", type: "text" },

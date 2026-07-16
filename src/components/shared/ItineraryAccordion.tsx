@@ -1,10 +1,13 @@
 import { ChevronDown, MapPin, Clock } from "lucide-react";
 
+export type ItineraryStep = { time: string; activity: string };
+
 export type ItineraryDay = {
   day: number;
   title: string;
   description?: string;
   stops?: string[];
+  steps?: ItineraryStep[];
 };
 
 /**
@@ -85,6 +88,19 @@ export default function ItineraryAccordion({ days }: { days: ItineraryDay[] }) {
 
             <div className="px-5 pb-5 pt-4 text-slate-600 text-sm sm:text-base leading-relaxed bg-white">
               <div className="pl-0 sm:pl-[64px]">
+                {d.steps?.length ? (
+                  <ul className="mb-4 space-y-2.5">
+                    {d.steps.map((s, si) => (
+                      <li key={si} className="flex gap-3">
+                        <span className="flex h-6 shrink-0 items-center gap-1.5 rounded-md bg-orange-50 px-2 font-mono text-xs font-bold text-orange-700">
+                          <Clock size={11} className="text-orange-500" />
+                          {s.time}
+                        </span>
+                        <span className="text-sm text-slate-700 leading-relaxed">{s.activity}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
                 {d.description ? (
                   <p className="text-slate-600 leading-relaxed font-medium">{d.description}</p>
                 ) : null}

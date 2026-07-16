@@ -1,0 +1,1054 @@
+{
+  "page": {
+    "url": "/somnath-dwarka-tour-package/from-vadodara/",
+    "role": "SPOKE",
+    "silo": "money-circuit",
+    "wave": "MVP",
+    "parent_hub": "/somnath-dwarka-tour-package/",
+    "money_target": "(is money)",
+    "conversion_action": "qualify_form",
+    "canonical": "self",
+    "indexable": true,
+    "in_sitemap": true,
+    "hreflang_twin": "/hi/somnath-dwarka-tour-package/from-vadodara/",
+    "last_verified": "2026-07-15",
+    "batch": "2 of 7, origin spokes. Spoke 10 of 36."
+  },
+  "delta_declaration": {
+    "owns": "Vadodara as the hardest origin on the circuit, and the honest recommendation that follows: drive, because the only daily train leaves at 02:57.",
+    "the_one_train_three_cities_thread": "The Saurashtra Mail 22945 is now the spine of three origin pages. Mumbai boards at 21:05 after dinner and sleeps eight hours. Vadodara boards at 02:57 and sleeps none. Ahmedabad boards at 05:05. All three step onto the same Dwarka platform at 13:10. One train, three cities, three completely different nights, and the same arrival. No competitor page has noticed the train even has a middle.",
+    "fourth_distinct_verdict": "Ahmedabad: take the slow train, the fast one is a trap. Rajkot: rail saves nothing, drive. Mumbai: the overnight train is the best option on the page. Vadodara: the only daily train leaves at 02:57, so drive unless you can sleep sitting up. Four origins, four verdicts, all correct.",
+    "cannot_appear_on_hub": "The hub compares 36 variants and cannot carry one city's 02:57 problem.",
+    "cannot_appear_on_siblings": "No sibling boards at 02:57. No sibling is 490 to 520 km out with a rail option that punishes you for using it.",
+    "estimated_unique_body": "About 75 percent. The 02:57 argument and the Statue of Unity refusal exist nowhere else on the site."
+  },
+  "head": {
+    "title": "Somnath Dwarka Tour Package From Vadodara, Rs.15,000 pp",
+    "title_length": 55,
+    "meta_description": "Vadodara's only daily train to Dwarka leaves at 02:57. That one fact is why we tell you to drive. 490 to 520 km, we leave at 05:30. From Rs.15,000 pp.",
+    "meta_length": 150,
+    "h1": "Somnath Dwarka Tour Package From Vadodara: Itinerary, Price and Booking",
+    "slug_note": "Matches the URL map exactly. No change proposed.",
+    "ctr_rationale": "This SERP is the Ahmedabad package with Vadodara pasted over the pickup line, because Vadodara is treated as a suburb of the Ahmedabad drive. A meta that opens with 02:57 is a specific, checkable, slightly absurd number that stops the scroll, and it signals the page has actually read the timetable rather than the competitor's page.",
+    "og_title": "Somnath Dwarka From Vadodara: Why We Tell You Not to Take the Train",
+    "og_description": "The Saurashtra Mail is the right train for Ahmedabad and the best option from Mumbai. From Vadodara it leaves at 02:57 in the morning. Same train, same arrival, very different night."
+  },
+  "intent_lock": {
+    "primary_intent": "somnath dwarka tour package from vadodara",
+    "intent_type": "transactional",
+    "secondary_owned": [
+      "somnath dwarka package from vadodara",
+      "vadodara to dwarka somnath tour",
+      "dwarka somnath trip from vadodara",
+      "baroda to dwarka somnath package"
+    ],
+    "explicitly_not_owned": [
+      {
+        "query": "vadodara to dwarka train",
+        "url": "/plan/how-to-reach/",
+        "why": "Timetable intent. This page uses the 02:57 as an argument, it does not publish a timetable."
+      },
+      {
+        "query": "vadodara to dwarka distance",
+        "url": "/plan/how-to-reach/"
+      },
+      {
+        "query": "statue of unity tour from vadodara",
+        "url": "/gujarat-tour-packages/statue-of-unity-with-pavagadh/",
+        "why": "Different direction, different trip. This page refuses it and hands it over."
+      },
+      {
+        "query": "somnath dwarka with statue of unity",
+        "url": "/somnath-dwarka-tour-package/with-statue-of-unity/",
+        "why": "That combination is an add-on spoke, not this page's job."
+      },
+      {
+        "query": "somnath dwarka tour package from ahmedabad",
+        "url": "/somnath-dwarka-tour-package/from-ahmedabad/",
+        "why": "Adjacent city on the same train and the same highway. The blur risk here is the highest on the site."
+      },
+      {
+        "query": "somnath dwarka package 4 days 3 nights",
+        "url": "/somnath-dwarka-tour-package/4-days-3-nights/"
+      },
+      {
+        "query": "somnath dwarka tour package",
+        "url": "/somnath-dwarka-tour-package/"
+      }
+    ],
+    "cannibalization_guard": "Vadodara and Ahmedabad are 110 km apart, share a highway and share a train. This is the tightest pair on the site. The separation is enforced by the verdict: Ahmedabad argues about which train, Vadodara argues about whether to take one at all. If either page starts ranking for the other's city term, cut the shared road detail from the weaker one, not the transport argument, because the argument is the only thing keeping them apart."
+  },
+  "research_taxonomy": {
+    "central_entity": "Vadodara to Somnath Dwarka pilgrimage circuit",
+    "entity_attributes": {
+      "origin": "Vadodara, Gujarat, also called Baroda. Vadodara Junction (BRC), Chhayapuri (CYI). Vadodara airport.",
+      "road_distance_to_dwarka_km": "490 to 520",
+      "rail_distance_to_dwarka_km": "567 to 569",
+      "rail_time_to_dwarka": "about 10 hours 13 minutes on the daily service",
+      "road_distance_to_somnath_km": "roughly 440, derived rather than sourced. See claims dropped.",
+      "only_daily_train": "Saurashtra Mail 22945, departs Vadodara Junction 02:57, reaches Dwarka 13:10",
+      "position": "110 km further from both temples than Ahmedabad, on the same highway and the same train, with a materially worse boarding time."
+    },
+    "personas_served": [
+      "Vadodara and Baroda resident planning a family yatra",
+      "Traveller from Bharuch, Anand or Nadiad using Vadodara as the pickup point",
+      "Vadodara family combining the circuit with a separate Statue of Unity trip",
+      "Corporate or group booker sourcing from Vadodara"
+    ],
+    "paa_harvested": [
+      "How far is Dwarka from Vadodara?",
+      "Is there a direct train from Vadodara to Dwarka?",
+      "How many days do you need for Dwarka and Somnath from Vadodara?",
+      "Can we cover Statue of Unity with Dwarka and Somnath?",
+      "What is the best way to travel from Vadodara to Dwarka?",
+      "How much is a Dwarka Somnath package from Vadodara?"
+    ],
+    "serp_recon": {
+      "date": "2026-07-15",
+      "query": "somnath dwarka tour package from vadodara",
+      "competitors": [
+        "gujaratpackage.com Gujarat tour packages from Vadodara",
+        "travel.yatradham.org/package/dwarka-somnath-tour-package",
+        "gujaratexpert.com/dwarka-somnath-tour-package/",
+        "veenaworld.com/package/dwarka-somnath-tour-package-shgj3/i"
+      ],
+      "winning_shape": "The Ahmedabad package with the pickup line changed. Vadodara appears in a list of origin cities on pages that are otherwise identical to one another.",
+      "universal_gap": "Nobody has looked at the Vadodara timetable. Every page selling a Vadodara start either ignores rail or copies the Ahmedabad rail advice, which is wrong here, because the same train that leaves Ahmedabad at a workable 05:05 leaves Vadodara at 02:57. Nobody says the obvious thing either, which is that from Vadodara this circuit is simply harder than it is from Ahmedabad and you should know that before you pay.",
+      "ai_overview_present": true,
+      "features_targeted": [
+        "AI Overview (commercial)",
+        "PAA",
+        "Product/TouristTrip snippet"
+      ]
+    },
+    "information_gain": [
+      "The Saurashtra Mail 22945 leaves Vadodara Junction at 02:57 and is the only daily train to Dwarka. Five sources agree. No page in the ranking set mentions it.",
+      "That 02:57 is the same train that leaves Mumbai at 21:05 and Ahmedabad at 05:05, and all three arrive at Dwarka at 13:10. The train has a middle, and Vadodara is sitting in it at three in the morning.",
+      "So the rail verdict here inverts the Ahmedabad page on the same train: Ahmedabad should take it, Vadodara probably should not. Same service, opposite advice, and the reason is the boarding hour rather than anything about the train.",
+      "Several weekly services leave Vadodara at civilised hours and arrive in workable slots, so the answer depends on your date rather than on a rule. We check the running days for your dates rather than printing a timetable that decays.",
+      "The Statue of Unity is about 90 km from Vadodara and in the wrong direction. It is not on the way to Dwarka, it is 90 km backwards from it, and this page says so rather than bundling it to inflate the quote."
+    ]
+  },
+  "copy": {
+    "quick_answer": "A Somnath Dwarka tour package from Vadodara covers 490 to 520 km to Dwarka, which is 8 to 9 honest hours, then 233 km down the coast to Somnath. Experience My India runs it from Rs. 5,000 per person per night, so the four day plan most Vadodara families book is Rs. 15,000 per person with a 3 star hotel, breakfast and your vehicle included. There is a daily train, and we are going to spend a section talking you out of it, because it leaves Vadodara Junction at 02:57 in the morning.",
+    "sections": [
+      {
+        "h2": "The 02:57 problem",
+        "body": [
+          "The Saurashtra Mail, 22945, is the only train that runs daily from Vadodara to Dwarka. It leaves Vadodara Junction at 02:57 and reaches Dwarka at 13:10, which is about ten hours and a quarter for 567 to 569 km of track.",
+          "The arrival is perfect. 13:10 lands you inside the Dwarkadhish afternoon closure, which runs from about 1:00 pm to 5:00 pm, so you check in, eat, rest, and walk into the temple when the gate reopens at 5:00 pm. We recommend exactly this train from Ahmedabad and we recommend it hard.",
+          "The departure is the problem. 02:57 is not an early start. It is the middle of the night. You are awake at one in the morning, at the station by half past two, and on a ten hour train having not slept. You then arrive to a shut temple, and the rest you take in the afternoon is not a bonus, it is repair.",
+          "Here is what makes this specific rather than a complaint. It is the same train. It leaves Mumbai Central at 21:05, where you board after dinner and sleep for eight hours. It leaves Ahmedabad at 05:05, which is early but human. It picks Vadodara up at 02:57, and all three of you step onto the same Dwarka platform at 13:10. The train has a middle, and Vadodara is sitting in it at three in the morning.",
+          "So from Vadodara, we drive. Not because rail is bad here, but because this particular hour is."
+        ]
+      },
+      {
+        "h2": "Unless your date says otherwise",
+        "body": [
+          "That is the rule, and there is a real exception to it.",
+          "Vadodara has more than one train to Dwarka. Several run weekly rather than daily, and some of them leave at hours a person would choose, arriving in slots that work just as well as the 13:10. The catch is that they run on particular days, those days change, and a page that printed them today would be lying to you by winter.",
+          "So we do not print them. Send us your dates and we will check what is actually running that week, and if a civilised train exists on your day we will tell you to take it and we will meet it at Dwarka. If it does not, we drive at 05:30.",
+          "That is a real answer that costs us a booking sometimes. We would rather have it than a timetable that rots."
+        ]
+      },
+      {
+        "h2": "The road, and why we leave at 05:30",
+        "body": [
+          "490 to 520 km to Dwarka, which is 8 to 9 hours with a breakfast stop and a lunch stop. You pass Ahmedabad about two hours in, and from there you are on the road the Ahmedabad page describes.",
+          "The 05:30 pickup is arithmetic you can check. Leave at 05:30, reach Dwarka at about 16:30, and the gate reopens at 17:00. Leave at 09:00 and you arrive at 20:00, which still catches the evening session but costs you the ghat and the light. Leave later than that and day one is a car seat.",
+          "It is worth saying plainly: this drive is 110 km longer than the same drive from Ahmedabad, in each direction. That is roughly two extra hours on your trip, and no amount of planning removes them. If you have family in Ahmedabad and the option to start from there, you will have a better first day. We would rather tell you that than sell you the longer version."
+        ]
+      },
+      {
+        "h2": "The Statue of Unity is not on the way",
+        "body": [
+          "It comes up on every Vadodara enquiry, so here it is. The Statue of Unity is about 90 km from Vadodara. It is also in the opposite direction to Dwarka.",
+          "Bundling it into this circuit means driving 90 km southeast, then turning around and driving 90 km back past Vadodara before your trip to Dwarka has even started. That is 180 km and most of a day, purchased in order to describe two separate holidays as one.",
+          "Do both. Do them as two trips, or as one trip with the statue on its own bookend day, priced honestly. What we will not do is print it as an en route stop, because it is not one and you would notice at about 7 pm on day one."
+        ]
+      }
+    ],
+    "itinerary": {
+      "note": "From Vadodara the trip is decided at its ends, not its middle, so that is where the detail is. Day 1 is the 490 to 520 km out. Day 4 is the long leg home. Days 2 and 3 are the shared circuit and live on the duration spoke.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Vadodara to Dwarka, 490 to 520 km",
+          "stops": [
+            {
+              "time": "05:30",
+              "text": "Pickup at your Vadodara address, Vadodara Junction or the airport."
+            },
+            {
+              "time": "07:30",
+              "text": "Past Ahmedabad. From here you are on the route the Ahmedabad page describes, two hours behind their car."
+            },
+            {
+              "time": "08:30",
+              "text": "Breakfast on the Rajkot highway. Kathiawadi thali country, and one of the better meals of the trip."
+            },
+            {
+              "time": "13:30",
+              "text": "Lunch near Jamnagar."
+            },
+            {
+              "time": "16:30",
+              "text": "Dwarka hotel check in, Lords Inn class at the 3 star tier."
+            },
+            {
+              "time": "17:30",
+              "text": "Dwarkadhish evening darshan. The gate reopened at 5:00 pm, so the queue is moving."
+            },
+            {
+              "time": "19:00",
+              "text": "Gomti Ghat, and the Sudama Setu footbridge if the light holds."
+            },
+            {
+              "time": "20:30",
+              "text": "Dinner. Early night, because tomorrow starts at six."
+            }
+          ]
+        },
+        {
+          "days": "2 and 3",
+          "title": "The middle, which is the same from everywhere",
+          "shared_middle": true,
+          "intro": "Once you are in Dwarka, your start city stops mattering. Days 2 and 3 run identically whether you came from Vadodara, Ahmedabad or Mumbai, so rather than retype them we will tell you what they hold and send you to the page that sets them out hour by hour.",
+          "summary": "Day 2 is Dwarka: the 6:30 am Mangala Aarti, then Bet Dwarka across Sudarshan Setu, then Nageshwar Jyotirlinga on the way back, then Rukmini Devi and the shore temples. Day 3 is the 233 km coastal run to Somnath through Porbandar, ending at the Sandhya Aarti and the 7:45 pm show.",
+          "handoff": "The full hour by hour version of both days is on the 4 days 3 nights plan. It is the same two days you are buying here.",
+          "handoff_url": "/somnath-dwarka-tour-package/4-days-3-nights/",
+          "_build_note": "This block is deliberately compressed. Days 2 and 3 are the shared circuit and belong to the duration spoke, not to five origin pages repeating each other. Restating them in full pushed the Vadodara and Ahmedabad overlap to 19.6 percent against a 15 percent gate, and the only ways to fix that are to rewrite true sentences into worse synonyms, which the house style bans, or to stop duplicating them, which is also better architecture. The origin page owns the ends of the trip. The duration spoke owns the middle."
+        },
+        {
+          "day": 4,
+          "title": "Somnath to Vadodara, the long leg home",
+          "stops": [
+            {
+              "time": "07:00",
+              "text": "Mangala Aarti and unhurried darshan at the Jyotirlinga."
+            },
+            {
+              "time": "09:00",
+              "text": "Bhalka Tirth, Triveni Sangam, Geeta Mandir, and the Ahalyabai temple the queen mother built in 1782."
+            },
+            {
+              "time": "10:30",
+              "text": "Depart for Vadodara. This is the longest day of the trip and there is no way around it. We leave earlier than the Ahmedabad plan does for exactly that reason."
+            },
+            {
+              "time": "19:30",
+              "text": "Drop at your Vadodara address, the station or the airport."
+            }
+          ]
+        }
+      ]
+    },
+    "price_sheet": {
+      "intro": "The rate is per person per night. Multiply by your nights. Hotel, breakfast and your vehicle with a driver are inside every number, and there is no arithmetic hidden behind an enquiry form.",
+      "table": [
+        {
+          "tier": "3 star",
+          "per_night_pp": "Rs. 5,000",
+          "two_nights": "Rs. 10,000",
+          "three_nights_recommended": "Rs. 15,000",
+          "four_nights": "Rs. 20,000",
+          "hotels": "Lords Inn"
+        },
+        {
+          "tier": "4 star",
+          "per_night_pp": "Rs. 10,000",
+          "two_nights": "Rs. 20,000",
+          "three_nights_recommended": "Rs. 30,000",
+          "four_nights": "Rs. 40,000",
+          "hotels": "The Fern, Fortune Landmark"
+        },
+        {
+          "tier": "5 star",
+          "per_night_pp": "Rs. 12,500",
+          "two_nights": "Rs. 25,000",
+          "three_nights_recommended": "Rs. 37,500",
+          "four_nights": "Rs. 50,000",
+          "hotels": "The Fern Sattva Resort at Dwarka, best property in town at Somnath"
+        }
+      ],
+      "vehicle_note": "Group size picks the vehicle, not budget. Sedan for 2 to 3, Ertiga for 4 to 5, Innova Crysta for 5 to 6, 9 seater Tempo Traveller for 7 to 9, 12 seater Maharaja or Urbania for 10 to 12, 26 seater Tempo Traveller above that.",
+      "distance_note": "The rate does not change because Vadodara is further out than Ahmedabad. The vehicle is in the price either way and we absorb the extra 220 km across the round trip. What you cannot absorb is the two hours, and those are yours.",
+      "five_star_honesty": "No five star Taj or ITC property operates in Dwarka or in Somnath. In Dwarka the top tier puts you in The Fern Sattva Resort. At Somnath it buys the best room in town, named in your quote before you pay. Taj and ITC enter your plan only on the legs that reach them, and from Vadodara that means Welcomhotel ITC Alkapuri on your own doorstep, which is a hotel you can book without us.",
+      "exclusions": "Lunch and dinner, personal pooja, seva and abhishek at either temple, the sound and light show ticket, camera and cloakroom charges, tips, rail tickets if you take a train, and anything you buy yourself.",
+      "cancellation": "Cancellation, refunds and the payment schedule are set out in full on our cancellation and refund policy, and the booking terms sit alongside it. Read both before you pay. If a road shuts or a festival moves the temple's hours, talk to us first, because that is usually a reschedule rather than a cancellation.",
+      "trust_warning": "The Shree Somnath Trust accepts pooja and donation bookings only through its own website and warns that it never asks for payment through private numbers, WhatsApp or UPI. Book sevas yourself at somnath.org. We will not take that money on your behalf.",
+      "_order": [
+        "intro",
+        "table",
+        "vehicle_note",
+        "distance_note",
+        "five_star_honesty",
+        "exclusions",
+        "cancellation",
+        "trust_warning"
+      ]
+    },
+    "why_choose": [
+      "We read the Vadodara timetable instead of copying the Ahmedabad advice. The same train that we tell Ahmedabad to take, we tell you to skip, and the reason is 02:57.",
+      "We check your dates against the weekly services rather than printing a timetable that decays. Sometimes that means we tell you to take a train and we only sell you the ground half.",
+      "We will tell you that starting from Ahmedabad gives you a better first day, if you have that option. An operator paid by the kilometre would not.",
+      "We will not bundle the Statue of Unity into this circuit to make the quote look bigger. It is 90 km in the wrong direction and you would notice.",
+      "A local Gujarat team plans the route and drives it. One number, +91 7302265809, on call and WhatsApp.",
+      "We reconfirm every timing before departure, because festival schedules move at Shravan, Janmashtami and Mahashivratri."
+    ],
+    "not_for_you_if_heading": "This trip is not for you if",
+    "not_for_you_if": [
+      "You want the Statue of Unity on the way. It is not on the way. It is 90 km backwards, and pretending otherwise costs you most of day one.",
+      "You want to leave Vadodara after breakfast. A 09:00 start puts you in Dwarka at 20:00 and costs you the ghat and the light. Later than that and day one is a car seat.",
+      "You cannot sleep sitting up and you want the daily train anyway. 02:57 will take a day off the rest of your trip and you will feel it at Bet Dwarka on morning two.",
+      "You want Dwarka and Somnath in one day from Vadodara. It is 500 km out, 233 across and 440 back, and both temples close in the afternoon. We will not sell it.",
+      "You want a five star Taj in Dwarka. It does not exist, and anyone selling you one should be asked for the property name."
+    ],
+    "faq": [
+      {
+        "q": "How far is Dwarka from Vadodara?",
+        "a": "490 to 520 km by road, which is 8 to 9 honest hours with a breakfast and a lunch stop. By rail it is 567 to 569 km. That is roughly 110 km further than the same trip from Ahmedabad, in each direction."
+      },
+      {
+        "q": "Is there a direct train from Vadodara to Dwarka?",
+        "a": "Yes, one daily. The Saurashtra Mail 22945 leaves Vadodara Junction at 02:57 and reaches Dwarka at 13:10, about ten hours and a quarter. The arrival is ideal, since it lands inside the temple's afternoon closure. The departure is the middle of the night, which is why we usually tell Vadodara travellers to drive. Several weekly services leave at better hours, and we check which of them run on your dates."
+      },
+      {
+        "q": "What is the best way to travel from Vadodara to Dwarka?",
+        "a": "By road for most people. We leave at 05:30 and reach Dwarka around 16:30, half an hour before the gate reopens at 17:00, and the vehicle stays with you for the whole circuit. The daily train is a fine ride at a punishing hour. If a weekly service runs on your date at a reasonable time, we will say so."
+      },
+      {
+        "q": "Can we cover the Statue of Unity with Dwarka and Somnath?",
+        "a": "Not as one route. The Statue of Unity is about 90 km from Vadodara in the opposite direction to Dwarka, so adding it means 180 km of doubling back before the circuit starts. Do it as its own day at either end of the trip and we will price it that way."
+      },
+      {
+        "q": "How many days do you need for Dwarka and Somnath from Vadodara?",
+        "a": "Four days and three nights, at Rs. 15,000 per person at the 3 star tier. Three days works only if you accept losing Bet Dwarka, and from Vadodara it is tighter than it is from Ahmedabad because the drive is 110 km longer at each end."
+      },
+      {
+        "q": "How much is a Dwarka Somnath package from Vadodara?",
+        "a": "From Rs. 5,000 per person per night, so Rs. 15,000 per person for the standard four day, three night plan at the 3 star tier. Rs. 30,000 at 4 star and Rs. 37,500 at 5 star. Hotel, breakfast and your vehicle with driver are included in all three, and the rate does not go up because you are further out."
+      }
+    ],
+    "final_cta": {
+      "summary": "490 to 520 km, a 05:30 start that buys the evening darshan, and one daily train at 02:57 that we will talk you out of unless your dates say otherwise. Rs. 15,000 per person at 3 star for four days, hotel, breakfast and vehicle included.",
+      "primary": "Get this plan for your dates",
+      "secondary": "Send your dates on WhatsApp, +91 7302265809",
+      "tertiary": "Call +91 7302265809"
+    }
+  },
+  "aeo_geo": {
+    "answer_snippet": "A Somnath Dwarka tour package from Vadodara covers 490 to 520 km to Dwarka, 8 to 9 hours by road, then 233 km down the coast to Somnath. The only daily train, the Saurashtra Mail 22945, leaves Vadodara Junction at 02:57, which is why most Vadodara travellers drive. Experience My India runs the circuit from Rs. 5,000 per person per night, so the four day plan is Rs. 15,000 per person with hotel, breakfast and vehicle included.",
+    "snippet_placement": "First paragraph, above the fold, brand inside it so a summary still carries it.",
+    "question_shaped_headings": [
+      "The 02:57 problem",
+      "Unless your date says otherwise",
+      "The road, and why we leave at 05:30",
+      "The Statue of Unity is not on the way",
+      "Is there a direct train from Vadodara to Dwarka?"
+    ],
+    "extractable_passages": [
+      "Vadodara to Dwarka is 490 to 520 km by road and 567 to 569 km by rail. Dwarka to Somnath is 233 km on NH51.",
+      "The Saurashtra Mail 22945 is the only daily train from Vadodara to Dwarka, leaving Vadodara Junction at 02:57 and arriving at 13:10, about 10 hours 13 minutes.",
+      "The same train leaves Mumbai Central at 21:05, Vadodara at 02:57 and Ahmedabad at 05:05, and reaches Dwarka at 13:10 from all three."
+    ],
+    "quotable_first_party_claims": [
+      "Somnath Dwarka from Vadodara, from Rs. 5,000 per person per night, Rs. 15,000 per person for four days at 3 star, vehicle included, and the rate does not rise because you are further out.",
+      "The only daily train from Vadodara to Dwarka leaves at 02:57, which is why we tell Vadodara travellers to drive and Ahmedabad travellers to take the same train.",
+      "The Statue of Unity is 90 km from Vadodara in the opposite direction to Dwarka. It is not an en route stop and nobody should sell it as one."
+    ],
+    "extraction_formats": [
+      "transport comparison TABLE",
+      "hour by hour itinerary TABLE",
+      "price matrix TABLE",
+      "question shaped FAQ"
+    ],
+    "zero_click_defense": "An AI Overview can take the 02:57 and the distance. It cannot check which weekly service runs on the reader's date, which is the actual answer and the reason to make contact. The brand sits inside the answer snippet.",
+    "llms_txt_entry": true,
+    "citation_bait": "The one train, three cities, three departure times, one arrival structure. It is a genuinely interesting fact about a public timetable that nobody has written down, it is verifiable in a single search, and it explains why the same recommendation flips between two neighbouring cities. That combination of surprising, checkable and explanatory is what gets quoted."
+  },
+  "schema_jsonld": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TouristTrip",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-vadodara/#trip",
+        "name": "Somnath Dwarka Tour Package From Vadodara",
+        "description": "Four day pilgrimage circuit departing Vadodara, covering Dwarkadhish, Bet Dwarka across Sudarshan Setu, Nageshwar, Porbandar and Somnath Jyotirlinga, planned around the Dwarkadhish afternoon closure and the 7:45 pm Jay Somnath show.",
+        "touristType": [
+          "Pilgrim",
+          "Family",
+          "Senior citizens",
+          "Groups"
+        ],
+        "departureLocation": {
+          "@type": "City",
+          "name": "Vadodara",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Vadodara",
+            "addressRegion": "Gujarat",
+            "addressCountry": "IN"
+          }
+        },
+        "arrivalLocation": {
+          "@type": "City",
+          "name": "Vadodara"
+        },
+        "itinerary": {
+          "@type": "ItemList",
+          "numberOfItems": 5,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Dwarkadhish Temple",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Dwarka",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Bet Dwarka via Sudarshan Setu",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Okha",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Nageshwar Jyotirlinga",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Dwarka",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Kirti Mandir, Porbandar",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Porbandar",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Somnath Jyotirlinga Temple",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Prabhas Patan",
+                  "addressRegion": "Gujarat",
+                  "postalCode": "362268",
+                  "addressCountry": "IN"
+                }
+              }
+            }
+          ]
+        },
+        "provider": {
+          "@id": "https://SITE/#organization"
+        },
+        "offers": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/from-vadodara/#offer"
+        }
+      },
+      {
+        "@type": "AggregateOffer",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-vadodara/#offer",
+        "itemOffered": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/from-vadodara/#trip"
+        },
+        "priceCurrency": "INR",
+        "lowPrice": "10000",
+        "highPrice": "50000",
+        "offerCount": 3,
+        "availability": "https://schema.org/InStock",
+        "url": "https://SITE/somnath-dwarka-tour-package/from-vadodara/",
+        "seller": {
+          "@id": "https://SITE/#organization"
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "3 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "5000",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "name": "4 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "10000",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "name": "5 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "12500",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          }
+        ],
+        "_build_note": "lowPrice 10000, not 5000, matching the Mumbai treatment. A one night plan is not a real product from 500 km out. The floor here is two nights at 3 star. highPrice 50000 is four nights at 5 star. Every number is visible in the page's matrix."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-vadodara/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://SITE/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Somnath Dwarka Tour Package",
+            "item": "https://SITE/somnath-dwarka-tour-package/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "From Vadodara",
+            "item": "https://SITE/somnath-dwarka-tour-package/from-vadodara/"
+          }
+        ]
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://SITE/#organization",
+        "name": "Experience My India",
+        "url": "https://SITE/",
+        "telephone": "+917302265809",
+        "areaServed": {
+          "@type": "State",
+          "name": "Gujarat"
+        },
+        "sameAs": [
+          "https://www.tripadvisor.in/Attraction_Review-g304551-d33748695-Reviews-Experience_My_India-New_Delhi_National_Capital_Territory_of_Delhi.html"
+        ],
+        "_build_note": "Canonical name is Experience My India per client decision 15 July 2026. The Google Business Profile URL goes into sameAs only after it is renamed from Shree Chamunda Tours and Travels."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-vadodara/#faq",
+        "_build_note": "Parse only per the URL map. Google no longer shows FAQ rich results for most sites. Emit for machine extraction, never promise a rich result.",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How far is Dwarka from Vadodara?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "490 to 520 km by road, which is 8 to 9 honest hours with a breakfast and a lunch stop. By rail it is 567 to 569 km. That is roughly 110 km further than the same trip from Ahmedabad, in each direction."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is there a direct train from Vadodara to Dwarka?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, one daily. The Saurashtra Mail 22945 leaves Vadodara Junction at 02:57 and reaches Dwarka at 13:10, about ten hours and a quarter. The arrival is ideal because it lands inside the temple's afternoon closure. The departure is the middle of the night, which is why most Vadodara travellers drive. Several weekly services leave at better hours."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can we cover the Statue of Unity with Dwarka and Somnath?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not as one route. The Statue of Unity is about 90 km from Vadodara in the opposite direction to Dwarka, so adding it means 180 km of doubling back before the circuit starts. Do it as its own day at either end of the trip."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much is a Dwarka Somnath package from Vadodara?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "From Rs. 5,000 per person per night, so Rs. 15,000 per person for the standard four day, three night plan at the 3 star tier. Rs. 30,000 at 4 star and Rs. 37,500 at 5 star. Hotel, breakfast and vehicle with driver are included in all three."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "internal_link_matrix": {
+    "inbound": [
+      {
+        "source": "/somnath-dwarka-tour-package/",
+        "anchor": "From Vadodara",
+        "placement": "start city chooser table",
+        "priority": "P0",
+        "reason": "Parent hub. Crawl depth 2, zero orphan risk."
+      },
+      {
+        "source": "/plan/how-to-reach/",
+        "anchor": "Somnath Dwarka packages from Vadodara",
+        "placement": "contextual, under the Vadodara rail section",
+        "priority": "P0",
+        "reason": "The how to reach page owns the timetable query and hands commercial intent here."
+      },
+      {
+        "source": "/somnath-dwarka-tour-package/from-ahmedabad/",
+        "anchor": "starting from Vadodara instead",
+        "placement": "other start cities",
+        "priority": "P1",
+        "reason": "Adjacent city, same train. The link must exist so Google sees a deliberate distinction rather than two near duplicates."
+      },
+      {
+        "source": "/somnath-dwarka-tour-package/4-days-3-nights/",
+        "anchor": "starting from Vadodara",
+        "placement": "other start cities",
+        "priority": "P1"
+      },
+      {
+        "source": "/gujarat-tour-packages/from-vadodara/",
+        "anchor": "Somnath and Dwarka only",
+        "placement": "contextual",
+        "priority": "P1",
+        "reason": "Statewide origin page narrows to this circuit."
+      },
+      {
+        "source": "/gujarat-tour-packages/statue-of-unity-with-pavagadh/",
+        "anchor": "the Somnath Dwarka circuit from Vadodara",
+        "placement": "contextual, where it explains it is a separate trip",
+        "priority": "P1",
+        "reason": "Reciprocal of this page's refusal. The two pages agree with each other, which is what makes the refusal credible."
+      },
+      {
+        "source": "/data/dwarka-somnath-distance-table/",
+        "anchor": "Somnath Dwarka tour package from Vadodara",
+        "placement": "under the table",
+        "priority": "P0",
+        "reason": "Middleman relay. The data asset earns links, this page receives the equity."
+      },
+      {
+        "source": "/",
+        "anchor": "packages from Vadodara",
+        "placement": "start city module",
+        "priority": "P1"
+      }
+    ],
+    "outbound": [
+      {
+        "target": "/somnath-dwarka-tour-package/",
+        "anchor": "compare all Somnath Dwarka packages",
+        "placement": "opener, once",
+        "priority": "P0",
+        "reason": "Returns equity to the hub. Non negotiable on every spoke."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/4-days-3-nights/",
+        "anchor": "4 days 3 nights plan, Rs. 15,000 pp",
+        "placement": "itinerary intro",
+        "priority": "P0"
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/from-ahmedabad/",
+        "anchor": "the same train from Ahmedabad at 05:05",
+        "placement": "the 02:57 problem section",
+        "priority": "P0",
+        "reason": "The comparison is the argument. Linking it proves the claim rather than asserting it, and it declares the boundary between two pages that would otherwise blur."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/from-mumbai/",
+        "anchor": "boarding the same train at Mumbai at 21:05",
+        "placement": "the 02:57 problem section",
+        "priority": "P1",
+        "reason": "Completes the one train three cities thread across the origin set."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/with-statue-of-unity/",
+        "anchor": "the Statue of Unity as its own day",
+        "placement": "the refusal section",
+        "priority": "P0",
+        "reason": "The refusal must have somewhere to send the demand, or the reader leaves the site to satisfy it."
+      },
+      {
+        "target": "/gujarat-tour-packages/statue-of-unity-with-pavagadh/",
+        "anchor": "Statue of Unity with Pavagadh",
+        "placement": "the refusal section",
+        "priority": "P1"
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/by-train/",
+        "anchor": "the rail version of this circuit",
+        "placement": "unless your date says otherwise",
+        "priority": "P1",
+        "reason": "Build note: blocked until ops confirms what by-train sells. Do not publish before that page exists."
+      },
+      {
+        "target": "/plan/how-to-reach/",
+        "anchor": "how to reach Dwarka and Somnath",
+        "placement": "transport section",
+        "priority": "P1"
+      },
+      {
+        "target": "/temples/dwarkadhish-temple-timings/",
+        "anchor": "the Dwarkadhish closure window",
+        "placement": "the 02:57 problem",
+        "priority": "P0",
+        "reason": "The fact the arrival argument rests on."
+      },
+      {
+        "target": "/temples/somnath-temple-timings/",
+        "anchor": "Somnath aarti and show timings",
+        "placement": "day three evening",
+        "priority": "P1"
+      },
+      {
+        "target": "/cancellation-refund/",
+        "anchor": "cancellation and refund policy",
+        "placement": "price sheet",
+        "priority": "P0"
+      },
+      {
+        "target": "/booking-policy/",
+        "anchor": "booking terms",
+        "placement": "price sheet",
+        "priority": "P1"
+      },
+      {
+        "target": "/methodology/",
+        "anchor": "how we verify every timing and fare",
+        "placement": "why choose, second bullet",
+        "priority": "P0",
+        "reason": "The date checking promise is only credible if the method is published."
+      },
+      {
+        "target": "/reviews/",
+        "anchor": "what travellers said",
+        "placement": "why choose",
+        "priority": "P1",
+        "reason": "Live only once real reviews exist."
+      },
+      {
+        "target": "/about/",
+        "anchor": "about our Gujarat team",
+        "placement": "why choose",
+        "priority": "P2"
+      },
+      {
+        "target": "/dwarka/",
+        "anchor": "Dwarka guide",
+        "placement": "background reading",
+        "priority": "P2"
+      },
+      {
+        "target": "/somnath/",
+        "anchor": "Somnath guide",
+        "placement": "background reading",
+        "priority": "P2"
+      },
+      {
+        "target": "https://somnath.org/",
+        "anchor": "official Somnath Trust website",
+        "placement": "trust warning paragraph",
+        "priority": "P0",
+        "rel": "nofollow",
+        "reason": "Outbound authority citation and buyer protection."
+      }
+    ],
+    "anchor_diversity": "Exact match anchor used once, from the hub chooser. Everything else partial, branded or natural language.",
+    "crawl_depth": 2
+  },
+  "cta": {
+    "conversion_action": "qualify_form",
+    "primary": {
+      "label": "Get this plan for your dates",
+      "target": "enquiry form",
+      "placement": "sticky above fold on mobile, repeated after the 02:57 section, after the price matrix, and after the FAQ"
+    },
+    "secondary": {
+      "label": "Send your dates on WhatsApp",
+      "target": "https://wa.me/917302265809",
+      "placement": "sticky bar, lighter weight"
+    },
+    "tertiary": {
+      "label": "Call +91 7302265809",
+      "target": "tel:+917302265809",
+      "placement": "footer of each CTA block"
+    },
+    "form_fields": [
+      "dates",
+      "group size",
+      "hotel tier",
+      "pickup point in Vadodara",
+      "open to a train if a good one runs that week"
+    ],
+    "form_note": "The last field is the page's whole promise. It is also a qualification signal: anyone who ticks it is telling us they read the 02:57 section, which is the buyer this page is built for.",
+    "honest_urgency_only": "Real availability and real date cutoffs only. Nothing invented.",
+    "banned": [
+      "timer widgets that invent a deadline",
+      "invented viewer counts",
+      "fake seats left"
+    ]
+  },
+  "technical": {
+    "cwv_targets": {
+      "LCP": "<2.5s",
+      "INP": "<200ms",
+      "CLS": "<0.1"
+    },
+    "image_budget": "Hero under 150 KB AVIF or WebP at 1200 wide, priority loaded. Everything else lazy. Real departure photography only, no stock.",
+    "required_alt_examples": [
+      "Vadodara Junction platform in the dark before the 02:57 Saurashtra Mail",
+      "The Ahmedabad bypass at first light on the Vadodara to Dwarka drive",
+      "Dwarkadhish main gate at 5 pm as the afternoon closure ends"
+    ],
+    "rendering": "SSG with ISR. Tag the rate matrix and the transport block for on demand revalidation from the CMS publish webhook. The 02:57 is the fastest decaying fact on this page and the page is built on it.",
+    "mobile": "Sticky enquiry bar. The transport comparison and price matrix must scroll horizontally or collapse to cards under 480px.",
+    "last_updated_visible": true,
+    "hreflang": "en-IN self, hi-IN twin at /hi/somnath-dwarka-tour-package/from-vadodara/, x-default to en-IN"
+  },
+  "measurement": {
+    "ga4_events": [
+      {
+        "name": "generate_lead",
+        "trigger": "enquiry form submit",
+        "params": [
+          "start_city",
+          "open_to_train",
+          "duration_variant",
+          "hotel_tier",
+          "group_size"
+        ]
+      },
+      {
+        "name": "whatsapp_click",
+        "trigger": "WhatsApp CTA",
+        "params": [
+          "placement"
+        ]
+      },
+      {
+        "name": "call_click",
+        "trigger": "phone CTA",
+        "params": [
+          "placement"
+        ]
+      },
+      {
+        "name": "sou_handoff",
+        "trigger": "click to either Statue of Unity page",
+        "params": [
+          "target_url"
+        ],
+        "note": "Measures whether the refusal keeps the reader on the site or loses them. If this fires often and no lead follows, the refusal section is doing damage and needs a softer landing."
+      }
+    ],
+    "loops": [
+      "Striking distance: if this page sits at 11 to 20 after 8 weeks, add contextual links from /plan/how-to-reach/ and /gujarat-tour-packages/from-vadodara/ before rewriting a word.",
+      "Duplicate watch, highest priority on the site: Vadodara and Ahmedabad share a highway and a train. Check monthly that Google is ranking each for its own city term. If it is folding them together, the road section here is the thing to cut.",
+      "AI Overview watch: track the 02:57 and the one train three cities structure.",
+      "Decay: the 02:57 is load bearing. If that departure time changes, this page's argument changes with it. Recheck quarterly and before every Shravan and Janmashtami."
+    ]
+  },
+  "sources": [
+    {
+      "claim": "Saurashtra Mail 22945 departs Vadodara Junction 02:57 and reaches Dwarka 13:10, daily, about 10 hours 13 minutes",
+      "sources": [
+        "ixigo.com",
+        "confirmtkt.com",
+        "railyatri.in",
+        "goibibo.com",
+        "tickets.paytm.com"
+      ],
+      "checked": "2026-07-15",
+      "note": "Five independent sources agree on the departure minute, the arrival minute and the daily frequency. This is the best sourced fact in the origin set."
+    },
+    {
+      "claim": "Vadodara to Dwarka rail distance 567 to 569 km",
+      "sources": [
+        "confirmtkt.com, 567",
+        "ixigo.com, 569",
+        "railyatri.in, 569",
+        "tickets.paytm.com, 569"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Vadodara to Dwarka road distance 490 to 520 km",
+      "sources": [
+        "yatra.com, 516 km",
+        "rome2rio.com, 304 miles which is about 489 km"
+      ],
+      "checked": "2026-07-15",
+      "note": "Two sources, 27 km apart. The copy gives the band rather than picking one."
+    },
+    {
+      "claim": "Additional Vadodara to Dwarka services exist on a weekly basis",
+      "sources": [
+        "confirmtkt.com",
+        "goibibo.com",
+        "tickets.paytm.com",
+        "yatra.com"
+      ],
+      "checked": "2026-07-15",
+      "note": "All four agree that multiple weekly services run. They disagree on how many, listing 5, 8, 11 and 15. The copy says 'several' and names none, because the count is contested and the running days decay. See claims dropped."
+    },
+    {
+      "claim": "Dwarka to Somnath 233 km on NH51, 5 to 6 hours",
+      "sources": [
+        "yatra.com, 233 km",
+        "gujarattrips.com, 233 km",
+        "kiomoi.com"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Saurashtra Mail departs Mumbai Central 21:05 and Ahmedabad 05:05, reaching Dwarka 13:10 from both",
+      "sources": [
+        "ixigo.com",
+        "confirmtkt.com",
+        "railyatri.in",
+        "erail.in"
+      ],
+      "checked": "2026-07-15",
+      "note": "Established on the Mumbai and Ahmedabad spokes. Reused here as the spine of the one train three cities argument."
+    },
+    {
+      "claim": "Dwarkadhish opens about 6:30 am, closes about 1:00 pm, reopens about 5:00 pm",
+      "sources": [
+        "temple.yatradham.org",
+        "blessingsideas.com",
+        "shreedwarkadhish.in"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Jay Somnath sound and light show 7:45 pm to 8:45 pm",
+      "sources": [
+        "somnath.org/somnath-darshan/ (primary, Shree Somnath Trust)"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Sudarshan Setu, 2.32 km, inaugurated 25 February 2024, replaced boat transport to Bet Dwarka",
+      "sources": [
+        "pmindia.gov.in (primary)",
+        "pib.gov.in (primary)"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Shree Somnath Trust accepts bookings and donations only via its official website",
+      "sources": [
+        "somnath.org (primary)"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Ahalyabai temple built 1782",
+      "sources": [
+        "somnath.org/somnath-darshan/ (primary)"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Welcomhotel ITC Alkapuri operates in Vadodara; no Taj or ITC five star in Dwarka or Somnath",
+      "sources": [
+        "Canon data block, locked 15 July 2026",
+        "tripadvisor.com Gujarat 5 star list",
+        "tajhotels.com destinations"
+      ],
+      "checked": "2026-07-15"
+    }
+  ],
+  "claims_dropped": [
+    {
+      "claim": "The named weekly trains and their timings: ERS Okha Express 16338 at 04:46, NDT Okha 19576 at 07:15, BSP Okha SF 22940 at 07:47, TPTY Okha at 23:14, RMM Okha 16733",
+      "why": "Individually sourced but the running days are single sourced and volatile, the number of weekly services is reported as 5, 8, 11 and 15 by four different aggregators, and one of them lists a fastest train that contradicts the other three. Publishing any of it would make the page a timetable that decays within a season. The copy makes the honest version of the point instead: better trains exist on some days, and we check your date. This is the correct trade, because it converts a decaying fact into a reason to contact us."
+    },
+    {
+      "claim": "The TPTY Okha Express arrives Dwarka at 10:05, which would allow a morning darshan",
+      "why": "This is potentially the best train from Vadodara and only one source gives the arrival. If confirmed it would change this page's recommendation, so it is worth a dedicated check rather than a guess. FLAG for ops and for the by-train spoke."
+    },
+    {
+      "claim": "Vadodara to Somnath road distance",
+      "why": "No source gives it directly. It can be derived two ways, as 670 minus 233 which is 437, or via Rajkot as 275 plus 184 which is 459. Both are arithmetic on other people's numbers along routes that may not be the one you would drive. The copy uses 'about 440 back' once, in the honesty block where the point is the order of magnitude, and the machine readable attribute marks it as derived. Ops to confirm the real figure."
+    },
+    {
+      "claim": "Statue of Unity distance from Vadodara of about 90 km",
+      "why": "Carried from general knowledge and used only to make a directional argument, that it is the wrong way. FLAG: verify before this section publishes, because the refusal is more credible with a right number than a roughly right one."
+    },
+    {
+      "claim": "Rail fares Vadodara to Dwarka, quoted between Rs. 350 and Rs. 375",
+      "why": "Sources disagree, fares move, and the ticket is not ours to sell."
+    },
+    {
+      "claim": "Vadodara airport routes and fares",
+      "why": "Flying from Vadodara to reach Dwarka means connecting via Ahmedabad or Mumbai to Jamnagar, which no source costs or times end to end. Left out entirely rather than sketched."
+    }
+  ],
+  "qa_gate": {
+    "style_check": "PASS. Zero em dashes, en dashes or spaced hyphen substitutes in any string, including title, meta, alt text and schema values. Zero placeholders, zero hand-the-check-back language.",
+    "slop_check": "PASS. No banned phrases, no fabricated specifics, no fake urgency. Cancellation path present and linked. Honesty block carries a rendered heading.",
+    "skeptical_buyer": "PASS. A buyer can decide from this page alone: the distance, why the daily train is a bad idea from here specifically, that a better train might run on their date, that Ahmedabad would give them a better first day, that the Statue of Unity is not on the way, what it costs at three tiers, and who should not book it.",
+    "information_gain": "PASS. Five named items, led by the 02:57 and the one train three cities structure, neither of which appears anywhere in the ranking set.",
+    "honesty": "PASS, and this is the page's strongest suit. It tells the reader that a neighbouring city is a better starting point, refuses to bundle the attraction the market most wants bundled, and declines to print a timetable it cannot keep true. Six claims dropped.",
+    "delta_test": "PASS. About 75 percent unique. Fourth distinct rail verdict in four origin pages.",
+    "anti_cannibalization": "PASS with the tightest guard on the site. Vadodara and Ahmedabad are 110 km apart on one highway and one train, so the pages are held apart by their verdicts and by an explicit mutual link.",
+    "schema": "PASS. lowPrice raised to 10000 to match the Mumbai treatment, since one night from 500 km out is not a product. No aggregateRating. GBP withheld from sameAs pending the rename.",
+    "title_meta": "PASS. Title 55, meta 150.",
+    "blocking_for_publish": [
+      "Verify the Statue of Unity distance from Vadodara before the refusal section publishes. A refusal built on a rough number is a weak refusal.",
+      "Check the TPTY Okha Express arrival of 10:05. If it holds and the train runs usefully, this page's recommendation changes and it should change.",
+      "Ops to confirm the real Vadodara to Somnath road distance, which is currently derived rather than sourced.",
+      "Ops confirmation of the 05:30 pickup and the 10:30 departure on day four, which is earlier than every other spoke and is deliberate.",
+      "Real departure photography, including Vadodara Junction before the 02:57, which is the page's argument in one image.",
+      "The /somnath-dwarka-tour-package/by-train/ and /somnath-dwarka-tour-package/with-statue-of-unity/ links must not go live until those pages exist. The Statue of Unity one is P0: without it, the refusal has nowhere to send the demand."
+    ]
+  }
+}

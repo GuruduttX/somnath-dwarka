@@ -11,7 +11,7 @@ import PageShell from "@/src/components/shared/PageShell";
 import Faq from "@/src/components/shared/Faq";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { getPublishedPackages, packagePath } from "@/src/lib/content";
+import { getPublishedPackages, packagePath, getHubBySlug } from "@/src/lib/content";
 import { SEED_PACKAGES, type SeedPackage } from "@/src/lib/seed/packages";
 import { isAuthorisedPackage, packageBucket, type PackageBucket } from "@/src/config/packageSpokes";
 import { buildRelatedLinks } from "@/src/lib/links";
@@ -20,17 +20,31 @@ import PackageExplorer from "@/src/components/TourArchive/PackageExplorer";
 import TourArchiveCTA from "@/src/components/TourArchive/TourArchiveCTA";
 import CustomPackageCTA from "@/src/components/shared/CustomPackageCTA";
 import HangingDiyas from "@/src/components/TourArchive/HangingDiyas";
+import HubContent from "@/src/components/hub/HubContent";
+import { faqOf, s, bool, verifiedValue } from "@/src/lib/cms";
 
 const PATH = "/somnath-dwarka-tour-package/";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = buildMetadata({
-  title: "Somnath Dwarka Tour Package — Itinerary, Price & Booking",
-  description:
-    "Somnath Dwarka tour packages with day-wise itinerary, inclusions, indicative prices and cab + hotel help. Choose by duration, starting city or budget.",
-  path: PATH,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const hub = await getHubBySlug("somnath-dwarka-tour-package");
+  if (!hub) {
+    return buildMetadata({
+      title: "Somnath Dwarka Tour Package — Itinerary, Price & Booking",
+      description:
+        "Somnath Dwarka tour packages with day-wise itinerary, inclusions, indicative prices and cab + hotel help. Choose by duration, starting city or budget.",
+      path: PATH,
+    });
+  }
+  return buildMetadata({
+    title: s(hub || {}, "title_tag") || s(hub || {}, "title") || "Somnath Dwarka Tour Package",
+    description: s(hub || {}, "meta_description"),
+    path: PATH,
+    noindex: bool(hub || {}, "noindex"),
+    canonicalOverride: s(hub || {}, "canonical_override") || undefined,
+  });
+}
 
 // Hero image composition (local temple photography).
 const HERO_SOMNATH = "/images/home/SomnathLongImage.webp";
@@ -70,6 +84,21 @@ const FALLBACK_CARD_IMAGES = [
   "https://images.unsplash.com/photo-1588416936097-41850ab3d86d?w=500&q=75&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=75&auto=format&fit=crop",
 ];
+
+// Wraps the "Tour Package" phrase in the CMS-authored H1 with the warm orange
+// gradient, case-insensitively, leaving the rest of the headline as-is.
+function highlightHeadline(text: string) {
+  const parts = text.split(/(tour package)/i);
+  return parts.map((part, i) =>
+    /^tour package$/i.test(part) ? (
+      <span key={i} className="pkg-headline-grad inline-block pr-[0.12em] pb-[0.05em] italic">
+        {part}
+      </span>
+    ) : (
+      <span key={i}>{part}</span>
+    ),
+  );
+}
 
 function seedToTourPackage(seed: SeedPackage, index: number): TourPackage {
   const days = Number(seed.duration.match(/(\d+)/)?.[1] ?? 4);
@@ -117,6 +146,7 @@ function seedToTourPackage(seed: SeedPackage, index: number): TourPackage {
 }
 
 export default async function PackagePillarPage() {
+  const hub = await getHubBySlug("somnath-dwarka-tour-package");
   const cms = await getPublishedPackages();
   const cmsTourPackages = mapAdminPackagesToTourCards(cms);
   const cmsSlugs = new Set(cmsTourPackages.map((p) => p.slug));
@@ -143,6 +173,7 @@ export default async function PackagePillarPage() {
 
   const prices = variants.map((v) => v.price).filter((p) => p > 0);
   const minPrice = prices.length ? Math.min(...prices) : 0;
+  const priceValueStr = hub ? verifiedValue(hub, "price_from") : null;
 
   const related = buildRelatedLinks({
     self: PATH,
@@ -155,28 +186,44 @@ export default async function PackagePillarPage() {
     ],
   });
 
-  const pillarFaq = [
-    {
-      question: "What does a Somnath Dwarka tour package include?",
-      answer:
-        "Most packages include hotel stays, a private vehicle with driver, daily breakfast and a temple-sequenced itinerary. Air/train fare and lunch/dinner are usually excluded. Exact inclusions are listed on each variant.",
-    },
-    {
-      question: "How much does a Somnath Dwarka tour package cost?",
-      answer:
-        "Prices shown are indicative starting points pending confirmation and vary by duration, starting city, hotel tier and group size. Share your dates for a firm quote.",
-    },
-    {
-      question: "How many days are ideal for Somnath and Dwarka?",
-      answer:
-        "Three days is the minimum to cover both temples; four to five days is more comfortable and adds Nageshwar, Bet Dwarka and Porbandar.",
-    },
-    {
-      question: "Can I customise the itinerary and starting city?",
-      answer:
-        "Yes — every package is a starting point. We can adjust the number of days, add pickup from your city, include extra stops like Porbandar or Bhalka Tirth, and tune the hotel tier to your budget. Share your dates and preferences for a tailored plan.",
-    },
-  ];
+  const dbFaq = hub ? faqOf(hub) : [];
+  const pillarFaq = dbFaq.length > 0
+    ? dbFaq
+    : [
+        {
+          question: "What does a Somnath Dwarka tour package include?",
+          answer:
+            "Most packages include hotel stays, a private vehicle with driver, daily breakfast and a temple-sequenced itinerary. Air/train fare and lunch/dinner are usually excluded. Exact inclusions are listed on each variant.",
+        },
+        {
+          question: "How much does a Somnath Dwarka tour package cost?",
+          answer:
+            "Prices shown are indicative starting points pending confirmation and vary by duration, starting city, hotel tier and group size. Share your dates for a firm quote.",
+        },
+        {
+          question: "How many days are ideal for Somnath and Dwarka?",
+          answer:
+            "Three days is the minimum to cover both temples; four to five days is more comfortable and adds Nageshwar, Bet Dwarka and Porbandar.",
+        },
+        {
+          question: "Can I customise the itinerary and starting city?",
+          answer:
+            "Yes — every package is a starting point. We can adjust the number of days, add pickup from your city, include extra stops like Porbandar or Bhalka Tirth, and tune the hotel tier to your budget. Share your dates and preferences for a tailored plan.",
+        },
+      ];
+
+  let schemaData: any = touristTripSchema({
+    name: "Somnath Dwarka Tour Package",
+    description:
+      "Pilgrimage tour packages covering Somnath and Dwarka temples with private transport and hotels.",
+    path: PATH,
+  });
+
+  if (hub?.schema_overrides) {
+    try {
+      schemaData = JSON.parse(hub.schema_overrides as string);
+    } catch {}
+  }
 
   return (
     <PageShell
@@ -287,22 +334,29 @@ export default async function PackagePillarPage() {
             </div>
 
             {/* Headline */}
-            <h1 className="font-playfair pkg-anim pkg-d1 mt-6 text-4xl font-black leading-[1.15] tracking-[-0.03em] text-[#3a2416] sm:text-5xl lg:mt-0 lg:text-[4rem]">
-              Tour{" "}
-              <span className="pkg-headline-grad inline-block pr-[0.12em] pb-[0.1em] italic">Packages</span>
-              <span className="mt-2.5 block font-dm text-sm font-bold not-italic tracking-normal text-[#7a5238] sm:text-lg lg:text-2xl">
-                Handpicked Spiritual Experiences
-              </span>
+            <h1 className="font-playfair pkg-anim pkg-d1 mt-6 text-4xl font-black leading-[1.15] tracking-[-0.03em] text-[#3a2416] sm:text-5xl lg:mt-0 lg:text-[3rem]">
+              {s(hub || {}, "h1") ? (
+                highlightHeadline(s(hub || {}, "h1"))
+              ) : (
+                <>
+                  Tour{" "}
+                  <span className="pkg-headline-grad inline-block pr-[0.12em] pb-[0.1em] italic">Packages</span>
+                </>
+              )}
             </h1>
 
             {/* Description */}
-            <p className="pkg-anim pkg-d2 mt-3 max-w-[560px] text-[13px] leading-[1.6] text-[#6b4c38] sm:text-[15px] sm:leading-[1.7] lg:text-base">
-              Our Somnath Dwarka tour packages cover{" "}
-              <strong className="font-semibold text-orange-700">Dwarkadhish Temple</strong>, Nageshwar Jyotirlinga,
-              Bet Dwarka and{" "}
-              <strong className="font-semibold text-orange-700">Somnath Temple</strong> with the evening aarti, using private transport and
-              hand-picked hotels. Choose by duration, starting city or budget below — every plan
-              is sequenced around darshan timings, and prices shown are indicative until confirmed.
+            <p className="pkg-anim pkg-d2 mt-3 max-w-[560px] text-[12px] leading-[1.55] text-[#6b4c38] sm:text-[13px] sm:leading-[1.6] lg:text-sm">
+              {s(hub || {}, "answer_first") || (
+                <>
+                  Our Somnath Dwarka tour packages cover{" "}
+                  <strong className="font-semibold text-orange-700">Dwarkadhish Temple</strong>, Nageshwar Jyotirlinga,
+                  Bet Dwarka and{" "}
+                  <strong className="font-semibold text-orange-700">Somnath Temple</strong> with the evening aarti, using private transport and
+                  hand-picked hotels. Choose by duration, starting city or budget below — every plan
+                  is sequenced around darshan timings, and prices shown are indicative until confirmed.
+                </>
+              )}
             </p>
 
             {/* CTAs */}
@@ -335,7 +389,9 @@ export default async function PackagePillarPage() {
               <div className="w-px h-8 sm:h-10 bg-orange-200/50 shrink-0" />
               <div className="flex-1 text-center px-2">
                 <div className="font-playfair text-xl font-black leading-none text-orange-600 sm:text-3xl">
-                  {minPrice ? `₹${minPrice.toLocaleString("en-IN")}` : "Custom"}
+                  {priceValueStr
+                    ? `₹${Number(priceValueStr).toLocaleString("en-IN")}`
+                    : (minPrice ? `₹${minPrice.toLocaleString("en-IN")}` : "Custom")}
                 </div>
                 <div className="mt-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.08em] text-[#8c5e40] whitespace-nowrap">Starts from*</div>
               </div>
@@ -540,6 +596,11 @@ export default async function PackagePillarPage() {
         />
       </div>
 
+      {/* ── Long-form, admin-driven hub content (chooser tables, the clock,
+          hour-by-hour itinerary, price sheet, why-choose, honest fit,
+          practical notes). Renders only the blocks the CMS doc carries. ── */}
+      {hub ? <HubContent hub={hub} /> : null}
+
       <CustomPackageCTA />
 
       <Faq
@@ -552,14 +613,7 @@ export default async function PackagePillarPage() {
 
       <RelatedLinks links={related} />
 
-      <JsonLd
-        data={touristTripSchema({
-          name: "Somnath Dwarka Tour Package",
-          description:
-            "Pilgrimage tour packages covering Somnath and Dwarka temples with private transport and hotels.",
-          path: PATH,
-        })}
-      />
+      <JsonLd data={schemaData} />
     </PageShell>
   );
 }

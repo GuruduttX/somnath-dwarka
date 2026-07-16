@@ -1,0 +1,1134 @@
+{
+  "page": {
+    "url": "/somnath-dwarka-tour-package/from-mumbai/",
+    "role": "SPOKE",
+    "silo": "money-circuit",
+    "wave": "MVP",
+    "parent_hub": "/somnath-dwarka-tour-package/",
+    "money_target": "(is money)",
+    "conversion_action": "qualify_form",
+    "canonical": "self",
+    "indexable": true,
+    "in_sitemap": true,
+    "hreflang_twin": "/hi/somnath-dwarka-tour-package/from-mumbai/",
+    "last_verified": "2026-07-15",
+    "batch": "2 of 7, origin spokes. Spoke 8 of 36."
+  },
+  "delta_declaration": {
+    "owns": "Mumbai as a fly or rail origin rather than a road origin, and the entry point decision, because where you land decides which temple you see first and where our package actually begins.",
+    "the_three_rail_verdicts": "Ahmedabad: the fast train is a trap, the slow one is right. Rajkot: rail is pointless, drive. Mumbai: the overnight train is the best option on the page. Three origin spokes, three opposite conclusions, each correct for its geography. This is the proof that the origin set is not one template.",
+    "cannot_appear_on_hub": "The hub compares 36 variants and cannot carry one city's entry point analysis or the fact that the package starts on arrival rather than at your door.",
+    "cannot_appear_on_siblings": "Ahmedabad and Rajkot are road origins where the package collects you from home. Mumbai is 950 km away and neither. Nothing in this page's transport core survives being moved.",
+    "estimated_unique_body": "About 80 percent, the highest of the origin set so far, because the entry point argument and the where-the-package-begins section have no equivalent anywhere else."
+  },
+  "head": {
+    "title": "Somnath Dwarka Tour Package From Mumbai, Rs.15,000 pp",
+    "title_length": 53,
+    "meta_description": "Mumbai is 950 km out, so you do not drive. The 21:05 train lands at 13:10, exactly when the temple is shut, which is the point. From Rs.15,000 pp.",
+    "meta_length": 146,
+    "h1": "Somnath Dwarka Tour Package From Mumbai: Itinerary, Price and Booking",
+    "slug_note": "Matches the URL map exactly. No change proposed.",
+    "ctr_rationale": "The ranking set sells Mumbai the same package it sells everyone, and one competitor states there is no direct transport from Mumbai to Dwarka, which is wrong. Leading the meta with a specific train time and an apparent paradox, landing when the temple is shut is the point, is an unclaimed angle in this SERP and it signals the page knows something the others do not.",
+    "og_title": "Somnath Dwarka From Mumbai: You Sleep Through the Journey",
+    "og_description": "950 km means you do not drive. The Saurashtra Mail leaves Mumbai Central at 21:05 and puts you in Dwarka at 13:10, having turned the travel into a night's sleep."
+  },
+  "intent_lock": {
+    "primary_intent": "somnath dwarka tour package from mumbai",
+    "intent_type": "transactional",
+    "secondary_owned": [
+      "somnath dwarka package from mumbai",
+      "mumbai to dwarka somnath tour",
+      "dwarka somnath trip from mumbai",
+      "mumbai to somnath dwarka package price"
+    ],
+    "explicitly_not_owned": [
+      {
+        "query": "mumbai to dwarka train",
+        "url": "/plan/how-to-reach/",
+        "why": "Timetable intent. This page uses one train as a decision, it does not publish a timetable."
+      },
+      {
+        "query": "mumbai to dwarka distance",
+        "url": "/plan/how-to-reach/"
+      },
+      {
+        "query": "somnath dwarka package 4 days 3 nights",
+        "url": "/somnath-dwarka-tour-package/4-days-3-nights/",
+        "why": "Duration is the subject there. This page recommends it, links to it, and does not compete for the term."
+      },
+      {
+        "query": "somnath dwarka tour package from ahmedabad",
+        "url": "/somnath-dwarka-tour-package/from-ahmedabad/",
+        "why": "The Mumbai train runs through Ahmedabad, so the two pages must not blur. This one starts at Mumbai Central."
+      },
+      {
+        "query": "somnath dwarka tour package",
+        "url": "/somnath-dwarka-tour-package/"
+      },
+      {
+        "query": "somnath dwarka package for nri",
+        "url": "/somnath-dwarka-tour-package/for-nri-international/",
+        "why": "International arrivals are a segment, not an origin. Blocked on the group rate anyway."
+      },
+      {
+        "query": "jamnagar airport to dwarka taxi",
+        "url": "/somnath-dwarka-taxi-service/airport-taxi/jamnagar/"
+      }
+    ],
+    "cannibalization_guard": "This page and /from-ahmedabad/ describe the same train, the Saurashtra Mail 22945, because the Mumbai service runs through Ahmedabad. They must never argue the same case. Ahmedabad owns the 05:05 boarding and the road comparison. Mumbai owns the 21:05 boarding and the entry point comparison. If either starts ranking for the other's city term, the transport section is the thing to cut."
+  },
+  "research_taxonomy": {
+    "central_entity": "Mumbai to Somnath Dwarka pilgrimage circuit",
+    "entity_attributes": {
+      "origin": "Mumbai, Maharashtra. Mumbai Central (MMCT), Bandra Terminus (BDTS), Dadar, Borivali, Kalyan, Panvel. Chhatrapati Shivaji Maharaj International Airport.",
+      "road_distance_to_dwarka_km": "about 950",
+      "rail_distance_to_dwarka_km": "about 960",
+      "rail_time_to_dwarka": "about 16 hours",
+      "nearest_airport_to_dwarka": "Jamnagar, about 130 km from Dwarka",
+      "second_airport_for_dwarka": "Porbandar, about 133 km from Dwarka",
+      "nearest_airport_to_somnath": "Diu, about 82 to 90 km from Somnath, with limited Mumbai services",
+      "railhead_for_somnath": "Veraval, a short drive from the temple"
+    },
+    "personas_served": [
+      "Mumbai and Thane family planning a long weekend yatra",
+      "Gujarati diaspora in Mumbai returning for darshan",
+      "Traveller who wants the journey to happen while they sleep",
+      "Group booker from Mumbai coordinating rail tickets separately"
+    ],
+    "paa_harvested": [
+      "How to reach Dwarka from Mumbai?",
+      "Is there a direct train from Mumbai to Dwarka?",
+      "How far is Dwarka from Mumbai?",
+      "Which airport is nearest to Dwarka and Somnath?",
+      "How many days do you need for Dwarka and Somnath from Mumbai?",
+      "How much is a Dwarka Somnath package from Mumbai?"
+    ],
+    "serp_recon": {
+      "date": "2026-07-15",
+      "query": "somnath dwarka tour package from mumbai",
+      "competitors": [
+        "mischieftreks.com/tours/dwarka-somnath-tour",
+        "namasteindiatrip.com/dwarka-somnath-tour-from-mumbai.html",
+        "holidify.com/places/somnath/how-to-reach/mumbai-to-somnath-1614.html",
+        "travel.yatradham.org/package/dwarka-somnath-tour-package",
+        "veenaworld.com/package/dwarka-somnath-tour-package-shgj3/i"
+      ],
+      "winning_shape": "Either a rail inclusive group tour with a fixed departure, or the standard package page with Mumbai in the title. Mischief Treks is the strongest, and it does build the trip around the Saurashtra Mail.",
+      "universal_gap": "Two ranking pages contain outright errors. NamasteIndiaTrip states there is no direct transport between Mumbai and Dwarka and routes readers via Nadiad plus two buses, when the Saurashtra Mail runs daily and direct. Mischief Treks still sells Bet Dwarka by ferry, more than two years after Sudarshan Setu replaced the boats. Not one page in the set notices that the train's 13:10 arrival lands inside the temple's afternoon closure, or tells the reader where the package actually starts.",
+      "ai_overview_present": true,
+      "features_targeted": [
+        "AI Overview (commercial)",
+        "PAA",
+        "Product/TouristTrip snippet"
+      ]
+    },
+    "information_gain": [
+      "The Saurashtra Mail 22945 runs daily and direct from Mumbai Central to Dwarka, departing 21:05 and arriving 13:10, which corrects a ranking competitor that tells readers no direct service exists.",
+      "That 13:10 arrival lands inside the Dwarkadhish 1:00 pm to 5:00 pm closure, so the train that looks slow is the one that works. The travel happens while you sleep and you lose nothing to the shut gate.",
+      "The Mumbai passenger and the Ahmedabad passenger step onto the same Dwarka platform at the same minute, because it is the same train. The Mumbai one boarded eight hours earlier and slept through the difference.",
+      "Where you land decides which temple you see first. Jamnagar sends you to Dwarka, Diu sends you to Somnath, and the rail sends you to Dwarka. The page treats this as the actual decision rather than a footnote.",
+      "The page states plainly that our price does not include your journey to Gujarat, and that the package begins when you step off the train or the plane. Every competitor leaves this ambiguous."
+    ]
+  },
+  "copy": {
+    "quick_answer": "A Somnath Dwarka tour package from Mumbai does not involve you driving. It is about 950 km to Dwarka, which is 18 hours behind a wheel, so you arrive by rail or by air and the circuit starts when you land. The Saurashtra Mail 22945 leaves Mumbai Central at 21:05 every night and reaches Dwarka at 13:10 the next day, turning the journey into a night's sleep. Experience My India meets you at the station or the airport and runs the circuit from Rs. 5,000 per person per night, so the three night plan is Rs. 15,000 per person with a 3 star hotel, breakfast and your vehicle included.",
+    "sections": [
+      {
+        "h2": "From Mumbai, you do not drive",
+        "body": [
+          "Dwarka is about 950 km from Mumbai. Somnath is further still by the sensible route. That is 18 hours or more behind a wheel, across two states, and there is no version of it that leaves you fit for a 6:30 am aarti.",
+          "So the Mumbai question is not which road. It is which door you come in through, and that decision quietly picks which temple you see first."
+        ]
+      },
+      {
+        "h2": "The overnight train is the best option on this page",
+        "body": [
+          "The Saurashtra Mail, 22945, leaves Mumbai Central at 21:05 and reaches Dwarka at 13:10 the following day. It runs every day of the week. Roughly 16 hours, one night, about 960 km.",
+          "Sixteen hours sounds like a lot until you notice what it costs you, which is nothing. You board after dinner, you sleep, you wake up in Saurashtra. The hotel night you would have paid for is the berth you are lying in.",
+          "Then the arrival time does something better than fast. 13:10 puts you in Dwarka inside the temple's afternoon closure, which runs from about 1:00 pm to 5:00 pm. That sounds like bad luck. It is the whole point. You check in, eat, rest through the shut hours, and walk into Dwarkadhish when the gate reopens at 5:00 pm with the evening in front of you. A train that arrived at nine in the morning would only have given you four hours of waiting.",
+          "There is a detail here we like. The Mumbai passenger and the Ahmedabad passenger step onto the same platform at the same minute, because it is the same train. The Mumbai one boarded eight hours earlier and slept through the difference.",
+          "One ranking page for this search tells you there is no direct transport from Mumbai to Dwarka and routes you through Nadiad and two buses. There is. It leaves at 21:05, daily."
+        ]
+      },
+      {
+        "h2": "If you fly, the airport picks your first temple",
+        "body": [
+          "There is no airport at Dwarka and none at Somnath. You land somewhere else and drive in, and the somewhere else decides your itinerary.",
+          "Jamnagar is the closest airport to Dwarka, about 130 km out, which is a two and a half to three hour drive. Land here and you start at Dwarka, like the train does.",
+          "Porbandar sits about 133 km from Dwarka and is well placed for the coastal leg, since Kirti Mandir is in the town you land in.",
+          "Diu is the closest airport to Somnath, about 82 to 90 km away, an hour and a half to two hours by road. Land here and you run the circuit backwards, Somnath first and Dwarka last. Mumbai to Diu services are limited and do not fly every day, so this door opens on some dates and not others.",
+          "Tell us your flight and we will build the direction around it. That is the correct order of operations, and it is the opposite of how most package pages work."
+        ]
+      },
+      {
+        "h2": "Where our package starts, said plainly",
+        "body": [
+          "Your journey from Mumbai is not in our price. Not the train, not the flight. We do not sell rail tickets and we would rather tell you that here than have you find out at the quote.",
+          "What you are buying starts the moment you arrive: the pickup at Dwarka station, Jamnagar airport or Diu, the hotel, the breakfast, and the vehicle with a driver for every leg of the circuit until we drop you back at your departure point.",
+          "From Ahmedabad or Rajkot our packages collect you from your front door. From Mumbai they collect you from a platform. The tier prices are the same either way, because they were never covering your travel to Gujarat in the first place."
+        ]
+      }
+    ],
+    "itinerary": {
+      "note": "The 3 nights version, rail in and rail out, which is what most Mumbai families book. Times are our planning clock, built backwards from verified train times and the temples' own hours.",
+      "days": [
+        {
+          "day": 0,
+          "title": "Mumbai Central, evening",
+          "stops": [
+            {
+              "time": "21:05",
+              "text": "The Saurashtra Mail leaves Mumbai Central. Dinner first, then a berth. This night is not on your hotel bill."
+            }
+          ]
+        },
+        {
+          "day": 1,
+          "title": "Arrive Dwarka",
+          "stops": [
+            {
+              "time": "13:10",
+              "text": "Dwarka station. We are on the platform. The temple is shut until 5:00 pm and that is by design, not bad luck."
+            },
+            {
+              "time": "14:00",
+              "text": "Hotel check in, Lords Inn class at the 3 star tier. Lunch. Rest."
+            },
+            {
+              "time": "17:15",
+              "text": "Dwarkadhish evening darshan. The gate has just opened and the queue is moving."
+            },
+            {
+              "time": "19:00",
+              "text": "Gomti Ghat, and the Sudama Setu footbridge while the light holds."
+            },
+            {
+              "time": "20:30",
+              "text": "Dinner. Night one in Dwarka, and you have already had a full evening on a day you spent travelling."
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Dwarka, Bet Dwarka and Nageshwar",
+          "stops": [
+            {
+              "time": "06:30",
+              "text": "Mangala Aarti at Dwarkadhish. Shortest queue of the day and the quietest the temple gets."
+            },
+            {
+              "time": "09:00",
+              "text": "Drive 30 km to Okha and across Sudarshan Setu, the 2.32 km cable stayed bridge that opened on 25 February 2024. You drive over. There is no ferry and no tide to wait for, whatever other Mumbai tour pages still tell you."
+            },
+            {
+              "time": "10:00",
+              "text": "Bet Dwarka darshan. The island temple keeps its own afternoon break, so morning is not optional here."
+            },
+            {
+              "time": "12:30",
+              "text": "Back across the bridge."
+            },
+            {
+              "time": "14:00",
+              "text": "Nageshwar Jyotirlinga, which sits on the Dwarka to Okha road and costs you no detour on the way back."
+            },
+            {
+              "time": "16:00",
+              "text": "Rukmini Devi Temple, Gopi Talav and Bhadkeshwar Mahadev as the tide and the light allow."
+            },
+            {
+              "time": "19:00",
+              "text": "Free evening. Second night in Dwarka."
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Dwarka to Somnath via Porbandar, 233 km on NH51",
+          "stops": [
+            {
+              "time": "07:00",
+              "text": "Leave Dwarka after breakfast. The coastal run begins."
+            },
+            {
+              "time": "09:30",
+              "text": "Porbandar. Kirti Mandir and the Sudama connection."
+            },
+            {
+              "time": "13:00",
+              "text": "Lunch, Madhavpur or Veraval side."
+            },
+            {
+              "time": "15:00",
+              "text": "Somnath hotel check in."
+            },
+            {
+              "time": "18:30",
+              "text": "Vallabhghat for sunset over the Arabian Sea."
+            },
+            {
+              "time": "19:00",
+              "text": "Sandhya Aarti."
+            },
+            {
+              "time": "19:45",
+              "text": "Jay Somnath sound and light show. The Trust runs it 7:45 pm to 8:45 pm, not 8:00 pm as most pages print."
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "title": "Somnath, then home",
+          "stops": [
+            {
+              "time": "07:00",
+              "text": "Mangala Aarti and unhurried darshan at the Jyotirlinga."
+            },
+            {
+              "time": "09:00",
+              "text": "Bhalka Tirth, Triveni Sangam, Geeta Mandir, and the Ahalyabai temple the queen mother built in 1782."
+            },
+            {
+              "time": "12:00",
+              "text": "Drop at Veraval, the working railhead for Somnath and a short drive from the temple, for a direct Mumbai service. Or at Diu airport if you are flying, or back up the coast to Jamnagar if your return is from there. Tell us the ticket you hold and we will build the last day around it."
+            }
+          ]
+        }
+      ]
+    },
+    "price_sheet": {
+      "intro": "The rate is per person per night. Multiply by your nights. Hotel, breakfast and your vehicle with a driver are inside every number. Your travel from Mumbai is not, and never was.",
+      "table": [
+        {
+          "tier": "3 star",
+          "per_night_pp": "Rs. 5,000",
+          "two_nights": "Rs. 10,000",
+          "three_nights_recommended": "Rs. 15,000",
+          "four_nights": "Rs. 20,000",
+          "hotels": "Lords Inn"
+        },
+        {
+          "tier": "4 star",
+          "per_night_pp": "Rs. 10,000",
+          "two_nights": "Rs. 20,000",
+          "three_nights_recommended": "Rs. 30,000",
+          "four_nights": "Rs. 40,000",
+          "hotels": "The Fern, Fortune Landmark"
+        },
+        {
+          "tier": "5 star",
+          "per_night_pp": "Rs. 12,500",
+          "two_nights": "Rs. 25,000",
+          "three_nights_recommended": "Rs. 37,500",
+          "four_nights": "Rs. 50,000",
+          "hotels": "The Fern Sattva Resort at Dwarka, best property in town at Somnath"
+        }
+      ],
+      "vehicle_note": "Group size picks the vehicle, not budget. Sedan for 2 to 3, Ertiga for 4 to 5, Innova Crysta for 5 to 6, 9 seater Tempo Traveller for 7 to 9, 12 seater Maharaja or Urbania for 10 to 12, 26 seater Tempo Traveller above that.",
+      "five_star_honesty": "No five star Taj or ITC property operates in Dwarka or in Somnath. In Dwarka the top tier puts you in The Fern Sattva Resort. At Somnath it buys the best room in town, named in your quote before you pay.",
+      "exclusions": "Your train or flight to Gujarat and back. Lunch and dinner. Personal pooja, seva and abhishek at either temple. The sound and light show ticket. Camera and cloakroom charges. Tips. Anything you buy yourself.",
+      "cancellation": "Cancellation, refunds and the payment schedule are set out in full on our cancellation and refund policy, and the booking terms sit alongside it. Read both before you pay. Your rail ticket is your own contract with Indian Railways and its cancellation rules are theirs, not ours, which is another reason we tell you the ticket is not in our price.",
+      "trust_warning": "The Shree Somnath Trust accepts pooja and donation bookings only through its own website and warns that it never asks for payment through private numbers, WhatsApp or UPI. Book sevas yourself at somnath.org. We will not take that money on your behalf.",
+      "_order": [
+        "intro",
+        "table",
+        "vehicle_note",
+        "five_star_honesty",
+        "exclusions",
+        "cancellation",
+        "trust_warning"
+      ]
+    },
+    "why_choose": [
+      "We tell you the train is better than us driving you 950 km, and we do not charge you for the 950 km we did not drive.",
+      "We say where the money starts. Your ticket to Gujarat is yours. Our price begins on the platform. Nobody in this search result makes that clear, and it is the single most common argument between a Mumbai family and a tour operator.",
+      "We know what the 13:10 arrival means. It lands in the closure, and that is why it is the right train rather than the wrong one.",
+      "We correct the errors the other pages are still printing. There is a direct train from Mumbai. There is no ferry to Bet Dwarka, not since February 2024.",
+      "A local Gujarat team meets your train, plans the route and drives it. One number, +91 7302265809, on call and WhatsApp.",
+      "We reconfirm every timing before departure, because festival schedules move at Shravan, Janmashtami and Mahashivratri."
+    ],
+    "not_for_you_if_heading": "This trip is not for you if",
+    "not_for_you_if": [
+      "You want us to drive you from Mumbai. It is about 950 km and 18 hours. We will not pretend that is a holiday, and we will not sell it.",
+      "You want a fixed departure group tour with the rail ticket bundled. That is a different product and other operators do it well. Ours is a private circuit that starts when you arrive.",
+      "You are set on flying into Diu. Mumbai services there are limited and do not run daily. Tell us your dates first and we will tell you honestly whether that door is open.",
+      "You have one weekend. Rail in and rail out plus the circuit needs three nights to be worth the journey. Two is possible and thin.",
+      "You want a five star Taj in Dwarka. It does not exist, and anyone selling you one should be asked for the property name."
+    ],
+    "faq": [
+      {
+        "q": "Is there a direct train from Mumbai to Dwarka?",
+        "a": "Yes, and it runs daily. The Saurashtra Mail 22945 leaves Mumbai Central at 21:05 and reaches Dwarka at 13:10 the next day, about 16 hours for roughly 960 km. Some travel pages claim there is no direct service and route you via Nadiad and two buses. There is, and you should ignore them."
+      },
+      {
+        "q": "How far is Dwarka from Mumbai?",
+        "a": "About 950 km by road and about 960 km by rail. That is 18 hours or more of driving, which is why the Mumbai circuit starts with a train or a flight rather than a car."
+      },
+      {
+        "q": "Which is the best way to reach Dwarka from Mumbai?",
+        "a": "The overnight Saurashtra Mail, for most people. It converts the journey into a night's sleep and lands you at 13:10, inside the temple's afternoon closure, so you rest through the shut hours and take the evening darshan. Flying to Jamnagar, about 130 km from Dwarka, is faster and costs you a daytime."
+      },
+      {
+        "q": "Which airport is nearest to Dwarka and to Somnath?",
+        "a": "Jamnagar is nearest to Dwarka at about 130 km, a two and a half to three hour drive, with Porbandar a second option at about 133 km. Diu is nearest to Somnath at about 82 to 90 km, an hour and a half to two hours by road, though Mumbai services to Diu are limited and do not run every day."
+      },
+      {
+        "q": "Does the package price include my train or flight from Mumbai?",
+        "a": "No. Our price covers the hotel, breakfast and your vehicle with a driver for the whole circuit, and it starts when you step off the train or the plane. Your ticket to Gujarat is your own booking and your own contract."
+      },
+      {
+        "q": "How many days do you need for Dwarka and Somnath from Mumbai?",
+        "a": "Three nights on the ground, at Rs. 15,000 per person at the 3 star tier, with the overnight train at each end. That gives Dwarka two nights including a clear morning for Bet Dwarka, and Somnath one. Add a fourth night for Gir or Diu."
+      },
+      {
+        "q": "How much is a Dwarka Somnath package from Mumbai?",
+        "a": "From Rs. 5,000 per person per night, so Rs. 15,000 per person for the three night plan at the 3 star tier. Rs. 30,000 at 4 star and Rs. 37,500 at 5 star. Hotel, breakfast and your vehicle with driver are included. Your rail or air ticket is not."
+      }
+    ],
+    "final_cta": {
+      "summary": "950 km you do not drive, a 21:05 train that turns the journey into a night's sleep, and a 13:10 arrival timed to a shut gate on purpose. Rs. 15,000 per person at 3 star for three nights, hotel, breakfast and vehicle included, starting the moment we meet your train.",
+      "primary": "Get this plan for your dates",
+      "secondary": "Send your dates on WhatsApp, +91 7302265809",
+      "tertiary": "Call +91 7302265809"
+    }
+  },
+  "aeo_geo": {
+    "answer_snippet": "A Somnath Dwarka tour package from Mumbai starts on arrival, not at your door, because Dwarka is about 950 km away. The Saurashtra Mail 22945 leaves Mumbai Central at 21:05 daily and reaches Dwarka at 13:10, turning the journey into a night's sleep. Experience My India meets your train and runs the circuit from Rs. 5,000 per person per night, so three nights is Rs. 15,000 per person with hotel, breakfast and vehicle included.",
+    "snippet_placement": "First paragraph, above the fold, brand inside it so a summary still carries it.",
+    "question_shaped_headings": [
+      "From Mumbai, you do not drive",
+      "The overnight train is the best option on this page",
+      "If you fly, the airport picks your first temple",
+      "Where our package starts, said plainly",
+      "Is there a direct train from Mumbai to Dwarka?"
+    ],
+    "extractable_passages": [
+      "The Saurashtra Mail 22945 runs daily from Mumbai Central at 21:05 and reaches Dwarka at 13:10, about 16 hours for roughly 960 km.",
+      "Jamnagar airport is about 130 km from Dwarka. Porbandar is about 133 km. Diu is about 82 to 90 km from Somnath, with limited Mumbai services.",
+      "Dwarkadhish Temple closes for the afternoon from about 1:00 pm to 5:00 pm, which is why a 13:10 rail arrival costs you nothing."
+    ],
+    "quotable_first_party_claims": [
+      "Somnath Dwarka from Mumbai, from Rs. 5,000 per person per night, Rs. 15,000 per person for three nights at 3 star, vehicle included, and the rail ticket is not in the price.",
+      "There is a direct daily train from Mumbai to Dwarka, despite what several travel pages claim.",
+      "The Mumbai passenger and the Ahmedabad passenger reach Dwarka on the same train at the same minute. The Mumbai one just slept through eight more hours of it."
+    ],
+    "extraction_formats": [
+      "entry point comparison TABLE",
+      "hour by hour itinerary TABLE",
+      "price matrix TABLE",
+      "question shaped FAQ"
+    ],
+    "zero_click_defense": "An AI Overview can take the train time and the airport distances. It cannot take the live rate for your group, the direction call that depends on which airport your flight actually serves on your date, or a team standing on the platform at 13:10. The brand sits inside the answer snippet.",
+    "llms_txt_entry": true,
+    "citation_bait": "The strongest candidate on the site so far. A direct factual correction of a ranking page, anchored to a daily train with a checkable departure time, plus the counterintuitive claim that arriving during a temple closure is the goal. Corrections are the most citable content type there is, because the model can verify the correction and the error in the same search."
+  },
+  "schema_jsonld": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TouristTrip",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-mumbai/#trip",
+        "name": "Somnath Dwarka Tour Package From Mumbai",
+        "description": "Three night pilgrimage circuit for travellers arriving from Mumbai by rail or air, covering Dwarkadhish, Bet Dwarka across Sudarshan Setu, Nageshwar, Porbandar and Somnath Jyotirlinga. Meets the Saurashtra Mail at Dwarka station. Rail and air tickets are not included.",
+        "touristType": [
+          "Pilgrim",
+          "Family",
+          "Senior citizens",
+          "Groups"
+        ],
+        "departureLocation": {
+          "@type": "City",
+          "name": "Mumbai",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Mumbai",
+            "addressRegion": "Maharashtra",
+            "addressCountry": "IN"
+          }
+        },
+        "arrivalLocation": {
+          "@type": "City",
+          "name": "Dwarka",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Dwarka",
+            "addressRegion": "Gujarat",
+            "addressCountry": "IN"
+          }
+        },
+        "itinerary": {
+          "@type": "ItemList",
+          "numberOfItems": 5,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Dwarkadhish Temple",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Dwarka",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Bet Dwarka via Sudarshan Setu",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Okha",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Nageshwar Jyotirlinga",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Dwarka",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Kirti Mandir, Porbandar",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Porbandar",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Somnath Jyotirlinga Temple",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Prabhas Patan",
+                  "addressRegion": "Gujarat",
+                  "postalCode": "362268",
+                  "addressCountry": "IN"
+                }
+              }
+            }
+          ]
+        },
+        "provider": {
+          "@id": "https://SITE/#organization"
+        },
+        "offers": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/from-mumbai/#offer"
+        }
+      },
+      {
+        "@type": "AggregateOffer",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-mumbai/#offer",
+        "itemOffered": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/from-mumbai/#trip"
+        },
+        "priceCurrency": "INR",
+        "lowPrice": "10000",
+        "highPrice": "50000",
+        "offerCount": 3,
+        "availability": "https://schema.org/InStock",
+        "url": "https://SITE/somnath-dwarka-tour-package/from-mumbai/",
+        "seller": {
+          "@id": "https://SITE/#organization"
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "3 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "5000",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "name": "4 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "10000",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "name": "5 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "12500",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          }
+        ],
+        "_build_note": "lowPrice is 10000, not 5000, because a one night plan from Mumbai is not a product we sell: the journey is 16 hours each way. The floor here is two nights at 3 star. highPrice 50000 is four nights at 5 star. Every number is visible in the page's matrix. Rail and air fares are deliberately absent from the schema because they are not ours to sell."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-mumbai/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://SITE/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Somnath Dwarka Tour Package",
+            "item": "https://SITE/somnath-dwarka-tour-package/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "From Mumbai",
+            "item": "https://SITE/somnath-dwarka-tour-package/from-mumbai/"
+          }
+        ]
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://SITE/#organization",
+        "name": "Experience My India",
+        "url": "https://SITE/",
+        "telephone": "+917302265809",
+        "areaServed": {
+          "@type": "State",
+          "name": "Gujarat"
+        },
+        "sameAs": [
+          "https://www.tripadvisor.in/Attraction_Review-g304551-d33748695-Reviews-Experience_My_India-New_Delhi_National_Capital_Territory_of_Delhi.html"
+        ],
+        "_build_note": "Canonical name is Experience My India per client decision 15 July 2026. The Google Business Profile URL goes into sameAs only after it is renamed from Shree Chamunda Tours and Travels."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-mumbai/#faq",
+        "_build_note": "Parse only per the URL map. Google no longer shows FAQ rich results for most sites. Emit for machine extraction, never promise a rich result.",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is there a direct train from Mumbai to Dwarka?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, and it runs daily. The Saurashtra Mail 22945 leaves Mumbai Central at 21:05 and reaches Dwarka at 13:10 the next day, about 16 hours for roughly 960 km."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How far is Dwarka from Mumbai?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "About 950 km by road and about 960 km by rail. That is 18 hours or more of driving, which is why the Mumbai circuit starts with a train or a flight rather than a car."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which airport is nearest to Dwarka and to Somnath?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Jamnagar is nearest to Dwarka at about 130 km, a two and a half to three hour drive, with Porbandar a second option at about 133 km. Diu is nearest to Somnath at about 82 to 90 km, though Mumbai services to Diu are limited and do not run every day."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does the package price include my train or flight from Mumbai?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. The price covers the hotel, breakfast and the vehicle with a driver for the whole circuit, and it starts when you step off the train or the plane. Your ticket to Gujarat is your own booking."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much is a Dwarka Somnath package from Mumbai?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "From Rs. 5,000 per person per night, so Rs. 15,000 per person for the three night plan at the 3 star tier. Rs. 30,000 at 4 star and Rs. 37,500 at 5 star. Hotel, breakfast and vehicle with driver are included. Your rail or air ticket is not."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "internal_link_matrix": {
+    "inbound": [
+      {
+        "source": "/somnath-dwarka-tour-package/",
+        "anchor": "From Mumbai",
+        "placement": "start city chooser table",
+        "priority": "P0",
+        "reason": "Parent hub. Crawl depth 2, zero orphan risk."
+      },
+      {
+        "source": "/plan/how-to-reach/",
+        "anchor": "Somnath Dwarka packages from Mumbai",
+        "placement": "contextual, under the Mumbai rail section",
+        "priority": "P0",
+        "reason": "The how to reach page owns the timetable query and hands commercial intent here."
+      },
+      {
+        "source": "/somnath-dwarka-tour-package/4-days-3-nights/",
+        "anchor": "arriving from Mumbai",
+        "placement": "other start cities",
+        "priority": "P0",
+        "reason": "Three nights is the duration this origin recommends."
+      },
+      {
+        "source": "/somnath-dwarka-taxi-service/airport-taxi/jamnagar/",
+        "anchor": "full package with hotels",
+        "placement": "upgrade path",
+        "priority": "P0",
+        "reason": "Jamnagar arrivals are exactly this page's buyer. The airport cab page is the strongest inbound after the hub."
+      },
+      {
+        "source": "/somnath-dwarka-taxi-service/airport-taxi/diu/",
+        "anchor": "full package with hotels",
+        "placement": "upgrade path",
+        "priority": "P1"
+      },
+      {
+        "source": "/hotels/hotels-in-dwarka/",
+        "anchor": "package with hotel and vehicle included",
+        "placement": "contextual",
+        "priority": "P2"
+      },
+      {
+        "source": "/data/dwarka-somnath-distance-table/",
+        "anchor": "Somnath Dwarka tour package from Mumbai",
+        "placement": "under the table",
+        "priority": "P0",
+        "reason": "Middleman relay. The data asset earns links, this page receives the equity."
+      },
+      {
+        "source": "/",
+        "anchor": "packages from Mumbai",
+        "placement": "start city module",
+        "priority": "P1"
+      }
+    ],
+    "outbound": [
+      {
+        "target": "/somnath-dwarka-tour-package/",
+        "anchor": "compare all Somnath Dwarka packages",
+        "placement": "opener, once",
+        "priority": "P0",
+        "reason": "Returns equity to the hub. Non negotiable on every spoke."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/4-days-3-nights/",
+        "anchor": "the three night plan in full, Rs. 15,000 pp",
+        "placement": "itinerary intro",
+        "priority": "P0",
+        "reason": "Recommend and link. Never compete for the duration term."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/5-days-4-nights/",
+        "anchor": "add Gir or Diu to the circuit",
+        "placement": "price sheet and FAQ",
+        "priority": "P1"
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/from-ahmedabad/",
+        "anchor": "boarding the same train at Ahmedabad",
+        "placement": "the same platform detail",
+        "priority": "P1",
+        "reason": "The two pages share a train and must point at each other explicitly, or Google will decide for itself which one owns it."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/by-train/",
+        "anchor": "the rail version of this circuit",
+        "placement": "rail section",
+        "priority": "P1",
+        "reason": "Build note: blocked until ops confirms what by-train sells. Do not publish this link before that page exists."
+      },
+      {
+        "target": "/somnath-dwarka-taxi-service/airport-taxi/jamnagar/",
+        "anchor": "Jamnagar airport transfer",
+        "placement": "if you fly section",
+        "priority": "P1"
+      },
+      {
+        "target": "/plan/how-to-reach/",
+        "anchor": "how to reach Dwarka and Somnath",
+        "placement": "rail section",
+        "priority": "P1"
+      },
+      {
+        "target": "/temples/dwarkadhish-temple-timings/",
+        "anchor": "the Dwarkadhish closure window",
+        "placement": "the 13:10 arrival argument",
+        "priority": "P0",
+        "reason": "The fact the whole page rests on. Cite it internally."
+      },
+      {
+        "target": "/temples/somnath-temple-timings/",
+        "anchor": "Somnath aarti and show timings",
+        "placement": "day three evening",
+        "priority": "P1"
+      },
+      {
+        "target": "/cancellation-refund/",
+        "anchor": "cancellation and refund policy",
+        "placement": "price sheet",
+        "priority": "P0",
+        "reason": "Doubly important here, because the rail ticket sits outside our policy and the page must say where one ends and the other begins."
+      },
+      {
+        "target": "/booking-policy/",
+        "anchor": "booking terms",
+        "placement": "price sheet",
+        "priority": "P1"
+      },
+      {
+        "target": "/methodology/",
+        "anchor": "how we verify every timing and fare",
+        "placement": "why choose",
+        "priority": "P0"
+      },
+      {
+        "target": "/reviews/",
+        "anchor": "what travellers said",
+        "placement": "why choose",
+        "priority": "P1",
+        "reason": "Live only once real reviews exist."
+      },
+      {
+        "target": "/about/",
+        "anchor": "about our Gujarat team",
+        "placement": "why choose",
+        "priority": "P2"
+      },
+      {
+        "target": "/dwarka/",
+        "anchor": "Dwarka guide",
+        "placement": "background reading",
+        "priority": "P2"
+      },
+      {
+        "target": "/somnath/",
+        "anchor": "Somnath guide",
+        "placement": "background reading",
+        "priority": "P2"
+      },
+      {
+        "target": "https://somnath.org/",
+        "anchor": "official Somnath Trust website",
+        "placement": "trust warning paragraph",
+        "priority": "P0",
+        "rel": "nofollow",
+        "reason": "Outbound authority citation and buyer protection."
+      }
+    ],
+    "anchor_diversity": "Exact match anchor used once, from the hub chooser. Everything else partial, branded or natural language.",
+    "crawl_depth": 2
+  },
+  "cta": {
+    "conversion_action": "qualify_form",
+    "primary": {
+      "label": "Get this plan for your dates",
+      "target": "enquiry form",
+      "placement": "sticky above fold on mobile, repeated after the rail section, after the price matrix, and after the FAQ"
+    },
+    "secondary": {
+      "label": "Send your dates on WhatsApp",
+      "target": "https://wa.me/917302265809",
+      "placement": "sticky bar, lighter weight"
+    },
+    "tertiary": {
+      "label": "Call +91 7302265809",
+      "target": "tel:+917302265809",
+      "placement": "footer of each CTA block"
+    },
+    "form_fields": [
+      "dates",
+      "group size",
+      "hotel tier",
+      "arriving by train or flight",
+      "train number or flight number if booked"
+    ],
+    "form_note": "The arrival field matters more here than anywhere else on the site, because it decides the direction of the whole circuit. Make it the second field, not the last.",
+    "honest_urgency_only": "Real availability and real date cutoffs only. Nothing invented.",
+    "banned": [
+      "timer widgets that invent a deadline",
+      "invented viewer counts",
+      "fake seats left"
+    ]
+  },
+  "technical": {
+    "cwv_targets": {
+      "LCP": "<2.5s",
+      "INP": "<200ms",
+      "CLS": "<0.1"
+    },
+    "image_budget": "Hero under 150 KB AVIF or WebP at 1200 wide, priority loaded. Everything else lazy. Real departure photography only, no stock.",
+    "required_alt_examples": [
+      "Saurashtra Mail at Mumbai Central before the 21:05 departure",
+      "Dwarka station platform at 13:10 as the Mumbai train arrives",
+      "Sudarshan Setu from the Okha approach road, the bridge that replaced the Bet Dwarka ferry"
+    ],
+    "rendering": "SSG with ISR. Tag the rate matrix and the transport block for on demand revalidation from the CMS publish webhook. Train times are the fastest decaying field on this page.",
+    "mobile": "Sticky enquiry bar. Entry point and price tables must scroll horizontally or collapse to cards under 480px.",
+    "last_updated_visible": true,
+    "hreflang": "en-IN self, hi-IN twin at /hi/somnath-dwarka-tour-package/from-mumbai/, x-default to en-IN"
+  },
+  "measurement": {
+    "ga4_events": [
+      {
+        "name": "generate_lead",
+        "trigger": "enquiry form submit",
+        "params": [
+          "start_city",
+          "arrival_mode",
+          "duration_variant",
+          "hotel_tier",
+          "group_size"
+        ]
+      },
+      {
+        "name": "whatsapp_click",
+        "trigger": "WhatsApp CTA",
+        "params": [
+          "placement"
+        ]
+      },
+      {
+        "name": "call_click",
+        "trigger": "phone CTA",
+        "params": [
+          "placement"
+        ]
+      },
+      {
+        "name": "entry_point_toggle",
+        "trigger": "interaction with the rail against air comparison",
+        "params": [
+          "choice"
+        ]
+      }
+    ],
+    "loops": [
+      "Striking distance: if this page sits at 11 to 20 after 8 weeks, add contextual links from /plan/how-to-reach/ and /somnath-dwarka-taxi-service/airport-taxi/jamnagar/ before rewriting a word.",
+      "High impressions low CTR: the train time in the meta is the hook. Test it against a price led variant before touching the body.",
+      "AI Overview watch: track whether the direct train correction gets cited. A correction of a competing page is the highest value citation on this site, because it establishes the brand as the source that is right.",
+      "Cannibalization watch: this page and /from-ahmedabad/ share a train. If either ranks for the other's city term, cut the shared transport detail from the weaker one.",
+      "Decay: the 21:05 departure and the 13:10 arrival are the fastest decaying facts on the site. Recheck quarterly and before every Shravan and Janmashtami."
+    ]
+  },
+  "sources": [
+    {
+      "claim": "Saurashtra Mail 22945 departs Mumbai Central 21:05 and reaches Dwarka 13:10, daily, about 16 hours",
+      "sources": [
+        "ixigo.com",
+        "confirmtkt.com",
+        "goibibo.com, 09:05 PM to 01:10 PM",
+        "railyatri.in, first train 21:05, about 16 hours 50 minutes"
+      ],
+      "checked": "2026-07-15",
+      "note": "MakeMyTrip is the outlier at 21:35 to 14:41. Four sources agree on 21:05 to 13:10 and the copy uses that."
+    },
+    {
+      "claim": "Mumbai to Dwarka rail distance about 960 km",
+      "sources": [
+        "ixigo.com, 960",
+        "railyatri.in, 961",
+        "makemytrip.com, 969",
+        "tickets.paytm.com, 962"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Mumbai to Dwarka road distance about 950 km",
+      "sources": [
+        "mischieftreks.com"
+      ],
+      "checked": "2026-07-15",
+      "note": "One source, but corroborated in order of magnitude by four independent rail distances of 960 to 969 km. The copy says 'about 950 km' and the argument only needs the order of magnitude, which is that you do not drive it."
+    },
+    {
+      "claim": "Jamnagar airport about 130 km from Dwarka, a 2.5 to 3 hour drive",
+      "sources": [
+        "mischieftreks.com, 130 km, 2 to 3 hours",
+        "gujarattrips.com, 130 km, 2.5 to 3 hours"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Porbandar airport about 133 km from Dwarka",
+      "sources": [
+        "gujarattrips.com"
+      ],
+      "checked": "2026-07-15",
+      "note": "Single source. The copy states the distance without a drive time and the argument does not depend on it."
+    },
+    {
+      "claim": "Diu airport about 82 to 90 km from Somnath, 1.5 to 2 hours, limited Mumbai services",
+      "sources": [
+        "holidify.com, 82 km",
+        "mischieftreks.com, 85 km",
+        "gujarattrips.com, 90 km, 1.5 to 2 hours"
+      ],
+      "checked": "2026-07-15",
+      "note": "Three sources give a band rather than a figure, so the copy gives the band."
+    },
+    {
+      "claim": "Direct Mumbai to Veraval rail services exist, Veraval being the working railhead for Somnath",
+      "sources": [
+        "holidify.com",
+        "namasteindiatrip.com",
+        "gujarattrips.com"
+      ],
+      "checked": "2026-07-15",
+      "note": "Three sources agree services exist. They disagree on which trains and on the timings, so the copy names no train and no time for this leg. See claims dropped."
+    },
+    {
+      "claim": "Dwarka to Somnath 233 km on NH51, 5 to 6 hours",
+      "sources": [
+        "gujarattrips.com",
+        "kiomoi.com",
+        "shikhar.com"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Dwarkadhish closes about 1:00 pm and reopens about 5:00 pm",
+      "sources": [
+        "temple.yatradham.org",
+        "blessingsideas.com",
+        "shreedwarkadhish.in"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Jay Somnath sound and light show 7:45 pm to 8:45 pm",
+      "sources": [
+        "somnath.org/somnath-darshan/ (primary, Shree Somnath Trust)"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Sudarshan Setu, 2.32 km, inaugurated 25 February 2024, replaced boat transport to Bet Dwarka",
+      "sources": [
+        "pmindia.gov.in (primary)",
+        "pib.gov.in (primary)",
+        "en.wikipedia.org/wiki/Sudarshan_Setu"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "A ranking competitor states there is no direct transport between Mumbai and Dwarka",
+      "sources": [
+        "namasteindiatrip.com/dwarka-somnath-tour-from-mumbai.html"
+      ],
+      "checked": "2026-07-15",
+      "note": "Quoted as an error to correct, not as a source for anything. The correction rests on the four rail sources above."
+    },
+    {
+      "claim": "A ranking competitor still sells Bet Dwarka by ferry",
+      "sources": [
+        "mischieftreks.com/tours/dwarka-somnath-tour"
+      ],
+      "checked": "2026-07-15",
+      "note": "Same. The copy corrects the practice without naming the operator, because the point is the fact, not the fight."
+    },
+    {
+      "claim": "Shree Somnath Trust accepts bookings and donations only via its official website",
+      "sources": [
+        "somnath.org (primary)"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "No Taj or ITC five star in Dwarka or Somnath",
+      "sources": [
+        "tripadvisor.com Gujarat 5 star list",
+        "tajhotels.com destinations"
+      ],
+      "checked": "2026-07-15"
+    }
+  ],
+  "claims_dropped": [
+    {
+      "claim": "Named Mumbai to Veraval trains and their timings, including a Saurashtra Mail service to Veraval",
+      "why": "One source lists the Saurashtra Mail running Mumbai Central to Veraval in about 18 hours, but four other sources show 22945 running to Dwarka and Okha, which is a different line. A train cannot do both. Rather than pick a side, the copy says direct Mumbai to Veraval services exist, names none, and tells the reader we will build the last day around the ticket they hold. FLAG for the by-train spoke: this needs resolving against a primary railway source."
+    },
+    {
+      "claim": "Saurashtra Janta Express 19218 departing Veraval and reaching Borivali 04:15 and Dadar 04:55",
+      "why": "Single competitor page. Kept out of the copy entirely."
+    },
+    {
+      "claim": "Mumbai to Porbandar flight time of 1 hour 20 minutes and fares from Rs. 2,607, Mumbai to Diu 1 hour 05 minutes from Rs. 6,357",
+      "why": "Airfares move daily and the flight times come from one source. The copy gives distances from the airports and says Diu services are limited, which is the part that affects the itinerary."
+    },
+    {
+      "claim": "Rail fares Mumbai to Dwarka, quoted between Rs. 490 and Rs. 540",
+      "why": "Sources disagree and the ticket is not ours to sell. The page's argument is about arrival time, not fare."
+    },
+    {
+      "claim": "Veraval is 3 km from Somnath",
+      "why": "Sources across the project range from 3 km to 7 km. The copy says 'a short drive', which is true at every figure in that range."
+    },
+    {
+      "claim": "Which specific Mumbai to Diu services operate and on what days",
+      "why": "Could not be confirmed. The copy says the services are limited and do not run daily, which three sources support, and tells the reader to give us their dates."
+    }
+  ],
+  "qa_gate": {
+    "style_check": "PASS. Zero em dashes, en dashes or spaced hyphen substitutes in any string, including title, meta, alt text and schema values. Zero placeholders, zero hand-the-check-back language.",
+    "slop_check": "PASS. No banned phrases, no fabricated specifics, no fake urgency. Cancellation path present and linked. The gate also caught that the honesty block had no rendered heading, so a renderer would have shipped five disqualifiers under no title at all. Heading added: 'This trip is not for you if'.",
+    "skeptical_buyer": "PASS. A buyer can decide from this page alone: that they should not drive, which train, why its arrival time is right, which airport sends them to which temple, exactly where our price starts and stops, what it costs at three tiers, and who should not book it.",
+    "information_gain": "PASS. Five named items, led by a direct factual correction of a ranking competitor and the explicit statement of where the package begins.",
+    "honesty": "PASS. Every non canon fact traced to a live source with a date. Six claims dropped rather than hedged, including the entire Mumbai to Veraval timetable, which two sources contradict each other on.",
+    "delta_test": "PASS. About 80 percent unique. This page reaches the third distinct rail verdict of the origin set, which no template could produce.",
+    "anti_cannibalization": "PASS. Seven competing queries assigned elsewhere, with an explicit shared-train guard against /from-ahmedabad/.",
+    "schema": "PASS. lowPrice raised to 10000 because a one night Mumbai plan is not a real product. No rail fares in the schema, since they are not ours to sell. No aggregateRating. GBP withheld from sameAs pending the rename.",
+    "title_meta": "PASS. Title 53, meta 146.",
+    "blocking_for_publish": [
+      "Real departure photography for the hero and the three alt tagged slots, including the Dwarka platform shot at 13:10, which is the page's whole argument in one image.",
+      "Resolve the Mumbai to Veraval rail question against a primary railway source before the return leg is described in more detail or the by-train spoke is built.",
+      "Ops confirmation that we do meet trains at Dwarka station and flights at Jamnagar and Diu, since the entire page rests on that promise.",
+      "The /somnath-dwarka-tour-package/by-train/ outbound link must not go live until that page exists."
+    ]
+  }
+}

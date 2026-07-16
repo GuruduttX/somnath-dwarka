@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import PackageDetails from '@/src/components/Admin/PackageEditor/PackageDetails';
 import TripHighlights from '@/src/components/Admin/PackageEditor/TripHighlights';
 import Inclusion from '@/src/components/Admin/PackageEditor/Inclusion';
+import PriceTiers, { type PriceTier } from '@/src/components/Admin/PackageEditor/PriceTiers';
 import Exclusion from '@/src/components/Admin/PackageEditor/Exclusion';
 import Policy from '@/src/components/Admin/PackageEditor/Policy';
 import Document from '@/src/components/Admin/PackageEditor/Document';
@@ -115,6 +116,7 @@ export default function CreateNewPackage() {
   const [exclusions, setExclusions] = useState<Exclusions[]>([
     { id: "init-exclusion", description: "" },
   ]);
+  const [priceTiers, setPriceTiers] = useState<PriceTier[]>([]);
   const [documents, setDocuments] = useState<Documents[]>([
     { id: "init-document", description: "" },
   ]);
@@ -233,6 +235,8 @@ export default function CreateNewPackage() {
           setInclusions(parsedData.inclusions);
         if (parsedData.exclusions?.length > 0)
           setExclusions(parsedData.exclusions);
+        if (parsedData.priceTiers?.length > 0)
+          setPriceTiers(parsedData.priceTiers);
 
         // Notice the key name changes from your payload generator
         if (parsedData.knowBeforeYouGo?.length > 0)
@@ -289,6 +293,7 @@ export default function CreateNewPackage() {
         highlights: highLights,
         inclusions: inclusions,
         exclusions: exclusions,
+        priceTiers: priceTiers,
         knowBeforeYouGo: documents, // Maps document state to payload key
         itinerary: itinerary,
         availableSrc: availableSrc,
@@ -316,6 +321,7 @@ export default function CreateNewPackage() {
     highLights,
     inclusions,
     exclusions,
+    priceTiers,
     documents,
     itinerary,
     breakdown,
@@ -381,6 +387,7 @@ export default function CreateNewPackage() {
     highlights: highLights,
     inclusions,
     exclusions,
+    priceTiers,
     knowBeforeYouGo: documents,
     itinerary,
     availableSrc,
@@ -664,6 +671,7 @@ export default function CreateNewPackage() {
           setExclusions={setExclusions}
           editorType="Package"
         />
+        <PriceTiers priceTiers={priceTiers} setPriceTiers={setPriceTiers} />
         <Testimonials
           testimonials={testimonials}
           setTestimonials={setTestimonials}

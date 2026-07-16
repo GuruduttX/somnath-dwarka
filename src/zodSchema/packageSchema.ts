@@ -7,11 +7,17 @@ const textItem = z.object({
   description: z.string().optional(),
 });
 
+const itineraryStep = z.object({
+  time: z.string().optional(),
+  activity: z.string().optional(),
+});
+
 const itinerary = z.object({
   id : z.string().optional(),
   day: z.number().optional(),
   title: z.string().optional(),
   description: z.string().optional(),
+  steps: z.array(itineraryStep).optional(),
 });
 
 const faq = z.object({
@@ -51,6 +57,14 @@ const route = z.object({
   segments: z.array(routeSegment).optional(),
 });
 
+const priceTier = z.object({
+  id: z.string().optional(),
+  tier: z.string().optional(),
+  perNight: z.coerce.number().optional(),
+  total: z.coerce.number().optional(),
+  hotel: z.string().optional(),
+});
+
 export const tourPackageSchema = z
   .object({
     title: z.string().optional(),
@@ -82,6 +96,8 @@ export const tourPackageSchema = z
     knowBeforeYouGo: z.array(textItem).optional(),
 
     faqs: z.array(faq).optional(),
+
+    priceTiers: z.array(priceTier).optional(),
 
     metaTitle: z.string().optional(),
     metaDescription: z.string().optional(),

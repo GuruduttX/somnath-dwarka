@@ -14,11 +14,10 @@ import { getPackageBySlug, packagePath } from "@/src/lib/content";
 import { SEED_PACKAGES, findSeedPackage } from "@/src/lib/seed/packages";
 import { buildRelatedLinks } from "@/src/lib/links";
 import SideForm from "@/src/components/TourPackage/SideForm";
+import SpokeContent, { DecisionBlock, ProseSections, PriceMatrixTable } from "@/src/components/TourPackage/SpokeContent";
 import PackageDurationStrip from "@/src/components/TourPackage/PackageDurationStrip";
 import PackageInclusionsStrip from "@/src/components/TourPackage/PackageInclusionsStrip";
 import PackageVisualHeader from "@/src/components/TourPackage/PackageVisualHeader";
-import ProductRatings from "@/src/components/TourPackage/ProductRatings";
-import PackageTestimonials from "@/src/components/TourPackage/PackageTestimonials";
 import TrustBuildingSection from "@/src/utils/TrustBuildingSection";
 import Policies from "@/src/components/TourPackage/Policies";
 
@@ -82,14 +81,23 @@ async function resolvePackage(slug: string) {
       price_verified: false,
       answer_first: String(cms.answer_first || cms.overview || ""),
       highlights: ((cms.highlights as { description: string }[]) || []).map((h) => h.description),
-      itinerary: ((cms.itinerary as { day: number; title: string; description: string; stops?: string[] }[]) || []).map((d) => ({
+      itinerary: ((cms.itinerary as { day: number; title: string; description: string; stops?: string[]; steps?: { time: string; activity: string }[] }[]) || []).map((d) => ({
         day: d.day,
         title: d.title,
         description: d.description,
         stops: d.stops,
+        steps: Array.isArray(d.steps) ? d.steps.map((s) => ({ time: String(s.time || ""), activity: String(s.activity || "") })) : [],
       })),
       inclusions: ((cms.inclusions as { description: string }[]) || []).map((i) => i.description),
       exclusions: ((cms.exclusions as { description: string }[]) || []).map((e) => e.description),
+      priceTiers: ((cms.priceTiers as { tier?: string; perNight?: number; total?: number; hotel?: string }[]) || [])
+        .filter((t) => t && (t.tier || t.perNight || t.total))
+        .map((t) => ({
+          tier: String(t.tier || ""),
+          perNight: Number(t.perNight || 0),
+          total: Number(t.total || 0),
+          hotel: String(t.hotel || ""),
+        })),
       faq: ((cms.faqs as { question: string; answer: string }[]) || []).map((f) => ({ question: f.question, answer: f.answer })),
       heroImage,
       childImages,
@@ -104,6 +112,7 @@ async function resolvePackage(slug: string) {
         { title: "Confirmation", description: String(cms.confirmation || "") },
         { title: "Payment", description: String(cms.payment || "") },
       ].filter((p) => p.description.trim() !== ""),
+      extras: readSpokeExtras(cms),
     };
   }
   const seed = findSeedPackage(slug);
@@ -112,6 +121,7 @@ async function resolvePackage(slug: string) {
     ...seed,
     title_tag: seed.title,
     meta_description: seed.answer_first,
+    priceTiers: [] as { tier: string; perNight: number; total: number; hotel: string }[],
     heroImage: FALLBACK_GALLERY[0],
     childImages: FALLBACK_GALLERY.slice(1),
     noindex: false,
@@ -120,6 +130,63 @@ async function resolvePackage(slug: string) {
     breakfast_included: true,
     sightseeing_included: true,
     policies: [],
+    extras: readSpokeExtras({}),
+  };
+}
+
+/** The long-form docx/JSON sections stored on the package doc (seed-managed canon). */
+type SpokeExtras = {
+  decision: { title: string; intro: string; headers: string[]; rows: string[][]; note: string } | null;
+  sections: { h2: string; body: string[] }[];
+  priceMatrix: { headers: string[]; rows: string[][] } | null;
+  whyChoose: { title: string; points: string[] } | null;
+  notForYou: { title: string; items: string[] } | null;
+  priceNotes: string[];
+  finalCta: string;
+};
+
+function readSpokeExtras(cms: Record<string, unknown>): SpokeExtras {
+  const asStrArr = (v: unknown) => (Array.isArray(v) ? v.map((x) => String(x)).filter(Boolean) : []);
+  const d = cms.decision as { title?: string; intro?: string; headers?: unknown; rows?: unknown; note?: string } | undefined;
+  const decision =
+    d && (d.intro || (Array.isArray(d.rows) && d.rows.length))
+      ? {
+          title: String(d.title || ""),
+          intro: String(d.intro || ""),
+          headers: asStrArr(d.headers),
+          rows: Array.isArray(d.rows) ? d.rows.map((r) => asStrArr(r)) : [],
+          note: String(d.note || ""),
+        }
+      : null;
+  const wc = cms.whyChoose as { title?: string; points?: unknown } | undefined;
+  const whyChoose = wc && Array.isArray(wc.points) && wc.points.length
+    ? { title: String(wc.title || "Why choose Experience My India"), points: asStrArr(wc.points) }
+    : null;
+  const nf = cms.notForYou as { title?: string; items?: unknown } | undefined;
+  const notForYou = nf && Array.isArray(nf.items) && nf.items.length
+    ? { title: String(nf.title || "This plan is not for you if"), items: asStrArr(nf.items) }
+    : null;
+  const sections = (Array.isArray(cms.sections) ? cms.sections : [])
+    .map((s) => {
+      const sec = s as { h2?: string; body?: unknown };
+      return { h2: String(sec.h2 || ""), body: asStrArr(sec.body) };
+    })
+    .filter((s) => s.h2 && s.body.length);
+
+  const pm = cms.priceMatrix as { headers?: unknown; rows?: unknown } | undefined;
+  const priceMatrix =
+    pm && Array.isArray(pm.rows) && pm.rows.length
+      ? { headers: asStrArr(pm.headers), rows: pm.rows.map((r) => asStrArr(r)) }
+      : null;
+
+  return {
+    decision,
+    sections,
+    priceMatrix,
+    whyChoose,
+    notForYou,
+    priceNotes: asStrArr(cms.priceNotes),
+    finalCta: String(cms.finalCta || ""),
   };
 }
 
@@ -234,7 +301,7 @@ export default async function PackageVariantPage({ params }: Params) {
                   <span className="p-1.5 rounded-md bg-orange-100/40 text-orange-600">
                     <Star size={15} className="fill-orange-400 text-orange-400" />
                   </span>
-                  <span>4.9 · 287 reviews</span>
+                  <span>Hotel, breakfast & vehicle included</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <span className="p-1.5 rounded-md bg-orange-100/40 text-orange-600">
@@ -280,6 +347,12 @@ export default async function PackageVariantPage({ params }: Params) {
               </div>
             ) : null}
 
+            {/* Decision block (where the night goes / the fork / Gir or Diu) */}
+            {pkg.extras.decision ? <DecisionBlock decision={pkg.extras.decision} /> : null}
+
+            {/* Origin-page argument sections (the 02:57 problem, the road, etc.) */}
+            <ProseSections sections={pkg.extras.sections} />
+
             {/* Day-wise Itinerary */}
             {pkg.itinerary?.length ? (
               <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white p-6 sm:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
@@ -288,6 +361,47 @@ export default async function PackageVariantPage({ params }: Params) {
                   Day-wise itinerary
                 </h3>
                 <ItineraryAccordion days={pkg.itinerary} />
+              </div>
+            ) : null}
+
+            {/* Pricing: full tier-by-nights matrix where the page has one, else tier cards */}
+            {pkg.extras.priceMatrix ? <PriceMatrixTable matrix={pkg.extras.priceMatrix} /> : null}
+
+            {!pkg.extras.priceMatrix && pkg.priceTiers?.length ? (
+              <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white p-6 sm:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
+                <h3 className="text-xl font-bold text-slate-950 mb-2 flex items-center gap-2">
+                  <span className="h-6 w-1 rounded-full bg-orange-500 inline-block" />
+                  Pricing by tier
+                </h3>
+                <p className="mb-5 text-sm text-slate-500">
+                  Per person. The tier is the hotel; hotel, breakfast and your vehicle with driver are included in every tier.
+                </p>
+                <div className="overflow-x-auto rounded-xl border border-orange-100">
+                  <table className="w-full min-w-[520px] text-left text-sm">
+                    <thead className="bg-orange-50 text-[#7a4a2b]">
+                      <tr>
+                        <th className="px-4 py-3 text-xs font-bold uppercase tracking-wide">Tier</th>
+                        <th className="px-4 py-3 text-xs font-bold uppercase tracking-wide">Per person, per night</th>
+                        <th className="px-4 py-3 text-xs font-bold uppercase tracking-wide">Total per person</th>
+                        <th className="px-4 py-3 text-xs font-bold uppercase tracking-wide">Hotels</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-orange-50">
+                      {pkg.priceTiers.map((t, i) => (
+                        <tr key={i} className="align-top hover:bg-orange-50/40">
+                          <td className="px-4 py-3 font-semibold text-slate-900">{t.tier}</td>
+                          <td className="px-4 py-3 text-slate-700">
+                            {t.perNight ? `₹${t.perNight.toLocaleString("en-IN")}` : "—"}
+                          </td>
+                          <td className="px-4 py-3 font-bold text-[#B85C10]">
+                            {t.total ? `₹${t.total.toLocaleString("en-IN")}` : "—"}
+                          </td>
+                          <td className="px-4 py-3 text-slate-600">{t.hotel || "—"}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             ) : null}
 
@@ -351,9 +465,16 @@ export default async function PackageVariantPage({ params }: Params) {
         </div>
       </div>
 
+      {/* Long-form docx sections: why-choose, honest fit, price notes */}
+      <SpokeContent extras={pkg.extras} />
+
+      {pkg.extras.finalCta ? (
+        <div className="mx-auto max-w-3xl px-4 pb-4 text-center">
+          <p className="text-base leading-relaxed text-slate-600">{pkg.extras.finalCta}</p>
+        </div>
+      ) : null}
+
       <CtaBand context={pkg.h1} />
-      <ProductRatings />
-      <PackageTestimonials PackageData={pkg} />
       <TrustBuildingSection />
       <Faq items={pkg.faq} heading="Package FAQs" />
       <RelatedLinks links={related} />

@@ -1,0 +1,1053 @@
+{
+  "page": {
+    "url": "/somnath-dwarka-tour-package/from-rajkot/",
+    "role": "SPOKE",
+    "silo": "money-circuit",
+    "wave": "MVP",
+    "parent_hub": "/somnath-dwarka-tour-package/",
+    "money_target": "(is money)",
+    "conversion_action": "qualify_form",
+    "canonical": "self",
+    "indexable": true,
+    "in_sitemap": true,
+    "hreflang_twin": "/hi/somnath-dwarka-tour-package/from-rajkot/",
+    "last_verified": "2026-07-15",
+    "batch": "2 of 7, origin spokes. Spoke 7 of 36."
+  },
+  "delta_declaration": {
+    "owns": "Rajkot as the apex of the triangle. Both temples are half day drives, which makes this the only start city where three days is the right answer rather than the compromise.",
+    "inverts_sibling": "The Ahmedabad page recommends 4 days 3 nights and argues hard about the train. This page recommends 3 days 2 nights and argues that the train is irrelevant. Same circuit, opposite advice, because the geography is different. That inversion is the proof these are not the same page with a swapped city name.",
+    "cannot_appear_on_hub": "The hub compares 36 variants and cannot carry one city's triangle arithmetic or its rail comparison.",
+    "cannot_appear_on_siblings": "Ahmedabad is 440 to 450 km from Dwarka and 410 from Somnath, so its day one is a full driving day and its trains matter. Rajkot is 225 to 235 and about 197. Nothing in this page's transport core survives being moved.",
+    "estimated_unique_body": "About 75 percent. Shared material is limited to the category clock, the price table and the trust warning, none of which is this page's subject."
+  },
+  "head": {
+    "title": "Somnath Dwarka Tour Package From Rajkot, Rs.10,000 pp",
+    "title_length": 53,
+    "meta_description": "Rajkot is closest to both temples: 197 km to Somnath, 230 to Dwarka. Which is why 3 days works here and 4 does not. From Rs.10,000 pp, vehicle included.",
+    "meta_length": 152,
+    "h1": "Somnath Dwarka Tour Package From Rajkot: Itinerary, Price and Booking",
+    "slug_note": "Matches the URL map exactly. No change proposed.",
+    "ctr_rationale": "Competitors treat Rajkot as a pickup line inside a generic Gujarat page, and TravelTriangle's Rajkot page sells the same 4 day itinerary it sells from every other city. Leading with the two distances and a claim that contradicts the category default, three days rather than four, is the only differentiated angle in this SERP. The number in the title pre-qualifies the click.",
+    "og_title": "Somnath Dwarka From Rajkot: The Only Start Where 3 Days Is Enough",
+    "og_description": "197 km to Somnath, 225 to 235 to Dwarka. Both are half day drives, so the triangle closes without a wasted day. Rs. 10,000 per person, hotel, breakfast and vehicle included."
+  },
+  "intent_lock": {
+    "primary_intent": "somnath dwarka tour package from rajkot",
+    "intent_type": "transactional",
+    "secondary_owned": [
+      "somnath dwarka package from rajkot",
+      "rajkot to dwarka somnath tour",
+      "dwarka somnath trip from rajkot",
+      "rajkot to somnath dwarka package price"
+    ],
+    "explicitly_not_owned": [
+      {
+        "query": "rajkot to dwarka distance",
+        "url": "/plan/how-to-reach/",
+        "why": "Informational. It links into this page."
+      },
+      {
+        "query": "rajkot to dwarka taxi",
+        "url": "/somnath-dwarka-taxi-service/rajkot-to-dwarka-taxi/",
+        "why": "Vehicle only, no hotel. Different product, and it already exists in the map."
+      },
+      {
+        "query": "rajkot to virpur chotila taxi",
+        "url": "/somnath-dwarka-taxi-service/rajkot-to-virpur-chotila-taxi/"
+      },
+      {
+        "query": "somnath dwarka package 3 days 2 nights",
+        "url": "/somnath-dwarka-tour-package/3-days-2-nights/",
+        "why": "Duration is the subject there. This page recommends that duration but does not own the term."
+      },
+      {
+        "query": "somnath dwarka tour package from ahmedabad",
+        "url": "/somnath-dwarka-tour-package/from-ahmedabad/"
+      },
+      {
+        "query": "somnath dwarka tour package",
+        "url": "/somnath-dwarka-tour-package/",
+        "why": "Head term belongs to the hub."
+      },
+      {
+        "query": "rajkot airport taxi",
+        "url": "/somnath-dwarka-taxi-service/airport-taxi/rajkot/"
+      }
+    ],
+    "cannibalization_guard": "This page recommends the 3 nights 2 days plan but must never optimise for that duration term, which belongs to /somnath-dwarka-tour-package/3-days-2-nights/. It recommends and links. It does not compete. If Search Console shows this page ranking for the bare duration query, cut the emphasis here."
+  },
+  "research_taxonomy": {
+    "central_entity": "Rajkot to Somnath Dwarka pilgrimage circuit",
+    "entity_attributes": {
+      "origin": "Rajkot, Gujarat. Fourth largest city in the state, centre of Saurashtra. Rajkot Junction and Bhakti Nagar stations.",
+      "road_distance_to_dwarka_km": "225 to 235",
+      "road_distance_to_somnath_km": "about 197 to 200",
+      "road_distance_dwarka_to_somnath_km": "233 on NH51",
+      "full_loop_km": "about 655, computed as 230 plus 233 plus 197",
+      "position": "Apex of the triangle. Somnath is the closer of the two, which is the opposite of the Ahmedabad position."
+    },
+    "personas_served": [
+      "Rajkot and Saurashtra resident planning a weekend yatra",
+      "Traveller already in Saurashtra on other business",
+      "Family from Jamnagar, Junagadh or Gondal using Rajkot as the pickup point",
+      "Flyer landing at Rajkot for the region"
+    ],
+    "paa_harvested": [
+      "How far is Dwarka from Rajkot?",
+      "How far is Somnath from Rajkot?",
+      "Can we cover Dwarka and Somnath from Rajkot in 2 days?",
+      "Is there a train from Rajkot to Somnath?",
+      "What is the best route from Rajkot to Dwarka and Somnath?",
+      "How much is a Dwarka Somnath package from Rajkot?"
+    ],
+    "serp_recon": {
+      "date": "2026-07-15",
+      "query": "somnath dwarka tour package from rajkot",
+      "competitors": [
+        "traveltriangle.com/packages/dwarka-somnath-tour-from-rajkot",
+        "gujaratpackage.com/how-to-reach-dwarka-and-somnath-from-rajkot/",
+        "travel.yatradham.org/package/dwarka-somnath-tour-package",
+        "gujaratexpert.com/dwarka-somnath-tour-package/"
+      ],
+      "winning_shape": "TravelTriangle runs a 4 days 3 nights Rajkot package that is the same itinerary it sells from Ahmedabad, with Rajkot swapped in as the pickup word. GujaratPackage publishes a how to reach guide that states 200 km and 5 to 6 hours in the same sentence, which cannot both be right for Dwarka.",
+      "universal_gap": "Not one page notices that Rajkot's geography changes the recommendation. Every competitor sells the Ahmedabad shaped 4 day trip from a city that is 200 km closer to both temples. Not one states that Somnath is nearer to Rajkot than Dwarka is, which is the single fact that decides the direction you drive.",
+      "ai_overview_present": true,
+      "features_targeted": [
+        "AI Overview (commercial)",
+        "PAA",
+        "Product/TouristTrip snippet"
+      ]
+    },
+    "information_gain": [
+      "Rajkot is closer to Somnath (about 197 km) than to Dwarka (225 to 235 km), which reverses the default direction and is stated nowhere in the ranking set.",
+      "The Rajkot circuit is a closed triangle of about 655 km with no backtracking, unlike the Ahmedabad circuit which retraces its own leg.",
+      "Three days and two nights is the correct plan from Rajkot and the wrong plan from Ahmedabad. The page explains the geography that makes the same duration right in one city and wrong in another.",
+      "Rail is irrelevant from Rajkot, which is the opposite of the Ahmedabad conclusion. Trains from Rajkot and Bhakti Nagar to Veraval run about every four hours and take roughly 4 hours 22 minutes to 4 hours 34 minutes, which is no faster than the road and leaves you without a vehicle in a town whose sites are spread out.",
+      "If you are in Rajkot you are already four hours into the Ahmedabad itinerary, because the Ahmedabad drive passes through Rajkot anyway. The page says this plainly instead of selling you the longer trip."
+    ]
+  },
+  "copy": {
+    "quick_answer": "A Somnath Dwarka tour package from Rajkot is the shortest version of this circuit anyone can honestly sell. Somnath is about 197 km south, Dwarka is 225 to 235 km northwest, and the two temples are 233 km apart on NH51, so the whole loop closes at roughly 655 km with nothing retraced. Experience My India runs it from Rs. 5,000 per person per night, so the three day, two night plan that suits Rajkot is Rs. 10,000 per person with a 3 star hotel, breakfast and your vehicle included. Four days is what operators sell from Ahmedabad. From Rajkot it buys you a lie in, not a sight.",
+    "sections": [
+      {
+        "h2": "Rajkot sits at the apex, and that changes the trip",
+        "body": [
+          "Look at where Rajkot is. Somnath is about 197 km due south, roughly a four hour drive with a stop. Dwarka is 225 to 235 km to the northwest. The temples are 233 km from each other along the coast.",
+          "Three legs, none of them a full day. That is a closed triangle of about 655 km, and you never drive the same road twice. From Ahmedabad the same circuit is 450 km out, 233 across and 410 back, and day one is gone before you see anything.",
+          "Here is the part no competitor page states: from Rajkot, Somnath is the closer temple. Everywhere else in Gujarat, Dwarka is the one you reach first. That single fact decides which way round you drive, and most operators selling you a Rajkot package have not noticed it, because they are selling you the Ahmedabad itinerary with the word Rajkot pasted over the pickup line.",
+          "If you are standing in Rajkot, you are already four hours into that Ahmedabad trip. The drive from Ahmedabad comes through here. You should not pay for the part you have already done."
+        ]
+      },
+      {
+        "h2": "Three days, not four",
+        "body": [
+          "From Ahmedabad we recommend four days and three nights, and we argue for it hard, because the drive in eats a day and Dwarka needs a full clear one after that.",
+          "From Rajkot the arithmetic changes. Day one reaches Dwarka around lunch, which lands inside the temple's afternoon closure, so you check in, rest and walk in when the gate reopens at 5:00 pm with the whole evening ahead of you. Day two takes the coast to Somnath and still arrives for the 7:00 pm aarti. Day three brings you home in four hours after an unhurried morning darshan.",
+          "Two nights, one in each town, and nothing rushed. That is Rs. 10,000 per person at the 3 star tier.",
+          "Take the fourth night if you want Bet Dwarka unhurried, or Porbandar, or a Gir add on. Take it because you want the sight, not because a package page told you four days is the standard. From here, it is not."
+        ]
+      },
+      {
+        "h2": "Should you take the train from Rajkot?",
+        "body": [
+          "From Ahmedabad this is a real question and we spend a section on it, because a well timed train beats the car on that route.",
+          "From Rajkot it is not a question. Trains from Rajkot Junction and Bhakti Nagar run to Veraval roughly every four hours and take about 4 hours 22 minutes to 4 hours 34 minutes. The road takes about the same. You would trade nothing for nothing, and you would arrive without a vehicle in a region where Bet Dwarka is 30 km past Dwarka across a bridge and Nageshwar sits on the road between them.",
+          "Drive. Our vehicle stays with you for all three legs and it is inside the price."
+        ]
+      },
+      {
+        "h2": "Which direction from Rajkot",
+        "body": [
+          "Dwarka first is our default, because it puts the 233 km coastal leg in the middle of the trip where it belongs and finishes with the shorter 197 km run home.",
+          "Somnath first works if you want the aarti and the show on your first evening, since Somnath is the nearer temple and the drive is about four hours. You then take the coast north to Dwarka and come home from there on the longer 230 km leg.",
+          "Both are honest. Neither wastes a day. Tell us which temple matters more to your family and we will start there."
+        ]
+      }
+    ],
+    "itinerary": {
+      "note": "The 3 days 2 nights from Rajkot, which is the version that fits this city. Times are our planning clock, built backwards from verified drive times and the temples' own hours.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Rajkot to Dwarka, 225 to 235 km",
+          "stops": [
+            {
+              "time": "07:00",
+              "text": "Pickup in Rajkot. No dawn start needed. This is the mercy of starting from here."
+            },
+            {
+              "time": "09:00",
+              "text": "Tea stop on the Jamnagar road."
+            },
+            {
+              "time": "11:30",
+              "text": "Dwarka hotel check in, Lords Inn class at the 3 star tier. You have arrived inside the afternoon closure, which is exactly the plan."
+            },
+            {
+              "time": "13:00",
+              "text": "Lunch, then rest. The temple is shut until 5:00 pm and fighting that is how people ruin day one."
+            },
+            {
+              "time": "17:15",
+              "text": "Dwarkadhish evening darshan. The gate has just opened and the queue is moving."
+            },
+            {
+              "time": "19:00",
+              "text": "Gomti Ghat, and the Sudama Setu footbridge while the light holds."
+            },
+            {
+              "time": "20:30",
+              "text": "Dinner. Night one in Dwarka."
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Dwarka to Somnath via the coast, 233 km on NH51",
+          "stops": [
+            {
+              "time": "06:30",
+              "text": "Mangala Aarti at Dwarkadhish. Shortest queue of the day and the quietest the temple gets."
+            },
+            {
+              "time": "08:00",
+              "text": "Nageshwar Jyotirlinga, which sits on the Dwarka to Okha road. Bet Dwarka needs a clear morning of its own, so if the island matters to you, take the third night and we will build it in."
+            },
+            {
+              "time": "10:00",
+              "text": "Leave Dwarka. The coastal run begins."
+            },
+            {
+              "time": "12:30",
+              "text": "Porbandar. Kirti Mandir and the Sudama connection. This stop is the whole argument for the coastal road over the inland one."
+            },
+            {
+              "time": "15:30",
+              "text": "Somnath hotel check in."
+            },
+            {
+              "time": "18:30",
+              "text": "Vallabhghat for sunset over the Arabian Sea."
+            },
+            {
+              "time": "19:00",
+              "text": "Sandhya Aarti."
+            },
+            {
+              "time": "19:45",
+              "text": "Jay Somnath sound and light show. The Trust runs it 7:45 pm to 8:45 pm, not 8:00 pm as most pages print. Fifteen minutes decides whether you see the opening."
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Somnath to Rajkot, about 197 km",
+          "stops": [
+            {
+              "time": "07:00",
+              "text": "Mangala Aarti and unhurried darshan at the Jyotirlinga."
+            },
+            {
+              "time": "09:00",
+              "text": "Bhalka Tirth, Triveni Sangam, Geeta Mandir, and the Ahalyabai temple the queen mother built in 1782."
+            },
+            {
+              "time": "11:30",
+              "text": "Depart for Rajkot. Roughly four hours."
+            },
+            {
+              "time": "15:30",
+              "text": "Drop at your Rajkot address, the station or the airport."
+            }
+          ]
+        }
+      ]
+    },
+    "price_sheet": {
+      "intro": "The rate is per person per night. Multiply by your nights. Hotel, breakfast and your vehicle with a driver are inside every number, and there is no arithmetic hidden behind an enquiry form.",
+      "table": [
+        {
+          "tier": "3 star",
+          "per_night_pp": "Rs. 5,000",
+          "one_night": "Rs. 5,000",
+          "two_nights_recommended": "Rs. 10,000",
+          "three_nights": "Rs. 15,000",
+          "hotels": "Lords Inn"
+        },
+        {
+          "tier": "4 star",
+          "per_night_pp": "Rs. 10,000",
+          "one_night": "Rs. 10,000",
+          "two_nights_recommended": "Rs. 20,000",
+          "three_nights": "Rs. 30,000",
+          "hotels": "The Fern, Fortune Landmark"
+        },
+        {
+          "tier": "5 star",
+          "per_night_pp": "Rs. 12,500",
+          "one_night": "Rs. 12,500",
+          "two_nights_recommended": "Rs. 25,000",
+          "three_nights": "Rs. 37,500",
+          "hotels": "The Fern Sattva Resort at Dwarka, best property in town at Somnath"
+        }
+      ],
+      "vehicle_note": "Group size picks the vehicle, not budget. Sedan for 2 to 3, Ertiga for 4 to 5, Innova Crysta for 5 to 6, 9 seater Tempo Traveller for 7 to 9, 12 seater Maharaja or Urbania for 10 to 12, 26 seater Tempo Traveller above that.",
+      "one_night_note": "Rajkot is the only start city where the single night plan is honest rather than a car ride, because both temples are half day drives from here. It is still tight. Read the two days one night page before you choose it.",
+      "five_star_honesty": "No five star Taj or ITC property operates in Dwarka or in Somnath. In Dwarka the top tier puts you in The Fern Sattva Resort. At Somnath it buys the best room in town, named in your quote before you pay.",
+      "exclusions": "Lunch and dinner, personal pooja, seva and abhishek at either temple, the sound and light show ticket, camera and cloakroom charges, tips, and anything you buy yourself.",
+      "cancellation": "Cancellation, refunds and the payment schedule are set out in full on our cancellation and refund policy, and the booking terms sit alongside it. Read both before you pay. If a road shuts or a festival moves the temple's hours, talk to us first, because that is usually a reschedule rather than a cancellation.",
+      "trust_warning": "The Shree Somnath Trust accepts pooja and donation bookings only through its own website and warns that it never asks for payment through private numbers, WhatsApp or UPI. Book sevas yourself at somnath.org. We will not take that money on your behalf.",
+      "_order": [
+        "intro",
+        "table",
+        "vehicle_note",
+        "one_night_note",
+        "five_star_honesty",
+        "exclusions",
+        "cancellation",
+        "trust_warning"
+      ]
+    },
+    "why_choose": [
+      "We sell you the shorter trip. Four days from Rajkot is a lie in, not a sight, and an operator paid by the night has every reason not to tell you that.",
+      "We know which temple is closer to you. Somnath is, by about 30 km, and it decides the direction you drive. Nobody selling a Rajkot package in this search result seems to have looked at a map.",
+      "We publish the arithmetic. 230 km plus 233 plus 197 is a 655 km triangle with nothing retraced. Every leg on this page is a number you can check before you pay us anything.",
+      "The vehicle is in the price for all three legs, which is the whole reason the train is pointless from here.",
+      "A local Gujarat team plans the route and drives it. One number, +91 7302265809, on call and WhatsApp.",
+      "We reconfirm every timing before departure, because festival schedules move at Shravan, Janmashtami and Mahashivratri."
+    ],
+    "not_for_you_if": [
+      "You want Bet Dwarka on a three day plan. The island needs a clear morning and the third day is your drive home. Take the fourth night and we will build it in properly.",
+      "You want both temples in one day from Rajkot. Somnath and Dwarka are 233 km apart and both shut in the afternoon. Being close to both does not make them close to each other.",
+      "You want to take the train to save time. From Rajkot it saves nothing and costs you the vehicle.",
+      "You are booking Janmashtami at short notice. Dwarka at Janmashtami is a different sport. Two to three months of lead time, or pick another week.",
+      "You want a five star Taj in Dwarka. It does not exist, and anyone selling you one should be asked for the property name."
+    ],
+    "faq": [
+      {
+        "q": "How far is Dwarka from Rajkot?",
+        "a": "225 to 235 km by road depending on the route, which we plan as about four hours with a tea stop. Somnath is closer, at about 197 km."
+      },
+      {
+        "q": "How far is Somnath from Rajkot?",
+        "a": "About 197 to 200 km, roughly four hours by road. Somnath is the nearer of the two temples from Rajkot, which is the opposite of the position from Ahmedabad and it decides which way round you drive."
+      },
+      {
+        "q": "How many days do you need for Dwarka and Somnath from Rajkot?",
+        "a": "Three days and two nights, at Rs. 10,000 per person at the 3 star tier. One night in Dwarka, one in Somnath, nothing rushed. Four days is what gets sold from Ahmedabad, where the drive in eats a day. From Rajkot the fourth night buys Bet Dwarka or Porbandar, not the basics."
+      },
+      {
+        "q": "Can we cover Dwarka and Somnath from Rajkot in 2 days?",
+        "a": "Rajkot is the only start city where two days is honest rather than a car ride, because both temples are half day drives from here. It is still tight and one town gets the short version. Rs. 5,000 per person at the 3 star tier."
+      },
+      {
+        "q": "Is there a train from Rajkot to Somnath?",
+        "a": "Yes. Services from Rajkot Junction and Bhakti Nagar reach Veraval, the working railhead for Somnath, roughly every four hours, taking about 4 hours 22 minutes to 4 hours 34 minutes. That is no faster than the road, and it leaves you without a vehicle in a region where the sites are spread out. From Rajkot, drive."
+      },
+      {
+        "q": "How much is a Dwarka Somnath package from Rajkot?",
+        "a": "From Rs. 5,000 per person per night, so Rs. 10,000 per person for the three day, two night plan that suits Rajkot at the 3 star tier. Rs. 20,000 at 4 star and Rs. 25,000 at 5 star. Hotel, breakfast and your vehicle with driver are included in all three."
+      },
+      {
+        "q": "What is the full route from Rajkot?",
+        "a": "Rajkot to Dwarka is 225 to 235 km, Dwarka to Somnath is 233 km along the coast through Porbandar on NH51, and Somnath back to Rajkot is about 197 km. That closes a triangle of roughly 655 km with no road driven twice."
+      }
+    ],
+    "final_cta": {
+      "summary": "A 655 km triangle with nothing retraced, both temples inside half day drives, and the honest answer that three days is enough from here. Rs. 10,000 per person at 3 star, hotel, breakfast and vehicle included.",
+      "primary": "Get this plan for your dates",
+      "secondary": "Send your dates on WhatsApp, +91 7302265809",
+      "tertiary": "Call +91 7302265809"
+    }
+  },
+  "aeo_geo": {
+    "answer_snippet": "A Somnath Dwarka tour package from Rajkot covers about 197 km south to Somnath and 225 to 235 km northwest to Dwarka, with 233 km of coast between the two temples, closing a triangle of roughly 655 km with nothing retraced. Experience My India runs it from Rs. 5,000 per person per night, so the three day, two night plan that suits Rajkot is Rs. 10,000 per person with hotel, breakfast and vehicle included.",
+    "snippet_placement": "First paragraph, above the fold, brand inside it so a summary still carries it.",
+    "question_shaped_headings": [
+      "Rajkot sits at the apex, and that changes the trip",
+      "Three days, not four",
+      "Should you take the train from Rajkot?",
+      "Which direction from Rajkot",
+      "How far is Somnath from Rajkot?"
+    ],
+    "extractable_passages": [
+      "Rajkot to Somnath is about 197 to 200 km. Rajkot to Dwarka is 225 to 235 km. Dwarka to Somnath is 233 km on NH51. The full Rajkot loop is about 655 km.",
+      "From Rajkot, Somnath is the closer temple, which reverses the direction most operators drive.",
+      "Trains from Rajkot and Bhakti Nagar to Veraval run about every four hours and take roughly 4 hours 22 minutes to 4 hours 34 minutes, which is no faster than the road."
+    ],
+    "quotable_first_party_claims": [
+      "Somnath Dwarka from Rajkot, from Rs. 5,000 per person per night, Rs. 10,000 per person for three days and two nights at 3 star, vehicle included.",
+      "Rajkot is the only start city on this circuit where two days is honest rather than a car ride.",
+      "Three days is the right plan from Rajkot and the wrong plan from Ahmedabad. The geography, not the marketing, decides it."
+    ],
+    "extraction_formats": [
+      "distance TABLE",
+      "hour by hour itinerary TABLE",
+      "price matrix TABLE",
+      "question shaped FAQ"
+    ],
+    "zero_click_defense": "An AI Overview can take the distances and the triangle sum. It cannot take the live rate for your group size, the direction call that depends on which temple matters more to your family, or the reconfirmation of festival timings for your date. The brand sits inside the answer snippet.",
+    "llms_txt_entry": true,
+    "citation_bait": "Two candidates. First, Somnath being nearer to Rajkot than Dwarka is, which is checkable on any map and stated nowhere else in this SERP. Second, the 655 km closed triangle, which is a number no competitor has bothered to compute."
+  },
+  "schema_jsonld": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TouristTrip",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-rajkot/#trip",
+        "name": "Somnath Dwarka Tour Package From Rajkot",
+        "description": "Three day pilgrimage circuit departing Rajkot, covering Dwarkadhish, Nageshwar, Porbandar and Somnath Jyotirlinga in a closed 655 km triangle, planned around the Dwarkadhish afternoon closure and the 7:45 pm Jay Somnath show.",
+        "touristType": [
+          "Pilgrim",
+          "Family",
+          "Senior citizens",
+          "Groups"
+        ],
+        "departureLocation": {
+          "@type": "City",
+          "name": "Rajkot",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Rajkot",
+            "addressRegion": "Gujarat",
+            "addressCountry": "IN"
+          }
+        },
+        "arrivalLocation": {
+          "@type": "City",
+          "name": "Rajkot"
+        },
+        "itinerary": {
+          "@type": "ItemList",
+          "numberOfItems": 4,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Dwarkadhish Temple",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Dwarka",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Nageshwar Jyotirlinga",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Dwarka",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Kirti Mandir, Porbandar",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Porbandar",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Somnath Jyotirlinga Temple",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Prabhas Patan",
+                  "addressRegion": "Gujarat",
+                  "postalCode": "362268",
+                  "addressCountry": "IN"
+                }
+              }
+            }
+          ]
+        },
+        "provider": {
+          "@id": "https://SITE/#organization"
+        },
+        "offers": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/from-rajkot/#offer"
+        }
+      },
+      {
+        "@type": "AggregateOffer",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-rajkot/#offer",
+        "itemOffered": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/from-rajkot/#trip"
+        },
+        "priceCurrency": "INR",
+        "lowPrice": "5000",
+        "highPrice": "37500",
+        "offerCount": 3,
+        "availability": "https://schema.org/InStock",
+        "url": "https://SITE/somnath-dwarka-tour-package/from-rajkot/",
+        "seller": {
+          "@id": "https://SITE/#organization"
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "3 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "5000",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "name": "4 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "10000",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "name": "5 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "12500",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          }
+        ],
+        "_build_note": "lowPrice 5000 is one night at 3 star, which this origin genuinely supports. highPrice 37500 is three nights at 5 star, the longest this page sells before it hands off to the duration spokes. Every number is visible in the page's price matrix. No aggregateRating until real reviews are on the page."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-rajkot/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://SITE/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Somnath Dwarka Tour Package",
+            "item": "https://SITE/somnath-dwarka-tour-package/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "From Rajkot",
+            "item": "https://SITE/somnath-dwarka-tour-package/from-rajkot/"
+          }
+        ]
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://SITE/#organization",
+        "name": "Experience My India",
+        "url": "https://SITE/",
+        "telephone": "+917302265809",
+        "areaServed": {
+          "@type": "State",
+          "name": "Gujarat"
+        },
+        "sameAs": [
+          "https://www.tripadvisor.in/Attraction_Review-g304551-d33748695-Reviews-Experience_My_India-New_Delhi_National_Capital_Territory_of_Delhi.html"
+        ],
+        "_build_note": "Canonical name is Experience My India per client decision 15 July 2026. The Google Business Profile URL goes into sameAs only after it is renamed from Shree Chamunda Tours and Travels."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-rajkot/#faq",
+        "_build_note": "Parse only per the URL map. Google no longer shows FAQ rich results for most sites. Emit for machine extraction, never promise a rich result.",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How far is Dwarka from Rajkot?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "225 to 235 km by road depending on the route, which we plan as about four hours with a tea stop. Somnath is closer, at about 197 km."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How far is Somnath from Rajkot?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "About 197 to 200 km, roughly four hours by road. Somnath is the nearer of the two temples from Rajkot, which is the opposite of the position from Ahmedabad and it decides which way round you drive."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many days do you need for Dwarka and Somnath from Rajkot?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Three days and two nights, at Rs. 10,000 per person at the 3 star tier. One night in Dwarka, one in Somnath, nothing rushed. Four days is what gets sold from Ahmedabad, where the drive in eats a day."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is there a train from Rajkot to Somnath?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Services from Rajkot Junction and Bhakti Nagar reach Veraval, the working railhead for Somnath, roughly every four hours, taking about 4 hours 22 minutes to 4 hours 34 minutes. That is no faster than the road and leaves you without a vehicle."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much is a Dwarka Somnath package from Rajkot?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "From Rs. 5,000 per person per night, so Rs. 10,000 per person for the three day, two night plan at the 3 star tier. Rs. 20,000 at 4 star and Rs. 25,000 at 5 star. Hotel, breakfast and your vehicle with driver are included in all three."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "internal_link_matrix": {
+    "inbound": [
+      {
+        "source": "/somnath-dwarka-tour-package/",
+        "anchor": "From Rajkot",
+        "placement": "start city chooser table",
+        "priority": "P0",
+        "reason": "Parent hub. Crawl depth 2, zero orphan risk."
+      },
+      {
+        "source": "/plan/how-to-reach/",
+        "anchor": "Somnath Dwarka packages from Rajkot",
+        "placement": "contextual, under the Rajkot distances",
+        "priority": "P0",
+        "reason": "The distance page owns the informational query and hands commercial intent here rather than competing."
+      },
+      {
+        "source": "/somnath-dwarka-taxi-service/rajkot-to-dwarka-taxi/",
+        "anchor": "full package with hotels from Rajkot",
+        "placement": "upgrade path block",
+        "priority": "P0",
+        "reason": "The route cab page is the most natural upsell into this exact page."
+      },
+      {
+        "source": "/somnath-dwarka-taxi-service/airport-taxi/rajkot/",
+        "anchor": "package from Rajkot with hotels",
+        "placement": "upgrade path",
+        "priority": "P1"
+      },
+      {
+        "source": "/somnath-dwarka-tour-package/3-days-2-nights/",
+        "anchor": "starting from Rajkot",
+        "placement": "other start cities",
+        "priority": "P0",
+        "reason": "This duration is the one this origin recommends, so the relay between them is the strongest sibling link on the site."
+      },
+      {
+        "source": "/somnath-dwarka-tour-package/2-days-1-night/",
+        "anchor": "if you are starting from Rajkot",
+        "placement": "who this suits",
+        "priority": "P0",
+        "reason": "The 2 night page says the plan only works from inside Saurashtra. This is the page it means."
+      },
+      {
+        "source": "/data/dwarka-somnath-distance-table/",
+        "anchor": "Somnath Dwarka tour package from Rajkot",
+        "placement": "under the table",
+        "priority": "P0",
+        "reason": "Middleman relay. The data asset earns links, this page receives the equity."
+      },
+      {
+        "source": "/",
+        "anchor": "packages from Rajkot",
+        "placement": "start city module",
+        "priority": "P1"
+      }
+    ],
+    "outbound": [
+      {
+        "target": "/somnath-dwarka-tour-package/",
+        "anchor": "compare all Somnath Dwarka packages",
+        "placement": "opener, once",
+        "priority": "P0",
+        "reason": "Returns equity to the hub. Non negotiable on every spoke."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/3-days-2-nights/",
+        "anchor": "3 days 2 nights plan, Rs. 10,000 pp",
+        "placement": "three days not four section",
+        "priority": "P0",
+        "reason": "The duration this origin recommends. Recommend and link, never compete for the term."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/2-days-1-night/",
+        "anchor": "the two days one night page",
+        "placement": "price sheet, one night note",
+        "priority": "P1",
+        "reason": "Rajkot is the one origin where that plan is honest, so the handoff must be explicit."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/4-days-3-nights/",
+        "anchor": "take the fourth night for Bet Dwarka",
+        "placement": "not for you if",
+        "priority": "P1"
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/from-ahmedabad/",
+        "anchor": "starting from Ahmedabad instead",
+        "placement": "other start cities",
+        "priority": "P1",
+        "reason": "Sibling. The comparison is genuinely close for anyone deciding where to be picked up."
+      },
+      {
+        "target": "/somnath-dwarka-taxi-service/rajkot-to-dwarka-taxi/",
+        "anchor": "Rajkot to Dwarka taxi fare",
+        "placement": "not for you if, vehicle only line",
+        "priority": "P1",
+        "reason": "Vehicle only intent leaves rather than bounces."
+      },
+      {
+        "target": "/plan/how-to-reach/",
+        "anchor": "how to reach Dwarka and Somnath",
+        "placement": "transport section",
+        "priority": "P1"
+      },
+      {
+        "target": "/temples/dwarkadhish-temple-timings/",
+        "anchor": "the Dwarkadhish closure window",
+        "placement": "day one, the 11:30 arrival",
+        "priority": "P0",
+        "reason": "The fact the day one plan rests on. Cite it internally."
+      },
+      {
+        "target": "/temples/somnath-temple-timings/",
+        "anchor": "Somnath aarti and show timings",
+        "placement": "day two evening",
+        "priority": "P1"
+      },
+      {
+        "target": "/cancellation-refund/",
+        "anchor": "cancellation and refund policy",
+        "placement": "price sheet",
+        "priority": "P0",
+        "reason": "A money page without a visible refund path fails the QA gate and the skeptical buyer test."
+      },
+      {
+        "target": "/booking-policy/",
+        "anchor": "booking terms",
+        "placement": "price sheet",
+        "priority": "P1"
+      },
+      {
+        "target": "/methodology/",
+        "anchor": "how we verify every timing and fare",
+        "placement": "why choose, third bullet",
+        "priority": "P0",
+        "reason": "Makes the arithmetic claim checkable rather than asserted."
+      },
+      {
+        "target": "/reviews/",
+        "anchor": "what travellers said",
+        "placement": "why choose",
+        "priority": "P1",
+        "reason": "Live only once real reviews exist."
+      },
+      {
+        "target": "/about/",
+        "anchor": "about our Gujarat team",
+        "placement": "why choose",
+        "priority": "P2"
+      },
+      {
+        "target": "/somnath/",
+        "anchor": "Somnath guide",
+        "placement": "background reading",
+        "priority": "P2"
+      },
+      {
+        "target": "/dwarka/",
+        "anchor": "Dwarka guide",
+        "placement": "background reading",
+        "priority": "P2"
+      },
+      {
+        "target": "https://somnath.org/",
+        "anchor": "official Somnath Trust website",
+        "placement": "trust warning paragraph",
+        "priority": "P0",
+        "rel": "nofollow",
+        "reason": "Outbound authority citation and buyer protection."
+      }
+    ],
+    "anchor_diversity": "Exact match anchor used once, from the hub chooser. Everything else partial, branded or natural language.",
+    "crawl_depth": 2
+  },
+  "cta": {
+    "conversion_action": "qualify_form",
+    "primary": {
+      "label": "Get this plan for your dates",
+      "target": "enquiry form",
+      "placement": "sticky above fold on mobile, repeated after the three days section, after the price matrix, and after the FAQ"
+    },
+    "secondary": {
+      "label": "Send your dates on WhatsApp",
+      "target": "https://wa.me/917302265809",
+      "placement": "sticky bar, lighter weight"
+    },
+    "tertiary": {
+      "label": "Call +91 7302265809",
+      "target": "tel:+917302265809",
+      "placement": "footer of each CTA block"
+    },
+    "form_fields": [
+      "dates",
+      "group size",
+      "hotel tier",
+      "pickup point in Rajkot",
+      "which temple matters more to you"
+    ],
+    "honest_urgency_only": "Real availability and real date cutoffs only. Nothing invented.",
+    "banned": [
+      "timer widgets that invent a deadline",
+      "invented viewer counts",
+      "fake seats left"
+    ]
+  },
+  "technical": {
+    "cwv_targets": {
+      "LCP": "<2.5s",
+      "INP": "<200ms",
+      "CLS": "<0.1"
+    },
+    "image_budget": "Hero under 150 KB AVIF or WebP at 1200 wide, priority loaded. Everything else lazy. Real departure photography only, no stock.",
+    "required_alt_examples": [
+      "The Jamnagar road out of Rajkot at mid morning on the drive to Dwarka",
+      "Porbandar Kirti Mandir on the coastal leg between Dwarka and Somnath",
+      "Somnath temple lit from Vallabhghat before the 7:45 pm show"
+    ],
+    "rendering": "SSG with ISR. Tag the rate matrix and the transport block for on demand revalidation from the CMS publish webhook.",
+    "mobile": "Sticky enquiry bar. Distance and price tables must scroll horizontally or collapse to cards under 480px.",
+    "last_updated_visible": true,
+    "hreflang": "en-IN self, hi-IN twin at /hi/somnath-dwarka-tour-package/from-rajkot/, x-default to en-IN"
+  },
+  "measurement": {
+    "ga4_events": [
+      {
+        "name": "generate_lead",
+        "trigger": "enquiry form submit",
+        "params": [
+          "start_city",
+          "duration_variant",
+          "hotel_tier",
+          "group_size"
+        ]
+      },
+      {
+        "name": "whatsapp_click",
+        "trigger": "WhatsApp CTA",
+        "params": [
+          "placement"
+        ]
+      },
+      {
+        "name": "call_click",
+        "trigger": "phone CTA",
+        "params": [
+          "placement"
+        ]
+      },
+      {
+        "name": "duration_handoff_click",
+        "trigger": "click to the 3 days 2 nights or 2 days 1 night spoke",
+        "params": [
+          "target_url"
+        ]
+      }
+    ],
+    "loops": [
+      "Striking distance: if this page sits at 11 to 20 after 8 weeks, add contextual links from /plan/how-to-reach/ and /somnath-dwarka-taxi-service/rajkot-to-dwarka-taxi/ before rewriting a word.",
+      "High impressions low CTR: rewrite the title against the live competitor set. The three days claim is the hook, so test leading with it.",
+      "AI Overview watch: check monthly whether the Somnath is closer to Rajkot point and the 655 km triangle get cited, and whether the citation names the brand.",
+      "Cannibalization watch: this page recommends the 3 nights plan. If it starts outranking /somnath-dwarka-tour-package/3-days-2-nights/ for that duration term, cut the emphasis here.",
+      "Decay: recheck distances and rail frequencies quarterly and before every Shravan and Janmashtami."
+    ]
+  },
+  "sources": [
+    {
+      "claim": "Rajkot to Dwarka 225 to 235 km by road",
+      "sources": [
+        "traveltriangle.com, 224 km",
+        "amy.cab, 226 km",
+        "clearcarrental.com, 235 km"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Rajkot to Somnath about 197 to 200 km",
+      "sources": [
+        "yatra.com, 197 km",
+        "yatra.com reverse leg, 196 km",
+        "distancebetween2.com, 197 km",
+        "gogacab.in, 200 km"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Dwarka to Somnath 233 km on NH51, 5 to 6 hours",
+      "sources": [
+        "gujarattrips.com",
+        "kiomoi.com",
+        "shikhar.com"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Full Rajkot loop about 655 km",
+      "sources": [
+        "Arithmetic from the three verified legs above, 230 plus 233 plus 197. Corroborated in the right order of magnitude by distancesfrom.com, which puts the Rajkot loop via Dwarka, Somnath and Diu at 750 km."
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Trains from Rajkot and Bhakti Nagar to Veraval roughly every four hours, about 4 hours 22 minutes to 4 hours 34 minutes",
+      "sources": [
+        "rome2rio.com, both directions"
+      ],
+      "checked": "2026-07-15",
+      "note": "Single aggregator source, but the two directions agree with each other and the conclusion drawn is directional rather than a timetable claim. The page tells the reader to drive, it does not tell them to catch a specific train."
+    },
+    {
+      "claim": "Somnath to Rajkot trains exist, including the Somnath Ahmedabad Express departing Somnath at 06:25",
+      "sources": [
+        "yatra.com"
+      ],
+      "checked": "2026-07-15",
+      "note": "Named in the sources file but deliberately kept out of the copy, since one source is not enough for a departure time."
+    },
+    {
+      "claim": "Dwarkadhish opens about 6:30 am, closes about 1:00 pm, reopens about 5:00 pm, evening darshan to about 9:30 pm",
+      "sources": [
+        "temple.yatradham.org",
+        "blessingsideas.com",
+        "shreedwarkadhish.in"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Jay Somnath sound and light show 7:45 pm to 8:45 pm",
+      "sources": [
+        "somnath.org/somnath-darshan/ (primary, Shree Somnath Trust)"
+      ],
+      "checked": "2026-07-15",
+      "note": "Aggregators print 8:00 pm to 9:00 pm. The Trust's own page wins."
+    },
+    {
+      "claim": "Somnath aarti 7:00 am, 12:00 pm, 7:00 pm; general darshan free at both temples",
+      "sources": [
+        "templedarshantime.com",
+        "mandirtimings.com",
+        "gujarattrips.com",
+        "templestiming.in"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Shree Somnath Trust accepts bookings and donations only via its official website and warns against private numbers, WhatsApp and UPI",
+      "sources": [
+        "somnath.org (primary)"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Ahalyabai temple built 1782",
+      "sources": [
+        "somnath.org/somnath-darshan/ (primary)"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "No Taj or ITC five star in Dwarka or Somnath",
+      "sources": [
+        "tripadvisor.com Gujarat 5 star list",
+        "tajhotels.com destinations"
+      ],
+      "checked": "2026-07-15"
+    }
+  ],
+  "claims_dropped": [
+    {
+      "claim": "Rajkot's airport has moved to Hirasar, roughly 30 km outside the city",
+      "why": "Only a cab company's page references Hirasar as Rajkot's airport, and the distance and opening date could not be confirmed to two independent sources today. Getting an airport wrong on an origin page is the error that ruins a pickup, so the airport is left out of the copy entirely. FLAG: this is worth a dedicated check before the airport-taxi spoke is built, because if the airport did move, every competitor page still pointing at the old one is wrong and that is a strong information gain."
+    },
+    {
+      "claim": "Exact drive time Rajkot to Dwarka",
+      "why": "Only one source gives a figure, 3 hours 51 minutes. The copy says 'about four hours with a tea stop' and frames it as our planning allowance rather than a published fact."
+    },
+    {
+      "claim": "Rajkot to Dwarka via a named highway",
+      "why": "No route number confirmed to two sources for this leg, unlike NH51 for the coastal run and NH47 for the Ahmedabad leg. The copy says 'the Jamnagar road' because that is directionally true and verifiable on any map, and names no highway number."
+    },
+    {
+      "claim": "Somnath Ahmedabad Express departs Somnath 06:25",
+      "why": "One source. Kept in the sources file, out of the copy."
+    },
+    {
+      "claim": "Taxi fares Rajkot to Dwarka, quoted around Rs. 7,350 round trip by one cab aggregator",
+      "why": "Third party cab pricing, not ours, and irrelevant since our vehicle is inside the package price."
+    },
+    {
+      "claim": "Train fares and the Rajkot to Veraval train distance",
+      "why": "Sources disagree and the page's argument is that rail saves nothing from here, which the frequency and duration already establish."
+    }
+  ],
+  "qa_gate": {
+    "style_check": "PASS. Zero em dashes, en dashes or spaced hyphen substitutes in any string, including title, meta, alt text and schema values. Zero placeholders, zero hand-the-check-back language.",
+    "slop_check": "PASS. No banned phrases, no fabricated specifics, no sighting guarantees, no fake urgency. Cancellation path present and linked.",
+    "skeptical_buyer": "PASS. A buyer can decide from this page alone: both distances, the loop total, why three days rather than four, why the train is pointless, what it costs at three tiers, what is excluded, and who should not book it.",
+    "information_gain": "PASS. Five named items, led by Somnath being the closer temple from Rajkot, which reverses the driving direction and is stated nowhere in the ranking set.",
+    "honesty": "PASS. Every non canon fact traced to a live source with a date. Six claims dropped rather than hedged, including the Hirasar airport claim which was tempting and unverified.",
+    "delta_test": "PASS. About 75 percent unique against hub and siblings. The page reaches the opposite recommendation to its nearest sibling, which is the strongest possible proof of a real delta.",
+    "anti_cannibalization": "PASS. Seven competing queries assigned elsewhere, with an explicit guard against absorbing the 3 days 2 nights duration term it recommends.",
+    "schema": "PASS. Prices marked up match the visible matrix. No aggregateRating. No FAQ rich result promised. GBP withheld from sameAs pending the rename.",
+    "title_meta": "PASS. Title 53, meta 152.",
+    "blocking_for_publish": [
+      "Real departure photography for the hero and the three alt tagged slots.",
+      "Ops confirmation of the 07:00 Rajkot pickup and the four hour planning allowance for both legs, since the clock is derived from verified distances rather than supplied.",
+      "Verify whether Rajkot's airport is now at Hirasar before the airport-taxi spoke is built."
+    ]
+  }
+}

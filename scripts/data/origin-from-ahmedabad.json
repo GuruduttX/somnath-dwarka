@@ -1,0 +1,1109 @@
+{
+  "page": {
+    "url": "/somnath-dwarka-tour-package/from-ahmedabad/",
+    "role": "SPOKE",
+    "silo": "money-circuit",
+    "wave": "MVP",
+    "parent_hub": "/somnath-dwarka-tour-package/",
+    "money_target": "(is money)",
+    "conversion_action": "qualify_form",
+    "canonical": "self",
+    "indexable": true,
+    "in_sitemap": true,
+    "hreflang_twin": "/hi/somnath-dwarka-tour-package/from-ahmedabad/",
+    "last_verified": "2026-07-15",
+    "batch": "2 of 7, origin spokes"
+  },
+  "delta_declaration": {
+    "owns": "The Ahmedabad departure decision. Road against rail, judged by arrival time against the Dwarkadhish afternoon closure.",
+    "cannot_appear_on_hub": "The hub compares 36 variants and cannot carry one city's train timetable or its 05:30 pickup arithmetic.",
+    "cannot_appear_on_siblings": "Rajkot, Jamnagar and Mumbai have different distances, different trains and different first days. No sentence in the transport core of this page is reusable on them.",
+    "estimated_unique_body": "About 70 percent. The shared 30 percent is the temple clock and the price table, both of which are category facts that every spoke needs and none of which is this page's subject."
+  },
+  "head": {
+    "title": "Somnath Dwarka Tour Package From Ahmedabad, Rs.15,000 pp",
+    "title_length": 56,
+    "meta_description": "Ahmedabad to Dwarka is 440 to 450 km and 8 to 9 hours. Which train lands while the temple is shut, and which costs you a night. From Rs.15,000 pp.",
+    "meta_length": 146,
+    "h1": "Somnath Dwarka Tour Package From Ahmedabad: Itinerary, Price and Booking",
+    "slug_note": "Matches the URL map exactly. No change proposed.",
+    "ctr_rationale": "The ranking set for this term (yatradham, gujaratexpert, gujarattrips, veenaworld, dwarkasomnathpackage) all lead with best price or customisable. Two of them do not even state the road distance. Leading the title with the exact distance and the meta with a decision the buyer has not thought about yet, which train is a trap, is the only unclaimed angle. The price in the title pre-qualifies the click so the form fills better.",
+    "og_title": "Somnath Dwarka From Ahmedabad: Car or Train, and Why It Matters",
+    "og_description": "440 to 450 km, 8 to 9 hours. The fastest train arrives at 23:54 and costs you a night. The daily 05:05 lands at 13:10, inside the temple's afternoon closure, which turns out to be perfect."
+  },
+  "intent_lock": {
+    "primary_intent": "somnath dwarka tour package from ahmedabad",
+    "intent_type": "transactional",
+    "secondary_owned": [
+      "somnath dwarka package from ahmedabad",
+      "ahmedabad to somnath dwarka tour",
+      "dwarka somnath trip from ahmedabad",
+      "ahmedabad to dwarka somnath package price"
+    ],
+    "explicitly_not_owned": [
+      {
+        "query": "ahmedabad to dwarka distance",
+        "url": "/plan/how-to-reach/",
+        "why": "Informational. It links into this page."
+      },
+      {
+        "query": "ahmedabad to dwarka train",
+        "url": "/plan/how-to-reach/",
+        "why": "Timetable intent, not booking intent. This page uses two trains as a decision, it does not publish a timetable."
+      },
+      {
+        "query": "ahmedabad to somnath taxi",
+        "url": "/somnath-dwarka-taxi-service/ahmedabad-to-somnath-taxi/",
+        "why": "Vehicle only, no hotel. Different product."
+      },
+      {
+        "query": "somnath dwarka package 4 days 3 nights",
+        "url": "/somnath-dwarka-tour-package/4-days-3-nights/",
+        "why": "Duration is the subject there, origin is the subject here."
+      },
+      {
+        "query": "somnath dwarka tour package",
+        "url": "/somnath-dwarka-tour-package/",
+        "why": "Head term belongs to the hub."
+      },
+      {
+        "query": "gujarat tour packages from ahmedabad",
+        "url": "/gujarat-tour-packages/from-ahmedabad/",
+        "why": "Statewide, not this circuit."
+      },
+      {
+        "query": "hotels in dwarka",
+        "url": "/hotels/hotels-in-dwarka/"
+      }
+    ],
+    "cannibalization_guard": "This page must never be optimised for the bare distance query. If Search Console shows it outranking /plan/how-to-reach/ for 'ahmedabad to dwarka distance', that is a warning, not a win: the informational page is the one that earns links and relays them here."
+  },
+  "research_taxonomy": {
+    "central_entity": "Ahmedabad to Somnath Dwarka pilgrimage circuit",
+    "entity_attributes": {
+      "origin": "Ahmedabad, Gujarat. Sardar Vallabhbhai Patel International Airport, Ahmedabad Junction (ADI), Sabarmati Junction (SBT)",
+      "road_distance_to_dwarka_km": "440 to 450",
+      "road_time_to_dwarka_hours": "8 to 9",
+      "road_distance_to_somnath_km": "about 410",
+      "road_time_to_somnath_hours": "7 to 8",
+      "rail_distance_to_dwarka_km": "about 470",
+      "primary_route": "NH47",
+      "alternate_routes": "NH947, and NH27 which is the longest and is not used"
+    },
+    "personas_served": [
+      "Ahmedabad resident planning a family yatra",
+      "Out of state flyer landing at Ahmedabad and starting the circuit from there",
+      "NRI arriving at Ahmedabad on an international connection",
+      "Corporate or group booker sourcing from Ahmedabad"
+    ],
+    "paa_harvested": [
+      "How far is Dwarka from Ahmedabad?",
+      "How many days do you need for Dwarka and Somnath from Ahmedabad?",
+      "Is there a direct train from Ahmedabad to Dwarka?",
+      "What is the best way to travel from Ahmedabad to Dwarka?",
+      "Should I visit Dwarka or Somnath first from Ahmedabad?",
+      "How much does a Dwarka Somnath trip from Ahmedabad cost?"
+    ],
+    "serp_recon": {
+      "date": "2026-07-15",
+      "query": "somnath dwarka tour package from ahmedabad",
+      "competitors": [
+        "travel.yatradham.org/package/dwarka-somnath-tour-package",
+        "gujaratexpert.com/dwarka-somnath-tour-package/",
+        "gujarattrips.com/blog/ahmedabad-to-dwarka/",
+        "dwarkasomnathpackage.com/Dwarka-Somnath-Package.php",
+        "veenaworld.com/package/dwarka-somnath-tour-package-shgj3/i"
+      ],
+      "winning_shape": "Devotional intro, attraction list, day-wise itinerary without clock times, inclusions with thin exclusions, generic why choose us, FAQ, review carousel. Ahmedabad is usually treated as a pickup point rather than as a decision.",
+      "universal_gap": "Not one page in the set connects the arrival time to the temple's afternoon closure. Not one mentions that the fastest train arrives at 23:54. Gujarat Trips publishes a 3 day Ahmedabad itinerary that departs at 06:00 and reaches Dwarka around 15:00, which lands inside the closure window with no comment on it.",
+      "ai_overview_present": true,
+      "features_targeted": [
+        "AI Overview (commercial)",
+        "PAA",
+        "Product/TouristTrip snippet",
+        "Sitelinks"
+      ]
+    },
+    "information_gain": [
+      "The road against rail decision resolved by arrival time rather than by journey time, which inverts the obvious answer.",
+      "The Okha Vande Bharat (22925) is the fastest train on the route at 5 hours 44 minutes and is the worst choice for a pilgrim, because it departs Ahmedabad 18:10 and reaches Dwarka 23:54, costing a hotel night and a darshan.",
+      "The Saurashtra Mail (22945) is the only daily train, departs 05:05 and reaches Dwarka around 13:10, landing inside the 1:00 pm to 5:00 pm temple closure, which makes a slower train the better one.",
+      "The 05:30 road departure is derived arithmetic, published rather than asserted: 450 km at 8 to 9 hours lands 16:30, the gate reopens 17:00, so anything later than a 06:00 start forfeits the evening darshan.",
+      "Rail solves the long leg but leaves you without a vehicle in Dwarka, where the sites are spread across 30 km including Bet Dwarka across the bridge. The page states this rather than selling around it."
+    ]
+  },
+  "copy": {
+    "quick_answer": "A Somnath Dwarka tour package from Ahmedabad covers 440 to 450 km to Dwarka on NH47, which is 8 to 9 honest hours with breaks, then 233 km down the coast to Somnath, and about 410 km back. Experience My India runs it from Rs. 5,000 per person per night, so the four day plan most families book is Rs. 15,000 per person with a 3 star hotel, breakfast and your vehicle included. The whole trip turns on one decision Ahmedabad forces and no other start city does, which is whether you drive or take the train, and the answer is decided by what time you arrive rather than how long you travel.",
+    "sections": [
+      {
+        "h2": "The Ahmedabad decision: drive or take the train",
+        "body": [
+          "Ahmedabad is the only start city where rail is genuinely competitive, because two direct trains reach Dwarka. That makes this the one page on the site where we argue with ourselves.",
+          "Start with the thing that decides it. Dwarkadhish shuts for the afternoon at about 1:00 pm and reopens near 5:00 pm. Every arrival time is graded against that gate, not against a clock.",
+          "The fastest train is the Okha Vande Bharat, 22925. It covers the route in 5 hours 44 minutes, which is quicker than any car will ever manage. It also leaves Ahmedabad at 18:10 and reaches Dwarka at 23:54. You arrive at midnight, pay for a hotel night you sleep through, and see nothing. The fastest option on the route is the worst one for a pilgrim, and the timetable is the reason.",
+          "The useful train is the Saurashtra Mail, 22945, the only daily service. It leaves Ahmedabad at 05:05 and reaches Dwarka around 13:10. That lands you inside the afternoon closure, which sounds like bad luck and is actually the point: you check in, eat, rest through the shut hours, and walk into the temple when the gate reopens at 5:00 pm. A slower train is the better train.",
+          "The catch rail does not solve is Dwarka itself. The sites are spread across 30 km, Bet Dwarka sits across Sudarshan Setu at Okha, and Nageshwar is on the road between. Arriving without a vehicle means negotiating one on the spot, at temple town prices, on the day you are most tired. Our packages include the vehicle for the whole route, which is why most Ahmedabad bookings drive."
+        ]
+      },
+      {
+        "h2": "The road, and why we leave at 05:30",
+        "body": [
+          "NH47 is the working route and the most dependable of the three. NH947 is the alternate when NH47 has diversions. NH27 exists, runs close to 500 km, and we do not use it.",
+          "The 05:30 pickup is not us being difficult. It is arithmetic you can check. 450 km at 8 to 9 hours with a breakfast stop and a lunch stop puts you in Dwarka at about 16:30. The gate reopens at 17:00. Leave at 09:00 instead and you arrive at 20:00, which still catches the evening session but costs you the ghat, the light and the unhurried version. Leave at 11:00 and day one is a car seat.",
+          "The breakfast stop is on the Rajkot highway, in Kathiawadi thali country, and it is one of the better meals of the trip."
+        ]
+      },
+      {
+        "h2": "Which direction: Dwarka first or Somnath first",
+        "body": [
+          "Both work. They are not the same trip.",
+          "Dwarka first is the default. It puts the longest drive on day one while everyone is fresh, gives Dwarka the full clear day it needs, and finishes at Somnath, which is 410 km from Ahmedabad rather than 450, so the last day is the shorter one.",
+          "Somnath first suits a late inbound flight into Ahmedabad. The run to Somnath is about 410 km and 7 to 8 hours, which is an hour kinder than the Dwarka leg, and it puts the 7:00 pm aarti and the 7:45 pm show on your first evening.",
+          "Tell us your inbound flight or train number and we will pick the direction for you. This is a two minute conversation, not a template."
+        ]
+      }
+    ],
+    "itinerary": {
+      "note": "The standard 4 days 3 nights from Ahmedabad, which is the version most Ahmedabad families book. Other lengths change the clock, not the logic.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Ahmedabad to Dwarka, 440 to 450 km on NH47",
+          "stops": [
+            {
+              "time": "05:30",
+              "text": "Pickup at your Ahmedabad address, airport or Ahmedabad Junction."
+            },
+            {
+              "time": "08:00",
+              "text": "Breakfast on the Rajkot highway. Kathiawadi thali country."
+            },
+            {
+              "time": "13:30",
+              "text": "Lunch near Jamnagar."
+            },
+            {
+              "time": "16:30",
+              "text": "Dwarka hotel check in. Lords Inn class at the 3 star tier."
+            },
+            {
+              "time": "17:30",
+              "text": "Dwarkadhish evening darshan. The gate reopened at 5:00 pm, so the queue is moving."
+            },
+            {
+              "time": "19:00",
+              "text": "Gomti Ghat, and the Sudama Setu footbridge if the light holds."
+            },
+            {
+              "time": "20:30",
+              "text": "Dinner. Early night, because tomorrow starts at six."
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Dwarka, Bet Dwarka and Nageshwar",
+          "stops": [
+            {
+              "time": "06:30",
+              "text": "Mangala Aarti at Dwarkadhish. Shortest queue of the day and the quietest the temple gets."
+            },
+            {
+              "time": "09:00",
+              "text": "Drive 30 km to Okha and across Sudarshan Setu, the 2.32 km cable stayed bridge that opened on 25 February 2024. Its footpath carries verses from the Bhagavad Gita."
+            },
+            {
+              "time": "10:00",
+              "text": "Bet Dwarka darshan. The island temple keeps its own afternoon break, so morning is not optional here."
+            },
+            {
+              "time": "12:30",
+              "text": "Back across the bridge."
+            },
+            {
+              "time": "14:00",
+              "text": "Nageshwar Jyotirlinga, which sits on the Dwarka to Okha road and therefore costs you no detour on the return leg."
+            },
+            {
+              "time": "16:00",
+              "text": "Rukmini Devi Temple, Gopi Talav and Bhadkeshwar Mahadev as the tide and the light allow."
+            },
+            {
+              "time": "19:00",
+              "text": "Free evening. Second night in Dwarka."
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Dwarka to Somnath via Porbandar, 233 km on NH51",
+          "stops": [
+            {
+              "time": "07:00",
+              "text": "Leave Dwarka after breakfast. The coastal run begins."
+            },
+            {
+              "time": "09:30",
+              "text": "Porbandar. Kirti Mandir and the Sudama connection. This stop is the entire argument for the coastal route over the inland one."
+            },
+            {
+              "time": "13:00",
+              "text": "Lunch, Madhavpur or Veraval side."
+            },
+            {
+              "time": "15:00",
+              "text": "Somnath hotel check in."
+            },
+            {
+              "time": "18:30",
+              "text": "Into the complex. Vallabhghat for sunset over the Arabian Sea."
+            },
+            {
+              "time": "19:00",
+              "text": "Sandhya Aarti."
+            },
+            {
+              "time": "19:45",
+              "text": "Jay Somnath sound and light show. The Trust runs it 7:45 pm to 8:45 pm, not 8:00 pm as most pages print. Fifteen minutes decides whether you see the opening."
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "title": "Somnath to Ahmedabad, about 410 km",
+          "stops": [
+            {
+              "time": "07:00",
+              "text": "Mangala Aarti and unhurried darshan at the Jyotirlinga."
+            },
+            {
+              "time": "09:00",
+              "text": "Bhalka Tirth, Triveni Sangam, Geeta Mandir, and the Ahalyabai temple the queen mother built in 1782."
+            },
+            {
+              "time": "11:00",
+              "text": "Depart for Ahmedabad."
+            },
+            {
+              "time": "19:00",
+              "text": "Drop at the airport, Ahmedabad Junction or your door."
+            }
+          ]
+        }
+      ]
+    },
+    "price_sheet": {
+      "intro": "The rate is per person per night. Multiply by your nights. Hotel, breakfast and your vehicle with a driver are inside every number, and there is no arithmetic hidden behind an enquiry form.",
+      "table": [
+        {
+          "tier": "3 star",
+          "per_night_pp": "Rs. 5,000",
+          "two_nights": "Rs. 10,000",
+          "three_nights": "Rs. 15,000",
+          "four_nights": "Rs. 20,000",
+          "hotels": "Lords Inn"
+        },
+        {
+          "tier": "4 star",
+          "per_night_pp": "Rs. 10,000",
+          "two_nights": "Rs. 20,000",
+          "three_nights": "Rs. 30,000",
+          "four_nights": "Rs. 40,000",
+          "hotels": "The Fern, Fortune Landmark"
+        },
+        {
+          "tier": "5 star",
+          "per_night_pp": "Rs. 12,500",
+          "two_nights": "Rs. 25,000",
+          "three_nights": "Rs. 37,500",
+          "four_nights": "Rs. 50,000",
+          "hotels": "The Fern Sattva Resort at Dwarka, best property in town at Somnath"
+        }
+      ],
+      "vehicle_note": "Group size picks the vehicle, not budget. Sedan for 2 to 3, Ertiga for 4 to 5, Innova Crysta for 5 to 6, 9 seater Tempo Traveller for 7 to 9, 12 seater Maharaja or Urbania for 10 to 12, 26 seater Tempo Traveller above that.",
+      "five_star_honesty": "No five star Taj or ITC property operates in Dwarka or in Somnath. In Dwarka the top tier puts you in The Fern Sattva Resort. At Somnath it buys the best room in town, named in your quote before you pay. Taj and ITC enter your plan only on the legs that reach them, and from Ahmedabad that means Taj Skyline on your first or last night if you want it.",
+      "exclusions": "Lunch and dinner, personal pooja, seva and abhishek at either temple, the sound and light show ticket, camera and cloakroom charges, tips, and anything you buy yourself.",
+      "trust_warning": "The Shree Somnath Trust accepts pooja and donation bookings only through its own website and warns that it never asks for payment through private numbers, WhatsApp or UPI. Book sevas yourself at somnath.org. We will not take that money on your behalf.",
+      "cancellation": "Cancellation, refunds and the payment schedule are set out in full on our cancellation and refund policy, and the booking terms sit alongside it. Read both before you pay. If your plan changes because a road shuts or a festival moves the temple's hours, talk to us first, because that is usually a reschedule rather than a cancellation.",
+      "_order": [
+        "intro",
+        "table",
+        "vehicle_note",
+        "five_star_honesty",
+        "exclusions",
+        "cancellation",
+        "trust_warning"
+      ]
+    },
+    "why_choose": [
+      "We publish the departure arithmetic instead of asserting it. 450 km, 8 to 9 hours, gate reopens at 17:00, so we leave at 05:30. You can check every number on this page before you pay us anything.",
+      "We will talk you out of the fast train. The Vande Bharat is quicker and wrong, and an operator who cared more about looking modern than about your darshan would not tell you that.",
+      "The vehicle is in the price for the whole route, which matters more from Ahmedabad than from anywhere else, because Dwarka's sites are 30 km apart and arriving by rail leaves you negotiating a car at temple town prices.",
+      "A local Gujarat team plans the route and drives it. One number, +91 7302265809, on call and WhatsApp.",
+      "We reconfirm every timing before departure, because festival schedules move at Shravan, Janmashtami and Mahashivratri."
+    ],
+    "not_for_you_if": [
+      "You want to leave Ahmedabad after breakfast. A 09:00 start puts you in Dwarka at 20:00 and costs you the ghat and the light. An 11:00 start makes day one a car seat.",
+      "You want Dwarka and Somnath in one day from Ahmedabad. It is 450 km out, 233 km across and 410 km back, and both temples close in the afternoon. We will not sell it.",
+      "You want to fly. There is no useful airport at either temple town. Jamnagar is the nearest to Dwarka and by the time you have reached the airport, flown and driven on, the car left at 05:30 has arrived.",
+      "You are booking Janmashtami at short notice. Dwarka at Janmashtami is a different sport. Two to three months of lead time, or pick another week.",
+      "You want a five star Taj in Dwarka. It does not exist, and anyone selling you one should be asked for the property name."
+    ],
+    "faq": [
+      {
+        "q": "How far is Dwarka from Ahmedabad?",
+        "a": "440 to 450 km by road on NH47, which is 8 to 9 honest hours with a breakfast and a lunch stop. By rail it is about 470 km. Somnath is closer, at about 410 km and 7 to 8 hours."
+      },
+      {
+        "q": "What is the best way to travel from Ahmedabad to Dwarka?",
+        "a": "By road, if you want the temples rather than the journey. The car leaves at 05:30 and reaches Dwarka around 16:30, half an hour before the gate reopens at 17:00, and it stays with you for the whole circuit. Rail solves the long leg but leaves you without a vehicle in a town whose sites are 30 km apart."
+      },
+      {
+        "q": "Is there a direct train from Ahmedabad to Dwarka?",
+        "a": "Yes. The Saurashtra Mail, 22945, is the only daily one and it leaves at 05:05 and reaches Dwarka around 13:10. The Okha Vande Bharat, 22925, is the fastest at 5 hours 44 minutes but departs 18:10 and arrives 23:54, which costs you a night and a darshan. It runs every day except Tuesday. Around ten weekly services also reach Dwarka, including the Rameswaram Okha, Ernakulam Okha and Guwahati Okha expresses. We check the running days for your travel dates when we build your plan."
+      },
+      {
+        "q": "Which train should a pilgrim take to Dwarka?",
+        "a": "The Saurashtra Mail, even though it is slower. Its 13:10 arrival lands inside the temple's 1:00 pm to 5:00 pm closure, so you lose nothing by resting through it and walk in when the gate reopens. The Vande Bharat's 23:54 arrival wastes a hotel night."
+      },
+      {
+        "q": "How many days do you need for Dwarka and Somnath from Ahmedabad?",
+        "a": "Four days and three nights is what most Ahmedabad families book, at Rs. 15,000 per person at 3 star. Three days works if you accept losing Bet Dwarka. Two days from Ahmedabad is a car ride, not a pilgrimage, and we will say so."
+      },
+      {
+        "q": "How much is a Dwarka Somnath package from Ahmedabad?",
+        "a": "From Rs. 5,000 per person per night, so Rs. 15,000 per person for the standard four day, three night plan at the 3 star tier. Rs. 30,000 at 4 star and Rs. 37,500 at 5 star. Hotel, breakfast and your vehicle with driver are included in all three."
+      },
+      {
+        "q": "Should we visit Dwarka or Somnath first from Ahmedabad?",
+        "a": "Dwarka first by default, because it puts the longest drive on day one while everyone is fresh and leaves the shorter 410 km leg for the journey home. Somnath first suits a late inbound flight, since it is about an hour closer and puts the aarti and the show on your first evening."
+      }
+    ],
+    "final_cta": {
+      "summary": "450 km on NH47, a 05:30 start that buys you the evening darshan, 233 km of coast, and a train we will talk you out of. Rs. 15,000 per person at 3 star for four days, hotel, breakfast and vehicle included.",
+      "primary": "Get this plan for your dates",
+      "secondary": "Send your dates on WhatsApp, +91 7302265809",
+      "tertiary": "Call +91 7302265809"
+    }
+  },
+  "aeo_geo": {
+    "answer_snippet": "A Somnath Dwarka tour package from Ahmedabad covers 440 to 450 km to Dwarka on NH47, which is 8 to 9 hours with breaks, then 233 km down the coast to Somnath. Experience My India runs it from Rs. 5,000 per person per night, so the standard four day plan is Rs. 15,000 per person with hotel, breakfast and vehicle included.",
+    "snippet_placement": "First paragraph, above the fold, brand name inside it so a summary still carries it.",
+    "question_shaped_headings": [
+      "The Ahmedabad decision: drive or take the train",
+      "The road, and why we leave at 05:30",
+      "Which direction: Dwarka first or Somnath first",
+      "How far is Dwarka from Ahmedabad?",
+      "Which train should a pilgrim take to Dwarka?"
+    ],
+    "extractable_passages": [
+      "Ahmedabad to Dwarka is 440 to 450 km on NH47, 8 to 9 hours with breaks. Ahmedabad to Somnath is about 410 km, 7 to 8 hours. Dwarka to Somnath is 233 km on NH51, 5 to 6 hours.",
+      "The Okha Vande Bharat 22925 is the fastest Ahmedabad to Dwarka train at 5 hours 44 minutes, departing 18:10 and arriving 23:54. The Saurashtra Mail 22945 is the only daily train, departing 05:05 and arriving about 13:10.",
+      "Dwarkadhish Temple closes for the afternoon at about 1:00 pm and reopens near 5:00 pm, which is why a 13:10 rail arrival works and a 23:54 arrival does not."
+    ],
+    "quotable_first_party_claims": [
+      "Somnath Dwarka from Ahmedabad, from Rs. 5,000 per person per night, Rs. 15,000 per person for four days and three nights at 3 star, vehicle included.",
+      "The fastest train from Ahmedabad to Dwarka is the worst choice for a pilgrim, because it arrives at 23:54.",
+      "A 05:30 departure from Ahmedabad is what buys the evening darshan, because 450 km takes 8 to 9 hours and the temple gate reopens at 17:00."
+    ],
+    "extraction_formats": [
+      "transport comparison TABLE",
+      "hour by hour itinerary TABLE",
+      "price matrix TABLE",
+      "question shaped FAQ"
+    ],
+    "zero_click_defense": "An AI Overview can take the distance and the train times. It cannot take the live rate for your group size, the reconfirmation of festival day timings for your date, or the direction call that depends on your inbound flight number. The brand sits inside the answer snippet so a summary still names us.",
+    "llms_txt_entry": true,
+    "citation_bait": "The Vande Bharat point is the most citable sentence on the page, because it is counterintuitive, verifiable against a public timetable, and stated nowhere else in this SERP. Counterintuitive plus checkable is what LLMs quote."
+  },
+  "schema_jsonld": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TouristTrip",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-ahmedabad/#trip",
+        "name": "Somnath Dwarka Tour Package From Ahmedabad",
+        "description": "Four day pilgrimage circuit departing Ahmedabad, covering Dwarkadhish, Bet Dwarka across Sudarshan Setu, Nageshwar, Porbandar and Somnath Jyotirlinga, planned around the Dwarkadhish afternoon closure and the 7:45 pm Jay Somnath show.",
+        "touristType": [
+          "Pilgrim",
+          "Family",
+          "Senior citizens",
+          "Groups"
+        ],
+        "departureLocation": {
+          "@type": "City",
+          "name": "Ahmedabad",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Ahmedabad",
+            "addressRegion": "Gujarat",
+            "addressCountry": "IN"
+          }
+        },
+        "arrivalLocation": {
+          "@type": "City",
+          "name": "Ahmedabad"
+        },
+        "itinerary": {
+          "@type": "ItemList",
+          "numberOfItems": 5,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Dwarkadhish Temple",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Dwarka",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Bet Dwarka via Sudarshan Setu",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Okha",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Nageshwar Jyotirlinga",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Dwarka",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Kirti Mandir, Porbandar",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Porbandar",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Somnath Jyotirlinga Temple",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Prabhas Patan",
+                  "addressRegion": "Gujarat",
+                  "postalCode": "362268",
+                  "addressCountry": "IN"
+                }
+              }
+            }
+          ]
+        },
+        "provider": {
+          "@id": "https://SITE/#organization"
+        },
+        "offers": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/from-ahmedabad/#offer"
+        }
+      },
+      {
+        "@type": "AggregateOffer",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-ahmedabad/#offer",
+        "itemOffered": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/from-ahmedabad/#trip"
+        },
+        "priceCurrency": "INR",
+        "lowPrice": "5000",
+        "highPrice": "50000",
+        "offerCount": 3,
+        "availability": "https://schema.org/InStock",
+        "url": "https://SITE/somnath-dwarka-tour-package/from-ahmedabad/",
+        "seller": {
+          "@id": "https://SITE/#organization"
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "3 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "5000",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "name": "4 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "10000",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "name": "5 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "12500",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          }
+        ],
+        "_build_note": "lowPrice 5000 is one night at 3 star. highPrice 50000 is the four night 5 star plan, the longest this page sells before it hands off to the 6 day spoke. Every number is visible in the page's price matrix. No aggregateRating until real reviews are on the page."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-ahmedabad/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://SITE/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Somnath Dwarka Tour Package",
+            "item": "https://SITE/somnath-dwarka-tour-package/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "From Ahmedabad",
+            "item": "https://SITE/somnath-dwarka-tour-package/from-ahmedabad/"
+          }
+        ]
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://SITE/#organization",
+        "name": "Experience My India",
+        "url": "https://SITE/",
+        "telephone": "+917302265809",
+        "areaServed": {
+          "@type": "State",
+          "name": "Gujarat"
+        },
+        "sameAs": [
+          "https://www.tripadvisor.in/Attraction_Review-g304551-d33748695-Reviews-Experience_My_India-New_Delhi_National_Capital_Territory_of_Delhi.html"
+        ],
+        "_build_note": "Canonical name is Experience My India per client decision 15 July 2026. The Google Business Profile URL goes into sameAs only after it is renamed from Shree Chamunda Tours and Travels. Wiring a conflicting name in now would teach Google these are two businesses."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-ahmedabad/#faq",
+        "_build_note": "Parse only per the URL map. Google no longer shows FAQ rich results for most sites. Emit for machine extraction, never promise a rich result.",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How far is Dwarka from Ahmedabad?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "440 to 450 km by road on NH47, which is 8 to 9 honest hours with a breakfast and a lunch stop. By rail it is about 470 km. Somnath is closer, at about 410 km and 7 to 8 hours."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is there a direct train from Ahmedabad to Dwarka?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The Saurashtra Mail 22945 is the only daily one, leaving at 05:05 and reaching Dwarka around 13:10. The Okha Vande Bharat 22925 is the fastest at 5 hours 44 minutes but departs 18:10 and arrives 23:54, which costs you a night and a darshan. It runs every day except Tuesday. Around ten weekly services also reach Dwarka."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which train should a pilgrim take to Dwarka?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Saurashtra Mail, even though it is slower. Its 13:10 arrival lands inside the temple's 1:00 pm to 5:00 pm closure, so you lose nothing by resting through it and walk in when the gate reopens. The Vande Bharat's 23:54 arrival wastes a hotel night."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much is a Dwarka Somnath package from Ahmedabad?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "From Rs. 5,000 per person per night, so Rs. 15,000 per person for the standard four day, three night plan at the 3 star tier. Rs. 30,000 at 4 star and Rs. 37,500 at 5 star. Hotel, breakfast and your vehicle with driver are included in all three."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should we visit Dwarka or Somnath first from Ahmedabad?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Dwarka first by default, because it puts the longest drive on day one while everyone is fresh and leaves the shorter 410 km leg for the journey home. Somnath first suits a late inbound flight, since it is about an hour closer and puts the aarti and the show on your first evening."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "internal_link_matrix": {
+    "inbound": [
+      {
+        "source": "/somnath-dwarka-tour-package/",
+        "anchor": "From Ahmedabad",
+        "placement": "start city chooser table",
+        "priority": "P0",
+        "reason": "Parent hub. Crawl depth 2, zero orphan risk."
+      },
+      {
+        "source": "/plan/how-to-reach/",
+        "anchor": "Somnath Dwarka packages from Ahmedabad",
+        "placement": "contextual, under the Ahmedabad distance section",
+        "priority": "P0",
+        "reason": "The distance page owns the informational query and must hand commercial intent here rather than compete."
+      },
+      {
+        "source": "/somnath-dwarka-taxi-service/ahmedabad-to-somnath-taxi/",
+        "anchor": "full package with hotels from Ahmedabad",
+        "placement": "upgrade path block",
+        "priority": "P1",
+        "reason": "Cab route page upsells into the package."
+      },
+      {
+        "source": "/somnath-dwarka-tour-package/4-days-3-nights/",
+        "anchor": "starting from Ahmedabad",
+        "placement": "other lengths block",
+        "priority": "P1",
+        "reason": "Sibling relay. Duration page hands off origin intent."
+      },
+      {
+        "source": "/gujarat-tour-packages/from-ahmedabad/",
+        "anchor": "Somnath and Dwarka only",
+        "placement": "contextual",
+        "priority": "P1",
+        "reason": "Statewide origin page narrows to this circuit."
+      },
+      {
+        "source": "/data/dwarka-somnath-distance-table/",
+        "anchor": "Somnath Dwarka tour package from Ahmedabad",
+        "placement": "under the table",
+        "priority": "P0",
+        "reason": "Middleman relay. The data asset earns links, this page receives the equity."
+      },
+      {
+        "source": "/hotels/hotels-in-dwarka/",
+        "anchor": "package with hotel and vehicle included",
+        "placement": "contextual",
+        "priority": "P2",
+        "reason": "Hotel intent to package intent."
+      },
+      {
+        "source": "/",
+        "anchor": "packages from Ahmedabad",
+        "placement": "start city module",
+        "priority": "P1",
+        "reason": "Homepage equity, second tier after the hub link."
+      }
+    ],
+    "outbound": [
+      {
+        "target": "/somnath-dwarka-tour-package/",
+        "anchor": "compare all Somnath Dwarka packages",
+        "placement": "opener, once",
+        "priority": "P0",
+        "reason": "Returns equity to the hub. Non negotiable on every spoke."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/4-days-3-nights/",
+        "anchor": "4 days 3 nights plan, Rs. 15,000 pp",
+        "placement": "itinerary intro and other lengths",
+        "priority": "P0",
+        "reason": "The default duration for this origin."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/3-days-2-nights/",
+        "anchor": "3 days 2 nights, Rs. 10,000 pp",
+        "placement": "other lengths",
+        "priority": "P1"
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/5-days-4-nights/",
+        "anchor": "add Gir or Diu",
+        "placement": "other lengths",
+        "priority": "P1"
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/from-rajkot/",
+        "anchor": "starting from Rajkot instead",
+        "placement": "other start cities",
+        "priority": "P1",
+        "reason": "Sibling, genuinely close choice for a driver coming down NH47."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/by-train/",
+        "anchor": "the rail version of this circuit",
+        "placement": "the drive or train section",
+        "priority": "P1",
+        "reason": "Hands the rail intent onward rather than owning it. Build note: this target is blocked until ops confirms what by-train sells."
+      },
+      {
+        "target": "/somnath-dwarka-taxi-service/ahmedabad-to-somnath-taxi/",
+        "anchor": "Ahmedabad to Somnath taxi fare",
+        "placement": "not for you if, vehicle only line",
+        "priority": "P1",
+        "reason": "Vehicle only intent leaves rather than bounces."
+      },
+      {
+        "target": "/plan/how-to-reach/",
+        "anchor": "how to reach Dwarka and Somnath",
+        "placement": "transport section",
+        "priority": "P1",
+        "reason": "Informational sub queries handed off so this page keeps one intent."
+      },
+      {
+        "target": "/temples/dwarkadhish-temple-timings/",
+        "anchor": "the Dwarkadhish closure window",
+        "placement": "the decision section",
+        "priority": "P0",
+        "reason": "The fact this page's whole argument rests on. Cite it internally."
+      },
+      {
+        "target": "/somnath/",
+        "anchor": "Somnath guide",
+        "placement": "background reading",
+        "priority": "P2"
+      },
+      {
+        "target": "/dwarka/",
+        "anchor": "Dwarka guide",
+        "placement": "background reading",
+        "priority": "P2"
+      },
+      {
+        "target": "https://somnath.org/",
+        "anchor": "official Somnath Trust website",
+        "placement": "trust warning paragraph",
+        "priority": "P0",
+        "rel": "nofollow",
+        "reason": "Outbound authority citation and buyer protection."
+      },
+      {
+        "target": "/cancellation-refund/",
+        "anchor": "cancellation and refund policy",
+        "placement": "price sheet, cancellation paragraph",
+        "priority": "P0",
+        "reason": "A money page without a visible refund path fails the skeptical buyer test and the QA gate. Also a trust cluster signal."
+      },
+      {
+        "target": "/booking-policy/",
+        "anchor": "booking terms",
+        "placement": "price sheet, cancellation paragraph",
+        "priority": "P1",
+        "reason": "Trust cluster."
+      },
+      {
+        "target": "/reviews/",
+        "anchor": "what travellers said",
+        "placement": "why choose block",
+        "priority": "P1",
+        "reason": "Trust cluster. Live only once real reviews exist."
+      },
+      {
+        "target": "/about/",
+        "anchor": "about our Gujarat team",
+        "placement": "why choose block",
+        "priority": "P2",
+        "reason": "Trust cluster, E-E-A-T."
+      },
+      {
+        "target": "/methodology/",
+        "anchor": "how we verify every timing and fare",
+        "placement": "why choose block, first bullet",
+        "priority": "P0",
+        "reason": "This is the page that makes the verification claim checkable. Without it the claim is just an assertion."
+      }
+    ],
+    "anchor_diversity": "Exact match anchor used once, from the hub chooser. Everything else partial, branded or natural language.",
+    "crawl_depth": 2
+  },
+  "cta": {
+    "conversion_action": "qualify_form",
+    "primary": {
+      "label": "Get this plan for your dates",
+      "target": "enquiry form",
+      "placement": "sticky above fold on mobile, repeated after the transport decision, after the price matrix, and after the FAQ"
+    },
+    "secondary": {
+      "label": "Send your dates on WhatsApp",
+      "target": "https://wa.me/917302265809",
+      "placement": "sticky bar, lighter weight"
+    },
+    "tertiary": {
+      "label": "Call +91 7302265809",
+      "target": "tel:+917302265809",
+      "placement": "footer of each CTA block"
+    },
+    "form_fields": [
+      "dates",
+      "group size",
+      "hotel tier",
+      "start point in Ahmedabad",
+      "inbound flight or train number if any"
+    ],
+    "honest_urgency_only": "Real availability and real date cutoffs only. Nothing invented.",
+    "banned": [
+      "timer widgets that invent a deadline",
+      "invented viewer counts",
+      "fake seats left"
+    ]
+  },
+  "technical": {
+    "cwv_targets": {
+      "LCP": "<2.5s",
+      "INP": "<200ms",
+      "CLS": "<0.1"
+    },
+    "image_budget": "Hero under 150 KB AVIF or WebP at 1200 wide, priority loaded. Everything else lazy. Real departure photography only, no stock.",
+    "required_alt_examples": [
+      "NH47 near Chotila on the Ahmedabad to Dwarka drive at first light",
+      "Saurashtra Mail at platform, Ahmedabad Junction, before the 05:05 departure",
+      "Dwarkadhish main gate at 5 pm as the afternoon closure ends"
+    ],
+    "rendering": "SSG with ISR. Tag the rate matrix and the transport block for on demand revalidation from the CMS publish webhook, because train timings and rates are the only volatile fields.",
+    "mobile": "Sticky enquiry bar. The transport comparison and price matrix must scroll horizontally or collapse to cards under 480px.",
+    "last_updated_visible": true,
+    "hreflang": "en-IN self, hi-IN twin at /hi/somnath-dwarka-tour-package/from-ahmedabad/, x-default to en-IN"
+  },
+  "measurement": {
+    "ga4_events": [
+      {
+        "name": "generate_lead",
+        "trigger": "enquiry form submit",
+        "params": [
+          "start_city",
+          "duration_variant",
+          "hotel_tier",
+          "group_size"
+        ]
+      },
+      {
+        "name": "whatsapp_click",
+        "trigger": "WhatsApp CTA",
+        "params": [
+          "placement"
+        ]
+      },
+      {
+        "name": "call_click",
+        "trigger": "phone CTA",
+        "params": [
+          "placement"
+        ]
+      },
+      {
+        "name": "transport_toggle",
+        "trigger": "interaction with the road against rail comparison",
+        "params": [
+          "choice"
+        ]
+      }
+    ],
+    "loops": [
+      "Striking distance: if this page sits at 11 to 20 after 8 weeks, add contextual links from /plan/how-to-reach/ and /somnath-dwarka-taxi-service/ahmedabad-to-somnath-taxi/ before rewriting a word.",
+      "High impressions low CTR: rewrite the title against the live competitor set, not the July 2026 one.",
+      "AI Overview watch: check monthly whether the Vande Bharat 23:54 point and the 440 to 450 km figure get cited, and whether the citation names the brand.",
+      "Cannibalization watch: if this page starts outranking /plan/how-to-reach/ for the bare distance query, cut the distance emphasis here, do not celebrate.",
+      "Decay: train timings and running days are the fastest decaying facts on this page. Recheck quarterly and before every Shravan and Janmashtami."
+    ]
+  },
+  "sources": [
+    {
+      "claim": "Ahmedabad to Dwarka 440 to 450 km, 8 to 9 hours, NH47 primary and NH947 alternate, NH27 longest at about 499 km",
+      "sources": [
+        "holidify.com/places/dwarka/how-to-reach/ahmedabad-to-dwarka-494.html",
+        "somnathdwarkatourpackage.com/ahmedabad-to-dwarka-distance-route-how-to-reach/",
+        "yatra.com distance page, 449 km"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Ahmedabad to Somnath about 410 km, 7 to 8 hours",
+      "sources": [
+        "kiomoi.com, 411 km",
+        "holidify.com, 408 km",
+        "gujaratexpert.com, 410 km"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Dwarka to Somnath 233 km on NH51, 5 to 6 hours",
+      "sources": [
+        "gujarattrips.com",
+        "kiomoi.com",
+        "shikhar.com"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Saurashtra Mail 22945 departs Ahmedabad 05:05, reaches Dwarka about 13:10, daily",
+      "sources": [
+        "confirmtkt.com",
+        "ixigo.com",
+        "erail.in",
+        "railyatri.in"
+      ],
+      "checked": "2026-07-15",
+      "note": "Arrival is listed as 13:10 by confirmtkt and ixigo and 13:44 by prokerala. Copy says 'around 13:10' rather than an exact minute."
+    },
+    {
+      "claim": "Okha Vande Bharat 22925 departs 18:10, arrives Dwarka 23:54, 5 hours 44 minutes, fastest on the route, runs every day except Tuesday",
+      "sources": [
+        "goibibo.com",
+        "confirmtkt.com",
+        "ixigo.com",
+        "erail.in"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Rail distance Ahmedabad to Dwarka about 470 km",
+      "sources": [
+        "confirmtkt.com",
+        "railyatri.in",
+        "makemytrip.com, 471 km"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Dwarkadhish opens about 6:30 am, closes about 1:00 pm, reopens about 5:00 pm, evening darshan to about 9:30 pm",
+      "sources": [
+        "temple.yatradham.org",
+        "blessingsideas.com",
+        "shreedwarkadhish.in"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Jay Somnath sound and light show 7:45 pm to 8:45 pm",
+      "sources": [
+        "somnath.org/somnath-darshan/ (primary, Shree Somnath Trust)"
+      ],
+      "checked": "2026-07-15",
+      "note": "Aggregators print 8:00 pm to 9:00 pm. The Trust's own page is the primary source and wins."
+    },
+    {
+      "claim": "Somnath aarti 7:00 am, 12:00 pm, 7:00 pm; general darshan free",
+      "sources": [
+        "templedarshantime.com",
+        "mandirtimings.com",
+        "gujarattrips.com",
+        "templestiming.in"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Sudarshan Setu, 2.32 km, inaugurated 25 February 2024, replaced boat transport to Bet Dwarka",
+      "sources": [
+        "pmindia.gov.in (primary)",
+        "pib.gov.in (primary)",
+        "en.wikipedia.org/wiki/Sudarshan_Setu"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Shree Somnath Trust accepts bookings and donations only via its official website, warns against private numbers, WhatsApp and UPI",
+      "sources": [
+        "somnath.org (primary)"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "No Taj or ITC five star in Dwarka or Somnath; IHCL reaches Dwarka via Ginger; Taj Skyline operates in Ahmedabad",
+      "sources": [
+        "tripadvisor.com Gujarat 5 star list",
+        "tajhotels.com destinations",
+        "gingerhotels.com/hotels/ginger-dwarka"
+      ],
+      "checked": "2026-07-15"
+    },
+    {
+      "claim": "Ahalyabai temple built 1782; Pran Pratistha of the modern Somnath temple 11 May 1951",
+      "sources": [
+        "somnath.org/somnath-darshan/ (primary)"
+      ],
+      "checked": "2026-07-15"
+    }
+  ],
+  "claims_dropped": [
+    {
+      "claim": "Exact Saurashtra Mail arrival minute",
+      "why": "Sources split between 13:10 and 13:44. Copy says 'around 13:10' and the FAQ tells the reader to confirm running days."
+    },
+    {
+      "claim": "Train fares from Ahmedabad to Dwarka",
+      "why": "Quoted between Rs. 170 and Rs. 2,425 across classes and sources, and they move. The page's argument is about arrival time, not fare, so the claim was cut rather than hedged."
+    },
+    {
+      "claim": "Flight options from Ahmedabad to Jamnagar, Porbandar, Keshod or Diu",
+      "why": "Schedules and operating routes could not be confirmed to two agreeing sources today. The not-for-you block makes the argument without naming a route or a fare."
+    },
+    {
+      "claim": "Somnath light and sound show ticket price",
+      "why": "Sources conflict between Rs. 30 to 50 and unspecified. Listed as excluded without a number."
+    },
+    {
+      "claim": "Toll costs and fuel estimates on NH47",
+      "why": "Not confirmable and not relevant, since the vehicle is inside the package price."
+    }
+  ],
+  "qa_gate": {
+    "style_check": "PASS after one fix. The gate caught 'confirm running days before you book', which hands the fact check back to the reader and is banned. Replaced with the running days verified from four sources, and a statement that we check the dates when we build the plan.",
+    "slop_check": "PASS after two fixes. The gate caught a real miss: no cancellation or refund path on a money page. Added, with links to /cancellation-refund/ and /booking-policy/. It also flagged the word used inside this spec's own list of banned urgency tactics, which was a false positive and has been reworded.",
+    "skeptical_buyer": "PASS. A buyer can decide from this page alone: distance, honest drive time, why the departure is at 05:30, whether the train is better, what it costs at three tiers, what is excluded, and who should not book it.",
+    "information_gain": "PASS. Five named items, led by the Vande Bharat arrival trap, which no page in the ranking set carries.",
+    "honesty": "PASS. Every non canon fact traced to a live source with a date. Five claims dropped rather than hedged or bracketed.",
+    "delta_test": "PASS. About 70 percent unique against hub and siblings. Shared material is limited to the category clock and the price table.",
+    "anti_cannibalization": "PASS. Seven competing queries assigned elsewhere, with an explicit guard against absorbing the distance query from /plan/how-to-reach/.",
+    "schema": "PASS. Prices marked up match the visible matrix. No aggregateRating. No FAQ rich result promised. GBP withheld from sameAs pending the rename.",
+    "title_meta": "PASS. Title 56, meta 146.",
+    "blocking_for_publish": [
+      "Real departure photography for the hero and the three alt tagged slots.",
+      "Ops confirmation of the 05:30 Ahmedabad pickup as the standard, since the clock is derived from verified drive times rather than supplied.",
+      "The /somnath-dwarka-tour-package/by-train/ target must exist before that outbound link goes live, and it is blocked until ops says what by-train sells."
+    ]
+  }
+}

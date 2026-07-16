@@ -1,0 +1,324 @@
+{
+  "page": {
+    "url": "/somnath-dwarka-tour-package/3-days-2-nights/",
+    "role": "SPOKE",
+    "silo": "money-circuit",
+    "wave": "MVP",
+    "parent_hub": "/somnath-dwarka-tour-package/",
+    "money_target": "(is money)",
+    "conversion_action": "qualify_form",
+    "canonical": "self",
+    "indexable": true,
+    "in_sitemap": true,
+    "hreflang_twin": "/hi/somnath-dwarka-tour-package/3-days-2-nights/",
+    "last_verified": "2026-07-15"
+  },
+  "head": {
+    "title": "Somnath Dwarka 3 Days 2 Nights: Rs.10,000 pp, Real Clock",
+    "title_length": 56,
+    "meta_description": "The shortest honest version of both temples. 3 days 2 nights from Rs.10,000 pp with hotel, breakfast and vehicle. Includes the one fork you must choose.",
+    "meta_length": 152,
+    "h1": "Somnath Dwarka Package 3 Days 2 Nights: Itinerary, Price and Booking",
+    "ctr_rationale": "Competitors title on price-off and best-price. This titles on the specific decision this duration forces, which is the only differentiated angle left and the thing the buyer is actually anxious about."
+  },
+  "intent_lock": {
+    "primary_intent": "somnath dwarka package 3 days 2 nights",
+    "intent_type": "transactional",
+    "secondary_owned": [
+      "somnath dwarka 3 days itinerary",
+      "dwarka somnath 2 nights package",
+      "somnath dwarka 3 day trip cost"
+    ],
+    "explicitly_not_owned": [
+      {
+        "query": "somnath dwarka tour package",
+        "url": "/somnath-dwarka-tour-package/"
+      },
+      {
+        "query": "somnath dwarka tour package from ahmedabad",
+        "url": "/somnath-dwarka-tour-package/from-ahmedabad/"
+      },
+      {
+        "query": "dwarka to somnath distance",
+        "url": "/plan/how-to-reach/"
+      },
+      {
+        "query": "somnath temple timings",
+        "url": "/temples/somnath-temple-timings/"
+      },
+      {
+        "query": "gir safari booking",
+        "url": "/gir-tour-package/"
+      },
+      {
+        "query": "somnath dwarka taxi fare",
+        "url": "/somnath-dwarka-taxi-service/"
+      }
+    ],
+    "differentiation_proof": "Owns the Bet Dwarka versus Somnath aarti fork, which exists only at 2 nights. Option A and Option B are costed in time against the 233 km drive, the 1 pm closure and the 7 pm aarti. The 4 day page resolves the fork; this page is the fork.",
+    "delta_test": "PASS. The decision this page owns exists only at this night count and cannot be restated on the hub or on a sibling without becoming that page's subject.",
+    "information_gain": [
+      "Names the exact tradeoff a 2 night plan forces (Bet Dwarka or the 7 pm Somnath aarti) and makes the buyer choose before booking.",
+      "States the fork is what the third night removes, which converts the upsell honestly."
+    ]
+  },
+  "pricing": {
+    "model": "per person per night",
+    "nights": 2,
+    "tiers": {
+      "3_star": {
+        "per_night": 5000,
+        "total_pp": 10000,
+        "hotel": "Lords Inn"
+      },
+      "4_star": {
+        "per_night": 10000,
+        "total_pp": 20000,
+        "hotel": "The Fern, Fortune Landmark"
+      },
+      "5_star": {
+        "per_night": 12500,
+        "total_pp": 25000,
+        "hotel": "The Fern Sattva Resort at Dwarka, best available at Somnath"
+      }
+    },
+    "included": [
+      "hotel at chosen tier",
+      "breakfast",
+      "vehicle with driver for the full itinerary"
+    ],
+    "excluded": [
+      "lunch and dinner",
+      "personal pooja, seva and abhishek",
+      "sound and light show ticket",
+      "camera and cloakroom charges",
+      "tips",
+      "personal spending"
+    ],
+    "vehicle_by_group": {
+      "2-3": "Sedan",
+      "4-5": "Ertiga SUV",
+      "5-6": "Innova Crysta",
+      "7-9": "9 seater Tempo Traveller",
+      "10-12": "12 seater Maharaja or Urbania",
+      "13-26": "26 seater Tempo Traveller"
+    }
+  },
+  "aeo_geo": {
+    "answer_snippet": "A somnath dwarka package 3 days 2 nights costs Rs. 10,000 per person at the 3 star tier, Rs. 20,000 at 4 star and Rs. 25,000 at 5 star, with hotel, breakfast and your vehicle included.",
+    "extraction_formats": [
+      "price TABLE",
+      "decision TABLE",
+      "hour-by-hour itinerary TABLE",
+      "question-shaped H3 FAQ"
+    ],
+    "quotable_first_party_claims": [
+      "Rs. 10,000 per person for 2 nights at 3 star, vehicle included.",
+      "Dwarka to Somnath is 233 km on NH51, 5 to 6 hours.",
+      "Jay Somnath sound and light show runs 7:45 pm to 8:45 pm per the Shree Somnath Trust."
+    ],
+    "zero_click_defense": "The summary can take the price and the distance. It cannot take the decision table, the live permit timing or the reconfirmation of festival-day schedules for a specific date. Brand sits inside the answer snippet."
+  },
+  "schema_jsonld": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TouristTrip",
+        "@id": "https://SITE/somnath-dwarka-tour-package/3-days-2-nights/#trip",
+        "name": "Somnath Dwarka Package 3 Days 2 Nights",
+        "description": "The shortest honest version of both temples. 3 days 2 nights from Rs.10,000 pp with hotel, breakfast and vehicle. Includes the one fork you must choose.",
+        "provider": {
+          "@id": "https://SITE/#organization"
+        },
+        "subjectOf": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/3-days-2-nights/#webpage"
+        }
+      },
+      {
+        "@type": "AggregateOffer",
+        "@id": "https://SITE/somnath-dwarka-tour-package/3-days-2-nights/#offer",
+        "priceCurrency": "INR",
+        "lowPrice": "10000",
+        "highPrice": "25000",
+        "offerCount": 3,
+        "itemOffered": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/3-days-2-nights/#trip"
+        },
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@id": "https://SITE/#organization"
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "3 star tier",
+            "price": "10000",
+            "priceCurrency": "INR"
+          },
+          {
+            "@type": "Offer",
+            "name": "4 star tier",
+            "price": "20000",
+            "priceCurrency": "INR"
+          },
+          {
+            "@type": "Offer",
+            "name": "5 star tier",
+            "price": "25000",
+            "priceCurrency": "INR"
+          }
+        ],
+        "_build_note": "Totals are the per person per night rate times 2 nights and are visible in the price table on the page. No aggregateRating until real reviews are on the page."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://SITE/somnath-dwarka-tour-package/3-days-2-nights/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://SITE/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Somnath Dwarka Tour Package",
+            "item": "https://SITE/somnath-dwarka-tour-package/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Somnath Dwarka Package 3 Days 2 Nights",
+            "item": "https://SITE/somnath-dwarka-tour-package/3-days-2-nights/"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://SITE/somnath-dwarka-tour-package/3-days-2-nights/#faq",
+        "_build_note": "Parse-only per the URL map.",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is 3 days enough for Somnath and Dwarka?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, and it is the shortest plan that is. Two nights gives each temple an evening and a morning, with the 233 km coastal drive on the middle day. What three days cannot also hold is Bet Dwarka plus the Somnath evening aarti on the same day."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the cost of a 3 days 2 nights Somnath Dwarka package?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Rs. 10,000 per person at 3 star, Rs. 20,000 at 4 star and Rs. 25,000 at 5 star, hotel, breakfast and vehicle included."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long is the drive from Dwarka to Somnath?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "233 km on NH51, 5 to 6 hours through Porbandar and Veraval, before stops."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "internal_link_matrix": {
+    "inbound": [
+      {
+        "source": "/somnath-dwarka-tour-package/",
+        "anchor": "3 Days 2 Nights",
+        "placement": "duration chooser table",
+        "priority": "P0",
+        "reason": "Hub chooser is the primary equity route to every duration spoke."
+      },
+      {
+        "source": "/compare/3-day-vs-5-day-itinerary/",
+        "anchor": "the 2 night plan",
+        "placement": "contextual",
+        "priority": "P1",
+        "reason": "Comparison page hands off to the winner."
+      },
+      {
+        "source": "/plan/how-to-reach/",
+        "anchor": "3 day Somnath Dwarka plan",
+        "placement": "contextual",
+        "priority": "P2",
+        "reason": "Distance intent to commercial."
+      }
+    ],
+    "outbound": [
+      {
+        "target": "/somnath-dwarka-tour-package/",
+        "anchor": "compare all Somnath Dwarka packages",
+        "placement": "opener and related",
+        "priority": "P0",
+        "reason": "Equity returns to the hub, once, in the opener."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/2-days-1-night/",
+        "anchor": "2 days 1 night",
+        "placement": "related and inline where the tradeoff is named",
+        "priority": "P1",
+        "reason": "Sibling routing at the exact point the buyer realises this plan is wrong for them."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/4-days-3-nights/",
+        "anchor": "4 days 3 nights",
+        "placement": "related and inline where the tradeoff is named",
+        "priority": "P1",
+        "reason": "Sibling routing at the exact point the buyer realises this plan is wrong for them."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/5-days-4-nights/",
+        "anchor": "5 days 4 nights",
+        "placement": "related and inline where the tradeoff is named",
+        "priority": "P1",
+        "reason": "Sibling routing at the exact point the buyer realises this plan is wrong for them."
+      },
+      {
+        "target": "/somnath-dwarka-taxi-service/",
+        "anchor": "Somnath Dwarka taxi service",
+        "placement": "related",
+        "priority": "P2",
+        "reason": "Vehicle-only intent leaves rather than bounces."
+      },
+      {
+        "target": "/temples/somnath-temple-timings/",
+        "anchor": "Somnath temple timings",
+        "placement": "reading",
+        "priority": "P1",
+        "reason": "Informational sub-query handed off so this page keeps one intent."
+      }
+    ],
+    "anchor_diversity_check": "Exact match used once per source. Sibling anchors are plan names, hub anchor is natural language."
+  },
+  "cta": {
+    "conversion_action": "qualify_form",
+    "phone_whatsapp": "+91 7302265809",
+    "primary": {
+      "label": "Get the day-wise plan and rate card",
+      "placement": "sticky above fold on mobile, repeated after the decision table, after price, after FAQ"
+    },
+    "secondary": {
+      "label": "Send your dates on WhatsApp, +91 7302265809"
+    },
+    "honest_urgency_only": true
+  },
+  "qa_gate": {
+    "style_check": "PASS",
+    "slop_check": "PASS",
+    "delta_test": "PASS",
+    "honesty": "PASS. Every non-canon fact live-sourced 15 July 2026. Unconfirmable claims dropped, not bracketed.",
+    "canon_applied": "Prices, hotels, fleet and phone from the canon block, 15 July 2026.",
+    "schema": "Prices marked up match the visible price table. No aggregateRating.",
+    "blocking_for_publish": [
+      "Real departure photography",
+      "Ops confirmation of pickup clock times"
+    ]
+  }
+}

@@ -1,0 +1,500 @@
+{
+  "page": {
+    "url": "/somnath-dwarka-tour-package/from-jamnagar/",
+    "role": "SPOKE",
+    "silo": "money-circuit",
+    "wave": "MVP",
+    "parent_hub": "/somnath-dwarka-tour-package/",
+    "money_target": "(is money)",
+    "conversion_action": "qualify_form",
+    "canonical": "self",
+    "indexable": true,
+    "in_sitemap": true,
+    "hreflang_twin": "/hi/somnath-dwarka-tour-package/from-jamnagar/",
+    "last_verified": "2026-07-15",
+    "batch": "2 of 7, origin spokes. Spoke 9 of 36."
+  },
+
+  "delta_declaration": {
+    "owns": "Jamnagar as the closest city to Dwarka of any origin on this site, which makes it the only start where day one delivers a morning darshan before the afternoon shutter rather than an evening one after it.",
+    "the_clock_inversion": "Every other page on this site is about beating a clock. This is the only page that opens at a temple with no clock, because the Ram Dhun at Bala Hanuman has not stopped since 1964. The site's central theme meets its one exception here, and that is the page.",
+    "asymmetry": "Ahmedabad: Dwarka 450, Somnath 410, near enough symmetrical. Rajkot: Somnath is closer by about 30 km. Jamnagar: Dwarka is closer by about 90 km. Three origins, three different geometries, three different itineraries.",
+    "cannot_appear_on_hub": "The hub compares 36 variants and cannot carry one city's two hour arithmetic or its local temple.",
+    "cannot_appear_on_siblings": "No sibling can claim a morning darshan on arrival day, because no sibling is 132 km away. Nothing in this page's transport core survives being moved.",
+    "estimated_unique_body": "About 80 percent. The Bala Hanuman section and the double darshan day one have no equivalent anywhere on the site."
+  },
+
+  "head": {
+    "title": "Somnath Dwarka Tour Package From Jamnagar, Rs.15,000 pp",
+    "title_length": 55,
+    "meta_description": "Jamnagar is 132 km from Dwarka, the closest any city gets. It is the only start that reaches the temple before it shuts at 1 pm. From Rs.15,000 pp.",
+    "meta_length": 147,
+    "h1": "Somnath Dwarka Tour Package From Jamnagar: Itinerary, Price and Booking",
+    "slug_note": "Matches the URL map exactly. No change proposed.",
+    "ctr_rationale": "Nothing in this SERP is written for Jamnagar. The results are Gujarat packages with Jamnagar as a lunch stop, or Jamnagar sightseeing pages with no circuit. Leading with the distance and a capability no other start city has, reaching the temple while it is open, claims the term against a field that is not really competing for it.",
+    "og_title": "Somnath Dwarka From Jamnagar: Close Enough for Two Darshans on Day One",
+    "og_description": "132 km to Dwarka, about two hours. Leave at 07:30 and you are inside the temple by 10:30, out before the 1 pm shutter, and back for the evening aarti. No other start city can do that."
+  },
+
+  "intent_lock": {
+    "primary_intent": "somnath dwarka tour package from jamnagar",
+    "intent_type": "transactional",
+    "secondary_owned": [
+      "somnath dwarka package from jamnagar",
+      "jamnagar to dwarka somnath tour",
+      "dwarka somnath trip from jamnagar",
+      "jamnagar to dwarka somnath package price"
+    ],
+    "explicitly_not_owned": [
+      { "query": "jamnagar to dwarka distance", "url": "/plan/how-to-reach/", "why": "Informational. It links into this page." },
+      { "query": "jamnagar airport to dwarka taxi", "url": "/somnath-dwarka-taxi-service/airport-taxi/jamnagar/", "why": "Transfer only, no hotel. Different product and it already exists in the map." },
+      { "query": "jamnagar to dwarka taxi", "url": "/somnath-dwarka-taxi-service/jamnagar-to-dwarka-taxi/" },
+      { "query": "bala hanuman temple jamnagar timings", "url": "/temples/bala-hanuman-jamnagar/", "why": "Informational temple page. This page uses the temple as a reason to start here, it does not own the timings query. BUILD NOTE: this URL is not in the current map. Either add it to the temples silo or point this link at /temples/ and accept a weaker handoff." },
+      { "query": "places to visit in jamnagar", "url": "/jamnagar/", "why": "Destination guide. BUILD NOTE: also not in the current map. See blocking list." },
+      { "query": "somnath dwarka tour package", "url": "/somnath-dwarka-tour-package/" },
+      { "query": "somnath dwarka package 4 days 3 nights", "url": "/somnath-dwarka-tour-package/4-days-3-nights/" }
+    ],
+    "cannibalization_guard": "This page must not become a Jamnagar sightseeing page. The Bala Hanuman section exists to explain why the circuit starts before dawn from here, not to rank for the temple. Two paragraphs, then it hands off. If Search Console shows this page ranking for Jamnagar tourism terms, the section is too long."
+  },
+
+  "research_taxonomy": {
+    "central_entity": "Jamnagar to Somnath Dwarka pilgrimage circuit",
+    "entity_attributes": {
+      "origin": "Jamnagar, Gujarat. Founded 1540 by Jam Rawal, capital of the former state of Nawanagar, on the Gulf of Kutch. Jamnagar Junction. Jamnagar airport, about 9 km from the railway station, on the Dwarka road.",
+      "road_distance_to_dwarka_km": "132 to 141",
+      "road_distance_to_okha_km": "about 153",
+      "road_distance_to_somnath_km": "about 231",
+      "road_distance_dwarka_to_somnath_km": "233 on NH51",
+      "position": "Closest city to Dwarka on this site. The asymmetry runs the opposite way to Rajkot: Dwarka is near, Somnath is the long leg.",
+      "local_anchor": "Shri Bala Hanuman Sankirtan Mandir, southeast corner of Ranmal Lake, about 5 km from Jamnagar Junction. Established 1964 by Shri Prembhikshuji Maharaj."
+    },
+    "personas_served": [
+      "Jamnagar resident planning a family yatra",
+      "Flyer landing at Jamnagar airport for Dwarka, which is the door the Mumbai page points at",
+      "Traveller from Kutch or Gandhidham using Jamnagar as the pickup point",
+      "Devotee coming specifically for the Ram Dhun and extending to the circuit"
+    ],
+    "paa_harvested": [
+      "How far is Dwarka from Jamnagar?",
+      "How far is Somnath from Jamnagar?",
+      "Is Jamnagar the nearest airport to Dwarka?",
+      "Can we visit Dwarka from Jamnagar in one day?",
+      "How many days do you need for Dwarka and Somnath from Jamnagar?",
+      "How much is a Dwarka Somnath package from Jamnagar?"
+    ],
+    "serp_recon": {
+      "date": "2026-07-15",
+      "query": "somnath dwarka tour package from jamnagar",
+      "competitors": [
+        "trawell.in/gujarat/jamnagar",
+        "yatra.com/distance-between/distance-from-jamnagar-to-dwarka.html",
+        "travel.yatradham.org/package/dwarka-somnath-tour-package",
+        "gujaratexpert.com/dwarka-somnath-tour-package/"
+      ],
+      "winning_shape": "There is barely a field here. The results are a Jamnagar sightseeing guide, a distance calculator page, and generic Gujarat packages that mention Jamnagar as a lunch stop on the Ahmedabad drive. Nobody has written a circuit page for someone who lives in Jamnagar or lands at its airport.",
+      "universal_gap": "Every operator treats Jamnagar as a place the Ahmedabad car drives past at 13:30. Not one notices that from Jamnagar, Dwarka is two hours away, which changes the entire shape of day one. Not one page selling a Jamnagar start mentions the Ram Dhun, in the city they are picking you up from.",
+      "ai_overview_present": true,
+      "features_targeted": ["AI Overview (commercial)", "PAA", "Product/TouristTrip snippet", "Local Pack for the pickup term"],
+      "opportunity_note": "The weakest SERP of the origin set and the easiest to take. It is also lower volume than Ahmedabad or Mumbai. Build it because it is cheap to win and because the Mumbai and 5 night pages already point at this airport, not because the term is big."
+    },
+    "information_gain": [
+      "Jamnagar is 132 to 141 km from Dwarka, about two hours, which makes it the only start city on this site that reaches Dwarkadhish before the 1:00 pm shutter rather than after the 5:00 pm reopening.",
+      "That produces a day one with two darshans, morning and evening, which no other origin page can offer at any price.",
+      "The Ram Dhun at Bala Hanuman has run continuously since 1964 and holds a Guinness World Record. It is the one temple on the whole circuit with no clock, no closure and no aarti to be late for. On a site whose entire argument is about timing, that is the exception worth naming.",
+      "Jam Rawal founded Nawanagar in 1540 and is held to be an heir of Lord Krishna, so the link between Jamnagar and Dwarka is dynastic rather than merely geographic. Starting the Krishna circuit in the city his descendants founded is a better story than a lunch stop.",
+      "The airport sits about 9 km from Jamnagar Junction on the Dwarka road, so a flyer lands already pointed at the temple. This is the door the Mumbai page and the 5 night page send people to, and until now nothing on the site described what happens after they land."
+    ]
+  },
+
+  "copy": {
+    "quick_answer": "A Somnath Dwarka tour package from Jamnagar starts closer to Dwarka than any other city on this site: 132 to 141 km, about two hours. That single fact rewrites day one. Leave Jamnagar at 07:30 and you are inside Dwarkadhish by 10:30, out before the temple shuts at 1:00 pm, and back for the evening aarti after it reopens at 5:00 pm. Two darshans on the day you travel. Experience My India runs the circuit from Rs. 5,000 per person per night, so the three night plan is Rs. 15,000 per person with a 3 star hotel, breakfast and your vehicle included.",
+
+    "sections": [
+      {
+        "h2": "Two hours to Dwarka, and what that buys",
+        "body": [
+          "Jamnagar to Dwarka is 132 to 141 km depending on the route. We plan it as two hours with one stop.",
+          "Read the rest of this site and you will find every page fighting the same clock. Dwarkadhish shuts at about 1:00 pm and reopens near 5:00 pm, and the whole art of this circuit is arranging your arrival around a locked gate. From Ahmedabad you land at 16:30 and take the evening. From Mumbai the overnight train drops you at 13:10, inside the closure, and you rest through it. Both are the best available answer to a hard problem.",
+          "From Jamnagar the problem does not exist. Leave at 07:30, arrive at 09:30, check in, and walk into the temple at 10:30 with two and a half hours to spare. Come back at 17:15 for the evening. That is two darshans on your travelling day, and Jamnagar is the only start on this site that can do it.",
+          "Somnath is the long leg from here, about 231 km, which is the exact reverse of Rajkot where Somnath is the near one. So the circuit runs Dwarka first, always, and it is not a preference. It is the map."
+        ]
+      },
+      {
+        "h2": "The one temple with no clock",
+        "body": [
+          "Before you leave, five kilometres from Jamnagar Junction on the southeast corner of Ranmal Lake, there is something worth an hour.",
+          "At Shri Bala Hanuman Sankirtan Mandir the chant of Sri Ram, Jai Ram, Jai Jai Ram has not stopped since 1964. Not overnight, not for a festival, not once. It holds a Guinness World Record for it. The temple was established by Shri Prembhikshuji Maharaj and the Ram Dhun has simply continued ever since, in relay, through every hour of every day for more than sixty years.",
+          "Everything else on this circuit runs on a timetable. Somnath has three aartis and a show at 7:45 pm. Dwarkadhish has a shutter at 1:00 pm. Bet Dwarka keeps its own afternoon break. This is the one place you cannot be late for, because there is nothing to be late for.",
+          "If you are flying in, it is nine kilometres from the airport in the wrong direction, and worth it. If you live here, you already know."
+        ]
+      },
+      {
+        "h2": "If you are landing at Jamnagar",
+        "body": [
+          "Jamnagar is the nearest airport to Dwarka and it is the door the rest of this site keeps pointing at. It sits about 9 km from Jamnagar Junction, on the Dwarka road, with the BAPS Swaminarayan temple across from it. You land already facing the right way.",
+          "We meet the flight. If you land in the morning, day one is the full double darshan day described below. If you land after about 14:00, we take you to Dwarka for the evening session instead and you pick up the morning aarti on day two. Tell us the flight number and we will tell you which of the two you are getting.",
+          "Your flight is not in our price. The package starts at arrivals, and it covers the hotel, the breakfast and the vehicle with a driver for every leg after that."
+        ]
+      },
+      {
+        "h2": "Starting the Krishna circuit where his heirs settled",
+        "body": [
+          "Jamnagar was founded in 1540 by Jam Rawal, and the Jadeja line he came from is held to descend from Lord Krishna. The city he built became the capital of Nawanagar.",
+          "So a Krishna circuit that begins in Jamnagar and ends at Dwarkadhish is not a convenient pickup point. It is the family taking the road home. Every operator selling you a Jamnagar start treats this city as somewhere the Ahmedabad car stops for lunch at 13:30. It is a better place than that, and you live in it."
+        ]
+      }
+    ],
+
+    "itinerary": {
+      "note": "The 3 nights version from Jamnagar. Times are our planning clock, built backwards from verified distances and the temples' own hours.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Jamnagar to Dwarka, 132 to 141 km, and two darshans",
+          "stops": [
+            { "time": "06:30", "text": "Optional, and we would take it: an hour at Bala Hanuman before the road. The Ram Dhun is running, as it has been since 1964. It will still be running when you get back." },
+            { "time": "07:30", "text": "Leave Jamnagar." },
+            { "time": "09:30", "text": "Dwarka. Hotel check in, Lords Inn class at the 3 star tier." },
+            { "time": "10:30", "text": "Dwarkadhish morning darshan, with two and a half hours before the shutter. This is the slot no other start city on this site can reach." },
+            { "time": "13:00", "text": "Lunch while the temple is closed. You have already been inside." },
+            { "time": "15:00", "text": "Gomti Ghat, the 56 steps, Sudama Setu." },
+            { "time": "17:15", "text": "Back for the evening darshan. Second time today." },
+            { "time": "20:30", "text": "Dinner. Night one in Dwarka." }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Bet Dwarka and Nageshwar",
+          "stops": [
+            { "time": "06:30", "text": "Mangala Aarti at Dwarkadhish. Your third darshan in under 24 hours, and the quietest of them." },
+            { "time": "09:00", "text": "Drive 30 km to Okha and across Sudarshan Setu, the 2.32 km cable stayed bridge that opened on 25 February 2024. You drive over. There is no ferry." },
+            { "time": "10:00", "text": "Bet Dwarka darshan. The island temple keeps its own afternoon break, so morning is not optional." },
+            { "time": "12:30", "text": "Back across the bridge." },
+            { "time": "14:00", "text": "Nageshwar Jyotirlinga, on the Dwarka to Okha road, so no detour on the way back." },
+            { "time": "16:00", "text": "Rukmini Devi Temple, Gopi Talav, Bhadkeshwar Mahadev as the tide and light allow." },
+            { "time": "19:00", "text": "Free evening. Second night in Dwarka." }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Dwarka to Somnath via Porbandar, 233 km on NH51",
+          "stops": [
+            { "time": "07:00", "text": "Leave Dwarka after breakfast. The coastal run begins." },
+            { "time": "09:30", "text": "Porbandar. Kirti Mandir and the Sudama connection." },
+            { "time": "13:00", "text": "Lunch, Madhavpur or Veraval side." },
+            { "time": "15:00", "text": "Somnath hotel check in." },
+            { "time": "18:30", "text": "Vallabhghat for sunset over the Arabian Sea." },
+            { "time": "19:00", "text": "Sandhya Aarti." },
+            { "time": "19:45", "text": "Jay Somnath sound and light show. The Trust runs it 7:45 pm to 8:45 pm, not 8:00 pm as most pages print." }
+          ]
+        },
+        {
+          "day": 4,
+          "title": "Somnath to Jamnagar, about 231 km",
+          "stops": [
+            { "time": "07:00", "text": "Mangala Aarti and unhurried darshan at the Jyotirlinga." },
+            { "time": "09:00", "text": "Bhalka Tirth, Triveni Sangam, Geeta Mandir, and the Ahalyabai temple the queen mother built in 1782." },
+            { "time": "11:00", "text": "Depart for Jamnagar. This is the long leg of the trip, and it is the last one, which is the right way round." },
+            { "time": "16:00", "text": "Drop at your Jamnagar address, the station or the airport." }
+          ]
+        }
+      ]
+    },
+
+    "price_sheet": {
+      "intro": "The rate is per person per night. Multiply by your nights. Hotel, breakfast and your vehicle with a driver are inside every number.",
+      "table": [
+        { "tier": "3 star", "per_night_pp": "Rs. 5,000", "one_night": "Rs. 5,000", "two_nights": "Rs. 10,000", "three_nights_recommended": "Rs. 15,000", "hotels": "Lords Inn" },
+        { "tier": "4 star", "per_night_pp": "Rs. 10,000", "one_night": "Rs. 10,000", "two_nights": "Rs. 20,000", "three_nights_recommended": "Rs. 30,000", "hotels": "The Fern, Fortune Landmark" },
+        { "tier": "5 star", "per_night_pp": "Rs. 12,500", "one_night": "Rs. 12,500", "two_nights": "Rs. 25,000", "three_nights_recommended": "Rs. 37,500", "hotels": "The Fern Sattva Resort at Dwarka, best property in town at Somnath" }
+      ],
+      "vehicle_note": "Group size picks the vehicle, not budget. Sedan for 2 to 3, Ertiga for 4 to 5, Innova Crysta for 5 to 6, 9 seater Tempo Traveller for 7 to 9, 12 seater Maharaja or Urbania for 10 to 12, 26 seater Tempo Traveller above that.",
+      "one_night_note": "One night from Jamnagar buys Dwarka properly and nothing else. It is a real product from here, because two hours out and two hours back is not a day lost. It is not the circuit. If you only want Dwarka, say so and we will price the day tour instead.",
+      "five_star_honesty": "No five star Taj or ITC property operates in Dwarka or in Somnath. In Dwarka the top tier puts you in The Fern Sattva Resort. At Somnath it buys the best room in town, named in your quote before you pay.",
+      "exclusions": "Your flight to Jamnagar if you are coming in. Lunch and dinner. Personal pooja, seva and abhishek at any temple. The sound and light show ticket. Camera and cloakroom charges. Tips. Anything you buy yourself.",
+      "cancellation": "Cancellation, refunds and the payment schedule are set out in full on our cancellation and refund policy, and the booking terms sit alongside it. Read both before you pay.",
+      "trust_warning": "The Shree Somnath Trust accepts pooja and donation bookings only through its own website and warns that it never asks for payment through private numbers, WhatsApp or UPI. Book sevas yourself at somnath.org. We will not take that money on your behalf.",
+      "_order": ["intro", "table", "vehicle_note", "one_night_note", "five_star_honesty", "exclusions", "cancellation", "trust_warning"]
+    },
+
+    "why_choose": [
+      "We know what two hours is worth. It is a morning darshan on your travelling day, and it is the reason the Jamnagar plan looks nothing like the Ahmedabad one.",
+      "We start you at Bala Hanuman. Every operator picking you up in this city drives past a Guinness World Record to get to you.",
+      "We publish the arithmetic. 132 to 141 km out, 233 across the coast, 231 back. Every leg is a number you can check before you pay us anything.",
+      "We meet your flight, and we tell you which version of day one your arrival time has bought before you book, not after.",
+      "A local Gujarat team plans the route and drives it. One number, +91 7302265809, on call and WhatsApp.",
+      "We reconfirm every timing before departure, because festival schedules move at Shravan, Janmashtami and Mahashivratri. Except one, which has not changed since 1964."
+    ],
+
+    "not_for_you_if_heading": "This trip is not for you if",
+    "not_for_you_if": [
+      "You want Somnath first. From Jamnagar it is 231 km against 132 to Dwarka, so running the circuit backwards wastes your best day. We will do it if you insist, and we will tell you it costs you the double darshan.",
+      "You want both temples in one day. Being two hours from Dwarka does not make Dwarka close to Somnath. They are still 233 km apart and both shut in the afternoon.",
+      "You land after 14:00 and expect the morning slot. The gate is shut by then. You get the evening instead and the aarti the next day, which is a good trip and is not this one.",
+      "You are booking Janmashtami at short notice. Dwarka at Janmashtami is a different sport. Two to three months of lead time, or pick another week.",
+      "You want a five star Taj in Dwarka. It does not exist, and anyone selling you one should be asked for the property name."
+    ],
+
+    "faq": [
+      {
+        "q": "How far is Dwarka from Jamnagar?",
+        "a": "132 to 141 km by road depending on the route, which we plan as about two hours with one stop. It is the shortest run to Dwarka from any city we pick up in, and it is why day one from Jamnagar reaches the temple before the 1:00 pm closure."
+      },
+      {
+        "q": "How far is Somnath from Jamnagar?",
+        "a": "About 231 km. Somnath is the long leg from Jamnagar, the exact opposite of the position from Rajkot where Somnath is the closer of the two. That is why the circuit runs Dwarka first from here."
+      },
+      {
+        "q": "Is Jamnagar the nearest airport to Dwarka?",
+        "a": "Yes, at about 130 km, and the airport sits roughly 9 km from Jamnagar Junction on the Dwarka road, so you land facing the right way. Porbandar is the other option at about 133 km from Dwarka."
+      },
+      {
+        "q": "Can we visit Dwarka from Jamnagar in one day?",
+        "a": "Yes, and Jamnagar is one of the few places where that is honest rather than a car ride. Two hours out, morning darshan before the 1:00 pm shutter, evening aarti after 5:00 pm, two hours back. If that is all you want, ask us for the day tour rather than the circuit."
+      },
+      {
+        "q": "How many days do you need for Dwarka and Somnath from Jamnagar?",
+        "a": "Three nights, at Rs. 15,000 per person at the 3 star tier. Two nights in Dwarka, which the short drive lets you use properly from the first morning, and one in Somnath before the long leg home."
+      },
+      {
+        "q": "What is the Ram Dhun at Bala Hanuman temple?",
+        "a": "A continuous chant of Sri Ram, Jai Ram, Jai Jai Ram that has run without stopping at Shri Bala Hanuman Sankirtan Mandir in Jamnagar since 1964, and holds a Guinness World Record. The temple sits on the southeast corner of Ranmal Lake, about 5 km from Jamnagar Junction. It is the only stop on this circuit with no closing time."
+      },
+      {
+        "q": "How much is a Dwarka Somnath package from Jamnagar?",
+        "a": "From Rs. 5,000 per person per night, so Rs. 15,000 per person for the three night plan at the 3 star tier. Rs. 30,000 at 4 star and Rs. 37,500 at 5 star. Hotel, breakfast and your vehicle with driver are included in all three."
+      }
+    ],
+
+    "final_cta": {
+      "summary": "Two hours to Dwarka, a morning darshan on the day you travel, and a chant in your own city that has not stopped since 1964. Rs. 15,000 per person at 3 star for three nights, hotel, breakfast and vehicle included.",
+      "primary": "Get this plan for your dates",
+      "secondary": "Send your dates on WhatsApp, +91 7302265809",
+      "tertiary": "Call +91 7302265809"
+    }
+  },
+
+  "aeo_geo": {
+    "answer_snippet": "A Somnath Dwarka tour package from Jamnagar starts 132 to 141 km from Dwarka, about two hours, which is the closest any city on this circuit gets. It is the only start that reaches Dwarkadhish before the 1:00 pm closure, so day one carries a morning darshan and an evening one. Experience My India runs it from Rs. 5,000 per person per night, so three nights is Rs. 15,000 per person with hotel, breakfast and vehicle included.",
+    "snippet_placement": "First paragraph, above the fold, brand inside it so a summary still carries it.",
+    "question_shaped_headings": [
+      "Two hours to Dwarka, and what that buys",
+      "The one temple with no clock",
+      "If you are landing at Jamnagar",
+      "How far is Dwarka from Jamnagar?",
+      "What is the Ram Dhun at Bala Hanuman temple?"
+    ],
+    "extractable_passages": [
+      "Jamnagar to Dwarka is 132 to 141 km, about two hours. Jamnagar to Somnath is about 231 km. Jamnagar to Okha is about 153 km.",
+      "Jamnagar airport is the nearest airport to Dwarka at about 130 km, and sits roughly 9 km from Jamnagar Junction on the Dwarka road.",
+      "The Ram Dhun at Shri Bala Hanuman Sankirtan Mandir in Jamnagar has run continuously since 1964 and holds a Guinness World Record. The temple is about 5 km from Jamnagar Junction, on the southeast corner of Ranmal Lake."
+    ],
+    "quotable_first_party_claims": [
+      "Somnath Dwarka from Jamnagar, from Rs. 5,000 per person per night, Rs. 15,000 per person for three nights at 3 star, vehicle included.",
+      "Jamnagar is the only start city on this circuit that reaches Dwarkadhish before it shuts at 1:00 pm, which puts two darshans in your travelling day.",
+      "Bala Hanuman is the one temple on the Somnath Dwarka circuit with no closing time, because the chant has not stopped since 1964."
+    ],
+    "extraction_formats": ["distance TABLE", "hour by hour itinerary TABLE", "price matrix TABLE", "question shaped FAQ"],
+    "zero_click_defense": "An AI Overview can take the distance and the Guinness fact. It cannot take the live rate for your group, or the call on whether your specific flight arrival buys the morning slot or the evening one. The brand sits inside the answer snippet.",
+    "llms_txt_entry": true,
+    "citation_bait": "The Ram Dhun. A Guinness record, a fixed year, a named founder and a claim that is both verifiable and genuinely surprising. It is also the most human sentence on the site, which matters more than SEO people admit."
+  },
+
+  "schema_jsonld": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TouristTrip",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-jamnagar/#trip",
+        "name": "Somnath Dwarka Tour Package From Jamnagar",
+        "description": "Three night pilgrimage circuit departing Jamnagar, the closest city to Dwarka at 132 to 141 km, covering Bala Hanuman, Dwarkadhish, Bet Dwarka across Sudarshan Setu, Nageshwar, Porbandar and Somnath Jyotirlinga. The only start that reaches Dwarkadhish before the afternoon closure.",
+        "touristType": ["Pilgrim", "Family", "Senior citizens", "Groups"],
+        "departureLocation": { "@type": "City", "name": "Jamnagar", "address": { "@type": "PostalAddress", "addressLocality": "Jamnagar", "addressRegion": "Gujarat", "addressCountry": "IN" } },
+        "arrivalLocation": { "@type": "City", "name": "Jamnagar" },
+        "itinerary": {
+          "@type": "ItemList",
+          "numberOfItems": 6,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "item": { "@type": "TouristAttraction", "name": "Shri Bala Hanuman Sankirtan Mandir", "address": { "@type": "PostalAddress", "addressLocality": "Jamnagar", "addressRegion": "Gujarat", "addressCountry": "IN" } } },
+            { "@type": "ListItem", "position": 2, "item": { "@type": "TouristAttraction", "name": "Dwarkadhish Temple", "address": { "@type": "PostalAddress", "addressLocality": "Dwarka", "addressRegion": "Gujarat", "addressCountry": "IN" } } },
+            { "@type": "ListItem", "position": 3, "item": { "@type": "TouristAttraction", "name": "Bet Dwarka via Sudarshan Setu", "address": { "@type": "PostalAddress", "addressLocality": "Okha", "addressRegion": "Gujarat", "addressCountry": "IN" } } },
+            { "@type": "ListItem", "position": 4, "item": { "@type": "TouristAttraction", "name": "Nageshwar Jyotirlinga", "address": { "@type": "PostalAddress", "addressLocality": "Dwarka", "addressRegion": "Gujarat", "addressCountry": "IN" } } },
+            { "@type": "ListItem", "position": 5, "item": { "@type": "TouristAttraction", "name": "Kirti Mandir, Porbandar", "address": { "@type": "PostalAddress", "addressLocality": "Porbandar", "addressRegion": "Gujarat", "addressCountry": "IN" } } },
+            { "@type": "ListItem", "position": 6, "item": { "@type": "TouristAttraction", "name": "Somnath Jyotirlinga Temple", "address": { "@type": "PostalAddress", "addressLocality": "Prabhas Patan", "addressRegion": "Gujarat", "postalCode": "362268", "addressCountry": "IN" } } }
+          ]
+        },
+        "provider": { "@id": "https://SITE/#organization" },
+        "offers": { "@id": "https://SITE/somnath-dwarka-tour-package/from-jamnagar/#offer" }
+      },
+      {
+        "@type": "AggregateOffer",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-jamnagar/#offer",
+        "itemOffered": { "@id": "https://SITE/somnath-dwarka-tour-package/from-jamnagar/#trip" },
+        "priceCurrency": "INR",
+        "lowPrice": "5000",
+        "highPrice": "37500",
+        "offerCount": 3,
+        "availability": "https://schema.org/InStock",
+        "url": "https://SITE/somnath-dwarka-tour-package/from-jamnagar/",
+        "seller": { "@id": "https://SITE/#organization" },
+        "offers": [
+          { "@type": "Offer", "name": "3 star tier", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "5000", "priceCurrency": "INR", "unitText": "per person per night", "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "DAY" } } },
+          { "@type": "Offer", "name": "4 star tier", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "10000", "priceCurrency": "INR", "unitText": "per person per night", "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "DAY" } } },
+          { "@type": "Offer", "name": "5 star tier", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "12500", "priceCurrency": "INR", "unitText": "per person per night", "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "DAY" } } }
+        ],
+        "_build_note": "lowPrice 5000 is one night at 3 star, which this origin genuinely supports at two hours out. highPrice 37500 is three nights at 5 star. Every number is visible in the page's matrix. No aggregateRating until real reviews are on the page."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-jamnagar/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://SITE/" },
+          { "@type": "ListItem", "position": 2, "name": "Somnath Dwarka Tour Package", "item": "https://SITE/somnath-dwarka-tour-package/" },
+          { "@type": "ListItem", "position": 3, "name": "From Jamnagar", "item": "https://SITE/somnath-dwarka-tour-package/from-jamnagar/" }
+        ]
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://SITE/#organization",
+        "name": "Experience My India",
+        "url": "https://SITE/",
+        "telephone": "+917302265809",
+        "areaServed": { "@type": "State", "name": "Gujarat" },
+        "sameAs": ["https://www.tripadvisor.in/Attraction_Review-g304551-d33748695-Reviews-Experience_My_India-New_Delhi_National_Capital_Territory_of_Delhi.html"],
+        "_build_note": "Canonical name is Experience My India per client decision 15 July 2026. The Google Business Profile URL goes into sameAs only after it is renamed from Shree Chamunda Tours and Travels."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://SITE/somnath-dwarka-tour-package/from-jamnagar/#faq",
+        "_build_note": "Parse only per the URL map. Google no longer shows FAQ rich results for most sites. Emit for machine extraction, never promise a rich result.",
+        "mainEntity": [
+          { "@type": "Question", "name": "How far is Dwarka from Jamnagar?", "acceptedAnswer": { "@type": "Answer", "text": "132 to 141 km by road depending on the route, which we plan as about two hours with one stop. It is the shortest run to Dwarka from any city we pick up in, and it is why day one from Jamnagar reaches the temple before the 1:00 pm closure." } },
+          { "@type": "Question", "name": "How far is Somnath from Jamnagar?", "acceptedAnswer": { "@type": "Answer", "text": "About 231 km. Somnath is the long leg from Jamnagar, the opposite of the position from Rajkot where Somnath is the closer of the two. That is why the circuit runs Dwarka first from here." } },
+          { "@type": "Question", "name": "Is Jamnagar the nearest airport to Dwarka?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, at about 130 km, and the airport sits roughly 9 km from Jamnagar Junction on the Dwarka road. Porbandar is the other option at about 133 km from Dwarka." } },
+          { "@type": "Question", "name": "What is the Ram Dhun at Bala Hanuman temple?", "acceptedAnswer": { "@type": "Answer", "text": "A continuous chant of Sri Ram, Jai Ram, Jai Jai Ram that has run without stopping at Shri Bala Hanuman Sankirtan Mandir in Jamnagar since 1964, and holds a Guinness World Record. The temple sits on the southeast corner of Ranmal Lake, about 5 km from Jamnagar Junction." } },
+          { "@type": "Question", "name": "How much is a Dwarka Somnath package from Jamnagar?", "acceptedAnswer": { "@type": "Answer", "text": "From Rs. 5,000 per person per night, so Rs. 15,000 per person for the three night plan at the 3 star tier. Rs. 30,000 at 4 star and Rs. 37,500 at 5 star. Hotel, breakfast and vehicle with driver are included in all three." } }
+        ]
+      }
+    ]
+  },
+
+  "internal_link_matrix": {
+    "inbound": [
+      { "source": "/somnath-dwarka-tour-package/", "anchor": "From Jamnagar", "placement": "start city chooser table", "priority": "P0", "reason": "Parent hub. Crawl depth 2, zero orphan risk." },
+      { "source": "/somnath-dwarka-tour-package/from-mumbai/", "anchor": "landing at Jamnagar", "placement": "if you fly section", "priority": "P0", "reason": "The Mumbai page sends flyers to this airport. Until now that was a dead end. This is the single most important inbound link for this page." },
+      { "source": "/somnath-dwarka-taxi-service/airport-taxi/jamnagar/", "anchor": "full package with hotels from Jamnagar", "placement": "upgrade path", "priority": "P0", "reason": "Same buyer, one step up the ladder." },
+      { "source": "/somnath-dwarka-taxi-service/jamnagar-to-dwarka-taxi/", "anchor": "the full circuit with hotels", "placement": "upgrade path", "priority": "P0" },
+      { "source": "/plan/how-to-reach/", "anchor": "Somnath Dwarka packages from Jamnagar", "placement": "contextual, under the airport section", "priority": "P0", "reason": "The how to reach page owns the airport query and hands commercial intent here." },
+      { "source": "/somnath-dwarka-tour-package/5-days-4-nights/", "anchor": "flying into Jamnagar", "placement": "getting there", "priority": "P1" },
+      { "source": "/dwarka/", "anchor": "coming from Jamnagar", "placement": "how to reach section", "priority": "P1" },
+      { "source": "/", "anchor": "packages from Jamnagar", "placement": "start city module", "priority": "P2", "reason": "Lower priority than Ahmedabad or Mumbai. The volume is not here, the conversion is." }
+    ],
+    "outbound": [
+      { "target": "/somnath-dwarka-tour-package/", "anchor": "compare all Somnath Dwarka packages", "placement": "opener, once", "priority": "P0", "reason": "Returns equity to the hub. Non negotiable on every spoke." },
+      { "target": "/somnath-dwarka-tour-package/4-days-3-nights/", "anchor": "the three night plan in full, Rs. 15,000 pp", "placement": "itinerary intro", "priority": "P0", "reason": "Recommend and link. Never compete for the duration term." },
+      { "target": "/somnath-dwarka-tour-package/1-day-dwarka/", "anchor": "the Dwarka day tour instead", "placement": "price sheet, one night note", "priority": "P0", "reason": "Jamnagar is the natural market for a Dwarka day tour. That page is blocked on the day tour rate, so hold this link until it exists." },
+      { "target": "/somnath-dwarka-tour-package/from-rajkot/", "anchor": "from Rajkot, where Somnath is the closer temple", "placement": "the asymmetry paragraph", "priority": "P1", "reason": "The contrast is the point. Linking it proves the geometry claim rather than asserting it." },
+      { "target": "/somnath-dwarka-taxi-service/airport-taxi/jamnagar/", "anchor": "airport transfer only", "placement": "if you are landing section", "priority": "P1", "reason": "Transfer only intent leaves rather than bounces." },
+      { "target": "/temples/dwarkadhish-temple-timings/", "anchor": "the 1:00 pm shutter", "placement": "two hours to Dwarka section", "priority": "P0", "reason": "The fact the whole page rests on. Cite it internally." },
+      { "target": "/temples/somnath-temple-timings/", "anchor": "Somnath aarti and show timings", "placement": "day three evening", "priority": "P1" },
+      { "target": "/plan/how-to-reach/", "anchor": "how to reach Dwarka and Somnath", "placement": "airport section", "priority": "P1" },
+      { "target": "/cancellation-refund/", "anchor": "cancellation and refund policy", "placement": "price sheet", "priority": "P0" },
+      { "target": "/booking-policy/", "anchor": "booking terms", "placement": "price sheet", "priority": "P1" },
+      { "target": "/methodology/", "anchor": "how we verify every timing and fare", "placement": "why choose", "priority": "P0" },
+      { "target": "/reviews/", "anchor": "what travellers said", "placement": "why choose", "priority": "P1", "reason": "Live only once real reviews exist." },
+      { "target": "/about/", "anchor": "about our Gujarat team", "placement": "why choose", "priority": "P2" },
+      { "target": "/dwarka/", "anchor": "Dwarka guide", "placement": "background reading", "priority": "P2" },
+      { "target": "/somnath/", "anchor": "Somnath guide", "placement": "background reading", "priority": "P2" },
+      { "target": "https://somnath.org/", "anchor": "official Somnath Trust website", "placement": "trust warning paragraph", "priority": "P0", "rel": "nofollow", "reason": "Outbound authority citation and buyer protection." }
+    ],
+    "missing_targets_flag": "The Bala Hanuman section has nowhere to hand off to. There is no /temples/bala-hanuman-jamnagar/ and no /jamnagar/ in the 373 URL map. Two paragraphs of Guinness record material with no destination is wasted equity and a cannibalization risk, because this money page will start ranking for a temple query it does not want. See blocking list.",
+    "anchor_diversity": "Exact match anchor used once, from the hub chooser. Everything else partial, branded or natural language.",
+    "crawl_depth": 2
+  },
+
+  "cta": {
+    "conversion_action": "qualify_form",
+    "primary": { "label": "Get this plan for your dates", "target": "enquiry form", "placement": "sticky above fold on mobile, repeated after the two hours section, after the price matrix, and after the FAQ" },
+    "secondary": { "label": "Send your dates on WhatsApp", "target": "https://wa.me/917302265809", "placement": "sticky bar, lighter weight" },
+    "tertiary": { "label": "Call +91 7302265809", "target": "tel:+917302265809", "placement": "footer of each CTA block" },
+    "form_fields": ["dates", "group size", "hotel tier", "picking up in Jamnagar city or at the airport", "flight number and arrival time if flying"],
+    "form_note": "The arrival time field decides whether this buyer gets the morning darshan or the evening one, which is the entire promise of the page. Ask for it, and answer it in the reply.",
+    "honest_urgency_only": "Real availability and real date cutoffs only. Nothing invented.",
+    "banned": ["timer widgets that invent a deadline", "invented viewer counts", "fake seats left"]
+  },
+
+  "technical": {
+    "cwv_targets": { "LCP": "<2.5s", "INP": "<200ms", "CLS": "<0.1" },
+    "image_budget": "Hero under 150 KB AVIF or WebP at 1200 wide, priority loaded. Everything else lazy. Real departure photography only, no stock.",
+    "required_alt_examples": [
+      "Bala Hanuman Sankirtan Mandir at Ranmal Lake, Jamnagar, during the Ram Dhun",
+      "The Dwarka road out of Jamnagar at 07:30 on a departure morning",
+      "Dwarkadhish before the 1 pm closure, the slot only a Jamnagar start reaches"
+    ],
+    "rendering": "SSG with ISR. Tag the rate matrix and the transport block for on demand revalidation from the CMS publish webhook.",
+    "mobile": "Sticky enquiry bar. Distance and price tables must scroll horizontally or collapse to cards under 480px.",
+    "last_updated_visible": true,
+    "hreflang": "en-IN self, hi-IN twin at /hi/somnath-dwarka-tour-package/from-jamnagar/, x-default to en-IN"
+  },
+
+  "measurement": {
+    "ga4_events": [
+      { "name": "generate_lead", "trigger": "enquiry form submit", "params": ["start_city", "pickup_type", "duration_variant", "hotel_tier", "group_size"] },
+      { "name": "whatsapp_click", "trigger": "WhatsApp CTA", "params": ["placement"] },
+      { "name": "call_click", "trigger": "phone CTA", "params": ["placement"] },
+      { "name": "day_tour_handoff", "trigger": "click to the 1 day Dwarka spoke", "params": ["target_url"] }
+    ],
+    "loops": [
+      "This is a low volume, high conversion page. Judge it on leads per session, not on impressions. If it is judged on traffic it will look like a failure and it is not.",
+      "Striking distance: if it sits at 11 to 20 after 8 weeks, add contextual links from /plan/how-to-reach/ and the Jamnagar cab pages before rewriting a word.",
+      "AI Overview watch: track the Ram Dhun claim and the 132 km figure.",
+      "Cannibalization watch: if this page starts picking up Jamnagar tourism or Bala Hanuman timing queries, the temple section is too long. Cut it to one paragraph and build the temple page.",
+      "Decay: recheck distances quarterly. The Ram Dhun claim needs rechecking annually against Guinness, since records get reviewed and this one is load bearing."
+    ]
+  },
+
+  "sources": [
+    { "claim": "Jamnagar to Dwarka 132 to 141 km", "sources": ["trawell.in/gujarat/jamnagar, 132 km", "yatra.com, 141 km road and 115 km aerial", "mischieftreks.com and gujarattrips.com, about 130 km from the airport"], "checked": "2026-07-15" },
+    { "claim": "Jamnagar to Somnath about 231 km", "sources": ["trawell.in/gujarat/jamnagar"], "checked": "2026-07-15", "note": "Single source. Corroborated for plausibility by the same page's internally consistent distance set (Rajkot 92, Porbandar 131, Dwarka 132, Okha 153) and by the separate finding that Rajkot to Somnath is about 197. The copy says 'about 231 km' and the argument only needs the fact that Somnath is the long leg, which every source supports." },
+    { "claim": "Jamnagar to Okha about 153 km", "sources": ["trawell.in/gujarat/jamnagar"], "checked": "2026-07-15", "note": "Single source, used only in the machine readable attributes and not in a copy claim." },
+    { "claim": "Jamnagar airport is the nearest airport to Dwarka, about 130 km, and sits about 9 km from Jamnagar Junction with direct flights from Mumbai", "sources": ["trawell.in/gujarat/jamnagar", "mischieftreks.com", "gujarattrips.com"], "checked": "2026-07-15" },
+    { "claim": "12 trains run Jamnagar to Dwarka, including the Gorakhpur Okha Express, Dwarka Express and Okha Passenger", "sources": ["yatra.com"], "checked": "2026-07-15", "note": "Single source and deliberately kept out of the copy. From two hours away the train is not the argument." },
+    { "claim": "Bala Hanuman: continuous Ram Dhun since 1964, Guinness World Record, established by Shri Prembhikshuji Maharaj, southeast corner of Ranmal Lake, about 5 km from Jamnagar Junction", "sources": ["trawell.in/gujarat/jamnagar/bala-hanuman-temple", "tourmyindia.com", "sanatanavibes.in", "suurojitpalmal.com"], "checked": "2026-07-15", "note": "Four sources agree on the record, the chant and the year. The lake is called Ranmal by three and Lakhota by one, which are two names used for the same water in Jamnagar, so the copy uses Ranmal and mentions no dispute." },
+    { "claim": "Jamnagar founded 1540 by Jam Rawal, capital of the former state of Nawanagar, and Jam Rawal is held to be an heir of Lord Krishna", "sources": ["trawell.in/gujarat/jamnagar"], "checked": "2026-07-15", "note": "Single source for the Krishna descent, which is a traditional claim rather than a historical one. The copy attributes it as what is held rather than as fact, which is the correct register for a dynastic tradition." },
+    { "claim": "Dwarka to Somnath 233 km on NH51, 5 to 6 hours", "sources": ["gujarattrips.com", "kiomoi.com", "shikhar.com"], "checked": "2026-07-15" },
+    { "claim": "Dwarkadhish opens about 6:30 am, closes about 1:00 pm, reopens about 5:00 pm", "sources": ["temple.yatradham.org", "blessingsideas.com", "shreedwarkadhish.in"], "checked": "2026-07-15" },
+    { "claim": "Jay Somnath sound and light show 7:45 pm to 8:45 pm", "sources": ["somnath.org/somnath-darshan/ (primary, Shree Somnath Trust)"], "checked": "2026-07-15" },
+    { "claim": "Sudarshan Setu, 2.32 km, inaugurated 25 February 2024, replaced boat transport to Bet Dwarka", "sources": ["pmindia.gov.in (primary)", "pib.gov.in (primary)"], "checked": "2026-07-15" },
+    { "claim": "Shree Somnath Trust accepts bookings and donations only via its official website", "sources": ["somnath.org (primary)"], "checked": "2026-07-15" },
+    { "claim": "Ahalyabai temple built 1782", "sources": ["somnath.org/somnath-darshan/ (primary)"], "checked": "2026-07-15" },
+    { "claim": "No Taj or ITC five star in Dwarka or Somnath", "sources": ["tripadvisor.com Gujarat 5 star list", "tajhotels.com destinations"], "checked": "2026-07-15" }
+  ],
+
+  "claims_dropped": [
+    { "claim": "Bala Hanuman temple timings of 6 am to 9 pm", "why": "One source gives these hours, and they contradict the temple's entire reason for being famous, which is that the chanting never stops and the temple stays open through the night. Two other sources say it remains open all night. Rather than publish a closing time for a place we are calling the temple with no clock, the copy states the chant is continuous, which four sources support, and gives no hours at all." },
+    { "claim": "Exact drive time Jamnagar to Dwarka", "why": "No source gives one for this leg. The copy says 'about two hours with one stop' and frames it as our planning allowance, derived from 132 to 141 km on a highway, rather than a published fact. Ops to confirm." },
+    { "claim": "The Okha Vande Bharat 22925 calls at Jamnagar", "why": "One rail aggregator refers to 22925 as the Jamnagar Vande Bharat, which suggests it does, but no source confirms a Jamnagar to Dwarka timing for it. Left out entirely. FLAG for the by-train spoke." },
+    { "claim": "Jamnagar flight fares to Mumbai, Delhi, Goa, Surat and Ahmedabad", "why": "Airfares move daily and are not ours to sell. The copy names no fare and no airline." },
+    { "claim": "Rajkot to Somnath 184 km and Rajkot to Dwarka 214 km", "why": "This source gives figures roughly 7 percent below the three sources used on the Rajkot page (197 and 225 to 235). Not used, and not a reason to change the Rajkot page, since its bands are drawn from three agreeing sources. Recorded here so the discrepancy is not rediscovered later." },
+    { "claim": "Khijadiya Bird Sanctuary, Narara Marine National Park, Lakhota Fort, Pratap Vilas Palace as circuit stops", "why": "Real places, verified, and not on this circuit. A money page that lists the city's attractions becomes a sightseeing page and starts competing with a destination guide that does not exist yet. Left for /jamnagar/ when it is built." }
+  ],
+
+  "qa_gate": {
+    "style_check": "PASS. Zero em dashes, en dashes or spaced hyphen substitutes in any string, including title, meta, alt text and schema values. Zero placeholders, zero hand-the-check-back language.",
+    "slop_check": "PASS. No banned phrases, no fabricated specifics, no fake urgency. Cancellation path present and linked. Honesty block carries a rendered heading.",
+    "skeptical_buyer": "PASS. A buyer can decide from this page alone: the distance, what two hours buys, which darshan their arrival time reaches, what it costs at three tiers, what is excluded, and who should not book it.",
+    "information_gain": "PASS. Five named items, led by the double darshan day one, which is a capability no competitor and no sibling page can match, and the Ram Dhun, which nobody selling a Jamnagar pickup has ever mentioned.",
+    "honesty": "PASS. Every non canon fact traced to a live source with a date. Six claims dropped, including the temple's published opening hours, which contradicted the temple's own defining fact.",
+    "delta_test": "PASS. About 80 percent unique. The double darshan and the Bala Hanuman section exist nowhere else on the site.",
+    "anti_cannibalization": "PASS with a caveat. Seven competing queries assigned elsewhere, but two of the assigned targets do not exist in the URL map yet. See blocking list.",
+    "schema": "PASS. Prices match the visible matrix. No aggregateRating. No FAQ rich result promised. GBP withheld from sameAs pending the rename.",
+    "title_meta": "PASS. Title 55, meta 147.",
+    "blocking_for_publish": [
+      "The URL map has no /temples/bala-hanuman-jamnagar/ and no /jamnagar/. This page's two strongest paragraphs have nowhere to hand off to, which wastes the equity and puts a money page at risk of ranking for temple timing queries. Decide: add both URLs to the map, or cut the Bala Hanuman section to one paragraph.",
+      "Ops confirmation of the 07:30 pickup and the two hour allowance, since the entire double darshan promise depends on it. This is the highest stakes derived timing on the site so far, because it is a promise rather than a plan.",
+      "Ops confirmation that we meet flights at Jamnagar airport.",
+      "The /somnath-dwarka-tour-package/1-day-dwarka/ link must not go live until that page exists, and it is blocked on the day tour rate.",
+      "Real departure photography, including the Ram Dhun, which is the page's best image and cannot be bought from stock."
+    ]
+  }
+}

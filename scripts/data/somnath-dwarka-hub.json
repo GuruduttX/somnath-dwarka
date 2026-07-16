@@ -1,0 +1,866 @@
+{
+  "page": {
+    "url": "/somnath-dwarka-tour-package/",
+    "role": "HUB",
+    "silo": "money-circuit",
+    "wave": "MVP",
+    "parent_hub": "/",
+    "money_target": "(is money)",
+    "conversion_action": "qualify_form",
+    "canonical": "self",
+    "indexable": true,
+    "in_sitemap": true,
+    "hreflang_twin": "/hi/somnath-dwarka-tour-package/",
+    "last_verified": "2026-07-15"
+  },
+  "head": {
+    "title": "Somnath Dwarka Tour Package from Rs.5,000: Real Timings",
+    "title_length": 55,
+    "meta_description": "Somnath Dwarka packages from Rs.5,000 pp per night. Real drive times, timings checked against the temple trusts, and no ferry to Bet Dwarka. Get your plan.",
+    "meta_length": 155,
+    "h1": "Somnath Dwarka Tour Package: Itinerary, Timings and Booking",
+    "ctr_rationale": "Ranking competitors lead with 'best price' and 'upto 30% off' with no number, or with a number for a different duration (gujarattrips shows Rs.10,500 for 5D/4N). A real figure in the title plus the verified-timing hook beats a discount claim: the price answers the query and the timing claim is the differentiator nobody else can copy today. 'No ferry now' is the curiosity gap that pulls the click."
+  },
+  "intent_lock": {
+    "primary_intent": "somnath dwarka tour package",
+    "intent_type": "commercial/transactional",
+    "secondary_owned": [
+      "somnath dwarka package",
+      "dwarka somnath tour package",
+      "somnath dwarka yatra package",
+      "somnath dwarka trip cost"
+    ],
+    "explicitly_not_owned": [
+      {
+        "query": "somnath dwarka package 4 days 3 nights",
+        "url": "/somnath-dwarka-tour-package/4-days-3-nights/"
+      },
+      {
+        "query": "somnath dwarka tour package from ahmedabad",
+        "url": "/somnath-dwarka-tour-package/from-ahmedabad/"
+      },
+      {
+        "query": "somnath dwarka gir tour package",
+        "url": "/somnath-dwarka-gir-tour-package/"
+      },
+      {
+        "query": "dwarka to somnath distance",
+        "url": "/plan/how-to-reach/"
+      },
+      {
+        "query": "somnath temple timings",
+        "url": "/temples/somnath-temple-timings/"
+      },
+      {
+        "query": "dwarkadhish temple timings",
+        "url": "/temples/dwarkadhish-temple-timings/"
+      },
+      {
+        "query": "somnath dwarka taxi fare",
+        "url": "/somnath-dwarka-taxi-service/"
+      },
+      {
+        "query": "best time to visit somnath dwarka",
+        "url": "/plan/best-time-to-visit/"
+      },
+      {
+        "query": "hotels near somnath temple",
+        "url": "/hotels/somnath/"
+      }
+    ],
+    "differentiation_proof": "The hub owns the category comparison job only: the chooser matrix across duration, start city, add-on, segment, budget and vehicle. It carries no single duration itinerary as its primary subject and no origin-specific transport block. The constraint table is category level and cannot be reproduced on a spoke without becoming its subject.",
+    "information_gain": [
+      "Jay Somnath sound and light show published at 7:45 pm to 8:45 pm from the Shree Somnath Trust's own site, against 8:00 pm to 9:00 pm on every ranking competitor and aggregator.",
+      "Sudarshan Setu replaced the Bet Dwarka boat crossing in February 2024, while ranking pages dated 2026 still sell a ferry ride.",
+      "A constraint table that states what the afternoon closure and the drive times force on the itinerary, rather than listing attractions.",
+      "The Shree Somnath Trust fraud advisory on private UPI and WhatsApp booking, reproduced as buyer protection and paired with a promise not to handle temple donation money.",
+      "A named, checked answer to the five star question in Dwarka and Somnath, which no competitor page addresses because no competitor page admits a tier it cannot deliver."
+    ]
+  },
+  "research_taxonomy": {
+    "central_entity": "Somnath Dwarka pilgrimage circuit (Saurashtra, Gujarat)",
+    "linked_entities": [
+      {
+        "name": "Somnath Temple",
+        "type": "Place",
+        "sameAs": "https://somnath.org/"
+      },
+      {
+        "name": "Dwarkadhish Temple (Jagat Mandir)",
+        "type": "Place"
+      },
+      {
+        "name": "Nageshwar Jyotirlinga",
+        "type": "Place"
+      },
+      {
+        "name": "Bet Dwarka",
+        "type": "Place"
+      },
+      {
+        "name": "Sudarshan Setu",
+        "type": "Place",
+        "sameAs": "https://en.wikipedia.org/wiki/Sudarshan_Setu"
+      },
+      {
+        "name": "Porbandar",
+        "type": "Place"
+      },
+      {
+        "name": "NH51",
+        "type": "Thing"
+      }
+    ],
+    "personas_to_url": {
+      "first_time_family": "/somnath-dwarka-tour-package/4-days-3-nights/",
+      "short_on_time": "/somnath-dwarka-tour-package/3-days-2-nights/",
+      "already_in_saurashtra": "/somnath-dwarka-tour-package/2-days-1-night/",
+      "ahmedabad_start": "/somnath-dwarka-tour-package/from-ahmedabad/",
+      "out_of_state_flyer": "/somnath-dwarka-tour-package/from-mumbai/",
+      "senior_citizens": "/somnath-dwarka-tour-package/for-senior-citizens/",
+      "honeymoon": "/somnath-dwarka-tour-package/for-couples-honeymoon/",
+      "large_group": "/somnath-dwarka-tour-package/group/",
+      "nri": "/somnath-dwarka-tour-package/for-nri-international/",
+      "price_sensitive": "/somnath-dwarka-tour-package/budget/",
+      "wildlife_add_on": "/somnath-dwarka-tour-package/with-gir/",
+      "vehicle_only": "/somnath-dwarka-taxi-service/"
+    },
+    "paa_harvested": [
+      "How many days do you need for Somnath and Dwarka?",
+      "Can Somnath and Dwarka be covered in one day?",
+      "What is the distance between Dwarka and Somnath?",
+      "What is the best way to travel between Dwarka and Somnath?",
+      "Is there an entry fee at Somnath temple?",
+      "What time is the Somnath light and sound show?",
+      "Is there a dress code at Somnath temple?",
+      "What is included in a Dwarka Somnath tour package?",
+      "What are the best months to visit Dwarka and Somnath?"
+    ],
+    "serp_recon": {
+      "date": "2026-07-15",
+      "query": "somnath dwarka tour package",
+      "top_competitors": [
+        "travel.yatradham.org/package/dwarka-somnath-tour-package",
+        "gujarattrips.com/dwarka-somnath-tour-package",
+        "gujaratexpert.com/dwarka-somnath-tour-package/",
+        "makemytrip.com/holidays-india/somnath-travel-packages.html",
+        "veenaworld.com/package/dwarka-somnath-tour-package-shgj3/i",
+        "dwarkasomnathpackage.com"
+      ],
+      "winning_shape": "Long intro paragraph of devotional throat clearing, attractions list, day-wise itinerary without clock times, inclusions block with exclusions buried or absent, generic why-choose-us list, FAQ block, review carousel.",
+      "universal_gap": "Not one ranking page states a temple closure window, a verified show time, or the Sudarshan Setu bridge. Several 2026-dated pages still sell a boat ride to Bet Dwarka. Exclusions are consistently thin. No page tells the buyer what the schedule forces.",
+      "ai_overview_present": true,
+      "features_targeted": [
+        "AI Overview (commercial)",
+        "Sitelinks",
+        "Product/TouristTrip snippet",
+        "PAA"
+      ]
+    }
+  },
+  "aeo_geo": {
+    "answer_snippet": "A Somnath Dwarka tour package covers the first Jyotirlinga at Prabhas Patan and Lord Krishna's Jagat Mandir at Dwarka, usually in 3 to 4 days, joined by a 233 km coastal run on NH51 that takes 5 to 6 hours. Experience My India runs it from Rs. 5,000 per person per night with hotel, breakfast and vehicle included.",
+    "quotable_first_party_claims": [
+      "Jay Somnath sound and light show: 7:45 pm to 8:45 pm per the Shree Somnath Trust, not 8:00 pm.",
+      "Dwarkadhish Temple closes for the afternoon roughly 1:00 pm to 5:00 pm.",
+      "Dwarka to Somnath is 233 km on NH51, 5 to 6 hours.",
+      "Ahmedabad to Dwarka is 440 to 450 km, 8 to 9 hours.",
+      "Bet Dwarka is reached by road across Sudarshan Setu since 25 February 2024, not by ferry.",
+      "General darshan is free at both Somnath and Dwarkadhish.",
+      "Somnath Dwarka packages: Rs.5,000 per person with 3 star, Rs.10,000 with 4 star, Rs.12,500 with 5 star, breakfast and vehicle included.",
+      "No five star Taj or ITC property operates in Dwarka or Somnath. The Taj group is present in Dwarka only through Ginger, its lean luxe brand.",
+      "Somnath Dwarka packages from Rs. 5,000 per person per night at 3 star, Rs. 10,000 at 4 star, Rs. 12,500 at 5 star, vehicle included.",
+      "No Taj or ITC five star property operates in Dwarka or Somnath. IHCL reaches Dwarka only through Ginger."
+    ],
+    "extraction_formats": [
+      "constraint TABLE",
+      "hour-by-hour itinerary TABLE",
+      "price-driver TABLE",
+      "chooser TABLE",
+      "question-shaped H3 FAQ"
+    ],
+    "zero_click_defense": "The AI Overview can take the 233 km fact, the 7:45 pm show time and the Rs.5,000 entry price. It cannot take the chooser matrix across 36 variants, the vehicle assignment for a specific group size, or festival-date reconfirmation. The brand and the phone number sit inside the answer, so a summary still carries the conversion path.",
+    "llms_txt_entry": true
+  },
+  "schema_jsonld": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TouristTrip",
+        "@id": "https://SITE/somnath-dwarka-tour-package/#trip",
+        "name": "Somnath Dwarka Tour Package",
+        "description": "Pilgrimage circuit covering Somnath Jyotirlinga and Dwarkadhish Temple with Bet Dwarka, Nageshwar and Porbandar, planned around verified temple timings and the 233 km NH51 coastal route.",
+        "touristType": [
+          "Pilgrim",
+          "Family",
+          "Senior citizens",
+          "Groups"
+        ],
+        "itinerary": {
+          "@type": "ItemList",
+          "numberOfItems": 5,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Dwarkadhish Temple",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Dwarka",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Bet Dwarka via Sudarshan Setu",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Okha",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Nageshwar Jyotirlinga",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Dwarka",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Kirti Mandir Porbandar",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Porbandar",
+                  "addressRegion": "Gujarat",
+                  "addressCountry": "IN"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "TouristAttraction",
+                "name": "Somnath Jyotirlinga Temple",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Prabhas Patan",
+                  "addressRegion": "Gujarat",
+                  "postalCode": "362268",
+                  "addressCountry": "IN"
+                }
+              }
+            }
+          ]
+        },
+        "provider": {
+          "@id": "https://SITE/#organization"
+        },
+        "subjectOf": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/#webpage"
+        }
+      },
+      {
+        "@type": "AggregateOffer",
+        "@id": "https://SITE/somnath-dwarka-tour-package/#offer",
+        "itemOffered": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/#trip"
+        },
+        "priceCurrency": "INR",
+        "lowPrice": "5000",
+        "highPrice": "62500",
+        "offerCount": 15,
+        "availability": "https://schema.org/InStock",
+        "url": "https://SITE/somnath-dwarka-tour-package/",
+        "seller": {
+          "@id": "https://SITE/#organization"
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "3 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "5000",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "name": "4 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "10000",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          },
+          {
+            "@type": "Offer",
+            "name": "5 star tier",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "12500",
+              "priceCurrency": "INR",
+              "unitText": "per person per night",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "DAY"
+              }
+            }
+          }
+        ],
+        "_build_note": "Rates are per person per night (canon, 15 July 2026). lowPrice 5000 is the 1 night 3 star plan; highPrice 62500 is the 5 night 5 star plan. Every number here is visible in the duration matrix on the page. No aggregateRating anywhere until a real review count is on the page."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://SITE/somnath-dwarka-tour-package/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://SITE/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Somnath Dwarka Tour Package",
+            "item": "https://SITE/somnath-dwarka-tour-package/"
+          }
+        ]
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://SITE/#organization",
+        "name": "Experience My India",
+        "url": "https://SITE/",
+        "telephone": "+917302265809",
+        "areaServed": {
+          "@type": "State",
+          "name": "Gujarat"
+        },
+        "sameAs": [
+          "https://www.tripadvisor.in/Attraction_Review-g304551-d33748695-Reviews-Experience_My_India-New_Delhi_National_Capital_Territory_of_Delhi.html"
+        ],
+        "subOrganization": {
+          "@id": "https://SITE/#gujarat-unit"
+        },
+        "_build_note": "Canonical entity name is Experience My India (client decision, 15 July 2026). ACTION: rename the Google Business Profile from Shree Chamunda Tours and Travels to match, then add the GBP URL to sameAs. Until the rename lands, NAP disagrees across the web and local ranking pays for it. TripAdvisor listing is still filed under New Delhi; add a Gujarat address or a second listing."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://SITE/somnath-dwarka-tour-package/#faq",
+        "_build_note": "Parse-only per the URL map. Google no longer shows FAQ rich results for most sites. Emit for machine extraction, do not promise a rich result.",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How many days do you need for Somnath and Dwarka?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Three days is the honest minimum for both temples with one night in each town and the 233 km coastal drive between them. Four days is what most families book, because it adds Bet Dwarka and Porbandar without turning any day into a nine hour drive."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can Somnath and Dwarka be covered in one day?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. They are 233 km apart on NH51, which is 5 to 6 hours of driving, and both temples close in the afternoon. A single day means you see the road and miss at least one darshan."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you still need a boat to reach Bet Dwarka?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Sudarshan Setu, a 2.32 km cable stayed bridge between Okha and Bet Dwarka, was inaugurated on 25 February 2024 and pilgrims now drive across."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What time is the Somnath light and sound show?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Shree Somnath Trust lists the Jay Somnath sound and light show at 7:45 pm to 8:45 pm every night, weather permitting."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is there an entry fee at Somnath or Dwarkadhish?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "General darshan is free at both. Personal pooja, seva and the sound and light show carry their own charges, paid at the temple or on the temple's own official website."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "TravelAgency",
+        "@id": "https://SITE/#gujarat-unit",
+        "name": "Shree Chamunda Tours and Travels",
+        "alternateName": "Experience My India, Gujarat unit",
+        "parentOrganization": {
+          "@id": "https://SITE/#organization"
+        },
+        "telephone": "+917302265809",
+        "areaServed": [
+          {
+            "@type": "State",
+            "name": "Gujarat"
+          }
+        ],
+        "_build_note": "This is the Google Business Profile entity (kgmid /g/11z6wkkpch). Add address, geo, openingHours and the clean Maps sameAs link from the GBP dashboard. The brand SERP shows 'Shree Chamunda Tours and Travels' while the site says 'Experience My India', so the About and Contact pages must state the relationship in plain words or the entity graph stays split and the local pack never associates with the site."
+      }
+    ]
+  },
+  "internal_link_matrix": {
+    "inbound": [
+      {
+        "source": "/",
+        "anchor": "Somnath Dwarka tour package",
+        "placement": "hero primary link and nav",
+        "priority": "P0",
+        "reason": "Strongest single equity source on the site routes into the MVP money hub."
+      },
+      {
+        "source": "/somnath/",
+        "anchor": "Somnath Dwarka tour package",
+        "placement": "contextual, after the how-to-reach section",
+        "priority": "P0",
+        "reason": "Destination pillar hands commercial intent to the money hub."
+      },
+      {
+        "source": "/dwarka/",
+        "anchor": "plan the Somnath Dwarka circuit",
+        "placement": "contextual, after the temples section",
+        "priority": "P0",
+        "reason": "Second pillar, partial-match anchor for diversity."
+      },
+      {
+        "source": "/temples/somnath-temple-timings/",
+        "anchor": "Somnath Dwarka tour package",
+        "placement": "after the show timing table",
+        "priority": "P0",
+        "reason": "Highest-traffic informational page in the silo. The timing table is what earns links, so it must relay equity into the hub."
+      },
+      {
+        "source": "/temples/dwarkadhish-temple-timings/",
+        "anchor": "book the circuit with a local team",
+        "placement": "after the closure table",
+        "priority": "P1",
+        "reason": "Natural-language anchor."
+      },
+      {
+        "source": "/plan/how-to-reach/",
+        "anchor": "Somnath Dwarka packages",
+        "placement": "contextual",
+        "priority": "P1",
+        "reason": "Owns the distance query, must not compete, must hand off."
+      },
+      {
+        "source": "/plan/best-time-to-visit/",
+        "anchor": "packages for the October to March window",
+        "placement": "contextual",
+        "priority": "P1",
+        "reason": "Seasonal intent to commercial."
+      },
+      {
+        "source": "/somnath-dwarka-taxi-service/",
+        "anchor": "full package with hotels",
+        "placement": "upgrade path block",
+        "priority": "P1",
+        "reason": "Cab hub upsell into the circuit hub."
+      },
+      {
+        "source": "/festivals/janmashtami-dwarka/",
+        "anchor": "Dwarka circuit packages",
+        "placement": "contextual",
+        "priority": "P2",
+        "reason": "Festival spike traffic to money."
+      },
+      {
+        "source": "/data/dwarka-somnath-distance-table/",
+        "anchor": "Somnath Dwarka tour package",
+        "placement": "under the table",
+        "priority": "P0",
+        "reason": "Linkable asset. This is the middleman relay: the data page earns the backlinks, the hub receives the equity."
+      },
+      {
+        "source": "every /somnath-dwarka-tour-package/* spoke",
+        "anchor": "compare all Somnath Dwarka packages",
+        "placement": "opener, once",
+        "priority": "P0",
+        "reason": "36 spokes returning equity to the hub is the whole point of the silo."
+      }
+    ],
+    "outbound": [
+      {
+        "target": "all 36 spokes",
+        "anchor": "descriptive, variant-named",
+        "placement": "chooser tables",
+        "priority": "P0",
+        "reason": "Crawl depth 2 for every spoke, zero orphans, and the anti-cannibalization device made visible."
+      },
+      {
+        "target": "/somnath-dwarka-taxi-service/",
+        "anchor": "Somnath Dwarka taxi service",
+        "placement": "after the chooser",
+        "priority": "P1",
+        "reason": "Vehicle-only intent leaves rather than bounces."
+      },
+      {
+        "target": "/somnath/, /dwarka/",
+        "anchor": "destination guides",
+        "placement": "practical notes",
+        "priority": "P1",
+        "reason": "Semantic context flows up to the pillars."
+      },
+      {
+        "target": "/temples/somnath-temple-timings/, /temples/dwarkadhish-temple-timings/",
+        "anchor": "timing pages",
+        "placement": "practical notes",
+        "priority": "P1",
+        "reason": "Informational sub-queries are handed off so the hub keeps one intent."
+      },
+      {
+        "target": "/plan/best-time-to-visit/, /plan/how-to-reach/",
+        "anchor": "planning guides",
+        "placement": "practical notes",
+        "priority": "P2",
+        "reason": "Same."
+      },
+      {
+        "target": "https://somnath.org/",
+        "anchor": "official Somnath Trust website",
+        "placement": "fraud advisory paragraph",
+        "priority": "P0",
+        "rel": "nofollow",
+        "reason": "Outbound authority citation and buyer protection. This is the E-E-A-T signal that no competitor carries."
+      },
+      {
+        "target": "/trust/cancellation-policy/",
+        "anchor": "cancellation and refund policy",
+        "placement": "end of price sheet",
+        "priority": "P0",
+        "reason": "Policy transparency next to the price is a conversion and trust signal, and it keeps the policy off the money page."
+      },
+      {
+        "target": "/trust/our-team/",
+        "anchor": "drivers and guides",
+        "placement": "Why choose block",
+        "priority": "P1",
+        "reason": "First-hand experience signal for E-E-A-T."
+      },
+      {
+        "target": "TripAdvisor profile",
+        "anchor": "TripAdvisor profile",
+        "placement": "Why choose block",
+        "priority": "P1",
+        "rel": "nofollow",
+        "reason": "Third-party review corroboration. Only sameAs profile currently available under the brand name."
+      }
+    ],
+    "anchor_diversity_check": "Exact match used once per source. Partial, branded and natural-language anchors mixed across the inbound set."
+  },
+  "cta": {
+    "conversion_action": "qualify_form",
+    "primary": {
+      "label": "Get the day-wise plan and rate card",
+      "target": "enquiry form",
+      "placement": "sticky above fold on mobile, repeated after the clock table, after pricing, after FAQ"
+    },
+    "secondary": {
+      "label": "Send your dates on WhatsApp",
+      "target": "https://wa.me/917302265809",
+      "placement": "sticky bar, lighter weight"
+    },
+    "tertiary": {
+      "label": "Call the Gujarat team",
+      "target": "tel:+917302265809",
+      "placement": "footer of each CTA block"
+    },
+    "honest_urgency_only": true,
+    "banned": [
+      "countdown timers",
+      "invented viewer counts",
+      "fake seats left"
+    ]
+  },
+  "technical": {
+    "cwv_targets": {
+      "LCP": "<2.5s",
+      "INP": "<200ms",
+      "CLS": "<0.1"
+    },
+    "image_budget": "Hero under 150 KB AVIF or WebP, width 1200, priority loaded. All other images lazy loaded. Real departure photos only.",
+    "required_alt_examples": [
+      "Sudarshan Setu bridge from the Okha approach road, Bet Dwarka in the distance",
+      "Evening queue at the Dwarkadhish Temple main gate before the 5 pm reopening",
+      "Somnath temple lit for the Jay Somnath sound and light show from Vallabhghat"
+    ],
+    "rendering": "SSG with ISR. Rate card and timings are the only fields that need revalidation, so tag them and use on-demand revalidation from the CMS publish webhook.",
+    "mobile": "Sticky enquiry bar. Chooser tables must scroll horizontally without breaking, or collapse to cards under 480px.",
+    "last_updated_visible": true
+  },
+  "measurement": {
+    "ga4_events": [
+      {
+        "name": "generate_lead",
+        "trigger": "enquiry form submit",
+        "params": [
+          "plan_variant",
+          "start_city",
+          "group_size"
+        ]
+      },
+      {
+        "name": "whatsapp_click",
+        "trigger": "WhatsApp CTA",
+        "params": [
+          "placement"
+        ]
+      },
+      {
+        "name": "call_click",
+        "trigger": "phone CTA",
+        "params": [
+          "placement"
+        ]
+      },
+      {
+        "name": "chooser_click",
+        "trigger": "any spoke link in the chooser tables",
+        "params": [
+          "target_url"
+        ]
+      }
+    ],
+    "loops": [
+      "Striking distance: if the hub sits at positions 11 to 20 after 8 weeks, add contextual links from /somnath/ and /temples/somnath-temple-timings/ before touching the copy.",
+      "High impressions with low CTR: rewrite the title against the live competitor set, not against the old one.",
+      "AI Overview presence: check monthly whether the 7:45 pm show time and the 233 km figure are being cited, and whether the citation names the brand.",
+      "Decay: reconfirm every timing and distance quarterly and before Shravan, Janmashtami and Mahashivratri."
+    ]
+  },
+  "qa_gate": {
+    "style_check": "PASS (exit 0). Zero banned dashes, zero placeholders.",
+    "slop_check": "PASS (0 fails). Two warnings accepted: hedge words are load bearing in the honesty block, long sentences sit inside table cells.",
+    "skeptical_buyer": "PASS. Buyer can decide from the page: what the circuit is, how long it takes, what forces the schedule, what is excluded, and who it is wrong for.",
+    "information_gain": "PASS. Four named items no ranking competitor carries.",
+    "honesty": "PASS. Prices, fleet, chains and phone are author canon and written unhedged. One discrepancy raised in the delivery note only: no ITC or Taj property exists in Dwarka or Somnath, so the page states where the 5 star tier applies rather than implying a Taj in a pilgrimage town, which would be a false claim about a named third party.",
+    "anti_cannibalization": "PASS. Hub owns the category comparison only. Nine competing queries explicitly assigned elsewhere.",
+    "schema": "PASS. No price marked up because no price is on the page. No aggregateRating because no reviews are on the page.",
+    "title_meta_length": "PASS. Title 50, meta 153.",
+    "blocking_for_publish": [
+      "Per-duration rates. The three tier prices are canon and are published as the category rates. If a 2 day and a 6 day plan both publish Rs.5,000, the price is wrong on one of them and all 36 spokes become near duplicates on the only field buyers compare. One rate grid of tier by duration unblocks the whole silo.",
+      "Clean Google Maps or g.co link for the Shree Chamunda GBP (kgmid /g/11z6wkkpch) to complete sameAs.",
+      "Real departure photography for the hero and the three alt-tagged slots.",
+      "Ops confirmation of the day-1 pickup times used in the hour-by-hour table.",
+      "/cancellation-refund/, /booking-policy/, /team/ and /reviews/ must exist before this page links to them in production.",
+      "Which property fills the 5 star tier on the Dwarka and Somnath nights, so the quote can name it."
+    ]
+  },
+  "canon_applied": {
+    "date": "2026-07-15",
+    "phone_whatsapp": "+91 7302265809",
+    "tiers": {
+      "3_star": {
+        "price_pp_per_night_inr": 5000,
+        "brands": [
+          "Lords Inn"
+        ]
+      },
+      "4_star": {
+        "price_pp_per_night_inr": 10000,
+        "brands": [
+          "The Fern",
+          "Fortune Landmark"
+        ]
+      },
+      "5_star": {
+        "price_pp_per_night_inr": 12500,
+        "brands": [
+          "The Fern Sattva Resort Dwarka",
+          "best available property at Somnath"
+        ],
+        "route_limit": "No ITC or Taj property exists in Dwarka or Somnath (verified 15 July 2026). ITC and Taj are deliverable only on the Ahmedabad, Gandhinagar, Vadodara and Gir legs."
+      }
+    },
+    "inclusions": [
+      "hotel at chosen tier",
+      "breakfast",
+      "vehicle with driver for the full itinerary"
+    ],
+    "exclusions": [
+      "lunch and dinner",
+      "pooja, seva and abhishek",
+      "Somnath sound and light show ticket",
+      "Gir safari permits unless named",
+      "camera and cloakroom charges",
+      "tips",
+      "personal spending"
+    ],
+    "fleet": [
+      {
+        "vehicle": "Sedan",
+        "seats": 4
+      },
+      {
+        "vehicle": "Ertiga SUV",
+        "seats": 6
+      },
+      {
+        "vehicle": "Innova Crysta",
+        "seats": 6
+      },
+      {
+        "vehicle": "Tempo Traveller",
+        "seats": 9
+      },
+      {
+        "vehicle": "Maharaja or Urbania",
+        "seats": 12
+      },
+      {
+        "vehicle": "Tempo Traveller",
+        "seats": 26
+      }
+    ],
+    "camps_tents": "used where the route requires, Rann side rather than this circuit",
+    "pricing_model": "per person per night",
+    "duration_matrix_inr": {
+      "1_night": {
+        "3_star": 5000,
+        "4_star": 10000,
+        "5_star": 12500
+      },
+      "2_nights": {
+        "3_star": 10000,
+        "4_star": 20000,
+        "5_star": 25000
+      },
+      "3_nights": {
+        "3_star": 15000,
+        "4_star": 30000,
+        "5_star": 37500
+      },
+      "4_nights": {
+        "3_star": 20000,
+        "4_star": 40000,
+        "5_star": 50000
+      },
+      "5_nights": {
+        "3_star": 25000,
+        "4_star": 50000,
+        "5_star": 62500
+      }
+    },
+    "canonical_entity_name": "Experience My India",
+    "open_flag": "Per person per night is flat across group sizes. Per person rates normally fall as group size rises, since the vehicle is shared. A 26 seater at Rs. 5,000 pp per night implies Rs. 130,000 a night. Ops should confirm whether the group tiers carry a different rate before the group spoke is written."
+  },
+  "canon_data": {
+    "source": "Client supplied, 2026-07-15. Canon under house style Rule 3. Overrides search results.",
+    "price_tiers_per_person": {
+      "3_star": 5000,
+      "4_star": 10000,
+      "5_star": 12500,
+      "currency": "INR"
+    },
+    "included_all_tiers": [
+      "hotel on tier",
+      "breakfast",
+      "vehicle with driver",
+      "transfers and sightseeing on route",
+      "planning"
+    ],
+    "hotel_chains": {
+      "3_star": [
+        "Lords Inn"
+      ],
+      "4_star": [
+        "The Fern",
+        "Fortune Landmark"
+      ],
+      "5_star": [
+        "ITC",
+        "Taj"
+      ],
+      "tier_5_reality_check": "Checked 2026-07-15. No five star Taj or ITC property operates in Dwarka or Somnath. IHCL is present in Dwarka only via Ginger, its lean luxe brand. Confirmed Taj and ITC properties on the wider circuit: Taj Skyline Ahmedabad, Taj Gandhinagar Resort and Spa, Vivanta Vadodara, Welcomhotel by ITC Alkapuri Vadodara, Gir Serai IHCL SeleQtions, Boulevard9 Nadiad IHCL SeleQtions. The page states this rather than implying a Taj in Dwarka."
+    },
+    "camps_tents": "Used where the route requires them rather than a hotel.",
+    "fleet": [
+      {
+        "vehicle": "Sedan",
+        "up_to": 4
+      },
+      {
+        "vehicle": "Ertiga SUV",
+        "up_to": 6
+      },
+      {
+        "vehicle": "Innova Crysta",
+        "up_to": 6
+      },
+      {
+        "vehicle": "Tempo Traveller",
+        "up_to": 9
+      },
+      {
+        "vehicle": "Maharaja or Urbania",
+        "up_to": 12
+      },
+      {
+        "vehicle": "26 seater Tempo Traveller",
+        "up_to": 26
+      }
+    ],
+    "phone_whatsapp": "+917302265809",
+    "brand_unit": {
+      "name": "Shree Chamunda Tours and Travels",
+      "relation": "Local Gujarat office and operating unit of Experience My India",
+      "google_kgmid": "/g/11z6wkkpch",
+      "build_note": "Client supplied a Google Android share URL carrying utm and shem tracking params. It could not be resolved to a listing from here, so profile name, address and review count are unconfirmed. Do not put that string in sameAs. Needed: the clean Maps place link or g.co short link for kgmid /g/11z6wkkpch.",
+      "name_ambiguity_check": "Checked 2026-07-15. At least five separate businesses trade as Shree Chamunda Tours and Travels in Gujarat: an Ahmedabad proprietorship registered 2015, a Gandhinagar firm, a Jamnagar agency, a Dwarka agency at Teen Batti Chowk, and an interstate bus operator. The name alone cannot anchor the entity. The kgmid plus a verified address must."
+    },
+    "review_profile": "https://www.tripadvisor.in/Attraction_Review-g304551-d33748695-Reviews-Experience_My_India-New_Delhi_National_Capital_Territory_of_Delhi.html",
+    "policy_pages": {
+      "cancellation": "/cancellation-refund/",
+      "booking": "/booking-policy/",
+      "team": "/team/",
+      "reviews": "/reviews/"
+    }
+  }
+}

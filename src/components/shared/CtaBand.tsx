@@ -226,14 +226,10 @@ export default function CtaBand({
                 </div>
               </div>
 
-              {/* Stars badge */}
+              {/* Trust badge — factual, no unverified rating */}
               <div className="absolute -top-3 right-3 flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3 py-1.5 shadow-lg backdrop-blur-md lg:right-5">
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={9} className="fill-orange-300 text-orange-300" strokeWidth={0} />
-                  ))}
-                </div>
-                <span className="text-[10.5px] font-semibold text-white">4.9 · 2,400+ reviews</span>
+                <Sparkles size={11} className="text-orange-200" />
+                <span className="text-[10.5px] font-semibold text-white">Verified timings · honest pricing</span>
               </div>
             </motion.div>
           </div>

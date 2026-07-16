@@ -12,8 +12,10 @@ import type { Crumb } from "@/src/lib/seo";
 export default function Breadcrumb({ crumbs, light = false }: { crumbs: Crumb[]; light?: boolean }) {
   if (!crumbs?.length) return null;
 
+  // Container matches the page/hero grid (max-w-7xl) so the crumb lines up with
+  // the content and imagery below it rather than sitting inset.
   return (
-    <nav aria-label="Breadcrumb" className="max-w-6xl mx-auto px-4 pt-4">
+    <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-4 pt-4 sm:px-6 lg:px-8">
       <ol className={`flex flex-wrap items-center gap-1 text-sm ${light ? "text-white/70" : "text-gray-500"}`}>
         {crumbs.map((c, i) => {
           const last = i === crumbs.length - 1;

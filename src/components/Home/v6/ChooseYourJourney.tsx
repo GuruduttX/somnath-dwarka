@@ -301,7 +301,11 @@ function GroupHeading({
 export default async function ChooseYourJourney() {
   const hubs = await getPublishedHubs();
 
-  const circuits = hubs.filter((h) => CIRCUIT_KINDS.has(s(h, "hub_kind")));
+  // The flagship circuit is rendered as its own hardcoded card below, so drop
+  // it from the mapped circuits or it shows up twice.
+  const circuits = hubs.filter(
+    (h) => CIRCUIT_KINDS.has(s(h, "hub_kind")) && s(h, "slug") !== FLAGSHIP.slug,
+  );
   const destinations = hubs.filter((h) => s(h, "hub_kind") === "destination");
 
   const slides: DestinationSlide[] = destinations.map((h) => {

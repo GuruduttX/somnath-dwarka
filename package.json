@@ -9,7 +9,10 @@
     "lint": "eslint",
     "health-check": "node scripts/health-check.mjs",
     "import:urlmap": "node --env-file=.env.local scripts/import-url-map.mjs",
-    "seed:packages": "node --env-file=.env.local scripts/seed-packages.mjs"
+    "seed:packages": "node --env-file=.env.local scripts/seed-packages.mjs",
+    "seed:somnath-dwarka-hub": "node --env-file=.env.local scripts/seed-somnath-dwarka-hub.mjs",
+    "seed:spoke-packages": "node --env-file=.env.local scripts/seed-spoke-packages.mjs",
+    "seed:origin-packages": "node --env-file=.env.local scripts/seed-origin-packages.mjs"
   },
   "dependencies": {
     "@tiptap/pm": "^3.23.4",

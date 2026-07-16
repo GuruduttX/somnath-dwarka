@@ -195,7 +195,7 @@ export default function PackageVisualHeader({
                 <Sparkles size={13} />
                 Curated Package
               </div>
-              <h1 className="max-w-3xl text-3xl font-bold leading-tight text-white drop-shadow-sm sm:text-5xl">
+              <h1 className="max-w-3xl text-2xl font-bold leading-tight text-white drop-shadow-sm sm:text-[2.25rem]">
                 {pkg.h1}
               </h1>
               <p className="mt-3 flex items-center gap-2 text-sm font-medium text-white/82 sm:text-base">
@@ -234,7 +234,7 @@ export default function PackageVisualHeader({
           {[
             { icon: <Clock size={17} />, label: "Duration", value: pkg.duration },
             { icon: <ShieldCheck size={17} />, label: "Private trip", value: "Cab + hotel assistance" },
-            { icon: <Star size={17} className="fill-orange-400 text-orange-400" />, label: "Rating", value: "4.9 · 287 reviews" },
+            { icon: <Star size={17} className="fill-orange-400 text-orange-400" />, label: "Included", value: "Hotel, breakfast & vehicle" },
           ].map((fact, index) => (
             <div
               key={fact.label}

@@ -11,6 +11,7 @@ import PackageDetails from '@/src/components/Admin/PackageEditor/PackageDetails'
 import TripHighlights from '@/src/components/Admin/PackageEditor/TripHighlights';
 import Inclusion from '@/src/components/Admin/PackageEditor/Inclusion';
 import Exclusion from '@/src/components/Admin/PackageEditor/Exclusion';
+import PriceTiers, { type PriceTier } from '@/src/components/Admin/PackageEditor/PriceTiers';
 import Policy from '@/src/components/Admin/PackageEditor/Policy';
 import Document from '@/src/components/Admin/PackageEditor/Document';
 import Testimonials from '@/src/components/Admin/PackageEditor/Testimonials';
@@ -90,6 +91,7 @@ export default function page() {
   const [highLights, setHighLights] = useState<HighLights[]>([{ id: crypto.randomUUID(), description: "" }]);
   const [inclusions, setInclusions] = useState<Inclusions[]>([{ id: crypto.randomUUID(), description: "" }]);
   const [exclusions, setExclusions] = useState<Exclusions[]>([{ id: crypto.randomUUID(), description: "" }]);
+  const [priceTiers, setPriceTiers] = useState<PriceTier[]>([]);
   const [documents, setDocuments] = useState<Documents[]>([{ id: crypto.randomUUID(), description: "" }]);
   const [itinerary, setItinerary] = useState<Itinerary[]>([{ id: crypto.randomUUID(), day: 1, title: "", description: "" }]);
   const [breakdown, setBreakdown] = useState<BreakdownItem[]>([{ id: crypto.randomUUID(), days: "0", place: "" }]);
@@ -174,6 +176,7 @@ export default function page() {
       setHighLights(withIds(data.highlights))
       setInclusions(withIds(data.inclusions))
       setExclusions(withIds(data.exclusions))
+      setPriceTiers(withIds(data.priceTiers))
       setDocuments(withIds(data.knowBeforeYouGo))
       setItinerary(withIds(data.itinerary))
       setChildImage(withIds(data.childImages));
@@ -257,6 +260,7 @@ export default function page() {
     highlights: highLights,
     inclusions,
     exclusions,
+    priceTiers,
     knowBeforeYouGo: documents,
     itinerary,
 
@@ -433,6 +437,7 @@ export default function page() {
         <TripHighlights highLights={highLights} setHighLights={setHighLights} editorType="Package" />
         <Inclusion inclusions={inclusions} setInclusions={setInclusions} editorType="Package" />
         <Exclusion exclusions={exclusions} setExclusions={setExclusions} editorType="Package" />
+        <PriceTiers priceTiers={priceTiers} setPriceTiers={setPriceTiers} />
         <Testimonials testimonials={testimonials} setTestimonials={setTestimonials} editorType="Package" />
         <Document documents={documents} setDocuments={setDocuments} editorType="Package" />
         <Policy refund={form.refund} cancel={form.cancel} confirm={form.confirmation} payment={form.payment} editorType="Package" onChange={updateForm} />

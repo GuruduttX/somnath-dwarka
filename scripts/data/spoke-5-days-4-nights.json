@@ -1,0 +1,336 @@
+{
+  "page": {
+    "url": "/somnath-dwarka-tour-package/5-days-4-nights/",
+    "role": "SPOKE",
+    "silo": "money-circuit",
+    "wave": "MVP",
+    "parent_hub": "/somnath-dwarka-tour-package/",
+    "money_target": "(is money)",
+    "conversion_action": "qualify_form",
+    "canonical": "self",
+    "indexable": true,
+    "in_sitemap": true,
+    "hreflang_twin": "/hi/somnath-dwarka-tour-package/5-days-4-nights/",
+    "last_verified": "2026-07-15"
+  },
+  "head": {
+    "title": "Somnath Dwarka 5 Days 4 Nights: Gir or Diu, Rs.20,000 pp",
+    "title_length": 56,
+    "meta_description": "The 4th night goes to Gir or Diu. From Rs.20,000 pp. Gir's jungle safari shuts 16 June to 15 October every year, so the month decides this, not you.",
+    "meta_length": 148,
+    "h1": "Somnath Dwarka Package 5 Days 4 Nights: Itinerary, Price and Booking",
+    "ctr_rationale": "Competitors title on price-off and best-price. This titles on the specific decision this duration forces, which is the only differentiated angle left and the thing the buyer is actually anxious about."
+  },
+  "intent_lock": {
+    "primary_intent": "somnath dwarka package 5 days 4 nights",
+    "intent_type": "transactional",
+    "secondary_owned": [
+      "somnath dwarka gir 5 days",
+      "dwarka somnath 4 nights package",
+      "somnath dwarka diu 5 days itinerary"
+    ],
+    "explicitly_not_owned": [
+      {
+        "query": "somnath dwarka tour package",
+        "url": "/somnath-dwarka-tour-package/"
+      },
+      {
+        "query": "somnath dwarka tour package from ahmedabad",
+        "url": "/somnath-dwarka-tour-package/from-ahmedabad/"
+      },
+      {
+        "query": "dwarka to somnath distance",
+        "url": "/plan/how-to-reach/"
+      },
+      {
+        "query": "somnath temple timings",
+        "url": "/temples/somnath-temple-timings/"
+      },
+      {
+        "query": "gir safari booking",
+        "url": "/gir-tour-package/"
+      },
+      {
+        "query": "somnath dwarka taxi fare",
+        "url": "/somnath-dwarka-taxi-service/"
+      }
+    ],
+    "differentiation_proof": "Owns the Gir versus Diu decision for the fourth night, governed by the 16 June to 15 October Jungle Trail closure, plus the full permit reality (online only, 6 per permit, gypsy and guide excluded, no tatkal, ID checked at Sinh Sadan). No other duration page touches the forest calendar.",
+    "delta_test": "PASS. The decision this page owns exists only at this night count and cannot be restated on the hub or on a sibling without becoming that page's subject.",
+    "information_gain": [
+      "States the annual Gir closure, 16 June to 15 October, on a page that sells a Gir night. Competitors sell Dwarka Somnath Gir year round.",
+      "Reproduces the Forest Department's own warning about sites selling confirmed permits at premium rates, and commits to booking at cost through the government portal.",
+      "Separates the permit, gypsy and guide from the package price instead of burying them."
+    ]
+  },
+  "pricing": {
+    "model": "per person per night",
+    "nights": 4,
+    "tiers": {
+      "3_star": {
+        "per_night": 5000,
+        "total_pp": 20000,
+        "hotel": "Lords Inn"
+      },
+      "4_star": {
+        "per_night": 10000,
+        "total_pp": 40000,
+        "hotel": "The Fern, Fortune Landmark"
+      },
+      "5_star": {
+        "per_night": 12500,
+        "total_pp": 50000,
+        "hotel": "The Fern Sattva Resort at Dwarka, best available at Somnath"
+      }
+    },
+    "included": [
+      "hotel at chosen tier",
+      "breakfast",
+      "vehicle with driver for the full itinerary"
+    ],
+    "excluded": [
+      "lunch and dinner",
+      "personal pooja, seva and abhishek",
+      "sound and light show ticket",
+      "camera and cloakroom charges",
+      "tips",
+      "personal spending",
+      "Gir safari permit, gypsy and guide, paid to the Gujarat Forest Department"
+    ],
+    "vehicle_by_group": {
+      "2-3": "Sedan",
+      "4-5": "Ertiga SUV",
+      "5-6": "Innova Crysta",
+      "7-9": "9 seater Tempo Traveller",
+      "10-12": "12 seater Maharaja or Urbania",
+      "13-26": "26 seater Tempo Traveller"
+    }
+  },
+  "aeo_geo": {
+    "answer_snippet": "A somnath dwarka package 5 days 4 nights costs Rs. 20,000 per person at the 3 star tier, Rs. 40,000 at 4 star and Rs. 50,000 at 5 star, with hotel, breakfast and your vehicle included.",
+    "extraction_formats": [
+      "price TABLE",
+      "decision TABLE",
+      "hour-by-hour itinerary TABLE",
+      "question-shaped H3 FAQ"
+    ],
+    "quotable_first_party_claims": [
+      "Rs. 20,000 per person for 4 nights at 3 star, vehicle included.",
+      "Dwarka to Somnath is 233 km on NH51, 5 to 6 hours.",
+      "Jay Somnath sound and light show runs 7:45 pm to 8:45 pm per the Shree Somnath Trust.",
+      "Gir Jungle Trail is closed 16 June to 15 October every year."
+    ],
+    "zero_click_defense": "The summary can take the price and the distance. It cannot take the decision table, the live permit timing or the reconfirmation of festival-day schedules for a specific date. Brand sits inside the answer snippet."
+  },
+  "schema_jsonld": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TouristTrip",
+        "@id": "https://SITE/somnath-dwarka-tour-package/5-days-4-nights/#trip",
+        "name": "Somnath Dwarka Package 5 Days 4 Nights",
+        "description": "The 4th night goes to Gir or Diu. From Rs.20,000 pp. Gir's jungle safari shuts 16 June to 15 October every year, so the month decides this, not you.",
+        "provider": {
+          "@id": "https://SITE/#organization"
+        },
+        "subjectOf": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/5-days-4-nights/#webpage"
+        }
+      },
+      {
+        "@type": "AggregateOffer",
+        "@id": "https://SITE/somnath-dwarka-tour-package/5-days-4-nights/#offer",
+        "priceCurrency": "INR",
+        "lowPrice": "20000",
+        "highPrice": "50000",
+        "offerCount": 3,
+        "itemOffered": {
+          "@id": "https://SITE/somnath-dwarka-tour-package/5-days-4-nights/#trip"
+        },
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@id": "https://SITE/#organization"
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "3 star tier",
+            "price": "20000",
+            "priceCurrency": "INR"
+          },
+          {
+            "@type": "Offer",
+            "name": "4 star tier",
+            "price": "40000",
+            "priceCurrency": "INR"
+          },
+          {
+            "@type": "Offer",
+            "name": "5 star tier",
+            "price": "50000",
+            "priceCurrency": "INR"
+          }
+        ],
+        "_build_note": "Totals are the per person per night rate times 4 nights and are visible in the price table on the page. No aggregateRating until real reviews are on the page."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://SITE/somnath-dwarka-tour-package/5-days-4-nights/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://SITE/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Somnath Dwarka Tour Package",
+            "item": "https://SITE/somnath-dwarka-tour-package/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Somnath Dwarka Package 5 Days 4 Nights",
+            "item": "https://SITE/somnath-dwarka-tour-package/5-days-4-nights/"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://SITE/somnath-dwarka-tour-package/5-days-4-nights/#faq",
+        "_build_note": "Parse-only per the URL map.",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "When is Gir National Park closed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Gir Jungle Trail safari is closed every year from 16 June to 15 October for the monsoon. The Devalia Interpretation Zone, a fenced section, operates separately."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can we do Somnath, Dwarka and Gir in 5 days?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, between 16 October and 15 June. Three nights cover Dwarka and Somnath, and the fourth night sits at Sasan Gir for a dawn safari. Outside that window the safari does not run and we swap Gir for Diu."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do we book the Gir safari permit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Only online, through the Gujarat Forest Department portal at girlion.gujarat.gov.in. One permit covers up to 6 people and the gypsy and guide are separate. Tatkal and urgent bookings are not allowed."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "internal_link_matrix": {
+    "inbound": [
+      {
+        "source": "/somnath-dwarka-tour-package/",
+        "anchor": "5 Days 4 Nights",
+        "placement": "duration chooser table",
+        "priority": "P0",
+        "reason": "Hub chooser is the primary equity route to every duration spoke."
+      },
+      {
+        "source": "/compare/3-day-vs-5-day-itinerary/",
+        "anchor": "the 4 night plan",
+        "placement": "contextual",
+        "priority": "P1",
+        "reason": "Comparison page hands off to the winner."
+      },
+      {
+        "source": "/plan/how-to-reach/",
+        "anchor": "5 day Somnath Dwarka plan",
+        "placement": "contextual",
+        "priority": "P2",
+        "reason": "Distance intent to commercial."
+      }
+    ],
+    "outbound": [
+      {
+        "target": "/somnath-dwarka-tour-package/",
+        "anchor": "compare all Somnath Dwarka packages",
+        "placement": "opener and related",
+        "priority": "P0",
+        "reason": "Equity returns to the hub, once, in the opener."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/4-days-3-nights/",
+        "anchor": "4 days 3 nights",
+        "placement": "related and inline where the tradeoff is named",
+        "priority": "P1",
+        "reason": "Sibling routing at the exact point the buyer realises this plan is wrong for them."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/6-days-5-nights/",
+        "anchor": "6 days 5 nights",
+        "placement": "related and inline where the tradeoff is named",
+        "priority": "P1",
+        "reason": "Sibling routing at the exact point the buyer realises this plan is wrong for them."
+      },
+      {
+        "target": "/somnath-dwarka-tour-package/3-days-2-nights/",
+        "anchor": "3 days 2 nights",
+        "placement": "related and inline where the tradeoff is named",
+        "priority": "P1",
+        "reason": "Sibling routing at the exact point the buyer realises this plan is wrong for them."
+      },
+      {
+        "target": "/somnath-dwarka-taxi-service/",
+        "anchor": "Somnath Dwarka taxi service",
+        "placement": "related",
+        "priority": "P2",
+        "reason": "Vehicle-only intent leaves rather than bounces."
+      },
+      {
+        "target": "/temples/somnath-temple-timings/",
+        "anchor": "Somnath temple timings",
+        "placement": "reading",
+        "priority": "P1",
+        "reason": "Informational sub-query handed off so this page keeps one intent."
+      },
+      {
+        "target": "https://girlion.gujarat.gov.in/GirJungleTrailBooking.aspx",
+        "anchor": "the Gujarat Forest Department portal",
+        "placement": "permit table",
+        "priority": "P0",
+        "rel": "nofollow",
+        "reason": "Outbound authority citation. Sends the buyer to the only official permit channel."
+      }
+    ],
+    "anchor_diversity_check": "Exact match used once per source. Sibling anchors are plan names, hub anchor is natural language."
+  },
+  "cta": {
+    "conversion_action": "qualify_form",
+    "phone_whatsapp": "+91 7302265809",
+    "primary": {
+      "label": "Get the day-wise plan and rate card",
+      "placement": "sticky above fold on mobile, repeated after the decision table, after price, after FAQ"
+    },
+    "secondary": {
+      "label": "Send your dates on WhatsApp, +91 7302265809"
+    },
+    "honest_urgency_only": true
+  },
+  "qa_gate": {
+    "style_check": "PASS",
+    "slop_check": "PASS",
+    "delta_test": "PASS",
+    "honesty": "PASS. Every non-canon fact live-sourced 15 July 2026. Unconfirmable claims dropped, not bracketed.",
+    "canon_applied": "Prices, hotels, fleet and phone from the canon block, 15 July 2026.",
+    "schema": "Prices marked up match the visible price table. No aggregateRating.",
+    "blocking_for_publish": [
+      "Real departure photography",
+      "Ops confirmation of pickup clock times",
+      "Group-size rate confirmation before the group and family spokes"
+    ]
+  }
+}

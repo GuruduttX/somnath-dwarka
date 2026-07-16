@@ -175,7 +175,8 @@ export default function Navbar() {
       />
 
       <header className="fixed top-6 left-0 w-full z-40 flex justify-center">
-        <div ref={mobileMenuRef} className="relative w-[92vw] sm:w-[90vw] xl:w-[85vw]">
+        {/* Wide enough that every nav item clears the Enquire button on desktop. */}
+        <div ref={mobileMenuRef} className="relative w-[94vw] sm:w-[93vw] xl:w-[94vw] 2xl:max-w-[1720px]">
 
 
 
