@@ -18,6 +18,8 @@ import SpokeContent, { DecisionBlock, ProseSections, PriceMatrixTable } from "@/
 import PackageDurationStrip from "@/src/components/TourPackage/PackageDurationStrip";
 import PackageInclusionsStrip from "@/src/components/TourPackage/PackageInclusionsStrip";
 import PackageVisualHeader from "@/src/components/TourPackage/PackageVisualHeader";
+import ProductRatings from "@/src/components/TourPackage/ProductRatings";
+import PackageTestimonials from "@/src/components/TourPackage/PackageTestimonials";
 import TrustBuildingSection from "@/src/utils/TrustBuildingSection";
 import Policies from "@/src/components/TourPackage/Policies";
 
@@ -475,6 +477,8 @@ export default async function PackageVariantPage({ params }: Params) {
       ) : null}
 
       <CtaBand context={pkg.h1} />
+      <ProductRatings />
+      <PackageTestimonials PackageData={pkg} />
       <TrustBuildingSection />
       <Faq items={pkg.faq} heading="Package FAQs" />
       <RelatedLinks links={related} />
