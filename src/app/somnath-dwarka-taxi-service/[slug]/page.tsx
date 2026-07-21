@@ -4,6 +4,20 @@ import { buildMetadata } from "@/src/lib/seo";
 import CabRoutePage from "@/src/components/templates/CabRoutePage";
 import VehiclePage from "@/src/components/templates/VehiclePage";
 import { SEED_CAB_ROUTES, SEED_VEHICLES, cabPath, findSeedCab } from "@/src/lib/seed/cabs";
+import { getTaxiBySlug } from "@/src/lib/content";
+import { cabFromCms } from "@/src/utils/cabFromCms";
+
+/**
+ * CMS first, seed as fallback.
+ *
+ * Every seeded route and vehicle has been imported into the `taxis` collection,
+ * so in practice the CMS answers. The seed stays as a safety net for a slug that
+ * has not been imported, or if a record is unpublished.
+ */
+async function resolveCab(slug: string) {
+  const doc = (await getTaxiBySlug(slug)) as Record<string, unknown> | null;
+  return doc ? cabFromCms(doc) : findSeedCab(slug);
+}
 
 /**
  * Taxi hub spoke (/somnath-dwarka-taxi-service/{slug}/). The URL map puts cab
@@ -22,14 +36,14 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const r = findSeedCab(slug);
+  const r = await resolveCab(slug);
   if (!r) return {};
   return buildMetadata({ title: r.title, description: r.answer_first, path: cabPath(slug) });
 }
 
 export default async function TaxiSpokePage({ params }: Params) {
   const { slug } = await params;
-  const r = findSeedCab(slug);
+  const r = await resolveCab(slug);
   if (!r) notFound();
 
   return r.kind === "route" ? (

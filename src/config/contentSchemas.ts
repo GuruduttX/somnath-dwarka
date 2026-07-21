@@ -258,13 +258,21 @@ export const CONTENT_SCHEMAS: Record<string, FieldDef[]> = {
     { name: "vehicle_name", label: "Vehicle name (vehicle)", type: "text" },
     { name: "seats", label: "Seats (vehicle)", type: "number" },
     { name: "suitable_for", label: "Suitable for (vehicle)", type: "textarea" },
+    { name: "image_src", label: "Vehicle photo path (vehicle)", type: "text" },
+    { name: "image_alt", label: "Vehicle photo alt (vehicle)", type: "text" },
     {
+      // A route row uses vehicle/seats/one-way/round-trip; a vehicle row uses
+      // route/rate. Both live here because one model serves both page kinds.
       name: "fares",
-      label: "Fares",
+      label: "Fares — routes use vehicle + one-way/round-trip, vehicles use route + rate",
       type: "objectList",
       fields: [
-        { name: "vehicle", label: "Vehicle", type: "text" },
-        { name: "seats", label: "Seats", type: "number" },
+        { name: "vehicle", label: "Vehicle (route page)", type: "text" },
+        { name: "seats", label: "Seats (route page)", type: "number" },
+        { name: "one_way", label: "One way (route page)", type: "text" },
+        { name: "round_trip", label: "Round trip (route page)", type: "text" },
+        { name: "route", label: "Route (vehicle page)", type: "text" },
+        { name: "rate", label: "Rate (vehicle page)", type: "text" },
         { name: "per_km", label: "Per km", type: "text" },
         { name: "package_rate", label: "Package rate", type: "text" },
       ],

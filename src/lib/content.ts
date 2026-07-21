@@ -11,6 +11,7 @@ import Blog from "@/src/models/blogModel";
 import FestivalModel from "@/src/models/festivalModel";
 import HubModel from "@/src/models/hubModel";
 import HubSpokeModel from "@/src/models/hubSpokeModel";
+import TaxiModel from "@/src/models/taxiModel";
 import TempleModel from "@/src/models/templeModel";
 import TrustModel from "@/src/models/trustModel";
 import DataPageModel from "@/src/models/dataPageModel";
@@ -158,6 +159,9 @@ export const getPublishedHubSpokes = () => findPublished(HubSpokeModel);
 export const getHubSpokesFor = (hub: string) => findPublished(HubSpokeModel, { hub });
 export const getHubSpoke = (hub: string, slug: string) =>
   findOnePublished(HubSpokeModel, { hub, slug });
+
+export const getPublishedTaxis = () => findPublished(TaxiModel);
+export const getTaxiBySlug = (slug: string) => findOnePublished(TaxiModel, { slug });
 
 export const getPublishedTemples = () => findPublished(TempleModel);
 export const getTempleBySlug = (slug: string) => findOnePublished(TempleModel, { slug });
