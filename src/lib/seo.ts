@@ -209,15 +209,103 @@ export function serviceSchema(opts: {
   description: string;
   path: string;
   areaServed?: string;
+  /** e.g. "Car rental with driver" on the vehicle pages. */
+  serviceType?: string;
+  /** Full provider node; defaults to the site Organization reference. */
+  provider?: object;
+  /** Anchors the node so other blocks can reference it. Relative paths are absolutised. */
+  id?: string;
 }) {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
+    ...(opts.id ? { "@id": abs(opts.id) } : {}),
     name: opts.name,
     description: opts.description,
+    ...(opts.serviceType ? { serviceType: opts.serviceType } : {}),
     url: abs(opts.path),
-    provider: { "@id": `${SITE_URL}/#organization` },
+    provider: opts.provider ?? { "@id": `${SITE_URL}/#organization` },
     ...(opts.areaServed ? { areaServed: opts.areaServed } : {}),
+  };
+}
+
+/**
+ * TaxiService with an OfferCatalog of the routes served, per the taxi hub SOP.
+ *
+ * Distinct from serviceSchema: the hub claims the category head, so it declares
+ * the specific service type and lists every route spoke as an offer, which is
+ * what lets the hub rank on breadth rather than on any one route.
+ */
+/**
+ * The local operating unit, as the cab SOPs describe it: a TravelAgency under
+ * the Experience My India parent, carrying the phone, founding year, founder,
+ * spoken languages and GSTIN. Used as the `provider` on route spokes so the
+ * trust signals sit in the same graph as the service being offered.
+ */
+export function localUnitProvider(opts: {
+  name: string;
+  parent: string;
+  parentSlogan: string;
+  telephone: string;
+  foundingDate: string;
+  founder: string;
+  languages: readonly string[];
+  gstin: string;
+}) {
+  return {
+    "@type": "TravelAgency",
+    "@id": `${SITE_URL}/#localunit`,
+    name: opts.name,
+    parentOrganization: {
+      "@type": "Organization",
+      name: opts.parent,
+      slogan: opts.parentSlogan,
+    },
+    telephone: opts.telephone,
+    foundingDate: opts.foundingDate,
+    founder: { "@type": "Person", name: opts.founder },
+    knowsLanguage: [...opts.languages],
+    identifier: {
+      "@type": "PropertyValue",
+      propertyID: "GSTIN",
+      value: opts.gstin,
+    },
+  };
+}
+
+export function taxiServiceSchema(opts: {
+  name: string;
+  serviceType: string;
+  path: string;
+  areaServed: string;
+  catalogName?: string;
+  offers?: { name: string; path: string }[];
+  /** Full provider node; defaults to the site Organization reference. */
+  provider?: object;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "TaxiService",
+    "@id": `${abs(opts.path)}#service`,
+    name: opts.name,
+    serviceType: opts.serviceType,
+    provider: opts.provider ?? { "@id": `${SITE_URL}/#organization` },
+    areaServed: { "@type": "AdministrativeArea", name: opts.areaServed },
+    url: abs(opts.path),
+    // Only the hub lists a catalogue; a single route spoke has nothing to offer
+    // beyond itself, and an empty OfferCatalog is worse than none.
+    ...(opts.offers?.length
+      ? {
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: opts.catalogName ?? "Routes",
+            itemListElement: opts.offers.map((o) => ({
+              "@type": "Offer",
+              itemOffered: { "@type": "Service", name: o.name, url: abs(o.path) },
+            })),
+          },
+        }
+      : {}),
   };
 }
 

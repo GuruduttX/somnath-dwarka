@@ -11,6 +11,7 @@ export type FieldDef =
   | { name: string; label: string; type: "objectList"; fields: FieldDef[]; hint?: string };
 
 export const CONTENT_SCHEMAS: Record<string, FieldDef[]> = {
+  
   hub: [
     { name: "title", label: "Title", type: "text" },
     {
@@ -258,6 +259,7 @@ export const CONTENT_SCHEMAS: Record<string, FieldDef[]> = {
     { name: "vehicle_name", label: "Vehicle name (vehicle)", type: "text" },
     { name: "seats", label: "Seats (vehicle)", type: "number" },
     { name: "suitable_for", label: "Suitable for (vehicle)", type: "textarea" },
+    { name: "luggage", label: "Luggage (vehicle), e.g. 4 bags", type: "text" },
     { name: "image_src", label: "Vehicle photo path (vehicle)", type: "text" },
     { name: "image_alt", label: "Vehicle photo alt (vehicle)", type: "text" },
     {

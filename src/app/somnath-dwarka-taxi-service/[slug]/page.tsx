@@ -6,6 +6,7 @@ import VehiclePage from "@/src/components/templates/VehiclePage";
 import { SEED_CAB_ROUTES, SEED_VEHICLES, cabPath, findSeedCab } from "@/src/lib/seed/cabs";
 import { getTaxiBySlug } from "@/src/lib/content";
 import { cabFromCms } from "@/src/utils/cabFromCms";
+import { spokeCopyFor, vehicleCopyFor } from "@/src/config/taxiSpokes";
 
 /**
  * CMS first, seed as fallback.
@@ -38,7 +39,16 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const r = await resolveCab(slug);
   if (!r) return {};
-  return buildMetadata({ title: r.title, description: r.answer_first, path: cabPath(slug) });
+  // The SOP fixes the title tag and meta description per route; fall back to the
+  // CMS record for any route that has no config entry yet.
+  // Routes and vehicles keep their SOP copy in separate blocks; either may be
+  // absent, in which case the CMS record supplies the tags.
+  const copy = spokeCopyFor(slug) ?? vehicleCopyFor(slug);
+  return buildMetadata({
+    title: copy?.titleTag ?? r.title,
+    description: copy?.metaDescription ?? r.answer_first,
+    path: cabPath(slug),
+  });
 }
 
 export default async function TaxiSpokePage({ params }: Params) {

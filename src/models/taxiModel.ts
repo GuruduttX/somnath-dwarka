@@ -45,6 +45,8 @@ export type ITaxi = SharedFields & {
   vehicle_name?: string;
   seats?: number;
   suitable_for?: string;
+  /** Luggage capacity as shown on the hub's vehicle table, e.g. "4 bags". */
+  luggage?: string;
   /**
    * Photo of the actual vehicle, shown on its page. Stored flat because the
    * generic content form writes flat keys; the page resolver composes them back
@@ -84,6 +86,7 @@ const TaxiSchema = new Schema<ITaxi>(
     vehicle_name: { type: String, default: "" },
     seats: { type: Number },
     suitable_for: { type: String, default: "" },
+    luggage: { type: String, default: "" },
     image_src: { type: String, default: "" },
     image_alt: { type: String, default: "" },
     fares: [fareSchema],

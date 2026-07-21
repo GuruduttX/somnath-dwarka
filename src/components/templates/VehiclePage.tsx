@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { serviceSchema } from "@/src/lib/seo";
+import Link from "next/link";
+import { serviceSchema, localUnitProvider } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import Section from "@/src/components/shared/Section";
 import DataTable from "@/src/components/shared/DataTable";
@@ -10,13 +11,26 @@ import JsonLd from "@/src/components/seo/JsonLd";
 import { SEED_VEHICLES, CAB_HUB, cabPath, type SeedVehicle } from "@/src/lib/seed/cabs";
 import { buildRelatedLinks } from "@/src/lib/links";
 import TaxiHero from "@/src/components/taxi/TaxiHero";
+import { vehicleCopyFor, VEHICLE_SCOPE, VEHICLE_AUTHOR, OPERATOR } from "@/src/config/taxiSpokes";
+import { Check, X, Star, ArrowRight, Phone } from "lucide-react";
 
 /**
- * Vehicle page body (/somnath-dwarka-taxi-service/{vehicle}/). Extracted so the
- * hub's [slug] segment can dispatch between vehicles and cab routes, which the
- * URL map places at the same level.
+ * Vehicle page body (/somnath-dwarka-taxi-service/{vehicle}/).
+ *
+ * Same split as the route spokes: seats, luggage, "best suited for", rates and
+ * the photo come from the CMS record; the prose comes from the VEHICLE_COPY
+ * block in src/config/taxiSpokes.ts, keyed by slug. A vehicle with no config
+ * entry still renders the data-driven sections.
  */
+
+const card =
+  "overflow-hidden rounded-2xl border border-orange-100 bg-white p-6 sm:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]";
+const h2 = "text-2xl font-bold text-slate-950 mb-4 flex items-center gap-2";
+const bar = <span className="h-6 w-1 rounded-full bg-orange-500 inline-block" />;
+
 export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicle: SeedVehicle }) {
+  const copy = vehicleCopyFor(slug);
+
   const related = buildRelatedLinks({
     self: cabPath(slug),
     pillar: { target: CAB_HUB, anchor: "all cabs & fares" },
@@ -31,14 +45,18 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
   const crumbs = [
     { name: "Home", path: "/" },
     { name: "Taxi service", path: CAB_HUB },
-    { name: v.vehicle_name, path: cabPath(slug) },
+    { name: copy?.crumbLabel ?? v.vehicle_name, path: cabPath(slug) },
   ];
+
+  // Rates are CMS data and ship as "₹—" placeholders; show the table only once a
+  // real figure exists rather than a column of dashes.
+  const hasRealRates = v.fares?.some((f) => /\d/.test(f.rate || ""));
 
   return (
     <PageShell crumbs={crumbs} flushHero>
       <TaxiHero
-        title={v.h1}
-        description={v.answer_first}
+        title={copy?.h1 ?? v.h1}
+        description={copy?.quickAnswer ?? v.answer_first}
         breadcrumbs={crumbs}
         badge="Vehicle Fleet"
         ctaContext={`${v.vehicle_name} for Somnath Dwarka`}
@@ -46,22 +64,44 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
         seats={v.seats}
       />
 
-      <div className="w-full bg-gradient-to-br from-amber-50/45 via-white to-orange-50/50 border-b border-orange-100/30 relative overflow-hidden py-10">
-        <svg className="absolute right-0 top-4 w-60 h-40 opacity-[0.12] text-orange-500 pointer-events-none" viewBox="0 0 200 100" fill="none">
-          <path d="M 0,50 Q 50,20 100,50 T 200,50" stroke="currentColor" strokeWidth="2" strokeDasharray="4 6" />
-          <circle cx="100" cy="50" r="4" fill="currentColor" />
-        </svg>
+      {/* ── At a glance ── */}
+      {copy ? (
+        <Section wide>
+          <div className={card}>
+            <h2 className={h2}>{bar}At a glance</h2>
+            <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {copy.atAGlance.map((f) => (
+                <div
+                  key={f.label}
+                  className="rounded-xl border border-orange-100/60 bg-gradient-to-r from-orange-50/30 via-white to-transparent p-4"
+                >
+                  <dt className="text-[10px] font-bold uppercase tracking-wider text-orange-700">{f.label}</dt>
+                  <dd className="mt-1.5 text-sm font-semibold text-slate-800 leading-snug">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-6 text-slate-600 leading-relaxed">{copy.intro}</p>
+          </div>
+        </Section>
+      ) : null}
 
-        <Section id="fares" title="Indicative fares" wide={true} className="!py-0">
-          <p className="text-sm text-gray-600 mb-4 max-w-2xl">
-            Estimated base rates for major segments and daily operations. Tolls, parking, and driver allowances are extra.
-          </p>
-          <div className={`grid gap-5 ${v.image ? "lg:grid-cols-[1.4fr_1fr]" : ""}`}>
-            <div className="bg-white/60 backdrop-blur-xs p-3 rounded-2xl border border-orange-100/40">
-              <DataTable columns={["Route / Basis", "Indicative Rate"]} rows={v.fares.map((f) => [f.route, f.rate])} />
+      {/* ── Features + photo ── */}
+      {copy ? (
+        <Section wide>
+          <div className={`grid gap-6 ${v.image ? "lg:grid-cols-[1fr_1fr]" : ""}`}>
+            <div className={card}>
+              <h2 className={h2}>{bar}{copy.features.heading}</h2>
+              <ul className="space-y-3">
+                {copy.features.items.map((x) => (
+                  <li key={x} className="flex gap-2.5 text-sm text-slate-700 leading-relaxed">
+                    <Check size={13} className="mt-1 shrink-0 text-orange-500" strokeWidth={3} />
+                    {x}
+                  </li>
+                ))}
+              </ul>
             </div>
             {v.image ? (
-              <figure className="relative overflow-hidden rounded-2xl border border-orange-100/40 bg-white shadow-sm">
+              <figure className="relative overflow-hidden rounded-2xl border border-orange-100 bg-white shadow-sm">
                 <Image
                   src={v.image.src}
                   alt={v.image.alt}
@@ -76,36 +116,210 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
             ) : null}
           </div>
         </Section>
-      </div>
+      ) : null}
 
-      <div className="w-full bg-gradient-to-br from-orange-50/60 via-white to-amber-50/70 border-b border-orange-100/30 relative overflow-hidden py-10">
-        <svg className="absolute -left-10 top-6 w-36 h-36 opacity-[0.08] text-orange-500 pointer-events-none animate-spin-slow" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ animationDuration: "40s" }}>
-          <circle cx="50" cy="50" r="40" />
-          <line x1="50" y1="10" x2="50" y2="90" />
-          <line x1="10" y1="50" x2="90" y2="50" />
-          <path d="M 50,10 L 55,45 L 90,50 L 55,55 L 50,90 L 45,55 L 10,50 L 45,45 Z" fill="currentColor" fillOpacity="0.1" />
-        </svg>
+      {/* ── Who it suits + rates ── */}
+      {copy ? (
+        <Section wide>
+          <div className="grid gap-6 lg:grid-cols-2">
+            <div className={card}>
+              <h2 className={h2}>{bar}{copy.whoItSuits.heading}</h2>
+              <p className="text-slate-600 leading-relaxed">{copy.whoItSuits.body}</p>
+            </div>
+            <div className={card}>
+              <h2 className={h2}>{bar}{copy.ratesBooking.heading}</h2>
+              <p className="text-slate-600 leading-relaxed">{copy.ratesBooking.body}</p>
+              <p className="mt-4 text-sm">
+                <Link
+                  href={`${CAB_HUB}fare-rate-card/`}
+                  className="font-semibold text-orange-700 underline underline-offset-2 hover:text-orange-800"
+                >
+                  See every price on the fare rate card
+                </Link>
+              </p>
+            </div>
+          </div>
+        </Section>
+      ) : null}
 
-        <Section id="suitability" title="Best suited for" wide={true} className="!py-0">
-          <div className="p-5 rounded-2xl bg-white/80 backdrop-blur-xs border border-orange-100/50 shadow-2xs max-w-4xl">
-            <p className="text-gray-700 leading-relaxed font-semibold">{v.suitable_for}.</p>
-            <p className="text-sm text-gray-500 mt-2">
-              Comfortably accommodates up to {v.seats} passengers with luggage capacity. Equipped with individual air-conditioning controls, responsive suspension, and a professional driver for a relaxed highway travel experience.
+      {/* ── Popular routes, and CMS rates where real ── */}
+      <Section id="fares" wide>
+        <div className={card}>
+          <h2 className={h2}>{bar}{copy?.popularRoutes.heading ?? "Indicative fares"}</h2>
+          {copy ? <p className="text-slate-600 leading-relaxed">{copy.popularRoutes.body}</p> : null}
+
+          {hasRealRates ? (
+            <div className="mt-6">
+              <DataTable
+                columns={["Route / Basis", "Indicative rate"]}
+                rows={v.fares.map((f) => [f.route, f.rate])}
+              />
+            </div>
+          ) : null}
+        </div>
+      </Section>
+
+      {/* ── Booking scope ── */}
+      {copy ? (
+        <Section wide>
+          <div className={card}>
+            <h2 className={h2}>{bar}What your booking includes, and what it does not</h2>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <p className="mb-3 text-sm font-bold uppercase tracking-wide text-emerald-700">
+                  {VEHICLE_SCOPE.includedTitle}
+                </p>
+                <ul className="space-y-2.5">
+                  {[copy.includedFirst, ...VEHICLE_SCOPE.included].map((x) => (
+                    <li key={x} className="flex gap-2.5 text-sm text-slate-700">
+                      <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                        <Check size={11} strokeWidth={3} />
+                      </span>
+                      {x}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="mb-3 text-sm font-bold uppercase tracking-wide text-rose-700">
+                  {VEHICLE_SCOPE.excludedTitle}
+                </p>
+                <ul className="space-y-2.5">
+                  {[...VEHICLE_SCOPE.excluded, copy.excludedExtra].map((x) => (
+                    <li key={x} className="flex gap-2.5 text-sm text-slate-700">
+                      <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-rose-100 text-rose-700">
+                        <X size={11} strokeWidth={3} />
+                      </span>
+                      {x}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
+      {/* ── Why book ── */}
+      {copy ? (
+        <Section wide>
+          <div className={card}>
+            <h2 className={h2}>{bar}{copy.whyBook.heading}</h2>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {copy.whyBook.points.map((pt) => (
+                <li
+                  key={pt}
+                  className="flex gap-3 rounded-xl border border-orange-100/40 bg-orange-50/20 p-3.5 text-sm text-slate-700"
+                >
+                  <Star size={14} className="mt-0.5 shrink-0 fill-orange-300 text-orange-500" />
+                  {pt}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 text-sm text-slate-600 leading-relaxed">
+              {VEHICLE_AUTHOR.line}{" "}
+              {VEHICLE_AUTHOR.links.map((l, i) => (
+                <span key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="font-semibold text-orange-700 underline underline-offset-2 hover:text-orange-800"
+                  >
+                    {l.label}
+                  </Link>
+                  {i < VEHICLE_AUTHOR.links.length - 1 ? ", " : "."}
+                </span>
+              ))}
             </p>
           </div>
         </Section>
-      </div>
+      ) : null}
 
-      <Faq items={v.faq} heading={`${v.vehicle_name} FAQs`} />
-      <CtaBand context={`${v.vehicle_name} for Somnath Dwarka`} title="Book this vehicle" subtitle="Share your route and dates for a firm fare." />
+      {/* ── Honest fit ── */}
+      {copy ? (
+        <Section wide>
+          <div className={card}>
+            <h2 className={h2}>{bar}This vehicle may not be the right fit if</h2>
+            <ul className="space-y-3">
+              {copy.notForYou.map((x) => (
+                <li key={x} className="flex gap-2.5 text-sm text-slate-700 leading-relaxed">
+                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-rose-100 text-rose-700">
+                    <X size={11} strokeWidth={3} />
+                  </span>
+                  {x}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Section>
+      ) : null}
+
+      <Faq items={copy?.faq ? [...copy.faq] : v.faq} heading={`${v.vehicle_name} FAQs`} />
+
+      {/* ── Keep planning ── */}
+      {copy ? (
+        <Section wide>
+          <div className={card}>
+            <h2 className={h2}>{bar}Keep planning</h2>
+            <p className="text-slate-600 leading-relaxed">{copy.keepPlanning.intro}</p>
+            <div className="mt-4 flex flex-wrap gap-2.5">
+              {copy.keepPlanning.links.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-orange-200 bg-white px-4 py-2 text-sm font-semibold text-orange-800 transition hover:border-orange-300 hover:bg-orange-50"
+                >
+                  {l.label}
+                  <ArrowRight size={14} />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
+      {/* ── Book ── */}
+      {copy ? (
+        <Section wide>
+          <div className={card}>
+            <h2 className={h2}>{bar}{copy.cta.heading}</h2>
+            <p className="text-slate-600 leading-relaxed">{copy.cta.body}</p>
+            <a
+              href={`tel:${OPERATOR.phone}`}
+              className="mt-4 inline-flex items-center gap-2 rounded-full bg-orange-500 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-orange-600"
+            >
+              <Phone size={15} />
+              Call {OPERATOR.phone}
+            </a>
+          </div>
+        </Section>
+      ) : null}
+
+      <CtaBand
+        context={`${v.vehicle_name} for Somnath Dwarka`}
+        title="Book this vehicle"
+        subtitle="Share your route and dates for a firm fare."
+      />
       <RelatedLinks links={related} />
 
+      {/* BreadcrumbList comes from PageShell, FAQPage from <Faq>. */}
       <JsonLd
         data={serviceSchema({
-          name: v.h1,
-          description: v.answer_first,
+          name: copy?.h1 ?? v.h1,
+          description: copy?.quickAnswer ?? v.answer_first,
           path: cabPath(slug),
-          areaServed: "Saurashtra, Gujarat",
+          id: `${cabPath(slug)}#service`,
+          serviceType: "Car rental with driver",
+          areaServed: "Saurashtra, Gujarat, India",
+          provider: localUnitProvider({
+            name: OPERATOR.localUnit,
+            parent: OPERATOR.parent,
+            parentSlogan: OPERATOR.parentSlogan,
+            telephone: OPERATOR.phone,
+            foundingDate: OPERATOR.foundingDate,
+            founder: OPERATOR.founder,
+            languages: OPERATOR.languages,
+            gstin: OPERATOR.gstin,
+          }),
         })}
       />
     </PageShell>
