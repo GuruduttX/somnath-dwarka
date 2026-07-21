@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Sparkles, ShieldCheck, Wallet } from "lucide-react";
-import { buildMetadata, faqSchema } from "@/src/lib/seo";
+import { buildMetadata } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import Section from "@/src/components/shared/Section";
 import DataTable from "@/src/components/shared/DataTable";
 import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
-import JsonLd from "@/src/components/seo/JsonLd";
 import HotelCityHero from "@/src/components/hotels/HotelCityHero";
 import { HotelPropertyCards } from "@/src/components/hotels/HotelPropertyCards";
 import { SEED_HOTELS, findSeedHotel } from "@/src/lib/seed/destinations";
+import { getHotelBySlug } from "@/src/lib/content";
+import { hotelCopyFor } from "@/src/config/hotels";
+import HotelSopSections from "@/src/components/hotels/HotelSopSections";
 import { buildRelatedLinks } from "@/src/lib/links";
 
 export const revalidate = 3600;
@@ -31,7 +33,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const h = findSeedHotel(slug);
   if (!h) return {};
-  return buildMetadata({ title: h.title, description: h.answer_first, path: `/hotels/${slug}/` });
+  const copy = hotelCopyFor(slug);
+  return buildMetadata({
+    title: copy?.titleTag ?? h.title,
+    description: copy?.metaDescription ?? h.answer_first,
+    path: `/hotels/${slug}/`,
+  });
 }
 
 export default async function HotelCityPage({ params }: Params) {
@@ -39,11 +46,26 @@ export default async function HotelCityPage({ params }: Params) {
   const h = findSeedHotel(slug);
   if (!h) notFound();
 
-  const properties = h.properties ?? [];
-  const avgRating =
-    properties.length > 0
-      ? properties.reduce((s, p) => s + (p.rating || 0), 0) / properties.length
-      : 4.5;
+  const copy = hotelCopyFor(slug);
+
+  // The named hotels are CMS data (Content -> Hotels -> "Hotels shown on this
+  // page"); the seed only stands in for cities not yet filled in.
+  const cms = await getHotelBySlug(slug);
+  const cmsProperties = Array.isArray(cms?.properties)
+    ? (cms.properties as typeof h.properties)
+    : [];
+  const properties = cmsProperties.length ? cmsProperties : h.properties ?? [];
+  /**
+   * The figure in the hero is the operator's own Tripadvisor rating, which the
+   * hotel SOPs state as 4.5. It is NOT an average of the hotels listed below:
+   * those are named third-party properties we hold no ratings for, and averaging
+   * their zeroes previously rendered "0.0 avg rating" beside real businesses.
+   * A property that does carry a real rating is included.
+   */
+  const rated = properties.filter((p) => (p.rating || 0) > 0);
+  const avgRating = rated.length
+    ? rated.reduce((s, p) => s + (p.rating || 0), 0) / rated.length
+    : 4.5;
 
   const related = buildRelatedLinks({
     self: `/hotels/${slug}/`,
@@ -76,8 +98,8 @@ export default async function HotelCityPage({ params }: Params) {
 
       {/* ── Intro / answer-first ── */}
       <div className="bg-white">
-        <div className="mx-auto max-w-3xl px-4 pt-12 text-center sm:pt-14">
-          <p className="text-[15px] leading-[1.8] text-[#6b4c38] sm:text-base">{h.answer_first}</p>
+        <div className="mx-auto max-w-4xl px-4 pt-12 text-center sm:pt-14">
+          <p className="text-[15px] leading-[1.8] text-[#6b4c38] sm:text-base">{copy?.quickAnswer ?? h.answer_first}</p>
         </div>
       </div>
 
@@ -101,6 +123,12 @@ export default async function HotelCityPage({ params }: Params) {
           <div className="mt-10 pb-2">
             <HotelPropertyCards properties={properties} city={h.city} />
           </div>
+
+          {copy ? (
+            <p className="mx-auto max-w-3xl pb-2 text-center text-sm leading-relaxed text-gray-500">
+              {copy.propertiesNote}
+            </p>
+          ) : null}
         </div>
       </div>
 
@@ -118,7 +146,7 @@ export default async function HotelCityPage({ params }: Params) {
       </Section>
 
       {/* ── Why book with us strip ── */}
-      <div className="mx-auto max-w-5xl px-4 pb-2">
+      <div className="mx-auto max-w-7xl px-4 pb-2 sm:px-6 lg:px-10">
         <div className="grid gap-4 sm:grid-cols-3">
           {[
             { Icon: ShieldCheck, t: "Real, verified stays", s: "No fake inventory or ratings — only hotels we can actually book." },
@@ -136,11 +164,13 @@ export default async function HotelCityPage({ params }: Params) {
         </div>
       </div>
 
-      <Faq items={h.faq} heading={`Hotels in ${h.city} FAQs`} />
+
+      {copy ? <HotelSopSections copy={copy} /> : null}
+
+      <Faq items={copy?.faq ? [...copy.faq] : h.faq} heading={`Hotels in ${h.city} FAQs`} />
       <CtaBand context={`Hotels in ${h.city}`} title="Get a hotel recommendation" subtitle="Share your dates and budget for a real, bookable option." />
       <RelatedLinks links={related} />
 
-      <JsonLd data={faqSchema(h.faq)} />
     </PageShell>
   );
 }

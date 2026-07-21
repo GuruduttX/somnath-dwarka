@@ -297,6 +297,26 @@ export const CONTENT_SCHEMAS: Record<string, FieldDef[]> = {
         { name: "typical_range_verified", label: "Range verified?", type: "checkbox" },
       ],
     },
+    {
+      // The named hotels shown on the city page. The model has always carried
+      // these; the form did not, so they could only be added by a seed script.
+      // Leave rating and reviews at 0 unless you hold a real figure — the card
+      // hides the rating pill rather than show an invented one.
+      name: "properties",
+      label: "Hotels shown on this page",
+      type: "objectList",
+      fields: [
+        { name: "name", label: "Hotel name", type: "text" },
+        { name: "tier", label: "Tier (Premium/4-star/Mid-range/Budget)", type: "text" },
+        { name: "area", label: "Area", type: "text" },
+        { name: "distance", label: "Distance from temple", type: "text" },
+        { name: "description", label: "Known for", type: "textarea" },
+        { name: "price_range", label: "Price range (optional)", type: "text" },
+        { name: "image", label: "Image path (optional)", type: "text" },
+        { name: "rating", label: "Rating (only if real)", type: "number" },
+        { name: "reviews", label: "Reviews (only if real)", type: "number" },
+      ],
+    },
   ],
   pooja: [
     { name: "title", label: "Title", type: "text" },

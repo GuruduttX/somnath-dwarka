@@ -44,6 +44,24 @@ function tierMeta(tier: string) {
   return { Icon: Building2, cls: "bg-amber-500/95" };
 }
 
+/**
+ * Photo for a card. Hotels added in the admin have no image yet, and Next's
+ * <Image> throws on an empty src, so fall back to one of the bundled stock
+ * shots — picked by index so a given card keeps the same photo between renders
+ * rather than shuffling on every paint.
+ */
+const FALLBACK_IMAGES = [
+  "/images/hotels/properties/p1.jpg",
+  "/images/hotels/properties/p2.jpg",
+  "/images/hotels/properties/p3.jpg",
+  "/images/hotels/properties/p4.jpg",
+  "/images/hotels/properties/p5.jpg",
+  "/images/hotels/properties/p6.jpg",
+];
+
+const photoFor = (image: string | undefined, idx: number) =>
+  image?.trim() ? image : FALLBACK_IMAGES[idx % FALLBACK_IMAGES.length];
+
 export function HotelPropertyCards({ properties, city }: { properties: Property[]; city: string }) {
   const [open, setOpen] = useState(false);
   const [filter, setFilter] = useState<string>("All");
@@ -97,7 +115,7 @@ export function HotelPropertyCards({ properties, city }: { properties: Property[
               {/* Image */}
               <div className="relative h-52 w-full overflow-hidden">
                 <Image
-                  src={p.image}
+                  src={photoFor(p.image, idx)}
                   alt={p.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -111,12 +129,16 @@ export function HotelPropertyCards({ properties, city }: { properties: Property[
                   {p.tier}
                 </span>
 
-                {/* Rating */}
-                <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full border border-white/40 bg-white/90 px-2 py-1 text-[11px] font-bold text-[#3a2416] shadow-sm backdrop-blur-sm">
-                  <Star size={11} className="fill-[#F59E0B] text-[#F59E0B]" />
-                  {p.rating.toFixed(1)}
-                  {p.reviews ? <span className="font-medium text-[#9a7358]">({p.reviews})</span> : null}
-                </span>
+                {/* Rating — only when a real one is recorded. These are named
+                    third-party hotels, so an unrated property showed "0.0",
+                    which reads as a review rather than as missing data. */}
+                {p.rating > 0 ? (
+                  <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full border border-white/40 bg-white/90 px-2 py-1 text-[11px] font-bold text-[#3a2416] shadow-sm backdrop-blur-sm">
+                    <Star size={11} className="fill-[#F59E0B] text-[#F59E0B]" />
+                    {p.rating.toFixed(1)}
+                    {p.reviews ? <span className="font-medium text-[#9a7358]">({p.reviews})</span> : null}
+                  </span>
+                ) : null}
 
                 {/* Price + distance overlaid */}
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-3">

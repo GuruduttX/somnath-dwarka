@@ -10,44 +10,18 @@ import HotelHero from "@/src/components/hotels/HotelHero";
 import { HotelCityCards } from "@/src/components/hotels/HotelCityCards";
 import { SEED_HOTELS } from "@/src/lib/seed/destinations";
 import { buildRelatedLinks } from "@/src/lib/links";
+import { HOTELS_HUB as C } from "@/src/config/hotels";
+import HotelSopSections from "@/src/components/hotels/HotelSopSections";
 
 const PATH = "/hotels/";
 export const revalidate = 3600;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Hotels for Somnath Dwarka — Near Temples, Budget to Luxury",
-  description:
-    "Hotel guidance for Somnath and Dwarka: where to stay near the temples across budget, mid-range and premium tiers. We help you pick and book — no fake inventory.",
+  title: C.titleTag,
+  description: C.metaDescription,
   path: PATH,
 });
 
-const FAQ = [
-  {
-    question: "Where should I stay in Somnath and Dwarka?",
-    answer:
-      "Staying near the temple keeps early darshan and the evening aarti within walking distance. In Somnath, temple-road and sea-facing stays are popular; in Dwarka, hotels cluster around Dwarkadhish Temple and the main road.",
-  },
-  {
-    question: "Do you have budget hotels near the temples?",
-    answer:
-      "Yes. Clean budget lodges near Somnath Temple and Dwarkadhish start from roughly ₹700–₹1,500 a night. We help you pick and book the right tier — we never list fake inventory or ratings.",
-  },
-  {
-    question: "Can you book the hotel for me?",
-    answer:
-      "Yes. Share your dates, city and budget and we recommend and book a suitable stay across budget, mid-range or premium tiers, confirming availability before you pay.",
-  },
-  {
-    question: "How far in advance should I book a room?",
-    answer:
-      "For regular dates a week's notice is usually fine. For peak festivals like Janmashtami in Dwarka or Maha Shivratri at Somnath, book 6–10 weeks ahead as rooms fill fast and tariffs rise.",
-  },
-  {
-    question: "Are there sea-facing hotels in Somnath?",
-    answer:
-      "Yes — a few mid-range and premium sea-facing hotels sit along the promenade, a short walk from the temple and the evening light-and-sound show.",
-  },
-];
 
 export default function HotelHubPage() {
   const related = buildRelatedLinks({
@@ -62,6 +36,31 @@ export default function HotelHubPage() {
   return (
     <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Hotels", path: PATH }]} flushHero>
       <HotelHero />
+
+      {/* ── Quick answer ── */}
+      <div className="bg-white">
+        <div className="mx-auto max-w-4xl px-4 pt-12 text-center sm:pt-14">
+          <p className="text-[15px] leading-[1.8] text-[#6b4c38] sm:text-base">{C.quickAnswer}</p>
+        </div>
+      </div>
+
+      {/* ── At a glance ── */}
+      <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-10">
+        <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white p-6 sm:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
+          <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {C.atAGlance.map((f) => (
+              <div
+                key={f.label}
+                className="rounded-xl border border-orange-100/60 bg-gradient-to-r from-orange-50/30 via-white to-transparent p-4"
+              >
+                <dt className="text-[10px] font-bold uppercase tracking-wider text-orange-700">{f.label}</dt>
+                <dd className="mt-1.5 text-sm font-semibold text-slate-800 leading-snug">{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-6 text-slate-600 leading-relaxed">{C.intro}</p>
+        </div>
+      </div>
 
       {/* ── CITY CARDS ── */}
       <div className="relative overflow-hidden bg-gradient-to-b from-orange-50/60 via-white to-amber-50/40">
@@ -89,7 +88,9 @@ export default function HotelHubPage() {
         </div>
       </div>
 
-      <Faq items={FAQ} heading="Hotel FAQs" subheading="Common questions about staying near Somnath and Dwarka." />
+      <HotelSopSections copy={C} />
+
+      <Faq items={[...C.faq]} heading="Somnath and Dwarka hotel FAQs" />
 
       <CtaBand context="Hotel assistance for Somnath Dwarka" title="Get hotel help" subtitle="Tell us your dates and budget and we'll recommend and book a stay." />
       <RelatedLinks links={related} />

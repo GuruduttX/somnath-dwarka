@@ -7,6 +7,7 @@
  */
 import { connectDB } from "@/src/lib/mongodb";
 import TourPackageModel from "@/src/models/packageModel";
+import HotelModel from "@/src/models/hotelModel";
 import Blog from "@/src/models/blogModel";
 import FestivalModel from "@/src/models/festivalModel";
 import HubModel from "@/src/models/hubModel";
@@ -54,6 +55,18 @@ export async function getPackageBySlug(slug: string) {
     const pkg = await TourPackageModel.findOne({ slug }).lean();
     if (!pkg || (pkg as { status?: string }).status !== "published") return null;
     return pkg;
+  } catch {
+    return null;
+  }
+}
+
+/** A city hotel page from the CMS, or null when it is not published yet. */
+export async function getHotelBySlug(slug: string) {
+  try {
+    await connectDB();
+    const doc = await HotelModel.findOne({ slug }).lean();
+    if (!doc || (doc as { status?: string }).status !== "published") return null;
+    return doc as Record<string, unknown>;
   } catch {
     return null;
   }

@@ -659,6 +659,332 @@ export const SPOKE_COPY: Record<string, SpokeCopy> = {
       body: `Send your date, pickup point and number of pilgrims, and we confirm the car and the all-in fare before you commit. Call or message ${OPERATOR.phone} on WhatsApp for the fastest reply.`,
     },
   },
+
+  "veraval-to-somnath-taxi": {
+    titleTag: "Veraval to Somnath Taxi | Station Pickup",
+    metaDescription:
+      "Book a Veraval to Somnath taxi for the short temple transfer. Railway station pickup, one way cabs, and a choice of vehicles.",
+    h1: "Veraval to Somnath Taxi",
+    crumbLabel: "Veraval to Somnath",
+    quickAnswer:
+      "A Veraval to Somnath taxi is a short 7 km transfer that takes about 15 to 20 minutes. Experience My India runs private cabs for this hop, with railway station pickup and a choice of vehicles, and the fare confirmed before you book. The drivers speak English, Gujarati, Telugu and Kannada.",
+    intro:
+      "Experience My India runs private cabs for the short transfer from Veraval to Somnath, the quick hop most pilgrims need after arriving by train at Veraval, the nearest railhead to the Somnath Jyotirlinga. Pickup is from the station or your hotel, and the fare is confirmed before you travel.",
+    atAGlance: [
+      { label: "Route", value: "Veraval to Somnath, about 7 km" },
+      { label: "Drive time", value: "15 to 20 minutes via the coast road" },
+      { label: "Fares from", value: "Indicative, confirmed at booking" },
+      { label: "Vehicles", value: "Sedan, Ertiga (6 seats), Innova Crysta (7 seats), Tempo Traveller for 9 to 17" },
+      { label: "Trip types", value: "One-way drop or round trip" },
+      { label: "Pickup", value: "Door to door from Veraval railway station, your hotel or home" },
+      { label: "Book", value: `Call or WhatsApp ${OPERATOR.phone}` },
+    ],
+    driveSection: {
+      heading: "The drive from Veraval to Somnath",
+      body: "Somnath sits about 7 km from Veraval, a 15 to 20 minute drive along the coast at Prabhas Patan. It is the transfer that links the Veraval railway station and its hotels with the temple, so most bookings are a simple one-way drop or a wait-and-return while you take darshan.",
+    },
+    tripTypes: {
+      heading: "One-way or round trip",
+      body: "Most travellers book this as a one-way transfer, or a short wait-and-return while they visit the temple. Continuing along the coast afterwards? See the Veraval to Dwarka taxi.",
+    },
+    vehiclesIntro:
+      "Pick your car by group size. The fare for this short transfer is confirmed at booking. For the full price list across vehicles, open the fare rate card.",
+    faresIncluded: [
+      "Door to door pickup from Veraval railway station, your hotel or home",
+      "A written fare, confirmed before you travel",
+    ],
+    faresExcluded: [
+      "Temple entry and any guide charges",
+      "Driver waiting charges beyond a short wait-and-return, quoted in advance",
+    ],
+    whyBook: {
+      heading: "Why book your Veraval to Somnath taxi with Experience My India",
+      points: whyBookPoints(
+        "Door to door pickup in Veraval, including from the railway station, with airport transfers from Diu or Porbandar if you are flying in.",
+      ),
+    },
+    notForYou: [
+      "You want the single cheapest shared auto. This is a private cab for your group alone.",
+      "You want a self-drive rental. Every booking includes a driver.",
+      "You want the longer Veraval to Dwarka coastal run, which is covered on its own page.",
+    ],
+    beforeYouTravel: [
+      "The transfer is quick, so book it around your train arrival and your darshan timing.",
+      "The Somnath aarti is worth timing your visit around; tell us and the driver plans the pickup.",
+      "Keep light luggage with you, since the drive is only a few minutes.",
+    ],
+    faq: [
+      {
+        question: "What is the Veraval to Somnath taxi fare?",
+        answer: "It is a short transfer, and the fare is confirmed before you book. Share your pickup point and time for a firm quote.",
+      },
+      { question: "How far is Veraval from Somnath?", answer: "About 7 km, a 15 to 20 minute drive." },
+      { question: "Can you pick me up from Veraval railway station?", answer: "Yes. Station pickup is the most common booking on this route." },
+      { question: "Can the driver wait while I take darshan?", answer: "Yes. A short wait-and-return can be arranged and is quoted in advance." },
+      LANGUAGES_FAQ,
+    ],
+    keepPlanning: {
+      intro:
+        "Planning the whole circuit? See all routes on the taxi service hub. Heading on to Dwarka? Book the Veraval to Dwarka taxi, compare cars, or see prices on the fare rate card.",
+      links: [
+        { label: "Somnath Dwarka taxi service hub", href: TAXI_HUB_PATH },
+        { label: "Veraval to Dwarka taxi", href: p("veraval-to-dwarka-taxi") },
+        { label: "Fare rate card", href: p("fare-rate-card") },
+        { label: "Somnath Dwarka tour packages", href: "/somnath-dwarka-tour-package/" },
+      ],
+    },
+    cta: {
+      heading: "Book your Veraval to Somnath taxi",
+      body: `Send your date, pickup point and number of pilgrims, and we confirm the car and the all-in fare before you commit. Call or message ${OPERATOR.phone} on WhatsApp for the fastest reply.`,
+    },
+  },
+
+  "ahmedabad-to-statue-of-unity-taxi": {
+    titleTag: "Ahmedabad to Statue of Unity Taxi | Day Trip",
+    metaDescription:
+      "Book an Ahmedabad to Statue of Unity taxi. Kevadia day trips one way or round trip, with Sedan, Ertiga, Innova Crysta or Tempo Traveller.",
+    h1: "Ahmedabad to Statue of Unity Taxi",
+    crumbLabel: "Ahmedabad to Statue of Unity",
+    quickAnswer:
+      "An Ahmedabad to Statue of Unity taxi covers about 200 km to Kevadia in 3.5 to 4 hours by road via Vadodara. Experience My India runs this as a private day trip, one-way or round-trip, from a sedan up to a tempo traveller, with the fare confirmed in writing before you book. Pickup is door to door in Ahmedabad, and the drivers speak English, Gujarati, Telugu and Kannada.",
+    intro:
+      "Experience My India runs private cabs from Ahmedabad to the Statue of Unity at Kevadia, the tallest statue in the world, set beside the Sardar Sarovar dam on the Narmada. Most people go as a full-day round trip, which a private cab makes easy. Your fare is confirmed in writing before you set off.",
+    atAGlance: [
+      { label: "Route", value: "Ahmedabad to Statue of Unity, about 200 km" },
+      { label: "Drive time", value: "3.5 to 4 hours via Vadodara" },
+      { label: "Fares from", value: "Indicative, confirmed at booking" },
+      { label: "Vehicles", value: "Sedan, Ertiga (6 seats), Innova Crysta (7 seats), Tempo Traveller for 9 to 17" },
+      { label: "Trip types", value: "One-way drop or round trip" },
+      { label: "Pickup", value: "Door to door from your Ahmedabad hotel, home or the airport" },
+      { label: "Book", value: `Call or WhatsApp ${OPERATOR.phone}` },
+    ],
+    driveSection: {
+      heading: "The drive from Ahmedabad to Kevadia",
+      body: "The route covers about 200 km and takes 3.5 to 4 hours, running south through Vadodara before the final stretch to Kevadia. An early start gets you to the viewing gallery in good time and leaves the evening free for the laser and light show. Tell us your plan and the driver times the day around your gallery slot and the return.",
+    },
+    tripTypes: {
+      heading: "One-way or round trip",
+      body: "Book a round trip for a comfortable same-day Statue of Unity visit, which keeps the same driver and car with you, or a one-way drop if you are staying near Kevadia. Continuing to the temples afterwards? See the Ahmedabad to Somnath taxi.",
+    },
+    vehiclesIntro:
+      "Pick your car by group size. Fares for this trip are confirmed at booking. For the full price list across vehicles, open the fare rate card.",
+    faresIncluded: [
+      "Door to door pickup from your Ahmedabad hotel, home or the airport",
+      "A written fare, confirmed before you travel",
+    ],
+    faresExcluded: [
+      "The Statue of Unity entry, viewing gallery and any attraction tickets",
+      "Guide charges and meals",
+    ],
+    whyBook: {
+      heading: "Why book your Ahmedabad to Statue of Unity taxi with Experience My India",
+      points: whyBookPoints("Door to door pickup in Ahmedabad, with airport meet and greet if you are flying in."),
+    },
+    notForYou: [
+      "You want the single cheapest shared seat. This is a private cab for your group alone.",
+      "You want a self-drive rental. Every booking includes a driver.",
+      "You only need an Ahmedabad airport transfer, which is covered on the Ahmedabad airport taxi page.",
+    ],
+    beforeYouTravel: [
+      "Book your Statue of Unity and viewing gallery tickets ahead, since slots sell out on weekends and holidays.",
+      "An early start leaves time for the gallery, the valley of flowers and the evening light show.",
+      "October to March is the most comfortable window for the day trip.",
+    ],
+    faq: [
+      {
+        question: "What is the Ahmedabad to Statue of Unity taxi fare?",
+        answer:
+          "The fare depends on the vehicle and whether you travel one-way or round-trip, and it is confirmed in writing before you book. Share your date for a firm all-in quote.",
+      },
+      { question: "How far is Ahmedabad to the Statue of Unity?", answer: "About 200 km to Kevadia, usually via Vadodara." },
+      { question: "How long does the drive take?", answer: "Around 3.5 to 4 hours each way." },
+      {
+        question: "Can I do the Statue of Unity as a day trip from Ahmedabad?",
+        answer: "Yes. A round-trip cab makes a comfortable same-day visit with an early start.",
+      },
+      {
+        question: "Does the fare include the entry ticket?",
+        answer: "No. The cab fare covers the drive; entry and gallery tickets are booked separately.",
+      },
+      LANGUAGES_FAQ,
+    ],
+    keepPlanning: {
+      intro:
+        "Planning more of Gujarat? See all routes on the taxi service hub. Heading to the temples next? Book the Ahmedabad legs, compare cars, or see prices on the fare rate card.",
+      links: [
+        { label: "Somnath Dwarka taxi service hub", href: TAXI_HUB_PATH },
+        { label: "Ahmedabad to Somnath taxi", href: p("ahmedabad-to-somnath-taxi") },
+        { label: "Ahmedabad to Dwarka taxi", href: p("ahmedabad-to-dwarka-taxi") },
+        { label: "Fare rate card", href: p("fare-rate-card") },
+      ],
+    },
+    cta: {
+      heading: "Book your Ahmedabad to Statue of Unity taxi",
+      body: `Send your date, pickup point and number of pilgrims, and we confirm the car and the all-in fare before you commit. Call or message ${OPERATOR.phone} on WhatsApp for the fastest reply.`,
+    },
+  },
+
+  "bhuj-to-white-rann-taxi": {
+    titleTag: "Bhuj to White Rann Taxi | Rann of Kutch Cab",
+    metaDescription:
+      "Book a Bhuj to White Rann taxi for Dhordo and Rann Utsav. One way and round trip cabs with Sedan, Ertiga, Innova Crysta and Tempo Traveller.",
+    h1: "Bhuj to White Rann Taxi",
+    crumbLabel: "Bhuj to White Rann",
+    quickAnswer:
+      "A Bhuj to White Rann taxi covers about 80 km to Dhordo in 1.5 to 2 hours, passing the Bhirandiyara permit check. Experience My India runs this as a private one-way or round-trip cab, from a sedan up to a tempo traveller, with the fare confirmed in writing before you book. Pickup is door to door in Bhuj, and the drivers speak English, Gujarati, Telugu and Kannada.",
+    intro:
+      "Experience My India runs private cabs from Bhuj to the White Rann at Dhordo, the vast salt desert of Kutch that turns silver under the moon during Rann Utsav. A private cab lets you time the drive for sunset and the moonrise. Your fare is confirmed in writing before you set off.",
+    atAGlance: [
+      { label: "Route", value: "Bhuj to White Rann, about 80 km" },
+      { label: "Drive time", value: "1.5 to 2 hours via the Bhirandiyara permit check" },
+      { label: "Fares from", value: "Indicative, confirmed at booking" },
+      { label: "Vehicles", value: "Sedan, Ertiga (6 seats), Innova Crysta (7 seats), Tempo Traveller for 9 to 17" },
+      { label: "Trip types", value: "One-way drop or round trip" },
+      { label: "Pickup", value: "Door to door from your Bhuj hotel, home or the airport" },
+      { label: "Book", value: `Call or WhatsApp ${OPERATOR.phone}` },
+    ],
+    driveSection: {
+      heading: "The drive from Bhuj to the White Rann",
+      body: "The route covers about 80 km and takes 1.5 to 2 hours, running north from Bhuj through Bhirandiyara, where you clear the permit check for the Rann. Bhirandiyara is a popular stop for its mawa. From Dhordo you reach the white salt flats, and many travellers add Kala Dungar, the highest point in Kutch, for the view. Tell us your plan and the driver times it for sunset.",
+    },
+    tripTypes: {
+      heading: "One-way or round trip",
+      body: "Book a round trip to reach the Rann for sunset and return to Bhuj after moonrise, which keeps the same driver and car with you, or a one-way drop if you are staying at a tent city. Ask us to add a tempo traveller for a larger group.",
+    },
+    vehiclesIntro:
+      "Pick your car by group size. Fares for this trip are confirmed at booking. For the full price list across vehicles, open the fare rate card.",
+    faresIncluded: [
+      "Door to door pickup from your Bhuj hotel, home or the airport",
+      "A written fare, confirmed before you travel",
+    ],
+    faresExcluded: [
+      "The Rann permit and entry charges",
+      "Camel or activity charges at Dhordo and any guide fees",
+      "Sightseeing detours such as Kala Dungar, quoted before they are driven",
+    ],
+    whyBook: {
+      heading: "Why book your Bhuj to White Rann taxi with Experience My India",
+      points: whyBookPoints("Door to door pickup in Bhuj, with airport meet and greet if you are flying into Bhuj."),
+    },
+    notForYou: [
+      "You want a shared Rann Utsav shuttle. This is a private cab for your group alone.",
+      "You want a self-drive rental. Every booking includes a driver.",
+      "You need a cab outside Kutch for the temple circuit, which is covered on the route pages.",
+    ],
+    beforeYouTravel: [
+      "Carry photo ID for every traveller for the Bhirandiyara permit check.",
+      "The Rann is at its best on full moon nights and during Rann Utsav, roughly November to February.",
+      "Time the drive for sunset and the moonrise, and add Kala Dungar for the view if you have the evening.",
+    ],
+    faq: [
+      {
+        question: "What is the Bhuj to White Rann taxi fare?",
+        answer:
+          "The fare depends on the vehicle and whether you travel one-way or round-trip, and it is confirmed in writing before you book. Share your date for a firm all-in quote.",
+      },
+      { question: "How far is Bhuj to Dhordo and the White Rann?", answer: "About 80 km, a 1.5 to 2 hour drive via Bhirandiyara." },
+      {
+        question: "Do I need a permit for the White Rann?",
+        answer: "Yes. There is a permit check at Bhirandiyara, so carry photo ID for every traveller.",
+      },
+      { question: "When is the best time to visit the White Rann?", answer: "Full moon nights and Rann Utsav, roughly November to February." },
+      { question: "Can you add Kala Dungar to the trip?", answer: "Yes. Tell us at booking and the driver builds it into the timing." },
+      LANGUAGES_FAQ,
+    ],
+    keepPlanning: {
+      intro:
+        "Planning more of Gujarat? See all routes on the taxi service hub. Travelling as a group? Compare the vehicles, or see prices on the fare rate card.",
+      links: [
+        { label: "Somnath Dwarka taxi service hub", href: TAXI_HUB_PATH },
+        { label: "Tempo Traveller", href: p("tempo-traveller") },
+        { label: "Fare rate card", href: p("fare-rate-card") },
+        { label: "Somnath Dwarka tour packages", href: "/somnath-dwarka-tour-package/" },
+      ],
+    },
+    cta: {
+      heading: "Book your Bhuj to White Rann taxi",
+      body: `Send your date, pickup point and number of pilgrims, and we confirm the car and the all-in fare before you commit. Call or message ${OPERATOR.phone} on WhatsApp for the fastest reply.`,
+    },
+  },
+
+  "rajkot-to-virpur-chotila-taxi": {
+    titleTag: "Rajkot to Virpur Chotila Taxi | Darshan Cab",
+    metaDescription:
+      "Book a Rajkot to Virpur and Chotila taxi for Jalaram Bapa and Chamunda Mata darshan. One way and round trip cabs, comfortable vehicles.",
+    h1: "Rajkot to Virpur and Chotila Taxi",
+    crumbLabel: "Rajkot to Virpur and Chotila",
+    quickAnswer:
+      "A Rajkot to Virpur and Chotila taxi covers roughly 55 to 65 km per leg, about 1 to 1.5 hours each way, for Jalaram Bapa darshan at Virpur and Chamunda Mata darshan at Chotila. Experience My India runs this as a private darshan cab, from a sedan up to a tempo traveller, with the fare confirmed before you book. The drivers speak English, Gujarati, Telugu and Kannada.",
+    intro:
+      "Experience My India runs private darshan cabs from Rajkot to Virpur and Chotila, the two much-loved shrines within easy reach of the city, the Jalaram Bapa temple at Virpur and the Chamunda Mata temple at Chotila. Both fit comfortably into a day, and a private cab keeps them on one booking. Your fare is confirmed before you set off.",
+    atAGlance: [
+      { label: "Route", value: "Rajkot to Virpur and Chotila, about 55 to 65 km" },
+      { label: "Drive time", value: "1 to 1.5 hours each leg via Virpur and Chotila" },
+      { label: "Fares from", value: "Indicative, confirmed at booking" },
+      { label: "Vehicles", value: "Sedan, Ertiga (6 seats), Innova Crysta (7 seats), Tempo Traveller for 9 to 17" },
+      { label: "Trip types", value: "One-way drop or round trip" },
+      { label: "Pickup", value: "Door to door from your Rajkot hotel, home or the airport" },
+      { label: "Book", value: `Call or WhatsApp ${OPERATOR.phone}` },
+    ],
+    driveSection: {
+      heading: "The drive from Rajkot to Virpur and Chotila",
+      body: "Virpur lies roughly 55 to 65 km from Rajkot, about an hour to an hour and a half each way, and Chotila sits along the Rajkot to Ahmedabad highway a similar distance out. Many pilgrims cover both in one day. Chotila's Chamunda Mata temple stands on a hill, so allow time for the stepped climb. Tell us your plan and the driver sequences the two darshans and the return.",
+    },
+    tripTypes: {
+      heading: "One-way or round trip",
+      body: "Book a round trip so the same driver and car carry you between Virpur, Chotila and back to Rajkot, or a one-way drop if you are continuing elsewhere. Heading to Dwarka afterwards? See the Rajkot to Dwarka taxi.",
+    },
+    vehiclesIntro:
+      "Pick your car by group size. Fares for this darshan trip are confirmed at booking. For the full price list across vehicles, open the fare rate card.",
+    faresIncluded: [
+      "Door to door pickup from your Rajkot hotel, home or the airport",
+      "A written fare, confirmed before you travel",
+    ],
+    faresExcluded: [
+      "Prasad, donations and any guide charges",
+      "Driver waiting charges beyond the darshan stops, quoted in advance",
+    ],
+    whyBook: {
+      heading: "Why book your Rajkot to Virpur and Chotila taxi with Experience My India",
+      points: whyBookPoints("Door to door pickup in Rajkot, with airport meet and greet if you are flying into Rajkot."),
+    },
+    notForYou: [
+      "You want the single cheapest shared seat. This is a private cab for your group alone.",
+      "You want a self-drive rental. Every booking includes a driver.",
+      "You want the Rajkot to Dwarka temple run, which is covered on its own page.",
+    ],
+    beforeYouTravel: [
+      "Both darshans fit a single day, so a morning start is comfortable.",
+      "Chotila's temple is on a hill with a stepped climb, so allow time and water.",
+      "Check the temple darshan timings for the day; tell us and the driver plans the pickup.",
+    ],
+    faq: [
+      {
+        question: "What is the Rajkot to Virpur and Chotila taxi fare?",
+        answer:
+          "The fare depends on the vehicle and whether you travel one-way or round-trip, and it is confirmed before you book. Share your date for a firm all-in quote.",
+      },
+      { question: "How far are Virpur and Chotila from Rajkot?", answer: "Each is roughly 55 to 65 km, about an hour to an hour and a half each way." },
+      { question: "Can I do Virpur and Chotila darshan in one day?", answer: "Yes. Both fit comfortably into a single day with a private cab." },
+      { question: "Is a one way Rajkot to Virpur and Chotila taxi available?", answer: "Yes. You can book a one-way drop or a round trip." },
+      { question: "Is there a climb at Chotila?", answer: "Yes. The Chamunda Mata temple sits on a hill, so allow time for the stepped climb." },
+      LANGUAGES_FAQ,
+    ],
+    keepPlanning: {
+      intro:
+        "Planning more of Saurashtra? See all routes on the taxi service hub. Heading to Dwarka next? Book the Rajkot to Dwarka taxi, compare cars, or see prices on the fare rate card.",
+      links: [
+        { label: "Somnath Dwarka taxi service hub", href: TAXI_HUB_PATH },
+        { label: "Rajkot to Dwarka taxi", href: p("rajkot-to-dwarka-taxi") },
+        { label: "Fare rate card", href: p("fare-rate-card") },
+        { label: "Somnath Dwarka tour packages", href: "/somnath-dwarka-tour-package/" },
+      ],
+    },
+    cta: {
+      heading: "Book your Rajkot to Virpur and Chotila taxi",
+      body: `Send your date, pickup point and number of pilgrims, and we confirm the car and the all-in fare before you commit. Call or message ${OPERATOR.phone} on WhatsApp for the fastest reply.`,
+    },
+  },
 };
 
 export const spokeCopyFor = (slug: string): SpokeCopy | null => SPOKE_COPY[slug] ?? null;

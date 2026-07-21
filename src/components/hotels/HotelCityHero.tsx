@@ -73,7 +73,7 @@ export default function HotelCityHero({ city, h1, nearTemple, image, tiers, coun
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/35 px-3 py-1.5 font-semibold shadow-lg backdrop-blur-xl">
               <Star size={14} className="fill-orange-300 text-orange-300" />
-              {rating.toFixed(1)} avg rating
+              {rating.toFixed(1)} on Tripadvisor
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/35 px-3 py-1.5 font-semibold shadow-lg backdrop-blur-xl">
               <BedDouble size={14} className="text-orange-300" />
