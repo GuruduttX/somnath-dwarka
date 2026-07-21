@@ -21,7 +21,7 @@ import TourArchiveCTA from "@/src/components/TourArchive/TourArchiveCTA";
 import CustomPackageCTA from "@/src/components/shared/CustomPackageCTA";
 import HangingDiyas from "@/src/components/TourArchive/HangingDiyas";
 import HubContent from "@/src/components/hub/HubContent";
-import { faqOf, s, bool, verifiedValue } from "@/src/lib/cms";
+import { faqOf, s, bool, verifiedValue, h1Of, titleOf } from "@/src/lib/cms";
 
 const PATH = "/somnath-dwarka-tour-package/";
 
@@ -31,14 +31,14 @@ export async function generateMetadata(): Promise<Metadata> {
   const hub = await getHubBySlug("somnath-dwarka-tour-package");
   if (!hub) {
     return buildMetadata({
-      title: "Somnath Dwarka Tour Package — Itinerary, Price & Booking",
+      title: "Somnath Dwarka Tour Package",
       description:
         "Somnath Dwarka tour packages with day-wise itinerary, inclusions, indicative prices and cab + hotel help. Choose by duration, starting city or budget.",
       path: PATH,
     });
   }
   return buildMetadata({
-    title: s(hub || {}, "title_tag") || s(hub || {}, "title") || "Somnath Dwarka Tour Package",
+    title: titleOf(hub) || "Somnath Dwarka Tour Package",
     description: s(hub || {}, "meta_description"),
     path: PATH,
     noindex: bool(hub || {}, "noindex"),
@@ -147,6 +147,8 @@ function seedToTourPackage(seed: SeedPackage, index: number): TourPackage {
 
 export default async function PackagePillarPage() {
   const hub = await getHubBySlug("somnath-dwarka-tour-package");
+  // h1Of strips the URL map's "— Itinerary, Price & Booking" keyword tail.
+  const heroHeadline = hub ? h1Of(hub) : "";
   const cms = await getPublishedPackages();
   const cmsTourPackages = mapAdminPackagesToTourCards(cms);
   const cmsSlugs = new Set(cmsTourPackages.map((p) => p.slug));
@@ -335,8 +337,8 @@ export default async function PackagePillarPage() {
 
             {/* Headline */}
             <h1 className="font-playfair pkg-anim pkg-d1 mt-6 text-4xl font-black leading-[1.15] tracking-[-0.03em] text-[#3a2416] sm:text-5xl lg:mt-0 lg:text-[3rem]">
-              {s(hub || {}, "h1") ? (
-                highlightHeadline(s(hub || {}, "h1"))
+              {heroHeadline ? (
+                highlightHeadline(heroHeadline)
               ) : (
                 <>
                   Tour{" "}

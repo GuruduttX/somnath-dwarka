@@ -27,6 +27,12 @@ export const isValidSlug = (slug: unknown): slug is string =>
 
 /** Package variant canonical path (SOP §3). */
 export const packagePath = (slug: string) => `/somnath-dwarka-tour-package/${slug}/`;
+/** Gir-triangle variant canonical path (SOP §3). */
+export const GIR_HUB_SLUG = "somnath-dwarka-gir-tour-package";
+export const girPackagePath = (slug: string) => `/${GIR_HUB_SLUG}/${slug}/`;
+/** Gujarat umbrella variant canonical path (SOP §3). */
+export const GUJARAT_HUB_SLUG = "gujarat-tour-packages";
+export const gujaratPackagePath = (slug: string) => `/${GUJARAT_HUB_SLUG}/${slug}/`;
 /** Guides replace the old /blog path (SOP §3). */
 export const guidePath = (slug: string) => `/guides/${slug}/`;
 
@@ -104,9 +110,11 @@ export const pillarPath = (slug: string) => `/${slug}/`;
 /** Root slugs served by static folders — never resolved by /[rootSlug]/. */
 export const RESERVED_ROOT_SLUGS = new Set([
   "about", "author", "booking-policy", "cancellation-refund", "compare",
-  "contact", "dwarka", "dwarka-tour-package", "festivals", "guides", "hotels", "plan", "privacy",
+  "contact", "dwarka", "dwarka-tour-package", "festivals", "guides", "gujarat-tour-packages",
+  "hotels", "plan", "privacy",
   "reviews", "sitemap", "somnath", "somnath-tour-package", "somnath-dwarka-taxi-service",
-  "somnath-dwarka-tour-package", "terms", "thank-you", "tools", "llms.txt",
+  "somnath-dwarka-tour-package", "somnath-dwarka-gir-tour-package",
+  "terms", "thank-you", "tools", "llms.txt",
   "temples",
 ]);
 

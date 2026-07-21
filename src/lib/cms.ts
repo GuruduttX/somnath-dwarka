@@ -23,8 +23,20 @@ export const verifiedValue = (d: Doc, k: string): string | null => {
   return f?.verified && f.value ? f.value : null;
 };
 
-export const h1Of = (d: Doc): string => s(d, "h1") || s(d, "title");
-export const titleOf = (d: Doc): string => s(d, "title_tag") || s(d, "title");
+/**
+ * Drop the URL map's "— Itinerary, Price & Booking" tail.
+ *
+ * That phrase is a keyword pattern from scripts/data/url-map-v5.json, not a
+ * headline: it repeats on every money page and says nothing a reader needs. The
+ * seed scripts already strip it at write time, but docs seeded before that (and
+ * anything re-imported from the map) still carry it, so strip it on read too —
+ * the function is idempotent, so doing both is safe.
+ */
+export const stripHeadTail = (text: string): string =>
+  text.replace(/\s*[—–:-]\s*Itinerary,\s*Price (?:&|and)\s*Booking\s*$/i, "").trim();
+
+export const h1Of = (d: Doc): string => stripHeadTail(s(d, "h1") || s(d, "title"));
+export const titleOf = (d: Doc): string => stripHeadTail(s(d, "title_tag") || s(d, "title"));
 export const descOf = (d: Doc): string =>
   s(d, "meta_description") || s(d, "answer_first") || h1Of(d);
 

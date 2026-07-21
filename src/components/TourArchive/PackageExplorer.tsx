@@ -69,13 +69,29 @@ export default function PackageExplorer({
   traveller,
   route = [],
   transport = [],
+  groupCopy,
 }: {
   duration: TourPackage[];
   city: TourPackage[];
   traveller: TourPackage[];
   route?: TourPackage[];
   transport?: TourPackage[];
+  /**
+   * Per-group title/blurb overrides. The default copy describes the
+   * Somnath–Dwarka hub; a hub whose groups mean something else (the Gir
+   * triangle, say) passes its own wording rather than forking this component.
+   */
+  groupCopy?: Partial<Record<Group, { title?: string; blurb?: string }>>;
 }) {
+  const groupMeta = useMemo(() => {
+    if (!groupCopy) return GROUP_META;
+    const merged = { ...GROUP_META };
+    for (const g of GROUP_ORDER) {
+      if (groupCopy[g]) merged[g] = { ...merged[g], ...groupCopy[g] };
+    }
+    return merged;
+  }, [groupCopy]);
+
   const all = useMemo<Tagged[]>(
     () => [
       ...duration.map((p) => ({ ...p, group: "duration" as const })),
@@ -209,7 +225,7 @@ export default function PackageExplorer({
                   >
                     {active && <span className="h-1.5 w-1.5 rounded-[2px] bg-white" />}
                   </span>
-                  {GROUP_META[g].title.replace("Choose by ", "")}
+                  {groupMeta[g].title.replace("Choose by ", "")}
                 </button>
               );
             })}
@@ -355,7 +371,7 @@ export default function PackageExplorer({
             <div className="space-y-12">
               {orderedGroups.map((g) => {
                 const items = byGroup(g);
-                const meta = GROUP_META[g];
+                const meta = groupMeta[g];
                 const Icon = meta.icon;
                 const banner = g === "traveller"; // banner sits above the traveller section
 
