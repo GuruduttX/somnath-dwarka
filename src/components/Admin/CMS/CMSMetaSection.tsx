@@ -1,6 +1,19 @@
 import React from 'react'
 
+/**
+ * Package categories.
+ *
+ * The first group is the taxonomy the packages actually use — it is what the
+ * seed scripts wrote and what renders as the badge on every tour card. It was
+ * missing here, so the editor showed "Select Category" for every package and an
+ * unwary save would have blanked a value the card depends on.
+ */
 export const categories = [
+  "Pilgrimage",
+  "Day Trip",
+  "Family Pilgrimage",
+  "Budget",
+  "With Gir",
   "1 Day Tour Package",
   "2 Day Tour Package",
   "3 Day Tour Package",

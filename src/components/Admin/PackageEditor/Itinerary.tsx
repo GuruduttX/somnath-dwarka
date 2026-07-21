@@ -4,11 +4,19 @@ import React from "react";
 import { Plus, Trash2 } from "lucide-react";
 import RichTextEditor from "@/src/components/Admin/shared/RichTextEditor";
 
+type ItineraryStep = {
+  time: string;
+  activity: string;
+};
+
 type Itinerary = {
   id: string;
   day: number;
   title: string;
   description: string;
+  steps?: ItineraryStep[];
+  dayDuration?: string;
+  dayActivity?: string;
 };
 
 const inputClass = `
@@ -60,6 +68,44 @@ const ItinearyMaker = ({
     );
   };
 
+  const handleMetaChange = (
+    id: string,
+    field: "dayDuration" | "dayActivity",
+    value: string
+  ) => {
+    setItinerary((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, [field]: value } : item))
+    );
+  };
+
+  /** Steps are the hour-by-hour rows the public page renders as a timeline. */
+  const updateSteps = (
+    id: string,
+    fn: (steps: ItineraryStep[]) => ItineraryStep[]
+  ) => {
+    setItinerary((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, steps: fn(item.steps ?? []) } : item
+      )
+    );
+  };
+
+  const handleAddStep = (id: string) =>
+    updateSteps(id, (steps) => [...steps, { time: "", activity: "" }]);
+
+  const handleDeleteStep = (id: string, index: number) =>
+    updateSteps(id, (steps) => steps.filter((_, i) => i !== index));
+
+  const handleStepChange = (
+    id: string,
+    index: number,
+    field: keyof ItineraryStep,
+    value: string
+  ) =>
+    updateSteps(id, (steps) =>
+      steps.map((s, i) => (i === index ? { ...s, [field]: value } : s))
+    );
+
   return (
     <div className="border border-blue-900/50 rounded-2xl w-full p-6 bg-blue-950/20 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
 
@@ -100,6 +146,35 @@ const ItinearyMaker = ({
               </div>
             </div>
 
+            {/* The two chips shown under the day title on the public page */}
+            <div className="flex gap-4 mt-4">
+              <div className="flex-1">
+                <label className="text-sm text-blue-300/70 font-medium">
+                  Day length <span className="text-blue-400/40">(chip)</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Full Day"
+                  className={inputClass}
+                  value={item.dayDuration ?? ""}
+                  onChange={(e) => handleMetaChange(item.id, "dayDuration", e.target.value)}
+                />
+              </div>
+
+              <div className="flex-1">
+                <label className="text-sm text-blue-300/70 font-medium">
+                  Day type <span className="text-blue-400/40">(chip)</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Temple Visits"
+                  className={inputClass}
+                  value={item.dayActivity ?? ""}
+                  onChange={(e) => handleMetaChange(item.id, "dayActivity", e.target.value)}
+                />
+              </div>
+            </div>
+
             {/* Description Editor */}
             <div className="mt-5">
               <label className="text-sm text-blue-300/70 font-medium mb-2 block">
@@ -112,6 +187,61 @@ const ItinearyMaker = ({
                 minHeight="35vh"
                 maxHeight="40vh"
               />
+            </div>
+
+            {/* Hour-by-hour steps */}
+            <div className="mt-5">
+              <label className="text-sm text-blue-300/70 font-medium mb-2 block">
+                Hour-by-hour steps{" "}
+                <span className="text-blue-400/40">(optional)</span>
+              </label>
+
+              <div className="space-y-3">
+                {(item.steps ?? []).map((step, index) => (
+                  <div key={index} className="flex gap-3 items-start">
+                    <div className="w-1/4">
+                      <input
+                        type="text"
+                        placeholder="09:25"
+                        className={inputClass}
+                        value={step.time}
+                        onChange={(e) =>
+                          handleStepChange(item.id, index, "time", e.target.value)
+                        }
+                      />
+                    </div>
+
+                    <div className="flex-1">
+                      <input
+                        type="text"
+                        placeholder="What happens at this time"
+                        className={inputClass}
+                        value={step.activity}
+                        onChange={(e) =>
+                          handleStepChange(item.id, index, "activity", e.target.value)
+                        }
+                      />
+                    </div>
+
+                    <button
+                      type="button"
+                      className="mt-2 p-3 text-red-400/70 hover:text-red-400 transition cursor-pointer"
+                      onClick={() => handleDeleteStep(item.id, index)}
+                      aria-label="Remove step"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handleAddStep(item.id)}
+                className="mt-3 flex items-center gap-1.5 text-sm text-blue-300 hover:text-blue-200 transition cursor-pointer"
+              >
+                <Plus size={14} /> Add step
+              </button>
             </div>
 
             {/* Delete */}

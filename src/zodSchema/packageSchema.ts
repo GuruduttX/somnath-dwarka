@@ -18,6 +18,8 @@ const itinerary = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
   steps: z.array(itineraryStep).optional(),
+  dayDuration: z.string().optional(),
+  dayActivity: z.string().optional(),
 });
 
 const faq = z.object({
@@ -130,6 +132,45 @@ export const tourPackageSchema = z
     isSightseeingIncluded: z.boolean().optional(),
 
     availableSrc: z.array(z.string()).optional(),
+
+    // Long-form page copy, previously seed-only. Optional throughout: a package
+    // that has never carried these must still validate.
+    decision: z
+      .object({
+        title: z.string().optional(),
+        intro: z.string().optional(),
+        headers: z.array(z.string()).optional(),
+        rows: z.array(z.array(z.string())).optional(),
+        note: z.string().optional(),
+      })
+      .nullable()
+      .optional(),
+
+    sections: z
+      .array(z.object({ h2: z.string().optional(), body: z.array(z.string()).optional() }))
+      .optional(),
+
+    priceMatrix: z
+      .object({
+        headers: z.array(z.string()).optional(),
+        rows: z.array(z.array(z.string())).optional(),
+      })
+      .nullable()
+      .optional(),
+
+    whyChoose: z
+      .object({ title: z.string().optional(), points: z.array(z.string()).optional() })
+      .nullable()
+      .optional(),
+
+    notForYou: z
+      .object({ title: z.string().optional(), items: z.array(z.string()).optional() })
+      .nullable()
+      .optional(),
+
+    priceNotes: z.array(z.string()).optional(),
+
+    finalCta: z.string().optional(),
   })
   
   .superRefine((data, ctx) => {

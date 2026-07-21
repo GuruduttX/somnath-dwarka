@@ -12,18 +12,18 @@ import TripHighlights from '@/src/components/Admin/PackageEditor/TripHighlights'
 import Inclusion from '@/src/components/Admin/PackageEditor/Inclusion';
 import PriceTiers, { type PriceTier } from '@/src/components/Admin/PackageEditor/PriceTiers';
 import Exclusion from '@/src/components/Admin/PackageEditor/Exclusion';
-import Policy from '@/src/components/Admin/PackageEditor/Policy';
 import Document from '@/src/components/Admin/PackageEditor/Document';
 import Testimonials from '@/src/components/Admin/PackageEditor/Testimonials';
 import ItinearyMaker from '@/src/components/Admin/PackageEditor/Itinerary';
-import DANDestination, { destinations } from '@/src/components/Admin/PackageEditor/DANDestination';
+import DANDestination from '@/src/components/Admin/PackageEditor/DANDestination';
 import ChildImagePicker from '@/src/components/Admin/PackageEditor/ChildImagePicker';
 import CMSSchema from '@/src/components/Admin/CMS/CMSSchema';
 import DurationSection from '@/src/components/Admin/PackageEditor/DurationSection';
 import DestRoutes from '@/src/components/Admin/PackageEditor/DestRoute';
 import SelectedInclusion from '@/src/components/Admin/PackageEditor/SelectedInclusion';
 import PackageOverview from '@/src/components/Admin/PackageEditor/PackageOverview';
-import SourceCitySelector from '@/src/components/Admin/PackageEditor/SourceCitySelector';
+import PageCopy, { emptyPageCopy, type PageCopyState } from '@/src/components/Admin/PackageEditor/PageCopy';
+import { fromPageCopyState } from '@/src/utils/pageCopy';
 import { object } from 'zod';
 
 type PackageForm = {
@@ -39,10 +39,6 @@ type PackageForm = {
   schemaDescription: string;
   image: string;
   alt: string;
-  refund: string;
-  cancel: string;
-  confirmation: string;
-  payment: string;
   day: string;
   night: string;
   destination: string;
@@ -61,7 +57,7 @@ type HighLights  = { id: string; description: string };
 type Inclusions  = { id: string; description: string };
 type Exclusions  = { id: string; description: string };
 type Documents   = { id: string; description: string };
-type Itinerary   = { id: string; day: number; title: string; description: string };
+type Itinerary   = { id: string; day: number; title: string; description: string; steps?: { time: string; activity: string }[] };
 type ChildImage  = { id: string; image: string; alt: string };
 type BreakdownItem = { id: string; days: string; place: string };
 type SegmentType = { id: string; from: string; to: string };
@@ -84,10 +80,6 @@ export default function CreateNewPackage() {
     schemaDescription: "",
     image: "",
     alt: "",
-    refund: "",
-    cancel: "",
-    confirmation: "",
-    payment: "",
     reviews: "",
     rating: "",
     breakfast_included: false,
@@ -131,7 +123,7 @@ export default function CreateNewPackage() {
     destination: "",
     segments: [],
   });
-  const [availableSrc, setAvailableSrc] = useState<string[]>([]);
+  const [pageCopy, setPageCopy] = useState<PageCopyState>(emptyPageCopy());
   const [isLoaded, setIsLoaded] = useState(false);
 
   // 2. THE READ EFFECT (Fires once on mount)
@@ -155,10 +147,6 @@ export default function CreateNewPackage() {
             rating: 0,
             overview: "",
             duration: "",
-            refund: "",
-            cancel: "",
-            confirmation: "",
-            payment: "",
             heroImage: { image: "", alt: "" },
             metaTitle: "",
             metaDescription: "",
@@ -172,7 +160,6 @@ export default function CreateNewPackage() {
             exclusions: [],
             knowBeforeYouGo: [],
             itinerary: [],
-            availableSrc: [],
             durationbreakdown: [],
             routes: { source: "", destination: "", segments: [] },
             isBreakfastIncluded: false,
@@ -194,10 +181,6 @@ export default function CreateNewPackage() {
           destination: parsedData.destination || "",
           overview: parsedData.overview || "",
           duration: parsedData.duration || "",
-          refund: parsedData.refund || "",
-          cancel: parsedData.cancel || "",
-          confirmation: parsedData.confirmation || "",
-          payment: parsedData.payment || "",
 
           // Number to String conversions
           price: parsedData.price ? String(parsedData.price) : "",
@@ -245,8 +228,6 @@ export default function CreateNewPackage() {
           setItinerary(parsedData.itinerary);
         if (parsedData.durationbreakdown?.length > 0)
           setBreakdown(parsedData.durationbreakdown);
-        if (parsedData.availableSrc?.length > 0)
-          setAvailableSrc(parsedData.availableSrc);
 
         // Set the Route object (check if source exists so we don't overwrite with empty)
         if (parsedData.routes?.source) setRoute(parsedData.routes);
@@ -276,10 +257,6 @@ export default function CreateNewPackage() {
         rating: Number(form.rating) || 0,
         overview: form.overview,
         duration: form.duration,
-        refund: form.refund,
-        cancel: form.cancel,
-        confirmation: form.confirmation,
-        payment: form.payment,
         heroImage: { image: form.image || "", alt: form.alt || "" },
         metaTitle: form.metaTitle,
         metaDescription: form.metaDescription,
@@ -296,7 +273,6 @@ export default function CreateNewPackage() {
         priceTiers: priceTiers,
         knowBeforeYouGo: documents, // Maps document state to payload key
         itinerary: itinerary,
-        availableSrc: availableSrc,
         durationbreakdown: breakdown, // Maps breakdown state to payload key
         routes: route, // Maps route state to payload key
 
@@ -326,7 +302,6 @@ export default function CreateNewPackage() {
     itinerary,
     breakdown,
     route,
-    availableSrc,
     isLoaded,
   ]);
 
@@ -367,10 +342,6 @@ export default function CreateNewPackage() {
 
     overview: form.overview,
     duration: form.duration,
-    refund: form.refund,
-    cancel: form.cancel,
-    confirmation: form.confirmation,
-    payment: form.payment,
 
     heroImage: { image: form.image || "", alt: form.alt || "" },
 
@@ -390,11 +361,12 @@ export default function CreateNewPackage() {
     priceTiers,
     knowBeforeYouGo: documents,
     itinerary,
-    availableSrc,
 
     durationbreakdown: breakdown,
 
     routes: route,
+
+    ...fromPageCopyState(pageCopy),
 
     isBreakfastIncluded: form.breakfast_included,
     isStayIncluded: form.stay_included,
@@ -435,10 +407,6 @@ export default function CreateNewPackage() {
             rating: 0,
             overview: "",
             duration: "",
-            refund: "",
-            cancel: "",
-            confirmation: "",
-            payment: "",
             heroImage: { image: "", alt: "" },
             metaTitle: "",
             metaDescription: "",
@@ -452,7 +420,6 @@ export default function CreateNewPackage() {
             exclusions: [],
             knowBeforeYouGo: [],
             itinerary: [],
-            availableSrc: [],
             durationbreakdown: [],
             routes: { source: "", destination: "", segments: [] },
             isBreakfastIncluded: false,
@@ -626,10 +593,6 @@ export default function CreateNewPackage() {
           onChange={updateForm}
           editorType="Package"
         />
-        <SourceCitySelector
-          availableSrc={availableSrc}
-          setAvailableSrc={setAvailableSrc}
-        />
         <SelectedInclusion
           transfer_included={form.transfer_included}
           breakfast_included={form.breakfast_included}
@@ -655,6 +618,7 @@ export default function CreateNewPackage() {
           setItinerary={setItinerary}
           editorType="Package"
         />
+        <PageCopy value={pageCopy} onChange={setPageCopy} />
         <FaqHandler faqs={faqs} setFaqs={setFaqs} editorType="Package" />
         <TripHighlights
           highLights={highLights}
@@ -681,14 +645,6 @@ export default function CreateNewPackage() {
           documents={documents}
           setDocuments={setDocuments}
           editorType="Package"
-        />
-        <Policy
-          refund={form.refund}
-          cancel={form.cancel}
-          confirm={form.confirmation}
-          payment={form.payment}
-          editorType="Package"
-          onChange={updateForm}
         />
         <CMSMediaSection
           image={form.image}

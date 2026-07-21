@@ -22,6 +22,7 @@ import ProductRatings from "@/src/components/TourPackage/ProductRatings";
 import PackageTestimonials from "@/src/components/TourPackage/PackageTestimonials";
 import TrustBuildingSection from "@/src/utils/TrustBuildingSection";
 import Policies from "@/src/components/TourPackage/Policies";
+import { breakdownOf } from "@/src/utils/durationBreakdown";
 
 export const revalidate = 3600;
 
@@ -83,13 +84,21 @@ async function resolvePackage(slug: string) {
       price_verified: false,
       answer_first: String(cms.answer_first || cms.overview || ""),
       highlights: ((cms.highlights as { description: string }[]) || []).map((h) => h.description),
-      itinerary: ((cms.itinerary as { day: number; title: string; description: string; stops?: string[]; steps?: { time: string; activity: string }[] }[]) || []).map((d) => ({
+      itinerary: ((cms.itinerary as { day: number; title: string; description: string; stops?: string[]; steps?: { time: string; activity: string }[]; dayDuration?: string; dayActivity?: string }[]) || []).map((d) => ({
         day: d.day,
         title: d.title,
         description: d.description,
         stops: d.stops,
         steps: Array.isArray(d.steps) ? d.steps.map((s) => ({ time: String(s.time || ""), activity: String(s.activity || "") })) : [],
+        dayDuration: String(d.dayDuration || ""),
+        dayActivity: String(d.dayActivity || ""),
       })),
+      // The CMS "Duration breakdown" section. When an editor has filled it in it
+      // drives the duration strip outright; when it is empty we fall back to
+      // reading places off the itinerary text (see breakdownOf).
+      durationbreakdown: ((cms.durationbreakdown as { id?: string; days?: number; place?: string }[]) || [])
+        .filter((b) => b && String(b.place || "").trim())
+        .map((b, i) => ({ id: String(b.id || `stop-${i}`), days: Number(b.days || 1), place: String(b.place) })),
       inclusions: ((cms.inclusions as { description: string }[]) || []).map((i) => i.description),
       exclusions: ((cms.exclusions as { description: string }[]) || []).map((e) => e.description),
       priceTiers: ((cms.priceTiers as { tier?: string; perNight?: number; total?: number; hotel?: string }[]) || [])
@@ -101,6 +110,18 @@ async function resolvePackage(slug: string) {
           hotel: String(t.hotel || ""),
         })),
       faq: ((cms.faqs as { question: string; answer: string }[]) || []).map((f) => ({ question: f.question, answer: f.answer })),
+      // Social proof, straight from the CMS. Absent stays absent: the rating tile
+      // and the testimonial rail both hide themselves rather than substitute a
+      // placeholder, so nothing here is shown that a real customer did not give.
+      rating: Number(cms.rating) || 0,
+      reviews: Number(cms.reviews) || 0,
+      testimonials: ((cms.testimonials as { name?: string; description?: string; rating?: string }[]) || [])
+        .filter((t) => t && String(t.description || "").trim())
+        .map((t) => ({
+          name: String(t.name || ""),
+          description: String(t.description || ""),
+          rating: String(t.rating || ""),
+        })),
       heroImage,
       childImages,
       noindex: Boolean(cms.noindex),
@@ -123,6 +144,8 @@ async function resolvePackage(slug: string) {
     ...seed,
     title_tag: seed.title,
     meta_description: seed.answer_first,
+    // Seed packages carry no CMS breakdown; the itinerary fallback covers them.
+    durationbreakdown: [] as { id: string; days: number; place: string }[],
     priceTiers: [] as { tier: string; perNight: number; total: number; hotel: string }[],
     heroImage: FALLBACK_GALLERY[0],
     childImages: FALLBACK_GALLERY.slice(1),
@@ -213,32 +236,7 @@ export default async function PackageVariantPage({ params }: Params) {
   const pkg = await resolvePackage(slug);
   if (!pkg) notFound();
 
-  const breakdown = pkg.itinerary.map((item, index) => {
-    let place = "Dwarka";
-    const text = `${item.title} ${item.description} ${item.stops?.join(" ") || ""}`.toLowerCase();
-    
-    if (text.includes("ahmedabad drop")) place = "Ahmedabad Drop";
-    else if (text.includes("ahmedabad")) place = "Ahmedabad";
-    else if (text.includes("bet dwarka")) place = "Bet Dwarka";
-    else if (text.includes("dwarka")) place = "Dwarka";
-    else if (text.includes("somnath")) place = "Somnath";
-    else if (text.includes("porbandar")) place = "Porbandar";
-    else if (text.includes("rajkot")) place = "Rajkot";
-    else if (text.includes("mumbai")) place = "Mumbai";
-    else if (text.includes("jamnagar")) place = "Jamnagar";
-    else if (text.includes("diu")) place = "Diu";
-    else {
-      const cleanTitle = item.title.replace(/arrival|departure|sightseeing|to/gi, "").trim();
-      const words = cleanTitle.split(/\s+/).filter(w => w.length > 2);
-      place = words[0] || "Dwarka";
-    }
-
-    return {
-      id: `stop-${index}`,
-      days: 1,
-      place,
-    };
-  });
+  const breakdown = breakdownOf(pkg.durationbreakdown, pkg.itinerary);
 
   const related = buildRelatedLinks({
     self: packagePath(slug),

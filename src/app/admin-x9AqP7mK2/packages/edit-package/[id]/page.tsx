@@ -12,7 +12,6 @@ import TripHighlights from '@/src/components/Admin/PackageEditor/TripHighlights'
 import Inclusion from '@/src/components/Admin/PackageEditor/Inclusion';
 import Exclusion from '@/src/components/Admin/PackageEditor/Exclusion';
 import PriceTiers, { type PriceTier } from '@/src/components/Admin/PackageEditor/PriceTiers';
-import Policy from '@/src/components/Admin/PackageEditor/Policy';
 import Document from '@/src/components/Admin/PackageEditor/Document';
 import Testimonials from '@/src/components/Admin/PackageEditor/Testimonials';
 import ItinearyMaker from '@/src/components/Admin/PackageEditor/Itinerary';
@@ -25,7 +24,8 @@ import DestRoutes from '@/src/components/Admin/PackageEditor/DestRoute';
 import SelectedInclusion from '@/src/components/Admin/PackageEditor/SelectedInclusion';
 import PackageOverview from '@/src/components/Admin/PackageEditor/PackageOverview';
 import { useParams } from 'next/navigation';
-import SourceCitySelector from '@/src/components/Admin/PackageEditor/SourceCitySelector';
+import PageCopy, { emptyPageCopy, type PageCopyState } from '@/src/components/Admin/PackageEditor/PageCopy';
+import { toPageCopyState, fromPageCopyState } from '@/src/utils/pageCopy';
 
 
 type PackageForm = {
@@ -41,10 +41,6 @@ type PackageForm = {
   schemaDescription: string;
   image: string;
   alt: string;
-  refund: string;
-  cancel: string;
-  confirmation: string;
-  payment: string;
   day: string;
   night: string;
   destination: string;
@@ -63,7 +59,7 @@ type HighLights = { id: string; description: string };
 type Inclusions = { id: string; description: string };
 type Exclusions = { id: string; description: string };
 type Documents = { id: string; description: string };
-type Itinerary = { id: string; day: number; title: string; description: string };
+type Itinerary = { id: string; day: number; title: string; description: string; steps?: { time: string; activity: string }[] };
 type ChildImage = { id: string; image: string; alt: string };
 type BreakdownItem = { id: string; days: string; place: string };
 type SegmentType = { id: string; from: string; to: string };
@@ -77,7 +73,6 @@ export default function page() {
     title: "", category: "", slug: "", price: "", duration: "", overview: "",
     day: "", night: "", destination: "", metaTitle: "", metaDescription: "",
     schemaTitle: "", schemaDescription: "", image: "", alt: "",
-    refund: "", cancel: "", confirmation: "", payment: "",
     reviews: "", rating: "",
     breakfast_included: false, stay_included: false,
     transfer_included: false, sightseeing_included: false,
@@ -96,7 +91,7 @@ export default function page() {
   const [itinerary, setItinerary] = useState<Itinerary[]>([{ id: crypto.randomUUID(), day: 1, title: "", description: "" }]);
   const [breakdown, setBreakdown] = useState<BreakdownItem[]>([{ id: crypto.randomUUID(), days: "0", place: "" }]);
   const [route, setRoute] = useState<RouteType>({ source: "", destination: "", segments: [] });
-  const [availableSrc, setAvailableSrc] = useState<string[]>([]);
+  const [pageCopy, setPageCopy] = useState<PageCopyState>(emptyPageCopy());
 
 
   //Fill data
@@ -148,10 +143,6 @@ export default function page() {
 
         overview: data.overview ?? "",
 
-        refund: data.refund ?? "",
-        cancel: data.cancel ?? "",
-        confirmation: data.confirmation ?? "",
-        payment: data.payment ?? "",
 
         day: data.days?.toString() ?? "",
         night: data.nights?.toString() ?? "",
@@ -181,12 +172,12 @@ export default function page() {
       setItinerary(withIds(data.itinerary))
       setChildImage(withIds(data.childImages));
       setBreakdown(withIds(data.durationbreakdown));
+      setPageCopy(toPageCopyState(data));
       setRoute({
         source: data.routes?.source ?? "",
         destination: data.routes?.destination ?? "",
         segments: withIds(data.routes?.segments),
       })
-      setAvailableSrc(data.availableSrc ?? []);
       
 
 
@@ -247,10 +238,6 @@ export default function page() {
 
     schemaTitle: form.schemaTitle,
     schemaDescription: form.schemaDescription,
-    refund: form.refund,
-    cancel: form.cancel,
-    confirmation: form.confirmation,
-    payment: form.payment,
 
 
     childImages: childImage,
@@ -267,7 +254,8 @@ export default function page() {
     durationbreakdown: breakdown,
 
     routes: route,
-    availableSrc,
+
+    ...fromPageCopyState(pageCopy),
 
     isBreakfastIncluded: form.breakfast_included,
     isStayIncluded: form.stay_included,
@@ -427,12 +415,12 @@ export default function page() {
         <DANDestination destination={form.destination} onChange={updateForm} editorType="Package" />
         <CMSSeoSection metaTitle={form.metaTitle} metaDescription={form.metaDescription} onChange={updateForm} editorType="Package" />
         <CMSSchema schemaTitle={form.schemaTitle} schemaDescription={form.schemaDescription} onChange={updateForm} editorType="Package" />
-        <SourceCitySelector availableSrc={availableSrc} setAvailableSrc={setAvailableSrc}/>
         <SelectedInclusion transfer_included={form.transfer_included} breakfast_included={form.breakfast_included} stay_included={form.stay_included} sightseeing_included={form.sightseeing_included} onChange={updateForm} />
         <DurationSection days={form.day} nights={form.night} onChange={updateForm} breakdown={breakdown} setBreakdown={setBreakdown} />
         <DestRoutes route={route} setRoute={setRoute} />
         <PackageOverview overview={form.overview} onChange={updateForm} editorType="Package" />
         <ItinearyMaker itinerary={itinerary} setItinerary={setItinerary} editorType="Package" />
+        <PageCopy value={pageCopy} onChange={setPageCopy} />
         <FaqHandler faqs={faqs} setFaqs={setFaqs} editorType="Package" />
         <TripHighlights highLights={highLights} setHighLights={setHighLights} editorType="Package" />
         <Inclusion inclusions={inclusions} setInclusions={setInclusions} editorType="Package" />
@@ -440,7 +428,6 @@ export default function page() {
         <PriceTiers priceTiers={priceTiers} setPriceTiers={setPriceTiers} />
         <Testimonials testimonials={testimonials} setTestimonials={setTestimonials} editorType="Package" />
         <Document documents={documents} setDocuments={setDocuments} editorType="Package" />
-        <Policy refund={form.refund} cancel={form.cancel} confirm={form.confirmation} payment={form.payment} editorType="Package" onChange={updateForm} />
         <CMSMediaSection image={form.image} alt={form.alt} onChange={updateForm} editorType="Package" />
         <ChildImagePicker childImage={childImage} setChildImage={setChildImage} />
         <CMSActions

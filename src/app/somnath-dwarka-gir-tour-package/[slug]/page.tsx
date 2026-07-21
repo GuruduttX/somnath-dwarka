@@ -7,6 +7,7 @@ import { GIR_SEED_PACKAGES, findGirSeedPackage } from "@/src/lib/seed/girPackage
 import { isAuthorisedGirPackage } from "@/src/config/girPackageSpokes";
 import { buildRelatedLinks } from "@/src/lib/links";
 import { bool, faqOf, h1Of, list, s, titleOf, verifiedValue, type Doc } from "@/src/lib/cms";
+import { cmsBreakdown } from "@/src/utils/durationBreakdown";
 
 export const revalidate = 3600;
 
@@ -40,7 +41,7 @@ async function resolvePackage(slug: string) {
   const cmsInclusions = cms ? list<string>(cms, "inclusions").filter(Boolean) : [];
   const cmsExclusions = cms ? list<string>(cms, "exclusions").filter(Boolean) : [];
   const cmsDays = cms
-    ? list<{ day: number; title: string; description?: string }>(cms, "itinerary_days")
+    ? list<{ day: number; title: string; description?: string; steps?: { time: string; activity: string }[]; dayDuration?: string; dayActivity?: string }>(cms, "itinerary_days")
     : [];
   const cmsFaq = cms ? faqOf(cms) : [];
 
@@ -62,7 +63,12 @@ async function resolvePackage(slug: string) {
           title: d.title,
           description: d.description || "",
           stops: [] as string[],
-          steps: [] as { time: string; activity: string }[],
+          // The CMS itinerary maker carries these; this route used to drop them.
+          steps: Array.isArray(d.steps)
+            ? d.steps.map((s) => ({ time: String(s.time || ""), activity: String(s.activity || "") }))
+            : [],
+          dayDuration: d.dayDuration || "",
+          dayActivity: d.dayActivity || "",
         }))
       : seed.itinerary.map((d) => ({ ...d, steps: [] as { time: string; activity: string }[] })),
     inclusions: cmsInclusions.length ? cmsInclusions : seed.inclusions,
@@ -78,6 +84,7 @@ async function resolvePackage(slug: string) {
     breakfast_included: true,
     sightseeing_included: true,
     policies: [] as { title: string; description: string }[],
+    durationbreakdown: cms ? cms.durationbreakdown : undefined,
   };
 }
 
@@ -128,7 +135,7 @@ export default async function GirPackageVariantPage({ params }: Params) {
   const pkg = await resolvePackage(slug);
   if (!pkg) notFound();
 
-  const breakdown = stopsOf(pkg.itinerary);
+  const breakdown = cmsBreakdown(pkg.durationbreakdown) ?? stopsOf(pkg.itinerary);
 
   const related = buildRelatedLinks({
     self: girPackagePath(slug),

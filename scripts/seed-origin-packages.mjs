@@ -138,6 +138,53 @@ function buildItinerary(itin) {
   });
 }
 
+/**
+ * The circuit each origin actually runs, read off its own itinerary day titles.
+ *
+ * `via` are the waypoints between the origin and Somnath, in travel order, and
+ * become routes.segments. `stay` is days-at-place for durationbreakdown and sums
+ * to PLAN.days. Neither is derivable from the JSON — the blueprints carry prose
+ * titles, not structured stops — so they are written out per origin and checked
+ * against the titles rather than guessed at run time.
+ */
+const CIRCUIT = {
+  // Road origins: out to Dwarka, down the coast to Somnath, back home.
+  "from-ahmedabad": { via: ["Dwarka", "Porbandar"], stay: [["Dwarka", 2], ["Somnath", 1], ["Ahmedabad", 1]] },
+  "from-jamnagar": { via: ["Dwarka", "Porbandar"], stay: [["Dwarka", 2], ["Somnath", 1], ["Jamnagar", 1]] },
+  "from-vadodara": { via: ["Dwarka", "Porbandar"], stay: [["Dwarka", 2], ["Somnath", 1], ["Vadodara", 1]] },
+  "from-surat": { via: ["Dwarka", "Porbandar"], stay: [["Dwarka", 2], ["Somnath", 1], ["Surat", 1]] },
+  "from-rajkot": { via: ["Dwarka", "Porbandar"], stay: [["Dwarka", 1], ["Somnath", 1], ["Rajkot", 1]] },
+  // Rail origin: an overnight train in, the same circuit, the long leg home.
+  "from-mumbai": { via: ["Dwarka", "Porbandar"], stay: [["Dwarka", 2], ["Somnath", 1], ["Mumbai", 1]] },
+  // Air origins: fly to Rajkot Hirasar, pick the circuit up there.
+  "from-delhi": { via: ["Rajkot", "Dwarka", "Porbandar"], stay: [["Dwarka", 2], ["Somnath", 1], ["Rajkot", 1]] },
+  "from-pune": { via: ["Rajkot", "Dwarka", "Porbandar"], stay: [["Dwarka", 2], ["Somnath", 1], ["Rajkot", 1]] },
+  "from-hyderabad": { via: ["Rajkot", "Dwarka", "Porbandar"], stay: [["Dwarka", 2], ["Somnath", 1], ["Rajkot", 1]] },
+  // Bangalore runs the circuit in reverse: Somnath first, Dwarka on the last day.
+  "from-bangalore": { via: ["Rajkot", "Somnath", "Porbandar"], stay: [["Somnath", 1], ["Dwarka", 2], ["Rajkot", 1]] },
+};
+
+/** routes: origin -> waypoints -> Somnath. Powers "Starts from" and the route strip. */
+function buildRoutes(slug, city) {
+  const circuit = CIRCUIT[slug];
+  if (!circuit) return null;
+  // Bangalore ends at Dwarka, every other origin ends at Somnath.
+  const destination = slug === "from-bangalore" ? "Dwarka" : "Somnath";
+  const legs = [city, ...circuit.via, destination];
+  const segments = [];
+  for (let i = 0; i < legs.length - 1; i++) {
+    segments.push({ id: randomUUID(), from: legs[i], to: legs[i + 1] });
+  }
+  return { source: city, destination, segments };
+}
+
+/** durationbreakdown: days at each place on the circuit. */
+function buildBreakdown(slug) {
+  const circuit = CIRCUIT[slug];
+  if (!circuit) return [];
+  return circuit.stay.map(([place, days]) => ({ id: randomUUID(), days, place }));
+}
+
 function buildDoc(slug) {
   const j = load(`origin-${slug}.json`);
   const c = j.copy;
@@ -178,6 +225,12 @@ function buildDoc(slug) {
     destination: `${plan.city} to Dwarka, Somnath`,
     category: "Pilgrimage",
 
+    // The three admin sections that had no source until now. availableSrc is the
+    // origin itself, lowercased to match the CMS city picker's own casing.
+    availableSrc: [plan.city.toLowerCase()],
+    routes: buildRoutes(slug, plan.city),
+    durationbreakdown: buildBreakdown(slug),
+
     highlights: (j.aeo_geo?.quotable_first_party_claims || []).map((d) => ({ id: randomUUID(), description: d })),
     itinerary: buildItinerary(c.itinerary),
     // Canonical client-supplied lists. Flight-inclusive origins get the variant
@@ -216,6 +269,12 @@ async function main() {
 
   if (DRY) {
     for (const d of docs) {
+      const stops = [d.routes.source, ...d.routes.segments.map((s) => s.to)].join(" > ");
+      console.log(
+        `${d.slug}: src=${JSON.stringify(d.availableSrc)} | route=${stops} | stay=${d.durationbreakdown
+          .map((b) => `${b.place} ${b.days}d`)
+          .join(", ")} (${d.durationbreakdown.reduce((n, b) => n + b.days, 0)}d vs ${d.days}d plan)`,
+      );
       console.log(
         `${d.slug}: ₹${d.price} ${d.duration} | days=${d.itinerary.length}(steps ${d.itinerary.map((x) => x.steps.length).join(",")}) sections=${d.sections.length} matrix=${d.priceMatrix?.rows.length || 0}x${d.priceMatrix?.headers.length || 0} why=${d.whyChoose?.points.length || 0} notfor=${d.notForYou?.items.length || 0} faq=${d.faqs.length} excl=${d.exclusions.length} notes=${d.priceNotes.length} qa=${d.overview.length}ch`,
       );

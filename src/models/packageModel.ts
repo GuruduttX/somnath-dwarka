@@ -224,6 +224,11 @@ const TourPackageSchema: Schema<ITourPackage> = new Schema(
             activity: { type: String, default: "" },
           },
         ],
+        // The two chips under the day title in the accordion. Previously guessed
+        // from the title at render time, which produced "Full Day / Temple Visits"
+        // for almost every day regardless of what the day actually was.
+        dayDuration: { type: String, default: "" },
+        dayActivity: { type: String, default: "" },
       },
     ],
 
@@ -353,6 +358,51 @@ const TourPackageSchema: Schema<ITourPackage> = new Schema(
     isStayIncluded: { type: Boolean, default: false },
     isBreakfastIncluded: { type: Boolean, default: false },
     isSightseeingIncluded: { type: Boolean, default: false },
+
+    // ── Long-form page copy ──────────────────────────────────────────────────
+    // These render the bulk of the spoke and origin pages: the decision table,
+    // the argument sections, the price matrix, why-choose, the honest-fit list,
+    // the price footnotes and the closing CTA.
+    //
+    // They were written straight to the collection by seed scripts, which skip
+    // Mongoose, so the schema never described them. That mattered: under strict
+    // mode an update carrying a field the schema does not know is dropped
+    // silently, so the editor could not have saved them even once its UI existed.
+    //
+    // None are required — a package that never had them stays valid.
+    decision: {
+      title: { type: String, default: "" },
+      intro: { type: String, default: "" },
+      headers: [{ type: String }],
+      rows: [[{ type: String }]],
+      note: { type: String, default: "" },
+    },
+
+    sections: [
+      {
+        h2: { type: String, default: "" },
+        body: [{ type: String }],
+      },
+    ],
+
+    priceMatrix: {
+      headers: [{ type: String }],
+      rows: [[{ type: String }]],
+    },
+
+    whyChoose: {
+      title: { type: String, default: "" },
+      points: [{ type: String }],
+    },
+
+    notForYou: {
+      title: { type: String, default: "" },
+      items: [{ type: String }],
+    },
+
+    priceNotes: [{ type: String }],
+
+    finalCta: { type: String, default: "" },
   },
   { timestamps: true }
 );

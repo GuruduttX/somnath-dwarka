@@ -36,6 +36,7 @@ import {
   verifiedValue,
   type Doc,
 } from "@/src/lib/cms";
+import { cmsBreakdown } from "@/src/utils/durationBreakdown";
 
 /**
  * Depth-2 dispatcher (SOP §3). What a spoke *is* depends on its parent hub:
@@ -169,7 +170,14 @@ export default async function SpokePage({ params }: Params) {
   // package-detail page the circuit hubs use rather than the generic CMS shell.
   if (found.kind === "hub-spoke" && found.hubKind === "destination" && isMoney) {
     const theme = themeFor(rootSlug);
-    const itinerary = list<{ day: number; title: string; description?: string }>(d, "itinerary_days");
+    const itinerary = list<{
+      day: number;
+      title: string;
+      description?: string;
+      steps?: { time: string; activity: string }[];
+      dayDuration?: string;
+      dayActivity?: string;
+    }>(d, "itinerary_days");
     const inclusions = list<string>(d, "inclusions").filter(Boolean);
     const inclusionText = inclusions.join(" ");
     const gallery = theme.photo
@@ -208,7 +216,9 @@ export default async function SpokePage({ params }: Params) {
             title: x.title,
             description: x.description || "",
             stops: [],
-            steps: [],
+            steps: Array.isArray(x.steps) ? x.steps : [],
+            dayDuration: x.dayDuration || "",
+            dayActivity: x.dayActivity || "",
           })),
           inclusions,
           exclusions: list<string>(d, "exclusions").filter(Boolean),
@@ -225,11 +235,14 @@ export default async function SpokePage({ params }: Params) {
         path={path}
         crumbs={crumbs}
         related={related}
-        breakdown={itinerary.map((x, i) => ({
-          id: `stop-${i}`,
-          days: 1,
-          place: x.title || theme.name,
-        }))}
+        breakdown={
+          cmsBreakdown(d.durationbreakdown) ??
+          itinerary.map((x, i) => ({
+            id: `stop-${i}`,
+            days: 1,
+            place: x.title || theme.name,
+          }))
+        }
         overviewHeading={`What the ${theme.name} plan covers`}
         assurance="Hotels, vehicle & permits arranged"
       />

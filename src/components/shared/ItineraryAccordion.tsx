@@ -8,31 +8,28 @@ export type ItineraryDay = {
   description?: string;
   stops?: string[];
   steps?: ItineraryStep[];
+  /** The two chips under the day title. Set in the CMS itinerary maker. */
+  dayDuration?: string;
+  dayActivity?: string;
 };
 
 /**
- * Helper to generate realistic metadata matching the sleek screenshot layout
+ * Chips for a day when the CMS carries none.
+ *
+ * This used to be the only source, and every branch but one returned the same
+ * "Full Day / Temple Visits" pair, so a driving day and a safari day were
+ * labelled identically. It stands in only until an editor fills the fields.
  */
-function getMetadataForDay(dayNum: number, title: string, stops?: string[]) {
+function inferMetadata(title: string) {
   const t = title.toLowerCase();
-  let duration = "Full Day";
-  let activity = "Temple Visits";
 
   if (t.includes("arrival") || t.includes("arrive")) {
-    duration = "Full Day";
-    activity = "Arrival Transfer";
-  } else if (t.includes("departure") || t.includes("depart") || t.includes("drop")) {
-    duration = "Full Day";
-    activity = "Departure Transfer";
-  } else if (t.includes("somnath")) {
-    duration = "Full Day";
-    activity = "Temple Visits";
-  } else if (t.includes("dwarka")) {
-    duration = "Full Day";
-    activity = "Temple Visits";
+    return { duration: "Full Day", activity: "Arrival Transfer" };
   }
-
-  return { duration, activity };
+  if (t.includes("departure") || t.includes("depart") || t.includes("drop")) {
+    return { duration: "Full Day", activity: "Departure Transfer" };
+  }
+  return { duration: "Full Day", activity: "Temple Visits" };
 }
 
 /**
@@ -44,7 +41,11 @@ export default function ItineraryAccordion({ days }: { days: ItineraryDay[] }) {
   return (
     <div className="space-y-4">
       {days.map((d, i) => {
-        const meta = getMetadataForDay(d.day, d.title, d.stops);
+        const inferred = inferMetadata(d.title);
+        const meta = {
+          duration: d.dayDuration?.trim() || inferred.duration,
+          activity: d.dayActivity?.trim() || inferred.activity,
+        };
         return (
           <details
             key={d.day}

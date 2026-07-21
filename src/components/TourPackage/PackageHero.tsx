@@ -160,7 +160,17 @@ export default function PackageHero({ PackageData }: any) {
               { icon: <Clock size={16} />, label: "Duration", value: PackageData.duration },
               { icon: <span className="text-base">✦</span>, label: "Category", value: PackageData.category },
               { icon: <span className="text-base">⊙</span>, label: "Starts from", value: PackageData.routes?.source },
-              { icon: <Star size={15} className="fill-orange-400 text-orange-400" />, label: "Rating", value: `${PackageData.rating} · ${PackageData.reviews} reviews` },
+              // Shown only when the CMS actually holds a rating — an empty field
+              // used to render a bare "· reviews".
+              ...(PackageData.rating
+                ? [{
+                    icon: <Star size={15} className="fill-orange-400 text-orange-400" />,
+                    label: "Rating",
+                    value: PackageData.reviews
+                      ? `${PackageData.rating} · ${PackageData.reviews} reviews`
+                      : String(PackageData.rating),
+                  }]
+                : []),
             ].map((f, i) => (
               <div key={i} className="flex flex-col items-center gap-0.5 py-3 px-2">
                 <span className="text-orange-500 mb-0.5">{f.icon}</span>

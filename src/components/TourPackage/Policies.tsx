@@ -9,6 +9,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { PACKAGE_POLICIES } from "@/src/config/policies";
 
 const iconMap: any = {
   "Refund": <RotateCcw className="w-5 h-5 text-orange-600" />,
@@ -31,26 +32,10 @@ export default function Policies({ PackageData }: any) {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const DEFAULT_POLICIES = [
-    {
-      title: "Refund",
-      description: "Refunds are processed within 7-10 working days after cancellation approval, subject to bank processing times.",
-    },
-    {
-      title: "Cancel",
-      description: "Cancellations made 15 days or more prior to departure are eligible for a full refund. Cancellations between 7-14 days will receive a 50% refund.",
-    },
-    {
-      title: "Payment",
-      description: "Secure your pilgrimage with a 20% advance booking amount. The remaining balance can be settled upon arrival or trip start.",
-    },
-    {
-      title: "Confirmation",
-      description: "Your booking will be formally confirmed via email/WhatsApp once the advance payment is received and hotel availability is locked.",
-    },
-  ];
-
-  const policiesList = PackageData?.policies?.length ? PackageData.policies : DEFAULT_POLICIES;
+  // Per-package policy editing was removed from the CMS; the same terms apply to
+  // every package and live in src/config/policies.ts. Any package that still
+  // carries its own policy text from before that change keeps winning.
+  const policiesList = PackageData?.policies?.length ? PackageData.policies : PACKAGE_POLICIES;
 
   return (
     <section id="policies" className="max-w-6xl mx-auto py-6 md:py-20 px-6">

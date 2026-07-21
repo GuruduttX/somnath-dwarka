@@ -8,30 +8,23 @@ export default function PackageTestimonials({ PackageData }: any) {
   const paused = useRef(false);
   const SPEED = 0.45; // Slow, smooth speed for spiritual aesthetic
 
-  const DEFAULT_TESTIMONIALS = [
-    {
-      name: "Priya Mehta",
-      location: "India",
-      description: "Everything was properly managed and the temples were beautiful.",
-    },
-    {
-      name: "Rahul Sharma",
-      location: "India",
-      description: "Amazing spiritual experience with excellent hotel and transport arrangements.",
-    },
-    {
-      name: "Priya Mehta",
-      location: "India",
-      description: "Everything was properly managed and the temples were beautiful.",
-    },
-  ];
-
-  const rating = PackageData?.rating || 4.9;
-  const reviewsCount = PackageData?.reviews || 287;
-  const testimonialsRaw = PackageData?.testimonials?.length ? PackageData.testimonials : DEFAULT_TESTIMONIALS;
+  /**
+   * Real CMS data only.
+   *
+   * This block used to hold three invented testimonials with made-up customer
+   * names, plus a 4.9 rating and a count of 287, and fell back to them whenever
+   * the package carried none — which was every package, since the resolver never
+   * passed these fields through. That published fabricated customer feedback on
+   * every package page. The section now renders nothing until real data exists.
+   */
+  const rating = Number(PackageData?.rating) || 0;
+  const reviewsCount = Number(PackageData?.reviews) || 0;
+  const testimonialsRaw = PackageData?.testimonials?.length ? PackageData.testimonials : [];
   
   // Triple the items to ensure the scroll is seamless regardless of list length
   const testimonials = [...testimonialsRaw, ...testimonialsRaw, ...testimonialsRaw];
+
+  const hasContent = testimonialsRaw.length > 0 || reviewsCount > 0;
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -51,6 +44,8 @@ export default function PackageTestimonials({ PackageData }: any) {
     const animId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animId);
   }, []);
+
+  if (!hasContent) return null;
 
   return (
     <section id="testimonials" className="py-6">
