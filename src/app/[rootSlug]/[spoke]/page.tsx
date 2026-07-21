@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { buildMetadata, touristTripSchema, placeSchema } from "@/src/lib/seo";
 import CmsPage from "@/src/components/templates/cms/CmsPage";
+import PackageDetailTemplate from "@/src/components/TourPackage/PackageDetailTemplate";
+import { themeFor } from "@/src/config/destinations";
 import {
   DatasetTable,
   InclusionsExclusions,
@@ -48,7 +50,7 @@ export const revalidate = 3600;
 type Params = { params: Promise<{ rootSlug: string; spoke: string }> };
 
 type Resolved =
-  | { kind: "hub-spoke"; doc: Doc; hubTitle: string }
+  | { kind: "hub-spoke"; doc: Doc; hubTitle: string; hubKind: string }
   | { kind: "temple"; doc: Doc }
   | { kind: "data"; doc: Doc }
   | { kind: "pillar-spoke"; doc: Doc; pillarTitle: string };
@@ -74,7 +76,7 @@ async function resolve(rootSlug: string, spoke: string): Promise<Resolved | null
       return doc ? { kind: "data", doc } : null;
     }
     const doc = await getHubSpoke(rootSlug, spoke);
-    return doc ? { kind: "hub-spoke", doc, hubTitle: s(parent.doc, "title") } : null;
+    return doc ? { kind: "hub-spoke", doc, hubTitle: s(parent.doc, "title"), hubKind: kind } : null;
   }
 
   if (parent.kind === "pillar") {
@@ -162,6 +164,77 @@ export default async function SpokePage({ params }: Params) {
     : found.kind === "temple"
       ? placeSchema({ name: h1Of(d), description: descOf(d), path })
       : null;
+
+  // A destination hub's money spoke is a package, so it opens the same
+  // package-detail page the circuit hubs use rather than the generic CMS shell.
+  if (found.kind === "hub-spoke" && found.hubKind === "destination" && isMoney) {
+    const theme = themeFor(rootSlug);
+    const itinerary = list<{ day: number; title: string; description?: string }>(d, "itinerary_days");
+    const inclusions = list<string>(d, "inclusions").filter(Boolean);
+    const inclusionText = inclusions.join(" ");
+    const gallery = theme.photo
+      ? [{ image: theme.photo, alt: `${theme.name}, Gujarat` }]
+      : [];
+
+    /**
+     * Where this trip goes, for the route map. Read off the variant slug, which
+     * is the only routing fact these records carry: "from-rajkot" really does
+     * mean Rajkot to the destination, and "with-diu" really does add Diu. Any
+     * other variant is just the destination itself — no day plan is invented.
+     */
+    const titleCase = (t: string) =>
+      t.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ");
+    const routePlaces = spoke.startsWith("from-")
+      ? [titleCase(spoke.slice(5)), theme.name]
+      : spoke.startsWith("with-")
+        ? [theme.name, titleCase(spoke.slice(5))]
+        : [theme.name];
+
+    return (
+      <PackageDetailTemplate
+        pkg={{
+          slug: spoke,
+          h1: h1Of(d),
+          duration: s(d, "duration"),
+          price_from: Number(price || 0),
+          // Only a verified CMS price reaches the page, so nothing is invented.
+          price_verified: Boolean(price),
+          answer_first: s(d, "answer_first"),
+          meta_description: descOf(d),
+          body: s(d, "body") || undefined,
+          highlights: [],
+          itinerary: itinerary.map((x) => ({
+            day: x.day,
+            title: x.title,
+            description: x.description || "",
+            stops: [],
+            steps: [],
+          })),
+          inclusions,
+          exclusions: list<string>(d, "exclusions").filter(Boolean),
+          faq: faqOf(d),
+          heroImage: gallery[0] ?? null,
+          childImages: gallery.slice(1),
+          transfer_included: true,
+          stay_included: /hotel|night/i.test(inclusionText),
+          breakfast_included: /breakfast/i.test(inclusionText),
+          sightseeing_included: true,
+          policies: [],
+          routePlaces,
+        }}
+        path={path}
+        crumbs={crumbs}
+        related={related}
+        breakdown={itinerary.map((x, i) => ({
+          id: `stop-${i}`,
+          days: 1,
+          place: x.title || theme.name,
+        }))}
+        overviewHeading={`What the ${theme.name} plan covers`}
+        assurance="Hotels, vehicle & permits arranged"
+      />
+    );
+  }
 
   return (
     <CmsPage

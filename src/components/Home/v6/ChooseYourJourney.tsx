@@ -109,6 +109,24 @@ const DEST_META: Record<string, { eyebrow: string; image?: string }> = {
   },
 };
 
+/**
+ * Display order for the destination rail. The CMS returns hubs in insertion
+ * order, which put Ambaji first; the rail leads with the destinations that
+ * carry real photography instead. A hub missing from this list still shows,
+ * after the ones listed here.
+ */
+const DEST_ORDER = [
+  "kutch-tour-package",
+  "statue-of-unity-tour-package",
+  "gir-tour-package",
+  "ambaji-tour-package",
+  "palitana-tour-package",
+  "saputara-tour-package",
+  "diu-tour-package",
+  "ahmedabad-tour-package",
+  "porbandar-tour-package",
+];
+
 const DEFAULT_META: Record<
   "circuit" | "destination",
   (typeof CARD_META)[string]
@@ -306,7 +324,13 @@ export default async function ChooseYourJourney() {
   const circuits = hubs.filter(
     (h) => CIRCUIT_KINDS.has(s(h, "hub_kind")) && s(h, "slug") !== FLAGSHIP.slug,
   );
-  const destinations = hubs.filter((h) => s(h, "hub_kind") === "destination");
+  const rank = (slug: string) => {
+    const i = DEST_ORDER.indexOf(slug);
+    return i === -1 ? DEST_ORDER.length : i;
+  };
+  const destinations = hubs
+    .filter((h) => s(h, "hub_kind") === "destination")
+    .sort((a, b) => rank(String(a.slug)) - rank(String(b.slug)));
 
   const slides: DestinationSlide[] = destinations.map((h) => {
     const slug = String(h.slug);

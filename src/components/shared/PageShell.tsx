@@ -29,12 +29,15 @@ export default function PageShell({
   // Grey by default so the crumb stays visible on light-hero pages. Destination
   // templates with a dark image hero pass `lightCrumb` explicitly to keep white.
   lightCrumb = false,
+  centerCrumb = false,
 }: {
   crumbs: Crumb[];
   children: React.ReactNode;
   noPaddingTop?: boolean;
   flushHero?: boolean;
   lightCrumb?: boolean;
+  /** Centres the breadcrumb, for templates with a centred hero. */
+  centerCrumb?: boolean;
 }) {
   const renderCrumb = (crumbs?.length ?? 0) > 1;
   return (
@@ -48,7 +51,7 @@ export default function PageShell({
           flushHero ? (
             <div className="pointer-events-none absolute inset-x-0 top-24 z-30">
               <div className="pointer-events-auto">
-                <Breadcrumb crumbs={crumbs} light={lightCrumb} />
+                <Breadcrumb crumbs={crumbs} light={lightCrumb} center={centerCrumb} />
               </div>
             </div>
           ) : (

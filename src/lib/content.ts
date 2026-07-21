@@ -154,6 +154,8 @@ export const getPublishedHubs = () => findPublished(HubModel);
 export const getHubBySlug = (slug: string) => findOnePublished(HubModel, { slug });
 
 export const getPublishedHubSpokes = () => findPublished(HubSpokeModel);
+/** Every published spoke under one hub, e.g. all of /heritage-tours-gujarat/{slug}/. */
+export const getHubSpokesFor = (hub: string) => findPublished(HubSpokeModel, { hub });
 export const getHubSpoke = (hub: string, slug: string) =>
   findOnePublished(HubSpokeModel, { hub, slug });
 
@@ -185,6 +187,21 @@ export const getPlacesFor = (parent_destination: string) =>
   findPublished(PlaceModel, { parent_destination });
 export const getPlace = (parent_destination: string, slug: string) =>
   findOnePublished(PlaceModel, { parent_destination, slug });
+
+/**
+ * The travel-guide pillar a destination hub pairs with.
+ *
+ * Most hub docs leave `pillar_path` empty even though the guide exists, so fall
+ * back to the naming convention: /ambaji-tour-package/ → /ambaji/. The pillar
+ * is only linked once it is confirmed published, so this can never point a
+ * traveller at a 404.
+ */
+export async function getDestinationGuidePath(hubSlug: string): Promise<string | null> {
+  const candidate = hubSlug.replace(/-tour-packages?$/, "");
+  if (!isValidSlug(candidate) || candidate === hubSlug) return null;
+  const pillar = await getPillarBySlug(candidate);
+  return pillar ? pillarPath(candidate) : null;
+}
 
 export type RootKind = "hub" | "pillar" | "trust";
 export type RootMatch = { kind: RootKind; doc: Doc };

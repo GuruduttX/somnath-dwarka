@@ -456,8 +456,55 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
           </svg>
         </div>
 
+        {/* Temple silhouette, bottom-left — balances the chakra top-right.
+            Same treatment: low-opacity orange line art, purely ornamental. */}
+        <div className="pointer-events-none absolute -bottom-4 -left-4 opacity-[0.12] md:-bottom-6 md:left-0 lg:left-4" aria-hidden="true">
+          <svg
+            className="h-52 w-48 text-orange-600 md:h-80 md:w-72 lg:h-[24rem] lg:w-[21rem]"
+            viewBox="0 0 220 280"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            {/* Flag over the central spire */}
+            <path d="M110 12 L110 44" />
+            <path d="M111.5 14 L136 21 L111.5 28 Z" fill="currentColor" fillOpacity="0.35" stroke="none" />
+
+            {/* Kalash and amalaka */}
+            <circle cx="110" cy="48" r="6" />
+            <ellipse cx="110" cy="59" rx="13" ry="5" />
+
+            {/* Central shikhara with rib lines */}
+            <path d="M110 61 C 90 104, 88 152, 82 198 L 138 198 C 132 152, 130 104, 110 61 Z" />
+            <path d="M110 74 L110 198" strokeOpacity="0.5" />
+            <path d="M99 112 L95 198" strokeOpacity="0.4" />
+            <path d="M121 112 L125 198" strokeOpacity="0.4" />
+
+            {/* Flanking shikharas */}
+            <circle cx="64" cy="122" r="4" />
+            <path d="M64 126 C 54 150, 53 176, 50 198 L 78 198 C 75 176, 74 150, 64 126 Z" />
+            <circle cx="156" cy="122" r="4" />
+            <path d="M156 126 C 146 150, 145 176, 142 198 L 170 198 C 167 176, 166 150, 156 126 Z" />
+
+            {/* Entablature, mandapa pillars and doorway */}
+            <rect x="44" y="198" width="132" height="12" rx="2" />
+            <rect x="52" y="210" width="10" height="46" rx="2" />
+            <rect x="82" y="210" width="10" height="46" rx="2" />
+            <rect x="128" y="210" width="10" height="46" rx="2" />
+            <rect x="158" y="210" width="10" height="46" rx="2" />
+            <path d="M100 256 L100 226 Q110 214 120 226 L120 256 Z" />
+
+            {/* Steps */}
+            <rect x="46" y="256" width="128" height="7" rx="2" />
+            <rect x="38" y="263" width="144" height="7" rx="2" />
+            <rect x="30" y="270" width="160" height="8" rx="2" />
+          </svg>
+        </div>
+
         {/* Hero Content */}
-        <div className="max-w-6xl mx-auto text-center relative z-10 mt-8">
+        <div className="max-w-6xl mx-auto text-center relative z-10 mt-12">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
