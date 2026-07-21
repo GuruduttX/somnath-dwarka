@@ -17,12 +17,24 @@ import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 import path from "node:path";
 import mongoose from "mongoose";
+import { canonFor } from "./lib/canon-inclusions.mjs";
 
 const DRY = process.argv.includes("--dry");
 const here = path.dirname(fileURLToPath(import.meta.url));
 const dataDir = path.join(here, "data");
 
-const SLUGS = ["from-ahmedabad", "from-rajkot", "from-mumbai", "from-jamnagar", "from-vadodara"];
+const SLUGS = [
+  "from-ahmedabad",
+  "from-rajkot",
+  "from-mumbai",
+  "from-jamnagar",
+  "from-vadodara",
+  "from-pune",
+  "from-delhi",
+  "from-surat",
+  "from-bangalore",
+  "from-hyderabad",
+];
 
 /** Days / nights each origin page actually recommends, per its own copy. */
 const PLAN = {
@@ -31,6 +43,11 @@ const PLAN = {
   "from-mumbai": { days: 4, nights: 3, city: "Mumbai" },
   "from-jamnagar": { days: 4, nights: 3, city: "Jamnagar" },
   "from-vadodara": { days: 4, nights: 3, city: "Vadodara" },
+  "from-pune": { days: 4, nights: 3, city: "Pune" },
+  "from-delhi": { days: 4, nights: 3, city: "Delhi" },
+  "from-surat": { days: 4, nights: 3, city: "Surat" },
+  "from-bangalore": { days: 4, nights: 3, city: "Bangalore" },
+  "from-hyderabad": { days: 4, nights: 3, city: "Hyderabad" },
 };
 
 const HERO = { image: "/images/home/HomeHero.webp", alt: "Somnath Dwarka pilgrimage circuit" };
@@ -63,8 +80,22 @@ const COL_LABEL = {
   three_nights: "3 nights",
   three_nights_recommended: "3 nights (recommended)",
   four_nights: "4 nights",
+  // Flight-inclusive origin pages (Bangalore, Hyderabad) price the ground and
+  // the airfare separately, so their matrix carries two extra columns.
+  ground_four_day_pp: "Ground, 4 days (pp)",
+  all_in_four_day_pp: "Typical all-in, 4 days (pp)",
   hotels: "Hotels",
 };
+
+/** The column holding the headline total, whichever shape the page uses. */
+const totalOf = (r) =>
+  rupeesToNum(
+    r[Object.keys(r).find((k) => k.includes("recommended")) ?? ""] ??
+      r.ground_four_day_pp ??
+      r.three_nights ??
+      r.two_nights ??
+      "",
+  );
 
 /** Build a generic matrix table from the price_sheet rows, preserving column order. */
 function buildPriceMatrix(table) {
@@ -79,17 +110,13 @@ function buildPriceMatrix(table) {
 /** priceTiers powers price_from and the admin editor; totals use the recommended column. */
 function buildPriceTiers(table) {
   if (!Array.isArray(table)) return [];
-  return table.map((r) => {
-    const recKey = Object.keys(r).find((k) => k.includes("recommended"));
-    const total = recKey ? rupeesToNum(r[recKey]) : rupeesToNum(r.three_nights ?? r.two_nights ?? "");
-    return {
-      id: randomUUID(),
-      tier: String(r.tier || ""),
-      perNight: rupeesToNum(r.per_night_pp),
-      total,
-      hotel: String(r.hotels || ""),
-    };
-  });
+  return table.map((r) => ({
+    id: randomUUID(),
+    tier: String(r.tier || ""),
+    perNight: rupeesToNum(r.per_night_pp),
+    total: totalOf(r),
+    hotel: String(r.hotels || ""),
+  }));
 }
 
 /** Itinerary days: stops become hour steps; shared-middle blocks become prose days. */
@@ -116,11 +143,14 @@ function buildDoc(slug) {
   const c = j.copy;
   const plan = PLAN[slug];
   const duration = `${plan.days} Days ${plan.nights} Nights`;
-  const price = priceFromTitle(j.head.title) || rupeesToNum(c.price_sheet?.table?.[0]?.three_nights_recommended);
+  // Flight-inclusive titles carry no "Rs." figure, so fall back to the matrix.
+  const price = priceFromTitle(j.head.title) || totalOf(c.price_sheet?.table?.[0] ?? {});
 
   const ps = c.price_sheet || {};
   // Every price_sheet prose field except the table, in the page's own order.
-  const noteKeys = (ps._order || []).filter((k) => k !== "intro" && k !== "table");
+  // `exclusions` is dropped: the canonical list renders as its own chips, and
+  // keeping the page's older prose beside it would contradict it.
+  const noteKeys = (ps._order || []).filter((k) => k !== "intro" && k !== "table" && k !== "exclusions");
   const priceNotes = [ps.intro, ...noteKeys.map((k) => ps[k])].filter(Boolean).map(String);
 
   return {
@@ -150,16 +180,10 @@ function buildDoc(slug) {
 
     highlights: (j.aeo_geo?.quotable_first_party_claims || []).map((d) => ({ id: randomUUID(), description: d })),
     itinerary: buildItinerary(c.itinerary),
-    inclusions: [
-      { id: randomUUID(), description: "Hotel at your chosen tier" },
-      { id: randomUUID(), description: "Breakfast" },
-      { id: randomUUID(), description: "Vehicle with driver for the full itinerary" },
-    ],
-    exclusions: String(ps.exclusions || "")
-      .split(/[.,]\s+/)
-      .map((s) => s.trim().replace(/\.$/, ""))
-      .filter(Boolean)
-      .map((d) => ({ id: randomUUID(), description: d[0].toUpperCase() + d.slice(1) })),
+    // Canonical client-supplied lists. Flight-inclusive origins get the variant
+    // that keeps the airfare on the included side.
+    inclusions: canonFor(slug, plan.city).inclusions.map((d) => ({ id: randomUUID(), description: d })),
+    exclusions: canonFor(slug, plan.city).exclusions.map((d) => ({ id: randomUUID(), description: d })),
     faqs: (c.faq || []).map((f) => ({ id: randomUUID(), question: f.q, answer: f.a })),
     priceTiers: buildPriceTiers(ps.table),
 

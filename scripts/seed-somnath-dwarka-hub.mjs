@@ -15,6 +15,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import mongoose from "mongoose";
+import { INCLUSIONS, EXCLUSIONS } from "./lib/canon-inclusions.mjs";
 
 const DRY = process.argv.includes("--dry");
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -47,16 +48,9 @@ const doc = {
   sibling_hubs: ["/dwarka/", "/somnath-dwarka-taxi-service/"],
   breadcrumb_parent: "/",
   price_from: { value: "5000", verified: true, verified_at: "2026-07-15", source_url: "" },
-  inclusions: ["hotel at chosen tier", "breakfast", "vehicle with driver for the full itinerary"],
-  exclusions: [
-    "Lunch and dinner",
-    "Temple pooja, seva and abhishek bookings",
-    "The Somnath sound and light show ticket",
-    "Gir safari permits unless your plan names them",
-    "Camera and cloakroom charges",
-    "Tips",
-    "Anything you buy for yourself in the market",
-  ],
+  // Canonical client-supplied lists, shared with every package spoke.
+  inclusions: INCLUSIONS,
+  exclusions: EXCLUSIONS,
   serp_feature_target: "AI Overview (commercial), Sitelinks, Product/TouristTrip snippet, PAA",
   schema_overrides: schemaOverrides,
 

@@ -16,6 +16,7 @@ import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 import path from "node:path";
 import mongoose from "mongoose";
+import { canonFor } from "./lib/canon-inclusions.mjs";
 
 const DRY = process.argv.includes("--dry");
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -141,8 +142,9 @@ function buildDoc(slug, fourDayContent) {
 
     highlights: (bp.aeo_geo.quotable_first_party_claims || []).map((c) => ({ id: randomUUID(), description: c })),
     itinerary,
-    inclusions: (bp.pricing.included || []).map((d) => ({ id: randomUUID(), description: d })),
-    exclusions: (bp.pricing.excluded || []).map((d) => ({ id: randomUUID(), description: d })),
+    // Canonical client-supplied lists, identical across every package.
+    inclusions: canonFor(slug).inclusions.map((d) => ({ id: randomUUID(), description: d })),
+    exclusions: canonFor(slug).exclusions.map((d) => ({ id: randomUUID(), description: d })),
     faqs: (content.faq || []).map((f) => ({ id: randomUUID(), question: f.question, answer: f.answer })),
     priceTiers,
 
