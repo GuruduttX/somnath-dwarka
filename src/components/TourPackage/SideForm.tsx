@@ -96,13 +96,18 @@ export default function SideForm() {
   return (
     <div className="w-full z-10">
       {/* FORM CARD */}
-      <div className="bg-white rounded-2xl border border-orange-100/70 p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)] relative overflow-hidden">
+      <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-[0_10px_40px_rgba(15,23,42,0.07)] relative overflow-hidden">
         {/* Subtle orange accent top bar */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 via-amber-400 to-orange-500" />
-        
-        <h3 className="text-xl font-bold text-slate-800 mb-5 flex items-center gap-2">
-          Enquire About This Package
-        </h3>
+        <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-orange-500 via-amber-400 to-orange-500" />
+
+        <div className="mb-4">
+          <h3 className="text-[17px] font-bold tracking-tight text-slate-900">
+            Enquire About This Package
+          </h3>
+          <p className="text-[11.5px] text-slate-500 mt-0.5">
+            Get a free custom quote within 24 hours.
+          </p>
+        </div>
 
         {step === 1 && (
           <Step1 form={form} setForm={setForm} next={() => setStep(2)} />
@@ -127,7 +132,7 @@ const Step1 = ({ form, setForm, next }: any) => {
   return (
     <form onSubmit={(e : React.FormEvent)=>{ e.preventDefault()
         next()
-     }} className="space-y-4">
+     }} className="space-y-2.5">
 
       <FloatingInput
         label="Full Name"
@@ -147,13 +152,14 @@ const Step1 = ({ form, setForm, next }: any) => {
 
       {/* Phone */}
       <div className="flex gap-2">
-        <div className="w-20 border border-gray-300 bg-gray-50/50 text-gray-500 font-semibold rounded-xl flex items-center justify-center text-sm">
+        <div className="w-[58px] shrink-0 border border-slate-200 bg-slate-100/70 text-slate-500 font-semibold rounded-lg flex items-center justify-center text-[13px]">
           +91
         </div>
         <div className="flex-1">
           <FloatingInput
             label="Phone Number"
             name="phone"
+            type="tel"
             value={form.phone}
             onChange={(e:any)=>setForm({...form, phone:e.target.value})}
             required
@@ -161,27 +167,34 @@ const Step1 = ({ form, setForm, next }: any) => {
         </div>
       </div>
 
-      {/* Travel Date */}
-      <div className="relative">
-        <input
-          type="date"
-          value={form.travelDate}
-          onChange={(e)=>setForm({...form, travelDate:e.target.value})}
-          required
-          className="peer w-full rounded-xl border border-gray-300 px-4 pt-5 pb-2 text-sm text-slate-800 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-200 transition-colors"
-        />
-        <label className="absolute left-4 top-1.5 text-[10px] font-semibold text-gray-500 uppercase tracking-wider">
-          Travel Date *
-        </label>
-      </div>
+      <div className="grid grid-cols-2 gap-2.5">
+        {/* Travel Date */}
+        <div className="relative">
+          <input
+            id="travelDate"
+            type="date"
+            value={form.travelDate}
+            onChange={(e)=>setForm({...form, travelDate:e.target.value})}
+            required
+            className="w-full rounded-lg border border-slate-200 bg-slate-50/60 px-3.5 pt-[18px] pb-1.5 text-[13px] font-medium text-slate-800 outline-none transition-colors hover:border-slate-300 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/15"
+          />
+          <label
+            htmlFor="travelDate"
+            className="pointer-events-none absolute left-3.5 top-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400"
+          >
+            Travel Date<span className="text-orange-500"> *</span>
+          </label>
+        </div>
 
-      <FloatingInput
-        label="Traveller Count"
-        name="travellers"
-        value={form.travellers}
-        onChange={(e:any)=>setForm({...form, travellers:e.target.value})}
-        required
-      />
+        <FloatingInput
+          label="Travellers"
+          name="travellers"
+          type="number"
+          value={form.travellers}
+          onChange={(e:any)=>setForm({...form, travellers:e.target.value})}
+          required
+        />
+      </div>
 
       <FloatingTextarea
         label="Message"
@@ -192,10 +205,14 @@ const Step1 = ({ form, setForm, next }: any) => {
 
       <button
          type="submit"
-        className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-3.5 rounded-xl transition-all duration-300 shadow-md shadow-orange-500/10 hover:shadow-lg hover:shadow-orange-500/20 active:scale-[0.98] cursor-pointer"
+        className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-sm py-3 rounded-lg transition-all duration-200 shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 active:scale-[0.98] cursor-pointer"
       >
         Continue
       </button>
+
+      <p className="text-center text-[10.5px] text-slate-400 pt-0.5">
+        No spam. We only use this to send your quote.
+      </p>
 
     </form>
   );
@@ -231,7 +248,7 @@ const Step2 = ({ form, setForm, next } : any) => {
         Who are you planning this vacation with?
       </h3>
 
-      <div className="space-y-3 mt-3">
+      <div className="space-y-2 mt-2.5">
         {options.map((opt) => {
           const isSelected = form.travelWith === opt;
 
@@ -242,7 +259,7 @@ const Step2 = ({ form, setForm, next } : any) => {
                 setForm({ ...form, travelWith: opt });
                 setTimeout(() => next(), 250); // smooth transition
               }}
-              className={`flex items-center gap-3.5 p-3.5 rounded-xl border cursor-pointer transition-all active:scale-[0.99]
+              className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all active:scale-[0.99]
                 ${isSelected 
                   ? "border-orange-500 bg-orange-50/50 shadow-sm" 
                   : "border-slate-200 hover:border-orange-300 hover:bg-orange-50/10"}
@@ -306,7 +323,7 @@ const Step3 = ({ form, setForm, handleSubmit }: any) => {
       </h3>
 
       {/* Options */}
-      <div className="space-y-3 mt-3">
+      <div className="space-y-2 mt-2.5">
         {options.map((opt) => {
           const isSelected = form.bookingTime === opt;
 
@@ -318,7 +335,7 @@ const Step3 = ({ form, setForm, handleSubmit }: any) => {
                 setForm(updatedForm);
                 await handleSubmit(updatedForm);
               }}
-              className={`flex items-center gap-3.5 p-3.5 rounded-xl border cursor-pointer transition-all active:scale-[0.99]
+              className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all active:scale-[0.99]
                 ${isSelected
                   ? "border-orange-500 bg-orange-50/50 shadow-sm"
                   : "border-slate-200 hover:border-orange-300 hover:bg-orange-50/10"

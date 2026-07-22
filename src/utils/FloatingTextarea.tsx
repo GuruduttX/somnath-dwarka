@@ -2,25 +2,29 @@ export function FloatingTextarea({ label , onChange, value, name}: { label: stri
   return (
     <div className="relative">
       <textarea
-        rows={3}
+        id={name}
+        rows={2}
         placeholder=" "
-        name="message"
+        name={name}
         value={value}
         onChange={onChange}
-        className="peer w-full rounded-xl border border-gray-300 px-4 pt-5 pb-2
-        text-sm outline-none resize-none
-        focus:border-orange-500 focus:ring-1 focus:ring-orange-200"
+        className="peer w-full rounded-lg border border-slate-200 bg-slate-50/60 px-3.5 pt-[18px] pb-1.5
+        text-[13px] font-medium text-slate-800 outline-none resize-none transition-colors
+        hover:border-slate-300
+        focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/15"
       />
-     { !value && <label
-        className="absolute left-4 top-3 text-gray-500 text-sm
-        transition-all duration-200
-        peer-placeholder-shown:top-4
-        peer-focus:top-1
-        peer-focus:text-xs
-        peer-focus:text-orange-600"
+      <label
+        htmlFor={name}
+        className="pointer-events-none absolute left-3.5 top-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400
+        transition-all duration-150
+        peer-placeholder-shown:top-[18px]
+        peer-placeholder-shown:text-[13px] peer-placeholder-shown:normal-case peer-placeholder-shown:tracking-normal peer-placeholder-shown:font-normal
+        peer-focus:top-1.5
+        peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:font-semibold
+        peer-focus:text-orange-500"
       >
         {label}
-      </label>}
+      </label>
     </div>
   );
 }

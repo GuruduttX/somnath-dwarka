@@ -18,6 +18,7 @@ import SpokeContent, { DecisionBlock, ProseSections, PriceMatrixTable } from "@/
 import PackageDurationStrip from "@/src/components/TourPackage/PackageDurationStrip";
 import PackageInclusionsStrip from "@/src/components/TourPackage/PackageInclusionsStrip";
 import PackageVisualHeader from "@/src/components/TourPackage/PackageVisualHeader";
+import ItineraryRouteMap from "@/src/components/TourPackage/ItineraryRouteMap";
 import ProductRatings from "@/src/components/TourPackage/ProductRatings";
 import PackageTestimonials from "@/src/components/TourPackage/PackageTestimonials";
 import TrustBuildingSection from "@/src/utils/TrustBuildingSection";
@@ -464,6 +465,22 @@ export default async function PackageVariantPage({ params }: Params) {
           </div>
         </div>
       </div>
+
+      {/* Day-wise route map. This route builds its own layout rather than using
+          PackageDetailTemplate, so the map has to be mounted here too. */}
+      <ItineraryRouteMap
+        title={pkg.h1}
+        days={pkg.itinerary.map((d) => ({
+          day: d.day,
+          title: d.title,
+          description: d.description,
+          stops: d.stops ?? [],
+          // Seed packages carry no hour-by-hour steps; CMS ones do.
+          steps: "steps" in d ? d.steps ?? [] : [],
+        }))}
+        fallbackPlaces={breakdown.map((b) => b.place)}
+        places={breakdown.map((b) => b.place)}
+      />
 
       {/* Long-form docx sections: why-choose, honest fit, price notes */}
       <SpokeContent extras={pkg.extras} />

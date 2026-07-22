@@ -22,20 +22,191 @@ export type RouteDay = {
 const qualify = (place: string) => `${place.trim()}, India`;
 
 /**
- * Google's keyless embed endpoint, the same one shared/MapEmbed.tsx uses.
- * Two or more stops render as a route; a single stop renders as a pin.
+ * Google's keyless embed endpoint.
+ *
+ * This must be the /maps/embed?pb= form, NOT the older
+ * `maps.google.com/maps?q=…&output=embed`. That older URL 301s here, and the
+ * redirect response carries `X-Frame-Options: SAMEORIGIN` — browsers enforce
+ * framing rules on every hop of a redirect chain, so the iframe was being
+ * blocked and the map rendered blank. Pointing straight at the final endpoint
+ * skips the redirect; it sends no XFO header and still needs no API key.
+ *
+ * Two or more stops render as a driving route; a single stop renders as a pin.
  */
 function embedSrc(places: string[]): string {
   if (places.length === 0) return "";
+  const enc = (p: string) => encodeURIComponent(qualify(p));
   if (places.length === 1) {
-    return `https://maps.google.com/maps?q=${encodeURIComponent(qualify(places[0]))}&output=embed`;
+    return `https://www.google.com/maps/embed?origin=mfe&pb=!1m2!2m1!1s${enc(places[0])}`;
   }
   const [first, ...rest] = places;
-  // Classic Maps chains waypoints on the destination with " to ".
-  const daddr = rest.map(qualify).join(" to ");
-  return `https://maps.google.com/maps?saddr=${encodeURIComponent(
-    qualify(first),
-  )}&daddr=${encodeURIComponent(daddr)}&output=embed`;
+  // The directions pb chains every stop after the origin into one " to " string.
+  const daddr = rest.map((p) => qualify(p)).join(" to ");
+  return `https://www.google.com/maps/embed?origin=mfe&pb=!1m5!4m4!4m1!2s${enc(
+    first,
+  )}!4m1!2s${encodeURIComponent(daddr)}`;
+}
+
+/**
+ * Places these itineraries actually visit, longest alias first so "Bet Dwarka"
+ * and "Sasan Gir" win over the bare "Dwarka" / "Gir" they contain.
+ *
+ * Editors rarely fill the CMS `stops` field, so without this a day's map showed
+ * a single inferred pin instead of the route the day actually drives. Reading
+ * the places back out of the day's own text gives every day a real route.
+ */
+const GAZETTEER: { name: string; aliases: string[]; parent?: string }[] = [
+  { name: "Bet Dwarka", aliases: ["bet dwarka", "beyt dwarka"] },
+  { name: "Nageshwar Jyotirlinga", aliases: ["nageshwar"], parent: "Dwarka" },
+  { name: "Rukmini Devi Temple, Dwarka", aliases: ["rukmini"], parent: "Dwarka" },
+  { name: "Gopi Talav, Dwarka", aliases: ["gopi talav"], parent: "Dwarka" },
+  { name: "Shivrajpur Beach", aliases: ["shivrajpur"], parent: "Dwarka" },
+  { name: "Dwarkadhish Temple, Dwarka", aliases: ["dwarkadhish"], parent: "Dwarka" },
+  { name: "Dwarka", aliases: ["dwarka"] },
+  { name: "Bhalka Tirth", aliases: ["bhalka"], parent: "Somnath" },
+  { name: "Triveni Sangam, Somnath", aliases: ["triveni"], parent: "Somnath" },
+  { name: "Gita Mandir, Somnath", aliases: ["gita mandir"], parent: "Somnath" },
+  { name: "Somnath", aliases: ["somnath"] },
+  { name: "Sasan Gir", aliases: ["sasan gir", "gir national park", "gir forest", "sasan", "gir"] },
+  { name: "Girnar", aliases: ["girnar"], parent: "Junagadh" },
+  { name: "Junagadh", aliases: ["junagadh"] },
+  { name: "Kirti Mandir, Porbandar", aliases: ["kirti mandir"], parent: "Porbandar" },
+  { name: "Porbandar", aliases: ["porbandar"] },
+  { name: "Madhavpur Beach", aliases: ["madhavpur"] },
+  { name: "Veraval", aliases: ["veraval"] },
+  { name: "Diu", aliases: ["diu"] },
+  { name: "Jamnagar", aliases: ["jamnagar"] },
+  { name: "Rajkot", aliases: ["rajkot"] },
+  { name: "Statue of Unity, Kevadia", aliases: ["statue of unity", "kevadia"] },
+  { name: "Bhuj", aliases: ["bhuj"] },
+  { name: "Kutch", aliases: ["kutch", "rann of kutch"] },
+  { name: "Ahmedabad", aliases: ["ahmedabad"] },
+  { name: "Vadodara", aliases: ["vadodara", "baroda"] },
+  { name: "Surat", aliases: ["surat"] },
+  { name: "Mumbai", aliases: ["mumbai"] },
+  { name: "Udaipur", aliases: ["udaipur"] },
+  { name: "Mount Abu", aliases: ["mount abu"] },
+];
+
+const PARENT_OF = new Map(GAZETTEER.filter((g) => g.parent).map((g) => [g.name, g.parent!]));
+
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/**
+ * Pull the day's stops out of its own copy, in the order they are mentioned.
+ * Overlapping matches are resolved in favour of the longer alias, so
+ * "…drive to Bet Dwarka" yields Bet Dwarka once rather than Dwarka + Bet Dwarka.
+ */
+function placesFromText(text: string, limit = 6): string[] {
+  const haystack = text.toLowerCase();
+  const hits: { name: string; at: number; len: number }[] = [];
+
+  for (const entry of GAZETTEER) {
+    for (const alias of entry.aliases) {
+      const re = new RegExp(`\\b${escapeRe(alias)}\\b`, "g");
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(haystack)) !== null) {
+        hits.push({ name: entry.name, at: m.index, len: alias.length });
+      }
+    }
+  }
+
+  // Earliest mention first; where two aliases start together the longer wins.
+  hits.sort((a, b) => a.at - b.at || b.len - a.len);
+
+  const taken: { start: number; end: number }[] = [];
+  const ordered: string[] = [];
+  for (const hit of hits) {
+    const end = hit.at + hit.len;
+    if (taken.some((t) => hit.at < t.end && end > t.start)) continue;
+    taken.push({ start: hit.at, end });
+    if (!ordered.includes(hit.name)) ordered.push(hit.name);
+  }
+
+  // A city and a landmark inside it are the same point on the map, so drop the
+  // city when one of its landmarks is already on the list ("Porbandar" goes
+  // when "Kirti Mandir, Porbandar" is there).
+  const covered = new Set(ordered.map((n) => PARENT_OF.get(n)).filter(Boolean) as string[]);
+  const pruned = ordered.filter((n) => !covered.has(n));
+
+  // Google's keyless directions embed degrades past a handful of waypoints.
+  return pruned.slice(0, limit);
+}
+
+/**
+ * Day titles here follow "A to B" (sometimes "A to B via C"), which states the
+ * real travel order — whereas mention order in the prose does not ("Dwarka to
+ * Somnath via Porbandar" would otherwise route Dwarka → Somnath → Porbandar).
+ * So when the title names both ends, pin them to first and last.
+ */
+function orderByTitle(places: string[], title: string): string[] {
+  const m = title.match(/^(.+?)\s+to\s+(.+)$/i);
+  if (!m) return places;
+
+  // The title names a city ("Somnath"), but the list may hold only landmarks
+  // inside it ("Bhalka Tirth") because the city itself was pruned as their
+  // parent — so match on the landmark standing in for the city.
+  const resolve = (fragment: string) => {
+    const named = placesFromText(fragment, 1)[0];
+    if (!named) return undefined;
+    return places.find((p) => p === named || PARENT_OF.get(p) === named);
+  };
+
+  const start = resolve(m[1]);
+  const end = resolve(m[2].split(/\bvia\b/i)[0]);
+  if (start === end) return places;
+
+  // Only one end named ("The coastal run to Somnath") still fixes that end,
+  // which is enough to stop the route running backwards.
+  if (start && !end) return [start, ...places.filter((p) => p !== start)];
+  if (end && !start) return [...places.filter((p) => p !== end), end];
+  if (!start || !end) return places;
+
+  const middle = places.filter((p) => p !== start && p !== end);
+  return [start, ...middle, end];
+}
+
+/**
+ * Arrival days ("To Dwarka", "Arrive Dwarka") end where the title says, and
+ * their prose lists how to get there — "fly into Jamnagar and drive", "From
+ * Ahmedabad this is an 8 to 9 hour day". Those are travel options, not stops,
+ * so restrict the day to its named place and the landmarks inside it.
+ *
+ * Deliberately narrow: it fires only on arrival phrasing. Days that move
+ * ("Bet Dwarka and Nageshwar", "Safari, then Junagadh", any "A to B") are left
+ * alone, because they really do visit what their text mentions.
+ */
+function anchorSingleSiteDay(places: string[], title: string): string[] {
+  if (!/^\s*(to|arrive|arrival(\s+in)?|reach)\b/i.test(title)) return places;
+
+  const named = placesFromText(title, 3);
+  if (named.length !== 1) return places;
+
+  const anchor = named[0];
+  const kept = places.filter((p) => p === anchor || PARENT_OF.get(p) === anchor);
+  return kept.length ? kept : places;
+}
+
+/**
+ * Keep only places the package actually visits.
+ *
+ * Day prose names cities the trip never stops in — "fly into Jamnagar and
+ * drive", "From Ahmedabad this is an 8 to 9 hour day" are arrival *options*,
+ * not stops, and mining them drew routes through cities nobody goes to. The
+ * duration breakdown is the authority on where the trip goes, so anything
+ * outside it (or outside a landmark belonging to one of its places) is noise.
+ */
+function keepVisited(places: string[], visited: string[]): string[] {
+  // "Ahmedabad Drop" and "Ahmedabad" are the same city for this purpose.
+  const norm = (s: string) => s.toLowerCase().replace(/\s+drop$/, "").trim();
+  const allow = new Set(visited.filter(Boolean).map(norm));
+  if (!allow.size) return places;
+
+  const kept = places.filter((p) => {
+    const parent = PARENT_OF.get(p);
+    return allow.has(norm(p)) || (parent ? allow.has(norm(parent)) : false);
+  });
+  return kept.length ? kept : places;
 }
 
 /** The official Maps URL scheme, for opening the day's route in a real map. */
@@ -55,6 +226,43 @@ function directionsUrl(places: string[]): string {
   return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}${
     waypoints ? `&waypoints=${waypoints}` : ""
   }&travelmode=driving`;
+}
+
+/**
+ * The map iframe with a spinner over it until Google's tiles arrive.
+ *
+ * `key={src}` on the instance is what makes switching day tabs re-show the
+ * spinner: it remounts with `loaded` false, rather than leaving the previous
+ * day's map on screen looking like the new one.
+ */
+function MapFrame({ src, title }: { src: string; title: string }) {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <>
+      <iframe
+        title={title}
+        src={src}
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        onLoad={() => setLoaded(true)}
+        className={`absolute inset-0 h-full w-full transition-opacity duration-500 ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`}
+        style={{ border: 0, display: "block" }}
+      />
+
+      {!loaded ? (
+        <div
+          aria-hidden
+          className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-orange-50/40"
+        >
+          <span className="h-9 w-9 animate-spin rounded-full border-[3px] border-orange-200 border-t-orange-500" />
+          <span className="text-[12px] font-semibold text-slate-400">Loading map…</span>
+        </div>
+      ) : null}
+    </>
+  );
 }
 
 /**
@@ -88,11 +296,33 @@ export default function ItineraryRouteMap({
 }) {
   const [active, setActive] = useState(0);
 
+  /**
+   * Stops for each day, best source first: the CMS `stops` field when an editor
+   * filled it, otherwise the places named in the day's own title, description
+   * and hour-by-hour steps, and only then the single place the duration strip
+   * inferred. The middle step is what turns a lone pin into an actual route.
+   */
   const resolved = useMemo(
     () =>
       days.map((d, i) => {
-        const stops = d.stops.filter(Boolean);
-        return stops.length ? stops : [fallbackPlaces[i]].filter(Boolean);
+        const cmsStops = (d.stops ?? []).map((s) => s.trim()).filter(Boolean);
+        if (cmsStops.length) return cmsStops;
+
+        const text = [
+          d.title,
+          d.description,
+          ...(d.steps ?? []).map((s) => s.activity),
+        ]
+          .filter(Boolean)
+          .join(" . ");
+        const title = d.title ?? "";
+        const mined = orderByTitle(
+          anchorSingleSiteDay(keepVisited(placesFromText(text), fallbackPlaces), title),
+          title,
+        );
+        if (mined.length) return mined;
+
+        return [fallbackPlaces[i]].filter(Boolean);
       }),
     [days, fallbackPlaces],
   );
@@ -100,7 +330,11 @@ export default function ItineraryRouteMap({
   // No day-wise plan in the CMS yet: show where the trip goes, without
   // inventing days that nobody has written.
   if (!days.length) {
-    const known = (places ?? []).filter(Boolean);
+    // Short packages ("1 Day Dwarka", "Budget Somnath Dwarka") carry neither an
+    // itinerary nor a duration breakdown. Their own title still names where the
+    // trip goes, which beats hiding the map entirely.
+    const given = (places ?? []).filter(Boolean);
+    const known = given.length ? given : placesFromText(title);
     if (!known.length) return null;
     return (
       <section
@@ -117,14 +351,7 @@ export default function ItineraryRouteMap({
         <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
           <div className="grid grid-cols-1 lg:grid-cols-[1.45fr_1fr]">
             <div className="relative min-h-[320px] bg-orange-50/40 lg:min-h-[420px]">
-              <iframe
-                title={`${title} — route`}
-                src={embedSrc(known)}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="h-full w-full"
-                style={{ border: 0, display: "block", minHeight: "inherit" }}
-              />
+              <MapFrame title={`${title} — route`} src={embedSrc(known)} />
             </div>
             <div className="flex flex-col gap-4 p-5 sm:p-6">
               <div>
@@ -218,15 +445,7 @@ export default function ItineraryRouteMap({
           {/* ── Map ── */}
           <div className="relative min-h-[320px] bg-orange-50/40 lg:min-h-[460px]">
             {src ? (
-              <iframe
-                key={src}
-                title={`${title} — Day ${day.day} route`}
-                src={src}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="h-full w-full"
-                style={{ border: 0, display: "block", minHeight: "inherit" }}
-              />
+              <MapFrame key={src} title={`${title} — Day ${day.day} route`} src={src} />
             ) : (
               <div className="flex h-full min-h-[320px] items-center justify-center p-6 text-center text-sm text-slate-500">
                 Stops for this day are being confirmed.
