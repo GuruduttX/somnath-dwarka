@@ -16,6 +16,7 @@ export default function HotelEnquiryPopup({ open, onClose }: Props) {
   const [form, setForm] = useState({
     name: "",
     phone: "",
+    email: "",
     checkin: "",
     checkout: "",
     guests: "",
@@ -32,26 +33,47 @@ export default function HotelEnquiryPopup({ open, onClose }: Props) {
   const handleChange = (e: any) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-//   const handleSubmit = async (e: any) => {
-//     e.preventDefault();
-//     setLoading(true);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-//     try {
-//       await emailjs.send(
-//         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-//         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-//         form,
-//         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-//       );
+    if (!/^[0-9]{10}$/.test(form.phone)) {
+      alert("Enter a valid 10-digit phone number");
+      return;
+    }
 
-//       alert("Hotel enquiry sent!");
-//       onClose();
-//     } catch {
-//       alert("Something went wrong");
-//     }
+    setLoading(true);
 
-//     setLoading(false);
-//   };
+    try {
+      const res = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name:    form.name,
+          phone:   form.phone,
+          email:   form.email,
+          service: "Hotel Booking",
+          message: form.message,
+          details: {
+            checkin:  form.checkin,
+            checkout: form.checkout,
+            guests:   form.guests,
+          },
+          source:  "HotelEnquiryPopup",
+          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
+        }),
+      });
+
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message);
+
+      alert("Hotel enquiry sent ✅ We'll call you shortly.");
+      onClose();
+    } catch (err: any) {
+      alert(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-[999] flex items-start justify-center">
@@ -81,12 +103,21 @@ export default function HotelEnquiryPopup({ open, onClose }: Props) {
         </div>
 
         <form
-        //   onSubmit={handleSubmit}
+          onSubmit={handleSubmit}
           className="p-8 grid md:grid-cols-2 gap-4"
         >
 
           <input name="name" placeholder="Full Name" className="input" required onChange={handleChange}/>
           <input name="phone" placeholder="Phone Number" className="input" required onChange={handleChange}/>
+
+          <input
+            name="email"
+            type="email"
+            placeholder="Email Address (for your booking confirmation)"
+            className="input md:col-span-2"
+            required
+            onChange={handleChange}
+          />
 
           <input type="date" name="checkin" className="input" onChange={handleChange}/>
           <input type="date" name="checkout" className="input" onChange={handleChange}/>

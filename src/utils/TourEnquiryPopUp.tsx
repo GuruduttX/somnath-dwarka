@@ -47,17 +47,24 @@ export default function TourEnquiryPopup({ open, onClose }: Props) {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/simbark", {
+      const res = await fetch("/api/enquiry", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          name:    form.name,
+          phone:   form.phone,
+          email:   form.email,
+          service: form.serviceType,
+          source:  "TourEnquiryPopup",
+          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
+        }),
       });
 
       const data = await res.json();
 
-      if (!res.ok) throw new Error(data.message);
+      if (!data.success) throw new Error(data.message);
 
       alert("Submitted successfully ✅");
 

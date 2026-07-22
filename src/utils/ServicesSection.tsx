@@ -54,19 +54,22 @@ export default function ContactSection() {
     const payload = { ...form, timing };
     setLoading(true);
     try {
-      const res = await fetch("/api/simbark", {
+      const res = await fetch("/api/enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: payload.name,
+          name:  payload.name,
           phone: payload.phone,
           email: payload.email,
-          service: payload.service,
-          comments: `Booking Timing: ${timing}`,
+          // serviceOptions store short codes ("tour", "puja"…) — send the label.
+          service: serviceOptions.find((o) => o.value === payload.service)?.label,
+          details: { bookingTiming: timing },
+          source:  "ServicesSection",
+          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
         }),
       });
       const data = await res.json();
-      if (res.ok) {
+      if (data.success) {
         setStep(3);
         setForm({ name: "", email: "", phone: "", service: "", timing: "" });
       } else {

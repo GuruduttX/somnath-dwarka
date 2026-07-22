@@ -33,9 +33,16 @@ export default function QuickQuery({ setOpen, form, setForm }: any) {
     }
 
     try {
-      const response = await fetch("api/simbark", {
+      const response = await fetch("/api/enquiry", {
         method: "POST",
-        body: JSON.stringify(form),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name:    form.name,
+          phone:   form.phone,
+          service: "General Enquiry",
+          source:  "QuickQuery",
+          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
+        }),
       });
       const formsubmitData = await response.json();
       if (!response.ok) throw new Error(formsubmitData.message || "Submission failed");

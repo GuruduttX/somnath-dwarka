@@ -51,6 +51,7 @@ const TOTAL_STEPS = 3;
 export default function CommonEnquiryForm({
   open,
   onClose,
+  defaultService = "General Enquiry",
   name = "",
   phone = "",
 }: Props) {
@@ -101,30 +102,31 @@ export default function CommonEnquiryForm({
     try {
       setLoading(true);
 
-      const comments = [
-        `Travel with: ${submission.travelWith || "Not specified"}`,
-        `Booking timing: ${submission.bookingTiming || "Not specified"}`,
-      ].join("\n");
-
-      const res = await fetch("/api/simbark", {
+      const res = await fetch("/api/enquiry", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name:     submission.name,
-          phone:    `${submission.countryCode ?? "+91"}${submission.phone}`,
-          email:    submission.email,
-          comments,
+          name:        submission.name,
+          phone:       submission.phone,
+          countryCode: submission.countryCode || "+91",
+          email:       submission.email,
+          service:     defaultService,
+          details: {
+            travelWith:    submission.travelWith,
+            bookingTiming: submission.bookingTiming,
+          },
+          source:  "CommonEnquiryForm",
+          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
         }),
       });
-      
 
-      console.log("s", form);
+      const data = await res.json();
 
-      if (res.ok) {
+      if (data.success) {
         setSuccess(true);
         setStep(4);
       } else {
-        alert("Failed to submit. Please try again.");
+        alert(data.message || "Failed to submit. Please try again.");
       }
     } catch (err) {
       console.error(err);

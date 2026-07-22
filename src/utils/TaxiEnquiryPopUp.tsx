@@ -1,6 +1,6 @@
 "use client";
 
-import { X, CarTaxiFront, MapPin, Phone, Calendar, User } from "lucide-react";
+import { X, CarTaxiFront, MapPin, Phone, Calendar, User, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -10,11 +10,12 @@ interface Props {
 
 export default function TaxiEnquiryPopup({ open, onClose }: Props) {
   const [animate, setAnimate] = useState(false);
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
     phone: "",
+    email: "",
     pickup: "",
     drop: "",
     date: "",
@@ -30,6 +31,48 @@ export default function TaxiEnquiryPopup({ open, onClose }: Props) {
 
   const handleChange = (e: any) =>
     setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!/^[0-9]{10}$/.test(form.phone)) {
+      alert("Enter a valid 10-digit phone number");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name:    form.name,
+          phone:   form.phone,
+          email:   form.email,
+          service: "Taxi Booking",
+          message: form.message,
+          details: {
+            pickup:     form.pickup,
+            drop:       form.drop,
+            travelDate: form.date,
+          },
+          source:  "TaxiEnquiryPopup",
+          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
+        }),
+      });
+
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message);
+
+      alert("Taxi enquiry sent ✅ We'll call you shortly.");
+      onClose();
+    } catch (err: any) {
+      alert(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-[999] flex items-start justify-center">
@@ -66,7 +109,7 @@ export default function TaxiEnquiryPopup({ open, onClose }: Props) {
         </div>
 
         {/* FORM */}
-        <form className="p-8 grid md:grid-cols-2 gap-6">
+        <form onSubmit={handleSubmit} className="p-8 grid md:grid-cols-2 gap-6">
 
           {/* NAME */}
           <div className="relative">
@@ -87,6 +130,20 @@ export default function TaxiEnquiryPopup({ open, onClose }: Props) {
             <input
               name="phone"
               placeholder="Phone Number"
+              onChange={handleChange}
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200
+              focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition"
+              required
+            />
+          </div>
+
+          {/* EMAIL */}
+          <div className="relative md:col-span-2">
+            <Mail className="absolute left-3 top-3.5 text-gray-400" size={18}/>
+            <input
+              name="email"
+              type="email"
+              placeholder="Email Address (for your booking confirmation)"
               onChange={handleChange}
               className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200
               focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition"

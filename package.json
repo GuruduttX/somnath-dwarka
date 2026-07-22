@@ -15,9 +15,6 @@
     "seed:origin-packages": "node --env-file=.env.local scripts/seed-origin-packages.mjs"
   },
   "dependencies": {
-    "@tiptap/pm": "^3.23.4",
-    "@tiptap/react": "^3.23.4",
-    "@tiptap/starter-kit": "^3.23.4",
     "@tiptap/extension-image": "^3.23.4",
     "@tiptap/extension-link": "^3.23.4",
     "@tiptap/extension-table": "^3.23.4",
@@ -26,6 +23,9 @@
     "@tiptap/extension-table-row": "^3.23.4",
     "@tiptap/extension-text-align": "^3.23.4",
     "@tiptap/extension-underline": "^3.23.4",
+    "@tiptap/pm": "^3.23.4",
+    "@tiptap/react": "^3.23.4",
+    "@tiptap/starter-kit": "^3.23.4",
     "cloudinary": "^2.10.0",
     "framer-motion": "^12.38.0",
     "jose": "^6.2.3",
@@ -37,6 +37,7 @@
     "react-dom": "19.2.4",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.6.0",
+    "resend": "^6.18.0",
     "tiptap": "^1.32.2",
     "zod": "^4.4.3"
   },

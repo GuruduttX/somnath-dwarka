@@ -4,7 +4,7 @@ import { useState } from "react";
 
 /**
  * Short enquiry form (SOP §13): name, phone/email, dates, package/route.
- * Honeypot spam protection, server-side handled by /api/simbark, success →
+ * Honeypot spam protection, server-side handled by /api/enquiry, success →
  * /thank-you (noindex). Lead also deep-links to WhatsApp as a fallback.
  */
 export default function EnquiryForm({
@@ -23,19 +23,21 @@ export default function EnquiryForm({
     if (data.get("company")) return; // honeypot tripped
     setStatus("sending");
     try {
-      const res = await fetch("/api/simbark", {
+      const res = await fetch("/api/enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: data.get("name"),
-          phone: data.get("phone"),
-          email: data.get("email"),
-          comments: `[${context}] dates: ${data.get("dates") || "-"} · interest: ${
-            data.get("interest") || "-"
-          }`,
+          name:    data.get("name"),
+          phone:   data.get("phone"),
+          email:   data.get("email") || undefined,
+          service: context,
+          details: { travelDate: data.get("dates") || undefined },
+          source:  "SharedEnquiryForm",
+          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
         }),
       });
-      if (!res.ok) throw new Error("failed");
+      const json = await res.json();
+      if (!json.success) throw new Error("failed");
       window.location.href = "/thank-you";
     } catch {
       setStatus("error");

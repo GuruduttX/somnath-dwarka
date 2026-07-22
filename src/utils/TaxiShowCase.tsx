@@ -40,22 +40,24 @@ export default function TaxiShowCase() {
     }
 
     try {
-      const response = await fetch("api/simbark", {
+      const response = await fetch("/api/enquiry", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: name,
-          phone_number: phone,
-          comments: `service Type - Taxi booking, PickUp - ${pickup} Drop - ${drop}`,
+          name,
+          phone,
+          service: "Taxi Booking",
+          details: { pickup, drop },
+          source:  "TaxiShowCase",
+          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
         }),
       });
 
       const formsubmitData = await response.json();
 
-      if (!response.ok) {
+      if (!formsubmitData.success) {
         throw new Error(formsubmitData.message || "Submission failed");
       }
-
-      console.log("Success:", formsubmitData);
     } catch (error) {
       console.log("ERROR: submitting form", error);
     } finally {

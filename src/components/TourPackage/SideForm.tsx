@@ -37,22 +37,25 @@ export default function SideForm() {
     const finalData = data || form;
 
 
-    const res = await fetch("/api/sembark", {
+    const res = await fetch("/api/enquiry", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: finalData.name,
-        phone: finalData.phone,
-        email: finalData.email,
-
-        comments: `
-        Travel Date: ${finalData.travelDate}
-        Travellers: ${finalData.travellers}
-        Booking Time: ${finalData.bookingTime}
-        Message: ${finalData.message}
-                `.trim(),
+        name:    finalData.name,
+        phone:   finalData.phone,
+        email:   finalData.email,
+        service: "Tour Package",
+        message: finalData.message,
+        details: {
+          travelDate:    finalData.travelDate,
+          guests:        finalData.travellers,
+          travelWith:    finalData.travelWith,
+          bookingTiming: finalData.bookingTime,
+        },
+        source:  "TourPackageSideForm",
+        pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
       }),
     });
 
