@@ -2,7 +2,7 @@
  * The package variants the URL map authorises under /somnath-dwarka-gir-tour-package/.
  *
  * Mirrors config/packageSpokes.ts for the Gir triangle hub: 13 spokes from
- * scripts/data/url-map-v5.json. This is the allowlist for the hub's variant
+ * the v5 URL map. This is the allowlist for the hub's variant
  * explorer — a CMS record whose slug is not here is not part of the planned
  * architecture and never reaches the money page.
  *

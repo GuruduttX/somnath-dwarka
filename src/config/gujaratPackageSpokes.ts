@@ -2,7 +2,7 @@
  * The package variants the URL map authorises under /gujarat-tour-packages/.
  *
  * Mirrors config/packageSpokes.ts and config/girPackageSpokes.ts for the state
- * umbrella hub: 11 spokes from scripts/data/url-map-v5.json. A CMS record whose
+ * umbrella hub: 11 spokes from the v5 URL map. A CMS record whose
  * slug is not here is not part of the planned architecture and never reaches
  * the money page.
  *

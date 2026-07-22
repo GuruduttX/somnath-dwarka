@@ -7,9 +7,10 @@ import { Plus, Trash2 } from "lucide-react";
  * Long-form page copy: the decision table, argument sections, price matrix,
  * why-choose, the honest-fit list, price footnotes and the closing CTA.
  *
- * All of this used to live only in scripts/data/*.json and reach the page via a
- * seed script, so it rendered to visitors but could not be edited here. These
- * are the sections that make up most of the body of a spoke or origin page.
+ * All of this used to live only in offline seed data and reach the page via a
+ * one-off script, so it rendered to visitors but could not be edited here. It
+ * is now CMS-owned and editable in this form. These are the sections that make
+ * up most of the body of a spoke or origin page.
  */
 
 export type Decision = {

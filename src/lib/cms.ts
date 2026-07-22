@@ -26,11 +26,10 @@ export const verifiedValue = (d: Doc, k: string): string | null => {
 /**
  * Drop the URL map's "— Itinerary, Price & Booking" tail.
  *
- * That phrase is a keyword pattern from scripts/data/url-map-v5.json, not a
- * headline: it repeats on every money page and says nothing a reader needs. The
- * seed scripts already strip it at write time, but docs seeded before that (and
- * anything re-imported from the map) still carry it, so strip it on read too —
- * the function is idempotent, so doing both is safe.
+ * That phrase is a keyword pattern from the v5 URL map, not a headline: it
+ * repeats on every money page and says nothing a reader needs. Some CMS docs
+ * were seeded carrying it, and an editor can always paste it back in, so strip
+ * it on read. The function is idempotent, so re-stripping a clean title is safe.
  */
 export const stripHeadTail = (text: string): string =>
   text.replace(/\s*[—–:-]\s*Itinerary,\s*Price (?:&|and)\s*Booking\s*$/i, "").trim();

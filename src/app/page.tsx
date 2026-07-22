@@ -51,7 +51,7 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function Home() {
-  // Packages come from the CMS only. Seed them with scripts/seed-packages.mjs;
+  // Packages come from the CMS only — deliberately no static fallback here, so
   // an empty collection renders empty package sections rather than demo data.
   const adminPackages = await getPublishedPackages();
   const packages = mapAdminPackagesToTourCards(adminPackages);

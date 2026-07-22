@@ -1,10 +1,10 @@
 /**
  * The package variants the URL map authorises under /somnath-dwarka-tour-package/.
  *
- * Generated from scripts/data/url-map-v5.json (36 spokes). This is the
- * allowlist for the hub's variant explorer: a package record whose slug is not
- * here is not part of the planned architecture and is never listed, so a stray
- * or legacy CMS record cannot leak onto the money page.
+ * Transcribed from the v5 URL map (36 spokes); this file is now the canonical
+ * copy. This is the allowlist for the hub's variant explorer: a package record
+ * whose slug is not here is not part of the planned architecture and is never
+ * listed, so a stray or legacy CMS record cannot leak onto the money page.
  *
  * `bucket` decides which explorer group a variant appears under. Every slug in
  * the map has one, so no authorised variant can fall through and render nowhere.
