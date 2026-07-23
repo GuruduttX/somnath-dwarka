@@ -66,7 +66,7 @@ export default async function Home() {
         <CredentialsBar />
 
         {/* Unified Journey, Interest & Persona Section with a beautiful orange gradient merging with top & bottom */}
-        <div className="relative bg-gradient-to-b from-white via-orange-50/45 to-white pt-2 pb-10 md:pt-10 overflow-hidden">
+        <div className="relative bg-gradient-to-b from-white via-orange-50/45 to-white pt-2 pb-2 md:pt-10 md:pb-10 overflow-hidden">
           {/* Ambient background glowing circles */}
           <div className="absolute top-10 left-1/4 -translate-x-1/2 w-[500px] h-[500px] bg-orange-200/20 rounded-full blur-[140px] pointer-events-none" />
           <div className="absolute bottom-10 right-1/4 translate-x-1/2 w-[500px] h-[500px] bg-amber-200/25 rounded-full blur-[140px] pointer-events-none" />
