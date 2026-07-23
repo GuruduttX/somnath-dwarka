@@ -246,7 +246,7 @@ function HubCard({
     <li>
       <Link
         href={href}
-        className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-orange-200/80 bg-white p-6 transition-[transform,box-shadow,border-color,background-color] duration-500 ease-out will-change-transform hover:-translate-y-1.5 hover:border-transparent hover:shadow-xl hover:shadow-orange-500/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
+        className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-orange-100 bg-white p-4 shadow-sm shadow-orange-500/5 sm:p-6 transition-[transform,box-shadow,border-color,background-color] duration-500 ease-out will-change-transform hover:-translate-y-1.5 hover:border-transparent hover:shadow-xl hover:shadow-orange-500/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
       >
         {/* Gradient fill that wipes in on hover */}
         <span
@@ -257,39 +257,39 @@ function HubCard({
         <div className="relative flex h-full flex-col">
           {/* Tag + icon chip */}
           <div className="flex items-start justify-between gap-4">
-            <span className="inline-flex items-center rounded-full bg-orange-100 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-gray-800 transition-colors duration-500 ease-out group-hover:bg-white/25 group-hover:text-white">
+            <span className="inline-flex items-center rounded-full bg-orange-50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-orange-700 ring-1 ring-orange-100 transition-colors duration-500 ease-out group-hover:bg-white/25 group-hover:text-white group-hover:ring-white/30 sm:px-3.5 sm:py-1.5 sm:text-[11px]">
               {meta.tag}
             </span>
-            <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-orange-100 text-orange-500 transition-colors duration-500 ease-out group-hover:bg-white group-hover:text-orange-500">
-              <CardGlyph glyph={meta.glyph} className="h-5 w-5" />
+            <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-orange-50 text-orange-500 ring-1 ring-orange-100 transition-colors duration-500 ease-out group-hover:bg-white group-hover:text-orange-500 group-hover:ring-white sm:h-11 sm:w-11">
+              <CardGlyph glyph={meta.glyph} className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
           </div>
 
           {/* Title + blurb */}
-          <h4 className="mt-6 text-xl font-bold tracking-tight text-gray-900 transition-colors duration-500 ease-out group-hover:text-white">
+          <h4 className="mt-4 text-lg font-bold tracking-tight text-gray-900 sm:mt-6 sm:text-xl transition-colors duration-500 ease-out group-hover:text-white">
             {displayTitle}
           </h4>
           {displayBlurb ? (
-            <p className="mt-2 text-[15px] leading-relaxed text-gray-600 transition-colors duration-500 ease-out group-hover:text-white/95">
+            <p className="mt-1.5 text-[13px] leading-relaxed text-gray-600 sm:mt-2 sm:text-[15px] transition-colors duration-500 ease-out group-hover:text-white/95">
               {displayBlurb}
             </p>
           ) : null}
 
           {/* Footer meta */}
-          <div className="mt-auto pt-8">
-            <div className="border-t border-orange-100 pt-4 transition-colors duration-500 ease-out group-hover:border-white/35">
-              <div className="flex items-center gap-6 text-[15px] font-medium text-gray-800 transition-colors duration-500 ease-out group-hover:text-white">
-                <span className="inline-flex items-center gap-2">
-                  <ClockIcon className="h-[18px] w-[18px] flex-shrink-0 text-orange-400 transition-colors duration-500 ease-out group-hover:text-white" />
+          <div className="mt-auto pt-5 sm:pt-8">
+            <div className="border-t border-orange-100 pt-3 sm:pt-4 transition-colors duration-500 ease-out group-hover:border-white/35">
+              <div className="flex items-center gap-3 text-[12.5px] font-medium text-gray-800 sm:gap-6 sm:text-[15px] transition-colors duration-500 ease-out group-hover:text-white">
+                <span className="inline-flex items-center gap-1.5 whitespace-nowrap sm:gap-2">
+                  <ClockIcon className="h-4 w-4 flex-shrink-0 sm:h-[18px] sm:w-[18px] text-orange-400 transition-colors duration-500 ease-out group-hover:text-white" />
                   {meta.days}
                 </span>
                 {meta.stops ? (
-                  <span className="inline-flex items-center gap-2">
-                    <PinIcon className="h-[18px] w-[18px] flex-shrink-0 text-orange-400 transition-colors duration-500 ease-out group-hover:text-white" />
+                  <span className="inline-flex items-center gap-1.5 whitespace-nowrap sm:gap-2">
+                    <PinIcon className="h-4 w-4 flex-shrink-0 sm:h-[18px] sm:w-[18px] text-orange-400 transition-colors duration-500 ease-out group-hover:text-white" />
                     {meta.stops} sacred stops
                   </span>
                 ) : null}
-                <ArrowIcon className="ml-auto h-5 w-5 text-orange-400 transition-[transform,color] duration-500 ease-out group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-white" />
+                <ArrowIcon className="ml-auto h-4 w-4 shrink-0 text-orange-400 sm:h-5 sm:w-5 transition-[transform,color] duration-500 ease-out group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-white" />
               </div>
             </div>
           </div>
@@ -307,7 +307,7 @@ function GroupHeading({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mb-6 flex items-baseline gap-3">
+    <div className="mb-4 flex items-baseline gap-3 sm:mb-6">
       <span className="text-sm font-bold text-orange-400">{number}</span>
       <h3 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
         {children}
@@ -353,15 +353,15 @@ export default async function ChooseYourJourney() {
       >
         <span className="text-orange-500">Choose your</span> journey
       </h2>
-      <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-700">
+      <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-gray-700 sm:mt-5 sm:text-lg">
         Two ways to travel Gujarat, follow a flagship circuit or
         handpick single destination and build your own pace.
       </p>
 
       {/* Circuits */}
-      <div className="mt-14">
+      <div className="mt-8 sm:mt-14">
         <GroupHeading number="01">Pilgrimage Circuits</GroupHeading>
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           <HubCard
             href={`/${FLAGSHIP.slug}/`}
             title={FLAGSHIP.title}
@@ -382,7 +382,7 @@ export default async function ChooseYourJourney() {
 
       {/* Destinations */}
       {slides.length ? (
-        <div className="mt-14">
+        <div className="mt-8 sm:mt-14">
           <GroupHeading number="02">Destination Packages</GroupHeading>
           <DestinationSlider slides={slides} />
         </div>

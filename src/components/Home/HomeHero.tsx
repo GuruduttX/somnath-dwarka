@@ -164,7 +164,7 @@ export default function HomeHero() {
               <strong className="font-semibold text-orange-700">Jyotirlinga of Somnath</strong>, let the sea breeze carry the
               evening aarti, then feel the timeless calm of{" "}
               <strong className="font-semibold text-orange-700">Dwarkadhish Temple</strong>. A warm, family-friendly
-              pilgrimage — planned end to end, guided with care.
+              pilgrimage — planned end to end.
             </p>
 
             {/* CTAs */}
