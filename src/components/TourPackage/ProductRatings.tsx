@@ -27,43 +27,35 @@ const features = [
 
 export default function ProductRatings() {
   return (
-    <section id="ratings" className="w-full py-8 md:py-20 ">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="rounded-3xl border border-orange-100/80 bg-white shadow-sm shadow-orange-100/60 overflow-hidden">
-          <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 overflow-x-auto snap-x snap-mandatory no-scrollbar">
-            {features.map((item, i) => {
-              const Icon = item.icon;
+    <section id="ratings" className="w-full py-8 md:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        {/* Separate tiles in a 2-up grid rather than one horizontally scrolled
+            strip: on a phone the carousel showed a single stat at a time and
+            hid the other three behind a swipe. */}
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          {features.map((item, i) => {
+            const Icon = item.icon;
 
-              return (
-                <div
-                  key={i}
-                  className={`
-                p-8 text-center shrink-0 w-full snap-center md:w-auto
-                ${
-                  i !== features.length - 1
-                    ? "border-r md:border-r-0 md:border-b lg:border-b-0 lg:border-r border-orange-100/80"
-                    : ""
-                }
-              `}
-                >
-                  {/* Icon */}
-                  <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600">
-                    <Icon size={22} />
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-2xl font-semibold text-gray-900 mb-2">
-                    {item.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {item.desc}
-                  </p>
+            return (
+              <div
+                key={i}
+                className="flex flex-col items-center rounded-2xl border border-orange-100/80 bg-white p-4 text-center shadow-sm shadow-orange-100/60 sm:p-6 lg:p-8"
+              >
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-orange-600 sm:mb-5 sm:h-12 sm:w-12">
+                  <Icon size={18} className="sm:hidden" />
+                  <Icon size={22} className="hidden sm:block" />
                 </div>
-              );
-            })}
-          </div>
+
+                <h3 className="mb-1 text-lg font-bold tracking-tight text-gray-900 sm:mb-2 sm:text-2xl sm:font-semibold">
+                  {item.title}
+                </h3>
+
+                <p className="text-xs leading-relaxed text-gray-600 sm:text-sm">
+                  {item.desc}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

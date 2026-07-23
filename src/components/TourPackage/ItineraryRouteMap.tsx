@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Navigation, MapPin, Route } from "lucide-react";
+import { Navigation, MapPin, Route, Clock, ChevronDown } from "lucide-react";
 
 export type RouteDay = {
   day: number;
@@ -295,6 +295,8 @@ export default function ItineraryRouteMap({
   title: string;
 }) {
   const [active, setActive] = useState(0);
+  // Mobile-only collapse for the hour-by-hour list; resets when the day changes.
+  const [stepsOpen, setStepsOpen] = useState(false);
 
   /**
    * Stops for each day, best source first: the CMS `stops` field when an editor
@@ -421,7 +423,7 @@ export default function ItineraryRouteMap({
         <div
           role="tablist"
           aria-label="Itinerary days"
-          className="flex gap-2 overflow-x-auto border-b border-orange-100 bg-orange-50/40 px-3 py-3 sm:px-4"
+          className="hide-scrollbar flex gap-2 overflow-x-auto border-b border-orange-100 bg-orange-50/40 px-3 py-3 sm:px-4"
         >
           {days.map((d, i) => (
             <button
@@ -429,7 +431,10 @@ export default function ItineraryRouteMap({
               role="tab"
               aria-selected={i === active}
               aria-controls="route-map-panel"
-              onClick={() => setActive(i)}
+              onClick={() => {
+                setActive(i);
+                setStepsOpen(false);
+              }}
               className={`shrink-0 rounded-full px-4 py-2 text-[13px] font-bold transition-colors ${
                 i === active
                   ? "bg-slate-900 text-white shadow-sm"
@@ -483,18 +488,39 @@ export default function ItineraryRouteMap({
 
             {/* Hour-by-hour where the CMS has it, otherwise the stop list. */}
             {day.steps?.length ? (
-              <ol className="space-y-3">
-                {day.steps.map((step, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span className="w-16 shrink-0 pt-0.5 text-[12px] font-bold text-orange-600">
-                      {step.time}
-                    </span>
-                    <span className="text-[13.5px] leading-relaxed text-slate-700">
-                      {step.activity}
-                    </span>
-                  </li>
-                ))}
-              </ol>
+              <div>
+                {/* The full hour list runs long enough on a phone to bury the
+                    map and the next day's tabs, so it collapses there. It is
+                    always expanded from sm up, where there is room for it. */}
+                <button
+                  type="button"
+                  onClick={() => setStepsOpen((open) => !open)}
+                  aria-expanded={stepsOpen}
+                  className="flex w-full items-center justify-between gap-2 rounded-xl border border-orange-100 bg-orange-50/40 px-3.5 py-2.5 text-[13px] font-bold text-slate-800 sm:hidden"
+                >
+                  <span className="flex items-center gap-2">
+                    <Clock size={14} className="text-orange-500" />
+                    Hour-by-hour plan
+                    <span className="font-semibold text-slate-400">({day.steps.length})</span>
+                  </span>
+                  <ChevronDown
+                    size={16}
+                    className={`text-orange-500 transition-transform duration-200 ${stepsOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+                <ol className={`${stepsOpen ? "mt-3 block" : "hidden"} space-y-3 sm:mt-0 sm:block`}>
+                  {day.steps.map((step, i) => (
+                    <li key={i} className="flex gap-3">
+                      <span className="w-14 shrink-0 pt-0.5 text-[12px] font-bold text-orange-600 sm:w-16">
+                        {step.time}
+                      </span>
+                      <span className="text-[13px] leading-relaxed text-slate-700 sm:text-[13.5px]">
+                        {step.activity}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
             ) : dayPlaces.length ? (
               <div>
                 <p className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-400">

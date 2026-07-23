@@ -24,10 +24,10 @@ function inferMetadata(title: string) {
   const t = title.toLowerCase();
 
   if (t.includes("arrival") || t.includes("arrive")) {
-    return { duration: "Full Day", activity: "Arrival Transfer" };
+    return { duration: "Full Day", activity: "Arrival" };
   }
   if (t.includes("departure") || t.includes("depart") || t.includes("drop")) {
-    return { duration: "Full Day", activity: "Departure Transfer" };
+    return { duration: "Full Day", activity: "Departure" };
   }
   return { duration: "Full Day", activity: "Temple Visits" };
 }
@@ -39,7 +39,7 @@ function inferMetadata(title: string) {
 export default function ItineraryAccordion({ days }: { days: ItineraryDay[] }) {
   if (!days?.length) return null;
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       {days.map((d, i) => {
         const inferred = inferMetadata(d.title);
         const meta = {
@@ -52,10 +52,10 @@ export default function ItineraryAccordion({ days }: { days: ItineraryDay[] }) {
             open={i === 0}
             className="group border border-[#FFE4CC] rounded-2xl bg-white overflow-hidden shadow-[0_8px_30px_rgba(15,23,42,0.02)] transition-all duration-300 open:shadow-[0_12px_35px_rgba(234,88,12,0.03)]"
           >
-            <summary className="cursor-pointer list-none px-5 py-4 flex items-center justify-between gap-4 select-none">
-              <div className="flex items-center gap-4">
+            <summary className="cursor-pointer list-none px-4 py-3.5 sm:px-5 sm:py-4 flex items-center justify-between gap-3 sm:gap-4 select-none">
+              <div className="flex min-w-0 items-center gap-3 sm:gap-4">
                 {/* Sleek Squircle Day Badge - dynamic orange on open, peach on close */}
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl flex flex-col items-center justify-center font-bold transition-all duration-200 bg-[#FFF0E0] group-open:bg-orange-500 shadow-sm">
+                <div className="flex-shrink-0 w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex flex-col items-center justify-center font-bold transition-all duration-200 bg-[#FFF0E0] group-open:bg-orange-500 shadow-sm">
                   <span className="text-[9px] uppercase tracking-wider font-extrabold leading-none mb-0.5 text-orange-600 group-open:text-orange-100 transition-colors">
                     Day
                   </span>
@@ -65,29 +65,31 @@ export default function ItineraryAccordion({ days }: { days: ItineraryDay[] }) {
                 </div>
                 
                 {/* Title & Metadata info */}
-                <div className="flex flex-col gap-1 text-left">
+                <div className="flex min-w-0 flex-col gap-1 text-left">
                   <span className="font-bold text-slate-800 text-[15px] sm:text-[17px] tracking-tight leading-tight">
                     {d.title}
                   </span>
-                  <div className="flex items-center gap-2 text-xs font-semibold text-orange-500">
-                    <span className="flex items-center gap-1 opacity-90">
-                      <Clock size={11} className="text-orange-500" />
+                  {/* nowrap keeps each chip on a single line — without it the
+                      narrow mobile column breaks "Full Day" across two rows. */}
+                  <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[10.5px] sm:gap-x-2 sm:text-xs font-semibold text-orange-500">
+                    <span className="flex items-center gap-1 whitespace-nowrap opacity-90">
+                      <Clock size={11} className="shrink-0 text-orange-500" />
                       {meta.duration}
                     </span>
                     <span className="text-orange-200 select-none">|</span>
-                    <span className="flex items-center gap-1 opacity-90">
-                      <MapPin size={11} className="text-orange-500" />
+                    <span className="flex items-center gap-1 whitespace-nowrap opacity-90">
+                      <MapPin size={11} className="shrink-0 text-orange-500" />
                       {meta.activity}
                     </span>
                   </div>
                 </div>
               </div>
-              <ChevronDown size={20} strokeWidth={2.2} className="text-orange-500 transition-transform duration-300 group-open:rotate-180 mr-1 shrink-0" />
+              <ChevronDown size={20} strokeWidth={2.2} className="text-orange-500 transition-transform duration-300 group-open:rotate-180 shrink-0" />
             </summary>
 
-            <div className="h-px bg-[#FFE4CC] mx-5" />
+            <div className="h-px bg-[#FFE4CC] mx-4 sm:mx-5" />
 
-            <div className="px-5 pb-5 pt-4 text-slate-600 text-sm sm:text-base leading-relaxed bg-white">
+            <div className="px-4 pb-4 pt-3.5 sm:px-5 sm:pb-5 sm:pt-4 text-slate-600 text-sm sm:text-base leading-relaxed bg-white">
               <div className="pl-0 sm:pl-[64px]">
                 {d.steps?.length ? (
                   <ul className="mb-4 space-y-2.5">

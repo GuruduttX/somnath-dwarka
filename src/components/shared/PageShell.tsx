@@ -13,7 +13,9 @@ import { breadcrumbSchema, type Crumb } from "@/src/lib/seo";
  * (SOP §4, §5 DoD, §10).
  *
  * Navbar is `position: fixed` and floats above the page, so it doesn't push
- * content down on its own — the pt-28 wrapper below reserves that space.
+ * content down on its own — the pt-24/pt-28 wrapper below reserves that space.
+ * The pill ends 88px down (top-6 + h-16), so 24 leaves just enough breathing
+ * room on a phone without the dead band a full pt-28 left there.
  *
  * The visible breadcrumb shows on every page (skipped only for a lone "Home"
  * crumb). On full-bleed hero pages (`flushHero`) the hero bleeds up under the
@@ -43,7 +45,7 @@ export default function PageShell({
   return (
     <>
       <Navbar />
-      <div className={`relative ${noPaddingTop ? "" : "pt-28"}`}>
+      <div className={`relative ${noPaddingTop ? "" : "pt-24 sm:pt-28"}`}>
         {crumbs?.length ? (
           <JsonLd data={breadcrumbSchema(crumbs)} />
         ) : null}

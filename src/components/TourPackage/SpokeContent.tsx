@@ -78,9 +78,11 @@ export function PriceMatrixTable({ matrix }: { matrix: PriceMatrix }) {
   );
 }
 
-const card = "overflow-hidden rounded-2xl border border-orange-100 bg-white p-6 sm:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]";
-const h3 = "text-xl font-bold text-slate-950 mb-4 flex items-center gap-2";
-const bar = <span className="h-6 w-1 rounded-full bg-orange-500 inline-block" />;
+const card = "overflow-hidden rounded-2xl border border-orange-100 bg-white p-4 sm:p-6 lg:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]";
+// items-start, not items-center: the accent bar has to sit against the first
+// line of a heading that wraps to two or three lines on a phone.
+const h3 = "text-lg sm:text-xl font-bold text-slate-950 mb-3 sm:mb-4 flex items-start gap-2";
+const bar = <span className="mt-1 h-5 w-1 shrink-0 rounded-full bg-orange-500 inline-block sm:mt-1.5 sm:h-6" />;
 
 /** The "decision" block — renders above the itinerary. */
 export function DecisionBlock({ decision }: { decision: Decision }) {
@@ -122,7 +124,7 @@ export default function SpokeContent({ extras }: { extras: SpokeExtras }) {
   const { whyChoose, notForYou, priceNotes } = extras;
   if (!whyChoose && !notForYou && !priceNotes.length) return null;
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8 pb-4">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-5 sm:space-y-8 pb-4">
       {priceNotes.length ? (
         <div className={card}>
           <h3 className={h3}>{bar}Good to know on price</h3>
@@ -137,13 +139,15 @@ export default function SpokeContent({ extras }: { extras: SpokeExtras }) {
       {whyChoose ? (
         <div className={card}>
           <h3 className={h3}>{bar}{whyChoose.title}</h3>
-          <ul className="grid gap-3 sm:grid-cols-2">
+          {/* Flat rows rather than a card per point: on a phone the boxes put
+              a border and 14px of padding around every single line of copy. */}
+          <ul className="grid gap-2.5 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-3">
             {whyChoose.points.map((p, i) => (
-              <li key={i} className="flex gap-3 rounded-xl border border-orange-100/40 bg-orange-50/20 p-3.5">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-orange-100/60 text-orange-600">
-                  <Check size={12} strokeWidth={3} />
+              <li key={i} className="flex gap-2.5">
+                <span className="mt-0.5 flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full bg-orange-50 text-orange-600 ring-1 ring-orange-100">
+                  <Check size={11} strokeWidth={3.2} />
                 </span>
-                <span className="text-[13.5px] text-slate-700 leading-relaxed">{p}</span>
+                <span className="text-[13px] font-medium leading-relaxed text-slate-700 sm:text-sm">{p}</span>
               </li>
             ))}
           </ul>
@@ -153,13 +157,13 @@ export default function SpokeContent({ extras }: { extras: SpokeExtras }) {
       {notForYou ? (
         <div className={card}>
           <h3 className={h3}>{bar}{notForYou.title}</h3>
-          <ul className="space-y-3">
+          <ul className="space-y-2.5">
             {notForYou.items.map((it, i) => (
-              <li key={i} className="flex gap-3 rounded-xl border border-rose-100/50 bg-rose-50/15 p-3.5">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-rose-100/60 text-rose-600">
-                  <X size={12} strokeWidth={3} />
+              <li key={i} className="flex gap-2.5">
+                <span className="mt-0.5 flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full bg-rose-50 text-rose-500 ring-1 ring-rose-100">
+                  <X size={11} strokeWidth={3.2} />
                 </span>
-                <span className="text-[13.5px] text-slate-700 leading-relaxed">{it}</span>
+                <span className="text-[13px] font-medium leading-relaxed text-slate-700 sm:text-sm">{it}</span>
               </li>
             ))}
           </ul>

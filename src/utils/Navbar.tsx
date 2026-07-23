@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone, ArrowRight, MapPin, Compass, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, ArrowRight, Compass, ChevronDown } from "lucide-react";
 import CommonEnquiryForm from "./CommanEnquiryForm";
 import { PRIMARY_NAV, DESTINATIONS_NAV } from "@/src/config/routes";
 
@@ -116,6 +116,32 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // LOCK PAGE SCROLL WHILE THE MOBILE SHEET IS OPEN. Locking via overflow rather
+  // than `position: fixed` keeps window.scrollY intact, so the scrolled-state
+  // styling above doesn't flip while the menu is open. The sheet's own list
+  // still scrolls — the lock only applies to the document.
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const { documentElement: html, body } = document;
+    const previous = {
+      htmlOverflow: html.style.overflow,
+      bodyOverflow: body.style.overflow,
+      bodyPaddingRight: body.style.paddingRight,
+    };
+    const scrollbarWidth = window.innerWidth - html.clientWidth;
+
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    if (scrollbarWidth > 0) body.style.paddingRight = `${scrollbarWidth}px`;
+
+    return () => {
+      html.style.overflow = previous.htmlOverflow;
+      body.style.overflow = previous.bodyOverflow;
+      body.style.paddingRight = previous.bodyPaddingRight;
+    };
+  }, [isMobileMenuOpen]);
+
   // CLOSE MENU OUTSIDE CLICK
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -182,7 +208,7 @@ export default function Navbar() {
 
           {/* Navbar pill */}
           <nav
-            className={`relative flex items-center justify-between h-16
+            className={`relative z-10 flex items-center justify-between h-16
               px-3 sm:px-5 lg:px-6 rounded-full
               border transition-all duration-300
               ${scrolled
@@ -367,8 +393,11 @@ export default function Navbar() {
           </nav>
 
           {/* ── MOBILE MENU ── */}
-          <div className={`lg:hidden absolute top-full left-0 right-0 mt-2 mx-1
-            rounded-3xl overflow-hidden z-50
+          {/* Tucked up behind the pill (which sits at z-10) by half the pill's
+              corner radius, so the sheet fills the notch under the rounded ends
+              and the two read as one surface. */}
+          <div className={`lg:hidden absolute top-full left-0 right-0 -mt-8 z-0
+            rounded-3xl overflow-hidden
             transition-all duration-300 origin-top
             ${isMobileMenuOpen
               ? "opacity-100 scale-y-100 translate-y-0"
@@ -378,8 +407,8 @@ export default function Navbar() {
               border border-amber-200/50 shadow-2xl shadow-amber-100/40
               rounded-3xl overflow-hidden">
 
-              {/* Nav links */}
-              <div className="flex flex-col p-3 gap-1 max-h-[60vh] overflow-y-auto">
+              {/* Nav links — pt clears the slice of sheet hidden behind the pill. */}
+              <div className="hide-scrollbar flex flex-col p-3 pt-11 gap-1 max-h-[60vh] overflow-y-auto">
                 {navItems.map((item) => {
                   if (isGroup(item)) {
                     const isActive = isGroupActive(item);
@@ -465,12 +494,6 @@ export default function Navbar() {
               <div className="mx-3 mb-3 p-3 rounded-2xl
                 bg-gradient-to-r from-amber-50 to-orange-50
                 border border-amber-100/80">
-                <div className="flex items-center gap-2 mb-2.5">
-                  <MapPin size={14} className="text-amber-500" />
-                  <span className="text-xs font-medium text-amber-700">
-                    Mathura · Vrindavan · Agra
-                  </span>
-                </div>
                 <button
                   onClick={() => {
                     setIsFormOpen(true);

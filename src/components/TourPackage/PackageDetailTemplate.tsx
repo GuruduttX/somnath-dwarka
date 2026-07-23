@@ -4,7 +4,8 @@ import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks, { type RelatedLink } from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { Clock, ShieldCheck, Sparkles, Star, Check, X } from "lucide-react";
+import { Clock, ShieldCheck, Sparkles, Star } from "lucide-react";
+import InclusionsExclusions from "@/src/components/TourPackage/InclusionsExclusions";
 import { touristTripSchema, breadcrumbSchema, type Crumb } from "@/src/lib/seo";
 import SideForm from "@/src/components/TourPackage/SideForm";
 import PackageDurationStrip from "@/src/components/TourPackage/PackageDurationStrip";
@@ -157,21 +158,20 @@ export default function PackageDetailTemplate({
 
             {/* Trip Highlights */}
             {pkg.highlights?.length ? (
-              <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white p-6 sm:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
-                <h3 className="text-xl font-bold text-slate-950 mb-6 flex items-center gap-2">
-                  <span className="h-6 w-1 rounded-full bg-orange-500 inline-block" />
+              <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white p-4 sm:p-6 lg:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
+                <h3 className="mb-3 flex items-start gap-2 text-lg font-bold text-slate-950 sm:mb-5 sm:text-xl">
+                  <span className="mt-1 h-5 w-1 shrink-0 rounded-full bg-orange-500 inline-block sm:mt-1.5 sm:h-6" />
                   Trip highlights
                 </h3>
-                <ul className="grid gap-3.5 sm:grid-cols-2">
+                {/* Flat rows: a bordered card per highlight wrapped two lines of
+                    copy in its own box, which reads as noise on a phone. */}
+                <ul className="grid gap-2.5 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-3">
                   {pkg.highlights.map((h, i) => (
-                    <li
-                      key={i}
-                      className="flex items-center gap-3 p-3.5 rounded-xl border border-orange-100/30 bg-gradient-to-r from-orange-50/20 via-white to-transparent hover:border-orange-100 hover:bg-orange-50/30 transition-all duration-200 shadow-sm shadow-orange-500/5 active:scale-[0.99] cursor-default"
-                    >
-                      <span className="flex h-6.5 w-6.5 shrink-0 items-center justify-center rounded-full bg-orange-100/40 text-orange-600 shadow-sm">
-                        <Sparkles size={11} className="fill-orange-300 text-orange-500" />
+                    <li key={i} className="flex gap-2.5">
+                      <span className="mt-0.5 flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full bg-orange-50 text-orange-600 ring-1 ring-orange-100">
+                        <Sparkles size={10} className="fill-orange-300 text-orange-500" />
                       </span>
-                      <span className="text-slate-800 text-[13.5px] sm:text-[14px] font-semibold">{h}</span>
+                      <span className="text-[13px] font-medium leading-relaxed text-slate-700 sm:text-sm">{h}</span>
                     </li>
                   ))}
                 </ul>
@@ -193,66 +193,19 @@ export default function PackageDetailTemplate({
 
             {/* Day-wise Itinerary */}
             {pkg.itinerary?.length ? (
-              <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white p-6 sm:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
-                <h3 className="text-xl font-bold text-slate-950 mb-6 flex items-center gap-2">
-                  <span className="h-6 w-1 rounded-full bg-orange-500 inline-block" />
+              <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white p-3 sm:p-6 lg:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
+                <h3 className="mb-3 flex items-center gap-2 px-1 text-lg font-bold text-slate-950 sm:mb-5 sm:px-0 sm:text-xl">
+                  <span className="h-5 w-1 shrink-0 rounded-full bg-orange-500 inline-block sm:h-6" />
                   Day-wise itinerary
                 </h3>
                 <ItineraryAccordion days={pkg.itinerary} />
               </div>
             ) : null}
 
-            {/* Inclusions & Exclusions */}
-            {(pkg.inclusions?.length || pkg.exclusions?.length) ? (
-              <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white p-6 sm:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
-                <h3 className="text-xl font-bold text-slate-950 mb-6 flex items-center gap-2">
-                  <span className="h-6 w-1 rounded-full bg-orange-500 inline-block" />
-                  Inclusions & exclusions
-                </h3>
-                <div className="grid gap-6 md:grid-cols-2">
-                  {pkg.inclusions?.length ? (
-                    <div className="rounded-2xl bg-emerald-50/15 border border-emerald-100/50 p-5 sm:p-6 shadow-sm hover:bg-emerald-50/20 transition-all duration-300">
-                      <h4 className="font-bold text-emerald-800 mb-4 flex items-center gap-2.5 text-[13px] uppercase tracking-wider">
-                        <span className="flex h-6.5 w-6.5 items-center justify-center rounded-full bg-emerald-100/80 text-emerald-700 shadow-sm shadow-emerald-700/5">
-                          <Check size={12} strokeWidth={3} />
-                        </span>
-                        What is Included
-                      </h4>
-                      <ul className="space-y-2 text-slate-700 font-semibold text-[13.5px]">
-                        {pkg.inclusions.map((i, k) => (
-                          <li key={k} className="flex gap-3 items-center p-2 rounded-xl border border-transparent hover:border-emerald-100/25 hover:bg-emerald-50/30 transition-all duration-150">
-                            <span className="flex h-5.5 w-5.5 shrink-0 items-center justify-center rounded-full bg-emerald-100/40 text-emerald-600">
-                              <Check size={11} strokeWidth={3} />
-                            </span>
-                            <span className="text-slate-800">{i}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : null}
-                  {pkg.exclusions?.length ? (
-                    <div className="rounded-2xl bg-rose-50/15 border border-rose-100/50 p-5 sm:p-6 shadow-sm hover:bg-rose-50/20 transition-all duration-300">
-                      <h4 className="font-bold text-rose-800 mb-4 flex items-center gap-2.5 text-[13px] uppercase tracking-wider">
-                        <span className="flex h-6.5 w-6.5 items-center justify-center rounded-full bg-rose-100/80 text-rose-700 shadow-sm shadow-rose-700/5">
-                          <X size={12} strokeWidth={3} />
-                        </span>
-                        What is Excluded
-                      </h4>
-                      <ul className="space-y-2 text-slate-700 font-semibold text-[13.5px]">
-                        {pkg.exclusions.map((e, k) => (
-                          <li key={k} className="flex gap-3 items-center p-2 rounded-xl border border-transparent hover:border-rose-100/25 hover:bg-rose-50/30 transition-all duration-150">
-                            <span className="flex h-5.5 w-5.5 shrink-0 items-center justify-center rounded-full bg-rose-100/40 text-rose-600">
-                              <X size={11} strokeWidth={3} />
-                            </span>
-                            <span className="text-slate-800">{e}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-            ) : null}
+            <InclusionsExclusions
+              inclusions={pkg.inclusions}
+              exclusions={pkg.exclusions}
+            />
           </div>
 
           {/* Right Column - Sticky Enquiry Form (4 cols) */}

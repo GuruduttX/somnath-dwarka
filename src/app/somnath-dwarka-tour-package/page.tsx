@@ -283,7 +283,7 @@ export default async function PackagePillarPage() {
           @keyframes pkgFlicker { 0%,100%{ transform: scaleY(1); opacity:.95 } 45%{ transform: scaleY(1.18) scaleX(.94); opacity:1 } }
           .pkg-flame { animation: pkgFlicker 1.1s ease-in-out infinite; transform-origin: bottom center; }
 
-          @keyframes pkgShine { 0%{ background-position: -140% 0 } 60%,100%{ background-position: 240% 0 } }
+          @keyframes pkgShine { 0%{ transform: translateX(-160%) skewX(-18deg) } 42%,100%{ transform: translateX(340%) skewX(-18deg) } }
           .pkg-headline-grad {
             background: linear-gradient(100deg,#EA580C 0%,#F97316 30%,#F59E0B 55%,#EA580C 80%);
             background-size: 200% auto;
@@ -291,9 +291,11 @@ export default async function PackagePillarPage() {
             color: transparent;
           }
           .pkg-btn-shine::after{
-            content:""; position:absolute; inset:0;
-            background: linear-gradient(110deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);
-            background-size: 200% 100%; animation: pkgShine 3.4s ease-in-out infinite;
+            content:""; position:absolute; top:0; bottom:0; left:0; width:45%;
+            background: linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+            transform: translateX(-160%) skewX(-18deg);
+            animation: pkgShine 3.6s linear infinite;
+            will-change: transform; pointer-events:none;
           }
 
           @media (prefers-reduced-motion: reduce) {

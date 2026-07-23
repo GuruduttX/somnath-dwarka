@@ -24,7 +24,7 @@ export default function Breadcrumb({
   // Container matches the page/hero grid (max-w-7xl) so the crumb lines up with
   // the content and imagery below it rather than sitting inset.
   return (
-    <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-4 pt-4 sm:px-6 lg:px-8">
+    <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-4 pt-2 sm:px-6 sm:pt-4 lg:px-8">
       <ol
         className={`flex flex-wrap items-center gap-1 text-sm ${center ? "justify-center" : ""} ${light ? "text-white/70" : "text-gray-500"}`}
       >

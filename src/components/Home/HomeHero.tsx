@@ -63,7 +63,7 @@ export default function HomeHero() {
         @keyframes pulseDot { 0%,100%{ transform:scale(1); opacity:.9 } 50%{ transform:scale(1.5); opacity:.35 } }
         .pin-pulse { animation: pulseDot 2.4s ease-in-out infinite; transform-origin:center; }
 
-        @keyframes shine { 0%{ background-position: -140% 0 } 60%,100%{ background-position: 240% 0 } }
+        @keyframes shine { 0%{ transform: translateX(-160%) skewX(-18deg) } 42%,100%{ transform: translateX(340%) skewX(-18deg) } }
         .headline-grad {
           background: linear-gradient(100deg,#EA580C 0%,#F97316 30%,#F59E0B 55%,#EA580C 80%);
           background-size: 200% auto;
@@ -71,9 +71,11 @@ export default function HomeHero() {
           color: transparent;
         }
         .btn-shine::after{
-          content:""; position:absolute; inset:0;
-          background: linear-gradient(110deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);
-          background-size: 200% 100%; animation: shine 3.4s ease-in-out infinite;
+          content:""; position:absolute; top:0; bottom:0; left:0; width:45%;
+          background: linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+          transform: translateX(-160%) skewX(-18deg);
+          animation: shine 3.6s linear infinite;
+          will-change: transform; pointer-events:none;
         }
 
         @media (prefers-reduced-motion: reduce) {
