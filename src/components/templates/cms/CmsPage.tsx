@@ -6,7 +6,7 @@ import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks, { type RelatedLink } from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { breadcrumbSchema, webPageSchema, type Crumb } from "@/src/lib/seo";
+import { webPageSchema, type Crumb } from "@/src/lib/seo";
 
 /**
  * Shared shell for every CMS-driven page in the hub-and-spoke tree (SOP §5, §8).
@@ -78,7 +78,7 @@ export default function CmsPage({
       <CtaBand context={ctaContext} title={ctaTitle} subtitle={ctaSubtitle} />
       <RelatedLinks links={related} />
 
-      <JsonLd data={breadcrumbSchema(crumbs)} />
+      {/* BreadcrumbList JSON-LD comes from PageShell, which owns the single breadcrumb. */}
       <JsonLd data={webPageSchema({ name: h1, description: answerFirst ?? h1, path })} />
       {extraSchema ? <JsonLd data={extraSchema} /> : null}
     </PageShell>

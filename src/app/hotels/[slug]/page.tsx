@@ -85,6 +85,7 @@ export default async function HotelCityPage({ params }: Params) {
         { name: `Hotels in ${h.city}`, path: `/hotels/${slug}/` },
       ]}
       flushHero
+      lightCrumb
     >
       <HotelCityHero
         city={h.city}

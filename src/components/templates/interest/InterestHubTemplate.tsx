@@ -6,7 +6,7 @@ import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks, { type RelatedLink } from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
 import CustomPackageCTA from "@/src/components/shared/CustomPackageCTA";
-import { breadcrumbSchema, webPageSchema, type Crumb } from "@/src/lib/seo";
+import { webPageSchema, type Crumb } from "@/src/lib/seo";
 import { waLink } from "@/src/config/site";
 import {
   interestThemeFor,
@@ -453,7 +453,7 @@ export default function InterestHubTemplate({
       <CtaBand context={theme.name} title="Plan this trip" />
       <RelatedLinks links={related} />
 
-      <JsonLd data={breadcrumbSchema(crumbs)} />
+      {/* BreadcrumbList JSON-LD comes from PageShell, which owns the single breadcrumb. */}
       <JsonLd data={webPageSchema({ name: h1, description: answerFirst ?? h1, path })} />
       {extraSchema ? <JsonLd data={extraSchema} /> : null}
     </PageShell>

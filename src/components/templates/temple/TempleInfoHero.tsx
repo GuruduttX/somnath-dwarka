@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { Clock, Sparkles, ArrowRight, MessageSquare, ChevronRight, BadgeCheck, AlertCircle } from "lucide-react";
+import { Clock, Sparkles, ArrowRight, MessageSquare, BadgeCheck, AlertCircle } from "lucide-react";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 import { waLink } from "@/src/config/site";
 
@@ -10,7 +9,6 @@ export default function TempleInfoHero({
   h1,
   answerFirst,
   destination,
-  destinationPath,
   kicker,
   verified,
   sessionCount,
@@ -18,7 +16,6 @@ export default function TempleInfoHero({
   h1: string;
   answerFirst: string;
   destination: string;
-  destinationPath: string;
   kicker: string;
   verified: boolean;
   sessionCount: number;
@@ -55,12 +52,7 @@ export default function TempleInfoHero({
         <div className="relative z-10 mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-10 px-5 pt-36 pb-12 sm:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:px-10 lg:pb-16">
           {/* LEFT */}
           <div className="flex flex-col">
-            <div className="ti-up ti0 mb-4 flex items-center gap-1.5 text-[12px] font-medium text-[#9a7358]">
-              <Link href={destinationPath} className="transition hover:text-orange-600">{destination}</Link>
-              <ChevronRight size={13} />
-              <span className="text-orange-600">Timings</span>
-            </div>
-
+            {/* No crumb trail here: PageShell renders the single page breadcrumb above the hero. */}
             <div className="ti-up ti1 inline-flex w-fit items-center gap-2 rounded-full border border-orange-200/80 bg-white/70 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-orange-800 shadow-sm backdrop-blur-sm">
               <Clock size={12} className="text-orange-500" />
               {kicker}

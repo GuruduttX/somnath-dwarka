@@ -8,7 +8,7 @@ import JsonLd from "@/src/components/seo/JsonLd";
 import PackageExplorer from "@/src/components/TourArchive/PackageExplorer";
 import HangingDiyas from "@/src/components/TourArchive/HangingDiyas";
 import CustomPackageCTA from "@/src/components/shared/CustomPackageCTA";
-import { breadcrumbSchema, webPageSchema, type Crumb } from "@/src/lib/seo";
+import { webPageSchema, type Crumb } from "@/src/lib/seo";
 import { waLink } from "@/src/config/site";
 import { themeFor } from "@/src/config/destinations";
 import type { TourPackage } from "@/src/utils/TourData";
@@ -425,7 +425,7 @@ export default function DestinationHubTemplate({
       <CtaBand context={theme.name} title={`Plan your ${theme.name} trip`} />
       <RelatedLinks links={related} />
 
-      <JsonLd data={breadcrumbSchema(crumbs)} />
+      {/* BreadcrumbList JSON-LD comes from PageShell, which owns the single breadcrumb. */}
       <JsonLd data={webPageSchema({ name: h1, description: answerFirst ?? h1, path })} />
       {extraSchema ? <JsonLd data={extraSchema} /> : null}
     </PageShell>

@@ -64,7 +64,6 @@ export default function TempleInfo({ destination, topic }: { destination: string
           h1={t.h1}
           answerFirst={t.answer_first}
           destination={parent?.destination ?? destination}
-          destinationPath={parentPath}
           kicker={kicker}
           verified={t.verified}
           sessionCount={t.timings.length}

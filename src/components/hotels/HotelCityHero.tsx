@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Sparkles, Star, MapPin, BedDouble, MessageSquare, ArrowRight, ChevronRight } from "lucide-react";
+import { Sparkles, Star, MapPin, BedDouble, MessageSquare, ArrowRight } from "lucide-react";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 import { waLink } from "@/src/config/site";
 
@@ -49,13 +49,7 @@ export default function HotelCityHero({ city, h1, nearTemple, image, tiers, coun
 
         {/* ── Content ── */}
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pt-40 pb-14 sm:px-8 lg:px-14 lg:pt-44 lg:pb-16 xl:px-20">
-          {/* breadcrumb eyebrow */}
-          <nav className="hc-up hc0 mb-5 flex items-center gap-1.5 text-[12px] font-medium text-white/70">
-            <a href="/hotels/" className="transition hover:text-white">Hotels</a>
-            <ChevronRight size={13} />
-            <span className="text-orange-300">{city}</span>
-          </nav>
-
+          {/* No crumb trail here: PageShell renders the single page breadcrumb over the hero. */}
           <div className="hc-up hc1 inline-flex w-fit items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-orange-100 backdrop-blur-md">
             <Sparkles size={12} className="text-orange-300" />
             Curated stays · {city}

@@ -6,7 +6,7 @@ import RelatedLinks, { type RelatedLink } from "@/src/components/shared/RelatedL
 import JsonLd from "@/src/components/seo/JsonLd";
 import { Clock, ShieldCheck, Sparkles, Star } from "lucide-react";
 import InclusionsExclusions from "@/src/components/TourPackage/InclusionsExclusions";
-import { touristTripSchema, breadcrumbSchema, type Crumb } from "@/src/lib/seo";
+import { touristTripSchema, type Crumb } from "@/src/lib/seo";
 import SideForm from "@/src/components/TourPackage/SideForm";
 import PackageDurationStrip from "@/src/components/TourPackage/PackageDurationStrip";
 import PackageInclusionsStrip from "@/src/components/TourPackage/PackageInclusionsStrip";
@@ -237,7 +237,7 @@ export default function PackageDetailTemplate({
       <RelatedLinks links={related} />
       <Policies PackageData={pkg} />
 
-      <JsonLd data={breadcrumbSchema(crumbs)} />
+      {/* BreadcrumbList JSON-LD comes from PageShell, which owns the single breadcrumb. */}
       <JsonLd
         data={touristTripSchema({
           name: pkg.h1,

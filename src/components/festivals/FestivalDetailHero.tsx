@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { MapPin, Sparkles, ArrowRight, MessageSquare, CalendarDays, Users, Flame, ChevronRight } from "lucide-react";
+import { MapPin, Sparkles, ArrowRight, MessageSquare, CalendarDays, Users, Flame } from "lucide-react";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 import { waLink } from "@/src/config/site";
 
@@ -78,13 +77,7 @@ export default function FestivalDetailHero({
 
         {/* content */}
         <div className="relative z-20 mx-auto w-full max-w-5xl px-5 pb-16 pt-40 sm:px-8 lg:px-10">
-          {/* breadcrumb pill */}
-          <div className="fd-up fd0 mb-5 flex items-center gap-1.5 text-[12px] font-medium text-white/70">
-            <Link href="/festivals/" className="transition hover:text-orange-300">Festivals</Link>
-            <ChevronRight size={13} />
-            <span className="text-orange-200">{festival}</span>
-          </div>
-
+          {/* No crumb trail here: PageShell renders the single page breadcrumb over the hero. */}
           <div className="fd-up fd1 inline-flex w-fit items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-orange-100 backdrop-blur-md">
             <Flame size={12} className="text-orange-300" />
             {city} · {deity}
