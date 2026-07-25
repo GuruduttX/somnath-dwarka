@@ -35,6 +35,10 @@ export interface IEnquiry {
     status: EnquiryStatus;
     adminNotes?: string;
     emailSent?: boolean;
+    /** Whether the lead was successfully pushed to the Sembark CRM. */
+    crmSynced?: boolean;
+    /** Sembark's trip-plan-request id, when the sync returned one. */
+    crmRequestId?: string;
     createdAt?: string;
     updatedAt?: string;
 }

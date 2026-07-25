@@ -94,6 +94,17 @@ const enquirySchema = new Schema<IEnquiry>(
         emailSent: {
             type: Boolean,
             default: false
+        },
+
+        // Sembark CRM push status — set once the lead reaches the CRM.
+        crmSynced: {
+            type: Boolean,
+            default: false
+        },
+
+        crmRequestId: {
+            type: String,
+            trim: true
         }
     },
     {

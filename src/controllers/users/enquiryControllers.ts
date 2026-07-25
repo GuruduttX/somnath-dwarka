@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import Enquiry from "@/src/models/enquiryModel";
 import { getResend, MAIL_FROM, MAIL_ADMIN } from "@/src/lib/email/resend";
+import { pushLeadToSembark } from "@/src/lib/crm/sembark";
 import {
     enquiryConfirmationHtml,
     enquiryConfirmationSubject,
@@ -10,7 +11,7 @@ import {
     enquiryAdminSubject,
 } from "@/src/lib/email/enquiryTemplate";
 
-import { EnquiryService } from "@/src/types/enquiryTypes";
+import { EnquiryService, IEnquiry } from "@/src/types/enquiryTypes";
 
 const SERVICES: readonly EnquiryService[] = [
     "Tour Package",
@@ -109,10 +110,19 @@ export async function createEnquiryController(req: Request) {
         status: "new",
     });
 
-    const emailSent = await sendEnquiryMails(enquiry.toObject(), input.source, input.pageUrl);
+    // Email confirmation and CRM push run in parallel and independently — neither
+    // can fail the request or lose the lead (it is already persisted above).
+    const [emailSent, crm] = await Promise.all([
+        sendEnquiryMails(enquiry.toObject(), input.source, input.pageUrl),
+        pushLeadToSembark(enquiry.toObject() as IEnquiry),
+    ]);
 
-    if (emailSent) {
-        enquiry.emailSent = true;
+    if (emailSent) enquiry.emailSent = true;
+    if (crm.synced) {
+        enquiry.crmSynced = true;
+        if (crm.id) enquiry.crmRequestId = crm.id;
+    }
+    if (emailSent || crm.synced) {
         await enquiry.save();
     }
 
@@ -120,7 +130,7 @@ export async function createEnquiryController(req: Request) {
         {
             success: true,
             message: "Enquiry submitted successfully",
-            data: { id: enquiry._id.toString(), emailSent },
+            data: { id: enquiry._id.toString(), emailSent, crmSynced: crm.synced },
         },
         { status: 201 }
     );
