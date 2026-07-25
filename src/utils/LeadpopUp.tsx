@@ -383,7 +383,7 @@ function Success({ onClose }: { onClose: () => void }) {
 
         {/* WhatsApp CTA */}
         <a
-          href="https://wa.me/7302265809?text=Radhe%20Radhe%2C%20I%20just%20submitted%20the%20form"
+          href="https://wa.me/917300620809?text=Radhe%20Radhe%2C%20I%20just%20submitted%20the%20form"
           target="_blank"
           rel="noopener noreferrer"
           style={{

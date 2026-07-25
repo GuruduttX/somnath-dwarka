@@ -16,7 +16,7 @@ export const OPERATOR = {
   localUnit: "Somnath Dwarka Tour Package",
   parent: "Experience My India",
   parentSlogan: "India's Most Trusted Tour Operator",
-  phone: "+917302265809",
+  phone: "+917300620809",
   foundingDate: "2018",
   founder: "Harsh Sharma",
   gstin: "09BZFPM8067A1Z9",

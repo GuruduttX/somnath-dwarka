@@ -463,7 +463,7 @@ function Success({ form, setOpen }: any) {
 
         {/* WhatsApp CTA */}
         <a
-          href={`https://wa.me/7302265809?text=Hello%20Radhe%2C%20I%20want%20to%20inquire%20about%20tour%20packages%20from%20vrindavantoursandpackages.com`}
+          href={`https://wa.me/917300620809?text=Hello%20Radhe%2C%20I%20want%20to%20inquire%20about%20tour%20packages`}
           target="_blank"
           rel="noopener noreferrer"
           style={{

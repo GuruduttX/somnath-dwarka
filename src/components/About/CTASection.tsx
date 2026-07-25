@@ -88,7 +88,7 @@ export default function CTASection() {
               </button>
 
               <Link
-                href="tel:+919876543210"
+                href="tel:+917300620809"
                 className="flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/15 px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-white hover:bg-white/25 transition-all duration-300"
               >
                 <Phone size={15} />

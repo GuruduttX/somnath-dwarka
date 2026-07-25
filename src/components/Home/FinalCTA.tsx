@@ -33,14 +33,14 @@ const contacts = [
   {
     Icon: Phone,
     label: "Call Us",
-    value: "+91 98765 43210",
-    href: "tel:+919876543210",
+    value: "+91 73006 20809",
+    href: "tel:+917300620809",
   },
   {
     Icon: Mail,
     label: "Email",
-    value: "yatra@divinetrails.in",
-    href: "mailto:yatra@divinetrails.in",
+    value: "info@experiencemyindia.com",
+    href: "mailto:info@experiencemyindia.com",
   },
 ];
 
@@ -124,7 +124,7 @@ export default function FinalCTA() {
                 </button>
 
                 <Link
-                  href="tel:+919876543210"
+                  href="tel:+917300620809"
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-stone-200 hover:border-orange-300 bg-white text-slate-700 hover:text-orange-600 px-7 py-3.5 text-[14px] font-semibold transition-all duration-300 hover:-translate-y-0.5 whitespace-nowrap"
                 >
                   <Phone size={15} />

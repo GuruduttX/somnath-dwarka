@@ -147,7 +147,7 @@ export default function TourArchiveCTA() {
                   <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
                 </button>
                 <a
-                  href="https://wa.me/917302265809"
+                  href="https://wa.me/917300620809"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/18 active:translate-y-0 sm:w-auto cursor-pointer"

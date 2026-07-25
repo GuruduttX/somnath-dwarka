@@ -21,16 +21,16 @@ export const BRAND = {
   legalName: "Somnath Dwarka Tour Package",
   tagline: "Itinerary, Cab & Hotel for your Somnath–Dwarka pilgrimage",
   // Client dependency (SOP §16 — brand assets)
-  logo: `${SITE_URL}/images/logo.png`,
+  logo: `${SITE_URL}/images/logo.webp`,
   ogImage: `${SITE_URL}/images/home/HomeHero.webp`,
 } as const;
 
 /** Contact / NAP — client to confirm (SOP §16). */
 export const CONTACT = {
-  phone: process.env.NEXT_PUBLIC_PHONE ?? "+919999999999",
-  phoneDisplay: process.env.NEXT_PUBLIC_PHONE_DISPLAY ?? "+91 99999 99999",
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "919999999999",
-  email: process.env.NEXT_PUBLIC_EMAIL ?? "hello@somnathdwarkatourpackage.com",
+  phone: process.env.NEXT_PUBLIC_PHONE ?? "+917300620809",
+  phoneDisplay: process.env.NEXT_PUBLIC_PHONE_DISPLAY ?? "+91 73006 20809",
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "917300620809",
+  email: process.env.NEXT_PUBLIC_EMAIL ?? "info@experiencemyindia.com",
   // LocalBusiness schema renders ONLY when napConfirmed is true (SOP §12 gate).
   napConfirmed: false,
   address: {

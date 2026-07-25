@@ -237,7 +237,7 @@ export default function TourArchiveFAQ() {
                 Contact Us Now
               </button>
               <a
-                href="https://wa.me/917302265809"
+                href="https://wa.me/917300620809"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="

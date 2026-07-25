@@ -158,8 +158,8 @@ export default function ContactSection() {
 
             <div className="grid grid-cols-2 gap-2">
               {[
-                { icon: Phone, label: "+91 98765 43210" },
-                { icon: Mail, label: "info@vrindavan.com" },
+                { icon: Phone, label: "+91 73006 20809" },
+                { icon: Mail, label: "info@experiencemyindia.com" },
                 { icon: Clock, label: "8AM – 9PM Daily" },
                 { icon: MapPin, label: "Vrindavan, UP" },
               ].map(({ icon: Icon, label }) => (

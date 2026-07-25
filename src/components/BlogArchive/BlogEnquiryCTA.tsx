@@ -23,11 +23,11 @@ export default function BlogEnquiryCTA() {
                     <div className="mt-4 flex flex-wrap gap-2 md:gap-4 justify-center md:justify-start text-sm text-gray-700">
                         <span className="flex items-center gap-2">
                             <Phone size={16} className="text-orange-500" />
-                            +91 98765 43210
+                            +91 73006 20809
                         </span>
                         <span className="flex items-center gap-2">
                             <Mail size={16} className="text-orange-500" />
-                            support@spiritualindia.com
+                            info@experiencemyindia.com
                         </span>
                     </div>
                 </div>

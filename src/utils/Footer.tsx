@@ -171,10 +171,9 @@ export default function Footer() {
               {/* Contact items — 2-col grid on mobile */}
               <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-1 gap-2.5 mb-5">
                 {[
-                  { Icon: Phone, text: "+91 98765 43210", href: "tel:+919876543210" },
-                  { Icon: Phone, text: "+91 73022 65809", href: "tel:+917302265809" },
+                  { Icon: Phone, text: "+91 73006 20809", href: "tel:+917300620809" },
                   { Icon: MapPin, text: "Dwarka, Saurashtra\nGujarat — 361335", href: "#" },
-                  { Icon: Mail, text: "yatra@divinetrails.in", href: "mailto:yatra@divinetrails.in" },
+                  { Icon: Mail, text: "info@experiencemyindia.com", href: "mailto:info@experiencemyindia.com" },
                 ].map(({ Icon, text, href }) => (
                   <a key={text} href={href} className="flex items-start gap-2.5 group">
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-200 group-hover:scale-105"
@@ -207,7 +206,7 @@ export default function Footer() {
                 </div>
 
                 {/* WhatsApp — full width on mobile */}
-                <a href="https://wa.me/917302265809" target="_blank" rel="noopener noreferrer"
+                <a href="https://wa.me/917300620809" target="_blank" rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-[12.5px] font-semibold transition-all duration-200 hover:scale-[1.02] w-full sm:w-auto"
                   style={{ background: "rgba(22,163,74,0.12)", border: "1px solid rgba(22,163,74,0.3)", color: "#86EFAC", fontFamily: "sans-serif" }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
