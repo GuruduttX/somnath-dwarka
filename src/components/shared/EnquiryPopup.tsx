@@ -141,30 +141,36 @@ export default function EnquiryPopup() {
         ) : (
           <form onSubmit={onSubmit} className="space-y-3 px-6 py-6">
             {/* Full name */}
-            <Field icon={<User size={16} />}>
+            <div className="relative">
+              <User size={16} className={iconCls} />
               <input
                 required
                 value={form.name}
                 onChange={(e) => update("name", e.target.value)}
                 placeholder="Full name"
-                className={inputCls}
+                className={fieldCls}
+                style={noOutline}
               />
-            </Field>
+            </div>
 
             {/* Email */}
-            <Field icon={<Mail size={16} />}>
+            <div className="relative">
+              <Mail size={16} className={iconCls} />
               <input
                 type="email"
                 value={form.email}
                 onChange={(e) => update("email", e.target.value)}
                 placeholder="Email address"
-                className={inputCls}
+                className={fieldCls}
+                style={noOutline}
               />
-            </Field>
+            </div>
 
-            {/* Phone */}
-            <Field icon={<Phone size={16} />}>
-              <span className="shrink-0 text-sm font-medium text-gray-500 border-r border-gray-200 pr-2">
+            {/* Phone — +91 is fixed, so it sits in the field as a static prefix */}
+            <div className="relative">
+              <Phone size={16} className={iconCls} />
+              <span className="pointer-events-none absolute left-10 top-1/2 -translate-y-1/2
+                border-r border-gray-200 pr-2 text-sm font-medium text-gray-500">
                 +91
               </span>
               <input
@@ -174,21 +180,24 @@ export default function EnquiryPopup() {
                 value={form.phone}
                 onChange={(e) => update("phone", e.target.value.replace(/[^\d]/g, ""))}
                 placeholder="Phone / WhatsApp number"
-                className={inputCls}
+                className={`${fieldCls} pl-[4.6rem]`}
+                style={noOutline}
                 maxLength={15}
               />
-            </Field>
+            </div>
 
             {/* Message */}
-            <Field icon={<MessageSquare size={16} />} align="start">
+            <div className="relative">
+              <MessageSquare size={16} className="absolute left-3.5 top-3.5 text-orange-400" />
               <textarea
                 rows={3}
                 value={form.message}
                 onChange={(e) => update("message", e.target.value)}
                 placeholder="Your message (travel dates, group size…)"
-                className={`${inputCls} resize-none pt-0.5`}
+                className={`${fieldCls} resize-none`}
+                style={noOutline}
               />
-            </Field>
+            </div>
 
             {status === "error" && (
               <p className="text-sm text-red-500" role="alert">
@@ -199,7 +208,7 @@ export default function EnquiryPopup() {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="flex w-full items-center justify-center gap-2 rounded-xl
+              className="flex cursor-pointer w-full items-center justify-center gap-2 rounded-xl
                 bg-gradient-to-r from-orange-500 to-amber-500 py-3 text-sm font-semibold text-white
                 shadow-lg shadow-orange-500/25 transition
                 hover:from-orange-600 hover:to-amber-600 disabled:opacity-60"
@@ -213,9 +222,7 @@ export default function EnquiryPopup() {
               )}
             </button>
 
-            <p className="text-center text-[11px] text-gray-400">
-              We respect your privacy. No spam, ever.
-            </p>
+          
           </form>
         )}
       </div>
@@ -223,26 +230,15 @@ export default function EnquiryPopup() {
   );
 }
 
-const inputCls =
-  "w-full bg-transparent py-2.5 text-sm text-gray-800 placeholder-gray-400 outline-none focus-visible:outline-none";
+/**
+ * Border + focus ring live on the field itself (no wrapper ring), so a focused
+ * input can only ever draw one rounded box. `noOutline` is applied inline so no
+ * global `:focus-visible` outline rule can stack a square ring on top of it.
+ */
+const fieldCls =
+  "w-full rounded-xl border border-gray-200 bg-gray-50 py-3 pl-10 pr-3 text-sm text-gray-800 " +
+  "placeholder-gray-400 transition focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100";
 
-function Field({
-  icon,
-  children,
-  align = "center",
-}: {
-  icon: React.ReactNode;
-  children: React.ReactNode;
-  align?: "center" | "start";
-}) {
-  return (
-    <div
-      className={`flex ${align === "start" ? "items-start pt-2" : "items-center"} gap-2
-        rounded-xl border border-gray-200 bg-gray-50 px-3
-        focus-within:border-orange-400 focus-within:bg-white focus-within:ring-2 focus-within:ring-orange-100 transition`}
-    >
-      <span className={`text-orange-400 ${align === "start" ? "mt-0.5" : ""}`}>{icon}</span>
-      {children}
-    </div>
-  );
-}
+const iconCls = "pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-orange-400";
+
+const noOutline: React.CSSProperties = { outline: "none", outlineOffset: 0 };
