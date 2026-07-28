@@ -123,11 +123,11 @@ export default function DashboardPage() {
                
                 {
                   action: "Add Package",
-                  path: "admin-x9AqP7mK2/packages/create-package",
+                  path: "/admin-x9AqP7mK2/packages/create-package",
                 },
                 {
                   action: "Add Blog",
-                  path: "admin-x9AqP7mK2/blogs/create-blog",
+                  path: "/admin-x9AqP7mK2/blogs/create-blog",
                 },
                 // "Add Hotel",
                 // "Add Taxi",
@@ -195,7 +195,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="mt-16">
+        <div className="mt-16 hidden">
           <div className="relative rounded-2xl border border-blue-900/40 bg-[#0b1220] p-6 overflow-hidden">
             {/* Glow background */}
             <div className="absolute -top-20 -left-20 w-72 h-72 bg-blue-600/10 blur-3xl pointer-events-none" />
