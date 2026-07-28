@@ -40,7 +40,7 @@ const CMSContentSection = ({
         className="relative rounded-2xl p-4
         bg-[#0b1220]
         border border-blue-900/40
-        shadow-[0_0_30px_rgba(236,72,153,0.08)]
+        shadow-[0_0_30px_rgba(59,130,246,0.08)]
         transition"
       >
         {/* Glow Effect */}

@@ -148,30 +148,30 @@ const CMSMetaSection = ({
           >
             {editorType === "Blog" ? (
               <>
-                <option value="" className="bg-[#1a0b11]">Select Category</option>
+                <option value="" className="bg-[#0a0f1e]">Select Category</option>
                 {Blogcategories.map((cat, idx) => (
-                  <option key={idx} value={cat} className="bg-[#1a0b11]">{cat}</option>
+                  <option key={idx} value={cat} className="bg-[#0a0f1e]">{cat}</option>
                 ))}
               </>
             ) : editorType === "Package" ? (
               <>
-                <option value="" className="bg-[#1a0b11]">Select Category</option>
+                <option value="" className="bg-[#0a0f1e]">Select Category</option>
                 {categories.map((cat, idx) => (
-                  <option key={idx} value={cat} className="bg-[#1a0b11]">{cat}</option>
+                  <option key={idx} value={cat} className="bg-[#0a0f1e]">{cat}</option>
                 ))}
               </>
             ) : editorType === "Hotel" ? (
               <>
-                <option value="" className="bg-[#1a0b11]">Select Category</option>
+                <option value="" className="bg-[#0a0f1e]">Select Category</option>
                 {HotelCategories.map((cat, idx) => (
-                  <option key={idx} value={cat} className="bg-[#1a0b11]">{cat}</option>
+                  <option key={idx} value={cat} className="bg-[#0a0f1e]">{cat}</option>
                 ))}
               </>
             ) : (
               <>
-                <option value="" className="bg-[#1a0b11]">Select Location</option>
+                <option value="" className="bg-[#0a0f1e]">Select Location</option>
                 {Templecategories.map((cat, idx) => (
-                  <option key={idx} value={cat} className="bg-[#1a0b11]">{cat}</option>
+                  <option key={idx} value={cat} className="bg-[#0a0f1e]">{cat}</option>
                 ))}
               </>
             )}
