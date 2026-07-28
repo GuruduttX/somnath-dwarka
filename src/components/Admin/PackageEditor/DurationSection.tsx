@@ -11,7 +11,7 @@ type BreakdownItem = {
 };
 
 const inputClass = `
-  mt-2 w-full px-5 py-3 rounded-xl
+  w-full px-4 py-2.5 rounded-lg text-sm
   bg-blue-950/30 text-blue-100
   placeholder-blue-400/40
   border border-blue-900/50
@@ -54,106 +54,92 @@ export default function DurationSection({
   };
 
   return (
-    <div className={`${cardClass} space-y-5`}>
+    <div className={cardClass}>
 
-      {/* Package Duration */}
-      <div className={cardClass}>
-        <h3 className="text-base font-semibold text-blue-100 mb-4">
-          Package Duration
-        </h3>
+      <h3 className="text-base font-semibold text-blue-100 mb-5">
+        Package Duration
+      </h3>
 
-        <div className={`${cardClass} grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4`}>
-          <div>
-            <label className="text-sm text-blue-300/70">Days</label>
-            <input
-              type="number"
-              placeholder="Days"
-              required
-              value={days}
-              onChange={(e) => onChange("day", e.target.value)}
-              className={inputClass}
-            />
-          </div>
-
-          <div>
-            <label className="text-sm text-blue-300/70">Nights</label>
-            <input
-              type="number"
-              placeholder="Nights"
-              required
-              value={nights}
-              onChange={(e) => onChange("night", e.target.value)}
-              className={inputClass}
-            />
-          </div>
+      {/* Days / Nights */}
+      <div className="grid grid-cols-2 gap-4 max-w-md">
+        <div>
+          <label className="text-sm text-blue-300/70">Days</label>
+          <input
+            type="number"
+            placeholder="Days"
+            required
+            value={days}
+            onChange={(e) => onChange("day", e.target.value)}
+            className={`${inputClass} mt-2`}
+          />
         </div>
 
-        {/* Preview */}
-        {(days || nights) && (
-          <p className="text-sm text-blue-400/60">
-            Duration Preview:{" "}
-            <span className="font-semibold text-blue-300">
-              {days || 0} Days / {nights || 0} Nights
-            </span>
-          </p>
-        )}
+        <div>
+          <label className="text-sm text-blue-300/70">Nights</label>
+          <input
+            type="number"
+            placeholder="Nights"
+            required
+            value={nights}
+            onChange={(e) => onChange("night", e.target.value)}
+            className={`${inputClass} mt-2`}
+          />
+        </div>
       </div>
 
+      {(days || nights) && (
+        <p className="mt-3 text-sm text-blue-400/60">
+          Preview:{" "}
+          <span className="font-semibold text-blue-300">
+            {days || 0} Days / {nights || 0} Nights
+          </span>
+        </p>
+      )}
+
+      {/* Divider */}
+      <div className="my-6 border-t border-blue-900/40" />
+
       {/* Duration Breakdown */}
-      <div className={cardClass}>
-        <h3 className="text-base font-semibold text-blue-100 mb-4">
-          Duration Breakdown
-        </h3>
+      <div className="flex items-center justify-between mb-4">
+        <h4 className="text-sm font-semibold text-blue-200">Duration Breakdown</h4>
+        <button
+          type="button"
+          onClick={addBreakdown}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+            bg-blue-600/20 text-blue-300 border border-blue-600/40
+            hover:bg-blue-600/30 hover:border-blue-500/60 hover:text-blue-200
+            transition cursor-pointer"
+        >
+          <Plus size={14} /> Add
+        </button>
+      </div>
 
-        <div className="space-y-4">
-          {breakdown.map((item, index) => (
-            <div key={item.id} className={cardClass}>
-              <div className="flex gap-3">
-                <input
-                  required
-                  type="number"
-                  min={1}
-                  value={item.days}
-                  onChange={(e) => updateBreakdown(item.id, "days", e.target.value)}
-                  className={inputClass}
-                />
-                <input
-                  required
-                  type="text"
-                  placeholder="Place (e.g. Vrindavan)"
-                  value={item.place}
-                  onChange={(e) => updateBreakdown(item.id, "place", e.target.value)}
-                  className={inputClass}
-                />
-              </div>
+      <div className="space-y-2.5">
+        {breakdown.map((item, index) => (
+          <div key={item.id} className="flex items-center gap-2">
+            <span className="text-xs text-blue-400/50 w-12 shrink-0">Day {index + 1}</span>
+            <input
+              required
+              type="text"
+              placeholder="Place name (e.g. Dwarka)"
+              value={item.place}
+              onChange={(e) => updateBreakdown(item.id, "place", e.target.value)}
+              className={`${inputClass} flex-1`}
+            />
+            <button
+              type="button"
+              onClick={() => removeBreakdown(item.id)}
+              className="shrink-0 p-2 rounded-lg text-red-400/60 hover:text-red-400 hover:bg-red-500/10 transition cursor-pointer"
+              aria-label="Remove breakdown"
+            >
+              <Trash2 size={15} />
+            </button>
+          </div>
+        ))}
 
-              <div className="flex justify-between items-center mt-3">
-                <span className="text-xs text-blue-400/50">Day {index + 1}</span>
-                <button
-                  type="button"
-                  onClick={() => removeBreakdown(item.id)}
-                  className="flex items-center gap-1 text-sm text-red-400/70 hover:text-red-400 transition cursor-pointer"
-                >
-                  <Trash2 size={14} /> Remove
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Add Button */}
-        <div className="mt-6 flex justify-center">
-          <button
-            type="button"
-            onClick={addBreakdown}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium
-              bg-blue-600/20 text-blue-300 border border-blue-600/40
-              hover:bg-blue-600/30 hover:border-blue-500/60 hover:text-blue-200
-              transition cursor-pointer"
-          >
-            <Plus size={15} /> Add Breakdown
-          </button>
-        </div>
+        {breakdown.length === 0 && (
+          <p className="text-xs text-blue-400/40">No breakdown added yet.</p>
+        )}
       </div>
 
     </div>

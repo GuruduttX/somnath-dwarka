@@ -103,7 +103,12 @@ export default function EditBlog() {
           schemaDescription: blog.structuredData?.description || ""
         });
 
-        setFaqs(blog.faqs || []);
+        setFaqs(
+          (blog.faqs || []).map((faq: Partial<FAQ>) => ({
+            ...faq,
+            id: faq.id || crypto.randomUUID(),
+          }))
+        );
         setDataId(blog._id)
 
       } catch (error) {

@@ -30,9 +30,17 @@ export default function SiteFooter() {
           <span>
             © {year} {BRAND.name}. Prices &amp; timings shown are indicative until confirmed.
           </span>
-          <Link href="/sitemap/" className="hover:text-white">
-            Sitemap
-          </Link>
+          <span>
+            Made by{" "}
+            <a
+              href="https://inventoapps.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-orange-100/80 hover:text-white underline underline-offset-2"
+            >
+              InventoApps
+            </a>
+          </span>
         </div>
       </div>
     </footer>

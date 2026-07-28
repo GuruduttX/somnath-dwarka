@@ -7,12 +7,12 @@ type Inclusions = {
 }
 
 const inputClass = `
-  mt-2 w-full px-5 py-3 rounded-xl
+  w-full px-4 py-2.5 rounded-lg text-sm
   bg-blue-950/30 text-blue-100
   placeholder-blue-400/40
   border border-blue-900/50
   focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-600/50
-  transition resize-none
+  transition
 `;
 
 const Inclusion = ({
@@ -40,48 +40,41 @@ const Inclusion = ({
   return (
     <div className="border border-blue-900/50 rounded-2xl w-full p-6 bg-blue-950/20 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
 
-      <h3 className="text-base font-semibold text-blue-100 mb-6">Inclusions</h3>
+      <h3 className="text-base font-semibold text-emerald-300 mb-5">Inclusions</h3>
 
-      <div className="space-y-4">
-        {inclusions.map((inclusion) => (
-          <div
-            key={inclusion.id}
-            className="border border-blue-900/50 rounded-2xl p-5 bg-blue-950/30"
-          >
-            <textarea
-              rows={3}
+      <div className="space-y-2.5">
+        {inclusions.map((inclusion, index) => (
+          <div key={inclusion.id} className="flex items-center gap-2">
+            <span className="text-xs text-blue-400/50 w-5 shrink-0 text-right">{index + 1}.</span>
+            <input
               required
-              placeholder="Enter the description of your inclusion"
+              placeholder="What's included"
               className={inputClass}
               value={inclusion.description}
               onChange={(e) => handleInclusionChange(inclusion.id, e.target.value)}
             />
-
-            <div className="flex justify-end mt-3">
-              <button
-                type="button"
-                className="flex items-center gap-1 text-sm text-red-400/70 hover:text-red-400 transition cursor-pointer"
-                onClick={() => handleDeleteInclusion(inclusion.id)}
-              >
-                <Trash2 size={14} /> Remove
-              </button>
-            </div>
+            <button
+              type="button"
+              className="shrink-0 p-2 rounded-lg text-red-400/60 hover:text-red-400 hover:bg-red-500/10 transition cursor-pointer"
+              onClick={() => handleDeleteInclusion(inclusion.id)}
+              aria-label="Remove inclusion"
+            >
+              <Trash2 size={15} />
+            </button>
           </div>
         ))}
       </div>
 
-      <div className="mt-6 flex justify-center">
-        <button
-          type="button"
-          onClick={handleAddInclusions}
-          className="flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium
-            bg-blue-600/20 text-blue-300 border border-blue-600/40
-            hover:bg-blue-600/30 hover:border-blue-500/60 hover:text-blue-200
-            transition cursor-pointer"
-        >
-          <Plus size={15} /> Add Inclusion
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={handleAddInclusions}
+        className="mt-5 flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
+          bg-blue-600/20 text-blue-300 border border-blue-600/40
+          hover:bg-blue-600/30 hover:border-blue-500/60 hover:text-blue-200
+          transition cursor-pointer"
+      >
+        <Plus size={15} /> Add Inclusion
+      </button>
 
     </div>
   );

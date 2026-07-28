@@ -18,7 +18,7 @@ const CMSContentSection = ({
       {/* ================= SUB CONTENT ================= */}
       <div>
         <label className="text-sm text-blue-400/70">
-          Sub Content
+          AI Overview
         </label>
 
         <textarea

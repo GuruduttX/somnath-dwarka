@@ -76,49 +76,54 @@ const CMSMediaSection = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
 
-      {/* IMAGE UPLOAD */}
+      {/* IMAGE UPLOAD — main / cover */}
       <div>
         <label className="text-sm text-blue-300/70">
-          {editorType} Image
+          {editorType} Image <span className="text-xs text-blue-400/40">(cover)</span>
         </label>
 
         <label
           htmlFor="image-upload"
-          className="relative mt-3 block rounded-xl border-2 border-dashed border-blue-900/50
-            p-6 text-center cursor-pointer
-            hover:border-blue-600/50 hover:bg-blue-950/20
-            transition overflow-hidden"
+          className="group relative mt-2 block aspect-square w-full max-w-[18rem] mx-auto
+            rounded-xl overflow-hidden cursor-pointer
+            border-2 border-dashed border-blue-900/50
+            hover:border-blue-600/50 transition"
         >
 
           {/* Loader */}
           {loading && (
-            <div className="absolute inset-0 flex items-center justify-center
-              bg-black/40 backdrop-blur-sm rounded-xl">
-
+            <div className="absolute inset-0 z-10 flex items-center justify-center
+              bg-black/40 backdrop-blur-sm">
               <div className="w-10 h-10 border-4 border-blue-500/30
                 border-t-blue-500 rounded-full animate-spin"></div>
-
             </div>
           )}
 
           {image ? (
-            <img
-              src={image}
-              alt={alt}
-              className="mx-auto max-h-40 rounded-lg object-contain"
-            />
-          ) : (
             <>
-              <p className="text-blue-400/60 text-sm">
+              <img
+                src={image}
+                alt={alt}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <span className="absolute inset-0 flex items-center justify-center
+                bg-black/50 text-sm text-blue-100 opacity-0 group-hover:opacity-100 transition">
+                Change cover image
+              </span>
+            </>
+          ) : (
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center
+              hover:bg-blue-950/20 transition">
+              <p className="text-blue-400/60 text-sm px-4">
                 Drag & drop image or{" "}
                 <span className="text-blue-400">Browse</span>
               </p>
               <p className="text-xs text-blue-500/40 mt-1">
                 Only .webp up to 2MB
               </p>
-            </>
+            </div>
           )}
 
           <input
@@ -141,7 +146,7 @@ const CMSMediaSection = ({
           required
           onChange={(e) => onChange("alt", e.target.value)}
           placeholder="Describe the image for SEO"
-          className="mt-2 w-full px-5 py-3 rounded-xl
+          className="mt-2 w-full px-4 py-2.5 rounded-lg text-sm
             bg-blue-950/30 text-blue-100
             placeholder-blue-400/40
             border border-blue-900/50

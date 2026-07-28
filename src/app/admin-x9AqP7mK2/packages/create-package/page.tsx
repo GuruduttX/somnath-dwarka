@@ -607,7 +607,7 @@ export default function CreateNewPackage() {
           breakdown={breakdown}
           setBreakdown={setBreakdown}
         />
-        <DestRoutes route={route} setRoute={setRoute} />
+        {false && <DestRoutes route={route} setRoute={setRoute} />}
         <PackageOverview
           overview={form.overview}
           onChange={updateForm}
@@ -625,16 +625,18 @@ export default function CreateNewPackage() {
           setHighLights={setHighLights}
           editorType="Package"
         />
-        <Inclusion
-          inclusions={inclusions}
-          setInclusions={setInclusions}
-          editorType="Package"
-        />
-        <Exclusion
-          exclusions={exclusions}
-          setExclusions={setExclusions}
-          editorType="Package"
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          <Inclusion
+            inclusions={inclusions}
+            setInclusions={setInclusions}
+            editorType="Package"
+          />
+          <Exclusion
+            exclusions={exclusions}
+            setExclusions={setExclusions}
+            editorType="Package"
+          />
+        </div>
         <PriceTiers priceTiers={priceTiers} setPriceTiers={setPriceTiers} />
         <Testimonials
           testimonials={testimonials}
@@ -646,16 +648,20 @@ export default function CreateNewPackage() {
           setDocuments={setDocuments}
           editorType="Package"
         />
-        <CMSMediaSection
-          image={form.image}
-          alt={form.alt}
-          onChange={updateForm}
-          editorType="Package"
-        />
-        <ChildImagePicker
-          childImage={childImage}
-          setChildImage={setChildImage}
-        />
+        <div className="border border-blue-900/50 rounded-2xl w-full p-6 bg-blue-950/20 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+          <h3 className="text-base font-semibold text-blue-100 mb-5">Package Media</h3>
+          <CMSMediaSection
+            image={form.image}
+            alt={form.alt}
+            onChange={updateForm}
+            editorType="Package"
+          />
+          <div className="my-6 border-t border-blue-900/40" />
+          <ChildImagePicker
+            childImage={childImage}
+            setChildImage={setChildImage}
+          />
+        </div>
 
         <CMSActions
           actionType="create"

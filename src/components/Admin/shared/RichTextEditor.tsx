@@ -111,7 +111,7 @@ export default function RichTextEditor({
     content: value || "",
     editorProps: {
       // Ensure text color doesn't inherit (many admin pages use `text-white` on ancestors)
-      attributes: { class: "rte-content text-gray-900", spellcheck: "true" },
+      attributes: { class: "rte-content text-blue-50", spellcheck: "true" },
       /* Strip ALL column-width hints injected by Word / Google Sheets on paste */
       transformPastedHTML(html: string) {
         const doc = new DOMParser().parseFromString(html, "text/html");
@@ -174,10 +174,10 @@ export default function RichTextEditor({
 
   return (
     <>
-      <div className="rounded-xl border border-gray-300 shadow-sm ">
+      <div className="rounded-xl border border-blue-900/50 shadow-sm overflow-hidden">
 
         {/* ── Toolbar ─────────────────────────────── */}
-        <div className="flex flex-wrap items-center gap-0.5 px-2 py-2 bg-gray-100 border-b border-gray-300 rounded-t-xl">
+        <div className="flex flex-wrap items-center gap-0.5 px-2 py-2 bg-blue-950/60 border-b border-blue-900/50 rounded-t-xl">
 
           <Btn onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} tooltip="Undo">
             <Undo2 size={14} />
@@ -191,10 +191,10 @@ export default function RichTextEditor({
           <select
             value={getFormatValue()}
             onChange={(e) => handleFormat(e.target.value)}
-            className="h-7 px-2 rounded-md text-xs bg-white text-gray-700 border border-gray-300 shadow-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400/40 cursor-pointer"
+            className="h-7 px-2 rounded-md text-xs bg-blue-950/60 text-blue-100 border border-blue-900/50 shadow-sm hover:border-blue-700/60 focus:outline-none focus:ring-2 focus:ring-blue-500/40 cursor-pointer"
           >
             {FORMAT_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value}>{o.label}</option>
+              <option key={o.value} value={o.value} className="bg-blue-950 text-blue-100">{o.label}</option>
             ))}
           </select>
 
@@ -245,7 +245,7 @@ export default function RichTextEditor({
 
         {/* ── Editable area ───────────────────────── */}
         <div
-          className="bg-white text-gray-900 overflow-y-auto rounded-b-xl"
+          className="bg-blue-950/30 text-blue-50 overflow-y-auto rounded-b-xl"
           style={{ minHeight, maxHeight }}
           onClick={() => editor.commands.focus()}
         >
@@ -828,8 +828,8 @@ function Btn({
         disabled={disabled}
         className={`inline-flex items-center justify-center w-8 h-8 rounded-md transition-colors cursor-pointer ${
           active
-            ? "bg-white text-gray-900 shadow-sm border border-gray-300"
-            : "text-gray-600 hover:text-gray-900 hover:bg-white hover:shadow-sm hover:border hover:border-gray-300 border border-transparent"
+            ? "bg-blue-800/40 text-blue-100 shadow-sm border border-blue-700/50"
+            : "text-blue-300/70 hover:text-blue-100 hover:bg-blue-800/30 hover:border-blue-700/40 border border-transparent"
         } disabled:opacity-30 disabled:cursor-not-allowed`}
       >
         {children}
@@ -847,5 +847,5 @@ function Btn({
 }
 
 function Sep() {
-  return <div className="w-px h-5 bg-gray-300 mx-1 self-center shrink-0" />;
+  return <div className="w-px h-5 bg-blue-900/50 mx-1 self-center shrink-0" />;
 }

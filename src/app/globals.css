@@ -851,3 +851,85 @@
   to { transform: rotate(360deg); }
 }
 
+
+/* ── Admin RichTextEditor (dark) content styling ── */
+.rte-content {
+  padding: 1rem 1.25rem;
+  outline: none;
+  caret-color: #dbeafe;
+  line-height: 1.6;
+}
+.rte-content:focus { outline: none; }
+.rte-content p { margin: 0 0 0.5rem; }
+.rte-content h1,
+.rte-content h2,
+.rte-content h3,
+.rte-content h4,
+.rte-content h5,
+.rte-content h6 {
+  color: #eff6ff;
+  font-weight: 600;
+  margin: 0.75rem 0 0.5rem;
+  line-height: 1.3;
+}
+.rte-content h1 { font-size: 1.75rem; }
+.rte-content h2 { font-size: 1.5rem; }
+.rte-content h3 { font-size: 1.25rem; }
+.rte-content h4 { font-size: 1.1rem; }
+.rte-content a { color: #60a5fa; text-decoration: underline; }
+.rte-content ul,
+.rte-content ol { padding-left: 1.5rem; margin: 0 0 0.5rem; }
+.rte-content ul { list-style: disc; }
+.rte-content ol { list-style: decimal; }
+.rte-content blockquote {
+  border-left: 3px solid rgba(59, 130, 246, 0.5);
+  padding-left: 1rem;
+  color: #bfdbfe;
+  margin: 0.5rem 0;
+}
+.rte-content code {
+  background: rgba(30, 58, 138, 0.35);
+  color: #bfdbfe;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.35rem;
+  font-size: 0.9em;
+}
+.rte-content pre {
+  background: rgba(30, 58, 138, 0.25);
+  color: #dbeafe;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+.rte-content hr {
+  border: none;
+  border-top: 1px solid rgba(59, 130, 246, 0.35);
+  margin: 1rem 0;
+}
+.rte-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.75rem 0;
+}
+.rte-content th,
+.rte-content td {
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  padding: 0.5rem 0.75rem;
+}
+.rte-content th {
+  background: rgba(30, 58, 138, 0.4);
+  color: #eff6ff;
+  font-weight: 600;
+}
+.rte-content img { max-width: 100%; height: auto; border-radius: 0.5rem; }
+
+/* Softer selection highlight + subtler divider inside the admin editor */
+.rte-content .ProseMirror-selectednode {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.rte-content hr.ProseMirror-selectednode {
+  outline: none;
+  border-top-color: rgba(96, 165, 250, 0.9);
+}

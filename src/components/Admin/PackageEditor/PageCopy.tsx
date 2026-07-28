@@ -233,6 +233,86 @@ function TableEditor({
   );
 }
 
+/**
+ * Fixed-schema table for the decision block: Night / Where / Why there.
+ * Renders as an aligned grid so the columns line up like a real table.
+ */
+const DECISION_COLS = ["Night", "Where", "Why there"] as const;
+
+function DecisionTable({
+  rows,
+  onChange,
+}: {
+  rows: string[][];
+  onChange: (headers: string[], rows: string[][]) => void;
+}) {
+  const headers = [...DECISION_COLS];
+  const fit = (r: string[]) => DECISION_COLS.map((_, i) => r[i] ?? "");
+
+  const addRow = () => onChange(headers, [...rows, ["", "", ""]]);
+  const removeRow = (ri: number) => onChange(headers, rows.filter((_, j) => j !== ri));
+  const setCell = (ri: number, ci: number, val: string) =>
+    onChange(
+      headers,
+      rows.map((r, j) => (j === ri ? fit(r).map((c, k) => (k === ci ? val : c)) : fit(r))),
+    );
+
+  return (
+    <div className="space-y-3">
+      <label className={label}>Comparison table</label>
+
+      <div className="overflow-x-auto rounded-xl border border-blue-900/50">
+        <div className="min-w-[36rem]">
+          {/* Header row */}
+          <div className="grid grid-cols-[7rem_1fr_1.5fr_2.5rem] bg-blue-950/60 border-b border-blue-900/50">
+            {DECISION_COLS.map((h) => (
+              <div key={h} className="px-3 py-2.5 text-xs font-semibold text-blue-200 uppercase tracking-wide">
+                {h}
+              </div>
+            ))}
+            <div />
+          </div>
+
+          {/* Body rows */}
+          {rows.length === 0 && (
+            <div className="px-3 py-4 text-xs text-blue-400/40">No rows yet — add one below.</div>
+          )}
+          {rows.map((row, ri) => {
+            const cells = fit(row);
+            return (
+              <div
+                key={ri}
+                className="grid grid-cols-[7rem_1fr_1.5fr_2.5rem] items-stretch border-b border-blue-900/30 last:border-b-0"
+              >
+                {cells.map((cell, ci) => (
+                  <div key={ci} className="p-1.5">
+                    <textarea
+                      rows={2}
+                      className={`${cellClass} h-full resize-y`}
+                      value={cell}
+                      placeholder={DECISION_COLS[ci]}
+                      onChange={(e) => setCell(ri, ci, e.target.value)}
+                    />
+                  </div>
+                ))}
+                <div className="flex items-center justify-center">
+                  <button type="button" className={delBtn} aria-label="Remove row" onClick={() => removeRow(ri)}>
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <button type="button" className={addBtn} onClick={addRow}>
+        <Plus size={14} /> Add row
+      </button>
+    </div>
+  );
+}
+
 const PageCopy = ({
   value,
   onChange,
@@ -249,7 +329,7 @@ const PageCopy = ({
     <div className="space-y-6">
       {/* ── Decision block ── */}
       <div className={card}>
-        <h3 className={heading}>Decision block</h3>
+        <h3 className={heading}>Why the loop matters more than the extra nights</h3>
         <p className={hint}>
           The comparison section above the itinerary — e.g. &ldquo;Where the third night goes&rdquo;.
         </p>
@@ -277,8 +357,7 @@ const PageCopy = ({
         </div>
 
         <div className="mt-4">
-          <TableEditor
-            headers={decision.headers}
+          <DecisionTable
             rows={decision.rows}
             onChange={(headers, rows) => set("decision", { ...decision, headers, rows })}
           />
@@ -297,6 +376,7 @@ const PageCopy = ({
       </div>
 
       {/* ── Prose sections ── */}
+      {false && (
       <div className={card}>
         <h3 className={heading}>Page sections</h3>
         <p className={hint}>
@@ -393,8 +473,10 @@ const PageCopy = ({
           <Plus size={14} /> Add section
         </button>
       </div>
+      )}
 
       {/* ── Price matrix ── */}
+      {false && (
       <div className={card}>
         <h3 className={heading}>Price matrix</h3>
         <p className={hint}>The tier/price table shown with the pricing block.</p>
@@ -406,6 +488,7 @@ const PageCopy = ({
           />
         </div>
       </div>
+      )}
 
       <TitledListEditor
         title="Why choose us"

@@ -119,82 +119,80 @@ const ChildImagePicker = ({
   };
 
   return (
-    <div className="border border-blue-900/50 rounded-2xl w-full p-6 bg-blue-950/20 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+    <div className="w-full">
 
-      <h3 className="text-base font-semibold text-blue-100 mb-6">
-        Other Four Images
-        <span className="ml-2 text-xs text-blue-400/50">
-          ({childImage.length}/4)
-        </span>
-      </h3>
+      <div className="flex items-center justify-between mb-4">
+        <label className="text-sm text-blue-300/70">
+          Gallery Images
+          <span className="ml-2 text-xs text-blue-400/50">
+            ({childImage.length}/4)
+          </span>
+        </label>
+      </div>
 
-      <div className="space-y-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {childImage.map((img) => (
           <div
             key={img.id}
-            className="border border-blue-900/50 rounded-2xl p-5 bg-blue-950/30"
+            className="flex flex-col border border-blue-900/50 rounded-2xl p-4 bg-blue-950/30"
           >
 
             {/* Upload */}
-            <div>
-              <label className="text-sm text-blue-300/70">
-                Upload Child Image
-              </label>
-
-              <label
-                htmlFor={`image-${img.id}`}
-                className="mt-3 block rounded-xl border-2 border-dashed border-blue-900/50
-                p-6 text-center cursor-pointer
-                hover:border-blue-600/50 hover:bg-blue-950/20 transition"
-              >
-                {img.image ? (
+            <label
+              htmlFor={`image-${img.id}`}
+              className="group relative block aspect-square w-full rounded-xl overflow-hidden
+              border-2 border-dashed border-blue-900/50
+              flex items-center justify-center text-center cursor-pointer
+              hover:border-blue-600/50 hover:bg-blue-950/20 transition"
+            >
+              {img.image ? (
+                <>
                   <img
                     src={img.image}
                     alt={img.alt}
-                    className="mx-auto max-h-40 rounded-lg object-contain"
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
-                ) : (
-                  <>
-                    <p className="text-blue-400/60 text-sm">
-                      Drag & drop or <span className="text-blue-400">Browse</span>
-                    </p>
-                    <p className="text-xs text-blue-500/40 mt-1">
-                      Only .webp • Max 2MB
-                    </p>
-                  </>
-                )}
+                  <span className="absolute inset-0 flex items-center justify-center
+                    bg-black/50 text-xs text-blue-100 opacity-0 group-hover:opacity-100 transition">
+                    Change image
+                  </span>
+                </>
+              ) : (
+                <div className="px-3">
+                  <p className="text-blue-400/60 text-sm">
+                    <span className="text-blue-400">Browse</span>
+                  </p>
+                  <p className="text-xs text-blue-500/40 mt-1">
+                    .webp • Max 2MB
+                  </p>
+                </div>
+              )}
 
-                <input
-                  id={`image-${img.id}`}
-                  type="file"
-                  accept="image/webp"
-                  className="hidden"
-                  onChange={(e) => handleImageUpload(img.id, e)} 
-                />
-              </label>
-            </div>
+              <input
+                id={`image-${img.id}`}
+                type="file"
+                accept="image/webp"
+                className="hidden"
+                onChange={(e) => handleImageUpload(img.id, e)}
+              />
+            </label>
 
             {/* Alt */}
-            <div className="mt-4">
-              <label className="text-sm text-blue-300/70">
-                Alt Tag For Image
-              </label>
-              <input
-                value={img.alt}
-                onChange={(e) => handleAltChange(img.id, e.target.value)}
-                placeholder="Describe image for SEO"
-                className={inputClass}
-              />
-            </div>
+            <input
+              value={img.alt}
+              onChange={(e) => handleAltChange(img.id, e.target.value)}
+              placeholder="Alt tag for SEO"
+              className={`${inputClass} mt-3 !px-3 !py-2 text-sm`}
+            />
 
             {/* Delete */}
-            <div className="flex justify-end mt-3">
+            <div className="flex justify-end mt-2">
               <button
                 type="button"
                 onClick={() => handleDeleteChildImage(img.id)}
-                className="flex items-center gap-1 text-sm text-red-400 hover:text-red-500"
+                className="flex items-center gap-1 text-xs text-red-400 hover:text-red-500"
               >
-                <Trash2 size={14} /> Remove
+                <Trash2 size={13} /> Remove
               </button>
             </div>
           </div>
@@ -202,18 +200,21 @@ const ChildImagePicker = ({
       </div>
 
       {/* Add Button */}
-      <div className="mt-6 flex justify-center">
-        <button
-          type="button"
-          onClick={handleChildImageAdd}
-          disabled={loading}
-          className="flex items-center gap-2 px-6 py-2.5 rounded-full text-sm
-            bg-blue-600/20 text-blue-300 border border-blue-600/40
-            hover:bg-blue-600/30 transition disabled:opacity-50"
-        >
-          <Plus size={15} /> Add Child Image
-        </button>
-      </div>
+      {childImage.length < 4 && (
+        <div className="mt-5">
+          <button
+            type="button"
+            onClick={handleChildImageAdd}
+            disabled={loading}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
+              bg-blue-600/20 text-blue-300 border border-blue-600/40
+              hover:bg-blue-600/30 hover:border-blue-500/60 hover:text-blue-200
+              transition disabled:opacity-50 cursor-pointer"
+          >
+            <Plus size={15} /> Add Image
+          </button>
+        </div>
+      )}
     </div>
   );
 };
