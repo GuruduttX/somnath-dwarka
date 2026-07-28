@@ -17,9 +17,21 @@
 .skip-to-content:focus {
   left: 0;
 }
-:where(a, button, summary, input, select, textarea):focus-visible {
-  outline: 2px solid #E87722;
-  outline-offset: 2px;
+@layer base {
+  :where(a, button, summary):focus-visible {
+    outline: 2px solid #E87722;
+    outline-offset: 2px;
+  }
+  /* Form fields carry their own focus styling (wrapper border + ring), so the
+     global orange outline would stack a second box on top of it. */
+  :where(input, select, textarea):focus,
+  :where(input, select, textarea):focus-visible {
+    outline: none;
+  }
+  /* Opt-out for elements that provide their own focus styling (e.g. admin login). */
+  .no-focus-ring:focus-visible {
+    outline: none;
+  }
 }
 
 /* ============================= */
@@ -932,4 +944,14 @@
 .rte-content hr.ProseMirror-selectednode {
   outline: none;
   border-top-color: rgba(96, 165, 250, 0.9);
+}
+
+/* Enquiry popup animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }

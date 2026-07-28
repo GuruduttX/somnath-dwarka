@@ -7,6 +7,7 @@ import JsonLd from "@/src/components/seo/JsonLd";
 import StickyContactBar from "@/src/components/shared/StickyContactBar";
 import Analytics from "@/src/components/seo/Analytics";
 import SuppressPrefetchFetchErrors from "@/src/components/shared/SuppressPrefetchFetchErrors";
+import EnquiryPopup from "@/src/components/shared/EnquiryPopup";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -45,6 +46,7 @@ export default function RootLayout({
         <SuppressPrefetchFetchErrors />
         {children}
         <StickyContactBar />
+        <EnquiryPopup />
         <Analytics />
       </body>
     </html>

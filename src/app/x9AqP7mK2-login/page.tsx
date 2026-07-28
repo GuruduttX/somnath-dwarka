@@ -71,7 +71,7 @@ export default function AdminLoginPage() {
                                 placeholder="Enter username"
                                 autoComplete="username"
                                 required
-                                className="w-full bg-transparent py-2.5 text-sm text-blue-100 placeholder-blue-500/50 outline-none"
+                                className="no-focus-ring w-full bg-transparent py-2.5 text-sm text-blue-100 placeholder-blue-500/50 outline-none"
                             />
                         </div>
                     </div>
@@ -89,7 +89,7 @@ export default function AdminLoginPage() {
                                 placeholder="Enter password"
                                 autoComplete="current-password"
                                 required
-                                className="w-full bg-transparent py-2.5 text-sm text-blue-100 placeholder-blue-500/50 outline-none"
+                                className="no-focus-ring w-full bg-transparent py-2.5 text-sm text-blue-100 placeholder-blue-500/50 outline-none"
                             />
                         </div>
                     </div>
