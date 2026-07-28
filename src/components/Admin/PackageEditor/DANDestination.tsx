@@ -32,7 +32,7 @@ const DANDestination = ({
 
       <div>
         <label className="text-sm text-blue-300/70">
-          Destination <span className="text-red-500">*</span>
+          Destination <span className="text-blue-400">*</span>
         </label>
         <input
           required

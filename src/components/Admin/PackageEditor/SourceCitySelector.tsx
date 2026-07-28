@@ -47,7 +47,7 @@ const SourceCitySelector = ({ availableSrc, setAvailableSrc }: Props) => {
     <div className="space-y-3 relative" ref={dropdownRef}>
       {/* Label */}
       <label className="text-sm text-white/70">
-        Source Cities <span className="text-red-500">*</span>
+        Source Cities <span className="text-blue-400">*</span>
       </label>
 
       {/* Dropdown  */}

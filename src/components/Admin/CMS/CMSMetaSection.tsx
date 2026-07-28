@@ -180,7 +180,7 @@ const CMSMetaSection = ({
 
         <div>
           <label className="text-sm text-blue-300/70">
-            Slug <span className="text-red-400">*</span>
+            Slug <span className="text-blue-400">*</span>
           </label>
           <input
             value={slug}

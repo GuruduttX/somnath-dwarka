@@ -395,8 +395,8 @@ export default function page() {
   return (
     <div
       className=" p-8 rounded-2xl border border-blue-900/40
-        shadow-[0_0_60px_-15px_rgba(236,72,153,0.15)]"
-      style={{ background: "#1a0b11" }}
+        shadow-[0_0_60px_-15px_rgba(59,130,246,0.15)]"
+      style={{ background: "#0a0f1e" }}
     >
       {/* Ambient glow */}
 
@@ -404,7 +404,7 @@ export default function page() {
         className="pointer-events-none fixed inset-0 z-0"
         style={{
           background:
-            "radial-gradient(ellipse 55% 35% at 15% 15%, rgba(236,72,153,0.08) 0%, transparent 60%), radial-gradient(ellipse 45% 30% at 85% 75%, rgba(244,114,182,0.05) 0%, transparent 55%)",
+            "radial-gradient(ellipse 55% 35% at 15% 15%, rgba(59,130,246,0.08) 0%, transparent 60%), radial-gradient(ellipse 45% 30% at 85% 75%, rgba(96,165,250,0.05) 0%, transparent 55%)",
         }}
       />
 

@@ -36,7 +36,7 @@ const PackageDetails = ({
 
       <div>
         <label className="text-sm text-blue-300/70">
-          Duration <span className="text-red-400">*</span>
+          Duration <span className="text-blue-400">*</span>
         </label>
         <input
           value={duration}
