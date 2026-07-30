@@ -1,5 +1,4 @@
 import Navbar from "@/src/utils/Navbar";
-import SiteFooter from "./SiteFooter";
 import JsonLd from "@/src/components/seo/JsonLd";
 import Breadcrumb from "./Breadcrumb";
 import { breadcrumbSchema, type Crumb } from "@/src/lib/seo";
@@ -64,7 +63,6 @@ export default function PageShell({
           {children}
         </main>
       </div>
-      <SiteFooter />
     </>
   );
 }

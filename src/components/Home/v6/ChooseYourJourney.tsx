@@ -17,6 +17,15 @@ const FLAGSHIP = {
 
 const CIRCUIT_KINDS = new Set(["circuit", "triangle", "umbrella"]);
 
+/** Hero image per circuit card. A hub's CMS hero_image wins when present; these
+ *  are the editorial fallbacks so every circuit card ships with real artwork. */
+const CIRCUIT_IMAGE: Record<string, string> = {
+  "somnath-dwarka-tour-package": "/images/CTA.webp",
+  "somnath-dwarka-gir-tour-package": "/images/gir/gir-hero.jpg",
+  "gujarat-tour-packages": "/images/home/StatueOfUnity.webp",
+};
+const CIRCUIT_IMAGE_FALLBACK = "/images/CTA.webp";
+
 type Glyph = "flame" | "tree" | "clock" | "pin";
 
 /** Card chrome per hub. Tag/days/stops/glyph and the short display copy are editorial, so they live
@@ -231,66 +240,77 @@ function HubCard({
   title,
   blurb,
   kind,
+  image,
 }: {
   href: string;
   title: string;
   blurb?: string;
   kind: "circuit" | "destination";
+  image?: string;
 }) {
   const slug = href.replace(/\//g, "");
   const meta = CARD_META[slug] ?? DEFAULT_META[kind];
   const displayTitle = meta.title || title;
   const displayBlurb = meta.blurb || blurb;
+  const cardImage = image || CIRCUIT_IMAGE[slug] || CIRCUIT_IMAGE_FALLBACK;
 
   return (
     <li>
       <Link
         href={href}
-        className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-orange-100 bg-white p-4 shadow-sm shadow-orange-500/5 sm:p-6 transition-[transform,box-shadow,border-color,background-color] duration-500 ease-out will-change-transform hover:-translate-y-1.5 hover:border-transparent hover:shadow-xl hover:shadow-orange-500/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
+        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-sm shadow-orange-500/5 transition-[transform,box-shadow,border-color] duration-500 ease-out will-change-transform hover:-translate-y-1.5 hover:border-orange-200 hover:shadow-2xl hover:shadow-orange-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
       >
-        {/* Gradient fill that wipes in on hover */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-orange-500 via-orange-400 to-amber-400 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
-        />
-
-        <div className="relative flex h-full flex-col">
-          {/* Tag + icon chip */}
-          <div className="flex items-start justify-between gap-4">
-            <span className="inline-flex items-center rounded-full bg-orange-50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-orange-700 ring-1 ring-orange-100 transition-colors duration-500 ease-out group-hover:bg-white/25 group-hover:text-white group-hover:ring-white/30 sm:px-3.5 sm:py-1.5 sm:text-[11px]">
-              {meta.tag}
-            </span>
-            <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-orange-50 text-orange-500 ring-1 ring-orange-100 transition-colors duration-500 ease-out group-hover:bg-white group-hover:text-orange-500 group-hover:ring-white sm:h-11 sm:w-11">
-              <CardGlyph glyph={meta.glyph} className="h-4 w-4 sm:h-5 sm:w-5" />
-            </div>
+        {/* ── Image header ── */}
+        <div className="relative h-40 overflow-hidden sm:h-48">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={cardImage}
+            alt={displayTitle}
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          />
+          {/* legibility gradient */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"
+          />
+          {/* Tag chip */}
+          <span className="absolute left-3 top-3 inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-orange-700 shadow-sm backdrop-blur-sm sm:text-[11px]">
+            {meta.tag}
+          </span>
+          {/* Glyph badge */}
+          <div className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-xl bg-white/90 text-orange-500 shadow-sm backdrop-blur-sm sm:h-10 sm:w-10">
+            <CardGlyph glyph={meta.glyph} className="h-4 w-4 sm:h-5 sm:w-5" />
           </div>
-
-          {/* Title + blurb */}
-          <h4 className="mt-4 text-lg font-bold tracking-tight text-gray-900 sm:mt-6 sm:text-xl transition-colors duration-500 ease-out group-hover:text-white">
+          {/* Title over image */}
+          <h4 className="absolute inset-x-0 bottom-0 px-4 pb-3 text-lg font-bold tracking-tight text-white drop-shadow sm:text-xl">
             {displayTitle}
           </h4>
+        </div>
+
+        {/* ── Body ── */}
+        <div className="flex flex-1 flex-col p-4 sm:p-5">
           {displayBlurb ? (
-            <p className="mt-1.5 text-[13px] leading-relaxed text-gray-600 sm:mt-2 sm:text-[15px] transition-colors duration-500 ease-out group-hover:text-white/95">
+            <p className="text-[13px] leading-relaxed text-gray-600 sm:text-[15px]">
               {displayBlurb}
             </p>
           ) : null}
 
           {/* Footer meta */}
-          <div className="mt-auto pt-5 sm:pt-8">
-            <div className="border-t border-orange-100 pt-3 sm:pt-4 transition-colors duration-500 ease-out group-hover:border-white/35">
-              <div className="flex items-center gap-3 text-[12.5px] font-medium text-gray-800 sm:gap-6 sm:text-[15px] transition-colors duration-500 ease-out group-hover:text-white">
-                <span className="inline-flex items-center gap-1.5 whitespace-nowrap sm:gap-2">
-                  <ClockIcon className="h-4 w-4 flex-shrink-0 sm:h-[18px] sm:w-[18px] text-orange-400 transition-colors duration-500 ease-out group-hover:text-white" />
-                  {meta.days}
+          <div className="mt-auto pt-4 sm:pt-5">
+            <div className="flex items-center gap-3 border-t border-orange-100 pt-3 text-[12.5px] font-medium text-gray-800 sm:gap-5 sm:text-[14px]">
+              <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                <ClockIcon className="h-4 w-4 flex-shrink-0 text-orange-400 sm:h-[18px] sm:w-[18px]" />
+                {meta.days}
+              </span>
+              {meta.stops ? (
+                <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                  <PinIcon className="h-4 w-4 flex-shrink-0 text-orange-400 sm:h-[18px] sm:w-[18px]" />
+                  {meta.stops} stops
                 </span>
-                {meta.stops ? (
-                  <span className="inline-flex items-center gap-1.5 whitespace-nowrap sm:gap-2">
-                    <PinIcon className="h-4 w-4 flex-shrink-0 sm:h-[18px] sm:w-[18px] text-orange-400 transition-colors duration-500 ease-out group-hover:text-white" />
-                    {meta.stops} sacred stops
-                  </span>
-                ) : null}
-                <ArrowIcon className="ml-auto h-4 w-4 shrink-0 text-orange-400 sm:h-5 sm:w-5 transition-[transform,color] duration-500 ease-out group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-white" />
-              </div>
+              ) : null}
+              <span className="ml-auto inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-orange-50 text-orange-500 transition-[background-color,color] duration-300 group-hover:bg-orange-500 group-hover:text-white">
+                <ArrowIcon className="h-4 w-4 transition-transform duration-500 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </span>
             </div>
           </div>
         </div>
@@ -299,16 +319,9 @@ function HubCard({
   );
 }
 
-function GroupHeading({
-  number,
-  children,
-}: {
-  number: string;
-  children: React.ReactNode;
-}) {
+function GroupHeading({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mb-4 flex items-baseline gap-3 sm:mb-6">
-      <span className="text-sm font-bold text-orange-400">{number}</span>
+    <div className="mb-4 sm:mb-6">
       <h3 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
         {children}
       </h3>
@@ -324,6 +337,55 @@ export default async function ChooseYourJourney() {
   const circuits = hubs.filter(
     (h) => CIRCUIT_KINDS.has(s(h, "hub_kind")) && s(h, "slug") !== FLAGSHIP.slug,
   );
+
+  return (
+    <Section id="choose-your-journey" full className="!pt-3 sm:!pt-14 !pb-6">
+      {/* Section header */}
+      <h2
+        id="choose-your-journey-h"
+        className="text-[clamp(30px,4vw,48px)] font-bold leading-tight tracking-tight text-gray-950"
+      >
+        <span className="text-orange-500">Choose your</span> journey
+      </h2>
+      <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-gray-700 sm:mt-5 sm:text-lg">
+        Two ways to travel Gujarat, follow a flagship circuit or
+        handpick single destination and build your own pace.
+      </p>
+
+      {/* Circuits */}
+      <div className="mt-8 sm:mt-14">
+        <GroupHeading>Pilgrimage Circuits</GroupHeading>
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          <HubCard
+            href={`/${FLAGSHIP.slug}/`}
+            title={FLAGSHIP.title}
+            blurb={FLAGSHIP.blurb}
+            kind="circuit"
+          />
+          {circuits.map((h) => (
+            <HubCard
+              key={String(h.slug)}
+              href={`/${h.slug}/`}
+              title={s(h, "title")}
+              blurb={s(h, "head_term")}
+              kind="circuit"
+              image={(h.hero_image as { url?: string } | undefined)?.url}
+            />
+          ))}
+        </ul>
+      </div>
+    </Section>
+  );
+}
+
+/**
+ * Destination rail, split out of ChooseYourJourney so the home page can place it
+ * lower down (below "Explore by interest"). Renders nothing when no destination
+ * hubs are published.
+ */
+export async function DestinationPackages() {
+  const hubs = await getPublishedHubs();
+
   const rank = (slug: string) => {
     const i = DEST_ORDER.indexOf(slug);
     return i === -1 ? DEST_ORDER.length : i;
@@ -344,49 +406,12 @@ export default async function ChooseYourJourney() {
     };
   });
 
+  if (!slides.length) return null;
+
   return (
-    <Section id="choose-your-journey" full className="!pt-3 sm:!pt-14 !pb-6">
-      {/* Section header */}
-      <h2
-        id="choose-your-journey-h"
-        className="text-[clamp(30px,4vw,48px)] font-bold leading-tight tracking-tight text-gray-950"
-      >
-        <span className="text-orange-500">Choose your</span> journey
-      </h2>
-      <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-gray-700 sm:mt-5 sm:text-lg">
-        Two ways to travel Gujarat, follow a flagship circuit or
-        handpick single destination and build your own pace.
-      </p>
-
-      {/* Circuits */}
-      <div className="mt-8 sm:mt-14">
-        <GroupHeading number="01">Pilgrimage Circuits</GroupHeading>
-        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          <HubCard
-            href={`/${FLAGSHIP.slug}/`}
-            title={FLAGSHIP.title}
-            blurb={FLAGSHIP.blurb}
-            kind="circuit"
-          />
-          {circuits.map((h) => (
-            <HubCard
-              key={String(h.slug)}
-              href={`/${h.slug}/`}
-              title={s(h, "title")}
-              blurb={s(h, "head_term")}
-              kind="circuit"
-            />
-          ))}
-        </ul>
-      </div>
-
-      {/* Destinations */}
-      {slides.length ? (
-        <div className="mt-8 sm:mt-14">
-          <GroupHeading number="02">Destination Packages</GroupHeading>
-          <DestinationSlider slides={slides} />
-        </div>
-      ) : null}
+    <Section id="destination-packages" full className="!pt-6 sm:!pt-10 !pb-6">
+      <GroupHeading>Destination Packages</GroupHeading>
+      <DestinationSlider slides={slides} />
     </Section>
   );
 }

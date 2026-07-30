@@ -5,15 +5,17 @@ import { usePathname } from "next/navigation";
 import { X, User, Mail, Phone, MessageSquare, CheckCircle2, Loader2 } from "lucide-react";
 
 /**
- * Site-wide lead-capture popup. Opens 10s after each page load on the public
- * site and posts to /api/enquiry — the same endpoint used by every other form,
- * so the lead is saved, emailed and pushed to Sembark CRM automatically.
+ * Site-wide lead-capture popup. Opens once — 10s after the visitor's first
+ * eligible page load — and posts to /api/enquiry (the same endpoint every other
+ * form uses, so the lead is saved, emailed and pushed to Sembark CRM).
  *
- * Hidden on the admin panel and the login route. Once a visitor submits, it
- * stops re-opening for the rest of the session.
+ * A `sessionStorage` flag makes it open only once per site visit: after it has
+ * shown (or the visitor submits), it never re-opens for the rest of the session,
+ * even as they navigate between pages. Hidden on admin, login and thank-you.
  */
 
 const DELAY_MS = 10_000;
+const SHOWN_KEY = "enquiryPopupShown";
 
 // Routes where the popup must never show.
 const isBlockedPath = (path: string) =>
@@ -28,11 +30,21 @@ export default function EnquiryPopup() {
 
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
 
-  // Arm a 10s timer on every navigation / initial load.
+  // Arm the timer only until the popup has shown once this session. The
+  // sessionStorage flag survives navigations (so it won't reopen page to page)
+  // but resets on a fresh visit — exactly "once when the user visits the site".
   useEffect(() => {
     if (submitted || isBlockedPath(pathname || "")) return;
+    if (typeof window !== "undefined" && sessionStorage.getItem(SHOWN_KEY)) return;
 
-    const t = setTimeout(() => setOpen(true), DELAY_MS);
+    const t = setTimeout(() => {
+      try {
+        sessionStorage.setItem(SHOWN_KEY, "1");
+      } catch {
+        /* private mode / storage disabled — still open, just may recur */
+      }
+      setOpen(true);
+    }, DELAY_MS);
     return () => clearTimeout(t);
   }, [pathname, submitted]);
 

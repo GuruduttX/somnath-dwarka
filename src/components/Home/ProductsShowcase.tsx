@@ -7,7 +7,7 @@ import TourCard from "@/src/utils/TourCard";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 
 const FILTERS = ["All Packages", "Somnath", "Dwarka", "Combo Tours", "Budget Picks"];
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 8;
 
 export default function ProductsShowcase({ packages }: { packages: TourPackage[] }) {
   const [activeFilter, setActiveFilter] = useState("All Packages");
@@ -112,7 +112,7 @@ export default function ProductsShowcase({ packages }: { packages: TourPackage[]
 
       {/* ── TOUR CARDS GRID ── */}
       {visible.length > 0 ? (
-        <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {visible.map((pkg) => (
             <TourCard key={pkg.id} pkg={pkg} />
           ))}

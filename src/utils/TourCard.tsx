@@ -125,14 +125,14 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
         />
       )}
 
-      <div className="group overflow-hidden rounded-[28px] border border-orange-100/80 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(15,23,42,0.12)]">
+      <div className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-orange-100/80 bg-white shadow-[0_12px_36px_rgba(15,23,42,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
 
         {/* ── IMAGE GRID ── */}
-        <div className="relative p-3">
+        <div className="relative p-2.5">
 
           {/* Big left image */}
           <div
-            className="relative h-[170px] cursor-pointer overflow-hidden rounded-[22px] bg-gray-100 sm:h-[185px]"
+            className="relative h-[160px] cursor-pointer overflow-hidden rounded-[16px] bg-gray-100 sm:h-[170px]"
             onClick={() => openLightbox(0)}
           >
             <img
@@ -165,11 +165,11 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
           </div>
 
           {/* Compact thumbnails */}
-          <div className="absolute bottom-5 right-5 hidden gap-2 sm:flex">
+          <div className="absolute bottom-4 right-4 hidden gap-1.5 sm:flex">
             {thumbs.slice(0, 3).map((img, i) => (
               <button
                 key={i}
-                className="relative h-12 w-12 cursor-pointer overflow-hidden rounded-xl border-2 border-white bg-gray-100 shadow-lg"
+                className="relative h-10 w-10 cursor-pointer overflow-hidden rounded-lg border-2 border-white bg-gray-100 shadow-lg"
                 onClick={() => openLightbox(i + 1)}
                 aria-label={`Open ${pkg.title} image ${i + 2}`}
               >
@@ -193,11 +193,11 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
         </div>
 
         {/* ── CARD BODY ── */}
-        <Link href={packageUrl} className="block">
-        <div className="px-4 pb-3.5 pt-1.5">
+        <Link href={packageUrl} className="flex flex-1 flex-col">
+        <div className="flex flex-1 flex-col px-3.5 pb-3.5 pt-2">
 
           {/* Title */}
-          <h3 className="text-[16px] font-bold leading-snug text-gray-950 sm:text-[17px] group-hover:text-orange-600 transition-colors">
+          <h3 className="text-[17px] font-bold leading-snug text-gray-950 sm:text-[18px] group-hover:text-orange-600 transition-colors">
             {pkg.title}
           </h3>
 
@@ -214,32 +214,53 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
             </span>
           </div>
 
-          {/* Inclusions (Pill badges) */}
+          {/* Inclusions (Pill badges) — always normalised to a short 1-2 word
+              label so long CMS text can't blow out the layout or make card
+              heights uneven. */}
           <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-            {(pkg.inclusions.length ? pkg.inclusions : ["Private Cab", "Hotel Stay"]).slice(0, 3).map((item) => {
+            {(() => {
               const shortInclusion = (desc: string) => {
                 const lower = desc.toLowerCase();
-                if (lower.includes("breakfast")) return "Breakfast";
-                if (lower.includes("stay") || lower.includes("hotel")) return "Hotel Stay";
-                if (lower.includes("transfer") || lower.includes("cab") || lower.includes("car")) return "AC Cab";
-                if (lower.includes("sightseeing")) return "Sightseeing";
-                if (lower.includes("toll") || lower.includes("parking")) return "Tolls & Tax";
-                return desc;
+                if (lower.includes("breakfast") || lower.includes("meal")) return "Breakfast";
+                if (lower.includes("hotel") || lower.includes("stay") || lower.includes("accommodat")) return "Hotel Stay";
+                if (lower.includes("coach") || lower.includes("bus")) return "Coach";
+                if (lower.includes("transfer") || lower.includes("cab") || lower.includes("car") || lower.includes("vehicle") || lower.includes("driver")) return "AC Cab";
+                if (lower.includes("sightsee")) return "Sightseeing";
+                if (lower.includes("toll") || lower.includes("parking") || lower.includes("tax")) return "Tolls & Tax";
+                if (lower.includes("guide")) return "Guide";
+                if (lower.includes("pooja") || lower.includes("darshan") || lower.includes("aarti")) return "Darshan";
+                // Fallback: first two words, hard-capped so it stays on one line.
+                const short = desc.split(/\s+/).slice(0, 2).join(" ");
+                return short.length > 16 ? short.slice(0, 15) + "…" : short;
               };
-              return (
-                <span key={item} className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700">
+              // De-duplicate the normalised labels so we don't show "Hotel Stay" twice.
+              const source = pkg.inclusions.length ? pkg.inclusions : ["Private Cab", "Hotel Stay"];
+              const seen = new Set<string>();
+              const labels: string[] = [];
+              for (const item of source) {
+                const label = shortInclusion(item);
+                if (!seen.has(label)) {
+                  seen.add(label);
+                  labels.push(label);
+                }
+                if (labels.length === 3) break;
+              }
+              return labels.map((label) => (
+                <span key={label} className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-1 text-[11.5px] font-semibold text-emerald-700">
                   <span className="text-[10px] font-extrabold">✓</span>
-                  {shortInclusion(item)}
+                  {label}
                 </span>
-              );
-            })}
+              ));
+            })()}
           </div>
 
-          {/* Divider */}
-          <div className="my-3 h-px bg-gray-100" />
+          {/* Divider — mt-auto pushes the price + CTA block to the card's
+              bottom so buttons align across cards of unequal content height. */}
+          <div className="mt-auto pt-3" />
+          <div className="mb-3 h-px bg-gray-100" />
 
           {/* Price + CTA */}
-          <div className="mt-2">
+          <div>
             <div className="flex items-center justify-between gap-3">
               <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400">
                 Starts from

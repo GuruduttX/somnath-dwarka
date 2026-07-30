@@ -153,10 +153,11 @@ export default function HomeHero() {
             <h1 className="font-playfair h-anim hd2 mt-5 text-5xl font-black leading-[1.02] tracking-[-0.03em] text-[#3a2416] sm:text-6xl lg:text-7xl xl:text-[86px]">
               Somnath &amp;{" "}
               <span className="headline-grad italic">Dwarka</span>
-              <span className="mt-3 block font-dm text-lg font-bold not-italic tracking-normal text-[#7a5238] sm:text-xl lg:text-2xl">
-                A Divine Tour You&apos;ll Remember
-              </span>
             </h1>
+            {/* Sub-headline — its own line, clearly separated from the title */}
+            <p className="font-dm h-anim hd2 mt-3 text-lg font-bold tracking-normal text-[#7a5238] sm:text-xl lg:text-2xl">
+              A Divine Tour You&apos;ll Remember
+            </p>
 
             {/* Description */}
             <p className="h-anim hd3 mt-5 max-w-[560px] text-[15px] leading-[1.8] text-[#6b4c38] lg:text-base">
@@ -177,13 +178,14 @@ export default function HomeHero() {
                 <span className="relative z-[1] whitespace-nowrap">Explore Packages</span>
                 <ArrowRight size={15} className="relative z-[1] hidden shrink-0 transition-transform group-hover:translate-x-1 sm:inline" />
               </Link>
-              <Link
-                href="/plan/"
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-4 py-3.5 text-[13px] font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white sm:flex-none sm:px-7 sm:text-sm"
+              <button
+                type="button"
+                onClick={() => setOpen(true)}
+                className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-4 py-3.5 text-[13px] font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white sm:flex-none sm:px-7 sm:text-sm"
               >
                 <Navigation size={15} className="shrink-0" />
-                <span className="whitespace-nowrap">Plan Your Trip</span>
-              </Link>
+                <span className="whitespace-nowrap">Enquire Now</span>
+              </button>
             </div>
 
 

@@ -12,7 +12,6 @@ import DwarkaSomnathTrustSection from "@/src/components/Home/WhyChooseUs";
 import TestimonialsSection from "@/src/components/Home/TestimonialCard";
 import FinalCTA from "@/src/components/Home/FinalCTA";
 import BeyondTemples from "@/src/components/Home/BeyondTemples";
-import Footer from "@/src/utils/Footer";
 import HomeFaqSection from "@/src/components/Home/HomeFaqSection";
 import { buildMetadata, faqSchema } from "@/src/lib/seo";
 import JsonLd from "@/src/components/seo/JsonLd";
@@ -21,7 +20,9 @@ import { getPublishedPackages } from "@/src/lib/content";
 import { mapAdminPackagesToTourCards, toCarouselCards } from "@/src/utils/TourData";
 
 import CredentialsBar from "@/src/components/Home/v6/CredentialsBar";
-import ChooseYourJourney from "@/src/components/Home/v6/ChooseYourJourney";
+import ChooseYourJourney, {
+  DestinationPackages,
+} from "@/src/components/Home/v6/ChooseYourJourney";
 import JourneyBanner from "@/src/components/Home/v6/JourneyBanner";
 import {
   ExploreByInterest,
@@ -73,6 +74,7 @@ export default async function Home() {
 
           <ChooseYourJourney />
           <ExploreByInterest />
+          <DestinationPackages />
           <PersonaRouting />
         </div>
 
@@ -107,7 +109,6 @@ export default async function Home() {
         <DataAndResearch />
 
       </main>
-      <Footer />
       <JsonLd data={faqSchema(HOME_FAQS)} />
     </>
   );

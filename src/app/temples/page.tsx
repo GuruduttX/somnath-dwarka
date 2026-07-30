@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Navbar from "@/src/utils/Navbar";
-import Footer from "@/src/utils/Footer";
 import TemplesPageClient from "./TemplesPageClient";
 import { getPublishedTemples, getHubBySlug } from "@/src/lib/content";
 import { buildMetadata } from "@/src/lib/seo";
@@ -62,7 +61,6 @@ export default async function TemplesPage() {
       <main id="main-content" className="min-h-screen bg-[#FFFBF7]">
         <TemplesPageClient temples={serializedTemples} hub={serializedHub} />
       </main>
-      <Footer />
     </>
   );
 }
