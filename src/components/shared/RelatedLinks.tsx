@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowUpRight, Compass, Map, Building2, Calendar } from "lucide-react";
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 
 export type RelatedLink = {
   target: string;
@@ -7,21 +8,37 @@ export type RelatedLink = {
   type?: "pillar" | "money" | "sibling" | "spoke";
 };
 
-// Icon + short label per link type, so the cards read as a wayfinding grid.
-const TYPE_META: Record<
-  NonNullable<RelatedLink["type"]>,
-  { icon: typeof Compass; label: string }
-> = {
-  pillar: { icon: Compass, label: "Travel guide" },
-  money: { icon: Building2, label: "Book & compare" },
-  sibling: { icon: Map, label: "Plan your trip" },
-  spoke: { icon: Calendar, label: "Read more" },
+// Short label per link type, so the cards read as a wayfinding grid.
+const TYPE_LABEL: Record<NonNullable<RelatedLink["type"]>, string> = {
+  pillar: "Travel guide",
+  money: "Book & compare",
+  sibling: "Plan your trip",
+  spoke: "Read more",
 };
+
+/**
+ * Resolve a real, in-repo image for a link target from keywords in its path.
+ * Every branch points at a file that exists in /public, so the thumbnails
+ * always load (no broken images, no external calls).
+ */
+function linkImage(target: string): string {
+  const t = target.toLowerCase();
+  if (t.includes("taxi") || t.includes("cab")) return "/images/taxi/sedan.jpg";
+  if (t.includes("statue") || t.includes("unity")) return "/images/home/StatueOfUnity.webp";
+  if (t.includes("gir")) return "/images/gir/gir-hero.jpg";
+  if (t.includes("junagadh") || t.includes("girnar")) return "/images/junagadh-girnar/junagadh-girnar-hero.jpg";
+  if (t.includes("festival")) return "/images/festivals/hero.jpg";
+  if (t.includes("hotel")) return "/images/hotels/hero.jpg";
+  if (t.includes("somnath") && t.includes("dwarka")) return "/images/CTA.webp";
+  if (t.includes("somnath")) return "/images/home/SomnathLongImage.webp";
+  if (t.includes("dwarka")) return "/images/home/DwarikaLongImage.webp";
+  return "/images/CTA.webp";
+}
 
 /**
  * Related-links module (SOP §8). Enforces the per-page minimum at build/QA
  * time via lib/links.ts (up-to-pillar + into-money + ≥2 siblings). Renders
- * real <a href> links with rotated anchors.
+ * real <a href> links with rotated anchors and a photo thumbnail per card.
  */
 export default function RelatedLinks({
   links,
@@ -45,28 +62,37 @@ export default function RelatedLinks({
 
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {links.map((l) => {
-          const meta = TYPE_META[l.type ?? "spoke"];
-          const Icon = meta.icon;
+          const label = TYPE_LABEL[l.type ?? "spoke"];
           return (
-            <li key={l.target + l.anchor}>
+            <li key={l.target + l.anchor} className="group">
               <Link
                 href={l.target}
-                className="group flex h-full items-center gap-4 rounded-2xl border border-orange-100/80 bg-white p-4 shadow-[0_10px_40px_rgba(15,23,42,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-200 hover:shadow-[0_16px_50px_rgba(234,88,12,0.10)]"
+                className="flex h-full items-stretch gap-4 overflow-hidden rounded-2xl border border-orange-100/80 bg-white p-3 shadow-[0_10px_40px_rgba(15,23,42,0.05)] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-orange-200 group-hover:shadow-[0_16px_50px_rgba(234,88,12,0.10)]"
               >
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-orange-50 text-orange-500 transition-colors duration-200 group-hover:bg-orange-500 group-hover:text-white">
-                  <Icon size={20} strokeWidth={2.1} />
+                {/* Photo thumbnail */}
+                <span className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-xl bg-orange-50">
+                  <Image
+                    src={linkImage(l.target)}
+                    alt=""
+                    fill
+                    sizes="72px"
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
                 </span>
-                <span className="min-w-0 flex-1">
+
+                <span className="flex min-w-0 flex-1 flex-col justify-center py-0.5">
                   <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-orange-400">
-                    {meta.label}
+                    {label}
                   </span>
                   <span className="mt-0.5 block font-semibold capitalize leading-snug text-gray-800">
                     {l.anchor}
                   </span>
                 </span>
+
                 <ArrowUpRight
                   size={18}
-                  className="shrink-0 text-gray-300 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-orange-500"
+                  className="mt-1 shrink-0 self-start text-gray-300 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-orange-500"
                 />
               </Link>
             </li>

@@ -84,7 +84,6 @@ export default async function CabHubPage() {
         title={TAXI_HUB.h1}
         description={TAXI_HUB.quickAnswer}
         breadcrumbs={crumbs}
-        badge="Saurashtra Cabs"
         ctaContext={TAXI_HUB.h1}
         distance="about 233 km"
         duration="4.5 to 5 hours"

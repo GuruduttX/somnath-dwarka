@@ -7,6 +7,14 @@ import { motion } from "framer-motion";
 import { MapPin, Clock, ArrowRight, Users, Check, Shield, Compass, Navigation, Plane, Star, Briefcase } from "lucide-react";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 
+// Fleet photos rotated across the route cards so each card carries a taxi image.
+const ROUTE_IMAGES = [
+  "/images/taxi/sedan.jpg",
+  "/images/taxi/suv.jpg",
+  "/images/taxi/mpv.jpg",
+  "/images/taxi/tempo-traveller.jpg",
+];
+
 // Map a vehicle name to the closest fleet photo.
 function vehicleImage(name: string): string {
   const n = name.toLowerCase();
@@ -45,20 +53,27 @@ export function RouteCardGrid({ routes }: { routes: RouteItem[] }) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: idx * 0.06 }}
             viewport={{ once: true }}
-            className="group relative flex flex-col justify-between bg-white border border-orange-100/70 hover:border-orange-300 rounded-2xl p-5 shadow-xs hover:shadow-[0_12px_30px_rgba(234,88,12,0.08)] transition-all duration-300 overflow-hidden"
+            className="group relative flex flex-col justify-between bg-white border border-orange-100/70 hover:border-orange-300 rounded-2xl shadow-xs hover:shadow-[0_12px_30px_rgba(234,88,12,0.08)] transition-all duration-300 overflow-hidden"
           >
-            {/* Ambient Background Glow */}
-            <div className="absolute -top-12 -right-12 w-28 h-28 bg-gradient-to-br from-orange-100/30 to-amber-100/20 rounded-full group-hover:scale-150 transition-transform duration-500 pointer-events-none" />
-
             <div>
-              {/* Card Header Route */}
-              <div className="flex items-center justify-between mb-4 border-b border-orange-50/80 pb-2">
-                <span className="text-[10px] font-bold text-orange-700 bg-orange-50 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 uppercase tracking-wider">
+              {/* Taxi photo header */}
+              <div className="relative h-32 w-full overflow-hidden">
+                <Image
+                  src={ROUTE_IMAGES[idx % ROUTE_IMAGES.length]}
+                  alt={`${route.origin} to ${route.destination} taxi`}
+                  fill
+                  sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
+                <span className="absolute left-3 top-3 text-[10px] font-bold text-orange-700 bg-white/90 backdrop-blur-sm px-2.5 py-0.5 rounded-full flex items-center gap-1.5 uppercase tracking-wider shadow-sm">
                   <Compass size={11} className="text-orange-500 animate-spin-slow" style={{ animationDuration: '8s' }} />
                   Popular Route
                 </span>
-                <span className="text-[10px] text-orange-300 font-mono font-bold">0{idx + 1}</span>
+                <span className="absolute right-3 top-3 text-[10px] text-white/90 font-mono font-bold bg-black/25 px-2 py-0.5 rounded-full backdrop-blur-sm">0{idx + 1}</span>
               </div>
+
+              <div className="p-5">
 
               {/* Route Heading */}
               <h3 className="text-lg font-bold text-gray-900 group-hover:text-orange-600 transition-colors">
@@ -90,10 +105,11 @@ export function RouteCardGrid({ routes }: { routes: RouteItem[] }) {
                   </div>
                 </div>
               )}
+              </div>
             </div>
 
             {/* Actions */}
-            <div className="flex gap-2.5 border-t border-orange-50/70 pt-4 mt-5">
+            <div className="flex gap-2.5 border-t border-orange-50/70 px-5 pb-5 pt-4">
               <Link href={`/somnath-dwarka-taxi-service/${route.slug}/`} className="flex-1 text-center py-2.5 px-3 text-xs font-bold border border-orange-200 hover:border-orange-300 text-orange-950 bg-white hover:bg-orange-50/30 rounded-xl transition">
                 Fares & Details
               </Link>

@@ -82,7 +82,7 @@ export function ExploreByInterest() {
     { href: "/somnath-dwarka-taxi-service/", title: "Private cabs", blurb: "Fixed fares, verified routes" },
   ];
   return (
-    <Section id="explore-by-interest" title="Explore by interest" full className="!pt-0">
+    <Section id="explore-by-interest" title="Explore by interest" full className="!py-6 sm:!py-8">
       <ul className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {tiles.map((t, i) => (
           <InterestCard

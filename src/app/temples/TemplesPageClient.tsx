@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Search, 
@@ -18,6 +19,18 @@ import {
   Calendar
 } from "lucide-react";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+
+// Category → representative temple photo (all files exist in /public, so the
+// card headers always render an image behind the coloured category overlay).
+const CATEGORY_IMAGE: Record<string, string> = {
+  "Shiva & Jyotirlinga": "/images/home/SomnathLongImage.webp",
+  "Krishna & Vishnu": "/images/home/DwarikaLongImage.webp",
+  "Shakti/Mata": "/images/junagadh-girnar/junagadh-girnar-hero.jpg",
+  "Saint Yatras": "/images/CTA.webp",
+  "Kutch & Border": "/images/festivals/hero.jpg",
+  "Virtual Portal": "/images/CTA.webp",
+};
+const CATEGORY_IMAGE_FALLBACK = "/images/CTA.webp";
 
 // ==========================================
 // STATIC ENRICHMENT DATA FOR CARD DISPLAY
@@ -429,8 +442,8 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
         <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#F97316_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
         {/* Chakra Spinning Background Layer (Subtle Light Outline) */}
-        <div className="absolute -top-10 -right-10 md:top-6 md:right-10 opacity-[0.07] pointer-events-none">
-          <svg className="w-64 h-64 md:w-96 md:h-96 text-orange-600 animate-[spin_100s_linear_infinite]" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+        <div className="absolute -top-10 -right-10 md:top-6 md:right-10 opacity-[0.14] pointer-events-none">
+          <svg className="w-64 h-64 md:w-96 md:h-96 text-orange-700 animate-[spin_100s_linear_infinite]" viewBox="0 0 100 100" fill="none" stroke="currentColor">
             {/* Concentric spiritual geometric ring */}
             <circle cx="50" cy="50" r="45" strokeWidth="0.5" />
             <circle cx="50" cy="50" r="35" strokeWidth="0.5" strokeDasharray="2 2" />
@@ -458,9 +471,9 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
 
         {/* Temple silhouette, bottom-left — balances the chakra top-right.
             Same treatment: low-opacity orange line art, purely ornamental. */}
-        <div className="pointer-events-none absolute -bottom-4 -left-4 opacity-[0.12] md:-bottom-6 md:left-0 lg:left-4" aria-hidden="true">
+        <div className="pointer-events-none absolute -bottom-4 -left-4 opacity-[0.20] md:-bottom-6 md:left-0 lg:left-4" aria-hidden="true">
           <svg
-            className="h-52 w-48 text-orange-600 md:h-80 md:w-72 lg:h-[24rem] lg:w-[21rem]"
+            className="h-52 w-48 text-orange-700 md:h-80 md:w-72 lg:h-[24rem] lg:w-[21rem]"
             viewBox="0 0 220 280"
             fill="none"
             stroke="currentColor"
@@ -597,13 +610,27 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
               </button>
             ))}
           </motion.div>
+
+          {/* Trust row */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[12.5px] font-medium text-slate-500"
+          >
+            <span className="inline-flex items-center gap-1.5"><MapPin className="w-4 h-4 text-orange-500" /> {enrichedTemples.length}+ sacred sites</span>
+            <span className="hidden sm:inline text-orange-200">•</span>
+            <span className="inline-flex items-center gap-1.5"><Clock className="w-4 h-4 text-orange-500" /> Verified darshan timings</span>
+            <span className="hidden sm:inline text-orange-200">•</span>
+            <span className="inline-flex items-center gap-1.5"><Car className="w-4 h-4 text-orange-500" /> Cab &amp; travel help</span>
+          </motion.div>
         </div>
       </section>
 
       {/* ==========================================
           TEMPLES GRID SECTION
           ========================================== */}
-      <section className="max-w-6xl mx-auto px-4 md:px-8 py-16 -mt-8 relative z-20">
+      <section className="max-w-7xl mx-auto px-4 md:px-8 py-16 -mt-8 relative z-20">
         {/* Results indicator */}
         <div className="mb-6 flex items-center justify-between">
           <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
@@ -636,14 +663,6 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
             <AnimatePresence mode="popLayout">
               {filteredTemples.map((temple, index) => {
                 const isExpanded = expandedCard === temple.slug;
-                const cardGradient = 
-                  temple.category === "Shiva & Jyotirlinga" ? "from-blue-600 to-indigo-900" :
-                  temple.category === "Krishna & Vishnu" ? "from-teal-600 to-cyan-900" :
-                  temple.category === "Shakti/Mata" ? "from-red-600 to-rose-950" :
-                  temple.category === "Saint Yatras" ? "from-amber-500 to-orange-850" :
-                  temple.category === "Kutch & Border" ? "from-cyan-500 to-blue-800" :
-                  temple.category === "Virtual Portal" ? "from-rose-500 to-purple-800" :
-                  "from-orange-600 to-amber-900";
 
                 return (
                   <motion.div
@@ -656,42 +675,53 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
                     className="group bg-white rounded-3xl border border-orange-50 shadow-md hover:shadow-xl hover:border-orange-200 transition-all duration-300 overflow-hidden flex flex-col justify-between"
                   >
                     <div>
-                      {/* Card Gradient Strip with Deity Icon Overlay */}
-                      <div className={`h-36 bg-gradient-to-br ${cardGradient} p-5 relative overflow-hidden flex items-end justify-between`}>
+                      {/* Card header — clean temple photo with only a subtle
+                          bottom gradient for text legibility (no colour wash). */}
+                      <div className="h-52 relative overflow-hidden">
+                        {/* Temple photo */}
+                        <Image
+                          src={CATEGORY_IMAGE[temple.category] || CATEGORY_IMAGE_FALLBACK}
+                          alt={temple.temple}
+                          fill
+                          sizes="(max-width:768px) 100vw, (max-width:1024px) 50vw, 400px"
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        {/* Legibility gradient only (keeps the photo's true colours) */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" />
                         {/* Background light ring */}
                         <div className="absolute -right-4 -top-4 w-28 h-28 bg-white/5 rounded-full border border-white/10 pointer-events-none" />
-                        
-                        <div className="relative z-10 flex flex-col">
-                          <span className="text-[10px] font-bold text-white/70 uppercase tracking-widest bg-white/10 px-2 py-0.5 rounded-full w-max backdrop-blur-sm mb-1.5">
+
+                        <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col p-5">
+                          <span className="text-[10px] font-bold text-white/85 uppercase tracking-widest bg-white/15 px-2 py-0.5 rounded-full w-max backdrop-blur-sm mb-1.5">
                             {temple.category}
                           </span>
-                          <h3 className="text-xl font-bold text-white font-playfair tracking-wide leading-tight">
+                          <h3 className="text-xl font-bold text-white font-playfair tracking-wide leading-tight drop-shadow">
                             {temple.temple}
                           </h3>
                         </div>
 
                         {/* Deity SVG Icon */}
-                        <div className="bg-white/95 p-2 rounded-2xl shadow-md border border-white/20 transform group-hover:scale-110 transition duration-300 flex items-center justify-center">
+                        <div className="absolute right-4 top-4 z-10 bg-white/95 p-2 rounded-2xl shadow-md border border-white/20 transform group-hover:scale-110 transition duration-300 flex items-center justify-center">
                           {getTempleIcon(temple.category)}
                         </div>
                       </div>
 
                       {/* Card Content body */}
-                      <div className="p-6">
+                      <div className="p-5">
                         {/* Deity Badge */}
-                        <div className="flex items-center gap-1.5 mb-4">
+                        <div className="flex items-center gap-1.5 mb-3">
                           <span className="text-xs font-semibold text-slate-800 bg-orange-50 border border-orange-100 px-3 py-1 rounded-full">
                             Deity: {temple.deity}
                           </span>
                         </div>
 
                         {/* Description */}
-                        <p className="text-slate-650 text-sm leading-relaxed mb-6 font-dm line-clamp-3">
+                        <p className="text-slate-650 text-sm leading-relaxed mb-4 font-dm line-clamp-2">
                           {temple.significance}
                         </p>
 
                         {/* Location Details */}
-                        <div className="space-y-2.5 border-t border-slate-100 pt-4 mb-4">
+                        <div className="space-y-2 border-t border-slate-100 pt-3 mb-3">
                           <div className="flex items-center text-xs text-slate-700">
                             <MapPin className="w-4 h-4 text-orange-500 mr-2 shrink-0" />
                             <span className="font-semibold text-slate-900 mr-1">Location:</span>

@@ -31,6 +31,7 @@ export default function PageShell({
   // templates with a dark image hero pass `lightCrumb` explicitly to keep white.
   lightCrumb = false,
   centerCrumb = false,
+  fullWidthCrumb = false,
 }: {
   crumbs: Crumb[];
   children: React.ReactNode;
@@ -39,6 +40,8 @@ export default function PageShell({
   lightCrumb?: boolean;
   /** Centres the breadcrumb, for templates with a centred hero. */
   centerCrumb?: boolean;
+  /** Full-bleed breadcrumb gutters, to line up with full-width page content. */
+  fullWidthCrumb?: boolean;
 }) {
   const renderCrumb = (crumbs?.length ?? 0) > 1;
   return (
@@ -56,7 +59,7 @@ export default function PageShell({
               </div>
             </div>
           ) : (
-            <Breadcrumb crumbs={crumbs} />
+            <Breadcrumb crumbs={crumbs} full={fullWidthCrumb} />
           )
         ) : null}
         <main id="main-content" className="pb-24">

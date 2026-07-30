@@ -125,7 +125,8 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
         />
       )}
 
-      <div className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-orange-100/80 bg-white shadow-[0_12px_36px_rgba(15,23,42,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
+      <div className="group h-full">
+      <div className="flex h-full flex-col overflow-hidden rounded-[20px] border border-orange-100/80 bg-white shadow-[0_12px_36px_rgba(15,23,42,0.07)] transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
 
         {/* ── IMAGE GRID ── */}
         <div className="relative p-2.5">
@@ -291,6 +292,7 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
           </div>
         </div>
         </Link>
+      </div>
       </div>
     </>
   );

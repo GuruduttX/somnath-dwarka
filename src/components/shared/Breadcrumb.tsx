@@ -13,18 +13,26 @@ export default function Breadcrumb({
   crumbs,
   light = false,
   center = false,
+  full = false,
 }: {
   crumbs: Crumb[];
   light?: boolean;
   /** Centres the trail, for heroes whose content is centred too. */
   center?: boolean;
+  /** Full-bleed gutters (matches full-width page content instead of max-w-7xl). */
+  full?: boolean;
 }) {
   if (!crumbs?.length) return null;
 
-  // Container matches the page/hero grid (max-w-7xl) so the crumb lines up with
-  // the content and imagery below it rather than sitting inset.
+  // Container matches the page/hero grid so the crumb lines up with the content
+  // and imagery below it rather than sitting inset. `full` widens the gutters to
+  // match full-width pages (e.g. the guide detail layout).
+  const container = full
+    ? "w-full px-4 pt-2 sm:px-6 sm:pt-4 lg:px-10 xl:px-16"
+    : "max-w-7xl mx-auto px-4 pt-2 sm:px-6 sm:pt-4 lg:px-8";
+
   return (
-    <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-4 pt-2 sm:px-6 sm:pt-4 lg:px-8">
+    <nav aria-label="Breadcrumb" className={container}>
       <ol
         className={`flex flex-wrap items-center gap-1 text-sm ${center ? "justify-center" : ""} ${light ? "text-white/70" : "text-gray-500"}`}
       >

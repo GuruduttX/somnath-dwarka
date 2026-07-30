@@ -100,7 +100,7 @@ export default function TaxiHero({
   title,
   description,
   breadcrumbs,
-  badge = "Taxi Service",
+  badge,
   ctaContext,
   distance,
   duration,
@@ -275,10 +275,12 @@ Please confirm availability and final pricing.`;
           {/* LEFT COLUMN: Header & Info */}
           <div className="flex flex-col">
             {/* Tag Badge */}
-            <div className="taxi-up t-d0 inline-flex w-fit items-center gap-1.5 rounded-full border border-orange-200 bg-orange-50/80 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-orange-800 shadow-xs backdrop-blur-xs">
-              <Sparkles size={11} className="text-orange-500 animate-pulse" />
-              {badge}
-            </div>
+            {badge ? (
+              <div className="taxi-up t-d0 inline-flex w-fit items-center gap-1.5 rounded-full border border-orange-200 bg-orange-50/80 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-orange-800 shadow-xs backdrop-blur-xs">
+                <Sparkles size={11} className="text-orange-500 animate-pulse" />
+                {badge}
+              </div>
+            ) : null}
 
             {/* Main H1 Title */}
             <h1 className="taxi-up t-d1 mt-4 text-3.5xl font-black leading-[1.15] tracking-tight bg-gradient-to-r from-[#2d1b10] via-orange-600 to-amber-600 bg-clip-text text-transparent sm:text-4.5xl lg:text-[3.25rem] xl:text-[3.5rem] pb-1">

@@ -255,10 +255,10 @@ function HubCard({
   const cardImage = image || CIRCUIT_IMAGE[slug] || CIRCUIT_IMAGE_FALLBACK;
 
   return (
-    <li>
+    <li className="group">
       <Link
         href={href}
-        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-sm shadow-orange-500/5 transition-[transform,box-shadow,border-color] duration-500 ease-out will-change-transform hover:-translate-y-1.5 hover:border-orange-200 hover:shadow-2xl hover:shadow-orange-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
+        className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-sm shadow-orange-500/5 transition-[transform,box-shadow,border-color] duration-500 ease-out will-change-transform group-hover:-translate-y-1.5 group-hover:border-orange-200 group-hover:shadow-2xl group-hover:shadow-orange-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
       >
         {/* ── Image header ── */}
         <div className="relative h-40 overflow-hidden sm:h-48">
@@ -339,18 +339,30 @@ export default async function ChooseYourJourney() {
   );
 
   return (
-    <Section id="choose-your-journey" full className="!pt-3 sm:!pt-14 !pb-6">
-      {/* Section header */}
-      <h2
-        id="choose-your-journey-h"
-        className="text-[clamp(30px,4vw,48px)] font-bold leading-tight tracking-tight text-gray-950"
-      >
-        <span className="text-orange-500">Choose your</span> journey
-      </h2>
-      <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-gray-700 sm:mt-5 sm:text-lg">
-        Two ways to travel Gujarat, follow a flagship circuit or
-        handpick single destination and build your own pace.
-      </p>
+    <Section id="choose-your-journey" full className="!py-6 sm:!py-8">
+      {/* Section header — centered, modern */}
+      <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
+        <span className="mb-4 -mt-6 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white px-4 py-1.5 text-[11.5px] font-semibold uppercase tracking-[0.13em] text-orange-600 shadow-sm">
+          <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden>
+            <path d="M12 3v18M3 12h18M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+          Ways to travel
+        </span>
+        <h2
+          id="choose-your-journey-h"
+          className="text-[clamp(30px,4vw,48px)] font-bold leading-tight tracking-tight text-gray-950"
+        >
+          <span className="bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent">
+            Choose your
+          </span>{" "}
+          journey
+        </h2>
+        <p className="mt-4 text-[15px] leading-relaxed text-gray-600 sm:text-lg">
+          Two ways to travel Gujarat — follow a flagship circuit or handpick a
+          single destination and build your own pace.
+        </p>
+        <span className="mt-6 h-1 w-16 rounded-full bg-gradient-to-r from-orange-500 to-amber-400" />
+      </div>
 
       {/* Circuits */}
       <div className="mt-8 sm:mt-14">
@@ -409,7 +421,7 @@ export async function DestinationPackages() {
   if (!slides.length) return null;
 
   return (
-    <Section id="destination-packages" full className="!pt-6 sm:!pt-10 !pb-6">
+    <Section id="destination-packages" full className="!py-6 sm:!py-8">
       <GroupHeading>Destination Packages</GroupHeading>
       <DestinationSlider slides={slides} />
     </Section>

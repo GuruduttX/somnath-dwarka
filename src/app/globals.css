@@ -275,35 +275,32 @@
   gap: 0.5rem;
 }
 
-/* Unordered list items */
+/* Unordered list items — clean bullet rows (no heavy boxes) */
+.BlogContent ul {
+  gap: 0.35rem;
+}
+
 .BlogContent ul li {
   position: relative;
-  padding: 0.5rem 0.9rem 0.5rem 2.4rem;
-  background: linear-gradient(135deg, #FFF3E8 0%, #FFE7D3 100%);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 107, 0, 0.1);
+  padding: 0.1rem 0 0.1rem 1.6rem;
+  background: none;
+  border: none;
+  border-radius: 0;
   color: #374151;
-  font-size: 0.95em;
-  line-height: 1.6;
-  transition: box-shadow 0.2s, transform 0.2s;
+  font-size: 1em;
+  line-height: 1.7;
 }
 
-.BlogContent ul li:hover {
-  box-shadow: 0 4px 16px rgba(255, 107, 0, 0.1);
-  transform: translateX(3px);
-}
-
-/* Bullet — fixed at top so it stays in line with first row of text */
+/* Bullet dot */
 .BlogContent ul li::before {
-  content: "◆";
+  content: "";
   position: absolute;
-  left: 0.85rem;
-  top: 0.65rem;
-  font-size: 0.5rem;
+  left: 0.35rem;
+  top: 0.72em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
   background: linear-gradient(135deg, #FF6B00, #FF8A2A);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 /* Ordered list */
