@@ -40,7 +40,7 @@ const CMSMediaSection = ({
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("folder", `vrindavan-${editorType}`);
+    formData.append("folder", editorType);
 
     try {
 
