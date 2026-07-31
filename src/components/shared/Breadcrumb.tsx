@@ -28,7 +28,7 @@ export default function Breadcrumb({
   // and imagery below it rather than sitting inset. `full` widens the gutters to
   // match full-width pages (e.g. the guide detail layout).
   const container = full
-    ? "w-full px-4 pt-2 sm:px-6 sm:pt-4 lg:px-10 xl:px-16"
+    ? "w-full px-4 pt-1 sm:px-6 sm:pt-2 lg:px-10 xl:px-16"
     : "max-w-7xl mx-auto px-4 pt-2 sm:px-6 sm:pt-4 lg:px-8";
 
   return (

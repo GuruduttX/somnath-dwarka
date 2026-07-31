@@ -88,35 +88,39 @@ export default async function GuidePage({ params }: Params) {
         { name: String(g.title), path: guidePath(slug) },
       ]}
     >
-      <div className="w-full px-4 pt-6 sm:px-6 lg:px-10 xl:px-16">
+      <div className="w-full px-4 pt-3 sm:px-6 lg:px-10 xl:px-16">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-12">
           {/* ── MAIN COLUMN ── */}
           <article className="min-w-0">
             {/* Header */}
-            <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900 md:text-[2.6rem]">
+            <h1 className="text-[1.6rem] font-bold leading-[1.15] tracking-tight text-gray-900 sm:text-3xl md:text-[2.15rem]">
               {String(g.title)}
             </h1>
-            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500">
-              <span className="inline-flex items-center gap-2">
-                <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-orange-500 to-amber-400 text-xs font-bold text-white">
+            <div className="mt-3 flex flex-wrap items-center gap-x-2.5 gap-y-2 text-[13px] text-gray-500">
+              <span className="inline-flex items-center gap-1.5 font-medium text-gray-700">
+                <span className="grid h-5 w-5 place-items-center rounded-full bg-gradient-to-br from-orange-500 to-amber-400 text-[10px] font-bold text-white">
                   {String(g.author || "Our team").trim().charAt(0).toUpperCase()}
                 </span>
-                By <span className="font-semibold text-gray-700">{String(g.author || "Our team")}</span>
+                {String(g.author || "Our team")}
               </span>
               {g.updatedAt ? (
-                <span className="inline-flex items-center gap-1.5">
-                  <CalendarDays size={15} className="text-orange-400" />
-                  Updated {new Date(g.updatedAt as string).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-                </span>
+                <>
+                  <span className="h-1 w-1 rounded-full bg-gray-300" aria-hidden />
+                  <span className="inline-flex items-center gap-1.5">
+                    <CalendarDays size={14} className="text-orange-400" />
+                    {new Date(g.updatedAt as string).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                  </span>
+                </>
               ) : null}
+              <span className="h-1 w-1 rounded-full bg-gray-300" aria-hidden />
               <span className="inline-flex items-center gap-1.5">
-                <Clock size={15} className="text-orange-400" />
+                <Clock size={14} className="text-orange-400" />
                 {Math.max(3, Math.round(String(g.content || "").replace(/<[^>]+>/g, " ").split(/\s+/).length / 200))} min read
               </span>
             </div>
 
             {g.image ? (
-              <div className="relative mt-6 aspect-video overflow-hidden rounded-2xl shadow-lg shadow-orange-950/5 ring-1 ring-orange-100">
+              <div className="relative mt-6 aspect-[16/8] max-w-7xl overflow-hidden rounded-2xl shadow-lg shadow-orange-950/5 ring-1 ring-orange-100">
                 <Image src={String(g.image)} alt={String(g.alt || g.title)} fill className="object-cover" priority sizes="(max-width:1024px) 100vw, 700px" />
               </div>
             ) : null}
