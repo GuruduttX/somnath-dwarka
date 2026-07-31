@@ -5,17 +5,22 @@ import { usePathname } from "next/navigation";
 import { X, User, Mail, Phone, MessageSquare, CheckCircle2, Loader2 } from "lucide-react";
 
 /**
- * Site-wide lead-capture popup. Opens once — 10s after the visitor's first
- * eligible page load — and posts to /api/enquiry (the same endpoint every other
- * form uses, so the lead is saved, emailed and pushed to Sembark CRM).
+ * Site-wide lead-capture popup. Opens 10s after each full page load / refresh —
+ * and posts to /api/enquiry (the same endpoint every other form uses, so the
+ * lead is saved, emailed and pushed to Sembark CRM).
  *
- * A `sessionStorage` flag makes it open only once per site visit: after it has
- * shown (or the visitor submits), it never re-opens for the rest of the session,
- * even as they navigate between pages. Hidden on admin, login and thank-you.
+ * An in-memory (module-scoped) flag makes it open only once per loaded page: it
+ * won't re-open as the visitor navigates between pages client-side, and won't
+ * re-open after they submit. Because the flag lives in JS memory (not
+ * sessionStorage), a full browser refresh resets it, so the popup shows again on
+ * every refresh. Hidden on admin, login and thank-you.
  */
 
 const DELAY_MS = 10_000;
-const SHOWN_KEY = "enquiryPopupShown";
+
+// Survives client-side navigation (layout stays mounted) but resets on a full
+// page refresh — which is exactly "show again on refresh, not on every nav".
+let shownThisLoad = false;
 
 // Routes where the popup must never show.
 const isBlockedPath = (path: string) =>
@@ -30,19 +35,14 @@ export default function EnquiryPopup() {
 
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
 
-  // Arm the timer only until the popup has shown once this session. The
-  // sessionStorage flag survives navigations (so it won't reopen page to page)
-  // but resets on a fresh visit — exactly "once when the user visits the site".
+  // Arm the timer only until the popup has shown once for this page load. The
+  // in-memory flag survives client navigations (so it won't reopen page to page)
+  // but resets on a full refresh — exactly "show again on every refresh".
   useEffect(() => {
-    if (submitted || isBlockedPath(pathname || "")) return;
-    if (typeof window !== "undefined" && sessionStorage.getItem(SHOWN_KEY)) return;
+    if (submitted || shownThisLoad || isBlockedPath(pathname || "")) return;
 
     const t = setTimeout(() => {
-      try {
-        sessionStorage.setItem(SHOWN_KEY, "1");
-      } catch {
-        /* private mode / storage disabled — still open, just may recur */
-      }
+      shownThisLoad = true;
       setOpen(true);
     }, DELAY_MS);
     return () => clearTimeout(t);
@@ -123,8 +123,8 @@ export default function EnquiryPopup() {
           onClick={close}
           aria-label="Close"
           className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center
-            rounded-full bg-white/80 text-gray-500 backdrop-blur
-            hover:bg-white hover:text-gray-800 transition"
+            rounded-full text-white/90
+            hover:bg-white/20 hover:text-white transition"
         >
           <X size={18} />
         </button>
