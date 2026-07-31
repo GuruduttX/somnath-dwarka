@@ -6,22 +6,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { MapPin, Clock, ArrowRight, Users, Check, Shield, Compass, Navigation, Plane, Star, Briefcase } from "lucide-react";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
-
-// Fleet photos rotated across the route cards so each card carries a taxi image.
-const ROUTE_IMAGES = [
-  "/images/taxi/sedan.webp",
-  "/images/taxi/suv.webp",
-  "/images/taxi/mpv.webp",
-  "/images/taxi/tempo-traveller.webp",
-];
-
-// Map a vehicle name to the closest fleet photo.
-function vehicleImage(name: string): string {
-  const n = name.toLowerCase();
-  if (n.includes("innova") || n.includes("crysta")) return "/images/taxi/suv.webp";
-  if (n.includes("ertiga") || n.includes("mpv") || n.includes("suv") || n.includes("carnival")) return "/images/taxi/mpv.webp";
-  return "/images/taxi/sedan.webp";
-}
+import { FLEET_ALTERNATE, fleetImageFor } from "@/src/config/fleetImages";
 
 // Route Card Component
 interface RouteItem {
@@ -56,10 +41,11 @@ export function RouteCardGrid({ routes }: { routes: RouteItem[] }) {
             className="group relative flex flex-col justify-between bg-white border border-orange-100/70 hover:border-orange-300 rounded-2xl shadow-xs hover:shadow-[0_12px_30px_rgba(234,88,12,0.08)] transition-all duration-300 overflow-hidden"
           >
             <div>
-              {/* Taxi photo header */}
-              <div className="relative h-32 w-full overflow-hidden">
+              {/* Taxi photo header — the extra height here is paid for by the
+                  tightened padding/spacing below, so the card total is unchanged. */}
+              <div className="relative h-44 w-full overflow-hidden">
                 <Image
-                  src={ROUTE_IMAGES[idx % ROUTE_IMAGES.length]}
+                  src={FLEET_ALTERNATE[idx % FLEET_ALTERNATE.length]}
                   alt={`${route.origin} to ${route.destination} taxi`}
                   fill
                   sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
@@ -73,20 +59,20 @@ export function RouteCardGrid({ routes }: { routes: RouteItem[] }) {
                 <span className="absolute right-3 top-3 text-[10px] text-white/90 font-mono font-bold bg-black/25 px-2 py-0.5 rounded-full backdrop-blur-sm">0{idx + 1}</span>
               </div>
 
-              <div className="p-5">
+              <div className="px-4 pt-3 pb-3.5">
 
               {/* Route Heading */}
-              <h3 className="text-lg font-bold text-gray-900 group-hover:text-orange-600 transition-colors">
+              <h3 className="text-base font-bold text-gray-900 group-hover:text-orange-600 transition-colors">
                 {route.origin} <span className="text-orange-400 font-light mx-1">→</span> {route.destination}
               </h3>
 
               {/* Specs */}
-              <div className="flex items-center gap-4 mt-4 text-xs font-semibold text-gray-500">
-                <div className="flex items-center gap-1.5 bg-gray-50 px-2 py-1 rounded-md">
+              <div className="flex items-center gap-3 mt-2.5 text-xs font-semibold text-gray-500">
+                <div className="flex items-center gap-1.5 bg-gray-50 px-2 py-0.5 rounded-md">
                   <MapPin size={13} className="text-orange-500" />
                   <span>{route.distance}</span>
                 </div>
-                <div className="flex items-center gap-1.5 bg-gray-50 px-2 py-1 rounded-md">
+                <div className="flex items-center gap-1.5 bg-gray-50 px-2 py-0.5 rounded-md">
                   <Clock size={13} className="text-orange-500" />
                   <span>{route.duration}</span>
                 </div>
@@ -94,9 +80,9 @@ export function RouteCardGrid({ routes }: { routes: RouteItem[] }) {
 
               {/* Stops en route */}
               {route.stops && route.stops.length > 0 && (
-                <div className="mt-4 border-t border-orange-50/50 pt-3">
+                <div className="mt-2.5 border-t border-orange-50/50 pt-2.5">
                   <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Sightseeing En-Route:</span>
-                  <div className="flex flex-wrap gap-1.5 mt-1.5">
+                  <div className="flex flex-wrap gap-1.5 mt-1">
                     {route.stops.map((stop) => (
                       <span key={stop} className="text-[10px] font-medium text-gray-700 bg-amber-50/50 border border-amber-100 px-2.5 py-0.5 rounded-md">
                         {stop}
@@ -109,13 +95,13 @@ export function RouteCardGrid({ routes }: { routes: RouteItem[] }) {
             </div>
 
             {/* Actions */}
-            <div className="flex gap-2.5 border-t border-orange-50/70 px-5 pb-5 pt-4">
-              <Link href={`/somnath-dwarka-taxi-service/${route.slug}/`} className="flex-1 text-center py-2.5 px-3 text-xs font-bold border border-orange-200 hover:border-orange-300 text-orange-950 bg-white hover:bg-orange-50/30 rounded-xl transition">
+            <div className="flex gap-2.5 border-t border-orange-50/70 px-4 pb-4 pt-3">
+              <Link href={`/somnath-dwarka-taxi-service/${route.slug}/`} className="flex-1 text-center py-2 px-3 text-xs font-bold border border-orange-200 hover:border-orange-300 text-orange-950 bg-white hover:bg-orange-50/30 rounded-xl transition">
                 Fares & Details
               </Link>
               <button
                 onClick={() => handleQuickQuote(route.origin, route.destination)}
-                className="flex-1 py-2.5 px-3 text-xs font-extrabold text-white bg-gradient-to-r from-orange-600 to-amber-500 hover:opacity-95 rounded-xl flex items-center justify-center gap-1 group/btn cursor-pointer shadow-xs"
+                className="flex-1 py-2 px-3 text-xs font-extrabold text-white bg-gradient-to-r from-orange-600 to-amber-500 hover:opacity-95 rounded-xl flex items-center justify-center gap-1 group/btn cursor-pointer shadow-xs"
               >
                 <span>Quick Quote</span>
                 <ArrowRight size={11} className="transition-transform group-hover/btn:translate-x-0.5" />
@@ -194,7 +180,7 @@ export function VehicleCardGrid({ vehicles, hubPath }: { vehicles: VehicleItem[]
               {/* Image banner */}
               <div className="relative h-48 w-full overflow-hidden">
                 <Image
-                  src={vehicleImage(vehicle.vehicle_name)}
+                  src={fleetImageFor(vehicle.vehicle_name)}
                   alt={`${vehicle.vehicle_name} cab for Somnath Dwarka trips`}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -302,10 +288,11 @@ export function AirportCardGrid({ airports, basePath }: { airports: AirportItem[
             href={`${basePath}${airport.slug}/`}
             className="relative flex h-full overflow-hidden rounded-2xl border border-orange-100 bg-white hover:border-orange-300 hover:shadow-[0_12px_30px_rgba(234,88,12,0.07)] transition-all duration-300"
           >
-            {/* Airplane image side */}
+            {/* Fleet photo side — the car that meets the flight, alternating
+                across the grid so the two vehicles both show. */}
             <div className="relative w-28 shrink-0 overflow-hidden sm:w-36">
               <Image
-                src="/images/taxi/airplane.webp"
+                src={FLEET_ALTERNATE[idx % FLEET_ALTERNATE.length]}
                 alt="Airport transfer taxi service"
                 fill
                 sizes="(max-width: 640px) 150px, 200px"

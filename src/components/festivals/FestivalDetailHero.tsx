@@ -6,7 +6,7 @@ import { MapPin, Sparkles, ArrowRight, MessageSquare, CalendarDays, Users, Flame
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 import { waLink } from "@/src/config/site";
 
-const FALLBACK = "/images/festivals/hero.webp";
+const FALLBACK = "/images/festivals/festival-hero.webp";
 
 function crowdCls(crowd: string) {
   const c = crowd.toLowerCase();

@@ -60,7 +60,7 @@ const FALLBACK_CARD_IMAGES = [
   "/images/gir/gir-hero.webp",
   "/images/junagadh-girnar/junagadh-girnar-hero.webp",
   "/images/home/StatueOfUnity.webp",
-  "/images/festivals/hero.webp",
+  "/images/festivals/festival-hero.webp",
 ];
 
 // Wraps the "Tour Packages" phrase in the CMS-authored H1 with the warm orange

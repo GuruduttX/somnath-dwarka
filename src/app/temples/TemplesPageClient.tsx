@@ -27,7 +27,7 @@ const CATEGORY_IMAGE: Record<string, string> = {
   "Krishna & Vishnu": "/images/home/DwarikaLongImage.webp",
   "Shakti/Mata": "/images/junagadh-girnar/junagadh-girnar-hero.webp",
   "Saint Yatras": "/images/CTA.webp",
-  "Kutch & Border": "/images/festivals/hero.webp",
+  "Kutch & Border": "/images/festivals/festival-hero.webp",
   "Virtual Portal": "/images/CTA.webp",
 };
 const CATEGORY_IMAGE_FALLBACK = "/images/CTA.webp";

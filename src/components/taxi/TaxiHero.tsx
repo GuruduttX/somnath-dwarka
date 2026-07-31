@@ -9,6 +9,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 import { waLink } from "@/src/config/site";
+import { FLEET_IMAGE } from "@/src/config/fleetImages";
 import Image from "next/image";
 
 // Helper type for crumbs
@@ -90,10 +91,12 @@ const CITY_OPTIONS = [
   { value: "diu", label: "Diu" },
 ];
 
+/** The three vehicles actually on the fleet — matches the `vehicle` entries in
+ *  the taxis CMS collection (Ertiga 6, Innova Crysta 7, Tempo Traveller 12). */
 const VEHICLE_OPTIONS = [
-  { value: "sedan", label: "Sedan (Dzire / Etios)", seats: 4, bags: "2 bags", rate: 12.5, image: "/images/taxi/sedan.webp" },
-  { value: "suv", label: "Ertiga (SUV)", seats: 6, bags: "3 bags", rate: 16.0, image: "/images/taxi/mpv.webp" },
-  { value: "innova", label: "Innova Crysta (Premium)", seats: 7, bags: "4 bags", rate: 21.0, image: "/images/taxi/suv.webp" },
+  { value: "ertiga", label: "Ertiga — Max 6 seats", seats: 6, bags: "3 bags", rate: 16.0, image: FLEET_IMAGE.ertiga },
+  { value: "innova", label: "Innova Crysta — Max 7 seats", seats: 7, bags: "4 bags", rate: 21.0, image: FLEET_IMAGE.innova },
+  { value: "tempo", label: "Tempo Traveller — Max 12 seats", seats: 12, bags: "12 bags", rate: 26.0, image: FLEET_IMAGE.tempo },
 ];
 
 export default function TaxiHero({
@@ -116,7 +119,7 @@ export default function TaxiHero({
   // Interactive Calculator State
   const [origin, setOrigin] = useState("somnath");
   const [destination, setDestination] = useState("dwarka");
-  const [selectedVehicle, setSelectedVehicle] = useState("sedan");
+  const [selectedVehicle, setSelectedVehicle] = useState("ertiga");
   const [isRoundTrip, setIsRoundTrip] = useState(false);
   const [calcResult, setCalcResult] = useState({
     distance: "233 km",
@@ -133,12 +136,12 @@ export default function TaxiHero({
     // If vehicleName is passed via props, preselect it in the calculator
     if (vehicleName) {
       const vLower = vehicleName.toLowerCase();
-      if (vLower.includes("innova")) {
+      if (vLower.includes("innova") || vLower.includes("crysta")) {
         setSelectedVehicle("innova");
-      } else if (vLower.includes("ertiga")) {
-        setSelectedVehicle("suv");
+      } else if (vLower.includes("tempo") || vLower.includes("traveller")) {
+        setSelectedVehicle("tempo");
       } else {
-        setSelectedVehicle("sedan");
+        setSelectedVehicle("ertiga");
       }
     }
 
@@ -161,7 +164,7 @@ export default function TaxiHero({
   // Recalculate estimates when parameters change
   useEffect(() => {
     if (origin === destination) {
-      const baseFare = selectedVehicle === "sedan" ? 3500 : selectedVehicle === "suv" ? 4800 : 6500;
+      const baseFare = selectedVehicle === "ertiga" ? 4800 : selectedVehicle === "innova" ? 6500 : 8500;
       setCalcResult({
         distance: "Local sightseeing",
         duration: "Full day (8h/80km)",

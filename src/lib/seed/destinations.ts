@@ -1558,7 +1558,7 @@ export const SEED_FESTIVALS: SeedFestival[] = [
       "Crowds are moderate; book stays 3–5 weeks ahead. Mornings at Triveni Sangam are busiest, so plan darshan and the dip early.",
     event_venue: "Somnath Temple & Triveni Sangam",
     date_this_year: "",
-    image: "/images/festivals/hero.webp",
+    image: "/images/festivals/festival-hero.webp",
     deity: "Lord Shiva / Dev Diwali",
     city: "Somnath",
     season: "Nov",

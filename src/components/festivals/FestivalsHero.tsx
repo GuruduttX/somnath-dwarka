@@ -6,7 +6,7 @@ import { Sparkles, CalendarDays, Flame, Users, MessageSquare, ArrowRight, PartyP
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 import { waLink } from "@/src/config/site";
 
-const HERO_IMG = "/images/festivals/hero.webp";
+const HERO_IMG = "/images/festivals/festival-hero.webp";
 
 const CHIPS = [
   { icon: Flame, label: "Aartis & rituals" },
@@ -128,10 +128,7 @@ export default function FestivalsHero({ count }: { count: number }) {
                 </div>
 
                 {/* caption */}
-                <div className="absolute inset-x-0 bottom-0 p-4">
-                  <p className="text-[14px] font-bold text-white">Temple towns come alive</p>
-                  <p className="mt-0.5 flex items-center gap-1 text-[11px] text-white/80"><MapPin size={11} /> Gujarat · Somnath &amp; Dwarka</p>
-                </div>
+
               </div>
             </div>
 

@@ -421,7 +421,7 @@ export const CONTENT_SCHEMAS: Record<string, FieldDef[]> = {
   festival: [
     { name: "title", label: "Title", type: "text" },
     { name: "festival", label: "Festival name", type: "text" },
-    { name: "image", label: "Card image", type: "text", hint: "e.g. /images/festivals/hero.webp or a full URL" },
+    { name: "image", label: "Card image", type: "text", hint: "e.g. /images/festivals/festival-hero.webp or a full URL" },
     { name: "deity", label: "Deity / occasion", type: "text", hint: "e.g. Lord Krishna" },
     { name: "city", label: "City", type: "text", hint: "Somnath or Dwarka" },
     { name: "season", label: "Season", type: "text", hint: "e.g. Aug – Sep" },

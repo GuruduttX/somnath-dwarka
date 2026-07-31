@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import { FLEET_IMAGE } from "@/src/config/fleetImages";
 
 export type RelatedLink = {
   target: string;
@@ -17,17 +18,17 @@ const TYPE_LABEL: Record<NonNullable<RelatedLink["type"]>, string> = {
 };
 
 /**
- * Resolve a real, in-repo image for a link target from keywords in its path.
- * Every branch points at a file that exists in /public, so the thumbnails
- * always load (no broken images, no external calls).
+ * Resolve a real image for a link target from keywords in its path. Every
+ * branch points at a file in /public or a fleet photo on Cloudinary, so the
+ * thumbnails always load (no broken images).
  */
 function linkImage(target: string): string {
   const t = target.toLowerCase();
-  if (t.includes("taxi") || t.includes("cab")) return "/images/taxi/sedan.webp";
+  if (t.includes("taxi") || t.includes("cab")) return FLEET_IMAGE.ertiga;
   if (t.includes("statue") || t.includes("unity")) return "/images/home/StatueOfUnity.webp";
   if (t.includes("gir")) return "/images/gir/gir-hero.webp";
   if (t.includes("junagadh") || t.includes("girnar")) return "/images/junagadh-girnar/junagadh-girnar-hero.webp";
-  if (t.includes("festival")) return "/images/festivals/hero.webp";
+  if (t.includes("festival")) return "/images/festivals/festival-hero.webp";
   if (t.includes("hotel")) return "/images/hotels/hero.webp";
   if (t.includes("somnath") && t.includes("dwarka")) return "/images/CTA.webp";
   if (t.includes("somnath")) return "/images/home/SomnathLongImage.webp";
