@@ -5,6 +5,9 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 
+/** Pointer travel (px) that separates a click on a card from a drag of the rail. */
+const DRAG_SLOP = 5;
+
 export type Layout = "tall" | "wide" | "square" | "banner";
 
 export type RailCard = {
@@ -48,7 +51,9 @@ export default function BeyondTemplesRail({ cards }: { cards: RailCard[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number>(0);
   const isPaused = useRef(false);
+  const isPointerDown = useRef(false);
   const isDragging = useRef(false);
+  const suppressClick = useRef(false);
   const dragStartX = useRef(0);
   const dragScrollStart = useRef(0);
 
@@ -99,24 +104,48 @@ export default function BeyondTemplesRail({ cards }: { cards: RailCard[] }) {
     if (e.button !== 0) return;
     const el = trackRef.current;
     if (!el) return;
-    isDragging.current = true;
+    // Arm a possible drag, but do NOT capture the pointer yet: capturing here
+    // retargets the eventual `click` to this container, which would swallow
+    // every card link. Capture only once the pointer actually moves (below).
+    isPointerDown.current = true;
+    isDragging.current = false;
     isPaused.current = true;
     dragStartX.current = e.clientX;
     dragScrollStart.current = el.scrollLeft;
-    el.setPointerCapture?.(e.pointerId);
   };
 
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const el = trackRef.current;
-    if (!isDragging.current || !el) return;
-    el.scrollLeft = dragScrollStart.current + (dragStartX.current - e.clientX);
+    if (!isPointerDown.current || !el) return;
+
+    const dx = dragStartX.current - e.clientX;
+    // Past the slop threshold this is a drag, not a click: take the pointer so
+    // the gesture keeps working outside the track, and remember to suppress the
+    // trailing click so a drag never navigates.
+    if (!isDragging.current) {
+      if (Math.abs(dx) < DRAG_SLOP) return;
+      isDragging.current = true;
+      suppressClick.current = true;
+      el.setPointerCapture?.(e.pointerId);
+    }
+    el.scrollLeft = dragScrollStart.current + dx;
   };
 
   const stopDrag = (e?: React.PointerEvent<HTMLDivElement>) => {
     const el = trackRef.current;
     if (e && el?.hasPointerCapture?.(e.pointerId)) el.releasePointerCapture?.(e.pointerId);
+    isPointerDown.current = false;
     isDragging.current = false;
     isPaused.current = false;
+  };
+
+  // Runs before the link's own handler, so a click that ended a drag is
+  // cancelled while a plain click passes straight through to the card.
+  const onClickCapture = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!suppressClick.current) return;
+    suppressClick.current = false;
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   return (
@@ -140,6 +169,7 @@ export default function BeyondTemplesRail({ cards }: { cards: RailCard[] }) {
           onPointerUp={stopDrag}
           onPointerCancel={stopDrag}
           onPointerLeave={stopDrag}
+          onClickCapture={onClickCapture}
           onMouseEnter={() => { isPaused.current = true; }}
           onMouseLeave={() => { isPaused.current = false; }}
         >
