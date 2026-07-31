@@ -67,21 +67,23 @@ const CARD_META: Record<
   },
 };
 
+/** Real destination photography, uploaded to Cloudinary under
+ *  `somnath-dwarka/destinations/`. Version-less URLs so re-uploading the same
+ *  public_id in Cloudinary swaps the photo with no code change; next/image
+ *  handles resizing and format negotiation from these originals. */
+const DEST_PHOTO = (name: string) =>
+  `https://res.cloudinary.com/dnhau4zv2/image/upload/somnath-dwarka/destinations/${name}.jpg`;
+
 /** Slide chrome for the destination rail. A hub's own CMS hero_image always wins over `image` here,
- *  so uploading a photo in admin replaces the fallback with no code change.
- *
- *  PLACEHOLDERS: the Unsplash URLs below are stand-ins, not photographs of these places — swap them
- *  out by uploading a real hero_image per hub in the CMS. */
+ *  so uploading a photo in admin replaces the fallback with no code change. */
 const DEST_META: Record<string, { eyebrow: string; image?: string }> = {
   "ambaji-tour-package": {
     eyebrow: "Shakti Peeth",
-    image:
-      "https://images.unsplash.com/photo-1622396481328-9b1b78cdd9fd?w=700&auto=format&fit=crop",
+    image: DEST_PHOTO("ambaji"),
   },
   "kutch-tour-package": {
     eyebrow: "White Rann",
-    image:
-      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=700&auto=format&fit=crop",
+    image: DEST_PHOTO("kutch"),
   },
   "statue-of-unity-tour-package": {
     eyebrow: "Monument",
@@ -93,47 +95,41 @@ const DEST_META: Record<string, { eyebrow: string; image?: string }> = {
   },
   "palitana-tour-package": {
     eyebrow: "Jain Yatra",
-    image:
-      "https://images.unsplash.com/photo-1548013146-72479768bada?w=700&auto=format&fit=crop",
+    image: DEST_PHOTO("palitana"),
   },
   "saputara-tour-package": {
     eyebrow: "Hill Station",
-    image:
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&auto=format&fit=crop",
+    image: DEST_PHOTO("saputara"),
   },
   "diu-tour-package": {
     eyebrow: "Beach Escape",
-    image:
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&auto=format&fit=crop",
+    image: DEST_PHOTO("diu"),
   },
   "ahmedabad-tour-package": {
     eyebrow: "Heritage City",
-    image:
-      "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=700&auto=format&fit=crop",
+    image: DEST_PHOTO("ahmedabad"),
   },
   "porbandar-tour-package": {
     eyebrow: "Gandhi's Birthplace",
-    image:
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=700&auto=format&fit=crop",
+    image: DEST_PHOTO("porbandar"),
   },
 };
 
 /**
  * Display order for the destination rail. The CMS returns hubs in insertion
- * order, which put Ambaji first; the rail leads with the destinations that
- * carry real photography instead. A hub missing from this list still shows,
- * after the ones listed here.
+ * order, which put Ambaji first; this leads with the flagship destinations
+ * instead. A hub missing from this list still shows, after the ones listed here.
  */
 const DEST_ORDER = [
   "kutch-tour-package",
   "statue-of-unity-tour-package",
   "gir-tour-package",
-  "ambaji-tour-package",
   "palitana-tour-package",
   "saputara-tour-package",
   "diu-tour-package",
   "ahmedabad-tour-package",
   "porbandar-tour-package",
+  "ambaji-tour-package",
 ];
 
 const DEFAULT_META: Record<
