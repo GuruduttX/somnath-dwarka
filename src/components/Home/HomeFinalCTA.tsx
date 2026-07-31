@@ -47,7 +47,7 @@ export default function FinalCTA() {
             >
               <div className="relative h-[260px] rounded-2xl overflow-hidden shadow-lg">
                 <Image
-                  src="/images/Home/prem-mandir.jpg"
+                  src="/images/Home/prem-mandir.webp"
                   alt="Vrindavan Tour"
                   fill
                   loading="lazy"

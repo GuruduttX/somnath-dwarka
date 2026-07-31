@@ -6,7 +6,7 @@ import { Sparkles, Star, MapPin, Waves, BedDouble, ShieldCheck, MessageSquare, A
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 import { waLink } from "@/src/config/site";
 
-const HERO_IMG = "/images/hotels/hero.jpg";
+const HERO_IMG = "/images/hotels/hero.webp";
 
 const CHIPS = [
   { icon: MapPin, label: "Walkable to temples" },

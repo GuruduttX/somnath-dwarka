@@ -48,15 +48,15 @@ export async function generateMetadata(): Promise<Metadata> {
 // Hero image composition (local photography).
 const HERO_SOMNATH = "/images/home/SomnathLongImage.webp";
 const HERO_DWARKA = "/images/home/DwarikaLongImage.webp";
-const HERO_GIR = "/images/gir/gir-hero.jpg";
-const HERO_MOBILE = "/images/gir/gir-hero.jpg";
+const HERO_GIR = "/images/gir/gir-hero.webp";
+const HERO_MOBILE = "/images/gir/gir-hero.webp";
 
 // Rotating pool of temple/forest imagery for variants that have no CMS photos yet.
 const FALLBACK_CARD_IMAGES = [
   HERO_GIR,
   HERO_SOMNATH,
   HERO_DWARKA,
-  "/images/junagadh-girnar/junagadh-girnar-hero.jpg",
+  "/images/junagadh-girnar/junagadh-girnar-hero.webp",
   "/images/CTA.webp",
 ];
 

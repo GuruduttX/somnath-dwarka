@@ -29,7 +29,7 @@ export const DESTINATION_THEMES: Record<string, DestinationTheme> = {
   "gir-tour-package": {
     name: "Gir",
     accent: ["#166534", "#65A30D"],
-    photo: "/images/gir/gir-hero.jpg",
+    photo: "/images/gir/gir-hero.webp",
     standfirst:
       "Gir is the only place on earth where the Asiatic lion still lives wild, in a dry deciduous forest spread across Junagadh, Gir Somnath and Amreli. Trips here are built around a permit-based jeep safari from Sasan Gir, with the Devalia enclosure as the reliable alternative when slots are gone. The park closes through the monsoon, so dates matter more here than anywhere else in Gujarat.",
     highlights: ["Asiatic lions", "Sasan Gir", "Devalia zone"],

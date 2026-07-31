@@ -23,12 +23,12 @@ const TYPE_LABEL: Record<NonNullable<RelatedLink["type"]>, string> = {
  */
 function linkImage(target: string): string {
   const t = target.toLowerCase();
-  if (t.includes("taxi") || t.includes("cab")) return "/images/taxi/sedan.jpg";
+  if (t.includes("taxi") || t.includes("cab")) return "/images/taxi/sedan.webp";
   if (t.includes("statue") || t.includes("unity")) return "/images/home/StatueOfUnity.webp";
-  if (t.includes("gir")) return "/images/gir/gir-hero.jpg";
-  if (t.includes("junagadh") || t.includes("girnar")) return "/images/junagadh-girnar/junagadh-girnar-hero.jpg";
-  if (t.includes("festival")) return "/images/festivals/hero.jpg";
-  if (t.includes("hotel")) return "/images/hotels/hero.jpg";
+  if (t.includes("gir")) return "/images/gir/gir-hero.webp";
+  if (t.includes("junagadh") || t.includes("girnar")) return "/images/junagadh-girnar/junagadh-girnar-hero.webp";
+  if (t.includes("festival")) return "/images/festivals/hero.webp";
+  if (t.includes("hotel")) return "/images/hotels/hero.webp";
   if (t.includes("somnath") && t.includes("dwarka")) return "/images/CTA.webp";
   if (t.includes("somnath")) return "/images/home/SomnathLongImage.webp";
   if (t.includes("dwarka")) return "/images/home/DwarikaLongImage.webp";

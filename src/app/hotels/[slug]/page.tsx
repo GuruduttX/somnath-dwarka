@@ -21,8 +21,8 @@ type Params = { params: Promise<{ slug: string }> };
 
 // City → banner image for the hero.
 const CITY_IMAGE: Record<string, string> = {
-  Somnath: "/images/hotels/somnath.jpg",
-  Dwarka: "/images/hotels/dwarka.jpg",
+  Somnath: "/images/hotels/somnath.webp",
+  Dwarka: "/images/hotels/dwarka.webp",
 };
 
 export function generateStaticParams() {
@@ -91,7 +91,7 @@ export default async function HotelCityPage({ params }: Params) {
         city={h.city}
         h1={h.h1}
         nearTemple={h.near_temple}
-        image={CITY_IMAGE[h.city] ?? "/images/hotels/hero.jpg"}
+        image={CITY_IMAGE[h.city] ?? "/images/hotels/hero.webp"}
         tiers={h.tiers}
         count={properties.length}
         rating={avgRating}

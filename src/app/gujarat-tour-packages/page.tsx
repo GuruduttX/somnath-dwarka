@@ -57,10 +57,10 @@ const HERO_MOBILE = "/images/home/StatueOfUnity.webp";
 const FALLBACK_CARD_IMAGES = [
   "/images/home/SomnathLongImage.webp",
   "/images/home/DwarikaLongImage.webp",
-  "/images/gir/gir-hero.jpg",
-  "/images/junagadh-girnar/junagadh-girnar-hero.jpg",
+  "/images/gir/gir-hero.webp",
+  "/images/junagadh-girnar/junagadh-girnar-hero.webp",
   "/images/home/StatueOfUnity.webp",
-  "/images/festivals/hero.jpg",
+  "/images/festivals/hero.webp",
 ];
 
 // Wraps the "Tour Packages" phrase in the CMS-authored H1 with the warm orange

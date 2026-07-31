@@ -1054,7 +1054,7 @@ export const SEED_HOTELS: SeedHotel[] = [
       {
         id: "som-sagar-darshan",
         name: "Sagar Darshan Sea View",
-        image: "/images/hotels/properties/p6.jpg",
+        image: "/images/hotels/properties/p6.webp",
         tier: "Premium",
         area: "Sea-facing promenade",
         price_range: "₹5,500 – ₹8,000",
@@ -1069,7 +1069,7 @@ export const SEED_HOTELS: SeedHotel[] = [
       {
         id: "som-temple-residency",
         name: "Somnath Temple Residency",
-        image: "/images/hotels/properties/p3.jpg",
+        image: "/images/hotels/properties/p3.webp",
         tier: "Mid-range",
         area: "Temple road",
         price_range: "₹2,200 – ₹3,500",
@@ -1084,7 +1084,7 @@ export const SEED_HOTELS: SeedHotel[] = [
       {
         id: "som-shanti-lodge",
         name: "Shanti Pilgrim Lodge",
-        image: "/images/hotels/properties/p2.jpg",
+        image: "/images/hotels/properties/p2.webp",
         tier: "Budget",
         area: "Near bus stand",
         price_range: "₹900 – ₹1,500",
@@ -1099,7 +1099,7 @@ export const SEED_HOTELS: SeedHotel[] = [
       {
         id: "som-triveni-grand",
         name: "Triveni Grand",
-        image: "/images/hotels/properties/p5.jpg",
+        image: "/images/hotels/properties/p5.webp",
         tier: "Premium",
         area: "Sea-facing",
         price_range: "₹4,800 – ₹7,200",
@@ -1114,7 +1114,7 @@ export const SEED_HOTELS: SeedHotel[] = [
       {
         id: "som-annapurna-inn",
         name: "Annapurna Comfort Inn",
-        image: "/images/hotels/properties/p1.jpg",
+        image: "/images/hotels/properties/p1.webp",
         tier: "Mid-range",
         area: "Temple road",
         price_range: "₹1,900 – ₹3,000",
@@ -1129,7 +1129,7 @@ export const SEED_HOTELS: SeedHotel[] = [
       {
         id: "som-yatri-niwas",
         name: "Yatri Niwas Budget Stay",
-        image: "/images/hotels/properties/p4.jpg",
+        image: "/images/hotels/properties/p4.webp",
         tier: "Budget",
         area: "Near temple",
         price_range: "₹850 – ₹1,400",
@@ -1163,7 +1163,7 @@ export const SEED_HOTELS: SeedHotel[] = [
       {
         id: "dwk-dwarkadhish-view",
         name: "Dwarkadhish View Hotel",
-        image: "/images/hotels/properties/p3.jpg",
+        image: "/images/hotels/properties/p3.webp",
         tier: "Mid-range",
         area: "Temple lane",
         price_range: "₹2,000 – ₹3,200",
@@ -1178,7 +1178,7 @@ export const SEED_HOTELS: SeedHotel[] = [
       {
         id: "dwk-gomti-residency",
         name: "Gomti Residency",
-        image: "/images/hotels/properties/p1.jpg",
+        image: "/images/hotels/properties/p1.webp",
         tier: "Mid-range",
         area: "Main road",
         price_range: "₹1,800 – ₹2,900",
@@ -1193,7 +1193,7 @@ export const SEED_HOTELS: SeedHotel[] = [
       {
         id: "dwk-krishna-lodge",
         name: "Krishna Kripa Lodge",
-        image: "/images/hotels/properties/p2.jpg",
+        image: "/images/hotels/properties/p2.webp",
         tier: "Budget",
         area: "Near temple",
         price_range: "₹750 – ₹1,300",
@@ -1208,7 +1208,7 @@ export const SEED_HOTELS: SeedHotel[] = [
       {
         id: "dwk-sea-pearl-resort",
         name: "Sea Pearl Resort",
-        image: "/images/hotels/properties/p6.jpg",
+        image: "/images/hotels/properties/p6.webp",
         tier: "Premium",
         area: "Outskirts / coast",
         price_range: "₹4,500 – ₹7,500",
@@ -1223,7 +1223,7 @@ export const SEED_HOTELS: SeedHotel[] = [
       {
         id: "dwk-heritage-grand",
         name: "Dwarka Heritage Grand",
-        image: "/images/hotels/properties/p5.jpg",
+        image: "/images/hotels/properties/p5.webp",
         tier: "Premium",
         area: "Main road",
         price_range: "₹4,000 – ₹6,500",
@@ -1238,7 +1238,7 @@ export const SEED_HOTELS: SeedHotel[] = [
       {
         id: "dwk-nageshwar-inn",
         name: "Nageshwar Comfort Inn",
-        image: "/images/hotels/properties/p4.jpg",
+        image: "/images/hotels/properties/p4.webp",
         tier: "Budget",
         area: "Main road",
         price_range: "₹900 – ₹1,400",
@@ -1558,7 +1558,7 @@ export const SEED_FESTIVALS: SeedFestival[] = [
       "Crowds are moderate; book stays 3–5 weeks ahead. Mornings at Triveni Sangam are busiest, so plan darshan and the dip early.",
     event_venue: "Somnath Temple & Triveni Sangam",
     date_this_year: "",
-    image: "/images/festivals/hero.jpg",
+    image: "/images/festivals/hero.webp",
     deity: "Lord Shiva / Dev Diwali",
     city: "Somnath",
     season: "Nov",

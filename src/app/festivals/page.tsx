@@ -29,7 +29,7 @@ function fromDb(f: Record<string, unknown>): FestivalItem {
     h1: String(f.h1 ?? f.festival ?? ""),
     answer_first: String(f.answer_first ?? ""),
     event_venue: String(f.event_venue ?? ""),
-    image: String((f.image as string) || (f.hero_image as { url?: string })?.url || "/images/festivals/hero.jpg"),
+    image: String((f.image as string) || (f.hero_image as { url?: string })?.url || "/images/festivals/hero.webp"),
     deity: String(f.deity ?? ""),
     city: String(f.city ?? ""),
     season: String(f.season ?? "Seasonal"),

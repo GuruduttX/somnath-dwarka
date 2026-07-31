@@ -25,9 +25,9 @@ import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 const CATEGORY_IMAGE: Record<string, string> = {
   "Shiva & Jyotirlinga": "/images/home/SomnathLongImage.webp",
   "Krishna & Vishnu": "/images/home/DwarikaLongImage.webp",
-  "Shakti/Mata": "/images/junagadh-girnar/junagadh-girnar-hero.jpg",
+  "Shakti/Mata": "/images/junagadh-girnar/junagadh-girnar-hero.webp",
   "Saint Yatras": "/images/CTA.webp",
-  "Kutch & Border": "/images/festivals/hero.jpg",
+  "Kutch & Border": "/images/festivals/hero.webp",
   "Virtual Portal": "/images/CTA.webp",
 };
 const CATEGORY_IMAGE_FALLBACK = "/images/CTA.webp";

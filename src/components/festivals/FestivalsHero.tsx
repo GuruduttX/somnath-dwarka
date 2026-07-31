@@ -6,7 +6,7 @@ import { Sparkles, CalendarDays, Flame, Users, MessageSquare, ArrowRight, PartyP
 import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 import { waLink } from "@/src/config/site";
 
-const HERO_IMG = "/images/festivals/hero.jpg";
+const HERO_IMG = "/images/festivals/hero.webp";
 
 const CHIPS = [
   { icon: Flame, label: "Aartis & rituals" },

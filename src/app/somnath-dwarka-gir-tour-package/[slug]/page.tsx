@@ -15,10 +15,10 @@ type Params = { params: Promise<{ slug: string }> };
 type PackageImage = { image: string; alt: string };
 
 const GALLERY: PackageImage[] = [
-  { image: "/images/gir/gir-hero.jpg", alt: "Gir National Park, home of the Asiatic lion" },
+  { image: "/images/gir/gir-hero.webp", alt: "Gir National Park, home of the Asiatic lion" },
   { image: "/images/home/DwarikaLongImage.webp", alt: "Dwarkadhish Temple in Dwarka" },
   { image: "/images/home/SomnathLongImage.webp", alt: "Somnath Temple on the Gujarat coast" },
-  { image: "/images/junagadh-girnar/junagadh-girnar-hero.jpg", alt: "Girnar hills near Junagadh" },
+  { image: "/images/junagadh-girnar/junagadh-girnar-hero.webp", alt: "Girnar hills near Junagadh" },
   { image: "/images/CTA.webp", alt: "Somnath Dwarka Gir tour" },
 ];
 

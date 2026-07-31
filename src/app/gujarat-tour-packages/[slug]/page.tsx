@@ -18,8 +18,8 @@ const GALLERY: PackageImage[] = [
   { image: "/images/home/StatueOfUnity.webp", alt: "The Statue of Unity at Kevadia" },
   { image: "/images/home/SomnathLongImage.webp", alt: "Somnath Temple on the Gujarat coast" },
   { image: "/images/home/DwarikaLongImage.webp", alt: "Dwarkadhish Temple in Dwarka" },
-  { image: "/images/gir/gir-hero.jpg", alt: "Gir National Park, home of the Asiatic lion" },
-  { image: "/images/junagadh-girnar/junagadh-girnar-hero.jpg", alt: "Girnar hills near Junagadh" },
+  { image: "/images/gir/gir-hero.webp", alt: "Gir National Park, home of the Asiatic lion" },
+  { image: "/images/junagadh-girnar/junagadh-girnar-hero.webp", alt: "Girnar hills near Junagadh" },
 ];
 
 /**

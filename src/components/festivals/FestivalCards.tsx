@@ -19,7 +19,7 @@ export interface FestivalItem {
   highlights: string[];
 }
 
-const FALLBACK = "/images/festivals/hero.jpg";
+const FALLBACK = "/images/festivals/hero.webp";
 
 function crowdCls(crowd: string) {
   const c = crowd.toLowerCase();

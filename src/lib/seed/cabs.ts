@@ -348,7 +348,7 @@ export const SEED_VEHICLES: SeedVehicle[] = [
       { route: "Somnath ↔ Dwarka", rate: "₹—" },
       { route: "Full circuit (per day)", rate: "₹—" },
     ],
-    image: { src: "/images/taxi/tempo-traveller.jpg", alt: "A tempo traveller minibus for group travel" },
+    image: { src: "/images/taxi/tempo-traveller.webp", alt: "A tempo traveller minibus for group travel" },
     faq: [
       { question: "How many people fit in a tempo traveller?", answer: "Configurations vary — commonly 9, 12, 14 or 17 seats. Share your group size and we confirm the exact vehicle and seat count before booking." },
       { question: "Is a tempo traveller comfortable for elders?", answer: "Push-back seats and a high roof make boarding easier than an SUV for most elders. For long drives we plan extra halts." },

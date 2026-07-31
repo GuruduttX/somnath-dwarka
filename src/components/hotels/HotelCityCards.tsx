@@ -20,10 +20,10 @@ interface HotelCity {
 }
 
 const SLUG_IMAGE: Record<string, string> = {
-  "somnath-trust-guest-house-booking": "/images/hotels/somnath.jpg",
-  "dwarka-guest-house-dharamshala": "/images/hotels/dwarka.jpg",
-  "hotels-in-somnath": "/images/hotels/properties/p6.jpg",
-  "hotels-in-dwarka": "/images/hotels/properties/p3.jpg",
+  "somnath-trust-guest-house-booking": "/images/hotels/somnath.webp",
+  "dwarka-guest-house-dharamshala": "/images/hotels/dwarka.webp",
+  "hotels-in-somnath": "/images/hotels/properties/p6.webp",
+  "hotels-in-dwarka": "/images/hotels/properties/p3.webp",
 };
 
 function getCtaText(slug: string, city: string) {
@@ -58,7 +58,7 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
             {/* Image banner */}
             <div className="relative h-48 w-full overflow-hidden">
               <Image
-                src={SLUG_IMAGE[h.slug] ?? "/images/hotels/hero.jpg"}
+                src={SLUG_IMAGE[h.slug] ?? "/images/hotels/hero.webp"}
                 alt={h.h1 || `Hotels in ${h.city} near ${h.near_temple}`}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"

@@ -46,7 +46,7 @@ export const DESTINATION_META: Record<string, DestinationMeta> = {
   /** Junagadh–Girnar: a sacred mountain climb rather than a single temple. */
   "junagadh-girnar": {
     slug: "junagadh-girnar",
-    heroImage: "/images/junagadh-girnar/junagadh-girnar-hero.jpg",
+    heroImage: "/images/junagadh-girnar/junagadh-girnar-hero.webp",
     deity: "Girnar · Jain & Hindu tirth",
     deityShort: "Girnar climb",
     accent: "#B45309",
@@ -75,7 +75,7 @@ export const DESTINATION_META: Record<string, DestinationMeta> = {
   /** Gir is not a temple town, so `deity` carries what people actually come for. */
   gir: {
     slug: "gir",
-    heroImage: "/images/gir/gir-hero.jpg",
+    heroImage: "/images/gir/gir-hero.webp",
     deity: "Asiatic Lion · Sasan Gir",
     deityShort: "Asiatic lion",
     accent: "#15803D",

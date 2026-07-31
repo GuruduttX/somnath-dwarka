@@ -51,12 +51,12 @@ function tierMeta(tier: string) {
  * rather than shuffling on every paint.
  */
 const FALLBACK_IMAGES = [
-  "/images/hotels/properties/p1.jpg",
-  "/images/hotels/properties/p2.jpg",
-  "/images/hotels/properties/p3.jpg",
-  "/images/hotels/properties/p4.jpg",
-  "/images/hotels/properties/p5.jpg",
-  "/images/hotels/properties/p6.jpg",
+  "/images/hotels/properties/p1.webp",
+  "/images/hotels/properties/p2.webp",
+  "/images/hotels/properties/p3.webp",
+  "/images/hotels/properties/p4.webp",
+  "/images/hotels/properties/p5.webp",
+  "/images/hotels/properties/p6.webp",
 ];
 
 const photoFor = (image: string | undefined, idx: number) =>

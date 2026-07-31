@@ -21,7 +21,7 @@ const CIRCUIT_KINDS = new Set(["circuit", "triangle", "umbrella"]);
  *  are the editorial fallbacks so every circuit card ships with real artwork. */
 const CIRCUIT_IMAGE: Record<string, string> = {
   "somnath-dwarka-tour-package": "/images/CTA.webp",
-  "somnath-dwarka-gir-tour-package": "/images/gir/gir-hero.jpg",
+  "somnath-dwarka-gir-tour-package": "/images/gir/gir-hero.webp",
   "gujarat-tour-packages": "/images/home/StatueOfUnity.webp",
 };
 const CIRCUIT_IMAGE_FALLBACK = "/images/CTA.webp";
@@ -91,7 +91,7 @@ const DEST_META: Record<string, { eyebrow: string; image?: string }> = {
   },
   "gir-tour-package": {
     eyebrow: "Lion Safari",
-    image: "/images/gir/gir-hero.jpg",
+    image: "/images/gir/gir-hero.webp",
   },
   "palitana-tour-package": {
     eyebrow: "Jain Yatra",

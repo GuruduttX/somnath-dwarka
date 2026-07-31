@@ -9,18 +9,18 @@ import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 
 // Fleet photos rotated across the route cards so each card carries a taxi image.
 const ROUTE_IMAGES = [
-  "/images/taxi/sedan.jpg",
-  "/images/taxi/suv.jpg",
-  "/images/taxi/mpv.jpg",
-  "/images/taxi/tempo-traveller.jpg",
+  "/images/taxi/sedan.webp",
+  "/images/taxi/suv.webp",
+  "/images/taxi/mpv.webp",
+  "/images/taxi/tempo-traveller.webp",
 ];
 
 // Map a vehicle name to the closest fleet photo.
 function vehicleImage(name: string): string {
   const n = name.toLowerCase();
-  if (n.includes("innova") || n.includes("crysta")) return "/images/taxi/suv.jpg";
-  if (n.includes("ertiga") || n.includes("mpv") || n.includes("suv") || n.includes("carnival")) return "/images/taxi/mpv.jpg";
-  return "/images/taxi/sedan.jpg";
+  if (n.includes("innova") || n.includes("crysta")) return "/images/taxi/suv.webp";
+  if (n.includes("ertiga") || n.includes("mpv") || n.includes("suv") || n.includes("carnival")) return "/images/taxi/mpv.webp";
+  return "/images/taxi/sedan.webp";
 }
 
 // Route Card Component
@@ -305,7 +305,7 @@ export function AirportCardGrid({ airports, basePath }: { airports: AirportItem[
             {/* Airplane image side */}
             <div className="relative w-28 shrink-0 overflow-hidden sm:w-36">
               <Image
-                src="/images/taxi/airplane.jpg"
+                src="/images/taxi/airplane.webp"
                 alt="Airport transfer taxi service"
                 fill
                 sizes="(max-width: 640px) 150px, 200px"
