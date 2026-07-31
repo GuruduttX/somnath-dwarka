@@ -109,6 +109,9 @@ export default function BeyondTemplesRail({ cards }: { cards: RailCard[] }) {
     // every card link. Capture only once the pointer actually moves (below).
     isPointerDown.current = true;
     isDragging.current = false;
+    // A drag that ended off-track may have left this set with no click to spend
+    // it on; clearing per interaction stops that from eating the next click.
+    suppressClick.current = false;
     isPaused.current = true;
     dragStartX.current = e.clientX;
     dragScrollStart.current = el.scrollLeft;
