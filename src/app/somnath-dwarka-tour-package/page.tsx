@@ -46,33 +46,57 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-// Hero image composition (local temple photography).
-const HERO_SOMNATH = "/images/home/SomnathLongImage.webp";
-const HERO_DWARKA = "/images/home/DwarikaLongImage.webp";
+// Hero image composition (local temple photography). Four tiles flank the
+// headline on desktop — two down the left rail, two down the right — while
+// mobile keeps a single wide Somnath–Dwarka card above the headline.
+type HeroTile = { img: string; name: string; place: string; tag: string };
+
 const HERO_MOBILE = "/images/CTA.webp";
 
-// The three arched "temple gateway" cards in the hero.
-const HERO_GATES = [
-  { img: HERO_SOMNATH, name: "Somnath", place: "Veraval", tag: "Jyotirlinga" },
-  { img: HERO_MOBILE, name: "Nageshwar", place: "Bet Dwarka", tag: "Darshan" },
-  { img: HERO_DWARKA, name: "Dwarkadhish", place: "Dwarka", tag: "Char Dham" },
-] as const;
+const HERO_TILES_LEFT: HeroTile[] = [
+  { img: "/images/places/somnath/somnath-temple.webp", name: "Somnath Temple", place: "Prabhas Patan", tag: "Jyotirlinga" },
+  { img: "/images/places/somnath/somnath-beach.webp", name: "Somnath Beach", place: "Veraval", tag: "Sunset" },
+];
 
-// Small temple dome finial (kalash) that sits atop each arch.
-function Kalash({ className = "" }: { className?: string }) {
+const HERO_TILES_RIGHT: HeroTile[] = [
+  { img: "/images/places/dwarka/nageshwar-jyotirlinga.webp", name: "Nageshwar", place: "Bet Dwarka road", tag: "Darshan" },
+  { img: "/images/places/dwarka/dwarkadhish-temple.webp", name: "Dwarkadhish", place: "Dwarka", tag: "Char Dham" },
+];
+
+// One photo tile in the hero rails: rounded, white-edged, captioned, and
+// drifting slowly so the rails feel alive next to the animated diyas.
+function HeroPhoto({
+  tile,
+  className = "",
+  floatClass = "",
+  eager = false,
+}: {
+  tile: HeroTile;
+  className?: string;
+  floatClass?: string;
+  eager?: boolean;
+}) {
   return (
-    <svg viewBox="0 0 24 34" className={className} fill="none" aria-hidden="true">
-      <defs>
-        <linearGradient id="kalash-g" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#FBBF24" />
-          <stop offset="1" stopColor="#EA580C" />
-        </linearGradient>
-      </defs>
-      <path d="M12 30c-5 0-8-2.4-8-5.5S8 20 12 20s8 1.4 8 4.5S17 30 12 30Z" fill="url(#kalash-g)" />
-      <rect x="9.5" y="10" width="5" height="12" rx="1.4" fill="url(#kalash-g)" />
-      <circle cx="12" cy="7.5" r="3.4" fill="url(#kalash-g)" />
-      <path d="M12 0.5c1 1.6 1 3.2 0 4.8-1-1.6-1-3.2 0-4.8Z" fill="url(#kalash-g)" />
-    </svg>
+    <figure
+      className={`pkg-tile group relative overflow-hidden rounded-[24px] border-[3px] border-white bg-orange-50 shadow-[0_22px_45px_-20px_rgba(124,45,18,0.55)] ${floatClass} ${className}`}
+    >
+      <img
+        src={tile.img}
+        alt={tile.name}
+        loading={eager ? "eager" : "lazy"}
+        className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.07]"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(58,26,6,0)_38%,rgba(58,26,6,0.78)_100%)]" />
+      <span className="absolute left-2.5 top-2.5 rounded-full bg-white/85 px-2 py-[3px] text-[8.5px] font-bold uppercase tracking-[0.09em] text-orange-700 backdrop-blur-sm">
+        {tile.tag}
+      </span>
+      <figcaption className="absolute inset-x-0 bottom-0 px-3 pb-2.5 pt-6 text-left text-white">
+        <p className="font-playfair text-[13px] font-bold leading-tight">{tile.name}</p>
+        <p className="mt-0.5 flex items-center gap-1 text-[9.5px] text-white/85">
+          <MapPin size={9} /> {tile.place}
+        </p>
+      </figcaption>
+    </figure>
   );
 }
 
@@ -250,16 +274,6 @@ export default async function PackagePillarPage() {
             transform-origin: center;
           }
 
-          @keyframes windBlow {
-            0%, 100% { transform: scaleX(1) skewY(0deg); }
-            50% { transform: scaleX(0.88) skewY(-2.5deg); }
-          }
-          .pkg-flag-wave {
-            transform-origin: left center;
-            transform-box: fill-box;
-            animation: windBlow 2.5s ease-in-out infinite;
-          }
-
           @keyframes pkgFloatUp {
             0% { transform: translateY(40px) scale(0.5); opacity: 0; }
             20% { opacity: 0.8; }
@@ -298,8 +312,20 @@ export default async function PackagePillarPage() {
             will-change: transform; pointer-events:none;
           }
 
+          @keyframes pkgDrift {
+            0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); }
+            50% { transform: translateY(-12px) rotate(var(--tilt, 0deg)); }
+          }
+          .pkg-tile { transform: rotate(var(--tilt, 0deg)); transition: box-shadow .35s ease; }
+          .pkg-tile:hover { box-shadow: 0 30px 60px -22px rgba(124,45,18,.6); }
+          .pkg-float { animation: pkgDrift 7s ease-in-out infinite; }
+          .pkg-float-a { animation-delay: 0s }
+          .pkg-float-b { animation-delay: -1.8s }
+          .pkg-float-c { animation-delay: -3.4s }
+          .pkg-float-d { animation-delay: -5.1s }
+
           @media (prefers-reduced-motion: reduce) {
-            .pkg-anim, .pkg-flame, .pkg-btn-shine::after, .pkg-aura, .pkg-flag-wave, .pkg-sparkle {
+            .pkg-anim, .pkg-flame, .pkg-btn-shine::after, .pkg-aura, .pkg-sparkle, .pkg-float {
               animation: none !important; opacity: 1 !important;
             }
           }
@@ -319,14 +345,112 @@ export default async function PackagePillarPage() {
 
 
 
-        {/* ── HERO INNER ── */}
-        <div className="relative z-[2] mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-center gap-8 px-5 pt-34 pb-6 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:px-14 lg:pt-[8.5rem] lg:pb-[3.25rem] xl:px-20">
+        {/* Ambient chakra, rising diyas and sparkles behind the whole hero */}
+        <div className="pointer-events-none absolute inset-0 z-[1]" aria-hidden="true">
+          {/* Divine spinning solar chakra / aura */}
+          <svg
+            className="pkg-aura absolute left-1/2 top-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 text-[#C2410C]/[0.07] lg:h-[720px] lg:w-[720px]"
+            viewBox="0 0 200 200"
+            fill="none"
+            stroke="currentColor"
+          >
+            <circle cx="100" cy="100" r="90" strokeWidth="1" strokeDasharray="3 6" />
+            <circle cx="100" cy="100" r="60" strokeWidth="0.8" strokeDasharray="4 4" />
 
-          {/* ══ LEFT ══ */}
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+            {/* Rays / spokes */}
+            {Array.from({ length: 32 }).map((_, i) => (
+              <line
+                key={i}
+                x1="100"
+                y1="100"
+                x2="100"
+                y2="15"
+                strokeWidth="1"
+                transform={`rotate(${i * 11.25} 100 100)`}
+                strokeOpacity={i % 2 === 0 ? "0.4" : "0.15"}
+              />
+            ))}
 
-            {/* Mobile rounded rectangle image box */}
-            <div className="pkg-anim pkg-d1 relative mt-2 lg:hidden w-full flex justify-center">
+            {/* Intricate flame petals on the outer rim */}
+            {Array.from({ length: 16 }).map((_, i) => (
+              <path
+                key={`p-${i}`}
+                d="M100 10 C105 18 95 18 100 10"
+                fill="currentColor"
+                fillOpacity="0.25"
+                transform={`rotate(${i * 22.5} 100 100)`}
+              />
+            ))}
+          </svg>
+
+          {/* Rising diya lamps along the base of the hero */}
+          {[
+            { l: "8%", b: "14%", c: "pkg-diya1" },
+            { l: "24%", b: "6%", c: "pkg-diya2" },
+            { l: "50%", b: "10%", c: "pkg-diya3" },
+            { l: "74%", b: "6%", c: "pkg-diya4" },
+            { l: "91%", b: "14%", c: "pkg-diya5" },
+          ].map((d, i) => (
+            <div key={i} className={`pkg-diya ${d.c} absolute hidden lg:block`} style={{ left: d.l, bottom: d.b }}>
+              <svg width="15" height="21" viewBox="0 0 14 20" fill="none">
+                <path className="pkg-flame" d="M7 0C8.5 3 10 4.4 10 7a3 3 0 1 1-6 0c0-1.4.6-2.4 1.4-3.4C6 4.6 6.6 5.4 7 6c.5-.7.6-1.6 0-3-.3-.9-.4-2 0-3Z" fill="#FB923C" />
+                <ellipse cx="7" cy="15.5" rx="6" ry="3" fill="#EA580C" />
+                <ellipse cx="7" cy="14.4" rx="6" ry="2.4" fill="#F59E0B" />
+              </svg>
+            </div>
+          ))}
+
+          {/* Floating sparkles (divine particles) */}
+          {[
+            { l: "14%", d: "0.2s", t: "4.5s", s: "0.6" },
+            { l: "33%", d: "1.5s", t: "5.5s", s: "0.85" },
+            { l: "50%", d: "0.8s", t: "4.8s", s: "0.5" },
+            { l: "67%", d: "2.3s", t: "6.0s", s: "1.0" },
+            { l: "86%", d: "1.1s", t: "5.2s", s: "0.75" },
+          ].map((p, idx) => (
+            <svg
+              key={`sp-${idx}`}
+              className="pkg-sparkle absolute hidden lg:block"
+              style={{
+                left: p.l,
+                bottom: "10%",
+                animationDelay: p.d,
+                animationDuration: p.t,
+                transform: `scale(${p.s})`,
+              }}
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4Z" fill="#FBBF24" />
+            </svg>
+          ))}
+        </div>
+
+        {/* ── HERO INNER — photo rail · headline · photo rail ── */}
+        <div className="relative z-[2] mx-auto grid w-full max-w-[1440px] flex-1 grid-cols-1 items-center gap-7 px-5 pt-36 pb-8 sm:px-8 lg:px-10 lg:pt-[9.25rem] lg:pb-[4.5rem] xl:grid-cols-[minmax(0,0.66fr)_minmax(0,1.6fr)_minmax(0,0.66fr)] xl:gap-8 xl:px-14 2xl:gap-10 2xl:px-20">
+
+          {/* ══ LEFT PHOTO RAIL (desktop) ══ */}
+          <div className="pkg-anim pkg-d2 hidden flex-col gap-24 xl:flex">
+            <HeroPhoto
+              tile={HERO_TILES_LEFT[0]}
+              eager
+              floatClass="pkg-float pkg-float-a"
+              className="[--tilt:-2.2deg] aspect-[5/4] w-[92%]"
+            />
+            <HeroPhoto
+              tile={HERO_TILES_LEFT[1]}
+              floatClass="pkg-float pkg-float-b"
+              className="[--tilt:1.8deg] ml-auto aspect-[5/4] w-[92%]"
+            />
+          </div>
+
+          {/* ══ CENTER ══ */}
+          <div className="flex flex-col items-center text-center">
+
+            {/* Mobile / tablet rounded rectangle image box */}
+            <div className="pkg-anim pkg-d1 relative mt-2 flex w-full justify-center xl:hidden">
               <div className="relative w-full max-w-[440px] [aspect-ratio:16/11] overflow-hidden rounded-[26px] border-4 border-white shadow-[0_20px_50px_rgba(234,88,12,0.25)]">
                 <img src={HERO_MOBILE} alt="Somnath and Dwarka temples" className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
@@ -337,8 +461,13 @@ export default async function PackagePillarPage() {
               </div>
             </div>
 
+            {/* Eyebrow (desktop only — mobile leads with the image card) */}
+            <span className="pkg-anim pkg-d1 hidden items-center gap-1.5 rounded-full border border-orange-200/70 bg-white/70 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-orange-700 shadow-sm backdrop-blur-sm xl:inline-flex">
+              <Sparkles size={12} /> Jyotirlinga &amp; Char Dham circuit
+            </span>
+
             {/* Headline */}
-            <h1 className="font-playfair pkg-anim pkg-d1 mt-6 text-4xl font-black leading-[1.15] tracking-[-0.03em] text-[#3a2416] sm:text-5xl lg:mt-0 lg:text-[3rem]">
+            <h1 className="font-playfair pkg-anim pkg-d1 mt-6 text-4xl xl:mt-3.5 font-black leading-[1.12] tracking-[-0.03em] text-[#3a2416] sm:text-5xl xl:text-[3.35rem]">
               {heroHeadline ? (
                 highlightHeadline(heroHeadline)
               ) : (
@@ -350,7 +479,7 @@ export default async function PackagePillarPage() {
             </h1>
 
             {/* Description */}
-            <p className="pkg-anim pkg-d2 mt-3 max-w-[560px] text-[12px] leading-[1.55] text-[#6b4c38] sm:text-[13px] sm:leading-[1.6] lg:text-sm">
+            <p className="pkg-anim pkg-d2 mx-auto mt-3.5 max-w-[600px] text-[12px] leading-[1.6] text-[#6b4c38] sm:text-[13px] sm:leading-[1.7] lg:text-[15px]">
               {s(hub || {}, "answer_first") || (
                 <>
                   Our Somnath Dwarka tour packages cover{" "}
@@ -407,160 +536,19 @@ export default async function PackagePillarPage() {
             </div>
           </div>
 
-          {/* ══ RIGHT — Animated Temple & Solar Aura (desktop) ══ */}
-          <div className="relative hidden h-[500px] w-full items-center justify-center lg:flex overflow-visible">
-            
-            {/* Divine spinning solar chakra / aura */}
-            <svg
-              className="pkg-aura pointer-events-none absolute h-[460px] w-[460px] text-[#C2410C]/[0.08]"
-              viewBox="0 0 200 200"
-              fill="none"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <circle cx="100" cy="100" r="90" strokeWidth="1" strokeDasharray="3 6" />
-              <circle cx="100" cy="100" r="75" strokeWidth="1.5" />
-              <circle cx="100" cy="100" r="60" strokeWidth="0.8" strokeDasharray="4 4" />
-              <circle cx="100" cy="100" r="30" strokeWidth="1.2" />
-
-              {/* Rays / spokes */}
-              {Array.from({ length: 32 }).map((_, i) => (
-                <line
-                  key={i}
-                  x1="100"
-                  y1="100"
-                  x2="100"
-                  y2="15"
-                  strokeWidth="1"
-                  transform={`rotate(${i * 11.25} 100 100)`}
-                  strokeOpacity={i % 2 === 0 ? "0.4" : "0.15"}
-                />
-              ))}
-
-              {/* Intricate flame petals on the outer rim */}
-              {Array.from({ length: 16 }).map((_, i) => (
-                <path
-                  key={`p-${i}`}
-                  d="M100 10 C105 18 95 18 100 10"
-                  fill="currentColor"
-                  fillOpacity="0.25"
-                  transform={`rotate(${i * 22.5} 100 100)`}
-                />
-              ))}
-            </svg>
-
-            {/* Glowing Golden Temple Silhouette SVG */}
-            <svg
-              className="pointer-events-none relative z-[2] h-[480px] w-[400px]"
-              viewBox="0 0 220 280"
-              aria-hidden="true"
-            >
-              <defs>
-                <linearGradient id="temple-outline-grad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#FFF4E6" stopOpacity="0.85" />
-                  <stop offset="50%" stopColor="#FFE4C4" stopOpacity="0.75" />
-                  <stop offset="100%" stopColor="#FFD8A8" stopOpacity="0.55" />
-                </linearGradient>
-                <linearGradient id="temple-stroke-grad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#F59E0B" />
-                  <stop offset="60%" stopColor="#EA580C" />
-                  <stop offset="100%" stopColor="#C2410C" />
-                </linearGradient>
-              </defs>
-
-              {/* Spire outlines with the warm gradients */}
-              <g fill="url(#temple-outline-grad)" stroke="url(#temple-stroke-grad)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-                {/* Kalash + amalaka on central spire */}
-                <circle cx="110" cy="44" r="6" />
-                <ellipse cx="110" cy="55" rx="13" ry="5" />
-                {/* Central shikhara (spire spire) with vertical ribs */}
-                <path d="M110 57 C 90 100, 88 150, 82 196 L 138 196 C 132 150, 130 100, 110 57 Z" />
-                
-                {/* Side shikharas */}
-                <circle cx="64" cy="120" r="4" />
-                <path d="M64 124 C 54 148, 53 174, 50 196 L 78 196 C 75 174, 74 148, 64 124 Z" />
-                <circle cx="156" cy="120" r="4" />
-                <path d="M156 124 C 146 148, 145 174, 142 196 L 170 196 C 167 174, 166 148, 156 124 Z" />
-                
-                {/* Entablature */}
-                <rect x="44" y="196" width="132" height="12" rx="2" />
-                {/* Mandapa pillars (gaps read as arch openings) */}
-                <rect x="52" y="208" width="10" height="48" rx="2" />
-                <rect x="82" y="208" width="10" height="48" rx="2" />
-                <rect x="128" y="208" width="10" height="48" rx="2" />
-                <rect x="158" y="208" width="10" height="48" rx="2" />
-                {/* Central doorway arch */}
-                <path d="M100 256 L100 224 Q110 214 120 224 L120 256 Z" />
-                {/* Steps */}
-                <rect x="46" y="256" width="128" height="7" rx="2" />
-                <rect x="38" y="263" width="144" height="7" rx="2" />
-                <rect x="30" y="270" width="160" height="8" rx="2" />
-              </g>
-
-              {/* Rib highlights */}
-              <g stroke="#FFF" strokeOpacity="0.45" strokeWidth="1.5" fill="none">
-                <path d="M110 70 L110 196" />
-                <path d="M98 110 L94 196" />
-                <path d="M122 110 L126 196" />
-              </g>
-
-              {/* Flag pole (static) */}
-              <rect x="108.5" y="10" width="3" height="30" rx="1.5" fill="url(#temple-stroke-grad)" />
-              {/* Waving saffron flag (animated) */}
-              <path className="pkg-flag-wave" d="M111.5 12 L138 20 L111.5 28 Z" fill="#EA580C" />
-            </svg>
-
-            {/* Rising diya lamps */}
-            <div className="pointer-events-none absolute inset-0 z-[3]" aria-hidden="true">
-              {[
-                { l: "15%", b: "10%", c: "pkg-diya1" },
-                { l: "32%", b: "26%", c: "pkg-diya2" },
-                { l: "50%", b: "5%", c: "pkg-diya3" },
-                { l: "68%", b: "26%", c: "pkg-diya4" },
-                { l: "85%", b: "10%", c: "pkg-diya5" },
-              ].map((d, i) => (
-                <div key={i} className={`pkg-diya ${d.c} absolute`} style={{ left: d.l, bottom: d.b }}>
-                  <svg width="15" height="21" viewBox="0 0 14 20" fill="none">
-                    <path className="pkg-flame" d="M7 0C8.5 3 10 4.4 10 7a3 3 0 1 1-6 0c0-1.4.6-2.4 1.4-3.4C6 4.6 6.6 5.4 7 6c.5-.7.6-1.6 0-3-.3-.9-.4-2 0-3Z" fill="#FB923C" />
-                    <ellipse cx="7" cy="15.5" rx="6" ry="3" fill="#EA580C" />
-                    <ellipse cx="7" cy="14.4" rx="6" ry="2.4" fill="#F59E0B" />
-                  </svg>
-                </div>
-              ))}
-            </div>
-
-            {/* Floating Sparkles (Divine Particles) */}
-            <div className="pointer-events-none absolute inset-0 z-[2]" aria-hidden="true">
-              {[
-                { l: "20%", d: "0.2s", t: "4.5s", s: "0.6" },
-                { l: "36%", d: "1.5s", t: "5.5s", s: "0.85" },
-                { l: "50%", d: "0.8s", t: "4.8s", s: "0.5" },
-                { l: "64%", d: "2.3s", t: "6.0s", s: "1.0" },
-                { l: "80%", d: "1.1s", t: "5.2s", s: "0.75" },
-              ].map((p, idx) => (
-                <svg
-                  key={`sp-${idx}`}
-                  className="pkg-sparkle absolute"
-                  style={{
-                    left: p.l,
-                    bottom: "10%",
-                    animationDelay: p.d,
-                    animationDuration: p.t,
-                    transform: `scale(${p.s})`,
-                  }}
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4Z"
-                    fill="#FBBF24"
-                  />
-                </svg>
-              ))}
-            </div>
-
+          {/* ══ RIGHT PHOTO RAIL (desktop) ══ */}
+          <div className="pkg-anim pkg-d3 hidden flex-col gap-24 xl:flex">
+            <HeroPhoto
+              tile={HERO_TILES_RIGHT[0]}
+              floatClass="pkg-float pkg-float-c"
+              className="[--tilt:2deg] ml-auto aspect-[5/4] w-[92%]"
+            />
+            <HeroPhoto
+              tile={HERO_TILES_RIGHT[1]}
+              eager
+              floatClass="pkg-float pkg-float-d"
+              className="[--tilt:-1.6deg] mr-auto aspect-[5/4] w-[92%]"
+            />
           </div>
         </div>
 
