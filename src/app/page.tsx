@@ -23,7 +23,7 @@ import CredentialsBar from "@/src/components/Home/v6/CredentialsBar";
 import ChooseYourJourney, {
   DestinationPackages,
 } from "@/src/components/Home/v6/ChooseYourJourney";
-import JourneyBanner from "@/src/components/Home/v6/JourneyBanner";
+// import JourneyBanner from "@/src/components/Home/v6/JourneyBanner";
 import {
   ExploreByInterest,
   PlanEssentials,
@@ -79,7 +79,8 @@ export default async function Home() {
         </div>
 
 
-        <JourneyBanner />
+        {/* Temporarily hidden — restore by un-commenting. */}
+        {/* <JourneyBanner /> */}
 
         <ProductsShowcase packages={packages} />
 

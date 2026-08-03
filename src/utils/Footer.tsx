@@ -90,18 +90,18 @@ export default function Footer() {
             {sectionLabel("Reach Us")}
             <div className="mb-5 flex flex-col gap-3">
               {[
-                { Icon: Phone, text: "+91 73006 20809", href: "tel:+917300620809" },
-                { Icon: MapPin, text: "Dwarka, Saurashtra, Gujarat — 361335", href: "#" },
-                { Icon: Mail, text: "info@experiencemyindia.com", href: "mailto:info@experiencemyindia.com" },
-              ].map(({ Icon, text, href }) => (
-                <a key={text} href={href} className="group flex items-start gap-3">
-                  <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-600 transition-colors duration-200 group-hover:bg-orange-200">
+                { Icon: Phone, text: "+91 73006 20809" },
+                { Icon: MapPin, text: "Dwarka, Saurashtra, Gujarat — 361335" },
+                { Icon: Mail, text: "info@experiencemyindia.com" },
+              ].map(({ Icon, text }) => (
+                <div key={text} className="flex items-start gap-3">
+                  <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-600">
                     <Icon size={14} />
                   </span>
-                  <span className="mt-1 text-[13px] leading-snug text-gray-600 transition-colors duration-200 group-hover:text-orange-600">
+                  <span className="mt-1 text-[13px] leading-snug text-gray-600">
                     {text}
                   </span>
-                </a>
+                </div>
               ))}
             </div>
 

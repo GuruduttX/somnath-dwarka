@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Clock, Star, Route, Sparkles, MapPinned, CalendarHeart, ArrowRight, ShieldCheck, Camera, Video } from "lucide-react";
 import { buildMetadata, placeSchema } from "@/src/lib/seo";
@@ -18,6 +19,17 @@ import DestinationHero from "./destination/DestinationHero";
 import DPSection from "./destination/DPSection";
 import Reveal from "./destination/Reveal";
 import { ICONS } from "./destination/icons";
+
+/**
+ * Photo for each travel mode on the "How to reach" cards. Keyed by the same
+ * icon key the seed data already carries, so a mode without a photo simply
+ * falls back to the icon-only card.
+ */
+const REACH_PHOTOS: Partial<Record<string, { src: string; alt: string }>> = {
+  plane: { src: "/images/reach/air.webp", alt: "Aircraft wing above the clouds at sunset" },
+  train: { src: "/images/reach/rail.webp", alt: "Indian Railways passenger train on the tracks" },
+  car: { src: "/images/reach/road.webp", alt: "Car on an open Indian highway" },
+};
 
 export function destinationMetadata(slug: string) {
   const d = findSeedDestination(slug);
@@ -154,15 +166,31 @@ export default function DestinationPillar({ slug }: { slug: string }) {
           <div className="grid gap-6 sm:grid-cols-3">
             {meta.reach.map((r, i) => {
               const Icon = ICONS[r.icon];
+              const photo = REACH_PHOTOS[r.icon];
               return (
                 <Reveal key={r.mode} delay={i * 0.08}>
-                  <div className="group relative h-full overflow-hidden rounded-3xl border border-orange-100 bg-white p-6 shadow-[0_10px_30px_rgba(234,88,12,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-350 hover:shadow-[0_22px_50px_rgba(234,88,12,0.12)]">
-                    <span className="absolute -right-5 -top-5 h-20 w-20 rounded-full bg-orange-50/60 transition-transform duration-300 group-hover:scale-130" />
-                    <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-md group-hover:scale-108 transition-transform">
-                      <Icon size={22} />
-                    </span>
-                    <h3 className="relative mt-5 text-lg font-black text-[#2D1B10]">{r.mode}</h3>
-                    <p className="relative mt-1.5 text-xs sm:text-[13px] leading-relaxed text-[#6b4c38] font-semibold">{r.detail}</p>
+                  <div className="group relative h-full overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-[0_10px_30px_rgba(234,88,12,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-350 hover:shadow-[0_22px_50px_rgba(234,88,12,0.12)]">
+                    {/* Mode photo — the icon chip rides the bottom edge so the card
+                        still reads at a glance when the image is slow to load. */}
+                    {photo && (
+                      <div className="relative aspect-[16/9] w-full overflow-hidden bg-orange-50">
+                        <Image
+                          src={photo.src}
+                          alt={photo.alt}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <span className="absolute inset-0 bg-gradient-to-t from-[#2D1B10]/45 via-transparent to-transparent" />
+                      </div>
+                    )}
+                    <div className="relative p-6 pt-5">
+                      <span className={`relative grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-md transition-transform group-hover:scale-108 ${photo ? "-mt-11 mb-1 ring-4 ring-white" : ""}`}>
+                        <Icon size={22} />
+                      </span>
+                      <h3 className="relative mt-4 text-lg font-black text-[#2D1B10]">{r.mode}</h3>
+                      <p className="relative mt-1.5 text-xs sm:text-[13px] leading-relaxed text-[#6b4c38] font-semibold">{r.detail}</p>
+                    </div>
                   </div>
                 </Reveal>
               );
