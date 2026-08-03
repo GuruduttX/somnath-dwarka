@@ -38,7 +38,7 @@ export default function SiteFooter() {
               rel="noopener noreferrer"
               className="text-orange-100/80 hover:text-white underline underline-offset-2"
             >
-              InventoApps
+              Invento Apps
             </a>
           </span>
         </div>

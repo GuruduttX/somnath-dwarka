@@ -166,6 +166,16 @@ export default function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-4 sm:flex-row md:px-10">
           <p className="text-center text-[12.5px] text-gray-500 sm:text-left">
             © {new Date().getFullYear()} Divine Trails · Sacred Gujarat Tours · All rights reserved
+            {" · "}
+            Made by{" "}
+            <a
+              href="https://inventoapps.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 underline underline-offset-2 transition-colors duration-200 hover:text-orange-600"
+            >
+              Invento Apps
+            </a>
           </p>
           <div className="flex items-center gap-5">
             {[
