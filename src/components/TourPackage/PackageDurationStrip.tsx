@@ -57,7 +57,7 @@ export default function PackageDurationStrip({
                 key={item.id}
                 className="flex items-center shrink-0 gap-3 px-5 py-4
         border-r border-orange-100 last:border-r-0
-        hover:bg-orange-50/60 transition-colors duration-150 group cursor-pointer"
+        hover:bg-orange-50/60 transition-colors duration-150 group"
               >
                 <span
                   className="text-3xl font-extrabold text-orange-500
@@ -115,7 +115,7 @@ export default function PackageDurationStrip({
                     className="flex flex-col items-center justify-center gap-0.5
                       flex-shrink-0 snap-start px-5 py-3
                       border-r border-orange-100/80 last:border-r-0
-                      w-max min-w-[88px] cursor-pointer
+                      w-max min-w-[88px]
                       active:bg-orange-50 transition-colors"
                   >
                     <div className="flex items-baseline gap-px">
