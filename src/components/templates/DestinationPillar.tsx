@@ -229,7 +229,7 @@ export default function DestinationPillar({ slug }: { slug: string }) {
                     {/* Temple photo — a banner above the schedule on small screens,
                         a full-height panel beside it from lg up. */}
                     {templePhoto && (
-                      <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden bg-orange-50 sm:aspect-[21/9] lg:aspect-auto lg:w-[290px] xl:w-[340px]">
+                      <div className="relative aspect-[2/1] w-full shrink-0 overflow-hidden bg-orange-50 sm:aspect-[24/7] lg:aspect-auto lg:w-[260px] xl:w-[300px]">
                         <Image
                           src={templePhoto.src}
                           alt={templePhoto.alt}
@@ -240,7 +240,7 @@ export default function DestinationPillar({ slug }: { slug: string }) {
                         <span className="absolute inset-0 bg-gradient-to-t from-[#2D1B10]/30 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-white/25" />
                       </div>
                     )}
-                    <div className="relative flex min-w-0 flex-1 flex-col p-6 sm:p-8">
+                    <div className="relative flex min-w-0 flex-1 flex-col p-5 sm:p-6">
                       {/* Ambient Watermark Spire */}
                       <div className="absolute right-0 bottom-4 pointer-events-none opacity-[0.03] translate-x-4 translate-y-4">
                         <svg viewBox="0 0 200 220" className="w-44 h-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -277,7 +277,7 @@ export default function DestinationPillar({ slug }: { slug: string }) {
 
                       <div className="relative z-10">
                         {/* Header */}
-                        <div className="flex items-center gap-3 mb-5 pb-3.5 border-b border-orange-100/60">
+                        <div className="flex items-center gap-3 mb-4 pb-3 border-b border-orange-100/60">
                           <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-sm">
                             <Clock size={18} />
                           </span>
@@ -288,14 +288,14 @@ export default function DestinationPillar({ slug }: { slug: string }) {
                         </div>
 
                         {/* Description */}
-                        <p className="text-[13.5px] leading-relaxed text-[#6b4c38] font-medium mb-5">
+                        <p className="text-[13px] leading-relaxed text-[#6b4c38] font-medium mb-4">
                           {mainTemple.answer_first}
                         </p>
 
                         {/* Timings Rows */}
-                        <div className="grid gap-2.5 sm:grid-cols-2">
+                        <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
                           {mainTemple.timings.map((tm) => (
-                            <div key={tm.label} className="flex items-center justify-between gap-3 text-xs sm:text-sm font-semibold py-2.5 px-3.5 rounded-2xl bg-orange-50/20 border border-orange-100/30 hover:border-orange-200 transition-colors">
+                            <div key={tm.label} className="flex items-center justify-between gap-3 text-xs sm:text-[13px] font-semibold py-2 px-3 rounded-xl bg-orange-50/20 border border-orange-100/30 hover:border-orange-200 transition-colors">
                               <span className="text-[#6b4c38]">{tm.label}</span>
                               <span className="rounded-lg bg-orange-50 border border-orange-150 px-2.5 py-0.5 font-extrabold text-orange-700">
                                 {tm.open}
@@ -307,8 +307,8 @@ export default function DestinationPillar({ slug }: { slug: string }) {
                       </div>
 
                       {/* Rules Callouts (Dress Code & Photography) */}
-                      <div className="relative z-10 mt-6 pt-5 border-t border-orange-100/50">
-                        <div className="grid gap-3 sm:grid-cols-2">
+                      <div className="relative z-10 mt-5 pt-4 border-t border-orange-100/50">
+                        <div className="grid gap-2.5 sm:grid-cols-2">
                           {mainTemple.dress_code && (
                             <div className="rounded-2xl bg-stone-50/80 border border-stone-200/50 p-3 flex items-start gap-3">
                               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-orange-50 text-orange-600 ring-1 ring-orange-100/60">
@@ -334,7 +334,7 @@ export default function DestinationPillar({ slug }: { slug: string }) {
                         </div>
 
                         {/* Detailed page CTA */}
-                        <div className="mt-5 flex justify-end">
+                        <div className="mt-4 flex justify-end">
                           <Link 
                             href={destinationTopicPath(slug, mainTemple.slug)}
                             className="group/btn inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-orange-655 hover:text-orange-755 transition-colors"

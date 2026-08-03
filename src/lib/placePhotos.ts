@@ -25,6 +25,16 @@ const PLACE_PHOTOS: Record<string, PlacePhoto> = {
     alt: "The Somnath Temple complex in Prabhas Patan, Gujarat",
     credit: "Aditya Mahar / CC BY-SA 4.0",
   },
+  "somnath/triveni-sangam": {
+    src: "/images/places/somnath/triveni-sangam.webp",
+    alt: "Sunset over the water at Triveni Ghat, Somnath",
+    credit: "Sangita Pujara / CC BY-SA 3.0",
+  },
+  "somnath/somnath-beach": {
+    src: "/images/places/somnath/somnath-beach.webp",
+    alt: "Evening crowds on Somnath beach at sunset",
+    credit: "Dhimant2702 / CC BY-SA 4.0",
+  },
   "somnath/bhalka-tirth": {
     src: "/images/places/somnath/bhalka-tirth.webp",
     alt: "Bhalka Tirth temple at Veraval, framed by its sacred trees",
@@ -76,6 +86,16 @@ const PLACE_PHOTOS: Record<string, PlacePhoto> = {
     src: "/images/places/dwarka/shivrajpur-beach.webp",
     alt: "Clear water and pale sand at Shivrajpur Beach near Dwarka",
     credit: "", // CC0
+  },
+  "dwarka/hanuman-dandi": {
+    src: "/images/places/dwarka/hanuman-dandi.webp",
+    alt: "Entrance gate of the Hanuman Dandi temple on Bet Dwarka",
+    credit: "Dhaval.purohit84 / CC BY-SA 4.0",
+  },
+  "dwarka/okha-port": {
+    src: "/images/places/dwarka/okha-port.webp",
+    alt: "Okha town with cargo ships anchored offshore",
+    credit: "Amiwins / CC BY-SA 4.0",
   },
   "dwarka/dwarka-lighthouse": {
     src: "/images/places/dwarka/dwarka-lighthouse.webp",
