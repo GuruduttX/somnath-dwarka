@@ -35,6 +35,21 @@ const PLACE_PHOTOS: Record<string, PlacePhoto> = {
     alt: "Evening crowds on Somnath beach at sunset",
     credit: "Dhimant2702 / CC BY-SA 4.0",
   },
+  "somnath/panchpandav-gufa": {
+    src: "/images/places/somnath/panchpandav-gufa.webp",
+    alt: "Entrance to a rock cave shrine",
+    credit: "", // supplied by the site owner
+  },
+  "somnath/prabhas-patan-museum": {
+    src: "/images/places/somnath/prabhas-patan-museum.webp",
+    alt: "Museum gallery with sculptures in lit display cases",
+    credit: "", // supplied by the site owner
+  },
+  "somnath/dehotsarg-tirth": {
+    src: "/images/places/somnath/dehotsarg-tirth.webp",
+    alt: "Pillared mandap at Dehotsarg Tirth overlooking the fields",
+    credit: "", // supplied by the site owner
+  },
   "somnath/bhalka-tirth": {
     src: "/images/places/somnath/bhalka-tirth.webp",
     alt: "Bhalka Tirth temple at Veraval, framed by its sacred trees",
@@ -86,6 +101,21 @@ const PLACE_PHOTOS: Record<string, PlacePhoto> = {
     src: "/images/places/dwarka/shivrajpur-beach.webp",
     alt: "Clear water and pale sand at Shivrajpur Beach near Dwarka",
     credit: "", // CC0
+  },
+  "dwarka/iskcon-dwarka": {
+    src: "/images/places/dwarka/iskcon-dwarka.webp",
+    alt: "Red sandstone ISKCON temple with carved towers",
+    credit: "", // supplied by the site owner
+  },
+  "dwarka/gopi-talav": {
+    src: "/images/places/dwarka/gopi-talav.webp",
+    alt: "The still water and wooded bank of Gopi Talav",
+    credit: "", // supplied by the site owner
+  },
+  "dwarka/sudarshan-setu": {
+    src: "/images/places/dwarka/sudarshan-setu.webp",
+    alt: "The pylon and deck of the Sudarshan Setu cable-stayed bridge",
+    credit: "AshishRajeshValanju / CC BY-SA 4.0",
   },
   "dwarka/hanuman-dandi": {
     src: "/images/places/dwarka/hanuman-dandi.webp",
