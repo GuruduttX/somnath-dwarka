@@ -84,13 +84,36 @@ const PLACE_PHOTOS: Record<string, PlacePhoto> = {
   },
 };
 
+/**
+ * Portrait shot of the destination's main temple, used as the side panel on the
+ * timings card. Same sourcing and credit rules as PLACE_PHOTOS above.
+ */
+const TEMPLE_PHOTOS: Record<string, PlacePhoto> = {
+  somnath: {
+    src: "/images/temples/somnath-timings.webp",
+    alt: "The flag-topped shikhara of the Somnath Temple",
+    credit: "Aditya Mahar / CC BY-SA 4.0",
+  },
+  dwarka: {
+    src: "/images/temples/dwarka-timings.webp",
+    alt: "The Dwarkadhish Temple rising above the Gomti ghat",
+    credit: "Njoy deep / CC BY-SA 4.0",
+  },
+};
+
 export function findPlacePhoto(destination: string, place: string): PlacePhoto | null {
   return PLACE_PHOTOS[`${destination}/${place}`] ?? null;
 }
 
-/** Distinct credits for the places shown on one destination page, in order. */
+export function findTemplePhoto(destination: string): PlacePhoto | null {
+  return TEMPLE_PHOTOS[destination] ?? null;
+}
+
+/** Distinct credits for every photo shown on one destination page, in order. */
 export function placePhotoCredits(destination: string, places: { slug: string }[]): string[] {
   const seen = new Set<string>();
+  const temple = findTemplePhoto(destination)?.credit;
+  if (temple) seen.add(temple);
   for (const p of places) {
     const credit = findPlacePhoto(destination, p.slug)?.credit;
     if (credit) seen.add(credit);

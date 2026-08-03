@@ -14,7 +14,7 @@ import JsonLd from "@/src/components/seo/JsonLd";
 import { findSeedDestination, SEED_TEMPLE_INFO } from "@/src/lib/seed/destinations";
 import { findDestinationMeta } from "@/src/lib/seed/destinationMeta";
 import { buildRelatedLinks } from "@/src/lib/links";
-import { findPlacePhoto, placePhotoCredits } from "@/src/lib/placePhotos";
+import { findPlacePhoto, findTemplePhoto, placePhotoCredits } from "@/src/lib/placePhotos";
 import { destinationPath, destinationPlacePath, destinationTopicPath } from "@/src/lib/destinationRoutes";
 import DestinationHero from "./destination/DestinationHero";
 import DPSection from "./destination/DPSection";
@@ -218,13 +218,29 @@ export default function DestinationPillar({ slug }: { slug: string }) {
             {(() => {
               const mainTemple = temples.find((t) => t.topic === "timings") || temples[0];
               const subTemples = temples.filter((t) => t.slug !== mainTemple.slug);
+              const templePhoto = findTemplePhoto(slug);
 
               return (
                 <div className="mt-6 space-y-6">
 
                   {/* Primary Timings Card (full width) */}
                   <Reveal>
-                    <div className="relative overflow-hidden rounded-3xl border border-orange-200 bg-white p-6 sm:p-8 shadow-[0_16px_40px_rgba(234,88,12,0.06)] flex flex-col">
+                    <div className="relative overflow-hidden rounded-3xl border border-orange-200 bg-white shadow-[0_16px_40px_rgba(234,88,12,0.06)] lg:flex lg:items-stretch">
+                    {/* Temple photo — a banner above the schedule on small screens,
+                        a full-height panel beside it from lg up. */}
+                    {templePhoto && (
+                      <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden bg-orange-50 sm:aspect-[21/9] lg:aspect-auto lg:w-[290px] xl:w-[340px]">
+                        <Image
+                          src={templePhoto.src}
+                          alt={templePhoto.alt}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 340px"
+                          className="object-cover object-center"
+                        />
+                        <span className="absolute inset-0 bg-gradient-to-t from-[#2D1B10]/30 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-white/25" />
+                      </div>
+                    )}
+                    <div className="relative flex min-w-0 flex-1 flex-col p-6 sm:p-8">
                       {/* Ambient Watermark Spire */}
                       <div className="absolute right-0 bottom-4 pointer-events-none opacity-[0.03] translate-x-4 translate-y-4">
                         <svg viewBox="0 0 200 220" className="w-44 h-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -328,6 +344,7 @@ export default function DestinationPillar({ slug }: { slug: string }) {
                           </Link>
                         </div>
                       </div>
+                    </div>
                     </div>
                   </Reveal>
 
