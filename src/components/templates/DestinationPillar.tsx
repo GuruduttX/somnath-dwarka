@@ -14,7 +14,7 @@ import JsonLd from "@/src/components/seo/JsonLd";
 import { findSeedDestination, SEED_TEMPLE_INFO } from "@/src/lib/seed/destinations";
 import { findDestinationMeta } from "@/src/lib/seed/destinationMeta";
 import { buildRelatedLinks } from "@/src/lib/links";
-import { findPlacePhoto, findReachPhoto, findTemplePhoto, placePhotoCredits } from "@/src/lib/placePhotos";
+import { findPlacePhoto, findReachPhoto, findTemplePhoto } from "@/src/lib/placePhotos";
 import { destinationPath, destinationPlacePath, destinationTopicPath } from "@/src/lib/destinationRoutes";
 import DestinationHero from "./destination/DestinationHero";
 import DPSection from "./destination/DPSection";
@@ -33,7 +33,6 @@ export default function DestinationPillar({ slug }: { slug: string }) {
   if (!d || !meta) return null;
 
   const temples = SEED_TEMPLE_INFO.filter((t) => t.destination === slug);
-  const placeCredits = placePhotoCredits(slug, d.top_places);
   const other = slug === "somnath" ? "Dwarka" : "Somnath";
   const selfPath = destinationPath(slug);
   const otherPath = slug === "somnath" ? destinationPath("dwarka") : destinationPath("somnath");
@@ -473,12 +472,6 @@ export default function DestinationPillar({ slug }: { slug: string }) {
               );
             })}
           </div>
-          {/* Attribution required by the CC licences on the place photos. */}
-          {placeCredits.length > 0 && (
-            <p className="mt-5 text-[11px] leading-relaxed text-[#9a7a63]">
-              Photos: {placeCredits.join(" · ")} — via Wikimedia Commons.
-            </p>
-          )}
         </DPSection>
       </div>
 

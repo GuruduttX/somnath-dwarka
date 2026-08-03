@@ -6,15 +6,16 @@
  * filled a few landmarks at a time. To add one: drop the file in
  * `public/images/places/<destination>/<place>.webp` and add a line below.
  *
- * Every photo here came from Wikimedia Commons and was checked against the
- * landmark before being used. `credit` carries the attribution the licences
- * require — see PlacePhotoCredits, rendered under the grid. Anything added
- * later must carry a credit too, unless it is genuinely CC0/own work.
+ * Photos are checked against the landmark before being used. `credit` records
+ * where one came from and under what licence — it is a provenance record only
+ * and is NOT rendered on the page. Several entries are CC BY-SA, whose licence
+ * requires visible attribution, so a credits line was deliberately removed at
+ * the owner's request; restore one if these ever need to be licence-clean.
  */
 export type PlacePhoto = {
   src: string;
   alt: string;
-  /** Photographer + licence, e.g. "Vinayaraj / CC BY-SA 4.0". Empty for CC0. */
+  /** Photographer + licence, e.g. "Vinayaraj / CC BY-SA 4.0". Not rendered. */
   credit: string;
 };
 
@@ -139,6 +140,11 @@ const PLACE_PHOTOS: Record<string, PlacePhoto> = {
     alt: "The Kamleshwar Dam reservoir with the Gir hills behind",
     credit: "Bernard Gagnon / CC BY-SA 3.0",
   },
+  "gir/kankai-mata-temple": {
+    src: "/images/places/gir/kankai-mata-temple.webp",
+    alt: "The brightly painted Kankai Mata shrine deep inside the Gir forest",
+    credit: "", // supplied by the site owner
+  },
   "gir/tulsishyam": {
     src: "/images/places/gir/tulsishyam.webp",
     alt: "The carved entrance arch of the Tulsishyam temple",
@@ -200,16 +206,4 @@ export function findPlacePhoto(destination: string, place: string): PlacePhoto |
 
 export function findTemplePhoto(destination: string): PlacePhoto | null {
   return TEMPLE_PHOTOS[destination] ?? null;
-}
-
-/** Distinct credits for every photo shown on one destination page, in order. */
-export function placePhotoCredits(destination: string, places: { slug: string }[]): string[] {
-  const seen = new Set<string>();
-  const temple = findTemplePhoto(destination)?.credit;
-  if (temple) seen.add(temple);
-  for (const p of places) {
-    const credit = findPlacePhoto(destination, p.slug)?.credit;
-    if (credit) seen.add(credit);
-  }
-  return [...seen];
 }

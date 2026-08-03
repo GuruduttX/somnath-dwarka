@@ -27,7 +27,7 @@ import DestinationHero from "./destination/DestinationHero";
 import DPSection from "./destination/DPSection";
 import Reveal from "./destination/Reveal";
 import { ICONS } from "./destination/icons";
-import { findPlacePhoto, findReachPhoto, placePhotoCredits } from "@/src/lib/placePhotos";
+import { findPlacePhoto, findReachPhoto } from "@/src/lib/placePhotos";
 
 /**
  * Shared destination-cluster pillar. Renders exactly the layout GirPillar used
@@ -138,10 +138,6 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
   ];
 
   const related = buildRelatedLinks({ self: path, ...config.related });
-  const placeCredits = placePhotoCredits(
-    config.slug,
-    places.map((p) => ({ slug: String(p.slug) })),
-  );
   const PlaceIcon = ICONS[meta.placeIcon];
   const BannerIcon = config.copy.clusterBannerIcon;
 
@@ -403,12 +399,6 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
                 );
               })}
             </div>
-            {/* Attribution required by the CC licences on the place photos. */}
-            {placeCredits.length > 0 && (
-              <p className="mt-5 text-[11px] leading-relaxed text-[#9a7a63]">
-                Photos: {placeCredits.join(" · ")} — via Wikimedia Commons.
-              </p>
-            )}
           </DPSection>
         </div>
       ) : null}
