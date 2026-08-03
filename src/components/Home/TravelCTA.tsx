@@ -116,10 +116,10 @@ export default function TravelCTA() {
               >
                 <div className="w-full h-full relative rounded-xl overflow-hidden border border-white/10 shadow-inner">
                   <Image
-                    src="/images/home/HomeHero.webp"
-                    alt="Sacred Dwarka and Somnath Temple"
+                    src="/images/home/somnath-cta.webp"
+                    alt="The Somnath Temple above the Arabian Sea at sunset"
                     fill
-                    className="object-cover"
+                    className="object-cover object-[50%_50%]"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                 </div>
