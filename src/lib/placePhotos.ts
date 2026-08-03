@@ -132,6 +132,35 @@ const PLACE_PHOTOS: Record<string, PlacePhoto> = {
     alt: "The Dwarka lighthouse above the Arabian Sea",
     credit: "VasuVR / CC BY-SA 4.0",
   },
+
+  // ── Gir ──
+  "gir/kamleshwar-dam": {
+    src: "/images/places/gir/kamleshwar-dam.webp",
+    alt: "The Kamleshwar Dam reservoir with the Gir hills behind",
+    credit: "Bernard Gagnon / CC BY-SA 3.0",
+  },
+  "gir/tulsishyam": {
+    src: "/images/places/gir/tulsishyam.webp",
+    alt: "The carved entrance arch of the Tulsishyam temple",
+    credit: "Gazal world / CC BY-SA 4.0",
+  },
+
+  // ── Junagadh–Girnar ──
+  "junagadh-girnar/ashoka-rock-edict": {
+    src: "/images/places/junagadh-girnar/ashoka-rock-edict.webp",
+    alt: "The pavilion sheltering Ashoka's major rock edict at Junagadh",
+    credit: "Snehrashmi / CC BY-SA 4.0",
+  },
+  "junagadh-girnar/damodar-kund": {
+    src: "/images/places/junagadh-girnar/damodar-kund.webp",
+    alt: "Pilgrims at Damodar Kund below the Girnar hills",
+    credit: "Snehrashmi / CC BY-SA 4.0",
+  },
+  "junagadh-girnar/mahabat-maqbara": {
+    src: "/images/places/junagadh-girnar/mahabat-maqbara.webp",
+    alt: "The domes and carved facade of the Mahabat Maqbara mausoleum",
+    credit: "Snehrashmi / CC BY-SA 4.0",
+  },
 };
 
 /**
@@ -150,6 +179,20 @@ const TEMPLE_PHOTOS: Record<string, PlacePhoto> = {
     credit: "Njoy deep / CC BY-SA 4.0",
   },
 };
+
+/**
+ * Photo for each travel mode on the "How to reach" cards, keyed by the icon key
+ * the seed data already carries. Shared by every destination template.
+ */
+const REACH_PHOTOS: Record<string, PlacePhoto> = {
+  plane: { src: "/images/reach/air.webp", alt: "Aircraft wing above the clouds at sunset", credit: "" },
+  train: { src: "/images/reach/rail.webp", alt: "Indian Railways passenger train on the tracks", credit: "" },
+  car: { src: "/images/reach/road.webp", alt: "Car on an open Indian highway", credit: "" },
+};
+
+export function findReachPhoto(icon: string): PlacePhoto | null {
+  return REACH_PHOTOS[icon] ?? null;
+}
 
 export function findPlacePhoto(destination: string, place: string): PlacePhoto | null {
   return PLACE_PHOTOS[`${destination}/${place}`] ?? null;

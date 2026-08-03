@@ -14,23 +14,12 @@ import JsonLd from "@/src/components/seo/JsonLd";
 import { findSeedDestination, SEED_TEMPLE_INFO } from "@/src/lib/seed/destinations";
 import { findDestinationMeta } from "@/src/lib/seed/destinationMeta";
 import { buildRelatedLinks } from "@/src/lib/links";
-import { findPlacePhoto, findTemplePhoto, placePhotoCredits } from "@/src/lib/placePhotos";
+import { findPlacePhoto, findReachPhoto, findTemplePhoto, placePhotoCredits } from "@/src/lib/placePhotos";
 import { destinationPath, destinationPlacePath, destinationTopicPath } from "@/src/lib/destinationRoutes";
 import DestinationHero from "./destination/DestinationHero";
 import DPSection from "./destination/DPSection";
 import Reveal from "./destination/Reveal";
 import { ICONS } from "./destination/icons";
-
-/**
- * Photo for each travel mode on the "How to reach" cards. Keyed by the same
- * icon key the seed data already carries, so a mode without a photo simply
- * falls back to the icon-only card.
- */
-const REACH_PHOTOS: Partial<Record<string, { src: string; alt: string }>> = {
-  plane: { src: "/images/reach/air.webp", alt: "Aircraft wing above the clouds at sunset" },
-  train: { src: "/images/reach/rail.webp", alt: "Indian Railways passenger train on the tracks" },
-  car: { src: "/images/reach/road.webp", alt: "Car on an open Indian highway" },
-};
 
 export function destinationMetadata(slug: string) {
   const d = findSeedDestination(slug);
@@ -168,7 +157,7 @@ export default function DestinationPillar({ slug }: { slug: string }) {
           <div className="grid gap-6 sm:grid-cols-3">
             {meta.reach.map((r, i) => {
               const Icon = ICONS[r.icon];
-              const photo = REACH_PHOTOS[r.icon];
+              const photo = findReachPhoto(r.icon);
               return (
                 <Reveal key={r.mode} delay={i * 0.08} className="h-full">
                   <div className="group relative h-full overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-[0_10px_30px_rgba(234,88,12,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-350 hover:shadow-[0_22px_50px_rgba(234,88,12,0.12)]">

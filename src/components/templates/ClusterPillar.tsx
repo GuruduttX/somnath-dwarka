@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -26,6 +27,7 @@ import DestinationHero from "./destination/DestinationHero";
 import DPSection from "./destination/DPSection";
 import Reveal from "./destination/Reveal";
 import { ICONS } from "./destination/icons";
+import { findPlacePhoto, findReachPhoto, placePhotoCredits } from "@/src/lib/placePhotos";
 
 /**
  * Shared destination-cluster pillar. Renders exactly the layout GirPillar used
@@ -136,6 +138,10 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
   ];
 
   const related = buildRelatedLinks({ self: path, ...config.related });
+  const placeCredits = placePhotoCredits(
+    config.slug,
+    places.map((p) => ({ slug: String(p.slug) })),
+  );
   const PlaceIcon = ICONS[meta.placeIcon];
   const BannerIcon = config.copy.clusterBannerIcon;
 
@@ -239,17 +245,33 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
           <div className="grid gap-6 sm:grid-cols-3">
             {meta.reach.map((r, i) => {
               const Icon = ICONS[r.icon];
+              const photo = findReachPhoto(r.icon);
               return (
-                <Reveal key={r.mode} delay={i * 0.08}>
-                  <div className="group relative h-full overflow-hidden rounded-3xl border border-orange-100 bg-white p-6 shadow-[0_10px_30px_rgba(234,88,12,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-350 hover:shadow-[0_22px_50px_rgba(234,88,12,0.12)]">
-                    <span className="absolute -right-5 -top-5 h-20 w-20 rounded-full bg-orange-50/60 transition-transform duration-300 group-hover:scale-130" />
-                    <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-md transition-transform group-hover:scale-108">
-                      <Icon size={22} />
-                    </span>
-                    <h3 className="relative mt-5 text-lg font-black text-[#2D1B10]">{r.mode}</h3>
-                    <p className="relative mt-1.5 text-xs font-semibold leading-relaxed text-[#6b4c38] sm:text-[13px]">
-                      {r.detail}
-                    </p>
+                <Reveal key={r.mode} delay={i * 0.08} className="h-full">
+                  <div className="group relative h-full overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-[0_10px_30px_rgba(234,88,12,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-350 hover:shadow-[0_22px_50px_rgba(234,88,12,0.12)]">
+                    {/* Mode photo — the icon chip rides the bottom edge so the card
+                        still reads at a glance when the image is slow to load. */}
+                    {photo && (
+                      <div className="relative aspect-[16/9] w-full overflow-hidden bg-orange-50">
+                        <Image
+                          src={photo.src}
+                          alt={photo.alt}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <span className="absolute inset-0 bg-gradient-to-t from-[#2D1B10]/45 via-transparent to-transparent" />
+                      </div>
+                    )}
+                    <div className="relative p-6 pt-5">
+                      <span className={`relative grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-md transition-transform group-hover:scale-108 ${photo ? "-mt-11 mb-1 ring-4 ring-white" : ""}`}>
+                        <Icon size={22} />
+                      </span>
+                      <h3 className="relative mt-4 text-lg font-black text-[#2D1B10]">{r.mode}</h3>
+                      <p className="relative mt-1.5 text-xs font-semibold leading-relaxed text-[#6b4c38] sm:text-[13px]">
+                        {r.detail}
+                      </p>
+                    </div>
                   </div>
                 </Reveal>
               );
@@ -326,33 +348,67 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
           />
           <DPSection id="places" eyebrow={config.copy.placesEyebrow} title={config.copy.placesTitle}>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {places.map((p, i) => (
-                <Reveal key={String(p.slug)} delay={(i % 3) * 0.08}>
+              {places.map((p, i) => {
+                const photo = findPlacePhoto(config.slug, String(p.slug));
+                return (
+                <Reveal key={String(p.slug)} delay={(i % 3) * 0.08} className="h-full">
                   <Link
                     href={`${path}places/${p.slug}/`}
-                    className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-orange-100/80 bg-white p-6 shadow-[0_10px_30px_rgba(234,88,12,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-355 hover:shadow-[0_24px_55px_rgba(234,88,12,0.12)]"
+                    className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-orange-100/80 bg-white shadow-[0_10px_30px_rgba(234,88,12,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-355 hover:shadow-[0_24px_55px_rgba(234,88,12,0.12)]"
                   >
-                    <span className={`pointer-events-none absolute -right-2.5 -top-4 select-none font-mono text-7xl font-black leading-none transition-transform duration-500 group-hover:-translate-x-2 group-hover:scale-108 ${t.numberWatermark}`}>
-                      0{i + 1}
-                    </span>
+                    {/* Every card gets the same band so the grid stays even; a
+                        place still awaiting a photo shows the glyph panel. */}
+                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-orange-50">
+                      {photo ? (
+                        <>
+                          <Image
+                            src={photo.src}
+                            alt={photo.alt}
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <span className="absolute inset-0 bg-gradient-to-t from-[#2D1B10]/50 via-[#2D1B10]/5 to-transparent" />
+                        </>
+                      ) : (
+                        <span
+                          aria-hidden
+                          className="absolute inset-0 grid place-items-center bg-gradient-to-br from-orange-100/70 via-amber-50 to-orange-50 text-6xl font-black text-orange-500/25 transition-transform duration-500 group-hover:scale-105"
+                        >
+                          {meta.glyph}
+                        </span>
+                      )}
+                      <span className={`pointer-events-none absolute right-3 top-2 select-none font-mono text-5xl font-black leading-none ${photo ? "text-white/25" : t.numberWatermark}`}>
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                    </div>
 
-                    <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-md transition-all duration-305 group-hover:rotate-3 group-hover:scale-108">
-                      <PlaceIcon size={20} />
-                    </span>
-                    <h3 className="mt-5 text-lg font-black text-[#2D1B10]">{s(p, "place") || h1Of(p)}</h3>
-                    <p className="mt-2 flex-1 text-xs font-semibold leading-relaxed text-[#6b4c38] sm:text-[13px]">
-                      {s(p, "meta_description")}
-                    </p>
+                    <div className="relative flex flex-1 flex-col p-6 pt-5">
+                      <span className="-mt-11 mb-1 grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-md ring-4 ring-white transition-all duration-305 group-hover:rotate-3 group-hover:scale-108">
+                        <PlaceIcon size={20} />
+                      </span>
+                      <h3 className="mt-4 text-lg font-black text-[#2D1B10]">{s(p, "place") || h1Of(p)}</h3>
+                      <p className="mt-2 flex-1 text-xs font-semibold leading-relaxed text-[#6b4c38] sm:text-[13px]">
+                        {s(p, "meta_description")}
+                      </p>
 
-                    <span className="mt-5 inline-flex items-center gap-1.5 border-t border-orange-50/30 pt-2 text-xs font-bold text-orange-600 group-hover:text-orange-700">
-                      <MapPinned size={13} className="text-orange-500" />
-                      <span>Explore Route Guide</span>
-                      <ArrowRight size={12} className="transition-transform duration-200 group-hover:translate-x-0.5" />
-                    </span>
+                      <span className="mt-5 inline-flex items-center gap-1.5 border-t border-orange-50/30 pt-2 text-xs font-bold text-orange-600 group-hover:text-orange-700">
+                        <MapPinned size={13} className="text-orange-500" />
+                        <span>Explore Route Guide</span>
+                        <ArrowRight size={12} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                      </span>
+                    </div>
                   </Link>
                 </Reveal>
-              ))}
+                );
+              })}
             </div>
+            {/* Attribution required by the CC licences on the place photos. */}
+            {placeCredits.length > 0 && (
+              <p className="mt-5 text-[11px] leading-relaxed text-[#9a7a63]">
+                Photos: {placeCredits.join(" · ")} — via Wikimedia Commons.
+              </p>
+            )}
           </DPSection>
         </div>
       ) : null}
