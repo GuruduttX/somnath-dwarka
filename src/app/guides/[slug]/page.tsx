@@ -57,6 +57,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     path: guidePath(slug),
     ogType: "article",
     ogImage: g.image ? String(g.image) : undefined,
+    ogImageAlt: g.alt ? String(g.alt) : undefined,
+    publishedTime: g.createdAt ? new Date(String(g.createdAt)).toISOString() : undefined,
+    modifiedTime: g.updatedAt ? new Date(String(g.updatedAt)).toISOString() : undefined,
+    authors: g.author ? [String(g.author)] : undefined,
+    section: "Travel Guides",
     noindex: Boolean(g.noindex),
   });
 }

@@ -30,6 +30,24 @@ export const metadata: Metadata = {
   robots: IS_STAGING
     ? { index: false, follow: false }
     : { index: true, follow: true },
+  // Fallback social card. Every public page overrides this via buildMetadata();
+  // this is what any route that ships without its own metadata inherits, so a
+  // shared link is never a bare URL with no preview.
+  openGraph: {
+    type: "website",
+    siteName: BRAND.name,
+    locale: "en_IN",
+    url: `${SITE_URL}/`,
+    title: `${BRAND.name} | Itinerary, Cab & Hotel`,
+    description: BRAND.tagline,
+    images: [{ url: BRAND.ogImage, width: 1200, height: 630, alt: BRAND.name }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${BRAND.name} | Itinerary, Cab & Hotel`,
+    description: BRAND.tagline,
+    images: [BRAND.ogImage],
+  },
 };
 
 export default function RootLayout({

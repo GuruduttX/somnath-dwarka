@@ -53,7 +53,14 @@ type MetaInput = {
   noindex?: boolean;
   canonicalOverride?: string;
   ogImage?: string;
+  ogImageAlt?: string;
   ogType?: "website" | "article";
+  /** Article-only OG fields; ignored unless `ogType: "article"`. */
+  publishedTime?: string;
+  modifiedTime?: string;
+  authors?: string[];
+  section?: string;
+  tags?: string[];
 };
 
 /** Build a page's <head> metadata (title ≤60, meta ≤155, self-canonical, OG/Twitter). */
@@ -81,14 +88,36 @@ export function buildMetadata(input: MetaInput): Metadata {
       description,
       url: canonical,
       siteName: BRAND.name,
+      locale: "en_IN",
       type: input.ogType ?? "website",
-      images: [{ url: image }],
+      // Dimensions + alt: without them Facebook/LinkedIn/WhatsApp guess the
+      // crop on first scrape and often fall back to a small square card.
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: input.ogImageAlt ?? title,
+        },
+      ],
+      // Article metadata is only meaningful on `type: "article"`; emitting
+      // article:published_time on a website card is ignored at best.
+      ...(input.ogType === "article"
+        ? {
+            ...(input.publishedTime ? { publishedTime: input.publishedTime } : {}),
+            ...(input.modifiedTime ? { modifiedTime: input.modifiedTime } : {}),
+            ...(input.authors?.length ? { authors: input.authors } : {}),
+            ...(input.section ? { section: input.section } : {}),
+            ...(input.tags?.length ? { tags: input.tags } : {}),
+          }
+        : {}),
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
       images: [image],
+      ...(BRAND.twitterHandle ? { site: BRAND.twitterHandle, creator: BRAND.twitterHandle } : {}),
     },
   };
 }

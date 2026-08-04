@@ -24,6 +24,12 @@ export const BRAND = {
   logo: `${SITE_URL}/images/logo.webp`,
   ogImage: `${SITE_URL}/images/home/HomeHero.webp`,
   /**
+   * "@handle" for twitter:site / twitter:creator. Empty until the client
+   * confirms the account — a wrong handle attributes the card to someone else,
+   * so the tags are omitted rather than guessed (SOP §16).
+   */
+  twitterHandle: "",
+  /**
    * Official profiles, emitted as Organization.sameAs — the main signal that
    * ties this site to the same entity across the web, so it is worth filling in
    * as soon as each profile is confirmed (SOP §16).
