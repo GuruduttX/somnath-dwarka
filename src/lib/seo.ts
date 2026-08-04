@@ -16,6 +16,36 @@ const abs = (path: string) =>
 const clamp = (s: string, max: number) =>
   s.length <= max ? s : s.slice(0, max - 1).trimEnd() + "…";
 
+/**
+ * Title-safe clamp: trims at a word boundary and strips trailing separators
+ * rather than cutting mid-word and appending "…". A <title> is a label, not
+ * prose — "Budget Hotels in Somnath — Areas, Tariff Range &…" reads as broken
+ * in a SERP, so we drop the partial word instead.
+ */
+const clampTitle = (s: string, max: number) => {
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max);
+  const atWord = cut.slice(0, cut.lastIndexOf(" "));
+  return (atWord || cut).replace(/[\s–—\-|,:;&]+$/, "");
+};
+
+/** " — Somnath Dwarka Tours" — appended only when the whole title still fits. */
+const TITLE_SUFFIX = ` — ${BRAND.shortName}`;
+export const TITLE_MAX = 60;
+
+/**
+ * Final <title> text. The root layout used to append the brand via a metadata
+ * `template`, which ran *after* the 60-char clamp and pushed 177 of 188 pages
+ * over the limit (up to 91 chars). Composing here instead means the budget is
+ * enforced on the string that actually ships: the brand suffix is added only
+ * when the page title leaves room for it, and dropped when it does not — the
+ * page's own keywords are worth more than a repeated brand name.
+ */
+export function composeTitle(raw: string): string {
+  const base = clampTitle(raw.trim(), TITLE_MAX);
+  return base.length + TITLE_SUFFIX.length <= TITLE_MAX ? base + TITLE_SUFFIX : base;
+}
+
 type MetaInput = {
   title: string; // ≤60 enforced
   description: string; // ≤155 enforced
@@ -28,7 +58,7 @@ type MetaInput = {
 
 /** Build a page's <head> metadata (title ≤60, meta ≤155, self-canonical, OG/Twitter). */
 export function buildMetadata(input: MetaInput): Metadata {
-  const title = clamp(input.title, 60);
+  const title = composeTitle(input.title);
   const description = clamp(input.description, 155);
   const canonical = input.canonicalOverride ?? abs(input.path);
   const image = input.ogImage ?? BRAND.ogImage;
@@ -36,7 +66,9 @@ export function buildMetadata(input: MetaInput): Metadata {
   const noindex = IS_STAGING || !!input.noindex;
 
   return {
-    title,
+    // `absolute` opts out of the layout's title template — the brand suffix is
+    // already composed in, within the 60-char budget.
+    title: { absolute: title },
     description,
     alternates: { canonical },
     robots: {
@@ -63,15 +95,92 @@ export function buildMetadata(input: MetaInput): Metadata {
 
 /* ---------------------------------- JSON-LD ---------------------------------- */
 
+/**
+ * Node types this site emits on every page from one place: Organization and
+ * WebSite in the root layout, BreadcrumbList in PageShell, FAQPage in the Faq
+ * component. Nothing else may re-declare them.
+ */
+const SITEWIDE_TYPES = new Set(["Organization", "WebSite", "BreadcrumbList", "FAQPage"]);
+
+type LdNode = Record<string, unknown>;
+
+/**
+ * Clean a CMS-supplied `schema_overrides` blob before it is rendered.
+ *
+ * That field takes raw JSON-LD pasted by an editor, and the natural thing to
+ * paste is a complete @graph copied from a generator — which re-declares the
+ * Organization, WebSite, BreadcrumbList and FAQPage nodes the page already
+ * emits. The package pillar was shipping two FAQPage, two BreadcrumbList and
+ * two Organization nodes for exactly this reason; a duplicated FAQPage is the
+ * one that costs a rich result rather than merely being untidy.
+ *
+ * So the override is honoured for everything it uniquely contributes and
+ * filtered for the four types the page owns elsewhere. Returns null when the
+ * blob is unparseable or contributes nothing, so callers can fall back.
+ */
+export function sanitizeSchemaOverride(raw: string): LdNode[] | null {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return null;
+  }
+
+  const flatten = (v: unknown): LdNode[] => {
+    if (Array.isArray(v)) return v.flatMap(flatten);
+    if (v && typeof v === "object") {
+      const node = v as LdNode;
+      // A wrapper carrying only @context + @graph is a container, not a node.
+      if (Array.isArray(node["@graph"])) return flatten(node["@graph"]);
+      return [node];
+    }
+    return [];
+  };
+
+  const kept = flatten(parsed).filter((n) => {
+    const t = n["@type"];
+    const types = Array.isArray(t) ? t : [t];
+    return !types.some((x) => typeof x === "string" && SITEWIDE_TYPES.has(x));
+  });
+
+  if (!kept.length) return null;
+  // Re-attach @context: it lived on the wrapper we just unwrapped.
+  return kept.map((n) => ({ "@context": "https://schema.org", ...n }));
+}
+
 export function organizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": `${SITE_URL}/#organization`,
     name: BRAND.name,
+    legalName: BRAND.legalName,
     url: `${SITE_URL}/`,
-    logo: BRAND.logo,
-    sameAs: [] as string[],
+    // An ImageObject rather than a bare URL: Google reads the logo property for
+    // knowledge-panel branding and wants a resolvable image node.
+    logo: {
+      "@type": "ImageObject",
+      "@id": `${SITE_URL}/#logo`,
+      url: BRAND.logo,
+      caption: BRAND.name,
+    },
+    image: { "@id": `${SITE_URL}/#logo` },
+    description: BRAND.tagline,
+    // The phone and email are published on every page already, so declaring the
+    // contact point states a fact the site is committed to rather than adding a
+    // new claim. The postal address stays behind the NAP gate in
+    // localBusinessSchema until the client confirms it.
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: CONTACT.phone,
+      email: CONTACT.email,
+      contactType: "customer service",
+      areaServed: "IN",
+      availableLanguage: ["en", "hi", "gu"],
+    },
+    // Populated from BRAND.socialProfiles as the client confirms each one, and
+    // omitted entirely while none are: `sameAs: []` asserts "no profiles exist".
+    ...(BRAND.socialProfiles.length ? { sameAs: [...BRAND.socialProfiles] } : {}),
   };
 }
 
@@ -82,11 +191,13 @@ export function websiteSchema() {
     "@id": `${SITE_URL}/#website`,
     url: `${SITE_URL}/`,
     name: BRAND.name,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${SITE_URL}/search?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
+    description: BRAND.tagline,
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    inLanguage: "en-IN",
+    // No SearchAction: it declared a sitelinks searchbox at /search?q=, which
+    // is not a route on this site (it 404s), and Google retired that rich
+    // result in any case. Declaring a capability the site lacks is a
+    // correctness bug in the graph, not a missed opportunity.
   };
 }
 
@@ -129,6 +240,15 @@ export function webPageSchema(opts: {
     | "CheckoutPage";
   crumbs?: Crumb[];
   primaryImage?: string;
+  /**
+   * Marks the answer-first block as the passage worth reading aloud. Templates
+   * already wrap that copy in `.speakable`, so answer engines get pointed at
+   * the direct answer rather than at whatever prose happens to come first.
+   */
+  speakable?: boolean;
+  dateModified?: string;
+  /** Wires the page's FAQ block in as the page's main entity. */
+  faqCount?: number;
 }) {
   const url = abs(opts.path);
   return {
@@ -141,6 +261,15 @@ export function webPageSchema(opts: {
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/#organization` },
     ...(opts.primaryImage ? { primaryImageOfPage: opts.primaryImage } : {}),
+    ...(opts.dateModified ? { dateModified: opts.dateModified } : {}),
+    ...(opts.speakable
+      ? {
+          speakable: {
+            "@type": "SpeakableSpecification",
+            cssSelector: [".speakable"],
+          },
+        }
+      : {}),
     ...(opts.crumbs?.length
       ? { breadcrumb: { "@id": `${url}#breadcrumb` } }
       : {}),

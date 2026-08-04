@@ -6,6 +6,7 @@ import CMSMediaSection from '@/src/components/Admin/CMS/CMSMediaSection';
 import CMSMetaSection from '@/src/components/Admin/CMS/CMSMetaSection';
 import CMSSeoSection from '@/src/components/Admin/CMS/CMSSeoSection';
 import FaqHandler from '@/src/components/Admin/CMS/FaqHandler';
+import TestimonialHandler, { type testimonial as Testimonial } from '@/src/components/Admin/CMS/TestimonialHandler';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import CMSSchema from '@/src/components/Admin/CMS/CMSSchema';
@@ -50,6 +51,7 @@ export default function CreateNewBlog() {
   });
 
   const [faqs, setFaqs] = useState<FAQ[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   // 3. THE READ EFFECT (Fires once on mount)
@@ -74,6 +76,7 @@ export default function CreateNewBlog() {
             content: "",
             status: "draft",
             faqs: [],
+            testimonials: [],
           }),
         );
       } else {
@@ -101,6 +104,10 @@ export default function CreateNewBlog() {
         // Set FAQs safely
         if (parsedData.faqs?.length > 0) {
           setFaqs(parsedData.faqs);
+        }
+
+        if (parsedData.testimonials?.length > 0) {
+          setTestimonials(parsedData.testimonials);
         }
       }
 
@@ -135,6 +142,7 @@ export default function CreateNewBlog() {
         author: form.author,
         status: "draft",
         faqs: faqs,
+        testimonials,
       };
 
       // Save it!
@@ -142,7 +150,7 @@ export default function CreateNewBlog() {
     }
 
     // Watches form and faqs for any changes
-  }, [form, faqs, isLoaded]);
+  }, [form, faqs, testimonials, isLoaded]);
 
   const updateForm = (field: keyof BlogForm, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -247,6 +255,7 @@ export default function CreateNewBlog() {
       author: form.author,
       status: "published",
       faqs,
+      testimonials,
     };
 
     try {
@@ -280,6 +289,7 @@ export default function CreateNewBlog() {
             content: "",
             status: "draft",
             faqs: [],
+            testimonials: [],
           }),
         );
 
@@ -301,6 +311,7 @@ export default function CreateNewBlog() {
       });
 
       setFaqs([{ id: crypto.randomUUID(), question: "", answer: "" }]);
+      setTestimonials([]);
     } catch (error) {
       toast.error("Server Error");
     }
@@ -335,6 +346,7 @@ export default function CreateNewBlog() {
       author: form.author,
       status: "draft",
       faqs,
+      testimonials,
     };
 
     const result = await getBlogBySlug(form.slug);
@@ -375,6 +387,7 @@ export default function CreateNewBlog() {
             content: "",
             status: "draft",
             faqs: [],
+            testimonials: [],
           }),
         );
 
@@ -396,6 +409,7 @@ export default function CreateNewBlog() {
       });
 
       setFaqs([{ id: crypto.randomUUID(), question: "", answer: "" }]);
+      setTestimonials([]);
     } catch (error) {
       toast.error("Server Error");
     }
@@ -448,8 +462,6 @@ export default function CreateNewBlog() {
             editorType="Blog"
           />
 
-          <FaqHandler faqs={faqs} setFaqs={setFaqs} editorType="Blog" />
-
           <CMSMediaSection
             image={form.image}
             alt={form.alt}
@@ -464,7 +476,15 @@ export default function CreateNewBlog() {
             onChange={updateForm}
             editorType="Blog"
           />
-          
+
+          <FaqHandler faqs={faqs} setFaqs={setFaqs} editorType="Blog" />
+
+          <TestimonialHandler
+            testimonials={testimonials}
+            setTestimonials={setTestimonials}
+            editorType="Blog"
+          />
+
           <CMSActions
             actionType="create"
             editorType="Blog"

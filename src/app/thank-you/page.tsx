@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { buildMetadata } from "@/src/lib/seo";
 
-/** Thank-you page (SOP §11, §13) — noindex,follow. */
-export const metadata: Metadata = {
-  title: "Thank you",
-  robots: { index: false, follow: true },
-};
+/**
+ * Thank-you page (SOP §11, §13) — noindex,follow. It still declares a
+ * canonical and OG tags: the URL gets shared and pasted into chat apps after a
+ * booking, and noindex governs the index, not what a link preview shows.
+ */
+export const metadata: Metadata = buildMetadata({
+  title: "Thank you — your enquiry is in",
+  description:
+    "Thanks for your enquiry. Our team will call you back shortly to plan your Somnath–Dwarka trip. For anything urgent, message us on WhatsApp.",
+  path: "/thank-you/",
+  noindex: true,
+});
 
 export default function ThankYouPage() {
   return (

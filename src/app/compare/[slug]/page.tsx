@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { buildMetadata, faqSchema } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import AnswerFirst from "@/src/components/shared/AnswerFirst";
 import Section from "@/src/components/shared/Section";
@@ -42,19 +42,19 @@ export default async function ComparisonPage({ params }: Params) {
     ],
   });
 
+  const crumbs = [
+    { name: "Home", path: "/" },
+    { name: "Compare", path: "/compare/" },
+    {
+      name: c.optionC
+        ? `${c.optionA} vs ${c.optionB} vs ${c.optionC}`
+        : `${c.optionA} vs ${c.optionB}`,
+      path: `/compare/${slug}/`,
+    },
+  ];
+
   return (
-    <PageShell
-      crumbs={[
-        { name: "Home", path: "/" },
-        { name: "Compare", path: "/compare/" },
-        {
-          name: c.optionC
-            ? `${c.optionA} vs ${c.optionB} vs ${c.optionC}`
-            : `${c.optionA} vs ${c.optionB}`,
-          path: `/compare/${slug}/`,
-        },
-      ]}
-    >
+    <PageShell crumbs={crumbs}>
       <div className="max-w-4xl mx-auto px-4 pt-6">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{c.h1}</h1>
         <AnswerFirst tag="opinion">{c.answer_first}</AnswerFirst>
@@ -91,7 +91,16 @@ export default async function ComparisonPage({ params }: Params) {
       <CtaBand context={c.h1} />
       <RelatedLinks links={related} />
 
-      <JsonLd data={faqSchema(c.faq)} />
+      {/* Faq emits the FAQPage node itself; this is the page entity. */}
+      <JsonLd
+        data={webPageSchema({
+          name: c.h1,
+          description: c.answer_first,
+          path: `/compare/${slug}/`,
+          crumbs,
+          speakable: true,
+        })}
+      />
     </PageShell>
   );
 }

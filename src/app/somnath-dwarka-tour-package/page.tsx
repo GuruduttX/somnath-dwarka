@@ -5,7 +5,12 @@ import {
   MapPin,
   Navigation,
 } from "lucide-react";
-import { buildMetadata, touristTripSchema } from "@/src/lib/seo";
+import {
+  buildMetadata,
+  sanitizeSchemaOverride,
+  touristTripSchema,
+  webPageSchema,
+} from "@/src/lib/seo";
 import { CORE_FACTS, waLink } from "@/src/config/site";
 import PageShell from "@/src/components/shared/PageShell";
 import Faq from "@/src/components/shared/Faq";
@@ -238,25 +243,42 @@ export default async function PackagePillarPage() {
         },
       ];
 
-  let schemaData: any = touristTripSchema({
+  const crumbs = [
+    { name: "Home", path: "/" },
+    { name: "Tour packages", path: PATH },
+  ];
+
+  const description =
+    "Pilgrimage tour packages covering Somnath and Dwarka temples with private transport and hotels.";
+
+  /**
+   * The page entity. The CMS override's TouristTrip points `isPartOf` at this
+   * node's @id, so without it that reference dangled.
+   */
+  const pageNode = webPageSchema({
     name: "Somnath Dwarka Tour Package",
-    description:
-      "Pilgrimage tour packages covering Somnath and Dwarka temples with private transport and hotels.",
+    description,
+    path: PATH,
+    type: "CollectionPage",
+    crumbs,
+    speakable: true,
+  });
+
+  const fallbackTrip = touristTripSchema({
+    name: "Somnath Dwarka Tour Package",
+    description,
     path: PATH,
   });
 
-  if (hub?.schema_overrides) {
-    try {
-      schemaData = JSON.parse(hub.schema_overrides as string);
-    } catch {}
-  }
+  // An editor's pasted graph wins, minus the nodes this page already emits.
+  const override = hub?.schema_overrides
+    ? sanitizeSchemaOverride(hub.schema_overrides as string)
+    : null;
+  const schemaData = [pageNode, ...(override ?? [fallbackTrip])];
 
   return (
     <PageShell
-      crumbs={[
-        { name: "Home", path: "/" },
-        { name: "Tour packages", path: PATH },
-      ]}
+      crumbs={crumbs}
       flushHero
     >
       {/* ── HERO ── */}

@@ -13,7 +13,8 @@ import TestimonialsSection from "@/src/components/Home/TestimonialCard";
 import FinalCTA from "@/src/components/Home/FinalCTA";
 import BeyondTemples from "@/src/components/Home/BeyondTemples";
 import HomeFaqSection from "@/src/components/Home/HomeFaqSection";
-import { buildMetadata, faqSchema } from "@/src/lib/seo";
+import { buildMetadata, faqSchema, webPageSchema } from "@/src/lib/seo";
+import { BRAND } from "@/src/config/site";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { HOME_FAQS } from "@/src/config/homeFaqs";
 import { getPublishedPackages } from "@/src/lib/content";
@@ -110,7 +111,20 @@ export default async function Home() {
         <DataAndResearch />
 
       </main>
-      <JsonLd data={faqSchema(HOME_FAQS)} />
+      {/* The home page carried no WebPage node, so nothing tied its FAQ and
+          the sitewide Organization/WebSite nodes to an actual page entity. */}
+      <JsonLd
+        data={[
+          webPageSchema({
+            name: `${BRAND.name} — Itinerary, Cab & Hotel`,
+            description: BRAND.tagline,
+            path: "/",
+            speakable: true,
+            primaryImage: BRAND.ogImage,
+          }),
+          faqSchema(HOME_FAQS),
+        ]}
+      />
     </>
   );
 }

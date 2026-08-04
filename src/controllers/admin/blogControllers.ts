@@ -6,6 +6,21 @@ import { NextResponse } from "next/server";
 import { success } from "zod";
 
 
+/**
+ * Drop testimonial rows the editor added but never filled in.
+ *
+ * The CMS starts a new row empty, so an editor who clicks "Add testimonial"
+ * and then changes their mind would otherwise send a row with no quote — and
+ * the model requires `review`, which would fail the whole save with a mongoose
+ * validation error rather than the one blank row being ignored.
+ */
+const stripEmptyTestimonials = <T extends { testimonials?: { review?: string }[] }>(
+  data: T
+): T =>
+  data.testimonials
+    ? { ...data, testimonials: data.testimonials.filter((t) => t.review?.trim()) }
+    : data;
+
 export const createAdminBlogController = async (req: Request) => {
 
     try {
@@ -20,7 +35,7 @@ export const createAdminBlogController = async (req: Request) => {
             }, {status : 400})
         }
 
-        const blogData = result.data;
+        const blogData = stripEmptyTestimonials(result.data);
 
         const blog = await createAdminBlogService(blogData);
 
@@ -116,7 +131,7 @@ export const updateAdminBlogController = async (req: Request, id: string) => {
             }, {status : 400})
         }
 
-        const blogData = result.data;
+        const blogData = stripEmptyTestimonials(result.data);
 
         const blog = await updateAdminBlogService(id, blogData);
 

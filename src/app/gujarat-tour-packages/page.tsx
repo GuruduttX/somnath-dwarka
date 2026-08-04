@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { buildMetadata, touristTripSchema } from "@/src/lib/seo";
+import {
+  buildMetadata,
+  sanitizeSchemaOverride,
+  touristTripSchema,
+  webPageSchema,
+} from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import Faq from "@/src/components/shared/Faq";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
@@ -228,25 +233,38 @@ export default async function GujaratPackagePillarPage() {
           },
         ];
 
-  let schemaData: Record<string, unknown> | null = touristTripSchema({
+  const crumbs = [
+    { name: "Home", path: "/" },
+    { name: "Gujarat tour packages", path: PATH },
+  ];
+
+  const description =
+    "Tour packages across Gujarat — jyotirlinga and temple circuits, Saurashtra darshan, UNESCO heritage sites and wildlife safaris, with private transport and hotels.";
+
+  const pageNode = webPageSchema({
     name: "Gujarat Tour Packages",
-    description:
-      "Tour packages across Gujarat — jyotirlinga and temple circuits, Saurashtra darshan, UNESCO heritage sites and wildlife safaris, with private transport and hotels.",
+    description,
+    path: PATH,
+    type: "CollectionPage",
+    crumbs,
+    speakable: true,
+  });
+
+  const fallbackTrip = touristTripSchema({
+    name: "Gujarat Tour Packages",
+    description,
     path: PATH,
   });
 
-  if (hub?.schema_overrides) {
-    try {
-      schemaData = JSON.parse(hub.schema_overrides as string);
-    } catch {}
-  }
+  // An editor's pasted graph wins, minus the nodes this page already emits.
+  const override = hub?.schema_overrides
+    ? sanitizeSchemaOverride(hub.schema_overrides as string)
+    : null;
+  const schemaData = [pageNode, ...(override ?? [fallbackTrip])];
 
   return (
     <PageShell
-      crumbs={[
-        { name: "Home", path: "/" },
-        { name: "Gujarat tour packages", path: PATH },
-      ]}
+      crumbs={crumbs}
       flushHero
     >
       <PackageHubHero

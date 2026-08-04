@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Navbar from "@/src/utils/Navbar";
 import TemplesPageClient from "./TemplesPageClient";
 import { getPublishedTemples, getHubBySlug } from "@/src/lib/content";
-import { buildMetadata } from "@/src/lib/seo";
+import { breadcrumbSchema, buildMetadata, webPageSchema } from "@/src/lib/seo";
+import { SITE_URL } from "@/src/config/site";
+import JsonLd from "@/src/components/seo/JsonLd";
 
 export const revalidate = 3600;
 
@@ -55,12 +57,56 @@ export default async function TemplesPage() {
     body: String(hub.body || ""),
   } : null;
 
+  const crumbs = [
+    { name: "Home", path: "/" },
+    { name: "Temples", path: "/temples/" },
+  ];
+
+  const description =
+    serializedHub?.answer_first ||
+    "Pilgrimage guide to the famous temples of Gujarat — timings, darshan and travel details.";
+
   return (
     <>
       <Navbar />
       <main id="main-content" className="min-h-screen bg-[#FFFBF7]">
         <TemplesPageClient temples={serializedTemples} hub={serializedHub} />
       </main>
+      {/*
+        This page renders its own shell rather than PageShell, so it was the one
+        hub shipping no BreadcrumbList and no page entity. Both are emitted here
+        so the temple directory sits in the same graph as every other hub.
+      */}
+      <JsonLd
+        data={[
+          webPageSchema({
+            name: serializedHub?.h1 || "Temples of Gujarat",
+            description,
+            path: "/temples/",
+            type: "CollectionPage",
+            crumbs,
+          }),
+          breadcrumbSchema(crumbs),
+          ...(serializedTemples.length
+            ? [
+                {
+                  "@context": "https://schema.org",
+                  "@type": "ItemList",
+                  "@id": `${SITE_URL}/temples/#list`,
+                  name: "Temples of Gujarat",
+                  numberOfItems: serializedTemples.length,
+                  isPartOf: { "@id": `${SITE_URL}/temples/#webpage` },
+                  itemListElement: serializedTemples.map((t, i) => ({
+                    "@type": "ListItem",
+                    position: i + 1,
+                    url: `${SITE_URL}/temples/${t.slug}/`,
+                    name: t.temple || t.title,
+                  })),
+                },
+              ]
+            : []),
+        ]}
+      />
     </>
   );
 }

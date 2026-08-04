@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Sparkles, ShieldCheck, Wallet } from "lucide-react";
-import { buildMetadata } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema } from "@/src/lib/seo";
+import { SITE_URL } from "@/src/config/site";
+import JsonLd from "@/src/components/seo/JsonLd";
 import PageShell from "@/src/components/shared/PageShell";
 import Section from "@/src/components/shared/Section";
 import DataTable from "@/src/components/shared/DataTable";
@@ -77,16 +79,14 @@ export default async function HotelCityPage({ params }: Params) {
     ],
   });
 
+  const crumbs = [
+    { name: "Home", path: "/" },
+    { name: "Hotels", path: "/hotels/" },
+    { name: `Hotels in ${h.city}`, path: `/hotels/${slug}/` },
+  ];
+
   return (
-    <PageShell
-      crumbs={[
-        { name: "Home", path: "/" },
-        { name: "Hotels", path: "/hotels/" },
-        { name: `Hotels in ${h.city}`, path: `/hotels/${slug}/` },
-      ]}
-      flushHero
-      lightCrumb
-    >
+    <PageShell crumbs={crumbs} flushHero lightCrumb>
       <HotelCityHero
         city={h.city}
         h1={h.h1}
@@ -172,6 +172,75 @@ export default async function HotelCityPage({ params }: Params) {
       <CtaBand context={`Hotels in ${h.city}`} title="Get a hotel recommendation" subtitle="Share your dates and budget for a real, bookable option." />
       <RelatedLinks links={related} />
 
+      {/*
+        A city hotel page is a curated list, so it declares CollectionPage plus
+        an ItemList of the named properties. The Faq component emits FAQPage.
+        No AggregateRating is published here: the hero's 4.5 is the operator's
+        own Tripadvisor score, not a rating of this list, and the named
+        properties are third-party businesses whose reviews are not ours to
+        claim. A property's own rating rides along only when it is real.
+      */}
+      <JsonLd
+        data={[
+          webPageSchema({
+            name: h.h1,
+            description: h.answer_first,
+            path: `/hotels/${slug}/`,
+            type: "CollectionPage",
+            crumbs,
+            speakable: true,
+          }),
+          ...(properties.length
+            ? [
+                {
+                  "@context": "https://schema.org",
+                  "@type": "ItemList",
+                  "@id": `${SITE_URL}/hotels/${slug}/#properties`,
+                  name: `Hotels in ${h.city}`,
+                  numberOfItems: properties.length,
+                  isPartOf: { "@id": `${SITE_URL}/hotels/${slug}/#webpage` },
+                  itemListElement: properties.map((p, i) => ({
+                    "@type": "ListItem",
+                    position: i + 1,
+                    item: {
+                      "@type": "Hotel",
+                      name: p.name,
+                      description: p.description,
+                      ...(p.image ? { image: p.image } : {}),
+                      address: {
+                        "@type": "PostalAddress",
+                        addressLocality: h.city,
+                        addressRegion: "Gujarat",
+                        addressCountry: "IN",
+                      },
+                      ...(p.amenities?.length
+                        ? {
+                            amenityFeature: p.amenities.map((a) => ({
+                              "@type": "LocationFeatureSpecification",
+                              name: a,
+                              value: true,
+                            })),
+                          }
+                        : {}),
+                      ...(p.rating > 0
+                        ? {
+                            aggregateRating: {
+                              "@type": "AggregateRating",
+                              ratingValue: String(p.rating),
+                              bestRating: "5",
+                              ...(p.reviews
+                                ? { reviewCount: String(p.reviews) }
+                                : { ratingCount: "1" }),
+                            },
+                          }
+                        : {}),
+                    },
+                  })),
+                },
+              ]
+            : []),
+        ]}
+      />
     </PageShell>
   );
 }

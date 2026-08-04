@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { X, User, Mail, Phone, MessageSquare, CheckCircle2, Loader2 } from "lucide-react";
+import { isAdminSurface } from "@/src/config/routes";
 
 /**
  * Site-wide lead-capture popup. Opens 10s after each full page load / refresh —
@@ -22,9 +23,11 @@ const DELAY_MS = 10_000;
 // page refresh — which is exactly "show again on refresh, not on every nav".
 let shownThisLoad = false;
 
-// Routes where the popup must never show.
+// Routes where the popup must never show: the admin surface (shared with the
+// footer/sticky-bar rule) plus the thank-you page, where the visitor has just
+// converted and a lead popup would be asking twice.
 const isBlockedPath = (path: string) =>
-  path.startsWith("/admin-x9AqP7mK2") || path.includes("-login") || path === "/thank-you";
+  isAdminSurface(path) || path === "/thank-you" || path === "/thank-you/";
 
 export default function EnquiryPopup() {
   const pathname = usePathname();

@@ -7,6 +7,8 @@ import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import GuideEnquiryForm from "@/src/components/guides/GuideEnquiryForm";
+import GuideTestimonials from "@/src/components/guides/GuideTestimonials";
+import { fromCms, type CmsTestimonial } from "@/src/config/testimonials";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { CalendarDays, Clock, Sparkles } from "lucide-react";
 
@@ -68,6 +70,8 @@ export default async function GuidePage({ params }: Params) {
     question: f.question,
     answer: f.answer,
   }));
+
+  const cmsTestimonials = fromCms(g.testimonials as CmsTestimonial[] | undefined);
 
   const related = buildRelatedLinks({
     self: guidePath(slug),
@@ -161,9 +165,15 @@ export default async function GuidePage({ params }: Params) {
         </div>
       </div>
 
+      {/* FAQ answers the last objections before the CTA asks for the enquiry. */}
       <Faq items={faqs} heading="Guide FAQs" />
+
       <CtaBand context={`Guide: ${String(g.title)}`} />
       <RelatedLinks links={related} />
+
+      {/* Social proof closes the page, after the related links. Falls back to the
+          shared list when this guide has no testimonials of its own. */}
+      <GuideTestimonials items={cmsTestimonials.length ? cmsTestimonials : undefined} />
 
       <JsonLd
         data={articleSchema({

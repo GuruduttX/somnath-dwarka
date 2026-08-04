@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { buildMetadata, faqSchema } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema } from "@/src/lib/seo";
+import { SITE_URL } from "@/src/config/site";
 import PageShell from "@/src/components/shared/PageShell";
 import AnswerFirst from "@/src/components/shared/AnswerFirst";
 import Section from "@/src/components/shared/Section";
@@ -41,14 +42,14 @@ export default async function ToolPage({ params }: Params) {
     })),
   });
 
+  const crumbs = [
+    { name: "Home", path: "/" },
+    { name: "Tools", path: "/tools/" },
+    { name: t.h1, path: `/tools/${tool}/` },
+  ];
+
   return (
-    <PageShell
-      crumbs={[
-        { name: "Home", path: "/" },
-        { name: "Tools", path: "/tools/" },
-        { name: t.h1, path: `/tools/${tool}/` },
-      ]}
-    >
+    <PageShell crumbs={crumbs}>
       <div className="max-w-4xl mx-auto px-4 pt-6">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{t.h1}</h1>
         <AnswerFirst>{t.answer_first}</AnswerFirst>
@@ -67,7 +68,38 @@ export default async function ToolPage({ params }: Params) {
       <Faq items={t.faq} heading="Tool FAQs" />
       <RelatedLinks links={related} />
 
-      <JsonLd data={faqSchema(t.faq)} />
+      {/* Faq emits the FAQPage node itself; this is the page entity. A
+          calculator page is a WebApplication as much as a document, so both
+          nodes ship and the tool one carries the free-to-use offer. */}
+      <JsonLd
+        data={[
+          webPageSchema({
+            name: t.h1,
+            description: t.answer_first,
+            path: `/tools/${tool}/`,
+            crumbs,
+            speakable: true,
+          }),
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": `${SITE_URL}/tools/${tool}/#app`,
+            name: t.h1,
+            description: t.answer_first,
+            url: `${SITE_URL}/tools/${tool}/`,
+            applicationCategory: "TravelApplication",
+            browserRequirements: "Requires JavaScript for the interactive layer",
+            operatingSystem: "Any",
+            isPartOf: { "@id": `${SITE_URL}/tools/${tool}/#webpage` },
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "INR",
+            },
+            publisher: { "@id": `${SITE_URL}/#organization` },
+          },
+        ]}
+      />
     </PageShell>
   );
 }

@@ -97,6 +97,51 @@ const blogSchema = new Schema<IBlog>(
         ],
 
 
+        /**
+         * Traveller testimonials shown on the guide page. Optional: a guide
+         * with none simply renders no testimonial section.
+         *
+         * Only `review` is required — a quote with no text is not a
+         * testimonial. Everything else is optional so an editor can publish
+         * what they genuinely have rather than inventing a city to satisfy a
+         * required field.
+         */
+        testimonials: [
+            {
+                id: {
+                    type: String,
+                    required: true
+                },
+
+                name: {
+                    type: String,
+                    trim: true
+                },
+
+                location: {
+                    type: String,
+                    trim: true
+                },
+
+                destination: {
+                    type: String,
+                    trim: true
+                },
+
+                rating: {
+                    type: Number,
+                    min: 1,
+                    max: 5,
+                    default: 5
+                },
+
+                review: {
+                    type: String,
+                    required: true
+                }
+            }
+        ],
+
         status: {
             type: String,
             required: true,

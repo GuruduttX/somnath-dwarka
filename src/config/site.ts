@@ -23,6 +23,17 @@ export const BRAND = {
   // Client dependency (SOP §16 — brand assets)
   logo: `${SITE_URL}/images/logo.webp`,
   ogImage: `${SITE_URL}/images/home/HomeHero.webp`,
+  /**
+   * Official profiles, emitted as Organization.sameAs — the main signal that
+   * ties this site to the same entity across the web, so it is worth filling in
+   * as soon as each profile is confirmed (SOP §16).
+   *
+   * Only genuinely-owned, live profile URLs belong here. An unowned or dead URL
+   * in sameAs points the entity graph at the wrong business, which is worse
+   * than publishing none: while this is empty, the property is omitted rather
+   * than published as `sameAs: []`, which would assert that no profiles exist.
+   */
+  socialProfiles: [] as string[],
 } as const;
 
 /** Contact / NAP — client to confirm (SOP §16). */

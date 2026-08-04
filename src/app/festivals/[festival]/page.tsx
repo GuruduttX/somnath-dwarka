@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Flame, CalendarDays, Users, MapPin, Sparkles, Check, CalendarClock, BedDouble, Clock, ShieldCheck, ArrowUpRight, Compass, Map, Building2, Calendar } from "lucide-react";
-import { buildMetadata, eventSchema, faqSchema } from "@/src/lib/seo";
+import { buildMetadata, eventSchema, webPageSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
@@ -72,16 +72,14 @@ export default async function FestivalPage({ params }: Params) {
     { icon: BedDouble, title: "We handle logistics", text: "Hotels, transport and a festival-ready itinerary arranged in one place." },
   ];
 
+  const crumbs = [
+    { name: "Home", path: "/" },
+    { name: "Festivals", path: "/festivals/" },
+    { name: f.festival, path: `/festivals/${festival}/` },
+  ];
+
   return (
-    <PageShell
-      crumbs={[
-        { name: "Home", path: "/" },
-        { name: "Festivals", path: "/festivals/" },
-        { name: f.festival, path: `/festivals/${festival}/` },
-      ]}
-      flushHero
-      lightCrumb
-    >
+    <PageShell crumbs={crumbs} flushHero lightCrumb>
       <FestivalDetailHero
         image={f.image}
         festival={f.festival}
@@ -228,16 +226,24 @@ export default async function FestivalPage({ params }: Params) {
         </div>
       </section>
 
-      {/* Event schema is gated: only renders when a real date is set (SOP §12) */}
+      {/* Event schema is gated: only renders when a real date is set (SOP §12).
+          The FAQPage node comes from the Faq component, next to the answers. */}
       <JsonLd
         data={[
+          webPageSchema({
+            name: f.h1,
+            description: f.answer_first,
+            path: `/festivals/${festival}/`,
+            crumbs,
+            speakable: true,
+            ...(f.image ? { primaryImage: f.image } : {}),
+          }),
           eventSchema({
             name: f.h1,
             path: `/festivals/${festival}/`,
             startDate: f.date_this_year || undefined,
             location: f.event_venue,
           }),
-          faqSchema(f.faq),
         ]}
       />
     </PageShell>

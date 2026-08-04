@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { buildMetadata, faqSchema } from "@/src/lib/seo";
+import { buildMetadata, webPageSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import AnswerFirst from "@/src/components/shared/AnswerFirst";
 import Section from "@/src/components/shared/Section";
@@ -43,14 +43,14 @@ export default async function JourneyPage({ params }: Params) {
     })),
   });
 
+  const crumbs = [
+    { name: "Home", path: "/" },
+    { name: "Plan", path: "/plan/" },
+    { name: j.h1, path: `/plan/${topic}/` },
+  ];
+
   return (
-    <PageShell
-      crumbs={[
-        { name: "Home", path: "/" },
-        { name: "Plan", path: "/plan/" },
-        { name: j.h1, path: `/plan/${topic}/` },
-      ]}
-    >
+    <PageShell crumbs={crumbs}>
       <div className="max-w-4xl mx-auto px-4 pt-6">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{j.h1}</h1>
         <div className="speakable">
@@ -87,7 +87,17 @@ export default async function JourneyPage({ params }: Params) {
       <CtaBand context={j.h1} />
       <RelatedLinks links={related} />
 
-      <JsonLd data={faqSchema(j.faq)} />
+      {/* The Faq component emits the FAQPage node alongside the visible
+          answers; this is the page's own entity, not a second copy of it. */}
+      <JsonLd
+        data={webPageSchema({
+          name: j.h1,
+          description: j.direct_answer,
+          path: `/plan/${topic}/`,
+          crumbs,
+          speakable: true,
+        })}
+      />
     </PageShell>
   );
 }

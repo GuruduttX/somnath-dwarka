@@ -7,6 +7,20 @@ const faqSchema = z.object({
   answer: z.string(),
 });
 
+/**
+ * Only the quote itself is mandatory. The rest is optional so a half-filled
+ * row does not block a draft save; empty rows are stripped before they reach
+ * the database (see the controller).
+ */
+const testimonialSchema = z.object({
+  id: z.string(),
+  name: z.string().optional(),
+  location: z.string().optional(),
+  destination: z.string().optional(),
+  rating: z.number().min(1).max(5).optional(),
+  review: z.string().optional(),
+});
+
 const metaSchema = z.object({
   title: z.string(),
   description: z.string(),
@@ -28,13 +42,29 @@ export const blogSchema = z
     content: z.string().optional(),
     subContent: z.string().optional(),
 
-    image: z.string().url().optional(),
+    /**
+     * Absolute URL (Cloudinary upload) or a site-relative path (/images/…).
+     *
+     * This was `z.string().url()`, which rejects a leading-slash path — and
+     * every blog in the database stores one, so *every* update from the blog
+     * editor failed with `image: Invalid URL` before it reached the database.
+     * The editor's own media picker offers local images, so relative paths are
+     * a supported input, not bad data to be validated away.
+     */
+    image: z
+      .string()
+      .refine(
+        (v) => /^https?:\/\//.test(v) || v.startsWith("/"),
+        "Image must be an absolute URL or a path starting with /"
+      )
+      .optional(),
     alt: z.string().optional(),
 
     meta: metaSchema.optional(),
     structuredData: schemaData.optional(),
 
     faqs: z.array(faqSchema).optional(),
+    testimonials: z.array(testimonialSchema).optional(),
 
     status: z.enum(["draft", "published"]),
   })

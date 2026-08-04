@@ -4,11 +4,10 @@ import "./globals.css";
 import { SITE_URL, BRAND, IS_STAGING } from "@/src/config/site";
 import { organizationSchema, websiteSchema, localBusinessSchema } from "@/src/lib/seo";
 import JsonLd from "@/src/components/seo/JsonLd";
-import StickyContactBar from "@/src/components/shared/StickyContactBar";
 import Analytics from "@/src/components/seo/Analytics";
 import SuppressPrefetchFetchErrors from "@/src/components/shared/SuppressPrefetchFetchErrors";
 import EnquiryPopup from "@/src/components/shared/EnquiryPopup";
-import Footer from "@/src/utils/Footer";
+import PublicChrome from "@/src/components/shared/PublicChrome";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -46,8 +45,8 @@ export default function RootLayout({
         />
         <SuppressPrefetchFetchErrors />
         {children}
-        <Footer />
-        <StickyContactBar />
+        {/* Footer + sticky call/WhatsApp bar, hidden on the admin surface. */}
+        <PublicChrome />
         <EnquiryPopup />
         <Analytics />
       </body>

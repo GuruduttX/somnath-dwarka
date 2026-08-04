@@ -4,6 +4,19 @@
  * the CMS. One trailing-slash convention: we standardise on trailing slash.
  */
 
+/**
+ * The admin surface: the CMS dashboard and its login screen.
+ *
+ * These render inside the root layout like every other route, so the public
+ * chrome (footer, sticky call/WhatsApp bar, lead popup) would otherwise sit on
+ * top of the dashboard. Marketing furniture aimed at travellers has no place
+ * over an editor's workspace — and the sticky bar in particular overlaps the
+ * dashboard's own controls. One predicate, so the rule cannot drift between the
+ * components that depend on it.
+ */
+export const isAdminSurface = (path: string) =>
+  path.startsWith("/admin-x9AqP7mK2") || path.includes("-login");
+
 export type RouteType =
   | "home"
   | "packagePillar"

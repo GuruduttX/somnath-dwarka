@@ -7,6 +7,7 @@ import CMSMediaSection from '@/components/Admin/CMS/CMSMediaSection';
 import CMSMetaSection from '@/components/Admin/CMS/CMSMetaSection';
 import CMSSeoSection from '@/components/Admin/CMS/CMSSeoSection';
 import FaqHandler from '@/components/Admin/CMS/FaqHandler';
+import TestimonialHandler, { type testimonial as Testimonial } from '@/src/components/Admin/CMS/TestimonialHandler';
 import CMSSchema from '@/components/Admin/CMS/CMSSchema';
 
 import { useEffect, useState } from 'react';
@@ -59,6 +60,7 @@ export default function EditBlog() {
   });
 
   const [faqs, setFaqs] = useState<FAQ[]>([])
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([])
 
   const updateForm = (field: keyof BlogForm, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -107,6 +109,19 @@ export default function EditBlog() {
           (blog.faqs || []).map((faq: Partial<FAQ>) => ({
             ...faq,
             id: faq.id || crypto.randomUUID(),
+          }))
+        );
+
+        // Rows saved before this field existed carry no id, and the editor
+        // keys its list by id — so backfill one rather than render duplicates.
+        setTestimonials(
+          (blog.testimonials || []).map((t: Partial<Testimonial>) => ({
+            id: t.id || crypto.randomUUID(),
+            name: t.name || "",
+            location: t.location || "",
+            destination: t.destination || "",
+            rating: t.rating ?? 5,
+            review: t.review || "",
           }))
         );
         setDataId(blog._id)
@@ -183,7 +198,8 @@ export default function EditBlog() {
       content: form.content,
       author: form.author,
       status : "published",
-      faqs
+      faqs,
+      testimonials
     };
 
     try {
@@ -240,7 +256,8 @@ export default function EditBlog() {
       content: form.content,
       author: form.author,
       status : "draft",
-      faqs
+      faqs,
+      testimonials
     };
       
     
@@ -337,12 +354,6 @@ export default function EditBlog() {
             editorType="Blog"
           />
 
-          <FaqHandler
-            faqs={faqs}
-            setFaqs={setFaqs}
-            editorType="Blog"
-          />
-
           <CMSMediaSection
             image={form.image}
             alt={form.alt}
@@ -354,6 +365,18 @@ export default function EditBlog() {
             subContent={form.subContent}
             content={form.content}
             onChange={updateForm}
+            editorType="Blog"
+          />
+
+          <FaqHandler
+            faqs={faqs}
+            setFaqs={setFaqs}
+            editorType="Blog"
+          />
+
+          <TestimonialHandler
+            testimonials={testimonials}
+            setTestimonials={setTestimonials}
             editorType="Blog"
           />
 
