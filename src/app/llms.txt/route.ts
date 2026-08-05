@@ -134,7 +134,7 @@ ${SEED_TOOLS.map((t) => line(`/tools/${t.slug}/`, t.h1, firstSentence(t.answer_f
 ## About and policies
 
 ${line("/about/", "About", "who runs this site")}
-${line("/author/harsh-sharma/", "Harsh Sharma", "author and reviewer credentials")}
+${line("/author/harsh-rawat/", "Harsh Rawat", "author and reviewer credentials")}
 ${line("/contact/", "Contact", "phone, WhatsApp and enquiry form")}
 ${line("/reviews/", "Reviews")}
 ${line("/booking-policy/", "Booking policy")}

@@ -18,7 +18,7 @@ export const OPERATOR = {
   parentSlogan: "India's Most Trusted Tour Operator",
   phone: "+917300620809",
   foundingDate: "2018",
-  founder: "Harsh Sharma",
+  founder: "Harsh Rawat",
   gstin: "09BZFPM8067A1Z9",
   /** BCP-47 codes for schema; the prose spells them out. */
   languages: ["en", "gu", "te", "kn"],
@@ -50,7 +50,7 @@ export const SPOKE_FARE_SCOPE = {
 
 /** The author/E-E-A-T line closing every why-book block. */
 export const SPOKE_AUTHOR = {
-  line: "Routes and timings are maintained by Harsh Sharma, who leads the Gujarat operations.",
+  line: "Routes and timings are maintained by Harsh Rawat, who leads the Gujarat operations.",
   links: [
     { label: "Read more about us", href: "/about/" },
     { label: "check the booking policy", href: "/booking-policy/" },
@@ -1009,7 +1009,7 @@ export const VEHICLE_SCOPE = {
 } as const;
 
 export const VEHICLE_AUTHOR = {
-  line: "The fleet and routes are maintained by Harsh Sharma, who leads the Gujarat operations.",
+  line: "The fleet and routes are maintained by Harsh Rawat, who leads the Gujarat operations.",
   links: SPOKE_AUTHOR.links,
 } as const;
 
@@ -1317,7 +1317,7 @@ export const AIRPORT_SCOPE = {
 } as const;
 
 export const AIRPORT_AUTHOR = {
-  line: "Transfers and routes are maintained by Harsh Sharma, who leads the Gujarat operations.",
+  line: "Transfers and routes are maintained by Harsh Rawat, who leads the Gujarat operations.",
   links: SPOKE_AUTHOR.links,
 } as const;
 

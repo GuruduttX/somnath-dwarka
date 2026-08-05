@@ -7,7 +7,7 @@ import VerifyStamp from "@/src/components/shared/VerifyStamp";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { SEED_AUTHOR } from "@/src/lib/seed/destinations";
 
-const PATH = "/author/harsh-sharma/";
+const PATH = "/author/harsh-rawat/";
 export const revalidate = 3600;
 
 export const metadata: Metadata = buildMetadata({

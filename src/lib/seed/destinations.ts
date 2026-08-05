@@ -1996,14 +1996,14 @@ export const SEED_TOOLS: SeedTool[] = [
 ];
 
 export const SEED_AUTHOR = {
-  slug: "harsh-sharma",
-  name: "Harsh Sharma",
+  slug: "harsh-rawat",
+  name: "Harsh Rawat",
   job_title: "Travel author, Somnath–Dwarka circuit",
   bio: "",
   bio_verified: false,
   experience_years: 0,
   experience_verified: false,
-  photo: "",
+  photo: "/images/Harsh-Rawat.webp",
   sameAs: [] as string[],
   answer_first:
     "This page introduces the author behind our Somnath–Dwarka guides. A verified biography, experience and profile links are pending — until confirmed we do not present author credentials as established fact (SOP E-E-A-T blocker).",

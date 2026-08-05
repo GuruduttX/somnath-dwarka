@@ -43,7 +43,7 @@ const whyBook = (heading: string, vettedLine: string) => ({
     `A multilingual team, ${OPERATOR.languagesProse}, so pilgrims from the south are looked after.`,
     `A GST registered business, GSTIN ${OPERATOR.gstin}, with clear booking and cancellation terms.`,
   ],
-  author: "Stays are arranged by the team led by Harsh Sharma.",
+  author: "Stays are arranged by the team led by Harsh Rawat.",
 });
 
 const BUNDLE = {

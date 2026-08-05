@@ -71,7 +71,7 @@ export const STATIC_ROUTES: StaticRoute[] = [
 
   // Trust
   { path: "/about/", type: "trust", label: "About", priority: 0.4 },
-  { path: "/author/harsh-sharma/", type: "trust", label: "Author", priority: 0.4 },
+  { path: "/author/harsh-rawat/", type: "trust", label: "Author", priority: 0.4 },
   { path: "/reviews/", type: "trust", label: "Reviews", priority: 0.3 },
   { path: "/contact/", type: "trust", label: "Contact", priority: 0.4 },
   { path: "/booking-policy/", type: "trust", label: "Booking policy", priority: 0.2 },
@@ -181,7 +181,7 @@ export const FOOTER_NAV = [
     heading: "Company",
     links: [
       { label: "About", path: "/about/" },
-      { label: "Author", path: "/author/harsh-sharma/" },
+      { label: "Author", path: "/author/harsh-rawat/" },
       { label: "Contact", path: "/contact/" },
       { label: "Booking policy", path: "/booking-policy/" },
       { label: "Cancellation & refund", path: "/cancellation-refund/" },

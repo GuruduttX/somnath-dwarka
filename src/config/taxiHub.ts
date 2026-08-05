@@ -102,7 +102,7 @@ export const TAXI_HUB = {
     ],
     /** E-E-A-T attribution line. Links are rendered from `authorLinks`. */
     author:
-      "The circuit routes, timings and stops on this site are maintained by Harsh Sharma, who plans these yatras across Somnath and Dwarka.",
+      "The circuit routes, timings and stops on this site are maintained by Harsh Rawat, who plans these yatras across Somnath and Dwarka.",
     authorLinks: [
       { label: "Read more about us", href: "/about/" },
       { label: "check the booking policy", href: "/booking-policy/" },

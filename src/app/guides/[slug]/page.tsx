@@ -8,6 +8,7 @@ import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import GuideEnquiryForm from "@/src/components/guides/GuideEnquiryForm";
 import GuideTestimonials from "@/src/components/guides/GuideTestimonials";
+import GuideAuthorBio from "@/src/components/guides/GuideAuthorBio";
 import { fromCms, type CmsTestimonial } from "@/src/config/testimonials";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { CalendarDays, Clock, Sparkles } from "lucide-react";
@@ -149,6 +150,9 @@ export default async function GuidePage({ params }: Params) {
               className={`mt-8 ${GUIDE_PROSE}`}
               dangerouslySetInnerHTML={{ __html: String(g.content || "") }}
             />
+
+            {/* Author attribution closes the body, before the FAQ. */}
+            <GuideAuthorBio />
           </article>
 
           {/* ── STICKY ENQUIRY SIDEBAR (desktop) ── */}

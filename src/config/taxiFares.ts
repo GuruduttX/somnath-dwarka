@@ -119,7 +119,7 @@ export const FARE_RATE_CARD = {
       "GPS tracked, air-conditioned cars, and airport meet and greet from Diu, Rajkot, Jamnagar, Ahmedabad and Porbandar.",
       `A GST registered business, GSTIN ${OPERATOR.gstin}, with clear booking and cancellation terms.`,
     ],
-    author: "Rates are maintained by Harsh Sharma, who leads the Gujarat operations.",
+    author: "Rates are maintained by Harsh Rawat, who leads the Gujarat operations.",
   },
 
   faq: [

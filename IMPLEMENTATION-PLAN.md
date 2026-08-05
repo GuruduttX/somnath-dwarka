@@ -149,7 +149,7 @@ Move from `/tour-packages/[duration]/[slug]` to the SOP scheme; 301 legacy paths
 - [ ] `/somnath-dwarka-taxi-service/` CabHub · `/{origin}-to-{dest}-taxi/` CabRoute
 - [ ] `/somnath/` `/dwarka/` DestinationPillar · `/{destination}/{topic}/` TempleInfo
 - [ ] `/plan/{topic}/` JourneyItinerary
-- [ ] Trust: `/about`, `/author/harsh-sharma`, `/contact`, `/booking-policy`,
+- [ ] Trust: `/about`, `/author/harsh-rawat`, `/contact`, `/booking-policy`,
       `/cancellation-refund`, `/terms`, `/privacy`
 - [ ] One trailing-slash convention + 301 the other; self-canonical each page;
       `noindex,follow` + canonical-to-parent on non-strategic facet combos.
@@ -220,7 +220,7 @@ styling, CWV + WCAG AA, schema validates with zero errors.
 | Festival dates each year | Festival pages |
 | Sudarshan Setu / Shivrajpur Blue-Flag confirmation | Place spokes |
 | VVIP darshan + wheelchair/assistance availability | Senior-citizen package |
-| Harsh Sharma real bio/experience/photo/sameAs | Author page + E-E-A-T (pre-publish blocker) |
+| Harsh Rawat real bio/experience/photo/sameAs | Author page + E-E-A-T (pre-publish blocker) |
 | Real reviews (if any) | Reviews page + rating schema |
 | Brand assets (logo, colors, contact, WhatsApp) | Global build |
 
