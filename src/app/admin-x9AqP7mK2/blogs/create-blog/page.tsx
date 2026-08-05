@@ -7,9 +7,11 @@ import CMSMetaSection from '@/src/components/Admin/CMS/CMSMetaSection';
 import CMSSeoSection from '@/src/components/Admin/CMS/CMSSeoSection';
 import FaqHandler from '@/src/components/Admin/CMS/FaqHandler';
 import TestimonialHandler, { type testimonial as Testimonial } from '@/src/components/Admin/CMS/TestimonialHandler';
-import { useEffect, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import CMSSchema from '@/src/components/Admin/CMS/CMSSchema';
+import DraftRecoveryBanner from '@/src/components/Admin/CMS/DraftRecoveryBanner';
+import { useDraftRecovery } from '@/src/components/Admin/CMS/useDraftRecovery';
 
 type BlogForm = {
 
@@ -52,105 +54,81 @@ export default function CreateNewBlog() {
 
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  /* ---------- autosave + recovery ---------- *
+   * The draft is stored in the same nested shape the API takes, so recovering
+   * it is a straight un-nest back into form state. Nothing is restored until
+   * the editor clicks Recover on the banner. */
+  const draft = useMemo(
+    () => ({
+      title: form.title,
+      category: form.category,
+      slug: form.slug,
+      meta: {
+        title: form.metaTitle,
+        description: form.metaDescription,
+      },
+      structuredData: {
+        title: form.schemaTitle,
+        description: form.schemaDescription,
+      },
+      image: form.image,
+      alt: form.alt,
+      subContent: form.subContent,
+      content: form.content,
+      author: form.author,
+      status: "draft",
+      faqs,
+      testimonials,
+    }),
+    [form, faqs, testimonials],
+  );
 
-  // 3. THE READ EFFECT (Fires once on mount)
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedBlog = localStorage.getItem("blogs"); // Matches your dashboard init
+  type BlogDraft = typeof draft;
 
-      if (!savedBlog) {
-        // Initialize with the exact nested payload structure
-        localStorage.setItem(
-          "blogs",
-          JSON.stringify({
-            title: "",
-            category: "",
-            slug: "",
-            author: "",
-            meta: { title: "", description: "" },
-            structuredData: { title: "", description: "" },
-            image: "",
-            alt: "",
-            subContent: "",
-            content: "",
-            status: "draft",
-            faqs: [],
-            testimonials: [],
-          }),
-        );
-      } else {
-        const parsedData = JSON.parse(savedBlog || "{}");
+  const applyDraft = useCallback((saved: BlogDraft) => {
+    setForm((prev) => ({
+      ...prev,
+      title: saved.title || "",
+      category: saved.category || "",
+      slug: saved.slug || "",
+      author: saved.author || "",
+      image: saved.image || "",
+      alt: saved.alt || "",
+      subContent: saved.subContent || "",
+      content: saved.content || "",
 
-        // Map payload back to flat form state
-        setForm((prev) => ({
-          ...prev,
-          title: parsedData.title || "",
-          category: parsedData.category || "",
-          slug: parsedData.slug || "",
-          author: parsedData.author || "",
-          image: parsedData.image || "",
-          alt: parsedData.alt || "",
-          subContent: parsedData.subContent || "",
-          content: parsedData.content || "",
+      // Un-nest the SEO data
+      metaTitle: saved.meta?.title || "",
+      metaDescription: saved.meta?.description || "",
+      schemaTitle: saved.structuredData?.title || "",
+      schemaDescription: saved.structuredData?.description || "",
+    }));
 
-          // Un-nest the SEO data
-          metaTitle: parsedData.meta?.title || "",
-          metaDescription: parsedData.meta?.description || "",
-          schemaTitle: parsedData.structuredData?.title || "",
-          schemaDescription: parsedData.structuredData?.description || "",
-        }));
-
-        // Set FAQs safely
-        if (parsedData.faqs?.length > 0) {
-          setFaqs(parsedData.faqs);
-        }
-
-        if (parsedData.testimonials?.length > 0) {
-          setTestimonials(parsedData.testimonials);
-        }
-      }
-
-      // Unlock the auto-save!
-      setIsLoaded(true);
-    }
+    setFaqs(saved.faqs?.length ? saved.faqs : []);
+    setTestimonials(saved.testimonials?.length ? saved.testimonials : []);
   }, []);
 
-  // 4. THE WRITE EFFECT (Auto-saves on keystrokes)
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Bouncer: Stop auto-saving until the initial read is complete
-      if (!isLoaded) return;
+  /** A draft is only worth keeping once some real text has been typed. */
+  const hasContent = useCallback(
+    (saved: BlogDraft) =>
+      Boolean(
+        saved.title?.trim() ||
+          saved.slug?.trim() ||
+          saved.content?.trim() ||
+          saved.subContent?.trim() ||
+          saved.faqs?.length ||
+          saved.testimonials?.length,
+      ),
+    [],
+  );
 
-      // Build the exact nested payload format your API expects
-      const currentDraft = {
-        title: form.title,
-        category: form.category,
-        slug: form.slug,
-        meta: {
-          title: form.metaTitle,
-          description: form.metaDescription,
-        },
-        structuredData: {
-          title: form.schemaTitle,
-          description: form.schemaDescription,
-        },
-        image: form.image,
-        alt: form.alt,
-        subContent: form.subContent,
-        content: form.content,
-        author: form.author,
-        status: "draft",
-        faqs: faqs,
-        testimonials,
-      };
-
-      // Save it!
-      localStorage.setItem("blogs", JSON.stringify(currentDraft));
-    }
-
-    // Watches form and faqs for any changes
-  }, [form, faqs, testimonials, isLoaded]);
+  const recovery = useDraftRecovery({
+    storageKey: "blogs",
+    draft,
+    ready: true,
+    onRecover: applyDraft,
+    hasContent,
+  });
 
   const updateForm = (field: keyof BlogForm, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -259,24 +237,8 @@ export default function CreateNewBlog() {
         return;
       }
 
-      localStorage.setItem(
-          "blogs",
-          JSON.stringify({
-            title: "",
-            category: "",
-            slug: "",
-            author: "",
-            meta: { title: "", description: "" },
-            structuredData: { title: "", description: "" },
-            image: "",
-            alt: "",
-            subContent: "",
-            content: "",
-            status: "draft",
-            faqs: [],
-            testimonials: [],
-          }),
-        );
+      // Saved server-side now, so the local autosave must not be re-offered.
+      recovery.clear();
 
       toast.success("Blog Published Successfully");
 
@@ -357,24 +319,8 @@ export default function CreateNewBlog() {
         return;
       }
 
-      localStorage.setItem(
-          "blogs",
-          JSON.stringify({
-            title: "",
-            category: "",
-            slug: "",
-            author: "",
-            meta: { title: "", description: "" },
-            structuredData: { title: "", description: "" },
-            image: "",
-            alt: "",
-            subContent: "",
-            content: "",
-            status: "draft",
-            faqs: [],
-            testimonials: [],
-          }),
-        );
+      // Saved server-side now, so the local autosave must not be re-offered.
+      recovery.clear();
 
       toast.success("Blog Drafted Successfully");
 
@@ -413,6 +359,15 @@ export default function CreateNewBlog() {
       backdrop-blur-xl border border-white/10
       shadow-[0_0_60px_-15px_rgba(56,189,248,0.25)]"
       >
+        {recovery.pending && (
+          <DraftRecoveryBanner
+            savedAt={recovery.savedAt}
+            onRecover={recovery.recover}
+            onDiscard={recovery.discard}
+            editorType="blog"
+          />
+        )}
+
         <form className="space-y-6" onSubmit={handleSave}>
           <CMSHeader editorType="Blog" />
           <CMSMetaSection

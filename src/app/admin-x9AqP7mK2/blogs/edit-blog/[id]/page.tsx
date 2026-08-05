@@ -10,10 +10,12 @@ import FaqHandler from '@/components/Admin/CMS/FaqHandler';
 import TestimonialHandler, { type testimonial as Testimonial } from '@/src/components/Admin/CMS/TestimonialHandler';
 import CMSSchema from '@/components/Admin/CMS/CMSSchema';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from "next/navigation";
 import toast from 'react-hot-toast';
 import CmsLoader from '@/components/Admin/Components/CmsLoader';
+import DraftRecoveryBanner from '@/src/components/Admin/CMS/DraftRecoveryBanner';
+import { useDraftRecovery } from '@/src/components/Admin/CMS/useDraftRecovery';
 
 type BlogForm = {
   title: string;
@@ -62,6 +64,9 @@ export default function EditBlog() {
   const [faqs, setFaqs] = useState<FAQ[]>([])
   const [testimonials, setTestimonials] = useState<Testimonial[]>([])
 
+  /** JSON of the blog as it exists on the server — the "no local edits" mark. */
+  const baselineRef = useRef<string | null>(null);
+
   const updateForm = (field: keyof BlogForm, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }))
   }
@@ -89,6 +94,25 @@ export default function EditBlog() {
         console.log(data);
 
         const blog = data.data;
+
+        baselineRef.current = JSON.stringify({
+          title: blog.title || "",
+          category: blog.category || "",
+          slug: blog.slug || "",
+          meta: {
+            title: blog.meta?.title || "",
+            description: blog.meta?.description || "",
+          },
+          structuredData: {
+            title: blog.structuredData?.title || "",
+            description: blog.structuredData?.description || "",
+          },
+          image: blog.image || "",
+          alt: blog.alt || "",
+          subContent: blog.subContent || "",
+          content: blog.content || "",
+          author: blog.author || "",
+        });
 
         setForm({
           title: blog.title,
@@ -138,6 +162,93 @@ export default function EditBlog() {
 
   }, []);
 
+
+  /* ---------------- AUTOSAVE + RECOVERY ---------------- *
+   * Keyed per blog id so two open editors never trample each other. Stored in
+   * the API's own payload shape, and only offered back on the next visit — the
+   * server copy always wins until the editor clicks Recover. */
+
+  const draft = useMemo(
+    () => ({
+      title: form.title,
+      category: form.category,
+      slug: form.slug,
+      meta: {
+        title: form.metaTitle,
+        description: form.metaDescription,
+      },
+      structuredData: {
+        title: form.schemaTitle,
+        description: form.schemaDescription,
+      },
+      image: form.image,
+      alt: form.alt,
+      subContent: form.subContent,
+      content: form.content,
+      author: form.author,
+      faqs,
+      testimonials,
+    }),
+    [form, faqs, testimonials],
+  );
+
+  type BlogDraft = typeof draft;
+
+  const applyDraft = useCallback((saved: BlogDraft) => {
+    setForm({
+      title: saved.title || "",
+      category: saved.category || "",
+      slug: saved.slug || "",
+      author: saved.author || "",
+      metaTitle: saved.meta?.title || "",
+      metaDescription: saved.meta?.description || "",
+      image: saved.image || "",
+      alt: saved.alt || "",
+      subContent: saved.subContent || "",
+      content: saved.content || "",
+      schemaTitle: saved.structuredData?.title || "",
+      schemaDescription: saved.structuredData?.description || "",
+    });
+    setFaqs(saved.faqs || []);
+    setTestimonials(saved.testimonials || []);
+  }, []);
+
+  /**
+   * Only a genuine divergence from the saved blog is worth keeping. FAQ and
+   * testimonial rows are left out of the comparison because missing ids are
+   * backfilled with a fresh uuid on every load, which would otherwise read as
+   * an edit on a blog nobody touched.
+   */
+  const hasContent = useCallback((saved: BlogDraft) => {
+    if (!baselineRef.current) return false;
+    const comparable = JSON.stringify({
+      title: saved.title || "",
+      category: saved.category || "",
+      slug: saved.slug || "",
+      meta: {
+        title: saved.meta?.title || "",
+        description: saved.meta?.description || "",
+      },
+      structuredData: {
+        title: saved.structuredData?.title || "",
+        description: saved.structuredData?.description || "",
+      },
+      image: saved.image || "",
+      alt: saved.alt || "",
+      subContent: saved.subContent || "",
+      content: saved.content || "",
+      author: saved.author || "",
+    });
+    return comparable !== baselineRef.current;
+  }, []);
+
+  const recovery = useDraftRecovery({
+    storageKey: `blog-draft:${id}`,
+    draft,
+    ready: !loading,
+    onRecover: applyDraft,
+    hasContent,
+  });
 
     const getBlogBySlug = async (slug: string) => {
   try {
@@ -219,6 +330,22 @@ export default function EditBlog() {
         return;
       }
 
+      // Saved server-side: the local draft is now redundant, and the freshly
+      // saved values become the new "unchanged" baseline.
+      baselineRef.current = JSON.stringify({
+        title: payload.title,
+        category: payload.category,
+        slug: payload.slug,
+        meta: payload.meta,
+        structuredData: payload.structuredData,
+        image: payload.image,
+        alt: payload.alt,
+        subContent: payload.subContent,
+        content: payload.content,
+        author: payload.author,
+      });
+      recovery.clear();
+
       toast.success("Blog Updated Successfully");
 
     } catch (error) {
@@ -294,6 +421,20 @@ export default function EditBlog() {
       }
 
 
+      baselineRef.current = JSON.stringify({
+        title: payload.title,
+        category: payload.category,
+        slug: payload.slug,
+        meta: payload.meta,
+        structuredData: payload.structuredData,
+        image: payload.image,
+        alt: payload.alt,
+        subContent: payload.subContent,
+        content: payload.content,
+        author: payload.author,
+      });
+      recovery.clear();
+
       toast.success("Blog Updated Successfully");
 
     } catch (error) {
@@ -315,6 +456,15 @@ export default function EditBlog() {
       bg-[#0b1220]
       backdrop-blur-xl border border-white/10
       shadow-[0_0_60px_-15px_rgba(56,189,248,0.25)]">
+
+        {recovery.pending && (
+          <DraftRecoveryBanner
+            savedAt={recovery.savedAt}
+            onRecover={recovery.recover}
+            onDiscard={recovery.discard}
+            editorType="blog"
+          />
+        )}
 
         <form className='space-y-6' onSubmit={handleUpdate}>
 
