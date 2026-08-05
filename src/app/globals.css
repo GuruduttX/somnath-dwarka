@@ -94,6 +94,10 @@
   transform: translateY(-2px);
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
 }
+/* The bar outranks any overlay (z-index 9990), so a fullscreen gallery has to
+   take it off screen or the floating buttons sit on top of the thumbnails. */
+body.lightbox-open .sticky-contact-bar { display: none; }
+
 .sticky-contact-bar .scb-call { background: #E87722; }
 .sticky-contact-bar .scb-wa { background: #25D366; }
 
@@ -106,6 +110,19 @@
   margin: 20px 0;
 }
 .answer-first p { margin: 0; color: #3A2A1B; line-height: 1.7; }
+
+/* iOS Safari auto-zooms the page when a focused form control renders below
+   16px. Our fields are 13–14px by design, so on touch phones we lift the
+   *text* to 16px while keeping the designed box: the label, padding and
+   Tailwind sizing are untouched, only the typed value grows. Pinch-zoom stays
+   available (no maximum-scale hack) so this costs nothing in accessibility. */
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;

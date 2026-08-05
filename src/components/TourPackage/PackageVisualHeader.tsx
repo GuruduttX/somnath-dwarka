@@ -39,11 +39,17 @@ function getGalleryImages(pkg: {
     (image): image is PackageImage => Boolean(image?.image),
   );
 
-  const gallery = images.length ? images : FALLBACK_GALLERY;
-  return Array.from({ length: 5 }, (_, index) => ({
-    ...gallery[index % gallery.length],
-    alt: gallery[index % gallery.length].alt || pkg.h1,
+  const source = (images.length ? images : FALLBACK_GALLERY).map((image) => ({
+    ...image,
+    alt: image.alt || pkg.h1,
   }));
+
+  return {
+    /** Every image the package actually has — drives the rail and the lightbox. */
+    gallery: source,
+    /** Padded to 5 by cycling, so the desktop 2x2 sidebar never renders a hole. */
+    tiles: Array.from({ length: 5 }, (_, index) => source[index % source.length]),
+  };
 }
 
 // ─── Lightbox Component ───
@@ -67,6 +73,9 @@ function Lightbox({
     const previous = { html: html.style.overflow, body: body.style.overflow };
     html.style.overflow = "hidden";
     body.style.overflow = "hidden";
+    // Pulls the fixed call/WhatsApp buttons out — they sit at z-index 9990,
+    // above this overlay, and were covering the thumbnail strip.
+    body.classList.add("lightbox-open");
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
@@ -78,6 +87,7 @@ function Lightbox({
     return () => {
       html.style.overflow = previous.html;
       body.style.overflow = previous.body;
+      body.classList.remove("lightbox-open");
       document.removeEventListener("keydown", onKeyDown);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -167,7 +177,7 @@ function Lightbox({
 
       {/* Thumbnails */}
       <div
-        className="flex shrink-0 justify-start gap-2.5 overflow-x-auto px-4 pb-5 hide-scrollbar sm:justify-center"
+        className="flex shrink-0 justify-start gap-2.5 overflow-x-auto px-4 pb-[max(20px,env(safe-area-inset-bottom))] hide-scrollbar sm:justify-center"
         onClick={(e) => e.stopPropagation()}
       >
         {images.map((img, i) => (
@@ -202,8 +212,15 @@ export default function PackageVisualHeader({
     childImages?: PackageImage[];
   };
 }) {
-  const gallery = getGalleryImages(pkg);
-  const [hero, ...tiles] = gallery;
+  const { gallery, tiles: paddedTiles } = getGalleryImages(pkg);
+  /** Desktop sidebar takes the padded list; the rail shows every real image. */
+  const desktopTiles = paddedTiles.slice(1, 5);
+
+  /** The rail is a picker on mobile: it swaps the big tile rather than
+      opening the lightbox, so the first thumbnail is the hero and starts
+      selected. The lightbox is still one tap away on the big tile itself. */
+  const [active, setActive] = useState(0);
+  const hero = gallery[Math.min(active, gallery.length - 1)];
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -231,9 +248,10 @@ export default function PackageVisualHeader({
           {/* Main Hero Image Tile */}
           <div 
             className="relative min-h-[330px] overflow-hidden rounded-[20px] bg-stone-100 shadow-[0_24px_70px_rgba(15,23,42,0.12)] sm:min-h-[430px] lg:min-h-[540px] cursor-pointer group"
-            onClick={() => openLightbox(0)}
+            onClick={() => openLightbox(active)}
           >
             <Image
+              key={hero.image}
               src={hero.image}
               alt={hero.alt}
               fill
@@ -273,11 +291,11 @@ export default function PackageVisualHeader({
           {/* Sidebar Grid Tiles — desktop only; on mobile the hero tile is the
               single entry point and the rest live in the lightbox. */}
           <div className="hidden gap-3 lg:grid lg:grid-cols-2 lg:grid-rows-2">
-            {tiles.slice(0, 4).map((tile, index) => (
+            {desktopTiles.map((tile, index) => (
               <div
                 key={`${tile.image}-${index}`}
                 className="group relative min-h-[150px] overflow-hidden rounded-[14px] bg-stone-100 shadow-[0_16px_40px_rgba(15,23,42,0.10)] sm:min-h-[190px] lg:min-h-0 cursor-pointer"
-                onClick={() => openLightbox(index + 1)}
+                onClick={() => openLightbox((index + 1) % gallery.length)}
               >
                 <Image
                   src={tile.image}
@@ -291,6 +309,38 @@ export default function PackageVisualHeader({
                   {tile.alt}
                 </p>
               </div>
+            ))}
+          </div>
+
+          {/* Mobile/tablet rail — the same tiles as the desktop sidebar, but
+              swipeable under the hero so the rest of the gallery is visible
+              without opening the lightbox first. */}
+          {/* `w-fit mx-auto` centres the rail while it is narrower than the
+              container, and `max-w-full` hands it back to the scroller once
+              there are enough images to overflow (justify-center would clip
+              the first card in that case). */}
+          <div className="mx-auto flex w-fit max-w-full snap-x snap-mandatory gap-2.5 overflow-x-auto px-1 py-1.5 hide-scrollbar lg:hidden">
+            {gallery.map((tile, index) => (
+              <button
+                key={`rail-${tile.image}-${index}`}
+                type="button"
+                aria-label={`Show image ${index + 1} of ${gallery.length}`}
+                aria-current={index === active}
+                onClick={() => setActive(index)}
+                className={`group relative aspect-square w-20 shrink-0 snap-start overflow-hidden rounded-xl bg-stone-100 shadow-[0_8px_20px_rgba(15,23,42,0.10)] transition sm:w-24 ${
+                  index === active
+                    ? "ring-2 ring-orange-500 ring-offset-2 ring-offset-white"
+                    : "ring-1 ring-black/5 opacity-75"
+                }`}
+              >
+                <Image
+                  src={tile.image}
+                  alt={tile.alt}
+                  fill
+                  sizes="96px"
+                  className="object-cover transition-transform duration-500 group-active:scale-105"
+                />
+              </button>
             ))}
           </div>
         </div>
