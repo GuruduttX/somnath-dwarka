@@ -5,7 +5,7 @@ import CMSMediaSection from '@/src/components/Admin/CMS/CMSMediaSection';
 import CMSMetaSection from '@/src/components/Admin/CMS/CMSMetaSection';
 import CMSSeoSection from '@/src/components/Admin/CMS/CMSSeoSection';
 import FaqHandler from '@/src/components/Admin/CMS/FaqHandler';
-import { useCallback, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import PackageDetails from '@/src/components/Admin/PackageEditor/PackageDetails';
 import TripHighlights from '@/src/components/Admin/PackageEditor/TripHighlights';
@@ -23,9 +23,7 @@ import DestRoutes from '@/src/components/Admin/PackageEditor/DestRoute';
 import SelectedInclusion from '@/src/components/Admin/PackageEditor/SelectedInclusion';
 import PackageOverview from '@/src/components/Admin/PackageEditor/PackageOverview';
 import PageCopy, { emptyPageCopy, type PageCopyState } from '@/src/components/Admin/PackageEditor/PageCopy';
-import { fromPageCopyState, toPageCopyState } from '@/src/utils/pageCopy';
-import DraftRecoveryBanner from '@/src/components/Admin/CMS/DraftRecoveryBanner';
-import { useDraftRecovery } from '@/src/components/Admin/CMS/useDraftRecovery';
+import { fromPageCopyState } from '@/src/utils/pageCopy';
 import { object } from 'zod';
 
 type PackageForm = {
@@ -126,6 +124,187 @@ export default function CreateNewPackage() {
     segments: [],
   });
   const [pageCopy, setPageCopy] = useState<PageCopyState>(emptyPageCopy());
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // 2. THE READ EFFECT (Fires once on mount)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedPackage = localStorage.getItem("package");
+
+      if (!savedPackage) {
+        // Initialize with the exact payload structure
+        localStorage.setItem(
+          "package",
+          JSON.stringify({
+            title: "",
+            category: "",
+            slug: "",
+            price: 0,
+            days: 0,
+            nights: 0,
+            reviews: 0,
+            destination: "",
+            rating: 0,
+            overview: "",
+            duration: "",
+            heroImage: { image: "", alt: "" },
+            metaTitle: "",
+            metaDescription: "",
+            schemaTitle: "",
+            schemaDescription: "",
+            childImages: [],
+            faqs: [],
+            testimonials: [],
+            highlights: [],
+            inclusions: [],
+            exclusions: [],
+            knowBeforeYouGo: [],
+            itinerary: [],
+            durationbreakdown: [],
+            routes: { source: "", destination: "", segments: [] },
+            isBreakfastIncluded: false,
+            isStayIncluded: false,
+            isTransferIncluded: false,
+            isSightseeingIncluded: false,
+            status: "draft",
+          }),
+        );
+      } else {
+        const parsedData = JSON.parse(savedPackage || "{}");
+
+        // Map payload back to your flat form state
+        setForm((prev) => ({
+          ...prev,
+          title: parsedData.title || "",
+          category: parsedData.category || "",
+          slug: parsedData.slug || "",
+          destination: parsedData.destination || "",
+          overview: parsedData.overview || "",
+          duration: parsedData.duration || "",
+
+          // Number to String conversions
+          price: parsedData.price ? String(parsedData.price) : "",
+          day: parsedData.days ? String(parsedData.days) : "",
+          night: parsedData.nights ? String(parsedData.nights) : "",
+          reviews: parsedData.reviews ? String(parsedData.reviews) : "",
+          rating: parsedData.rating ? String(parsedData.rating) : "",
+
+          // Un-nest the hero image
+          image: parsedData.heroImage?.image || "",
+          alt: parsedData.heroImage?.alt || "",
+
+          // SEO mapping
+          metaTitle: parsedData.metaTitle || "",
+          metaDescription: parsedData.metaDescription || "",
+          schemaTitle: parsedData.schemaTitle || "",
+          schemaDescription: parsedData.schemaDescription || "",
+
+          // Booleans
+          breakfast_included: parsedData.isBreakfastIncluded || false,
+          stay_included: parsedData.isStayIncluded || false,
+          transfer_included: parsedData.isTransferIncluded || false,
+          sightseeing_included: parsedData.isSightseeingIncluded || false,
+        }));
+
+        // Set Array and Object States Safely
+        if (parsedData.childImages?.length > 0)
+          setChildImage(parsedData.childImages);
+        if (parsedData.faqs?.length > 0) setFaqs(parsedData.faqs);
+        if (parsedData.testimonials?.length > 0)
+          setTestimonials(parsedData.testimonials);
+        if (parsedData.highlights?.length > 0)
+          setHighLights(parsedData.highlights);
+        if (parsedData.inclusions?.length > 0)
+          setInclusions(parsedData.inclusions);
+        if (parsedData.exclusions?.length > 0)
+          setExclusions(parsedData.exclusions);
+        if (parsedData.priceTiers?.length > 0)
+          setPriceTiers(parsedData.priceTiers);
+
+        // Notice the key name changes from your payload generator
+        if (parsedData.knowBeforeYouGo?.length > 0)
+          setDocuments(parsedData.knowBeforeYouGo);
+        if (parsedData.itinerary?.length > 0)
+          setItinerary(parsedData.itinerary);
+        if (parsedData.durationbreakdown?.length > 0)
+          setBreakdown(parsedData.durationbreakdown);
+
+        // Set the Route object (check if source exists so we don't overwrite with empty)
+        if (parsedData.routes?.source) setRoute(parsedData.routes);
+      }
+
+      // Unlock the auto-save!
+      setIsLoaded(true);
+    }
+  }, []);
+
+  // 3. THE WRITE EFFECT (Auto-saves on keystrokes)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Bouncer: Stop auto-saving until the initial read is complete
+      if (!isLoaded) return;
+
+      // Use the exact shape from your buildPayload function
+      const currentDraft = {
+        title: form.title,
+        category: form.category,
+        slug: form.slug,
+        price: Number(form.price) || 0,
+        days: Number(form.day) || 0,
+        nights: Number(form.night) || 0,
+        reviews: Number(form.reviews) || 0,
+        destination: form.destination,
+        rating: Number(form.rating) || 0,
+        overview: form.overview,
+        duration: form.duration,
+        heroImage: { image: form.image || "", alt: form.alt || "" },
+        metaTitle: form.metaTitle,
+        metaDescription: form.metaDescription,
+        schemaTitle: form.schemaTitle,
+        schemaDescription: form.schemaDescription,
+
+        // Complex States
+        childImages: childImage,
+        faqs: faqs,
+        testimonials: testimonials,
+        highlights: highLights,
+        inclusions: inclusions,
+        exclusions: exclusions,
+        priceTiers: priceTiers,
+        knowBeforeYouGo: documents, // Maps document state to payload key
+        itinerary: itinerary,
+        durationbreakdown: breakdown, // Maps breakdown state to payload key
+        routes: route, // Maps route state to payload key
+
+        // Booleans
+        isBreakfastIncluded: form.breakfast_included,
+        isStayIncluded: form.stay_included,
+        isTransferIncluded: form.transfer_included,
+        isSightseeingIncluded: form.sightseeing_included,
+        status: "draft",
+      };
+
+      // Save it!
+      localStorage.setItem("package", JSON.stringify(currentDraft));
+    }
+
+    // The massive dependency array: watches ALL these states
+  }, [
+    form,
+    childImage,
+    faqs,
+    testimonials,
+    highLights,
+    inclusions,
+    exclusions,
+    priceTiers,
+    documents,
+    itinerary,
+    breakdown,
+    route,
+    isLoaded,
+  ]);
+
   const updateForm = (field: keyof PackageForm, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
@@ -197,82 +376,6 @@ export default function CreateNewPackage() {
     status,
   });
 
-  /* ---------- autosave + recovery ---------- *
-   * The draft is the API payload itself, so a recovered draft maps straight
-   * back into editor state. It is never applied on its own — the banner asks
-   * first, and the trash button drops it for good. */
-  const draft = useMemo(() => buildPayload("draft"), [buildPayload]);
-
-  type PackageDraft = ReturnType<typeof buildPayload>;
-
-  const applyDraft = useCallback((saved: PackageDraft) => {
-    setForm((prev) => ({
-      ...prev,
-      title: saved.title || "",
-      category: saved.category || "",
-      slug: saved.slug || "",
-      destination: saved.destination || "",
-      overview: saved.overview || "",
-      duration: saved.duration || "",
-
-      // Numbers come back as numbers; the inputs are string-backed.
-      price: saved.price ? String(saved.price) : "",
-      day: saved.days ? String(saved.days) : "",
-      night: saved.nights ? String(saved.nights) : "",
-      reviews: saved.reviews ? String(saved.reviews) : "",
-      rating: saved.rating ? String(saved.rating) : "",
-
-      image: saved.heroImage?.image || "",
-      alt: saved.heroImage?.alt || "",
-
-      metaTitle: saved.metaTitle || "",
-      metaDescription: saved.metaDescription || "",
-      schemaTitle: saved.schemaTitle || "",
-      schemaDescription: saved.schemaDescription || "",
-
-      breakfast_included: saved.isBreakfastIncluded || false,
-      stay_included: saved.isStayIncluded || false,
-      transfer_included: saved.isTransferIncluded || false,
-      sightseeing_included: saved.isSightseeingIncluded || false,
-    }));
-
-    if (saved.childImages?.length) setChildImage(saved.childImages);
-    if (saved.faqs?.length) setFaqs(saved.faqs);
-    if (saved.testimonials?.length) setTestimonials(saved.testimonials);
-    if (saved.highlights?.length) setHighLights(saved.highlights);
-    if (saved.inclusions?.length) setInclusions(saved.inclusions);
-    if (saved.exclusions?.length) setExclusions(saved.exclusions);
-    if (saved.priceTiers?.length) setPriceTiers(saved.priceTiers);
-    if (saved.knowBeforeYouGo?.length) setDocuments(saved.knowBeforeYouGo);
-    if (saved.itinerary?.length) setItinerary(saved.itinerary);
-    if (saved.durationbreakdown?.length) setBreakdown(saved.durationbreakdown);
-    if (saved.routes?.source) setRoute(saved.routes);
-
-    // Long-form copy is stored flattened by fromPageCopyState, so it has to go
-    // back through the reverse mapper rather than being assigned directly.
-    setPageCopy(toPageCopyState(saved as Record<string, unknown>));
-  }, []);
-
-  /** Blank forms aren't drafts — only offer one with real content in it. */
-  const hasContent = useCallback(
-    (saved: PackageDraft) =>
-      Boolean(
-        saved.title?.trim() ||
-          saved.slug?.trim() ||
-          saved.overview?.trim() ||
-          saved.itinerary?.some((d) => d.title?.trim() || d.description?.trim()),
-      ),
-    [],
-  );
-
-  const recovery = useDraftRecovery({
-    storageKey: "package",
-    draft,
-    ready: true,
-    onRecover: applyDraft,
-    hasContent,
-  });
-
   const postPayload = async (payload: object) => {
     const res = await fetch(
       `/api/admin/tour-packages`,
@@ -290,9 +393,42 @@ export default function CreateNewPackage() {
 
       throw new Error("");
     }
-    // Stored server-side now — the local autosave must not be re-offered.
-    recovery.clear();
-
+     localStorage.setItem(
+          "package",
+          JSON.stringify({
+            title: "",
+            category: "",
+            slug: "",
+            price: 0,
+            days: 0,
+            nights: 0,
+            reviews: 0,
+            destination: "",
+            rating: 0,
+            overview: "",
+            duration: "",
+            heroImage: { image: "", alt: "" },
+            metaTitle: "",
+            metaDescription: "",
+            schemaTitle: "",
+            schemaDescription: "",
+            childImages: [],
+            faqs: [],
+            testimonials: [],
+            highlights: [],
+            inclusions: [],
+            exclusions: [],
+            knowBeforeYouGo: [],
+            itinerary: [],
+            durationbreakdown: [],
+            routes: { source: "", destination: "", segments: [] },
+            isBreakfastIncluded: false,
+            isStayIncluded: false,
+            isTransferIncluded: false,
+            isSightseeingIncluded: false,
+            status: "draft",
+          }),
+        );
     return data;
   };
 
@@ -422,15 +558,6 @@ export default function CreateNewPackage() {
       style={{ background: "#0a0f1e" }}
     >
       {/* Ambient glow */}
-
-      {recovery.pending && (
-        <DraftRecoveryBanner
-          savedAt={recovery.savedAt}
-          onRecover={recovery.recover}
-          onDiscard={recovery.discard}
-          editorType="package"
-        />
-      )}
 
       <form className="relative z-10 space-y-6" onSubmit={handleSave}>
         <CMSHeader editorType="Package" />
