@@ -184,28 +184,13 @@ export default function CreateNewBlog() {
       return false;
     }
 
-    try {
-      const res = await fetch(
-        `/api/admin/blog/${form.slug}`,
-      );
-      const data = await res.json();
-
-      if (data?.exists) {
-        toast.error("Slug already exists");
-        return false;
-      }
-    } catch (error) {
-      toast.error("Error validating slug");
-      return false;
-    }
-
     return true;
   };
 
   const getBlogBySlug = async (slug: string) => {
     try {
       const res = await fetch(
-        `/api/admin/blogs/check-slug?slug=${slug}`,
+        `/api/admin/blog/check-slug?slug=${encodeURIComponent(slug)}`,
       );
 
       if (res.status === 404) {

@@ -1,6 +1,7 @@
 import { createAdminBlogService, deleteAdminBlogService, getAllAdminBlogsService, getAdminBlogByIdService , updateAdminBlogService} from "@/src/services/admin/blogServices";
 import { blogSchema } from "@/src/zodSchema/blogSchema";
 import { getBlogBySlugServices } from "@/src/services/admin/blogServices";
+import { revalidateGuide } from "@/src/lib/revalidate";
 
 import { NextResponse } from "next/server";
 import { success } from "zod";
@@ -38,6 +39,9 @@ export const createAdminBlogController = async (req: Request) => {
         const blogData = stripEmptyTestimonials(result.data);
 
         const blog = await createAdminBlogService(blogData);
+
+        // Publish is useless if /guides/ keeps serving its hour-old copy.
+        revalidateGuide(blogData.slug);
 
         return NextResponse.json({
             success: true,
@@ -133,7 +137,15 @@ export const updateAdminBlogController = async (req: Request, id: string) => {
 
         const blogData = stripEmptyTestimonials(result.data);
 
+        // Read the current slug first: if the editor renamed it, the old URL
+        // has to be flushed too or it keeps serving the cached guide.
+        const previous = await getAdminBlogByIdService(id).catch(() => null);
+        const previousSlug = (previous as { slug?: string } | null)?.slug;
+
         const blog = await updateAdminBlogService(id, blogData);
+
+        revalidateGuide(blogData.slug);
+        if (previousSlug && previousSlug !== blogData.slug) revalidateGuide(previousSlug);
 
         return NextResponse.json({
             success: true,
@@ -158,7 +170,9 @@ export const deleteAdminBlogController = async (id: string) => {
 
     try {
 
-        await deleteAdminBlogService(id);
+        const deleted = await deleteAdminBlogService(id);
+
+        revalidateGuide((deleted as { slug?: string } | null)?.slug);
 
         return NextResponse.json({
             success: true,
