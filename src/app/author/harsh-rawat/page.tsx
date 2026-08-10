@@ -61,7 +61,7 @@ export default function AuthorPage() {
     >
       {/* Full-bleed hero band */}
       <section className="w-full bg-gradient-to-br from-orange-50 via-amber-50 to-white border-b border-orange-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10 sm:pt-14 sm:pb-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-10 sm:pt-6 sm:pb-14">
           <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:gap-10">
             {AUTHOR.photo ? (
               <Image
