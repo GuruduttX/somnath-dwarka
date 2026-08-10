@@ -32,9 +32,14 @@ const GUIDE_PROSE = [
   "[&_strong]:font-semibold [&_strong]:text-gray-900",
   "[&_img]:my-7 [&_img]:w-full [&_img]:rounded-2xl [&_img]:shadow-sm [&_img]:ring-1 [&_img]:ring-orange-100",
   "[&_blockquote]:my-6 [&_blockquote]:rounded-r-xl [&_blockquote]:border-l-4 [&_blockquote]:border-orange-300 [&_blockquote]:bg-orange-50/60 [&_blockquote]:py-3 [&_blockquote]:pl-5 [&_blockquote]:pr-4 [&_blockquote]:italic [&_blockquote]:text-gray-700",
-  "[&_table]:my-6 [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto [&_table]:border-collapse [&_table]:text-sm",
-  "[&_th]:whitespace-nowrap [&_th]:border [&_th]:border-orange-100 [&_th]:bg-orange-50 [&_th]:px-3 [&_th]:py-2 [&_th]:text-left [&_th]:font-semibold [&_th]:text-gray-800",
-  "[&_td]:border [&_td]:border-orange-100 [&_td]:px-3 [&_td]:py-2 [&_td]:align-top [&_td]:text-gray-600",
+  "[&_table]:my-6 [&_table]:w-full [&_table]:table-auto [&_table]:border-separate [&_table]:border-spacing-0 [&_table]:overflow-hidden [&_table]:rounded-xl [&_table]:border [&_table]:border-orange-200 [&_table]:text-sm [&_table]:leading-snug",
+  // Generated tables have no <thead>/<th>; the header is the first row of <tbody>.
+  "[&_td]:border-b [&_td]:border-r [&_td]:border-orange-200 [&_td]:px-4 [&_td]:py-2 [&_td]:align-middle [&_td]:leading-snug [&_td]:text-gray-600 [&_td:last-child]:border-r-0 [&_tr:last-child_td]:border-b-0",
+  // Header row (first row).
+  "[&_tr:first-child_td]:bg-orange-100 [&_tr:first-child_td]:font-semibold [&_tr:first-child_td]:text-gray-900",
+  // Zebra striping on the data rows only (skip the header row).
+  "[&_tr:nth-child(odd)]:bg-orange-50/40",
+  "[&_td>p]:my-0 [&_td>p]:leading-snug",
 ].join(" ");
 import { getGuideBySlug, getPublishedGuides, guidePath } from "@/src/lib/content";
 import { buildRelatedLinks } from "@/src/lib/links";
@@ -141,7 +146,12 @@ export default async function GuidePage({ params }: Params) {
                 <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-orange-500/10 text-orange-600">
                   <Sparkles size={16} />
                 </span>
-                <p className="text-[15.5px] leading-relaxed text-gray-700">{String(g.subContent)}</p>
+                <div>
+                  <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-orange-600">
+                    Quick answer
+                  </span>
+                  <p className="text-[15.5px] leading-relaxed text-gray-700">{String(g.subContent)}</p>
+                </div>
               </div>
             ) : null}
 
