@@ -1,9 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { MapPin, ArrowRight, Wallet, Building2, Crown, Star } from "lucide-react";
+import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
 
 interface Tier {
   tier: string;
@@ -19,11 +20,22 @@ interface HotelCity {
   h1?: string;
 }
 
+// One distinct image per card. There are more cards than source images, so a few
+// repeat — the mapping keeps repeats far apart and never adjacent in the grid.
 const SLUG_IMAGE: Record<string, string> = {
   "somnath-trust-guest-house-booking": "/images/hotels/somnath.webp",
   "dwarka-guest-house-dharamshala": "/images/hotels/dwarka.webp",
+  "sasan-gir-hotels": "/images/hotels/properties/p1.webp",
   "hotels-in-somnath": "/images/hotels/properties/p6.webp",
   "hotels-in-dwarka": "/images/hotels/properties/p3.webp",
+  "hotels-near-somnath-temple": "/images/hotels/properties/p2.webp",
+  "budget-hotels-in-somnath": "/images/hotels/properties/p4.webp",
+  "luxury-hotels-in-somnath": "/images/hotels/properties/p5.webp",
+  "hotels-near-dwarkadhish": "/images/hotels/hero.webp",
+  "budget-hotels-in-dwarka": "/images/hotels/properties/p1.webp",
+  "luxury-hotels-in-dwarka": "/images/hotels/properties/p6.webp",
+  "heritage-hotels-palace-stays-gujarat": "/images/hotels/properties/p2.webp",
+  "homestays-in-kutch": "/images/hotels/properties/p4.webp",
 };
 
 function getCtaText(slug: string, city: string) {
@@ -41,6 +53,8 @@ function tierMeta(tier: string) {
 }
 
 export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
+  const [enquiryOpen, setEnquiryOpen] = useState(false);
+
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {hotels.map((h, idx) => (
@@ -51,9 +65,10 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
           transition={{ duration: 0.5, delay: idx * 0.08 }}
           viewport={{ once: true }}
         >
-          <Link
-            href={`/hotels/${h.slug}/`}
-            className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#eee4dc] bg-white shadow-[0_1px_2px_rgba(16,24,40,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-[0_18px_40px_rgba(234,88,12,0.14)]"
+          <button
+            type="button"
+            onClick={() => setEnquiryOpen(true)}
+            className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[#eee4dc] bg-white text-left shadow-[0_1px_2px_rgba(16,24,40,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-[0_18px_40px_rgba(234,88,12,0.14)]"
           >
             {/* Image banner */}
             <div className="relative m-2 h-40 overflow-hidden rounded-xl bg-[#f4ede7]">
@@ -113,9 +128,15 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
                 </span>
               </div>
             </div>
-          </Link>
+          </button>
         </motion.div>
       ))}
+
+      <CommonEnquiryForm
+        open={enquiryOpen}
+        onClose={() => setEnquiryOpen(false)}
+        defaultService="Hotel Booking"
+      />
     </div>
   );
 }
