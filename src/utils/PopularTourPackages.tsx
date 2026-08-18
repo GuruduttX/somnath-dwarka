@@ -18,7 +18,13 @@ export default function PopularTourPackages({ packages }: { packages: TourPackag
   const isDragging = useRef(false);
   const dragStartX = useRef(0);
   const dragStart = useRef(0);
-  const tripled = [...packages, ...packages, ...packages];
+  // The marquee needs three copies for a seamless loop, but it only has to be
+  // wide enough to fill the viewport twice — tripling all 24 packages rendered
+  // 72 heavy cards, a big slice of the page's ~9k-element DOM (and DOM size is
+  // what gates the LCP paint under throttled CPU). Cap the unique set so the
+  // loop stays smooth with far fewer nodes.
+  const base = packages.slice(0, 8);
+  const tripled = [...base, ...base, ...base];
 
   useEffect(() => {
     const node = headRef.current;
@@ -46,9 +52,7 @@ export default function PopularTourPackages({ packages }: { packages: TourPackag
       typeof window !== "undefined" &&
       window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
 
-    // Start at the middle set so there is room to scroll left AND right
     const setWidth = () => el.scrollWidth / 3;
-    el.scrollLeft = setWidth();
 
     // Seamless boundary reset — fires for both auto-scroll and manual drag/touch
     const onScroll = () => {
@@ -69,9 +73,34 @@ export default function PopularTourPackages({ packages }: { packages: TourPackag
       if (!prefersReducedMotion && !isPaused.current) el.scrollLeft += SPEED * dt;
       rafRef.current = requestAnimationFrame(tick);
     };
-    rafRef.current = requestAnimationFrame(tick);
+
+    // Defer all scrolling until the rail is actually on-screen. Setting
+    // scrollLeft — even the initial centering — emits a `scroll` event, and the
+    // browser finalizes Largest Contentful Paint on the first scroll of *any*
+    // scroller. An off-screen marquee auto-scrolling during page load was
+    // therefore wiping out the LCP candidate before the hero painted, so
+    // Lighthouse/PSI reported NO_LCP (no performance score, TBT error). Gating
+    // on visibility also keeps the rAF loop from running while off-screen.
+    let positioned = false;
+    const startAnim = () => {
+      if (!positioned) {
+        el.scrollLeft = setWidth(); // center on the middle set, once
+        positioned = true;
+      }
+      cancelAnimationFrame(rafRef.current);
+      last = 0;
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    const stopAnim = () => cancelAnimationFrame(rafRef.current);
+
+    const io = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? startAnim() : stopAnim()),
+      { threshold: 0 }
+    );
+    io.observe(el);
 
     return () => {
+      io.disconnect();
       cancelAnimationFrame(rafRef.current);
       el.removeEventListener("scroll", onScroll);
     };

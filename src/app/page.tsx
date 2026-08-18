@@ -62,6 +62,16 @@ export default async function Home() {
 
   return (
     <>
+      {/* Preload the mobile LCP hero image so it starts downloading with the
+          document instead of ~4 s into load. media-scoped to phones and hoisted
+          to <head> by React; the matching plain <img> lives in HomeHero. */}
+      <link
+        rel="preload"
+        as="image"
+        href="/images/CTA-mobile.webp"
+        media="(max-width: 640px)"
+        fetchPriority="high"
+      />
       <Navbar />
       <main id="main-content">
         <HomeHero />
@@ -83,32 +93,36 @@ export default async function Home() {
         {/* Temporarily hidden — restore by un-commenting. */}
         {/* <JourneyBanner /> */}
 
-        <ProductsShowcase packages={packages} />
+        {/* Below-the-fold sections opt into content-visibility so the browser
+            skips their style/layout/paint until they scroll near — see
+            .cv-section in globals.css. This is what keeps the ~9k-element page
+            from blocking the hero's LCP paint behind a full-page layout. */}
+        <div className="cv-section"><ProductsShowcase packages={packages} /></div>
 
-        <HomeTrustBuildingSection />
+        <div className="cv-section"><HomeTrustBuildingSection /></div>
 
-        <PopularTourPackages packages={packages} />
+        <div className="cv-section"><PopularTourPackages packages={packages} /></div>
 
-        <PlanEssentials />
+        <div className="cv-section"><PlanEssentials /></div>
 
-        <TravelCTA />
-
-
-        <BeyondTemples />
-        <DwarkaTourPackage packages={dwarkaCards} />
-        <BookDarshanCTA />
-        <SomnathTourPackage packages={somnathCards} />
-
-        <DwarkaSomnathTrustSection />
+        <div className="cv-section"><TravelCTA /></div>
 
 
-        <TestimonialsSection />
+        <div className="cv-section"><BeyondTemples /></div>
+        <div className="cv-section"><DwarkaTourPackage packages={dwarkaCards} /></div>
+        <div className="cv-section"><BookDarshanCTA /></div>
+        <div className="cv-section"><SomnathTourPackage packages={somnathCards} /></div>
 
-        <HomeFaqSection />
-        <FinalCTA />
+        <div className="cv-section"><DwarkaSomnathTrustSection /></div>
 
-        <FestivalsTeaser />
-        <DataAndResearch />
+
+        <div className="cv-section"><TestimonialsSection /></div>
+
+        <div className="cv-section"><HomeFaqSection /></div>
+        <div className="cv-section"><FinalCTA /></div>
+
+        <div className="cv-section"><FestivalsTeaser /></div>
+        <div className="cv-section"><DataAndResearch /></div>
 
       </main>
       {/* The home page carried no WebPage node, so nothing tied its FAQ and

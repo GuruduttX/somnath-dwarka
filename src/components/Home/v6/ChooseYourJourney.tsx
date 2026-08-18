@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Section from "@/src/components/shared/Section";
 import { getPublishedHubs } from "@/src/lib/content";
@@ -258,11 +259,17 @@ function HubCard({
       >
         {/* ── Image header ── */}
         <div className="relative h-40 overflow-hidden sm:h-48">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          {/* next/image (lazy by default) so these below-the-hero cards serve a
+              ~300px-wide WebP from a responsive srcset instead of the raw
+              full-size file, and don't download until scrolled near. The plain
+              <img> here shipped 250–334 KB originals that competed with the
+              hero's LCP image on throttled connections. */}
+          <Image
             src={cardImage}
             alt={displayTitle}
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
           />
           {/* legibility gradient */}
           <span

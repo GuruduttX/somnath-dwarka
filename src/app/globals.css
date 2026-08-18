@@ -969,3 +969,13 @@ body.lightbox-open .sticky-contact-bar { display: none; }
   from { opacity: 0; transform: translateY(12px) scale(0.96); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
+
+/* Skip rendering (style/layout/paint) of below-the-fold home sections until
+   they scroll near the viewport. On a ~9k-element page this is what lets the
+   LCP paint without waiting on a full-page layout pass. contain-intrinsic-size
+   uses `auto` so each section remembers its real height once rendered, keeping
+   scrollbar position and CLS stable. */
+.cv-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
+}

@@ -1,15 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Star, ArrowRight, MapPin, Sparkles, Navigation, CalendarDays } from "lucide-react";
 import CountUp from "@/src/utils/CountUp";
 import React from "react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+
+// The multi-step enquiry form is only shown after a click, so keep it out of
+// the hero's critical bundle — otherwise its JS has to download and parse
+// before the hero hydrates, delaying the LCP paint.
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"));
 
 const CARD_SOMNATH = "/images/home/SomnathLongImage.webp";
 const CARD_DWARKA = "/images/home/DwarikaLongImage.webp";
-const SOMNATH_DWARKA = "/images/CTA.webp";
+// Mobile-sized (880×587, ~80 KB) derivative of CTA.webp. This is the mobile LCP
+// image, so it is served as a plain <img> (no /_next/image round-trip) and
+// preloaded in <head> from the home page (the <link rel="preload"> in
+// app/page.tsx) so it starts downloading immediately.
+const SOMNATH_DWARKA_MOBILE = "/images/CTA-mobile.webp";
 
 const STATS = [
   { value: 4800, suffix: "+", label: "Happy Pilgrims" },
@@ -35,8 +45,12 @@ export default function HomeHero() {
         .font-playfair { font-family: 'Playfair Display', Georgia, serif; }
         .font-dm       { font-family: 'DM Sans', sans-serif; }
 
-        @keyframes heroUp { from { opacity:0; transform:translateY(26px); } to { opacity:1; transform:translateY(0); } }
-        .h-anim { opacity:0; animation: heroUp .8s cubic-bezier(.22,.7,0,1) forwards; }
+        /* Transform-only entrance: content is painted visibly on the first
+           frame so it stays eligible as an LCP candidate. A prior opacity:0
+           start made every hero element invisible at paint time, so Chrome
+           recorded no LCP candidate at all (Lighthouse aborted with NO_LCP). */
+        @keyframes heroUp { from { transform:translateY(22px); } to { transform:translateY(0); } }
+        .h-anim { animation: heroUp .7s cubic-bezier(.22,.7,0,1) both; }
         .hd0{animation-delay:.05s}.hd1{animation-delay:.15s}.hd2{animation-delay:.27s}
         .hd3{animation-delay:.39s}.hd4{animation-delay:.51s}.hd5{animation-delay:.63s}.hd6{animation-delay:.75s}
 
@@ -142,7 +156,11 @@ export default function HomeHero() {
 
             {/* Mobile hero image */}
             <div className="h-anim hd2 relative mt-5 w-full max-w-[440px] overflow-hidden rounded-[26px] border-4 border-white shadow-[0_20px_50px_rgba(234,88,12,0.25)] sm:hidden [aspect-ratio:16/11]">
-              <img src={SOMNATH_DWARKA} alt="Somnath and Dwarka temples" className="h-full w-full object-cover object-[center_35%]" />
+              {/* Mobile LCP image. Plain <img> to a pre-sized 80 KB file (not
+                  /_next/image) + a matching <head> preload = the image starts
+                  downloading immediately instead of ~4 s into load. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={SOMNATH_DWARKA_MOBILE} alt="Somnath and Dwarka temples" width={880} height={587} fetchPriority="high" decoding="async" className="h-full w-full object-cover object-[center_35%]" />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-4 pb-3 pt-8">
                 <p className="text-sm font-semibold text-white">Somnath &amp; Dwarka Yatra</p>
                 <p className="mt-0.5 flex items-center gap-1 text-[11px] text-white/70"><MapPin size={10} /> Gujarat, India</p>
@@ -193,10 +211,18 @@ export default function HomeHero() {
             <div className="h-anim hd5 mt-7 flex items-center gap-3">
               <div className="flex -space-x-2.5">
                 {AVATARS.map((src, i) => (
+                  // Decorative avatars — kept at low priority so they don't get
+                  // scheduled ahead of the LCP hero image on a slow connection.
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     key={i}
                     src={src}
                     alt=""
+                    width={32}
+                    height={32}
+                    loading="lazy"
+                    fetchPriority="low"
+                    decoding="async"
                     className="h-8 w-8 rounded-full border-2 border-white object-cover shadow-sm"
                   />
                 ))}
@@ -251,7 +277,11 @@ export default function HomeHero() {
             {/* Somnath polaroid */}
             <div className="float-som absolute left-[2%] top-[4%] z-[4] w-[224px] rounded-[22px] border-[6px] border-white bg-white shadow-[0_28px_60px_rgba(234,88,12,0.28)]">
               <div className="relative h-[268px] overflow-hidden rounded-[14px]">
-                <img src={CARD_SOMNATH} alt="Somnath Temple, Veraval" className="h-full w-full object-cover" />
+                {/* Desktop-only polaroid (parent is `hidden lg:flex`). Left to
+                    lazy-load: forcing eager/high priority made mobile preload
+                    this 334 KB image even though it is display:none there,
+                    starving the real mobile LCP image (huge LCP load delay). */}
+                <Image src={CARD_SOMNATH} alt="Somnath Temple, Veraval" fill sizes="224px" className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
                 <div className="absolute left-3 top-3 rounded-full bg-white/85 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-orange-700 backdrop-blur-sm">Jyotirlinga</div>
               </div>
@@ -267,7 +297,7 @@ export default function HomeHero() {
             {/* Dwarka polaroid */}
             <div className="float-dwk absolute bottom-[3%] right-[1%] z-[5] w-[200px] rounded-[22px] border-[6px] border-white bg-white shadow-[0_28px_60px_rgba(245,158,11,0.3)]">
               <div className="relative h-[236px] overflow-hidden rounded-[14px]">
-                <img src={CARD_DWARKA} alt="Dwarkadhish Temple, Dwarka" className="h-full w-full object-cover" />
+                <Image src={CARD_DWARKA} alt="Dwarkadhish Temple, Dwarka" fill sizes="200px" className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
                 <div className="absolute left-3 top-3 rounded-full bg-white/85 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-700 backdrop-blur-sm">Char Dham</div>
               </div>

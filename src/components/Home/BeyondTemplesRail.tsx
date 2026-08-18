@@ -63,11 +63,6 @@ export default function BeyondTemplesRail({ cards }: { cards: RailCard[] }) {
     const el = trackRef.current;
     if (!el) return;
 
-    // Start scroll position in the middle set once scrollWidth is populated
-    requestAnimationFrame(() => {
-      if (el) el.scrollLeft = el.scrollWidth / 3;
-    });
-
     const prefersReduced =
       typeof window !== "undefined" &&
       window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
@@ -93,8 +88,34 @@ export default function BeyondTemplesRail({ cards }: { cards: RailCard[] }) {
       }
       rafRef.current = requestAnimationFrame(tick);
     };
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
+
+    // Defer the initial centering and the auto-scroll loop until the rail is
+    // on-screen. Setting scrollLeft emits a `scroll` event, and the browser
+    // finalizes LCP on the first scroll of *any* scroller — so this off-screen
+    // marquee scrolling during load was destroying the page's LCP candidate
+    // (Lighthouse/PSI reported NO_LCP). Gating on visibility also stops the rAF
+    // loop from running while the rail is off-screen.
+    let positioned = false;
+    const startAnim = () => {
+      if (!positioned) {
+        el.scrollLeft = el.scrollWidth / 3; // center on the middle set, once
+        positioned = true;
+      }
+      cancelAnimationFrame(rafRef.current);
+      last = 0;
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    const stopAnim = () => cancelAnimationFrame(rafRef.current);
+
+    const io = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? startAnim() : stopAnim()),
+      { threshold: 0 }
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {

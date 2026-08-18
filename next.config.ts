@@ -3,6 +3,11 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // One trailing-slash convention; Next 301s the non-slash variant (SOP §3).
   trailingSlash: true,
+  // Tree-shake icon barrels to their per-icon modules so the home page ships
+  // (and hydrates) less JS — Script Evaluation is the top main-thread cost.
+  experimental: {
+    optimizePackageImports: ["lucide-react", "react-icons"],
+  },
   images: {
     remotePatterns: [
       {

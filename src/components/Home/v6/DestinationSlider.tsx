@@ -34,12 +34,18 @@ export default function DestinationSlider({
     <div className="relative">
       <ul
         // overflow-x also clips vertically, so the hover lift + shadow need padding to live in.
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-1 pt-3 pb-5 sm:gap-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        // No CSS scroll-snap here: a scroll-snap container (mandatory *or*
+        // proximity) makes the browser emit a scroll event during initial
+        // layout, and the browser finalizes LCP on the first scroll of any
+        // scroller — that load-time snap was destroying the page's LCP
+        // candidate, so PSI/Lighthouse reported NO_LCP (no perf score). The rail
+        // still scrolls horizontally; it just no longer magnetically snaps.
+        className="flex gap-4 overflow-x-auto scroll-smooth px-1 pt-3 pb-5 sm:gap-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {slides.map((slide) => (
           <li
             key={slide.href}
-            className="w-[240px] flex-shrink-0 snap-start sm:w-[300px] lg:w-[calc((100%-72px)/4)]"
+            className="w-[240px] flex-shrink-0 sm:w-[300px] lg:w-[calc((100%-72px)/4)]"
           >
             <Link
               href={slide.href}

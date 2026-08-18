@@ -14,7 +14,44 @@ import {
 } from "lucide-react";
 import type { TourPackage } from "./TourData";
 import CommonEnquiryForm from "./CommanEnquiryForm";
+import Image from "next/image";
 import Link from "next/link";
+
+/**
+ * next/image with a graceful fallback. Serves a small, responsive, lazy-loaded
+ * WebP (via /_next/image) instead of the raw 300 KB+ originals the plain <img>
+ * used to ship — those flooded the initial load and blocked the hero's LCP.
+ * On a load error it swaps to `fallback` (mirrors the old onError behaviour).
+ */
+function CardImage({
+  src,
+  alt,
+  fallback,
+  sizes,
+  className,
+}: {
+  src: string;
+  alt: string;
+  fallback: string;
+  sizes: string;
+  className?: string;
+}) {
+  const [current, setCurrent] = useState(src);
+  return (
+    <Image
+      src={current}
+      alt={alt}
+      fill
+      sizes={sizes}
+      loading="lazy"
+      className={className}
+      onError={() => current !== fallback && setCurrent(fallback)}
+    />
+  );
+}
+
+const IMG_FALLBACK =
+  "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=70";
 
 // ─── Lightbox ────────────────────────────────────────────────────────────────
 function Lightbox({
@@ -136,14 +173,12 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
             className="relative h-[160px] cursor-pointer overflow-hidden rounded-[16px] bg-gray-100 sm:h-[170px]"
             onClick={() => openLightbox(0)}
           >
-            <img
+            <CardImage
               src={main}
               alt={pkg.title}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src =
-                  "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=70";
-              }}
+              fallback={IMG_FALLBACK}
+              sizes="(max-width: 640px) 85vw, 340px"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/45 via-transparent to-black/15" />
             {/* Days badge */}
@@ -174,14 +209,12 @@ export default function TourCard({ pkg }: { pkg: TourPackage }) {
                 onClick={() => openLightbox(i + 1)}
                 aria-label={`Open ${pkg.title} image ${i + 2}`}
               >
-                <img
+                <CardImage
                   src={img}
                   alt=""
-                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-                  onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src =
-                      "https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=300&q=70";
-                  }}
+                  fallback="https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=300&q=70"
+                  sizes="40px"
+                  className="object-cover transition-transform duration-500 hover:scale-110"
                 />
                 {i === 2 && (
                   <span className="absolute inset-0 grid place-items-center bg-black/45 text-[11px] font-bold text-white">
