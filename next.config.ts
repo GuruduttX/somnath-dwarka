@@ -64,6 +64,16 @@ const nextConfig: NextConfig = {
       { source: "/blog", destination: "/guides/", permanent: true },
       { source: "/blog/:slug", destination: "/guides/:slug/", permanent: true },
       { source: "/services", destination: "/somnath-dwarka-taxi-service/", permanent: true },
+      // Legacy 404 URLs reported in Ubersuggest audit (with :path* to match slash & non-slash variants)
+      { source: "/best-places-to-visit-in-dwarka/:path*", destination: "/dwarka/", permanent: true },
+      { source: "/best-diu-tourist-attractions-for-nature-history-lovers/:path*", destination: "/diu/", permanent: true },
+      { source: "/guides/how-to-reach/:path*", destination: "/guides/how-to-reach-dwarka/", permanent: true },
+      { source: "/guides/places-to-visit/:path*", destination: "/guides/places-to-visit-in-somnath/", permanent: true },
+      { source: "/somnath/places-to-visit/:path*", destination: "/somnath/", permanent: true },
+      { source: "/gujarat/:path*", destination: "/gujarat-tour-packages/", permanent: true },
+      { source: "/kutch/:path*", destination: "/kutch-tour-package/", permanent: true },
+      { source: "/sasan-gir/:path*", destination: "/gir/", permanent: true },
+      { source: "/sasan gir/:path*", destination: "/gir/", permanent: true },
       // Cab routes moved under the taxi hub to match the URL map, which defines
       // no root-level -taxi URL. Old root paths 301 to their nested canonical.
       // [^/]+ is load-bearing: `.*-taxi` would also match the nested path and

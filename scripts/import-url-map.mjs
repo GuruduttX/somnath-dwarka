@@ -212,7 +212,7 @@ function insertOnlyFields(kind, row, slug) {
     // Left empty on purpose: the SOP forbids publishing an unverified claim.
     answer_first: "",
     meta_description: "",
-    noindex: true,
+    noindex: false,
     status: "published",
   };
 

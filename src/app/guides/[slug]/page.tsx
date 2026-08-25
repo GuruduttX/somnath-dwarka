@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Image from "next/image";
 import { buildMetadata, articleSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
@@ -12,6 +12,12 @@ import GuideAuthorBio from "@/src/components/guides/GuideAuthorBio";
 import { fromCms, type CmsTestimonial } from "@/src/config/testimonials";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { CalendarDays, Clock, Sparkles } from "lucide-react";
+
+/** Legacy guide slugs mapping to their canonical 301 destinations. */
+const LEGACY_GUIDE_REDIRECTS: Record<string, string> = {
+  "how-to-reach": "/guides/how-to-reach-dwarka/",
+  "places-to-visit": "/guides/places-to-visit-in-somnath/",
+};
 
 /**
  * Tailwind-only styling for the CMS HTML body — no dependency on the global
@@ -42,7 +48,7 @@ const GUIDE_PROSE = [
   "[&_td>p]:my-0 [&_td>p]:leading-snug",
 ].join(" ");
 import { getGuideBySlug, getPublishedGuides, guidePath } from "@/src/lib/content";
-import { buildRelatedLinks } from "@/src/lib/links";
+import { buildRelatedLinks, sanitizeHtmlLinks } from "@/src/lib/links";
 
 export const revalidate = 3600;
 type Params = { params: Promise<{ slug: string }> };
@@ -54,6 +60,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
+  if (LEGACY_GUIDE_REDIRECTS[slug]) return {};
   const g = (await getGuideBySlug(slug)) as Record<string, unknown> | null;
   if (!g) return {};
   const meta = (g.meta as { title?: string; description?: string }) || {};
@@ -74,6 +81,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function GuidePage({ params }: Params) {
   const { slug } = await params;
+  if (LEGACY_GUIDE_REDIRECTS[slug]) {
+    permanentRedirect(LEGACY_GUIDE_REDIRECTS[slug]);
+  }
   const g = (await getGuideBySlug(slug)) as Record<string, unknown> | null;
   if (!g) notFound();
 
@@ -158,7 +168,7 @@ export default async function GuidePage({ params }: Params) {
             {/* Guide body — styled entirely with Tailwind, no global CSS */}
             <div
               className={`mt-8 ${GUIDE_PROSE}`}
-              dangerouslySetInnerHTML={{ __html: String(g.content || "") }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtmlLinks(String(g.content || "")) }}
             />
 
             {/* Author attribution closes the body, before the FAQ. */}

@@ -119,3 +119,43 @@ export function findOrphans(
   );
   return pages.map((p) => p.path).filter((path) => !inbound.has(path));
 }
+
+/** Mapping of legacy/broken internal URLs to their canonical equivalents. */
+const LEGACY_URL_MAP: Record<string, string> = {
+  "/best-places-to-visit-in-dwarka/": "/dwarka/",
+  "/best-places-to-visit-in-dwarka": "/dwarka/",
+  "/best-diu-tourist-attractions-for-nature-history-lovers/": "/diu/",
+  "/best-diu-tourist-attractions-for-nature-history-lovers": "/diu/",
+  "/guides/how-to-reach/": "/guides/how-to-reach-dwarka/",
+  "/guides/how-to-reach": "/guides/how-to-reach-dwarka/",
+  "/guides/places-to-visit/": "/guides/places-to-visit-in-somnath/",
+  "/guides/places-to-visit": "/guides/places-to-visit-in-somnath/",
+  "/somnath/places-to-visit/": "/somnath/",
+  "/somnath/places-to-visit": "/somnath/",
+  "/gujarat/": "/gujarat-tour-packages/",
+  "/gujarat": "/gujarat-tour-packages/",
+  "/kutch/": "/kutch-tour-package/",
+  "/kutch": "/kutch-tour-package/",
+  "/sasan-gir/": "/gir/",
+  "/sasan-gir": "/gir/",
+  "/sasan gir/": "/gir/",
+  "/sasan gir": "/gir/",
+  "/sasan%20gir/": "/gir/",
+  "/sasan%20gir": "/gir/",
+};
+
+/** Rewrites legacy / 404 links within HTML content to clean canonical links. */
+export function sanitizeHtmlLinks(html: string): string {
+  if (!html) return html;
+  let sanitized = html;
+  // Replace absolute domain prefixes on internal links
+  sanitized = sanitized.replace(/https?:\/\/somnathdwarkatourpackage\.com(\/[^"'>\s]*)/g, "$1");
+  // Replace mapped legacy URLs
+  for (const [legacy, canonical] of Object.entries(LEGACY_URL_MAP)) {
+    // Exact href replace
+    sanitized = sanitized.split(`href="${legacy}"`).join(`href="${canonical}"`);
+    sanitized = sanitized.split(`href='${legacy}'`).join(`href="${canonical}"`);
+  }
+  return sanitized;
+}
+

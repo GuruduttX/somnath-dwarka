@@ -292,7 +292,7 @@ async function main() {
           content: g.content,
           faqs: g.faqs,
           status: "published",
-          noindex: true,
+          noindex: false,
         },
       },
       { upsert: true }

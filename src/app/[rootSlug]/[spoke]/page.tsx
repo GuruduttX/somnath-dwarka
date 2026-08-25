@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { buildMetadata, touristTripSchema, placeSchema } from "@/src/lib/seo";
 import CmsPage from "@/src/components/templates/cms/CmsPage";
 import PackageDetailTemplate from "@/src/components/TourPackage/PackageDetailTemplate";
@@ -109,6 +109,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { rootSlug, spoke } = await params;
+  if (rootSlug === "somnath" && spoke === "places-to-visit") return {};
   const found = await resolve(rootSlug, spoke);
   if (!found) return {};
   const d = found.doc;
@@ -123,6 +124,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function SpokePage({ params }: Params) {
   const { rootSlug, spoke } = await params;
+  if (rootSlug === "somnath" && spoke === "places-to-visit") {
+    permanentRedirect("/somnath/");
+  }
   const found = await resolve(rootSlug, spoke);
   if (!found) notFound();
 

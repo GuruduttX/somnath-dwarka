@@ -596,14 +596,49 @@ export const SEED_JOURNEYS: SeedJourney[] = [
   },
   {
     slug: "somnath-or-dwarka-which-first",
-    title: "Somnath or Dwarka First? — How to Plan the Route",
+    title: "Somnath or Dwarka First? — How to Plan the Best Route",
     h1: "Should You Visit Somnath or Dwarka First?",
     question: "Should you visit Somnath or Dwarka first?",
     direct_answer:
-      "Either order works; choose by your entry point. Arriving via Ahmedabad/Rajkot, many do Dwarka first then Somnath (or vice-versa) to avoid backtracking. If you fly into Diu, start with Somnath; via Jamnagar, start with Dwarka.",
-    modes: [],
+      "Either order works seamlessly from a spiritual standpoint; your choice should be decided entirely by your arrival city and transit logistics to avoid unnecessary backtracking. If arriving via Ahmedabad, Rajkot, or Jamnagar in the morning, starting with Dwarka first is the most popular route because highway connectivity is fast (NH 27 & NH 151) and allows you to complete Dwarkadhish, Bet Dwarka, and Nageshwar Jyotirlinga on days 1 and 2 before heading south along the scenic coastal highway via Porbandar to Somnath. Conversely, if you fly into Diu Airport, land at Keshod, or arrive by train at Veraval, starting with Somnath first is the ideal logistical choice, allowing you to attend the evening Somnath Sound & Light show on your arrival night before traveling north to Dwarka.",
+    modes: [
+      { mode: "Via Rajkot (Dwarka First)", distance: "225 km to Dwarka, 230 km to Somnath", duration: "4.5 hrs + 4.5 hrs drive", note: "Best when landing at Rajkot Hirasar Airport early morning." },
+      { mode: "Via Ahmedabad (Linear Circuit)", distance: "440 km to Dwarka, 410 km to Somnath", duration: "8.5 hrs + 7.5 hrs drive", note: "Standard clockwise route: Ahmedabad -> Dwarka -> Porbandar -> Somnath -> Ahmedabad." },
+      { mode: "Via Jamnagar (Dwarka First)", distance: "135 km to Dwarka, 230 km to Somnath", duration: "2.5 hrs to Dwarka", note: "Shortest day-1 drive; ideal for families with young children or elders." },
+      { mode: "Via Diu Airport (Somnath First)", distance: "85 km to Somnath, 230 km to Dwarka", duration: "2 hrs to Somnath", note: "Fastest entry to Somnath Jyotirlinga; eliminates long road journeys." },
+      { mode: "Via Keshod Airport (Somnath First)", distance: "45 km to Somnath, 230 km to Dwarka", duration: "1 hr to Somnath", note: "Nearest operational regional airport to Somnath Temple." },
+    ],
+    itinerary: [
+      { day: 1, title: "Arrival & Dwarka Darshan", description: "Arrive at Rajkot/Jamnagar, transfer to Dwarka. Afternoon check-in and evening Darshan & Aarti at the holy Dwarkadhish Temple. Sunset at Gomti Ghat." },
+      { day: 2, title: "Bet Dwarka & Nageshwar Jyotirlinga", description: "Early morning visit to Bet Dwarka via Sudarshan Setu bridge, followed by Nageshwar Jyotirlinga Darshan, Gopi Talav, and Rukmini Devi Temple." },
+      { day: 3, title: "Dwarka to Somnath via Porbandar", description: "Scenic coastal drive via National Highway 51. Stop at Porbandar for Kirti Mandir (Mahatma Gandhi birthplace) and Sudama Temple. Check-in at Somnath, attend evening Sandhya Aarti and Light & Sound show." },
+      { day: 4, title: "Somnath Darshan & Departure", description: "Morning darshan at Somnath Mahadev, visit Triveni Sangam, Bhalka Tirth, and Gita Mandir before departure to Rajkot or Ahmedabad airport." },
+    ],
     faq: [
-      { question: "Is it better to start with Somnath or Dwarka?", answer: "It depends on your arrival city. Pick the temple town closer to your entry point first to minimise driving." },
+      {
+        question: "Is there any religious rule about which temple to visit first?",
+        answer: "No. In Hindu tradition and the Skanda Purana, both Somnath (the first of the 12 Jyotirlingas) and Dwarkadhish (one of the four supreme Char Dhams) hold paramount spiritual sanctity. There is no scriptural requirement stipulating which shrine must precede the other; pilgrims routinely complete the circuit in either direction based on convenience.",
+      },
+      {
+        question: "Which route has less driving fatigue: Dwarka first or Somnath first?",
+        answer: "If entering Gujarat via Jamnagar, Dwarka first involves only 2.5 hours of driving on Day 1. If entering via Diu, Somnath first involves under 2 hours of driving. If starting from Ahmedabad, both directions require an initial long highway stretch (~7.5 to 8.5 hours), but starting at Dwarka allows you to travel in a clockwise loop without repeating highway segments.",
+      },
+      {
+        question: "How is the road condition between Dwarka and Somnath?",
+        answer: "The coastal stretch between Dwarka and Somnath along NH 51 is a well-paved four-lane highway passing through Porbandar and Madhavpur Beach, offering smooth driving with travel times of approximately 4.5 to 5 hours for the 230 km distance.",
+      },
+      {
+        question: "Can we add Sasan Gir Safari if we start with Somnath?",
+        answer: "Yes. Sasan Gir is located only 45 km (1 hour drive) inland from Somnath. Starting with Somnath makes it very convenient to complete Gir lion safari early in the itinerary before continuing north towards Dwarka.",
+      },
+      {
+        question: "What are the key aarti timings to keep in mind when deciding the start point?",
+        answer: "At Somnath Temple, the evening Sandhya Aarti at 7:00 PM followed by the 8:00 PM Sound & Light Show is a primary highlight. At Dwarkadhish Temple, the Mangla Aarti at 6:30 AM and Shringaar Aarti at 10:30 AM are unmissable. Plan your arrival so you spend a full evening at both temple towns.",
+      },
+      {
+        question: "Is it easy to find pure vegetarian food and dharamsalas in both towns?",
+        answer: "Yes, both Dwarka and Somnath are strictly vegetarian holy towns offering extensive Gujarati thali dining, Kathiyawadi cuisine, North/South Indian restaurants, and well-maintained trust dharamsalas (such as Sagar Darshan at Somnath and Kokila Dhirubhai Ambani Bhavan in Dwarka).",
+      },
     ],
   },
   {

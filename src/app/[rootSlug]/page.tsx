@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { buildMetadata, touristTripSchema } from "@/src/lib/seo";
+
+/** Legacy root-level URLs that should permanently 301 redirect to canonical destinations. */
+const LEGACY_ROOT_REDIRECTS: Record<string, string> = {
+  "best-places-to-visit-in-dwarka": "/dwarka/",
+  "best-diu-tourist-attractions-for-nature-history-lovers": "/diu/",
+  "gujarat": "/gujarat-tour-packages/",
+  "kutch": "/kutch-tour-package/",
+  "sasan-gir": "/gir/",
+  "sasan gir": "/gir/",
+};
 import CmsPage from "@/src/components/templates/cms/CmsPage";
 import {
   HubVariants,
@@ -52,6 +62,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { rootSlug } = await params;
+  if (LEGACY_ROOT_REDIRECTS[rootSlug]) return {};
   const match = await resolveRootSlug(rootSlug);
   if (!match) return {};
   const d = match.doc;
@@ -238,6 +249,9 @@ function TrustBody({ slug, d }: { slug: string; d: Doc }) {
 
 export default async function RootSlugPage({ params }: Params) {
   const { rootSlug } = await params;
+  if (LEGACY_ROOT_REDIRECTS[rootSlug]) {
+    permanentRedirect(LEGACY_ROOT_REDIRECTS[rootSlug]);
+  }
 
   const match = await resolveRootSlug(rootSlug);
   if (!match) notFound();
