@@ -1,5 +1,7 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import Image from "next/image";
 import Link from "next/link";
 import type { CarouselCard } from "@/src/utils/TourData";
@@ -15,7 +17,7 @@ import {
   Car,
 } from "lucide-react";
 import { useRef, useState } from "react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
 
 const inclusions = [

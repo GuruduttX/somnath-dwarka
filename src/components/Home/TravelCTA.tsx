@@ -1,9 +1,11 @@
 "use client";
+
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Star } from "lucide-react";
 import { useState } from "react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
 const stats = [
   { value: "5000+", label: "Happy Pilgrims" },

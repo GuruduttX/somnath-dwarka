@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { ArrowUpRight, MapPin, Phone, Mail } from "lucide-react";
 import { FaInstagram, FaYoutube } from "react-icons/fa6";
-import CommonEnquiryForm from "./CommanEnquiryForm";
+
+const CommonEnquiryForm = dynamic(() => import("./CommanEnquiryForm"), { ssr: false });
 
 const tourPackages = [
   { label: "4 Days 3 Nights", href: "/somnath-dwarka-tour-package/4-days-3-nights/" },

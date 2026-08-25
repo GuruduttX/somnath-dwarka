@@ -1,5 +1,7 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { useState, useEffect } from "react";
 import { 
   MessageSquare, ShieldCheck, UserCheck, CreditCard, Sparkles, 
@@ -7,7 +9,7 @@ import {
   Map, Calculator, Users, Info, ChevronRight, Car, Briefcase 
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { waLink } from "@/src/config/site";
 import { FLEET_IMAGE } from "@/src/config/fleetImages";
 import Image from "next/image";

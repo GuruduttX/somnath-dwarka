@@ -1,8 +1,10 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import Image from "next/image";
 import { useState } from "react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
 /**
  * Full-width promo banner that sits above the tour-package showcase.

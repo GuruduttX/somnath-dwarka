@@ -1,4 +1,5 @@
 "use client";
+
 import { Star, BadgeCheck } from "lucide-react";
 import { useRef, useEffect } from "react";
 

@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { Compass, Filter, Sparkles } from "lucide-react";
 import type { TourPackage } from "@/src/utils/TourData";
 import TourCard from "@/src/utils/TourCard";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
 const FILTERS = ["All Packages", "Somnath", "Dwarka", "Combo Tours", "Budget Picks"];
 const PAGE_SIZE = 8;

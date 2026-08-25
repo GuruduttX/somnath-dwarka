@@ -1,11 +1,13 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { MapPin, Clock, ArrowRight, Users, Check, Shield, Compass, Navigation, Plane, Star, Briefcase } from "lucide-react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { FLEET_ALTERNATE, fleetImageFor } from "@/src/config/fleetImages";
 
 // Route Card Component

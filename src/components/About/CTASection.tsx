@@ -1,7 +1,9 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { motion } from "framer-motion";
-import CommonEnquiryForm from "@/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { useState } from "react";
 import {
   MapPin,

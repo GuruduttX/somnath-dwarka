@@ -1,10 +1,12 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { motion } from "framer-motion";
 import { CarTaxiFront, Hotel, MapPin } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import CommonEnquiryForm from "./CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("./CommanEnquiryForm"), { ssr: false });
 
 export default function FinalCTA() {
     const [isFormOpen, setIsFromOpen] = useState(false);

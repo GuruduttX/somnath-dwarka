@@ -1,9 +1,11 @@
 "use client";
+
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { CalendarCheck, MapPin, Sparkles, ArrowRight } from "lucide-react";
 import TourEnquiryPopup from "@/src/utils/TourEnquiryPopUp";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
 const features = [
   { icon: MapPin, label: "Prime Temple Locations" },

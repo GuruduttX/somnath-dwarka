@@ -13,9 +13,11 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import type { TourPackage } from "./TourData";
-import CommonEnquiryForm from "./CommanEnquiryForm";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
+
+const CommonEnquiryForm = dynamic(() => import("./CommanEnquiryForm"), { ssr: false });
 
 /**
  * next/image with a graceful fallback. Serves a small, responsive, lazy-loaded

@@ -1,5 +1,7 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -17,7 +19,7 @@ import {
   FileText,
   CalendarClock
 } from "lucide-react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
 // ==========================================
 // HIGHLY COMPREHENSIVE STATIC CALENDAR EVENTS

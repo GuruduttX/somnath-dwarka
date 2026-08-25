@@ -1,7 +1,9 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { useState } from "react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
 /**
  * Small "can't find what you're looking for?" prompt with an outlined button

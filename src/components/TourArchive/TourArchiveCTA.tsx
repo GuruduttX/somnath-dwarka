@@ -1,11 +1,13 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { ArrowRight, Phone, MapPin, Star, Sparkles } from "lucide-react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
 const HIGHLIGHTS = [
   { icon: Star,     text: "VIP Jyotirlinga Darshan"  },

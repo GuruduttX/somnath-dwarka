@@ -1,5 +1,7 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { useState } from "react";
 import {
   ChevronDown,
@@ -7,7 +9,7 @@ import {
   PhoneCall,
   ShieldCheck,
 } from "lucide-react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { HOME_FAQS as faqs } from "@/src/config/homeFaqs";
 
 

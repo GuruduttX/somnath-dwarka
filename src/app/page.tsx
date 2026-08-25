@@ -84,9 +84,9 @@ export default async function Home() {
           <div className="absolute bottom-10 right-1/4 translate-x-1/2 w-[500px] h-[500px] bg-amber-200/25 rounded-full blur-[140px] pointer-events-none" />
 
           <ChooseYourJourney />
-          <ExploreByInterest />
-          <DestinationPackages />
-          <PersonaRouting />
+          <div className="cv-section"><ExploreByInterest /></div>
+          <div className="cv-section"><DestinationPackages /></div>
+          <div className="cv-section"><PersonaRouting /></div>
         </div>
 
 

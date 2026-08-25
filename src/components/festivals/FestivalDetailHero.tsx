@@ -1,9 +1,11 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { useState } from "react";
 import Image from "next/image";
 import { MapPin, Sparkles, ArrowRight, MessageSquare, CalendarDays, Users, Flame } from "lucide-react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { waLink } from "@/src/config/site";
 
 const FALLBACK = "/images/festivals/festival-hero.webp";

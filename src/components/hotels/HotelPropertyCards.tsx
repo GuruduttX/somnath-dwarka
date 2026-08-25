@@ -1,5 +1,7 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -7,7 +9,7 @@ import {
   Star, MapPin, Wifi, Wind, Utensils, Waves, Car, ShieldCheck, Coffee,
   Sparkles, MessageSquare, BedDouble, Wallet, Building2, Crown, Check,
 } from "lucide-react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { waLink } from "@/src/config/site";
 
 interface Property {

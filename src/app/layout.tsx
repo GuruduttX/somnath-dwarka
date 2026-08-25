@@ -6,7 +6,6 @@ import { organizationSchema, websiteSchema, localBusinessSchema } from "@/src/li
 import JsonLd from "@/src/components/seo/JsonLd";
 import Analytics from "@/src/components/seo/Analytics";
 import SuppressPrefetchFetchErrors from "@/src/components/shared/SuppressPrefetchFetchErrors";
-import EnquiryPopup from "@/src/components/shared/EnquiryPopup";
 import PublicChrome from "@/src/components/shared/PublicChrome";
 
 const poppins = Poppins({
@@ -14,6 +13,7 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
   display: "swap",
+  preload: true,
 });
 
 /**
@@ -57,15 +57,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+      </head>
       <body className={`${poppins.className} antialiased`} suppressHydrationWarning>
         <JsonLd
           data={[organizationSchema(), websiteSchema(), localBusinessSchema()]}
         />
         <SuppressPrefetchFetchErrors />
         {children}
-        {/* Footer + sticky call/WhatsApp bar, hidden on the admin surface. */}
+        {/* Footer + sticky call/WhatsApp bar + lazy lead popup, hidden on the admin surface. */}
         <PublicChrome />
-        <EnquiryPopup />
         <Analytics />
       </body>
     </html>

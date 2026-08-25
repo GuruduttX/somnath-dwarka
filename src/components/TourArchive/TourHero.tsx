@@ -1,9 +1,11 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Star, ArrowRight, MessageCircle, MapPin, Sparkles } from "lucide-react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
 const CARD_SOMNATH = "/images/home/SomnathLongImage.webp";
 const CARD_DWARKA  = "/images/home/DwarikaLongImage.webp";

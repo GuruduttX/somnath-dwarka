@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, Phone, ArrowRight, Compass, ChevronDown } from "lucide-react";
-import CommonEnquiryForm from "./CommanEnquiryForm";
 import { PRIMARY_NAV, DESTINATIONS_NAV } from "@/src/config/routes";
+
+const CommonEnquiryForm = dynamic(() => import("./CommanEnquiryForm"), { ssr: false });
 
 const HUB_ICONS: Record<string, string> = {
   "Tour packages": "🗺️",

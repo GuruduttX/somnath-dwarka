@@ -1,14 +1,20 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Compress assets using Gzip / Brotli
+  compress: true,
   // One trailing-slash convention; Next 301s the non-slash variant (SOP §3).
   trailingSlash: true,
   // Tree-shake icon barrels to their per-icon modules so the home page ships
   // (and hydrates) less JS — Script Evaluation is the top main-thread cost.
   experimental: {
-    optimizePackageImports: ["lucide-react", "react-icons"],
+    optimizePackageImports: ["lucide-react", "react-icons", "date-fns"],
   },
   images: {
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days cache for optimized images
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     remotePatterns: [
       {
         protocol: "https",
@@ -100,7 +106,18 @@ const nextConfig: NextConfig = {
     if (isStaging) {
       securityHeaders.push({ key: "X-Robots-Tag", value: "noindex, nofollow" });
     }
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      {
+        source: "/images/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=2592000, stale-while-revalidate=86400",
+          },
+        ],
+      },
+    ];
   },
 };
 

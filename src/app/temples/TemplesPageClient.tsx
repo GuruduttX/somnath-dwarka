@@ -1,5 +1,7 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -18,7 +20,7 @@ import {
   Info,
   Calendar
 } from "lucide-react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
 // Category → representative temple photo (all files exist in /public, so the
 // card headers always render an image behind the coloured category overlay).

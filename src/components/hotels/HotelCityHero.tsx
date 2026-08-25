@@ -1,9 +1,11 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { useState } from "react";
 import Image from "next/image";
 import { Sparkles, Star, MapPin, BedDouble, MessageSquare, ArrowRight } from "lucide-react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { waLink } from "@/src/config/site";
 
 interface Tier {

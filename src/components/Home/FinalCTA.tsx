@@ -1,5 +1,7 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import Link from "next/link";
 import {
   Flame,
@@ -12,7 +14,7 @@ import {
   Mail,
   MapPin,
 } from "lucide-react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { useState } from "react";
 
 const trustStats = [

@@ -1,9 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import Footer from "@/src/utils/Footer";
 import StickyContactBar from "@/src/components/shared/StickyContactBar";
 import { isAdminSurface } from "@/src/config/routes";
+
+const EnquiryPopup = dynamic(() => import("@/src/components/shared/EnquiryPopup"), {
+  ssr: false,
+});
 
 /**
  * The traveller-facing chrome: site footer plus the sticky call/WhatsApp bar.
@@ -27,6 +32,7 @@ export default function PublicChrome() {
     <>
       <Footer />
       <StickyContactBar />
+      <EnquiryPopup />
     </>
   );
 }

@@ -1,10 +1,12 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { MapPin, ArrowRight, Wallet, Building2, Crown, Star } from "lucide-react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
 interface Tier {
   tier: string;

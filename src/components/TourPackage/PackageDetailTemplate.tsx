@@ -216,26 +216,28 @@ export default function PackageDetailTemplate({
       </div>
 
       {/* Day-wise route map, sitting just above the CTA. */}
-      <ItineraryRouteMap
-        title={pkg.h1}
-        days={pkg.itinerary.map((d) => ({
-          day: d.day,
-          title: d.title,
-          description: d.description,
-          stops: d.stops ?? [],
-          steps: d.steps ?? [],
-        }))}
-        fallbackPlaces={breakdown.map((b) => b.place)}
-        places={pkg.routePlaces}
-      />
+      <div className="cv-section">
+        <ItineraryRouteMap
+          title={pkg.h1}
+          days={pkg.itinerary.map((d) => ({
+            day: d.day,
+            title: d.title,
+            description: d.description,
+            stops: d.stops ?? [],
+            steps: d.steps ?? [],
+          }))}
+          fallbackPlaces={breakdown.map((b) => b.place)}
+          places={pkg.routePlaces}
+        />
+      </div>
 
-      <CtaBand context={pkg.h1} />
-      <ProductRatings />
-      <PackageTestimonials PackageData={pkg} />
-      <TrustBuildingSection />
-      <Faq items={pkg.faq} heading="Package FAQs" />
-      <RelatedLinks links={related} />
-      <Policies PackageData={pkg} />
+      <div className="cv-section"><CtaBand context={pkg.h1} /></div>
+      <div className="cv-section"><ProductRatings /></div>
+      <div className="cv-section"><PackageTestimonials PackageData={pkg} /></div>
+      <div className="cv-section"><TrustBuildingSection /></div>
+      <div className="cv-section"><Faq items={pkg.faq} heading="Package FAQs" /></div>
+      <div className="cv-section"><RelatedLinks links={related} /></div>
+      <div className="cv-section"><Policies PackageData={pkg} /></div>
 
       {/* BreadcrumbList JSON-LD comes from PageShell, which owns the single breadcrumb. */}
       <JsonLd

@@ -1,10 +1,12 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Sun, Moon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import CommonEnquiryForm from "./CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("./CommanEnquiryForm"), { ssr: false });
 import type { TourPackage } from "./TourData";
 
 export default function PopularTourPackages({ packages }: { packages: TourPackage[] }) {

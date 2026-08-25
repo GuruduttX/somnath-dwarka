@@ -1,9 +1,11 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
 /** Pointer travel (px) that separates a click on a card from a drag of the rail. */
 const DRAG_SLOP = 5;

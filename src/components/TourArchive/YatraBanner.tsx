@@ -1,5 +1,7 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { useState } from "react";
 import {
   ArrowRight,
@@ -12,7 +14,7 @@ import {
   BadgeCheck,
   Flame,
 } from "lucide-react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { BRAND, CONTACT, telLink } from "@/src/config/site";
 
 const STATS = [

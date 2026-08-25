@@ -1,12 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, Phone } from "lucide-react";
 import TourEnquiryPopup from "@/src/utils/TourEnquiryPopUp";
 import { useState } from "react";
 import Link from "next/link";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
 export default function FinalCTA() {
   const [open , setOpen] = useState(false);

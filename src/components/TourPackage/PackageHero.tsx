@@ -1,9 +1,11 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import Image from "next/image";
 import { Star, Clock, MapPin, Users, ShieldCheck, Phone } from "lucide-react";
 import { useState } from "react";
-import CommonEnquiryForm from "@/src/utils/CommanEnquiryForm";
+const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import QuickEnquiry from "@/src/utils/QuickQuery";
 
 export default function PackageHero({ PackageData }: any) {
