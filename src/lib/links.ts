@@ -120,42 +120,64 @@ export function findOrphans(
   return pages.map((p) => p.path).filter((path) => !inbound.has(path));
 }
 
-/** Mapping of legacy/broken internal URLs to their canonical equivalents. */
+/** Mapping of legacy/broken internal URLs to their canonical equivalents (trailing slash form). */
 const LEGACY_URL_MAP: Record<string, string> = {
   "/best-places-to-visit-in-dwarka/": "/dwarka/",
-  "/best-places-to-visit-in-dwarka": "/dwarka/",
   "/best-diu-tourist-attractions-for-nature-history-lovers/": "/diu/",
-  "/best-diu-tourist-attractions-for-nature-history-lovers": "/diu/",
   "/guides/how-to-reach/": "/guides/how-to-reach-dwarka/",
-  "/guides/how-to-reach": "/guides/how-to-reach-dwarka/",
-  "/guides/places-to-visit/": "/guides/places-to-visit-in-somnath/",
-  "/guides/places-to-visit": "/guides/places-to-visit-in-somnath/",
+  "/guides/places-to-visit/": "/somnath/",
+  // Neither guide exists; the destination pillars list the places.
+  "/guides/places-to-visit-in-somnath/": "/somnath/",
+  "/guides/places-to-visit-in-dwarka/": "/dwarka/",
   "/somnath/places-to-visit/": "/somnath/",
-  "/somnath/places-to-visit": "/somnath/",
   "/gujarat/": "/gujarat-tour-packages/",
-  "/gujarat": "/gujarat-tour-packages/",
   "/kutch/": "/kutch-tour-package/",
-  "/kutch": "/kutch-tour-package/",
   "/sasan-gir/": "/gir/",
-  "/sasan-gir": "/gir/",
   "/sasan gir/": "/gir/",
-  "/sasan gir": "/gir/",
   "/sasan%20gir/": "/gir/",
-  "/sasan%20gir": "/gir/",
+  "/somnath-to-dwarka-taxi/": "/somnath-dwarka-taxi-service/somnath-to-dwarka-taxi/",
+  // Old root-level blog slugs still linked from guide bodies.
+  "/triveni-sangam-somnath-trip-significance-location-travel-guide/": "/guides/triveni-sangam/",
+  "/4-day-dwarka-somnath-gir-itinerary/": "/guides/4-day-dwarka-somnath-gir-itinerary/",
+  "/5-day-dwarka-somnath-gir-itinerary/": "/guides/5-day-dwarka-somnath-gir-itinerary/",
+  "/dwarka-to-nageshwar-temple-distance/": "/guides/dwarka-to-nageshwar-distance/",
+  "/best-places-to-visit-near-sarangpur-hanuman-temple/": "/guides/best-places-to-visit-near-sarangpur-hanuman-temple/",
 };
+
+/**
+ * Guide bodies in the CMS carry links mangled by an earlier find-and-replace
+ * that rewrote a prefix inside URLs which already had it, once per pass:
+ * "/guides/how-to-reach-somnath/" became "/guides/how-to-reach-dwarka/-dwarka/-somnath/".
+ * Each rule recovers the original target from what is left of it.
+ */
+const MANGLED_LINKS: [RegExp, (m: RegExpMatchArray) => string][] = [
+  [/^\/guides\/how-to-reach-dwarka\/(?:-dwarka\/)+(?:-([a-z0-9-]+)\/)?$/, (m) => `/guides/how-to-reach-${m[1] ?? "dwarka"}/`],
+  [
+    /^\/guides\/places-to-visit-in-somnath\/(?:-in-somnath\/)+(?:-([A-Za-z0-9-]+)\/)?$/,
+    (m) => `/guides/places-to-visit-${(m[1] ?? "in-somnath").toLowerCase()}/`,
+  ],
+  [/^\/gujarat-tour-packages\/(?:-tour-packages\/)+$/, () => "/gujarat-tour-packages/"],
+];
+
+/** The live URL for an internal path: repairs mangled links and follows the legacy map. */
+export function canonicalPath(path: string): string {
+  if (!path.startsWith("/")) return path;
+  let p = path.endsWith("/") ? path : `${path}/`;
+  for (const [re, fix] of MANGLED_LINKS) {
+    const m = p.match(re);
+    if (m) {
+      p = fix(m);
+      break;
+    }
+  }
+  return LEGACY_URL_MAP[p] ?? (p === `${path}/` ? path : p);
+}
 
 /** Rewrites legacy / 404 links within HTML content to clean canonical links. */
 export function sanitizeHtmlLinks(html: string): string {
   if (!html) return html;
-  let sanitized = html;
-  // Replace absolute domain prefixes on internal links
-  sanitized = sanitized.replace(/https?:\/\/somnathdwarkatourpackage\.com(\/[^"'>\s]*)/g, "$1");
-  // Replace mapped legacy URLs
-  for (const [legacy, canonical] of Object.entries(LEGACY_URL_MAP)) {
-    // Exact href replace
-    sanitized = sanitized.split(`href="${legacy}"`).join(`href="${canonical}"`);
-    sanitized = sanitized.split(`href='${legacy}'`).join(`href="${canonical}"`);
-  }
-  return sanitized;
+  return html
+    // Absolute links to this site become root-relative.
+    .replace(/https?:\/\/somnathdwarkatourpackage\.com(\/[^"'>\s]*)/g, "$1")
+    .replace(/href=(["'])(\/[^"']*)\1/g, (_, _q, href: string) => `href="${canonicalPath(href)}"`);
 }
-

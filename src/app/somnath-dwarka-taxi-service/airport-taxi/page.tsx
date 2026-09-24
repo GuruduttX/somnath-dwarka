@@ -26,7 +26,7 @@ export default function AirportTaxiHubPage() {
     self: PATH,
     pillar: { target: HUB, anchor: "all taxi routes & fares" },
     money: "packages",
-    siblings: [{ target: "/somnath-to-dwarka-taxi/", anchor: "Somnath to Dwarka taxi", type: "sibling" }],
+    siblings: [{ target: "/somnath-dwarka-taxi-service/somnath-to-dwarka-taxi/", anchor: "Somnath to Dwarka taxi", type: "sibling" }],
   });
 
   const crumbs = [

@@ -3,6 +3,7 @@ import { SITE_URL } from "@/src/config/site";
 import { STATIC_ROUTES } from "@/src/config/routes";
 import { getSitemapEntries } from "@/src/lib/content";
 import { getSeedRoutePaths } from "@/src/lib/seed/routes";
+import { SEED_AUTHOR } from "@/src/lib/seed/destinations";
 
 /**
  * XML sitemap (SOP §11): only index,follow canonical URLs; excludes noindex;
@@ -22,7 +23,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const out: MetadataRoute.Sitemap = [];
 
-  STATIC_ROUTES.forEach((r) =>
+  // The author page is noindex until its bio is verified; submitting a noindex
+  // URL is a Search Console error, so it joins the sitemap when it joins the index.
+  const excluded = new Set(SEED_AUTHOR.bio_verified ? [] : ["/author/harsh-rawat/"]);
+
+  STATIC_ROUTES.filter((r) => !excluded.has(r.path)).forEach((r) =>
     add(out, r.path, { lastModified: now, changeFrequency: r.changeFreq ?? "monthly", priority: r.priority ?? 0.5 })
   );
 

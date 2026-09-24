@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { FLEET_IMAGE } from "@/src/config/fleetImages";
+import { canonicalPath } from "@/src/lib/links";
 
 export type RelatedLink = {
   target: string;
@@ -67,7 +68,7 @@ export default function RelatedLinks({
           return (
             <li key={l.target + l.anchor} className="group">
               <Link
-                href={l.target}
+                href={canonicalPath(l.target)}
                 className="flex h-full items-stretch gap-4 overflow-hidden rounded-2xl border border-orange-100/80 bg-white p-3 shadow-[0_10px_40px_rgba(15,23,42,0.05)] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-orange-200 group-hover:shadow-[0_16px_50px_rgba(234,88,12,0.10)]"
               >
                 {/* Photo thumbnail */}

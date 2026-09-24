@@ -65,6 +65,7 @@ export const STATIC_ROUTES: StaticRoute[] = [
   // Supporting hubs
   { path: "/plan/", type: "journey", label: "Plan your trip", priority: 0.7 },
   { path: "/festivals/", type: "festival", label: "Festivals", priority: 0.6 },
+  { path: "/festivals/festival-calendar/", type: "festival", label: "Festival calendar", priority: 0.5 },
   { path: "/guides/", type: "guide", label: "Guides", priority: 0.6 },
   { path: "/compare/", type: "comparison", label: "Compare", priority: 0.6 },
   { path: "/tools/", type: "tool", label: "Tools", priority: 0.6 },
@@ -164,7 +165,7 @@ export const FOOTER_NAV = [
     heading: "Cabs & hotels",
     links: [
       { label: "Taxi service", path: "/somnath-dwarka-taxi-service/" },
-      { label: "Somnath to Dwarka taxi", path: "/somnath-to-dwarka-taxi/" },
+      { label: "Somnath to Dwarka taxi", path: "/somnath-dwarka-taxi-service/somnath-to-dwarka-taxi/" },
       { label: "Hotels", path: "/hotels/" },
     ],
   },

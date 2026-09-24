@@ -36,10 +36,10 @@ const AUTHOR = {
     "Coastal Gujarat folk heritage",
   ],
   guides: [
-    { title: "Somnath to Dwarka: the complete 3-day itinerary", path: "/guides/somnath-to-dwarka-itinerary/" },
-    { title: "Dwarkadhish Temple: darshan timings & aarti guide", path: "/guides/dwarkadhish-temple-timings/" },
-    { title: "How to reach Bet Dwarka (ferry + road)", path: "/guides/bet-dwarka-how-to-reach/" },
-    { title: "Best time to visit Somnath & Dwarka", path: "/guides/best-time-to-visit-somnath-dwarka/" },
+    { title: "Somnath to Dwarka: the complete 3-day itinerary", path: "/guides/dwarka-somnath-itinerary-3-days/" },
+    { title: "Dwarkadhish Temple: darshan timings & aarti guide", path: "/dwarka/dwarkadhish-temple-timings/" },
+    { title: "How to reach Bet Dwarka (ferry + road)", path: "/guides/dwarka-to-bet-dwarka-distance/" },
+    { title: "Best time to visit Somnath", path: "/somnath/best-time-to-visit-somnath/" },
   ],
 };
 

@@ -16,7 +16,7 @@ import { CalendarDays, Clock, Sparkles } from "lucide-react";
 /** Legacy guide slugs mapping to their canonical 301 destinations. */
 const LEGACY_GUIDE_REDIRECTS: Record<string, string> = {
   "how-to-reach": "/guides/how-to-reach-dwarka/",
-  "places-to-visit": "/guides/places-to-visit-in-somnath/",
+  "places-to-visit": "/somnath/",
 };
 
 /**
