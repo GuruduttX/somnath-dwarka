@@ -80,6 +80,13 @@ export const metadata: Metadata = buildMetadata({
   path: "/",
 });
 
+/**
+ * Refresh hourly, like the pillar. Without this the home page was built once
+ * and frozen: a deploy whose build could not reach MongoDB kept an empty
+ * package list until the next deploy.
+ */
+export const revalidate = 3600;
+
 /** The next 12 travel months, e.g. "October 2026", for the enquiry form. */
 function upcomingMonths(count = 12): string[] {
   const now = new Date();
