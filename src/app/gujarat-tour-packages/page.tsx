@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import {
   buildMetadata,
+  itemListSchema,
   sanitizeSchemaOverride,
   touristTripSchema,
   webPageSchema,
@@ -260,7 +261,18 @@ export default async function GujaratPackagePillarPage() {
   const override = hub?.schema_overrides
     ? sanitizeSchemaOverride(hub.schema_overrides as string)
     : null;
-  const schemaData = [pageNode, ...(override ?? [fallbackTrip])];
+  // Same cards, in the same group order, that PackageExplorer renders.
+  const packageList = itemListSchema({
+    name: "Gujarat Tour Packages",
+    path: PATH,
+    key: "packages",
+    items: [...byDuration, ...byCity, ...byType, ...byRoute].map((p) => ({
+      name: p.title,
+      path: p.href,
+      image: p.images[0],
+    })),
+  });
+  const schemaData = [pageNode, ...(override ?? [fallbackTrip]), packageList];
 
   return (
     <PageShell

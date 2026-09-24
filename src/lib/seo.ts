@@ -6,7 +6,7 @@
  * return `null` when the gate is not satisfied; callers must filter nulls.
  */
 import type { Metadata } from "next";
-import { SITE_URL, BRAND, CONTACT, IS_STAGING } from "@/src/config/site";
+import { SITE_URL, BRAND, CONTACT, IS_STAGING, OPERATOR } from "@/src/config/site";
 
 export type Crumb = { name: string; path: string };
 
@@ -195,6 +195,24 @@ export function organizationSchema() {
     },
     image: { "@id": `${SITE_URL}/#logo` },
     description: BRAND.tagline,
+    // Identity facts already published on the cab pages and the home trust
+    // strip (OPERATOR), so the Organization node states the same entity the
+    // visible copy does: the local unit of Experience My India, est. 2018.
+    foundingDate: OPERATOR.foundingDate,
+    founder: {
+      "@type": "Person",
+      name: OPERATOR.founder,
+      url: `${SITE_URL}/author/harsh-rawat/`,
+    },
+    parentOrganization: {
+      "@type": "Organization",
+      name: OPERATOR.parent,
+      slogan: OPERATOR.parentSlogan,
+    },
+    taxID: OPERATOR.gstin,
+    identifier: { "@type": "PropertyValue", propertyID: "GSTIN", value: OPERATOR.gstin },
+    areaServed: { "@type": "State", name: "Gujarat" },
+    knowsLanguage: [...OPERATOR.languages],
     // The phone and email are published on every page already, so declaring the
     // contact point states a fact the site is committed to rather than adding a
     // new claim. The postal address stays behind the NAP gate in
@@ -230,24 +248,38 @@ export function websiteSchema() {
   };
 }
 
-/** LocalBusiness — gated: only when real NAP confirmed (SOP §12). */
+/**
+ * LocalBusiness (TravelAgency) — gated: only when real NAP is confirmed
+ * (SOP §12). Google's local-business result needs a real postal address, so
+ * this stays off until CONTACT.napConfirmed is flipped with the registered
+ * address filled in (home SOP §17 [[REGISTERED ADDRESS]]). Everything else it
+ * carries is already published on the site.
+ */
 export function localBusinessSchema() {
   if (!CONTACT.napConfirmed) return null;
+  const a = CONTACT.address;
   return {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
     "@id": `${SITE_URL}/#localbusiness`,
     name: BRAND.name,
     url: `${SITE_URL}/`,
+    image: BRAND.ogImage,
+    logo: BRAND.logo,
     telephone: CONTACT.phone,
+    email: CONTACT.email,
+    priceRange: "₹₹",
     address: {
       "@type": "PostalAddress",
-      streetAddress: CONTACT.address.street,
-      addressLocality: CONTACT.address.locality,
-      addressRegion: CONTACT.address.region,
-      postalCode: CONTACT.address.postalCode,
-      addressCountry: CONTACT.address.country,
+      ...(a.street ? { streetAddress: a.street } : {}),
+      addressLocality: a.locality,
+      addressRegion: a.region,
+      ...(a.postalCode ? { postalCode: a.postalCode } : {}),
+      addressCountry: a.country,
     },
+    areaServed: ["Dwarka", "Somnath", "Gujarat"].map((name) => ({ "@type": "Place", name })),
+    parentOrganization: { "@id": `${SITE_URL}/#organization` },
+    identifier: { "@type": "PropertyValue", propertyID: "GSTIN", value: OPERATOR.gstin },
   };
 }
 
@@ -278,6 +310,8 @@ export function webPageSchema(opts: {
   dateModified?: string;
   /** Wires the page's FAQ block in as the page's main entity. */
   faqCount?: number;
+  /** @id of the node the page is about, e.g. a package's `${url}#trip`. */
+  mainEntityId?: string;
 }) {
   const url = abs(opts.path);
   return {
@@ -302,6 +336,8 @@ export function webPageSchema(opts: {
     ...(opts.crumbs?.length
       ? { breadcrumb: { "@id": `${url}#breadcrumb` } }
       : {}),
+    ...(opts.mainEntityId ? { mainEntity: { "@id": abs(opts.mainEntityId) } } : {}),
+    inLanguage: "en-IN",
   };
 }
 
@@ -335,30 +371,243 @@ export function faqSchema(faqs: { question: string; answer: string }[]) {
 }
 
 /** Offer — gated: only when a real price is supplied (SOP §12). */
-export function offerSchema(price?: number, currency = "INR") {
+export function offerSchema(
+  price?: number,
+  currency = "INR",
+  extra: { name?: string; path?: string; description?: string } = {}
+) {
   if (!price || price <= 0) return null;
   return {
     "@type": "Offer",
+    ...(extra.name ? { name: extra.name } : {}),
+    ...(extra.description ? { description: extra.description } : {}),
     price: String(price),
     priceCurrency: currency,
     availability: "https://schema.org/InStock",
+    ...(extra.path ? { url: abs(extra.path) } : {}),
+    // Per person on twin-sharing is how every package price on the site is
+    // quoted; saying so keeps the structured price honest about its basis.
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price: String(price),
+      priceCurrency: currency,
+      referenceQuantity: {
+        "@type": "QuantitativeValue",
+        value: 1,
+        unitText: "per person, twin-sharing",
+      },
+      valueAddedTaxIncluded: false,
+    },
+    seller: { "@id": `${SITE_URL}/#organization` },
   };
 }
 
+/* ------------------------------- reviews gate ------------------------------- */
+
+/**
+ * A review a real, named guest actually gave. Nothing on the site may emit
+ * Review / AggregateRating JSON-LD from anything else (SOP §12, home SOP §15):
+ * a fabricated rating is a manual-action risk and a lie about real people.
+ */
+export type RealReview = {
+  author: string;
+  rating: number; // 1–5
+  body: string;
+  /** ISO date the review was given. */
+  date?: string;
+  /** Where it was left, e.g. "Google". */
+  publisher?: string;
+};
+
+/**
+ * `aggregateRating` + `review` properties for a Product/TouristTrip node.
+ * Returns an empty object unless at least one real review is supplied, so a
+ * caller can spread the result unconditionally.
+ */
+export function reviewProps(reviews?: RealReview[]) {
+  const real = (reviews ?? []).filter(
+    (r) => r.author?.trim() && r.body?.trim() && r.rating >= 1 && r.rating <= 5
+  );
+  if (!real.length) return {};
+  const avg = real.reduce((a, r) => a + r.rating, 0) / real.length;
+  return {
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: avg.toFixed(1),
+      bestRating: "5",
+      worstRating: "1",
+      ratingCount: String(real.length),
+      reviewCount: String(real.length),
+    },
+    review: real.slice(0, 10).map((r) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: r.author },
+      reviewRating: { "@type": "Rating", ratingValue: String(r.rating), bestRating: "5", worstRating: "1" },
+      reviewBody: r.body,
+      ...(r.date ? { datePublished: r.date } : {}),
+      ...(r.publisher ? { publisher: { "@type": "Organization", name: r.publisher } } : {}),
+    })),
+  };
+}
+
+/**
+ * A tour package. Always a TouristTrip; additionally typed as a Product when it
+ * carries a real Offer, which is what makes it eligible for Google's product
+ * snippet and merchant-listing results (both need a price, and a Product with
+ * no offer, rating or review is an error, so the Product type is only added
+ * when one exists).
+ *
+ * Every field beyond name/description/path is optional, so existing callers
+ * keep working and richer callers (home, package pages) add what they have.
+ */
 export function touristTripSchema(opts: {
   name: string;
   description: string;
   path: string;
   price?: number;
+  /** Several priced options (e.g. comfort tiers) instead of a single price. */
+  tiers?: { name: string; price: number; description?: string }[];
+  /** Absolute or site-relative image URLs; the first is the primary image. */
+  images?: string[];
+  /**
+   * The route: ordered stop names (typed as TouristAttraction), or day entries
+   * ({ name, description }) which are listed as plain items — a day is not a
+   * place, so it is not typed as one.
+   */
+  itinerary?: (string | { name: string; description?: string })[];
+  /** ISO 8601 duration, e.g. "P3D". */
+  duration?: string;
+  touristType?: string | string[];
+  sku?: string;
+  /** Anchor id; defaults to `${url}#trip`. */
+  id?: string;
+  reviews?: RealReview[];
 }) {
-  const offers = offerSchema(opts.price);
+  const url = abs(opts.path);
+  const offerList = (
+    opts.tiers?.length
+      ? opts.tiers.map((t) => offerSchema(t.price, "INR", { name: t.name, description: t.description, path: opts.path }))
+      : [offerSchema(opts.price, "INR", { path: opts.path })]
+  ).filter(Boolean) as Record<string, unknown>[];
+  const ratings = reviewProps(opts.reviews);
+  const sellable = offerList.length > 0 || "aggregateRating" in ratings;
+  const images = (opts.images ?? []).filter(Boolean).map(abs);
+  if (sellable && !images.length) images.push(BRAND.ogImage);
+
   return {
     "@context": "https://schema.org",
-    "@type": "TouristTrip",
+    "@type": sellable ? ["Product", "TouristTrip"] : "TouristTrip",
+    "@id": opts.id ? abs(opts.id) : `${url}#trip`,
     name: opts.name,
-    description: opts.description,
-    url: abs(opts.path),
-    ...(offers ? { offers } : {}),
+    description: clamp(opts.description, 5000),
+    url,
+    ...(images.length ? { image: images } : {}),
+    ...(opts.duration ? { duration: opts.duration } : {}),
+    ...(opts.touristType ? { touristType: opts.touristType } : {}),
+    ...(opts.itinerary?.length
+      ? {
+          itinerary: {
+            "@type": "ItemList",
+            numberOfItems: opts.itinerary.length,
+            itemListElement: opts.itinerary.map((stop, i) =>
+              typeof stop === "string"
+                ? { "@type": "ListItem", position: i + 1, item: { "@type": "TouristAttraction", name: stop } }
+                : {
+                    "@type": "ListItem",
+                    position: i + 1,
+                    name: stop.name,
+                    ...(stop.description ? { description: clamp(stop.description, 500) } : {}),
+                  }
+            ),
+          },
+        }
+      : {}),
+    provider: { "@id": `${SITE_URL}/#organization` },
+    ...(sellable
+      ? {
+          brand: { "@type": "Brand", name: OPERATOR.parent },
+          ...(opts.sku ? { sku: opts.sku } : {}),
+          category: "Tour packages",
+        }
+      : {}),
+    ...(offerList.length ? { offers: offerList.length === 1 ? offerList[0] : offerList } : {}),
+    ...ratings,
+  };
+}
+
+/**
+ * ItemList of links — the summary-page carousel pattern. Use on any page whose
+ * main content is a list of cards pointing at their own detail pages (package
+ * pillars, hotel hub, guides, festivals…). Returns null for an empty list.
+ */
+export function itemListSchema(opts: {
+  name: string;
+  path: string;
+  items: { name: string; path: string; image?: string }[];
+  /** Distinguishes several lists on one page, e.g. "packages". */
+  key?: string;
+}) {
+  const seen = new Set<string>();
+  const items = opts.items.filter((i) => {
+    if (!i?.path || !i.name) return false;
+    const u = abs(i.path);
+    if (seen.has(u)) return false;
+    seen.add(u);
+    return true;
+  });
+  if (!items.length) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${abs(opts.path)}#${opts.key ?? "itemlist"}`,
+    name: opts.name,
+    numberOfItems: items.length,
+    itemListOrder: "https://schema.org/ItemListUnordered",
+    itemListElement: items.map((i, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      url: abs(i.path),
+      name: i.name,
+      ...(i.image ? { image: abs(i.image) } : {}),
+    })),
+  };
+}
+
+/**
+ * VideoObject — gated: Google requires name, thumbnailUrl and uploadDate, so
+ * the node is omitted unless all three are real. Pass a YouTube id to derive
+ * the embed and thumbnail URLs.
+ */
+export function videoObjectSchema(opts: {
+  name: string;
+  description: string;
+  uploadDate?: string;
+  youtubeId?: string;
+  thumbnailUrl?: string;
+  embedUrl?: string;
+  contentUrl?: string;
+  /** ISO 8601, e.g. "PT2M30S". */
+  duration?: string;
+  transcript?: string;
+  path?: string;
+}) {
+  const thumb =
+    opts.thumbnailUrl ?? (opts.youtubeId ? `https://i.ytimg.com/vi/${opts.youtubeId}/hqdefault.jpg` : undefined);
+  const embed = opts.embedUrl ?? (opts.youtubeId ? `https://www.youtube.com/embed/${opts.youtubeId}` : undefined);
+  if (!opts.name || !thumb || !opts.uploadDate || !(embed || opts.contentUrl)) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    ...(opts.path ? { "@id": `${abs(opts.path)}#video` } : {}),
+    name: opts.name,
+    description: opts.description || opts.name,
+    thumbnailUrl: [thumb],
+    uploadDate: opts.uploadDate,
+    ...(embed ? { embedUrl: embed } : {}),
+    ...(opts.contentUrl ? { contentUrl: opts.contentUrl } : {}),
+    ...(opts.duration ? { duration: opts.duration } : {}),
+    ...(opts.transcript ? { transcript: opts.transcript } : {}),
+    publisher: { "@id": `${SITE_URL}/#organization` },
   };
 }
 

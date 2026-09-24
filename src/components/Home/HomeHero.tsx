@@ -1,17 +1,9 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import dynamic from "next/dynamic";
-import { Star, ArrowRight, MapPin, Sparkles, Navigation, CalendarDays } from "lucide-react";
-import CountUp from "@/src/utils/CountUp";
-import React from "react";
-
-// The multi-step enquiry form is only shown after a click, so keep it out of
-// the hero's critical bundle — otherwise its JS has to download and parse
-// before the hero hydrates, delaying the LCP paint.
-const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"));
+import { MapPin, Sparkles, Navigation, CalendarDays, Star, ClipboardList } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa6";
+import TrackedLink from "@/src/components/Home/sop/TrackedLink";
+import { waLink } from "@/src/config/site";
+import { HOME_HERO, HOME_WA_TEXT } from "@/src/config/homePage";
 
 const CARD_SOMNATH = "/images/home/SomnathLongImage.webp";
 const CARD_DWARKA = "/images/home/DwarikaLongImage.webp";
@@ -21,26 +13,39 @@ const CARD_DWARKA = "/images/home/DwarikaLongImage.webp";
 // app/page.tsx) so it starts downloading immediately.
 const SOMNATH_DWARKA_MOBILE = "/images/CTA-mobile.webp";
 
-const STATS = [
-  { value: 4800, suffix: "+", label: "Happy Pilgrims" },
-  { value: 12, suffix: " Yrs", label: "Experience" },
-  { value: 4.9, suffix: "★", label: "Rating" },
+/**
+ * Route facts shown under the CTA. These replaced a "4,800+ pilgrims / 12 yrs /
+ * 4.9★" counter and stock-photo avatars: the home SOP forbids unverified
+ * numbers, invented ratings and stock avatars, so the hero states only facts
+ * about the route itself that the itinerary below backs up.
+ */
+const FACTS = [
+  { value: "2N / 3D", label: "Core route" },
+  { value: "≈ 233 km", label: "Dwarka to Somnath" },
+  { value: "Private", label: "AC car, your group only" },
 ] as const;
 
-const AVATARS = [
-  "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=120&h=120&auto=format&fit=crop&crop=faces",
-  "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=120&h=120&auto=format&fit=crop&crop=faces",
-  "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=120&h=120&auto=format&fit=crop&crop=faces",
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&auto=format&fit=crop&crop=faces",
-];
+/** Wraps each occurrence of `phrases` in `text` in the hero's bold-orange style. */
+function highlight(text: string, phrases: readonly string[]) {
+  const escaped = phrases.map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  return text.split(new RegExp(`(${escaped.join("|")})`)).map((part, i) =>
+    phrases.includes(part) ? (
+      <strong key={i} className="font-semibold text-orange-700">{part}</strong>
+    ) : (
+      part
+    ),
+  );
+}
 
+/**
+ * Home §1 hero (home SOP). A server component: the only interactive pieces are
+ * two links, so nothing here needs to hydrate before the LCP paint. The primary
+ * action is WhatsApp, per the SOP; the secondary jumps to the in-page enquiry
+ * form (the SOP asks for an anchored form, not a popup).
+ */
 export default function HomeHero() {
-  const [open, setOpen] = useState(false);
-
   return (
     <>
-      <CommonEnquiryForm open={open} onClose={() => setOpen(false)} />
-
       <style>{`
         .font-playfair { font-family: 'Playfair Display', Georgia, serif; }
         .font-dm       { font-family: 'DM Sans', sans-serif; }
@@ -168,87 +173,50 @@ export default function HomeHero() {
             </div>
 
             {/* Headline */}
-            <h1 className="font-playfair h-anim hd2 mt-5 text-5xl font-black leading-[1.02] tracking-[-0.03em] text-[#3a2416] sm:text-6xl lg:text-7xl xl:text-[86px]">
-              Somnath &amp;{" "}
-              <span className="headline-grad italic">Dwarka</span>
+            <h1 className="font-playfair h-anim hd2 mt-5 text-[40px] font-black leading-[1.05] tracking-[-0.02em] text-[#3a2416] sm:text-5xl lg:text-6xl xl:text-[68px]">
+              Somnath <span className="headline-grad italic">Dwarka</span> Tour Package
             </h1>
-            {/* Sub-headline — its own line, clearly separated from the title */}
-            <p className="font-dm h-anim hd2 mt-3 text-lg font-bold tracking-normal text-[#7a5238] sm:text-xl lg:text-2xl">
-              A Divine Tour You&apos;ll Remember
-            </p>
 
-            {/* Description */}
-            <p className="h-anim hd3 mt-5 max-w-[560px] text-[15px] leading-[1.8] text-[#6b4c38] lg:text-base">
-              Stand before the legendary{" "}
-              <strong className="font-semibold text-orange-700">Jyotirlinga of Somnath</strong>, let the sea breeze carry the
-              evening aarti, then feel the timeless calm of{" "}
-              <strong className="font-semibold text-orange-700">Dwarkadhish Temple</strong>. A warm, family-friendly
-              pilgrimage — planned end to end.
+            {/* Lead and price in one paragraph; key phrases and the price
+                (with its occupancy basis) picked out in bold orange. */}
+            <p className="speakable h-anim hd3 mt-5 max-w-[580px] text-[15px] leading-[1.8] text-[#6b4c38] lg:text-base">
+              {highlight(HOME_HERO.lead, HOME_HERO.highlights)}{" "}
+              <strong className="font-semibold text-orange-700">{HOME_HERO.priceLine}</strong>{" "}
+              {HOME_HERO.priceTail}
             </p>
 
             {/* CTAs */}
-            <div className="h-anim hd4 mt-7 flex w-full flex-row gap-2.5 sm:w-auto sm:gap-3">
-              <Link
-                href="/somnath-dwarka-tour-package/"
-                className="btn-shine group relative inline-flex flex-1 items-center justify-center gap-2 overflow-hidden rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-4 py-3.5 text-[13px] font-semibold text-white shadow-[0_12px_30px_rgba(234,88,12,0.4)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:flex-none sm:px-7 sm:text-sm"
+            <div className="h-anim hd4 mt-7 flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:gap-3">
+              <TrackedLink
+                href={waLink(HOME_WA_TEXT)}
+                external
+                event="whatsapp_click"
+                label="home_hero"
+                className="btn-shine group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[#1FA855] px-5 py-3.5 text-[13.5px] font-semibold text-white shadow-[0_12px_30px_rgba(31,168,85,0.35)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:px-7 sm:text-sm"
               >
-                <Star size={15} className="relative z-[1] shrink-0" />
-                <span className="relative z-[1] whitespace-nowrap">Explore Packages</span>
-                <ArrowRight size={15} className="relative z-[1] hidden shrink-0 transition-transform group-hover:translate-x-1 sm:inline" />
-              </Link>
-              <button
-                type="button"
-                onClick={() => setOpen(true)}
-                className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-4 py-3.5 text-[13px] font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white sm:flex-none sm:px-7 sm:text-sm"
+                <FaWhatsapp size={18} className="relative z-[1] shrink-0" aria-hidden="true" />
+                <span className="relative z-[1] whitespace-nowrap">{HOME_HERO.cta}</span>
+              </TrackedLink>
+              <a
+                href="#enquire"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-5 py-3.5 text-[13.5px] font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white sm:px-7 sm:text-sm"
               >
-                <Navigation size={15} className="shrink-0" />
-                <span className="whitespace-nowrap">Enquire Now</span>
-              </button>
+                <ClipboardList size={15} className="shrink-0" aria-hidden="true" />
+                <span className="whitespace-nowrap">Send an enquiry</span>
+              </a>
             </div>
 
-
-            {/* Trust row */}
-            <div className="h-anim hd5 mt-7 flex items-center gap-3">
-              <div className="flex -space-x-2.5">
-                {AVATARS.map((src, i) => (
-                  // Decorative avatars — kept at low priority so they don't get
-                  // scheduled ahead of the LCP hero image on a slow connection.
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    key={i}
-                    src={src}
-                    alt=""
-                    width={32}
-                    height={32}
-                    loading="lazy"
-                    fetchPriority="low"
-                    decoding="async"
-                    className="h-8 w-8 rounded-full border-2 border-white object-cover shadow-sm"
-                  />
-                ))}
-              </div>
-              <div className="text-left">
-                <div className="flex items-center gap-0.5 text-amber-500">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={12} className="fill-amber-400 text-amber-400" />)}
-                </div>
-                <p className="text-[11.5px] font-medium text-[#7a5238]">Loved by thousands of happy pilgrims</p>
-              </div>
-            </div>
-
-            {/* Stats */}
-            <div className="h-anim hd6 mt-7 flex flex-nowrap items-center justify-center gap-4 border-t border-orange-200/60 pt-6 sm:gap-6 lg:justify-start lg:gap-9">
-              {STATS.map(({ value, suffix, label }, i) => (
-                <React.Fragment key={label}>
-                  <div className="shrink-0 text-center lg:text-left">
-                    <div className="font-playfair text-2xl font-bold leading-none text-orange-600 sm:text-3xl">
-                      <CountUp end={value} duration={600} suffix={suffix} />
-                    </div>
-                    <div className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#9a7358] sm:text-[10px] sm:tracking-[0.12em]">{label}</div>
-                  </div>
-                  {i < STATS.length - 1 && <div className="h-9 w-px shrink-0 bg-orange-200/70" />}
-                </React.Fragment>
+            {/* Route facts */}
+            {/* Three equal columns on phones (labels may wrap) so the row never
+                overflows; a left-aligned row from lg up. */}
+            <ul className="h-anim hd6 mt-7 grid w-full grid-cols-3 divide-x divide-orange-200/70 border-t border-orange-200/60 pt-6 sm:w-auto lg:flex lg:justify-start">
+              {FACTS.map(({ value, label }) => (
+                <li key={label} className="min-w-0 px-1.5 text-center sm:px-6 lg:px-9 lg:text-left lg:first:pl-0 lg:last:pr-0">
+                  <p className="font-playfair whitespace-nowrap text-[17px] font-bold leading-none text-orange-600 min-[400px]:text-xl sm:text-2xl">{value}</p>
+                  <p className="mt-1.5 text-[9.5px] font-semibold uppercase leading-snug tracking-[0.08em] text-[#9a7358] sm:text-[10px] sm:tracking-[0.12em]">{label}</p>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
           {/* ══ RIGHT — travel memory composition (desktop) ══ */}
@@ -316,8 +284,8 @@ export default function HomeHero() {
                 <Navigation size={15} className="text-white" />
               </div>
               <div>
-                <p className="text-[9px] font-semibold uppercase tracking-wide text-[#9a7358]">Somnath → Dwarka</p>
-                <p className="text-[13px] font-bold text-[#3a2416]">≈ 233 km scenic route</p>
+                <p className="text-[9px] font-semibold uppercase tracking-wide text-[#9a7358]">Dwarka → Somnath</p>
+                <p className="text-[13px] font-bold text-[#3a2416]">≈ 233 km coastal drive</p>
               </div>
             </div>
 
@@ -327,8 +295,8 @@ export default function HomeHero() {
                 <CalendarDays size={15} className="text-white" />
               </div>
               <div>
-                <p className="text-[9px] font-semibold uppercase tracking-wide text-[#9a7358]">Ideal trip</p>
-                <p className="text-[13px] font-bold text-[#3a2416]">4–5 Days Yatra</p>
+                <p className="text-[9px] font-semibold uppercase tracking-wide text-[#9a7358]">Core route</p>
+                <p className="text-[13px] font-bold text-[#3a2416]">2 Nights · 3 Days</p>
               </div>
             </div>        
           </div>

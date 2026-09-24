@@ -11,19 +11,9 @@
  * record alone, so importing a new route never produces a broken page.
  */
 
-/** Identity and trust facts repeated across every spoke, per the SOPs. */
-export const OPERATOR = {
-  localUnit: "Somnath Dwarka Tour Package",
-  parent: "Experience My India",
-  parentSlogan: "India's Most Trusted Tour Operator",
-  phone: "+917300620809",
-  foundingDate: "2018",
-  founder: "Harsh Rawat",
-  gstin: "09BZFPM8067A1Z9",
-  /** BCP-47 codes for schema; the prose spells them out. */
-  languages: ["en", "gu", "te", "kn"],
-  languagesProse: "English, Gujarati, Telugu and Kannada",
-} as const;
+/** Identity and trust facts — now defined once in site config, re-exported for the spokes. */
+import { OPERATOR } from "@/src/config/site";
+export { OPERATOR };
 
 /** The vehicle guide table is identical on all four spokes. */
 export const SPOKE_VEHICLES = [

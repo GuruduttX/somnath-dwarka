@@ -1,3 +1,4 @@
+import { createHmac, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import Enquiry from "@/src/models/enquiryModel";
@@ -130,7 +131,14 @@ export async function createEnquiryController(req: Request) {
         {
             success: true,
             message: "Enquiry submitted successfully",
-            data: { id: enquiry._id.toString(), emailSent, crmSynced: crm.synced },
+            data: {
+                id: enquiry._id.toString(),
+                // Lets the same browser attach step-2 answers to this lead
+                // (home two-step form) without exposing an update-by-id hole.
+                token: leadToken(enquiry._id.toString()),
+                emailSent,
+                crmSynced: crm.synced,
+            },
         },
         { status: 201 }
     );
@@ -181,4 +189,82 @@ async function sendEnquiryMails(
     }
 
     return sent;
+}
+
+/* ------------------------- two-step form: step 2 ------------------------- */
+
+/**
+ * The home page enquiry form is two steps (home SOP §14): step 1 creates the
+ * lead — so it counts even if the visitor stops there — and step 2 adds the
+ * qualifying answers to that same lead instead of creating a duplicate.
+ *
+ * Step 1's response carries an HMAC of the lead id. Only a holder of that token
+ * can update the lead, the update is limited to the qualifying fields, and it
+ * is accepted only while the lead is fresh and still untouched by the team.
+ */
+const QUALIFY_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+function leadToken(id: string): string {
+    const secret = process.env.JWT_SECRET || "enquiry-lead-token";
+    return createHmac("sha256", secret).update(`lead:${id}`).digest("base64url");
+}
+
+function tokenMatches(id: string, token: string): boolean {
+    const expected = Buffer.from(leadToken(id));
+    const given = Buffer.from(token);
+    return expected.length === given.length && timingSafeEqual(expected, given);
+}
+
+const qualifySchema = z.object({
+    id: z.string().trim().regex(/^[a-f0-9]{24}$/i, "Invalid lead"),
+    token: z.string().trim().min(10).max(100),
+    adults: z.coerce.number().int().min(1).max(60),
+    children: z.coerce.number().int().min(0).max(60).default(0),
+    startingCity: z.string().trim().min(2).max(80),
+    hotelCategory: z.string().trim().max(80).optional(),
+    request: z.string().trim().max(1000).optional(),
+});
+
+export async function qualifyEnquiryController(req: Request) {
+    let body: unknown;
+    try {
+        body = await req.json();
+    } catch {
+        return NextResponse.json({ success: false, message: "Invalid request body" }, { status: 400 });
+    }
+
+    const parsed = qualifySchema.safeParse(body);
+    if (!parsed.success) {
+        return NextResponse.json(
+            { success: false, message: parsed.error.issues[0]?.message ?? "Invalid details" },
+            { status: 400 }
+        );
+    }
+
+    const input = parsed.data;
+    if (!tokenMatches(input.id, input.token)) {
+        return NextResponse.json({ success: false, message: "Invalid lead" }, { status: 403 });
+    }
+
+    const enquiry = await Enquiry.findById(input.id);
+    const createdAt = enquiry?.createdAt ? new Date(enquiry.createdAt).getTime() : 0;
+    if (!enquiry || enquiry.status !== "new" || Date.now() - createdAt > QUALIFY_WINDOW_MS) {
+        return NextResponse.json({ success: false, message: "Lead can no longer be updated" }, { status: 409 });
+    }
+
+    const guests = `${input.adults} adult${input.adults === 1 ? "" : "s"}${
+        input.children ? `, ${input.children} child${input.children === 1 ? "" : "ren"}` : ""
+    }`;
+    const extra = [
+        input.hotelCategory ? `Hotel category: ${input.hotelCategory}` : "",
+        input.request ? `Special request: ${input.request}` : "",
+    ].filter(Boolean);
+
+    enquiry.details = { ...(enquiry.details?.toObject?.() ?? enquiry.details ?? {}), guests, pickup: input.startingCity };
+    if (extra.length) {
+        enquiry.message = [enquiry.message, ...extra].filter(Boolean).join("\n");
+    }
+    await enquiry.save();
+
+    return NextResponse.json({ success: true, message: "Details added" });
 }

@@ -970,6 +970,19 @@ body.lightbox-open .sticky-contact-bar { display: none; }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* Home page vertical rhythm: every section gets the same top and bottom
+   padding, so the gap between any two sections is identical. Sections set
+   their own (often !important) paddings, so this lives in the utilities layer
+   with higher specificity to win over them. The hero and trust strip keep
+   their own spacing. */
+.home-sections { --home-section-y: 32px; }
+@media (min-width: 768px) { .home-sections { --home-section-y: 48px; } }
+@layer utilities {
+  .home-sections section:not(#hero, #trust-strip, [aria-label="Our credentials"]) {
+    padding-block: var(--home-section-y) !important;
+  }
+}
+
 /* Skip rendering (style/layout/paint) of below-the-fold home sections until
    they scroll near the viewport. On a ~9k-element page this is what lets the
    LCP paint without waiting on a full-page layout pass. contain-intrinsic-size

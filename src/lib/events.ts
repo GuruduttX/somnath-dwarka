@@ -9,6 +9,8 @@ export type EventName =
   | "whatsapp_click"
   | "call_click"
   | "form_submit"
+  /** GA4 recommended lead event — import it into Google Ads as the conversion. */
+  | "generate_lead"
   | "tool_use";
 
 export function track(name: EventName, params: Record<string, unknown> = {}) {

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Clock, MapPin, ShieldCheck, Sparkles, Star } from "lucide-react";
 import InclusionsExclusions from "@/src/components/TourPackage/InclusionsExclusions";
-import { buildMetadata, touristTripSchema } from "@/src/lib/seo";
+import { buildMetadata, touristTripSchema, webPageSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import Section from "@/src/components/shared/Section";
 import ItineraryAccordion from "@/src/components/shared/ItineraryAccordion";
@@ -83,7 +83,10 @@ async function resolvePackage(slug: string) {
       meta_description: String(cms.meta_description || cms.overview || ""),
       duration: String(cms.duration || ""),
       price_from: Number(cms.price_from || (cms as { price?: number }).price || 0),
-      price_verified: false,
+      // The CMS price is the one the price card displays ("Starts from ₹X"), so
+      // the Offer in the schema states exactly what the visitor already sees.
+      // Seed fallbacks stay unpriced in schema.
+      price_verified: Number(cms.price_from || (cms as { price?: number }).price || 0) > 0,
       answer_first: String(cms.answer_first || cms.overview || ""),
       highlights: ((cms.highlights as { description: string }[]) || []).map((h) => h.description),
       itinerary: ((cms.itinerary as { day: number; title: string; description: string; stops?: string[]; steps?: { time: string; activity: string }[]; dayDuration?: string; dayActivity?: string }[]) || []).map((d) => ({
@@ -453,12 +456,33 @@ export default async function PackageVariantPage({ params }: Params) {
       <Policies PackageData={pkg} />
 
       <JsonLd
-        data={touristTripSchema({
-          name: pkg.h1,
-          description: pkg.meta_description || pkg.answer_first,
-          path: packagePath(slug),
-          price: pkg.price_verified ? pkg.price_from : undefined,
-        })}
+        data={[
+          webPageSchema({
+            name: pkg.h1,
+            description: pkg.meta_description || pkg.answer_first,
+            path: packagePath(slug),
+            crumbs: [
+              { name: "Home", path: "/" },
+              { name: "Tour packages", path: "/somnath-dwarka-tour-package/" },
+              { name: pkg.h1, path: packagePath(slug) },
+            ],
+            primaryImage: pkg.heroImage?.image,
+            mainEntityId: `${packagePath(slug)}#trip`,
+          }),
+          touristTripSchema({
+            name: pkg.h1,
+            description: pkg.meta_description || pkg.answer_first,
+            path: packagePath(slug),
+            price: pkg.price_verified ? pkg.price_from : undefined,
+            images: [pkg.heroImage?.image, ...pkg.childImages.map((c) => c.image)].filter(
+              (src): src is string => Boolean(src)
+            ),
+            itinerary: pkg.itinerary.map((d) => ({ name: `Day ${d.day}: ${d.title}`, description: d.description })),
+            duration: pkg.itinerary.length ? `P${pkg.itinerary.length}D` : undefined,
+            touristType: "Pilgrims",
+            sku: `SDTP-${slug}`,
+          }),
+        ]}
       />
     </PageShell>
   );

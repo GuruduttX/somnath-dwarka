@@ -59,6 +59,31 @@ export const CONTACT = {
   },
 } as const;
 
+/**
+ * Identity and trust facts for the operating business, per the SOPs: the local
+ * unit trades as the site brand under the Experience My India parent. The
+ * GSTIN is published on every cab page, the home trust strip and the footer.
+ */
+export const OPERATOR = {
+  localUnit: "Somnath Dwarka Tour Package",
+  parent: "Experience My India",
+  parentSlogan: "India's Most Trusted Tour Operator",
+  phone: "+917300620809",
+  foundingDate: "2018",
+  founder: "Harsh Rawat",
+  gstin: "09BZFPM8067A1Z9",
+  /** BCP-47 codes for schema; the prose spells them out. */
+  languages: ["en", "gu", "te", "kn"],
+  languagesProse: "English, Gujarati, Telugu and Kannada",
+} as const;
+
+/**
+ * Registered address for the footer (home SOP §17). Empty until the client
+ * confirms it — the footer then shows the service locality only, never a
+ * guessed street address.
+ */
+export const REGISTERED_ADDRESS = "";
+
 export const waLink = (text?: string) =>
   `https://wa.me/${CONTACT.whatsapp}${
     text ? `?text=${encodeURIComponent(text)}` : ""
@@ -135,8 +160,36 @@ export const liveOffers = (path: string, now: number): Offer[] =>
 export const EXPERIENCE_VIDEO: {
   youtubeId: string;
   title: string;
+  description: string;
+  /** ISO date the video was published — required for VideoObject schema. */
+  uploadDate: string;
+  /** ISO 8601 duration, e.g. "PT2M30S" (optional). */
+  duration?: string;
   transcript: string;
 } | null = null;
+
+/**
+ * Home §15 — real guest reviews (home SOP: "insert [[REAL REVIEWS]]. Never
+ * invent testimonials or use stock avatars").
+ *
+ * Empty until the client supplies genuine, attributable reviews. While empty
+ * the home page shows no quotes, no stars and emits no Review/AggregateRating
+ * JSON-LD. Each entry added here appears on the page AND in the Product schema
+ * (review snippets), so only add reviews a named guest actually left.
+ */
+export const REAL_REVIEWS: {
+  author: string;
+  location?: string;
+  rating: number; // 1–5
+  body: string;
+  /** ISO date the review was left, e.g. "2026-02-14". */
+  date?: string;
+  /** Where it was left, e.g. "Google". */
+  publisher?: string;
+}[] = [];
+
+/** Public Google reviews link (Maps / Business Profile). Empty hides the link. */
+export const GOOGLE_REVIEWS_URL = "";
 
 /** Home §14 — response SLA is an operational claim, so it is verify-gated too. */
 export const RESPONSE_SLA: VerifiedFact = {

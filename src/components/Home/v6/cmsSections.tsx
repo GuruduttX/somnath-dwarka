@@ -191,49 +191,114 @@ export async function GuidesTeaser() {
   );
 }
 
+/** Same full-width gutters as the other home sections. */
+const FULL_WIDTH = "w-full px-4 sm:px-8 lg:px-16 xl:px-24";
+
+function SectionHeader({ id, eyebrow, title, intro }: { id: string; eyebrow: string; title: string; intro: React.ReactNode }) {
+  return (
+    <div className="grid gap-3 lg:grid-cols-2 lg:items-end lg:gap-12">
+      <div>
+        <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em] text-orange-600">{eyebrow}</p>
+        <h2 id={`${id}-h`} className="text-2xl font-bold leading-tight text-[#2D1B10] md:text-3xl">
+          {title}
+        </h2>
+      </div>
+      <div className="text-[15px] leading-relaxed text-slate-600">{intro}</div>
+    </div>
+  );
+}
+
+function CalendarIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+  );
+}
+
+/** "2026-08-16" → "16 Aug 2026"; anything unparseable is shown as given. */
+function formatDate(value: string) {
+  const d = new Date(value);
+  return Number.isNaN(d.getTime())
+    ? value
+    : d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+}
+
+/** The three events the calendar note names, shown until festivals are published. */
+const KEY_FESTIVALS = [
+  { name: "Janmashtami", place: "Dwarka" },
+  { name: "Maha Shivratri", place: "Somnath" },
+  { name: "Girnar parikrama", place: "Junagadh" },
+];
+
 export async function FestivalsTeaser() {
   const festivals = (await getPublishedFestivals()) as Array<Record<string, unknown>>;
 
   return (
-    <Section id="festivals" title="Festivals & yatra calendar" wide>
-      {festivals.length ? (
-        <ul className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
-          {festivals.slice(0, 3).map((f) => (
-            <Card
-              key={String(f.slug)}
-              href={`/festivals/${f.slug}/`}
-              title={s(f, "title") || String(f.slug)}
-              blurb={s(f, "date_this_year") || undefined}
-              type="festival"
-            />
-          ))}
-        </ul>
-      ) : (
-        <div className="rounded-2xl border border-amber-100 bg-amber-50/40 p-5.5 max-w-3xl">
-          <div className="flex gap-4.5">
-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-700">
-              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                <line x1="16" y1="2" x2="16" y2="6" />
-                <line x1="8" y1="2" x2="8" y2="6" />
-                <line x1="3" y1="10" x2="21" y2="10" />
-              </svg>
-            </div>
-            <div>
-              <h4 className="font-semibold text-amber-950 text-sm leading-tight">Yatra Calendar Insights</h4>
-              <p className="mt-1.5 text-[13.5px] leading-relaxed text-amber-800/90">
-                Janmashtami at Dwarka, Maha Shivratri at Somnath, and the Girnar parikrama shape when the temples are busiest. Planning around these events guarantees smoother darshan availability.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-      <p className="mt-6 text-sm">
-        <Link href="/festivals/" className="font-semibold text-orange-700 hover:underline">
-          See the festival calendar →
-        </Link>
-      </p>
-    </Section>
+    <section id="festivals" aria-labelledby="festivals-h" className={`scroll-mt-24 ${FULL_WIDTH}`}>
+      <SectionHeader
+        id="festivals"
+        eyebrow="When to plan"
+        title="Festivals & yatra calendar"
+        intro="Janmashtami at Dwarka, Maha Shivratri at Somnath, and the Girnar parikrama shape when the temples are busiest. Planning around these events makes darshan far smoother."
+      />
+
+      <ul className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
+        {festivals.length
+          ? festivals.slice(0, 3).map((f) => {
+              const date = s(f, "date_this_year");
+              const where = s(f, "city") || s(f, "event_venue");
+              return (
+                <li key={String(f.slug)}>
+                  <Link
+                    href={`/festivals/${f.slug}/`}
+                    className="group flex h-full flex-col rounded-2xl border border-orange-100 bg-white p-5 transition hover:-translate-y-0.5 hover:border-orange-300"
+                  >
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600 ring-1 ring-amber-100">
+                      <CalendarIcon />
+                    </span>
+                    <span className="mt-4 text-[16px] font-bold text-[#2D1B10] group-hover:text-orange-700">
+                      {s(f, "title") || String(f.slug)}
+                    </span>
+                    {where ? <span className="mt-0.5 text-[13px] text-slate-500">{where}</span> : null}
+                    {date ? (
+                      <span className="mt-auto pt-4 text-[12.5px] font-semibold text-orange-700">{formatDate(date)}</span>
+                    ) : null}
+                  </Link>
+                </li>
+              );
+            })
+          : KEY_FESTIVALS.map((f) => (
+              <li key={f.name} className="flex items-center gap-3.5 rounded-2xl border border-orange-100 bg-white p-5">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600 ring-1 ring-amber-100">
+                  <CalendarIcon />
+                </span>
+                <span>
+                  <span className="block text-[16px] font-bold text-[#2D1B10]">{f.name}</span>
+                  <span className="block text-[13px] text-slate-500">{f.place} · busiest days at the temple</span>
+                </span>
+              </li>
+            ))}
+
+        <li>
+          <Link
+            href="/festivals/"
+            className="group flex h-full items-center justify-between gap-3 rounded-2xl bg-gradient-to-br from-[#2D1B10] to-[#4a2a17] p-5 text-white transition hover:-translate-y-0.5"
+          >
+            <span>
+              <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-orange-300">Full calendar</span>
+              <span className="mt-1 block text-[16px] font-bold">See every festival date</span>
+            </span>
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-orange-300 transition group-hover:translate-x-0.5 group-hover:bg-white/15">
+              →
+            </span>
+          </Link>
+        </li>
+      </ul>
+    </section>
   );
 }
 
@@ -242,22 +307,56 @@ export async function FestivalsTeaser() {
  * methodology and a last-updated date, but they are still linkable from here.
  */
 export async function DataAndResearch() {
-  const pages = await getPublishedDataPages();
+  const pages = (await getPublishedDataPages()) as Array<Record<string, unknown>>;
   if (!pages.length) return null;
 
   return (
-    <Section id="data" title="Our data & research" wide>
-      <ul className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
-        {pages.map((d) => (
-          <Card
-            key={String(d.slug)}
-            href={`/data/${d.slug}/`}
-            title={s(d, "title") || String(d.slug)}
-            blurb={s(d, "dataset_name") || undefined}
-            type="data"
-          />
-        ))}
+    <section id="data" aria-labelledby="data-h" className={`scroll-mt-24 ${FULL_WIDTH}`}>
+      <SectionHeader
+        id="data"
+        eyebrow="First-party research"
+        title="Our data & research"
+        intro="Datasets we keep for this route, from crowd patterns to fares and temple timings, so your plans rest on more than guesswork."
+      />
+
+      <ul className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
+        {pages.map((d) => {
+          const title = s(d, "title") || String(d.slug);
+          const dataset = s(d, "dataset_name");
+          const updated = s(d, "last_updated");
+          // Rows only count once the dataset is cited (methodology + date), as on the page itself.
+          const rows = s(d, "methodology") && updated && Array.isArray(d.rows) ? d.rows.length : 0;
+          return (
+            <li key={String(d.slug)}>
+              <Link
+                href={`/data/${d.slug}/`}
+                className="group flex h-full items-center gap-4 rounded-2xl border border-sky-100 bg-gradient-to-br from-sky-50/70 to-white p-4 transition hover:-translate-y-0.5 hover:border-sky-300 sm:p-5"
+              >
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-sky-600 ring-1 ring-sky-100">
+                  <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <line x1="18" y1="20" x2="18" y2="10" />
+                    <line x1="12" y1="20" x2="12" y2="4" />
+                    <line x1="6" y1="20" x2="6" y2="14" />
+                  </svg>
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-[15.5px] font-bold leading-snug text-[#2D1B10] group-hover:text-sky-800">{title}</span>
+                  {dataset && dataset !== title ? <span className="mt-0.5 block text-[13px] text-slate-500">{dataset}</span> : null}
+                  {updated || rows ? (
+                    <span className="mt-1 flex flex-wrap gap-x-3 text-[12px] font-medium text-sky-800">
+                      {rows ? <span>{rows} data points</span> : null}
+                      {updated ? <span>Updated {formatDate(updated)}</span> : null}
+                    </span>
+                  ) : null}
+                </span>
+                <span className="shrink-0 text-[18px] text-sky-400 transition group-hover:translate-x-0.5 group-hover:text-sky-600" aria-hidden="true">
+                  →
+                </span>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
-    </Section>
+    </section>
   );
 }

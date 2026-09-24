@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Sparkles, ArrowUpRight, Compass, Map, Building2, Calendar } from "lucide-react";
-import { buildMetadata, webPageSchema } from "@/src/lib/seo";
+import { buildMetadata, itemListSchema, webPageSchema } from "@/src/lib/seo";
 import JsonLd from "@/src/components/seo/JsonLd";
 import PageShell from "@/src/components/shared/PageShell";
 import Faq from "@/src/components/shared/Faq";
@@ -141,17 +141,27 @@ export default async function GuidesHubPage() {
       </div>
 
       <JsonLd
-        data={webPageSchema({
-          type: "CollectionPage",
-          name: "Somnath Dwarka Travel Guides",
-          description:
-            "Practical travel guides for planning a Somnath–Dwarka pilgrimage — itineraries, distances, timings and tips.",
-          path: PATH,
-          crumbs: [
-            { name: "Home", path: "/" },
-            { name: "Guides", path: PATH },
-          ],
-        })}
+        data={[
+          webPageSchema({
+            type: "CollectionPage",
+            name: "Somnath Dwarka Travel Guides",
+            description:
+              "Practical travel guides for planning a Somnath–Dwarka pilgrimage — itineraries, distances, timings and tips.",
+            path: PATH,
+            crumbs: [
+              { name: "Home", path: "/" },
+              { name: "Guides", path: PATH },
+            ],
+          }),
+          itemListSchema({
+            name: "Somnath Dwarka Travel Guides",
+            path: PATH,
+            key: "guides",
+            items: guides
+              .filter((g) => g.slug && g.slug !== "undefined")
+              .map((g) => ({ name: g.title, path: `/guides/${g.slug}/`, image: g.image })),
+          }),
+        ]}
       />
     </PageShell>
   );

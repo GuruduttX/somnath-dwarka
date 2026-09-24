@@ -342,10 +342,10 @@ export default async function ChooseYourJourney() {
   );
 
   return (
-    <Section id="choose-your-journey" full className="!py-6 sm:!py-8">
+    <Section id="choose-your-journey" full className="!pt-8 !pb-6 sm:!pt-10 sm:!pb-8">
       {/* Section header — centered, modern */}
       <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
-        <span className="mb-4 -mt-6 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white px-4 py-1.5 text-[11.5px] font-semibold uppercase tracking-[0.13em] text-orange-600 shadow-sm">
+        <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white px-4 py-1.5 text-[11.5px] font-semibold uppercase tracking-[0.13em] text-orange-600 shadow-sm">
           <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden>
             <path d="M12 3v18M3 12h18M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
           </svg>

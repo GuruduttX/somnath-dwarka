@@ -73,9 +73,9 @@ export default function HomeFaqSection() {
               lg:text-5xl
             "
           >
-            Everything About Your
+            Somnath Dwarka Tour Package:
             <br />
-            Gujarat Spiritual Journey
+            Your Questions, Answered
           </h2>
 
           {/* DESCRIPTION */}
@@ -89,9 +89,9 @@ export default function HomeFaqSection() {
               md:text-[17px]
             "
           >
-            Discover answers to the most common questions
-            about Dwarka, Somnath, Gujarat tour packages,
-            hotels, transport and spiritual journeys.
+            Straight answers on price, days, distance, hotels,
+            darshan help, booking and cancellation, before you
+            message us.
           </p>
         </div>
 
@@ -121,6 +121,8 @@ export default function HomeFaqSection() {
                   {/* QUESTION */}
                   <button
                     onClick={() => toggleFAQ(index)}
+                    aria-expanded={isOpen}
+                    aria-controls={`home-faq-${index}`}
                     className="
                       flex w-full cursor-pointer
                       items-start justify-between gap-5
@@ -162,6 +164,7 @@ export default function HomeFaqSection() {
 
                   {/* ANSWER */}
                   <div
+                    id={`home-faq-${index}`}
                     className={`
                       grid transition-all duration-500 ease-in-out
                       ${
