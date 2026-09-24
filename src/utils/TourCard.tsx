@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   MapPin,
   Clock,
@@ -70,9 +71,42 @@ function Lightbox({
   const prev = () => setCurrent((c) => (c - 1 + images.length) % images.length);
   const next = () => setCurrent((c) => (c + 1) % images.length);
 
-  return (
+  // Lock page scroll behind the overlay and wire up keyboard control — same
+  // as the package-page lightbox (PackageVisualHeader).
+  useEffect(() => {
+    const { documentElement: html, body } = document;
+    const previous = { html: html.style.overflow, body: body.style.overflow };
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    body.classList.add("lightbox-open");
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+      if (event.key === "ArrowLeft") setCurrent((c) => (c - 1 + images.length) % images.length);
+      if (event.key === "ArrowRight") setCurrent((c) => (c + 1) % images.length);
+    };
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      html.style.overflow = previous.html;
+      body.style.overflow = previous.body;
+      body.classList.remove("lightbox-open");
+      document.removeEventListener("keydown", onKeyDown);
+    };
+    // onClose is an inline arrow that always does the same thing; depending on
+    // it would unlock and relock scroll on every parent render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [images.length]);
+
+  // Rendered into <body>: the card's hover transform and the home page's
+  // content-visibility sections would otherwise become the containing block,
+  // trapping the "fixed" overlay inside the card's scroll rail.
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/95"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center overscroll-contain bg-black/95"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Package photos"
       onClick={onClose}
     >
       {/* Close */}
@@ -132,7 +166,8 @@ function Lightbox({
           </button>
         ))}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
