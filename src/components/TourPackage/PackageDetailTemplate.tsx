@@ -6,7 +6,7 @@ import RelatedLinks, { type RelatedLink } from "@/src/components/shared/RelatedL
 import JsonLd from "@/src/components/seo/JsonLd";
 import { Clock, ShieldCheck, Sparkles, Star } from "lucide-react";
 import InclusionsExclusions from "@/src/components/TourPackage/InclusionsExclusions";
-import { touristTripSchema, type Crumb } from "@/src/lib/seo";
+import { touristTripSchema, webPageSchema, type Crumb } from "@/src/lib/seo";
 import SideForm from "@/src/components/TourPackage/SideForm";
 import PackageDurationStrip from "@/src/components/TourPackage/PackageDurationStrip";
 import PackageInclusionsStrip from "@/src/components/TourPackage/PackageInclusionsStrip";
@@ -50,7 +50,15 @@ export type PackageDetail = {
   body?: string;
   /** Where the trip goes, for packages with no day-wise itinerary yet. */
   routePlaces?: string[];
+  /** The line under the H1, e.g. "Kutch, Gujarat". */
+  location?: string;
 };
+
+/** "3 Nights / 4 Days" → "P4D"; falls back to the length of the day-wise plan. */
+function isoDuration(pkg: PackageDetail) {
+  const days = Number(pkg.duration?.match(/(\d+)\s*days?/i)?.[1]) || pkg.itinerary.length;
+  return days ? `P${days}D` : undefined;
+}
 
 /**
  * The package-detail page layout: gallery header, overview and price card,
@@ -239,14 +247,33 @@ export default function PackageDetailTemplate({
       <div className="cv-section"><RelatedLinks links={related} /></div>
       <div className="cv-section"><Policies PackageData={pkg} /></div>
 
-      {/* BreadcrumbList JSON-LD comes from PageShell, which owns the single breadcrumb. */}
+      {/* WebPage → the package. BreadcrumbList comes from PageShell and
+          FAQPage from <Faq>, so neither is repeated here. */}
       <JsonLd
-        data={touristTripSchema({
-          name: pkg.h1,
-          description: pkg.meta_description || pkg.answer_first,
-          path,
-          price: pkg.price_verified ? pkg.price_from : undefined,
-        })}
+        data={[
+          webPageSchema({
+            name: pkg.h1,
+            description: pkg.meta_description || pkg.answer_first,
+            path,
+            crumbs,
+            primaryImage: pkg.heroImage?.image,
+            mainEntityId: `${path}#trip`,
+          }),
+          touristTripSchema({
+            name: pkg.h1,
+            description: pkg.meta_description || pkg.answer_first,
+            path,
+            price: pkg.price_verified ? pkg.price_from : undefined,
+            images: [pkg.heroImage, ...(pkg.childImages ?? [])]
+              .map((i) => i?.image)
+              .filter((src): src is string => Boolean(src)),
+            itinerary: pkg.itinerary.length
+              ? pkg.itinerary.map((d) => ({ name: `Day ${d.day}: ${d.title}`, description: d.description }))
+              : pkg.routePlaces,
+            duration: isoDuration(pkg),
+            sku: `SDTP-${pkg.slug}`,
+          }),
+        ]}
       />
     </PageShell>
   );

@@ -210,6 +210,8 @@ export default function PackageVisualHeader({
     price_verified: boolean;
     heroImage?: PackageImage | null;
     childImages?: PackageImage[];
+    /** Where the trip goes, for the line under the H1. */
+    location?: string;
   };
 }) {
   const { gallery, tiles: paddedTiles } = getGalleryImages(pkg);
@@ -283,7 +285,7 @@ export default function PackageVisualHeader({
               </h1>
               <p className="mt-3 hidden items-center gap-2 text-sm font-medium text-white/82 sm:text-base lg:flex">
                 <MapPin size={17} />
-                Dwarka, Somnath and sacred Gujarat coast
+                {pkg.location || "Dwarka, Somnath and sacred Gujarat coast"}
               </p>
             </div>
           </div>

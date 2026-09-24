@@ -49,12 +49,14 @@ export const CONTACT = {
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "917300620809",
   email: process.env.NEXT_PUBLIC_EMAIL ?? "info@experiencemyindia.com",
   // LocalBusiness schema renders ONLY when napConfirmed is true (SOP §12 gate).
-  napConfirmed: false,
+  // Confirmed by the client 2026-09-24 at locality level — the same address the
+  // footer publishes. Add the street here once it is confirmed.
+  napConfirmed: true,
   address: {
     street: "",
     locality: "Dwarka",
     region: "Gujarat",
-    postalCode: "",
+    postalCode: "361335",
     country: "IN",
   },
 } as const;
@@ -167,26 +169,6 @@ export const EXPERIENCE_VIDEO: {
   duration?: string;
   transcript: string;
 } | null = null;
-
-/**
- * Home §15 — real guest reviews (home SOP: "insert [[REAL REVIEWS]]. Never
- * invent testimonials or use stock avatars").
- *
- * Empty until the client supplies genuine, attributable reviews. While empty
- * the home page shows no quotes, no stars and emits no Review/AggregateRating
- * JSON-LD. Each entry added here appears on the page AND in the Product schema
- * (review snippets), so only add reviews a named guest actually left.
- */
-export const REAL_REVIEWS: {
-  author: string;
-  location?: string;
-  rating: number; // 1–5
-  body: string;
-  /** ISO date the review was left, e.g. "2026-02-14". */
-  date?: string;
-  /** Where it was left, e.g. "Google". */
-  publisher?: string;
-}[] = [];
 
 /** Public Google reviews link (Maps / Business Profile). Empty hides the link. */
 export const GOOGLE_REVIEWS_URL = "";

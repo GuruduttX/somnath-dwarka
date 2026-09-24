@@ -7,6 +7,7 @@ import SomnathTourPackage from "@/src/components/Home/SomnathTourPackage";
 import BeyondTemples from "@/src/components/Home/BeyondTemples";
 import HomeFaqSection from "@/src/components/Home/HomeFaqSection";
 import {
+  breadcrumbSchema,
   buildMetadata,
   faqSchema,
   itemListSchema,
@@ -17,6 +18,7 @@ import {
 import { BRAND, EXPERIENCE_VIDEO } from "@/src/config/site";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { HOME_FAQS } from "@/src/config/homeFaqs";
+import { TESTIMONIAL_REVIEWS } from "@/src/config/testimonials";
 import {
   HOME_HERO,
   HOME_ITINERARY,
@@ -45,6 +47,7 @@ import {
   CommonConcerns,
   DayWiseItinerary,
   EnquireSection,
+  HomeReviews,
   HowToReach,
   Inclusions,
   InlineWhatsAppCta,
@@ -170,6 +173,9 @@ export default async function Home() {
         {/* §14 Enquiry form — anchored in the page, never a popup. */}
         <EnquireSection months={months} />
 
+        {/* Guest reviews — the same list feeds the Review schema below. */}
+        <div className="cv-section"><HomeReviews /></div>
+
         {/* Experience video (gated) */}
         <ExperienceVideo />
 
@@ -181,10 +187,11 @@ export default async function Home() {
         <div className="cv-section"><HomeFaqSection /></div>
       </main>
 
-      {/* One connected graph: WebPage → the package (Product + TouristTrip,
-          priced per tier) → FAQ, plus the package carousel and, when real
-          data exists, the video. Organization/WebSite come from the layout.
-          No Review markup: the page shows no reviews. */}
+      {/* One connected graph: WebPage → breadcrumb, the package (Product +
+          TouristTrip, priced per tier, rated from the guest reviews shown in
+          <HomeReviews>) → FAQ, plus the package carousel and, when real data
+          exists, the video. Organization/WebSite/TravelAgency come from the
+          layout. Home has no PageShell, so its BreadcrumbList is emitted here. */}
       <JsonLd
         data={[
           webPageSchema({
@@ -194,7 +201,9 @@ export default async function Home() {
             speakable: true,
             primaryImage: BRAND.ogImage,
             mainEntityId: "/#trip",
+            crumbs: [{ name: "Home", path: "/" }],
           }),
+          breadcrumbSchema([{ name: "Home", path: "/" }]),
           touristTripSchema({
             id: "/#trip",
             name: "Somnath Dwarka Tour Package (2 Nights 3 Days)",
@@ -206,6 +215,7 @@ export default async function Home() {
             duration: `P${HOME_ITINERARY.length}D`,
             touristType: ["Pilgrims", "Families", "Senior citizens"],
             sku: "SDTP-2N3D",
+            reviews: TESTIMONIAL_REVIEWS.slice(0, 9),
           }),
           faqSchema(HOME_FAQS),
           itemListSchema({

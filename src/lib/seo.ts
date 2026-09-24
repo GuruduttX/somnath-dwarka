@@ -173,8 +173,21 @@ export function sanitizeSchemaOverride(raw: string): LdNode[] | null {
   });
 
   if (!kept.length) return null;
+
+  // Editors leave notes to themselves as "_build_note"-style keys; those are
+  // not schema.org properties and were being published verbatim.
+  const stripNotes = (v: unknown): unknown => {
+    if (Array.isArray(v)) return v.map(stripNotes);
+    if (v && typeof v === "object") {
+      return Object.fromEntries(
+        Object.entries(v).filter(([k]) => !k.startsWith("_")).map(([k, x]) => [k, stripNotes(x)])
+      );
+    }
+    return v;
+  };
+
   // Re-attach @context: it lived on the wrapper we just unwrapped.
-  return kept.map((n) => ({ "@context": "https://schema.org", ...n }));
+  return kept.map((n) => ({ "@context": "https://schema.org", ...(stripNotes(n) as LdNode) }));
 }
 
 export function organizationSchema() {
@@ -250,10 +263,9 @@ export function websiteSchema() {
 
 /**
  * LocalBusiness (TravelAgency) — gated: only when real NAP is confirmed
- * (SOP §12). Google's local-business result needs a real postal address, so
- * this stays off until CONTACT.napConfirmed is flipped with the registered
- * address filled in (home SOP §17 [[REGISTERED ADDRESS]]). Everything else it
- * carries is already published on the site.
+ * (SOP §12). Rendered sitewide from the root layout. The address is the one
+ * the footer publishes on every page; add the street and postal code to
+ * CONTACT.address as they are confirmed and the schema picks them up.
  */
 export function localBusinessSchema() {
   if (!CONTACT.napConfirmed) return null;
@@ -266,9 +278,12 @@ export function localBusinessSchema() {
     url: `${SITE_URL}/`,
     image: BRAND.ogImage,
     logo: BRAND.logo,
+    description: BRAND.tagline,
     telephone: CONTACT.phone,
     email: CONTACT.email,
     priceRange: "₹₹",
+    foundingDate: OPERATOR.foundingDate,
+    knowsLanguage: [...OPERATOR.languages],
     address: {
       "@type": "PostalAddress",
       ...(a.street ? { streetAddress: a.street } : {}),

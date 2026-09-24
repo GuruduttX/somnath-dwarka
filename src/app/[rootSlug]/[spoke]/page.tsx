@@ -28,6 +28,7 @@ import {
   bool,
   descOf,
   faqOf,
+  packageDescOf,
   h1Of,
   list,
   relatedOf,
@@ -88,6 +89,12 @@ async function resolve(rootSlug: string, spoke: string): Promise<Resolved | null
   return null;
 }
 
+/** A money spoke is a package page, so it gets a package-shaped description. */
+function spokeDescription(found: Resolved, rootSlug: string) {
+  const isMoney = found.kind === "hub-spoke" && s(found.doc, "spoke_kind") === "money";
+  return isMoney ? packageDescOf(found.doc, themeFor(rootSlug).standfirst) : descOf(found.doc);
+}
+
 export async function generateStaticParams() {
   const [hubSpokes, temples, dataPages, pillarSpokes] = await Promise.all([
     getPublishedHubSpokes(),
@@ -115,7 +122,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const d = found.doc;
   return buildMetadata({
     title: titleOf(d),
-    description: descOf(d),
+    description: spokeDescription(found, rootSlug),
     path: `/${rootSlug}/${spoke}/`,
     noindex: bool(d, "noindex"),
     canonicalOverride: s(d, "canonical_override") || undefined,
@@ -162,7 +169,7 @@ export default async function SpokePage({ params }: Params) {
   const extraSchema = isMoney
     ? touristTripSchema({
         name: h1Of(d),
-        description: descOf(d),
+        description: spokeDescription(found, rootSlug),
         path,
         ...(price ? { price: Number(price) || undefined } : {}),
       })
@@ -212,7 +219,7 @@ export default async function SpokePage({ params }: Params) {
           // Only a verified CMS price reaches the page, so nothing is invented.
           price_verified: Boolean(price),
           answer_first: s(d, "answer_first"),
-          meta_description: descOf(d),
+          meta_description: spokeDescription(found, rootSlug),
           body: s(d, "body") || undefined,
           highlights: [],
           itinerary: itinerary.map((x) => ({
@@ -235,6 +242,7 @@ export default async function SpokePage({ params }: Params) {
           sightseeing_included: true,
           policies: [],
           routePlaces,
+          location: `${theme.name}, Gujarat`,
         }}
         path={path}
         crumbs={crumbs}

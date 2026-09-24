@@ -88,6 +88,7 @@ async function resolvePackage(slug: string) {
     sightseeing_included: true,
     policies: [] as { title: string; description: string }[],
     durationbreakdown: cms ? cms.durationbreakdown : undefined,
+    location: "Across Gujarat",
   };
 }
 

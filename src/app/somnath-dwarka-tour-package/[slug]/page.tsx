@@ -481,6 +481,13 @@ export default async function PackageVariantPage({ params }: Params) {
             duration: pkg.itinerary.length ? `P${pkg.itinerary.length}D` : undefined,
             touristType: "Pilgrims",
             sku: `SDTP-${slug}`,
+            // The testimonials <PackageTestimonials> shows; reviewProps drops any
+            // without a 1–5 rating, so only rated guest reviews are marked up.
+            reviews: (pkg.testimonials ?? []).map((t) => ({
+              author: t.name,
+              rating: Number(t.rating),
+              body: t.description,
+            })),
           }),
         ]}
       />

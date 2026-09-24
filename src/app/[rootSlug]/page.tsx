@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import { buildMetadata, touristTripSchema } from "@/src/lib/seo";
+import { themeFor } from "@/src/config/destinations";
 
 /** Legacy root-level URLs that should permanently 301 redirect to canonical destinations. */
 const LEGACY_ROOT_REDIRECTS: Record<string, string> = {
@@ -28,6 +29,7 @@ import { getDestinationGuidePath, getHubSpokesFor, getRootSlugs, resolveRootSlug
 import {
   bool,
   descOf,
+  packageDescOf,
   faqOf,
   h1Of,
   list,
@@ -60,6 +62,15 @@ export async function generateStaticParams() {
   return cms.map((rootSlug) => ({ rootSlug }));
 }
 
+const MONEY_HUB_KINDS = ["circuit", "triangle", "umbrella", "destination", "vertical"];
+
+/** Package hubs sell trips, so they get a package-shaped description. */
+function hubDescription(slug: string, d: Doc) {
+  const kind = s(d, "hub_kind");
+  if (!MONEY_HUB_KINDS.includes(kind)) return descOf(d);
+  return packageDescOf(d, kind === "destination" ? themeFor(slug).standfirst : undefined);
+}
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { rootSlug } = await params;
   if (LEGACY_ROOT_REDIRECTS[rootSlug]) return {};
@@ -68,7 +79,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const d = match.doc;
   return buildMetadata({
     title: titleOf(d),
-    description: descOf(d),
+    description: hubDescription(rootSlug, d),
     path: `/${rootSlug}/`,
     noindex: bool(d, "noindex"),
     canonicalOverride: s(d, "canonical_override") || undefined,
@@ -110,11 +121,11 @@ function HubBody({
     extra: relatedOf(d),
   });
 
-  const isMoney = ["circuit", "triangle", "umbrella", "destination", "vertical"].includes(kind);
+  const isMoney = MONEY_HUB_KINDS.includes(kind);
 
   const tripSchema = touristTripSchema({
     name: h1Of(d),
-    description: descOf(d),
+    description: hubDescription(slug, d),
     path: `/${slug}/`,
     ...(price ? { price: Number(price) || undefined } : {}),
   });

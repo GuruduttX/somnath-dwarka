@@ -22,6 +22,7 @@ import {
   Plane,
   RefreshCw,
   ShieldCheck,
+  Star,
   Train,
   UserRound,
   Users,
@@ -31,6 +32,7 @@ import { FaWhatsapp } from "react-icons/fa6";
 import TrackedLink from "@/src/components/Home/sop/TrackedLink";
 import TwoStepEnquiry from "@/src/components/Home/sop/TwoStepEnquiry";
 import { CONTACT, OPERATOR, telLink, waLink } from "@/src/config/site";
+import { TESTIMONIALS } from "@/src/config/testimonials";
 import {
   HOME_AT_A_GLANCE,
   HOME_BEST_TIME,
@@ -918,6 +920,71 @@ export function EnquireSection({ months }: { months: string[] }) {
           <TwoStepEnquiry months={months} tiers={HOME_TIERS.map((t) => t.name)} />
         </div>
       </div>
+    </section>
+  );
+}
+
+/* ------------------------------ guest reviews ------------------------------ */
+
+function Stars({ rating, size = 15 }: { rating: number; size?: number }) {
+  return (
+    <span className="flex items-center gap-0.5" role="img" aria-label={`${rating} out of 5 stars`}>
+      {[1, 2, 3, 4, 5].map((n) => (
+        <Star
+          key={n}
+          size={size}
+          aria-hidden="true"
+          className={n <= Math.round(rating) ? "fill-amber-400 text-amber-400" : "fill-slate-200 text-slate-200"}
+        />
+      ))}
+    </span>
+  );
+}
+
+/**
+ * Guest reviews, below the enquiry form. The same list is marked up as
+ * Review / AggregateRating on the home TouristTrip node, so each card's score
+ * comes from the review data — never typed into the markup separately.
+ */
+export function HomeReviews() {
+  const reviews = TESTIMONIALS.slice(0, 9);
+  if (!reviews.length) return null;
+
+  return (
+    <section id="reviews" aria-labelledby="reviews-h" className={`scroll-mt-24 ${FULL_WIDTH}`}>
+      <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em] text-orange-600">Guest reviews</p>
+      <h2 id="reviews-h" className="text-2xl font-bold leading-tight text-[#2D1B10] md:text-3xl">
+        What pilgrims say after the trip
+      </h2>
+
+      <ul className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
+        {reviews.map((r) => (
+          <li key={r.id} className="flex flex-col rounded-2xl border border-orange-100 bg-white p-5">
+            <span className="flex items-center gap-2">
+              <Stars rating={r.rating} />
+              <span className="text-[13.5px] font-bold text-[#2D1B10]">{r.rating.toFixed(1)}</span>
+            </span>
+            <blockquote className="mt-3 flex-1 text-[14px] leading-relaxed text-slate-700">
+              <p>&ldquo;{r.review}&rdquo;</p>
+            </blockquote>
+            <div className="mt-4 flex items-center gap-3 border-t border-orange-50 pt-4">
+              <span
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[13px] font-bold"
+                style={{ backgroundColor: r.bg, color: r.color }}
+                aria-hidden="true"
+              >
+                {r.initials}
+              </span>
+              <div className="min-w-0">
+                <p className="truncate text-[14px] font-semibold text-[#2D1B10]">{r.name}</p>
+                <p className="truncate text-[12.5px] text-slate-500">
+                  {[r.location, r.destination && `${r.destination} trip`].filter(Boolean).join(" · ")}
+                </p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

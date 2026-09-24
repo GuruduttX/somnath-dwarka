@@ -39,6 +39,41 @@ export const titleOf = (d: Doc): string => stripHeadTail(s(d, "title_tag") || s(
 export const descOf = (d: Doc): string =>
   s(d, "meta_description") || s(d, "answer_first") || h1Of(d);
 
+/** The leading whole sentences of `text` that fit within `max` characters. */
+export const leadSentences = (text: string, max: number): string => {
+  let out = "";
+  for (const sentence of text.match(/[^.!?]+[.!?]+/g) ?? []) {
+    const next = `${out} ${sentence.trim()}`.trim();
+    if (next.length > max) break;
+    out = next;
+  }
+  return out;
+};
+
+/**
+ * descOf for a package or package hub, which is a money page: when the editor
+ * has written neither a meta description nor an answer-first line, say what
+ * the page offers instead of repeating the H1 as the snippet. `about` is a
+ * factual summary of the place (the destination theme's standfirst), used
+ * only in whole sentences.
+ */
+export const packageDescOf = (d: Doc, about?: string): string => {
+  const own = s(d, "meta_description") || s(d, "answer_first");
+  if (own) return own;
+  const h1 = h1Of(d);
+  const duration = s(d, "duration");
+  const lead = `${h1}${duration ? ` (${duration})` : ""}.`;
+  const context = about ? leadSentences(about, 155 - lead.length - 1) : "";
+  if (context) return `${lead} ${context}`;
+  // The longest pitch that still fits, so the snippet never ends mid-word.
+  const pitch = [
+    "Planned by a local Gujarat team: share your dates for a day-wise plan, named hotels and a price.",
+    "Share your dates for a day-wise plan and price from a local team.",
+    "Get a day-wise plan and price.",
+  ].find((p) => lead.length + 1 + p.length <= 155);
+  return pitch ? `${lead} ${pitch}` : lead;
+};
+
 export const faqOf = (d: Doc) =>
   list<{ question: string; answer: string }>(d, "faq").filter((f) => f.question && f.answer);
 
