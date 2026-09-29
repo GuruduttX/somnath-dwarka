@@ -25,11 +25,9 @@ let shownThisLoad = false;
 
 // Routes where the popup must never show: the admin surface (shared with the
 // footer/sticky-bar rule) plus the thank-you page, where the visitor has just
-// converted and a lead popup would be asking twice. The home page is excluded
-// too: its SOP anchors a two-step enquiry form in the page and rules out a
-// popup, which would interrupt the price-and-inclusions read it is built on.
+// converted and a lead popup would be asking twice.
 const isBlockedPath = (path: string) =>
-  path === "/" || isAdminSurface(path) || path === "/thank-you" || path === "/thank-you/";
+  isAdminSurface(path) || path === "/thank-you" || path === "/thank-you/";
 
 export default function EnquiryPopup() {
   const pathname = usePathname();
