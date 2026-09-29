@@ -9,7 +9,7 @@ import DeleteConfirmModal from "@/src/utils/Admin/DeleteConfirmModal";
 import CmsLoader from "@/src/components/Admin/CMS/CMSLoading";
 
 
-export const BLOG_CATEGORIES = [
+const BLOG_CATEGORIES = [
   "Somnath Travel Guide",
   "Dwarka Travel Guide",
   "Pilgrimage Guide",
