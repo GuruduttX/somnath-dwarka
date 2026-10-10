@@ -62,6 +62,12 @@ export default function Footer() {
     <footer className="relative border-t border-orange-100 bg-gradient-to-b from-orange-50/70 via-white to-white">
       <CommonEnquiryForm open={isFormOpen} onClose={() => setIsFormOpen(false)} defaultService="Tour Package" />
 
+      {/* content-visibility on the footer's content (not the <footer>, which
+          holds the fixed-position modal above): the browser skips laying it out
+          until it scrolls near. That also stops its Devanagari line from
+          fetching Poppins' 40 KB Devanagari subset during first load. */}
+      <div className="cv-section">
+
       {/* ─── CTA BAND ─── */}
       <div className="border-b border-orange-100/80">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 py-6 sm:flex-row md:px-10">
@@ -204,6 +210,7 @@ export default function Footer() {
             ))}
           </div>
         </div>
+      </div>
       </div>
     </footer>
   );

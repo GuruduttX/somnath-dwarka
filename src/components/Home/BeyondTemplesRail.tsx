@@ -61,9 +61,31 @@ export default function BeyondTemplesRail({ cards }: { cards: RailCard[] }) {
 
   const columns = toColumns(cards);
 
+  // The marquee loops over three copies of the cards, but only one is
+  // server-rendered: the other two were ~50 KB of duplicate HTML and hundreds
+  // of extra nodes to hydrate on every home load. They are added the first
+  // time the rail comes on-screen, before the loop starts.
+  const [copies, setCopies] = useState(1);
+  const [visible, setVisible] = useState(false);
+  const positioned = useRef(false);
+
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setVisible(entry.isIntersecting);
+        if (entry.isIntersecting) setCopies(3);
+      },
+      { threshold: 0 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el || !visible || copies < 3) return;
 
     const prefersReduced =
       typeof window !== "undefined" &&
@@ -91,34 +113,19 @@ export default function BeyondTemplesRail({ cards }: { cards: RailCard[] }) {
       rafRef.current = requestAnimationFrame(tick);
     };
 
-    // Defer the initial centering and the auto-scroll loop until the rail is
-    // on-screen. Setting scrollLeft emits a `scroll` event, and the browser
+    // The initial centering and the auto-scroll loop run only while the rail
+    // is on-screen. Setting scrollLeft emits a `scroll` event, and the browser
     // finalizes LCP on the first scroll of *any* scroller — so this off-screen
     // marquee scrolling during load was destroying the page's LCP candidate
     // (Lighthouse/PSI reported NO_LCP). Gating on visibility also stops the rAF
     // loop from running while the rail is off-screen.
-    let positioned = false;
-    const startAnim = () => {
-      if (!positioned) {
-        el.scrollLeft = el.scrollWidth / 3; // center on the middle set, once
-        positioned = true;
-      }
-      cancelAnimationFrame(rafRef.current);
-      last = 0;
-      rafRef.current = requestAnimationFrame(tick);
-    };
-    const stopAnim = () => cancelAnimationFrame(rafRef.current);
-
-    const io = new IntersectionObserver(
-      ([entry]) => (entry.isIntersecting ? startAnim() : stopAnim()),
-      { threshold: 0 }
-    );
-    io.observe(el);
-    return () => {
-      io.disconnect();
-      cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
+    if (!positioned.current) {
+      el.scrollLeft = el.scrollWidth / 3; // center on the middle set, once
+      positioned.current = true;
+    }
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [visible, copies]);
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     // Touch/pen devices scroll the track natively (touch-action: auto),
@@ -200,7 +207,7 @@ export default function BeyondTemplesRail({ cards }: { cards: RailCard[] }) {
           onMouseLeave={() => { isPaused.current = false; }}
         >
           <div className="flex gap-4 w-max pb-4 pl-6 lg:pl-12 pr-6 items-start">
-            {Array.from({ length: 3 }).flatMap((_, loopIdx) =>
+            {Array.from({ length: copies }).flatMap((_, loopIdx) =>
               columns.map((col, ci) => (
                 <div key={`${loopIdx}-${ci}`} className="flex flex-col gap-4">
                   {col.map((pkg) => (

@@ -13,7 +13,7 @@ import {
   Star,
   ArrowUpRight,
 } from "lucide-react";
-import type { TourPackage } from "./TourData";
+import type { TourCardData } from "./TourData";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
@@ -172,7 +172,7 @@ function Lightbox({
 }
 
 // ─── Tour Card ───────────────────────────────────────────────────────────────
-export default function TourCard({ pkg }: { pkg: TourPackage }) {
+export default function TourCard({ pkg }: { pkg: TourCardData }) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [open, setOpen] = useState(false);

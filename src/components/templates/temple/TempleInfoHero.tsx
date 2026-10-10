@@ -29,8 +29,10 @@ export default function TempleInfoHero({
       <CommonEnquiryForm open={open} onClose={() => setOpen(false)} defaultService="Tour Package" />
 
       <style>{`
-        @keyframes tiUp { from { opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
-        .ti-up { opacity:0; animation: tiUp .8s cubic-bezier(.22,.7,0,1) forwards; }
+        /* Transform-only entrance: an opacity:0 start kept the hero out of the first
+           paint, so its headline/image were not LCP candidates (see HomeHero). */
+        @keyframes tiUp { from { transform:translateY(20px);} to {transform:translateY(0);} }
+        .ti-up { animation: tiUp .8s cubic-bezier(.22,.7,0,1) both; }
         .ti0{animation-delay:.05s}.ti1{animation-delay:.15s}.ti2{animation-delay:.26s}.ti3{animation-delay:.38s}.ti4{animation-delay:.5s}
         @keyframes tiHour { to { transform: rotate(360deg); } }
         @keyframes tiMin { to { transform: rotate(360deg); } }

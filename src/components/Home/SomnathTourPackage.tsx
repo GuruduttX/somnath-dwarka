@@ -134,6 +134,7 @@ export default function SomnathTourPackage({ packages }: { packages: CarouselCar
                       src={pkg.image}
                       alt={pkg.title}
                       fill
+                      sizes="(min-width: 768px) 340px, 300px"
                       draggable={false}
                       className="object-cover transition-transform duration-[1800ms] group-hover:scale-[1.05]"
                     />
@@ -235,6 +236,18 @@ export default function SomnathTourPackage({ packages }: { packages: CarouselCar
           >
             <ChevronRight size={18} />
           </button>
+        </div>
+
+        {/* The rail shows a capped pick (see RAIL_SIZE in app/page.tsx); the
+            full list lives on the package hub. */}
+        <div className="mt-6 flex justify-center md:mt-8">
+          <Link
+            href="/somnath-dwarka-tour-package/"
+            className="inline-flex items-center gap-1.5 rounded-full border border-orange-300 px-6 py-3 text-[14px] font-semibold text-orange-700 transition-colors duration-200 hover:bg-orange-50"
+          >
+            View all tour packages
+            <ArrowUpRight size={16} />
+          </Link>
         </div>
       </div>
     </section>

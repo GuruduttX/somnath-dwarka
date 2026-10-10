@@ -47,8 +47,10 @@ export default function FestivalDetailHero({
       <CommonEnquiryForm open={open} onClose={() => setOpen(false)} defaultService="Tour Package" />
 
       <style>{`
-        @keyframes fdUp { from { opacity:0; transform:translateY(24px);} to {opacity:1; transform:translateY(0);} }
-        .fd-up { opacity:0; animation: fdUp .8s cubic-bezier(.22,.7,0,1) forwards; }
+        /* Transform-only entrance: an opacity:0 start kept the hero out of the first
+           paint, so its headline/image were not LCP candidates (see HomeHero). */
+        @keyframes fdUp { from { transform:translateY(24px);} to {transform:translateY(0);} }
+        .fd-up { animation: fdUp .8s cubic-bezier(.22,.7,0,1) both; }
         .fd0{animation-delay:.05s}.fd1{animation-delay:.16s}.fd2{animation-delay:.28s}.fd3{animation-delay:.4s}.fd4{animation-delay:.52s}.fd5{animation-delay:.64s}
         @keyframes fdRise { 0%{ transform:translateY(0) scale(.6); opacity:0;} 12%{opacity:.9;} 82%{opacity:.9;} 100%{ transform:translateY(-120px) scale(1.05); opacity:0;} }
         .fd-spark { animation: fdRise 7s ease-in-out infinite; }

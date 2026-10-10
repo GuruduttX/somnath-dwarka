@@ -255,7 +255,7 @@ function HubCard({
     <li className="group">
       <Link
         href={href}
-        className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-sm shadow-orange-500/5 transition-[transform,box-shadow,border-color] duration-500 ease-out will-change-transform group-hover:-translate-y-1.5 group-hover:border-orange-200 group-hover:shadow-2xl group-hover:shadow-orange-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
+        className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-sm shadow-orange-500/5 transition-[transform,box-shadow,border-color] duration-500 ease-out group-hover:-translate-y-1.5 group-hover:border-orange-200 group-hover:shadow-2xl group-hover:shadow-orange-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
       >
         {/* ── Image header ── */}
         <div className="relative h-40 overflow-hidden sm:h-48">
@@ -269,6 +269,10 @@ function HubCard({
             alt={displayTitle}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
+            // These cards sit just under the hero, so on phones they download
+            // alongside the LCP image; q60 trims ~30% with no visible loss at
+            // card size.
+            quality={60}
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
           />
           {/* legibility gradient */}
@@ -277,11 +281,11 @@ function HubCard({
             className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"
           />
           {/* Tag chip */}
-          <span className="absolute left-3 top-3 inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-orange-700 shadow-sm backdrop-blur-sm sm:text-[11px]">
+          <span className="absolute left-3 top-3 inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-orange-700 shadow-sm sm:text-[11px]">
             {meta.tag}
           </span>
           {/* Glyph badge */}
-          <div className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-xl bg-white/90 text-orange-500 shadow-sm backdrop-blur-sm sm:h-10 sm:w-10">
+          <div className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-xl bg-white/90 text-orange-500 shadow-sm sm:h-10 sm:w-10">
             <CardGlyph glyph={meta.glyph} className="h-4 w-4 sm:h-5 sm:w-5" />
           </div>
           {/* Title over image */}

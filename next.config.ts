@@ -9,9 +9,15 @@ const nextConfig: NextConfig = {
   // (and hydrates) less JS — Script Evaluation is the top main-thread cost.
   experimental: {
     optimizePackageImports: ["lucide-react", "react-icons", "date-fns"],
+    // Not inlineCss: the sitewide stylesheet is ~360 KB raw / 45 KB gzipped and
+    // Next inlines it twice (a <style> tag + the RSC payload), which grew the
+    // home HTML by ~700 KB and cost more than the request it saves.
   },
   images: {
     formats: ["image/avif", "image/webp"],
+    // Required allowlist in Next 16. 75 is the default; 60 is for the
+    // above-the-fold home cards (ChooseYourJourney) that load with the hero.
+    qualities: [60, 75],
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days cache for optimized images
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],

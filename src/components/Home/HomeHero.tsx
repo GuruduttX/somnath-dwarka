@@ -8,10 +8,14 @@ import { HOME_HERO, HOME_WA_TEXT } from "@/src/config/homePage";
 const CARD_SOMNATH = "/images/home/SomnathLongImage.webp";
 const CARD_DWARKA = "/images/home/DwarikaLongImage.webp";
 // Mobile-sized (880×587, ~80 KB) derivative of CTA.webp. This is the mobile LCP
-// image, so it is served as a plain <img> (no /_next/image round-trip) and
-// preloaded in <head> from the home page (the <link rel="preload"> in
-// app/page.tsx) so it starts downloading immediately.
+// image, so it is served as a plain <img> (no /_next/image round-trip).
 const SOMNATH_DWARKA_MOBILE = "/images/CTA-mobile.webp";
+// A 660px (~45 KB) variant covers typical 1.75–2x phones (the slot is
+// 100vw − 40px, max 440px); 3x phones still get the 880px file. React preloads
+// this <img> in <head> itself (fetchPriority="high"), matching srcset + sizes.
+const HERO_MOBILE_SRCSET =
+  "/images/CTA-mobile-660.webp 660w, /images/CTA-mobile.webp 880w";
+const HERO_MOBILE_SIZES = "(max-width: 480px) calc(100vw - 40px), 440px";
 
 /**
  * Route facts shown under the CTA. These replaced a "4,800+ pilgrims / 12 yrs /
@@ -161,11 +165,11 @@ export default function HomeHero() {
 
             {/* Mobile hero image */}
             <div className="h-anim hd2 relative mt-5 w-full max-w-[440px] overflow-hidden rounded-[26px] border-4 border-white shadow-[0_20px_50px_rgba(234,88,12,0.25)] sm:hidden [aspect-ratio:16/11]">
-              {/* Mobile LCP image. Plain <img> to a pre-sized 80 KB file (not
-                  /_next/image) + a matching <head> preload = the image starts
-                  downloading immediately instead of ~4 s into load. */}
+              {/* Mobile LCP image. Plain <img> to pre-sized files (not
+                  /_next/image); React hoists a matching preload into <head>,
+                  so it starts downloading with the document. */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={SOMNATH_DWARKA_MOBILE} alt="Somnath and Dwarka temples" width={880} height={587} fetchPriority="high" decoding="async" className="h-full w-full object-cover object-[center_35%]" />
+              <img src={SOMNATH_DWARKA_MOBILE} srcSet={HERO_MOBILE_SRCSET} sizes={HERO_MOBILE_SIZES} alt="Somnath and Dwarka temples" width={880} height={587} fetchPriority="high" className="h-full w-full object-cover object-[center_35%]" />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-4 pb-3 pt-8">
                 <p className="text-sm font-semibold text-white">Somnath &amp; Dwarka Yatra</p>
                 <p className="mt-0.5 flex items-center gap-1 text-[11px] text-white/70"><MapPin size={10} /> Gujarat, India</p>
@@ -199,7 +203,7 @@ export default function HomeHero() {
               </TrackedLink>
               <a
                 href="#enquire"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-5 py-3.5 text-[13.5px] font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white sm:px-7 sm:text-sm"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/85 px-5 py-3.5 text-[13.5px] font-semibold text-orange-700 transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white sm:px-7 sm:text-sm"
               >
                 <ClipboardList size={15} className="shrink-0" aria-hidden="true" />
                 <span className="whitespace-nowrap">Send an enquiry</span>

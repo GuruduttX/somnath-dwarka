@@ -983,8 +983,8 @@ body.lightbox-open .sticky-contact-bar { display: none; }
   }
 }
 
-/* Skip rendering (style/layout/paint) of below-the-fold home sections until
-   they scroll near the viewport. On a ~9k-element page this is what lets the
+/* Skip rendering (style/layout/paint) of below-the-fold sections (home page,
+   site footer) until they scroll near the viewport. On a ~9k-element page this is what lets the
    LCP paint without waiting on a full-page layout pass. contain-intrinsic-size
    uses `auto` so each section remembers its real height once rendered, keeping
    scrollbar position and CLS stable. */

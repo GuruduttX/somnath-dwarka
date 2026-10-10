@@ -35,8 +35,10 @@ export default function PackageHubHero({
   return (
     <section id="hero" className="font-dm relative -mt-28 flex flex-col overflow-hidden">
       <style>{`
-        @keyframes pkgHeroUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
-        .pkg-anim { opacity:0; animation: pkgHeroUp .8s cubic-bezier(.22,.7,0,1) forwards; }
+        /* Transform-only entrance: an opacity:0 start kept the hero out of the first
+           paint, so its headline/image were not LCP candidates (see HomeHero). */
+        @keyframes pkgHeroUp { from { transform:translateY(24px); } to { transform:translateY(0); } }
+        .pkg-anim { animation: pkgHeroUp .8s cubic-bezier(.22,.7,0,1) both; }
         .pkg-d0{animation-delay:.05s}.pkg-d1{animation-delay:.15s}.pkg-d2{animation-delay:.27s}
         .pkg-d3{animation-delay:.39s}.pkg-d4{animation-delay:.51s}.pkg-d5{animation-delay:.63s}
 

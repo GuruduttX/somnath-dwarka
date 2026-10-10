@@ -27,8 +27,10 @@ export default function DestinationHero({
       <CommonEnquiryForm open={open} onClose={() => setOpen(false)} defaultService={`Tour Package for ${destination}`} />
 
       <style>{`
-        @keyframes dhUp { from { opacity:0; transform:translateY(24px);} to {opacity:1; transform:translateY(0);} }
-        .dh-up { opacity:0; animation: dhUp .85s cubic-bezier(.16,1,0.3,1) forwards; }
+        /* Transform-only entrance: an opacity:0 start kept the hero out of the first
+           paint, so its headline/image were not LCP candidates (see HomeHero). */
+        @keyframes dhUp { from { transform:translateY(24px);} to {transform:translateY(0);} }
+        .dh-up { animation: dhUp .85s cubic-bezier(.16,1,0.3,1) both; }
         .dh0{animation-delay:.02s}.dh1{animation-delay:.08s}.dh2{animation-delay:.16s}.dh3{animation-delay:.24s}.dh4{animation-delay:.32s}.dh5{animation-delay:.40s}
         
         @keyframes dhSpin { to { transform: rotate(360deg); } }

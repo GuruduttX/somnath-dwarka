@@ -3,7 +3,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { Compass, Filter, Sparkles } from "lucide-react";
-import type { TourPackage } from "@/src/utils/TourData";
+import type { TourCardData } from "@/src/utils/TourData";
 import TourCard from "@/src/utils/TourCard";
 
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
@@ -11,14 +11,14 @@ const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"),
 const FILTERS = ["All Packages", "Somnath", "Dwarka", "Combo Tours", "Budget Picks"];
 const PAGE_SIZE = 8;
 
-export default function ProductsShowcase({ packages }: { packages: TourPackage[] }) {
+export default function ProductsShowcase({ packages }: { packages: TourCardData[] }) {
   const [activeFilter, setActiveFilter] = useState("All Packages");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [open, setOpen] = useState(false)
 
   // Searchable text per package so filters match title, route, category and badge —
   // not just `location` (which is "Somnath Dwarka" on most packages).
-  const haystack = (pkg: TourPackage) =>
+  const haystack = (pkg: TourCardData) =>
     `${pkg.title} ${pkg.location} ${pkg.groupType} ${pkg.badge ?? ""}`.toLowerCase();
 
   // Budget threshold derived from the data (median price) rather than a hardcoded
@@ -26,7 +26,7 @@ export default function ProductsShowcase({ packages }: { packages: TourPackage[]
   const sortedPrices = packages.map((p) => p.price).filter((p) => p > 0).sort((a, b) => a - b);
   const medianPrice = sortedPrices.length ? sortedPrices[Math.floor(sortedPrices.length / 2)] : 0;
 
-  const filtered: TourPackage[] = packages.filter((pkg) => {
+  const filtered: TourCardData[] = packages.filter((pkg) => {
     const h = haystack(pkg);
     switch (activeFilter) {
       case "All Packages":

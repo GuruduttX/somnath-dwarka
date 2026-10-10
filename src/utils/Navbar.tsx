@@ -216,8 +216,7 @@ export default function Navbar() {
               ${scrolled
                 ? "bg-white border-slate-200/80 shadow-md"
                 : "bg-white/95 border-slate-100/60 shadow-sm"
-              }
-              backdrop-blur-xl`}
+              }`}
           >
             {/* ── LOGO ── */}
             <Link href="/" className="flex items-center flex-shrink-0 group">
@@ -231,7 +230,9 @@ export default function Navbar() {
                   width={144}
                   alt="Experience My India Logo"
                   className="w-full h-auto object-contain"
-                  priority
+                  // Eager, not `priority`: a preload at high priority made this
+                  // 10 KB logo compete with the home hero (LCP) image.
+                  loading="eager"
                 />
               </div>
             </Link>
@@ -405,7 +406,7 @@ export default function Navbar() {
               ? "opacity-100 scale-y-100 translate-y-0"
               : "opacity-0 scale-y-95 -translate-y-2 pointer-events-none"
             }`}>
-            <div className="bg-white/97 backdrop-blur-xl
+            <div className="bg-white/97
               border border-amber-200/50 shadow-2xl shadow-amber-100/40
               rounded-3xl overflow-hidden">
 

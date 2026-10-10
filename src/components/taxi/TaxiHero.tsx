@@ -234,8 +234,10 @@ Please confirm availability and final pricing.`;
       <CommonEnquiryForm open={isOpen} onClose={() => setIsOpen(false)} defaultService={ctaContext} />
 
       <style>{`
-        @keyframes taxiUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-        .taxi-up { opacity:0; animation: taxiUp .6s cubic-bezier(.16,1,0.3,1) forwards; }
+        /* Transform-only entrance: an opacity:0 start kept the hero out of the first
+           paint, so its headline/image were not LCP candidates (see HomeHero). */
+        @keyframes taxiUp { from { transform:translateY(16px); } to { transform:translateY(0); } }
+        .taxi-up { animation: taxiUp .6s cubic-bezier(.16,1,0.3,1) both; }
         .t-d0{animation-delay:.02s}.t-d1{animation-delay:.08s}.t-d2{animation-delay:.15s}
         .t-d3{animation-delay:.22s}.t-d4{animation-delay:.30s}.t-d5{animation-delay:.38s}
 

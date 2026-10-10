@@ -32,8 +32,10 @@ export default function HotelCityHero({ city, h1, nearTemple, image, tiers, coun
       <CommonEnquiryForm open={open} onClose={() => setOpen(false)} defaultService="Hotel Booking" />
 
       <style>{`
-        @keyframes hcUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-        .hc-up { opacity:0; animation: hcUp .7s cubic-bezier(.22,.7,0,1) forwards; }
+        /* Transform-only entrance: an opacity:0 start kept the hero out of the first
+           paint, so its headline/image were not LCP candidates (see HomeHero). */
+        @keyframes hcUp { from { transform:translateY(20px); } to { transform:translateY(0); } }
+        .hc-up { animation: hcUp .7s cubic-bezier(.22,.7,0,1) both; }
         .hc0{animation-delay:.05s}.hc1{animation-delay:.14s}.hc2{animation-delay:.24s}.hc3{animation-delay:.34s}.hc4{animation-delay:.46s}
         @media (prefers-reduced-motion: reduce){ .hc-up{ animation:none!important; opacity:1!important; } }
       `}</style>

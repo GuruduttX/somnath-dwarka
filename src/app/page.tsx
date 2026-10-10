@@ -26,7 +26,12 @@ import {
   HOME_TIERS,
 } from "@/src/config/homePage";
 import { getPublishedPackages } from "@/src/lib/content";
-import { mapAdminPackagesToTourCards, toCarouselCards } from "@/src/utils/TourData";
+import {
+  mapAdminPackagesToTourCards,
+  toCarouselCards,
+  type CarouselCard,
+  type TourCardData,
+} from "@/src/utils/TourData";
 
 import CredentialsBar from "@/src/components/Home/v6/CredentialsBar";
 import ChooseYourJourney, {
@@ -87,6 +92,34 @@ export const metadata: Metadata = buildMetadata({
  */
 export const revalidate = 3600;
 
+/**
+ * Cards per destination rail. Both rails used to render every published
+ * package (~33 each, near-identical lists): ~3,800 hydrated DOM nodes and
+ * ~430 KB of HTML, over half the page — the main cause of the slow lab LCP.
+ */
+const RAIL_SIZE = 8;
+
+/**
+ * Picks a rail's cards: packages that name only this destination lead, then
+ * the rest in stored order, skipping any card another rail already shows so
+ * the Somnath and Dwarka rails never repeat each other.
+ */
+function pickRail(
+  cards: CarouselCard[],
+  focus: string,
+  other: string,
+  exclude: ReadonlySet<string> = new Set()
+): CarouselCard[] {
+  const solo = (c: CarouselCard) => {
+    const t = c.title.toLowerCase();
+    return t.includes(focus) && !t.includes(other) ? 0 : 1;
+  };
+  return cards
+    .filter((c) => !exclude.has(c.id))
+    .sort((a, b) => solo(a) - solo(b))
+    .slice(0, RAIL_SIZE);
+}
+
 /** The next 12 travel months, e.g. "October 2026", for the enquiry form. */
 function upcomingMonths(count = 12): string[] {
   const now = new Date();
@@ -103,22 +136,37 @@ export default async function Home() {
   // an empty collection renders empty package sections rather than demo data.
   const adminPackages = await getPublishedPackages();
   const packages = mapAdminPackagesToTourCards(adminPackages);
-  const dwarkaCards = toCarouselCards(adminPackages, "Dwarka");
-  const somnathCards = toCarouselCards(adminPackages, "Somnath");
+  const somnathCards = pickRail(toCarouselCards(adminPackages, "Somnath"), "somnath", "dwarka");
+  const dwarkaCards = pickRail(
+    toCarouselCards(adminPackages, "Dwarka"),
+    "dwarka",
+    "somnath",
+    new Set(somnathCards.map((c) => c.id))
+  );
+  // Only the fields TourCard and the showcase filters read; the full records
+  // (overview, slug, duration…) were serialised into the page for nothing.
+  const showcasePackages: TourCardData[] = packages.map((p) => ({
+    id: p.id,
+    title: p.title,
+    location: p.location,
+    groupType: p.groupType,
+    days: p.days,
+    price: p.price,
+    inclusions: p.inclusions,
+    images: p.images,
+    href: p.href,
+    badge: p.badge,
+    rating: p.rating,
+    reviews: p.reviews,
+  }));
   const months = upcomingMonths();
 
   return (
     <>
-      {/* Preload the mobile LCP hero image so it starts downloading with the
-          document instead of ~4 s into load. media-scoped to phones and hoisted
-          to <head> by React; the matching plain <img> lives in HomeHero. */}
-      <link
-        rel="preload"
-        as="image"
-        href="/images/CTA-mobile.webp"
-        media="(max-width: 640px)"
-        fetchPriority="high"
-      />
+      {/* No manual <link rel="preload"> for the hero: React emits one in <head>
+          from the fetchPriority="high" <img srcSet> in HomeHero. A second,
+          hand-written preload landed after the scripts and made Lighthouse
+          model the LCP request as late (load delay 50 ms → 690 ms). */}
       <Navbar />
       <main id="main-content" className="home-sections">
         {/* §1 Hero · §2 Trust strip */}
@@ -129,8 +177,12 @@ export default async function Home() {
         {/* Discovery, right under the trust strip: ways to travel, interests,
             destinations and traveller types — every hub one click from home. */}
         <div className="relative overflow-hidden bg-gradient-to-b from-white via-orange-50/45 to-white">
-          <div className="pointer-events-none absolute top-10 left-1/4 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-orange-200/20 blur-[140px]" />
-          <div className="pointer-events-none absolute bottom-10 right-1/4 h-[500px] w-[500px] translate-x-1/2 rounded-full bg-amber-200/25 blur-[140px]" />
+          {/* Soft glows drawn as radial gradients, not blur-[140px] filters: a
+              140px blur on a 500px box is the costliest thing on the first
+              frame for Lighthouse's software rasteriser and held the first
+              paint back ~200 ms. */}
+          <div className="pointer-events-none absolute -top-[100px] left-1/4 h-[780px] w-[780px] -translate-x-1/2 bg-[radial-gradient(circle,rgba(254,215,170,0.2)_0%,rgba(254,215,170,0.08)_38%,transparent_64%)]" />
+          <div className="pointer-events-none absolute -bottom-[100px] right-1/4 h-[780px] w-[780px] translate-x-1/2 bg-[radial-gradient(circle,rgba(253,230,138,0.25)_0%,rgba(253,230,138,0.1)_38%,transparent_64%)]" />
           <ChooseYourJourney />
           <div className="cv-section"><ExploreByInterest /></div>
           <div className="cv-section"><DestinationPackages /></div>
@@ -143,7 +195,7 @@ export default async function Home() {
         <div className="cv-section"><AtAGlance /></div>
 
         {/* Other durations, starting cities and themes of the same route. */}
-        <div className="cv-section"><ProductsShowcase packages={packages} /></div>
+        <div className="cv-section"><ProductsShowcase packages={showcasePackages} /></div>
 
         <div className="cv-section"><WhyDifferent /></div>
         <div className="cv-section"><PriceJustification /></div>

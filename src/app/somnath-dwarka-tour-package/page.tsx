@@ -57,7 +57,11 @@ export async function generateMetadata(): Promise<Metadata> {
 // mobile keeps a single wide Somnath–Dwarka card above the headline.
 type HeroTile = { img: string; name: string; place: string; tag: string };
 
-const HERO_MOBILE = "/images/CTA.webp";
+// Pre-sized 660/880px variants of CTA.webp (shared with the home hero). The
+// 1536px / 324 KB original was the mobile LCP image here.
+const HERO_MOBILE = "/images/CTA-mobile.webp";
+const HERO_MOBILE_SRCSET = "/images/CTA-mobile-660.webp 660w, /images/CTA-mobile.webp 880w";
+const HERO_MOBILE_SIZES = "(max-width: 480px) calc(100vw - 40px), 440px";
 
 const HERO_TILES_LEFT: HeroTile[] = [
   { img: "/images/places/somnath/somnath-temple.webp", name: "Somnath Temple", place: "Prabhas Patan", tag: "Jyotirlinga" },
@@ -75,12 +79,10 @@ function HeroPhoto({
   tile,
   className = "",
   floatClass = "",
-  eager = false,
 }: {
   tile: HeroTile;
   className?: string;
   floatClass?: string;
-  eager?: boolean;
 }) {
   return (
     <figure
@@ -89,7 +91,9 @@ function HeroPhoto({
       <img
         src={tile.img}
         alt={tile.name}
-        loading={eager ? "eager" : "lazy"}
+        // Lazy even above the fold: the rails are desktop-only (hidden below
+        // xl), and an eager <img> still downloads inside display:none.
+        loading="lazy"
         className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.07]"
       />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(58,26,6,0)_38%,rgba(58,26,6,0.78)_100%)]" />
@@ -296,8 +300,12 @@ export default async function PackagePillarPage() {
       {/* ── HERO ── */}
       <section id="hero" className="font-dm relative -mt-28 flex flex-col overflow-hidden">
         <style>{`
-          @keyframes pkgHeroUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
-          .pkg-anim { opacity:0; animation: pkgHeroUp .8s cubic-bezier(.22,.7,0,1) forwards; }
+          /* Transform-only entrance, as on the home hero: an opacity:0 start hid
+             the whole hero on the first frames, so the headline and image were
+             not LCP candidates (Lighthouse picked the navbar logo) and the
+             first paint showed an empty hero. */
+          @keyframes pkgHeroUp { from { transform:translateY(24px); } to { transform:translateY(0); } }
+          .pkg-anim { animation: pkgHeroUp .8s cubic-bezier(.22,.7,0,1) both; }
           .pkg-d0{animation-delay:.05s}.pkg-d1{animation-delay:.15s}.pkg-d2{animation-delay:.27s}
           .pkg-d3{animation-delay:.39s}.pkg-d4{animation-delay:.51s}.pkg-d5{animation-delay:.63s}
 
@@ -469,7 +477,6 @@ export default async function PackagePillarPage() {
           <div className="pkg-anim pkg-d2 hidden flex-col gap-24 xl:flex">
             <HeroPhoto
               tile={HERO_TILES_LEFT[0]}
-              eager
               floatClass="pkg-float pkg-float-a"
               className="[--tilt:-2.2deg] aspect-[5/4] w-[92%]"
             />
@@ -486,7 +493,7 @@ export default async function PackagePillarPage() {
             {/* Mobile / tablet rounded rectangle image box */}
             <div className="pkg-anim pkg-d1 relative mt-2 flex w-full justify-center xl:hidden">
               <div className="relative w-full max-w-[440px] [aspect-ratio:16/11] overflow-hidden rounded-[26px] border-4 border-white shadow-[0_20px_50px_rgba(234,88,12,0.25)]">
-                <img src={HERO_MOBILE} alt="Somnath and Dwarka temples" className="h-full w-full object-cover" />
+                <img src={HERO_MOBILE} srcSet={HERO_MOBILE_SRCSET} sizes={HERO_MOBILE_SIZES} alt="Somnath and Dwarka temples" width={880} height={587} fetchPriority="high" className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 px-4 pb-3.5 pt-8 text-left text-white">
                   <p className="font-playfair text-base font-bold">Somnath &amp; Dwarka</p>
@@ -579,7 +586,6 @@ export default async function PackagePillarPage() {
             />
             <HeroPhoto
               tile={HERO_TILES_RIGHT[1]}
-              eager
               floatClass="pkg-float pkg-float-d"
               className="[--tilt:-1.6deg] mr-auto aspect-[5/4] w-[92%]"
             />

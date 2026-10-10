@@ -55,6 +55,23 @@ export interface TourPackage {
   overview?: string;
 }
 
+/** The subset of a TourPackage that TourCard renders — what client props need. */
+export type TourCardData = Pick<
+  TourPackage,
+  | "id"
+  | "title"
+  | "location"
+  | "groupType"
+  | "days"
+  | "price"
+  | "inclusions"
+  | "images"
+  | "href"
+  | "badge"
+  | "rating"
+  | "reviews"
+>;
+
 const packagePath = (slug: string) => `/somnath-dwarka-tour-package/${slug}/`;
 
 const FALLBACK_IMAGES = [

@@ -15,8 +15,10 @@ export default function GuidesHero({ count }: { count: number }) {
   return (
     <>
       <style>{`
-        @keyframes gdUp { from { opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
-        .gd-up { opacity:0; animation: gdUp .72s cubic-bezier(.22,.7,0,1) forwards; }
+        /* Transform-only entrance: an opacity:0 start kept the hero out of the first
+           paint, so its headline/image were not LCP candidates (see HomeHero). */
+        @keyframes gdUp { from { transform:translateY(20px);} to {transform:translateY(0);} }
+        .gd-up { animation: gdUp .72s cubic-bezier(.22,.7,0,1) both; }
         .gd0{animation-delay:.05s}.gd1{animation-delay:.14s}.gd2{animation-delay:.24s}.gd3{animation-delay:.34s}.gd4{animation-delay:.46s}
         @keyframes gdFloat { 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-8px);} }
         .gd-float { animation: gdFloat 5.5s ease-in-out infinite; }

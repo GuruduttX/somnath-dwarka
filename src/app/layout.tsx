@@ -13,6 +13,9 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
   display: "swap",
+  // Keep preloading: without it Poppins lands after first paint and the swap
+  // re-flows hero text (CLS 0.23 on /guides/), which costs far more than the
+  // small LCP gain from not competing with the hero image.
   preload: true,
 });
 
@@ -58,8 +61,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* No Google Fonts preconnect: Poppins is self-hosted by next/font, so
+            those early connections were opened and never used. */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
       </head>

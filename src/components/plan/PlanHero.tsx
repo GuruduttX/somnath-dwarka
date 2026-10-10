@@ -27,8 +27,10 @@ export default function PlanHero() {
       <CommonEnquiryForm open={open} onClose={() => setOpen(false)} defaultService="Tour Package" />
 
       <style>{`
-        @keyframes planUp { from { opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
-        .pl-up { opacity:0; animation: planUp .72s cubic-bezier(.22,.7,0,1) forwards; }
+        /* Transform-only entrance: an opacity:0 start kept the hero out of the first
+           paint, so its headline/image were not LCP candidates (see HomeHero). */
+        @keyframes planUp { from { transform:translateY(20px);} to {transform:translateY(0);} }
+        .pl-up { animation: planUp .72s cubic-bezier(.22,.7,0,1) both; }
         .pl0{animation-delay:.05s}.pl1{animation-delay:.14s}.pl2{animation-delay:.24s}.pl3{animation-delay:.34s}.pl4{animation-delay:.46s}
         @keyframes planDash { to { stroke-dashoffset: -60; } }
         .pl-dash { animation: planDash 3s linear infinite; }
