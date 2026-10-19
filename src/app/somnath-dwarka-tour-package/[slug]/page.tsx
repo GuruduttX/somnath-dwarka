@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Clock, MapPin, ShieldCheck, Sparkles, Star } from "lucide-react";
 import InclusionsExclusions from "@/src/components/TourPackage/InclusionsExclusions";
@@ -13,7 +14,7 @@ import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { getPackageBySlug, packagePath } from "@/src/lib/content";
 import { SEED_PACKAGES, findSeedPackage } from "@/src/lib/seed/packages";
-import { buildRelatedLinks } from "@/src/lib/links";
+import { buildRelatedLinks, HEAD_TERM_ANCHOR, HEAD_TERM_HUB } from "@/src/lib/links";
 import SideForm from "@/src/components/TourPackage/SideForm";
 import SpokeContent, { DecisionBlock, ProseSections, PriceMatrixTable } from "@/src/components/TourPackage/SpokeContent";
 import PackageDurationStrip from "@/src/components/TourPackage/PackageDurationStrip";
@@ -245,6 +246,7 @@ export default async function PackageVariantPage({ params }: Params) {
 
   const related = buildRelatedLinks({
     self: packagePath(slug),
+    hub: true,
     pillar: { target: "/somnath-dwarka-tour-package/", anchor: "all Somnath Dwarka packages" },
     money: "taxi",
     siblings: SEED_PACKAGES.filter((s) => s.slug !== slug)
@@ -280,6 +282,14 @@ export default async function PackageVariantPage({ params }: Params) {
                   {pkg.answer_first}
                 </p>
               ) : null}
+              {/* In-body up-link to the head-term hub (see HEAD_TERM_HUB). */}
+              <p className="mt-3 text-[13px] leading-relaxed text-slate-500 mb-0">
+                This is one variation of our{" "}
+                <Link href={HEAD_TERM_HUB} className="font-semibold text-orange-700 underline decoration-orange-300 underline-offset-2 hover:text-orange-800">
+                  {HEAD_TERM_ANCHOR}
+                </Link>
+                . See the main 2 night, 3 day plan with named hotels and tier prices.
+              </p>
             </div>
           </div>
 

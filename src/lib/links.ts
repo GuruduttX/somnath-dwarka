@@ -83,8 +83,20 @@ export function moneyAnchor(target: string, seed: string): RelatedLink {
   return { target, anchor: pool[h % pool.length], type: "money" };
 }
 
+/**
+ * The page that owns the head term "Somnath Dwarka Tour Package" (home). Every
+ * Somnath–Dwarka spoke, guide and planner links up to it with the exact phrase
+ * — the one deliberate exception to anchor rotation, because concentrating
+ * that single anchor on one URL is what tells Google which page answers the
+ * money query. Everything else keeps rotating.
+ */
+export const HEAD_TERM_HUB = "/";
+export const HEAD_TERM_ANCHOR = "Somnath Dwarka tour package";
+
 export type LinkContext = {
   self: string;
+  /** Prepend the up-link to the head-term hub (home). */
+  hub?: boolean;
   pillar?: { target: string; anchor: string };
   siblings?: RelatedLink[];
   /** which money page this page should funnel into */
@@ -95,6 +107,7 @@ export type LinkContext = {
 /** Build the related-links set enforcing the SOP §8 minimum. */
 export function buildRelatedLinks(ctx: LinkContext): RelatedLink[] {
   const out: RelatedLink[] = [];
+  if (ctx.hub) out.push({ target: HEAD_TERM_HUB, anchor: HEAD_TERM_ANCHOR, type: "hub" });
   if (ctx.pillar) out.push({ ...ctx.pillar, type: "pillar" });
   if (ctx.money) out.push(moneyAnchor(MONEY_PAGES[ctx.money], ctx.self));
   if (ctx.siblings) out.push(...ctx.siblings.slice(0, 4));

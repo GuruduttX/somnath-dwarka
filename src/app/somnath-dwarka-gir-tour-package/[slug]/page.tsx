@@ -140,6 +140,7 @@ export default async function GirPackageVariantPage({ params }: Params) {
 
   const related = buildRelatedLinks({
     self: girPackagePath(slug),
+    hub: true,
     pillar: { target: "/somnath-dwarka-gir-tour-package/", anchor: "all Somnath Dwarka Gir packages" },
     money: "packages",
     siblings: [

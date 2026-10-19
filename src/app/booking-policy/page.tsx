@@ -4,7 +4,7 @@ import PolicyPage from "@/src/components/templates/PolicyPage";
 
 const PATH = "/booking-policy/";
 export const metadata: Metadata = buildMetadata({
-  title: "Booking Policy & Payment Terms — Somnath Dwarka Tour Package",
+  title: "Booking Policy & Payment Terms",
   description: "Comprehensive booking policy, advance payment terms, hotel allocations, vehicle guidelines, and festival reservations for Somnath–Dwarka tour packages.",
   path: PATH,
 });

@@ -7,11 +7,12 @@ import { canonicalPath } from "@/src/lib/links";
 export type RelatedLink = {
   target: string;
   anchor: string;
-  type?: "pillar" | "money" | "sibling" | "spoke";
+  type?: "hub" | "pillar" | "money" | "sibling" | "spoke";
 };
 
 // Short label per link type, so the cards read as a wayfinding grid.
 const TYPE_LABEL: Record<NonNullable<RelatedLink["type"]>, string> = {
+  hub: "Main package",
   pillar: "Travel guide",
   money: "Book & compare",
   sibling: "Plan your trip",

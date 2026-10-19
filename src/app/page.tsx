@@ -22,8 +22,10 @@ import { TESTIMONIAL_REVIEWS } from "@/src/config/testimonials";
 import {
   HOME_HERO,
   HOME_ITINERARY,
+  HOME_PRICE_FROM,
   HOME_ROUTE_STOPS,
   HOME_TIERS,
+  inr,
 } from "@/src/config/homePage";
 import { getPublishedPackages } from "@/src/lib/content";
 import {
@@ -78,10 +80,19 @@ import PackageSlider from "@/src/components/Home/sop/PackageSlider";
  * TestimonialCard, TravelCTA, BookDarshanCTA, FinalCTA. PopularTourPackages was
  * a second copy of the package explorer. The components still exist.
  */
+/**
+ * Home owns the head term "Somnath Dwarka Tour Package" — it is the only page
+ * whose title and H1 are the bare phrase. The /somnath-dwarka-tour-package/
+ * listing targets "compare … packages" and every spoke carries its own
+ * qualifier (by car, from Ahmedabad, budget…), so the site no longer competes
+ * with itself for the money query. The price comes from HOME_TIERS so the
+ * title, the price cards and the Offer schema can never disagree.
+ */
+const HOME_TITLE = `Somnath Dwarka Tour Package from ₹${inr(HOME_PRICE_FROM)} — Local Guide`;
+
 export const metadata: Metadata = buildMetadata({
-  title: "Somnath Dwarka Tour Package, Planned by a Local Guide",
-  description:
-    "Somnath Dwarka tour package by a local Dwarka guide. Named 4 and 5 star hotels, private AC car, darshan help and honest pricing from Rs 8,999.",
+  title: HOME_TITLE,
+  description: `Somnath Dwarka tour package by a Dwarka local: named 4 and 5 star hotels, private AC car, darshan help and honest pricing from ₹${inr(HOME_PRICE_FROM)}. Get a day-wise plan.`,
   path: "/",
 });
 
@@ -254,7 +265,7 @@ export default async function Home() {
       <JsonLd
         data={[
           webPageSchema({
-            name: "Somnath Dwarka Tour Package, Planned by a Local Guide",
+            name: HOME_TITLE,
             description: HOME_HERO.lead,
             path: "/",
             speakable: true,

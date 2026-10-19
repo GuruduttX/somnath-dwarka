@@ -34,6 +34,7 @@ export default async function ComparisonPage({ params }: Params) {
 
   const related = buildRelatedLinks({
     self: `/compare/${slug}/`,
+    hub: true,
     pillar: { target: "/compare/", anchor: "all comparisons" },
     money: "packages",
     siblings: [

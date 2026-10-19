@@ -4,7 +4,7 @@ import PolicyPage from "@/src/components/templates/PolicyPage";
 
 const PATH = "/terms/";
 export const metadata: Metadata = buildMetadata({
-  title: "Terms & Conditions — Somnath Dwarka Tour Package",
+  title: "Terms & Conditions",
   description: "Terms of service governing tour packages, cab rentals, hotel bookings, vehicle duty hours, and legal agreements for Gujarat pilgrimages.",
   path: PATH,
 });

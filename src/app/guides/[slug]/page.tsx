@@ -96,6 +96,7 @@ export default async function GuidePage({ params }: Params) {
 
   const related = buildRelatedLinks({
     self: guidePath(slug),
+    hub: true,
     pillar: { target: "/guides/", anchor: "all travel guides" },
     money: "packages",
     siblings: [

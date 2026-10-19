@@ -55,6 +55,7 @@ export default async function ItineraryPage({ params }: Params) {
       faq={faqOf(doc)}
       related={buildRelatedLinks({
         self: path,
+        hub: true,
         pillar: { target: "/plan/", anchor: "plan your Somnath–Dwarka trip" },
         money: "packages",
         extra: relatedOf(doc),

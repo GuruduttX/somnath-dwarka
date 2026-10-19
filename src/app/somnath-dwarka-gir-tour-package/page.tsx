@@ -198,6 +198,7 @@ export default async function GirPackagePillarPage() {
 
   const related = buildRelatedLinks({
     self: PATH,
+    hub: true,
     money: "packages",
     siblings: [
       { target: "/gir/", anchor: "Gir travel guide", type: "pillar" },

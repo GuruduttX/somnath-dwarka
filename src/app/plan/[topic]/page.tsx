@@ -34,6 +34,7 @@ export default async function JourneyPage({ params }: Params) {
 
   const related = buildRelatedLinks({
     self: `/plan/${topic}/`,
+    hub: true,
     pillar: { target: "/plan/", anchor: "all trip-planning guides" },
     money: "packages",
     siblings: SEED_JOURNEYS.filter((x) => x.slug !== topic).map((x) => ({

@@ -9,7 +9,7 @@ import JsonLd from "@/src/components/seo/JsonLd"
 const PATH = "/about/"
 
 export const metadata: Metadata = buildMetadata({
-  title: "About Us — Somnath Dwarka Tour Package",
+  title: "About Us: Local Dwarka Team Behind Your Yatra",
   description:
     "Who we are and how we help pilgrims plan the Somnath–Dwarka circuit with tailored itineraries, private cabs and hotel assistance.",
   path: PATH,

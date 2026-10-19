@@ -218,6 +218,7 @@ export const HOME_REACH: { from: string; access: string; distance: string }[] = 
   { from: "Air, Somnath side", access: "Diu airport, or Rajkot for wider flights", distance: "Diu about 90 km, Rajkot about 190 to 200 km" },
   { from: "Train, Dwarka", access: "Dwarka station (DWK) in the town", distance: "Direct trains from Okha, Jamnagar and Ahmedabad" },
   { from: "Train, Somnath", access: "Veraval station", distance: "About 6 to 7 km from Somnath Temple" },
+  { from: "Road, Dwarka to Somnath", access: "Private car along the NH 51 coast road, via Porbandar", distance: "About 233 km, close to 5 hours of driving" },
   { from: "Road, from Ahmedabad", access: "Private car or coach", distance: "About 440 km to Dwarka, 7 to 8 hours" },
   { from: "Road, from Rajkot", access: "Private car", distance: "About 225 km to Dwarka, 4 to 5 hours" },
 ];

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   Sparkles,
   ArrowRight,
@@ -9,7 +10,6 @@ import {
   buildMetadata,
   itemListSchema,
   sanitizeSchemaOverride,
-  touristTripSchema,
   webPageSchema,
 } from "@/src/lib/seo";
 import { CORE_FACTS, waLink } from "@/src/config/site";
@@ -20,32 +20,39 @@ import JsonLd from "@/src/components/seo/JsonLd";
 import { getPublishedPackages, packagePath, getHubBySlug } from "@/src/lib/content";
 import { SEED_PACKAGES, type SeedPackage } from "@/src/lib/seed/packages";
 import { isAuthorisedPackage, packageBucket, type PackageBucket } from "@/src/config/packageSpokes";
-import { buildRelatedLinks } from "@/src/lib/links";
+import { buildRelatedLinks, HEAD_TERM_ANCHOR, HEAD_TERM_HUB } from "@/src/lib/links";
 import { mapAdminPackagesToTourCards, type TourPackage } from "@/src/utils/TourData";
 import PackageExplorer from "@/src/components/TourArchive/PackageExplorer";
 import TourArchiveCTA from "@/src/components/TourArchive/TourArchiveCTA";
 import CustomPackageCTA from "@/src/components/shared/CustomPackageCTA";
 import HangingDiyas from "@/src/components/TourArchive/HangingDiyas";
 import HubContent from "@/src/components/hub/HubContent";
-import { faqOf, s, bool, verifiedValue, h1Of, titleOf } from "@/src/lib/cms";
+import { faqOf, s, bool, verifiedValue } from "@/src/lib/cms";
 
 const PATH = "/somnath-dwarka-tour-package/";
 
 export const revalidate = 3600;
 
+/**
+ * This listing used to carry the bare head term as its H1 and a "Somnath
+ * Dwarka Tour Package from Rs.5,000" title, so it competed with home (which
+ * says ₹8,999) for the same money query and Google ranked neither. Home owns
+ * that term now (see HEAD_TERM_HUB); this page targets the comparison intent.
+ * Title, H1 and description are fixed here rather than read from the CMS hub
+ * doc because which page owns the head term is an architecture decision, not
+ * copy: an editor re-entering the bare phrase would bring the split back. The
+ * CMS still drives the hero copy, long-form blocks, FAQ, noindex and canonical.
+ */
+const PILLAR_TITLE = "Compare Somnath Dwarka Tour Packages by Days, City & Budget";
+const PILLAR_H1 = "Compare Somnath Dwarka Tour Packages";
+const PILLAR_DESCRIPTION =
+  "Compare Somnath Dwarka tour packages side by side: 1 to 6 days, from your city, by car, bus or train, budget to luxury, each with a day-wise itinerary.";
+
 export async function generateMetadata(): Promise<Metadata> {
   const hub = await getHubBySlug("somnath-dwarka-tour-package");
-  if (!hub) {
-    return buildMetadata({
-      title: "Somnath Dwarka Tour Package",
-      description:
-        "Somnath Dwarka tour packages with day-wise itinerary, inclusions, indicative prices and cab + hotel help. Choose by duration, starting city or budget.",
-      path: PATH,
-    });
-  }
   return buildMetadata({
-    title: titleOf(hub) || "Somnath Dwarka Tour Package",
-    description: s(hub || {}, "meta_description"),
+    title: PILLAR_TITLE,
+    description: PILLAR_DESCRIPTION,
     path: PATH,
     noindex: bool(hub || {}, "noindex"),
     canonicalOverride: s(hub || {}, "canonical_override") || undefined,
@@ -181,8 +188,6 @@ function seedToTourPackage(seed: SeedPackage, index: number): TourPackage {
 
 export default async function PackagePillarPage() {
   const hub = await getHubBySlug("somnath-dwarka-tour-package");
-  // h1Of strips the URL map's "— Itinerary, Price & Booking" keyword tail.
-  const heroHeadline = hub ? h1Of(hub) : "";
   const cms = await getPublishedPackages();
   const cmsTourPackages = mapAdminPackagesToTourCards(cms);
   const cmsSlugs = new Set(cmsTourPackages.map((p) => p.slug));
@@ -213,6 +218,7 @@ export default async function PackagePillarPage() {
 
   const related = buildRelatedLinks({
     self: PATH,
+    hub: true,
     money: "taxi",
     siblings: [
       { target: "/somnath/", anchor: "Somnath travel guide", type: "pillar" },
@@ -261,7 +267,7 @@ export default async function PackagePillarPage() {
    * node's @id, so without it that reference dangled.
    */
   const pageNode = webPageSchema({
-    name: "Somnath Dwarka Tour Package",
+    name: PILLAR_H1,
     description,
     path: PATH,
     type: "CollectionPage",
@@ -269,13 +275,10 @@ export default async function PackagePillarPage() {
     speakable: true,
   });
 
-  const fallbackTrip = touristTripSchema({
-    name: "Somnath Dwarka Tour Package",
-    description,
-    path: PATH,
-  });
-
   // An editor's pasted graph wins, minus the nodes this page already emits.
+  // There is no fallback TouristTrip: the unpriced "Somnath Dwarka Tour
+  // Package" trip this page used to emit duplicated home's priced Product of
+  // the same name. A collection is described by its ItemList below.
   const override = hub?.schema_overrides
     ? sanitizeSchemaOverride(hub.schema_overrides as string)
     : null;
@@ -290,7 +293,7 @@ export default async function PackagePillarPage() {
       image: p.images[0],
     })),
   });
-  const schemaData = [pageNode, ...(override ?? [fallbackTrip]), packageList];
+  const schemaData = [pageNode, ...(override ?? []), packageList];
 
   return (
     <PageShell
@@ -509,14 +512,7 @@ export default async function PackagePillarPage() {
 
             {/* Headline */}
             <h1 className="font-playfair pkg-anim pkg-d1 mt-6 text-4xl xl:mt-3.5 font-black leading-[1.12] tracking-[-0.03em] text-[#3a2416] sm:text-5xl xl:text-[3.35rem]">
-              {heroHeadline ? (
-                highlightHeadline(heroHeadline)
-              ) : (
-                <>
-                  Tour{" "}
-                  <span className="pkg-headline-grad inline-block pr-[0.12em] pb-[0.1em] italic">Packages</span>
-                </>
-              )}
+              {highlightHeadline(PILLAR_H1)}
             </h1>
 
             {/* Description */}
@@ -616,6 +612,13 @@ export default async function PackagePillarPage() {
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-gray-500 sm:text-lg">
             Handcrafted spiritual journeys with VIP darshan, comfortable stays, and expert
             guides — made for families, pilgrims, and couples.
+          </p>
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-gray-500">
+            Not sure which to pick? Most travellers start with our{" "}
+            <Link href={HEAD_TERM_HUB} className="font-semibold text-orange-600 underline decoration-orange-300 underline-offset-2 hover:text-orange-700">
+              {HEAD_TERM_ANCHOR}
+            </Link>
+            : 2 nights, 3 days, named hotels and three price tiers.
           </p>
         </div>
 
