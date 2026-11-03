@@ -1,10 +1,12 @@
 /**
  * Central read layer over the CMS for public pages + sitemap.
  *
- * Each getter returns plain, index-safe data (published, non-noindex only) and
- * fails soft (returns []/null) so a DB hiccup can't break the build. As new
+ * Each getter returns plain, index-safe data (published, non-noindex only). A
+ * failed read never looks like "no content" — see readFailed(). As new
  * content-type models land they get wired in here and to getSitemapEntries().
  */
+import { connection } from "next/server";
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
 import { connectDB } from "@/src/lib/mongodb";
 import TourPackageModel from "@/src/models/packageModel";
 import HotelModel from "@/src/models/hotelModel";
@@ -22,6 +24,29 @@ import TempleInfoModel from "@/src/models/templeInfoModel";
 import PlaceModel from "@/src/models/placeModel";
 
 export type SitemapEntry = { path: string; lastModified?: Date };
+
+/**
+ * A failed DB read must not be cached as "no content": ISR would save the empty
+ * list or 404 and serve it to everyone, which is how the live /guides/ went blank
+ * and real guides went 404 while the database was fine.
+ *
+ * - At runtime, rethrow. Regeneration then keeps the last good page, and a first
+ *   render answers 500, which isn't cached, so the next request simply retries.
+ * - During `next build`, leave the page out of the static output so it renders
+ *   fresh once the site is running, and the deploy still goes through. There is
+ *   no request scope in generateStaticParams, where `fallback` means "prerender
+ *   nothing" and the pages are generated on demand.
+ */
+async function readFailed<T>(what: string, error: unknown, fallback: T): Promise<T> {
+  console.error(`[content] ${what} failed:`, error);
+  if (process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD) throw error;
+  try {
+    await connection();
+  } catch (bailout) {
+    if ((bailout as { digest?: string }).digest === "DYNAMIC_SERVER_USAGE") throw bailout;
+  }
+  return fallback;
+}
 
 /** A URL-safe slug: lowercase letters, digits and hyphens only (SOP §3). */
 export const isValidSlug = (slug: unknown): slug is string =>
@@ -44,8 +69,8 @@ export async function getPublishedPackages() {
     return await TourPackageModel.find({ status: "published" })
       .sort({ createdAt: -1 })
       .lean();
-  } catch {
-    return [];
+  } catch (error) {
+    return readFailed("getPublishedPackages", error, []);
   }
 }
 
@@ -55,8 +80,8 @@ export async function getPackageBySlug(slug: string) {
     const pkg = await TourPackageModel.findOne({ slug }).lean();
     if (!pkg || (pkg as { status?: string }).status !== "published") return null;
     return pkg;
-  } catch {
-    return null;
+  } catch (error) {
+    return readFailed(`getPackageBySlug(${slug})`, error, null);
   }
 }
 
@@ -67,8 +92,8 @@ export async function getHotelBySlug(slug: string) {
     const doc = await HotelModel.findOne({ slug }).lean();
     if (!doc || (doc as { status?: string }).status !== "published") return null;
     return doc as Record<string, unknown>;
-  } catch {
-    return null;
+  } catch (error) {
+    return readFailed(`getHotelBySlug(${slug})`, error, null);
   }
 }
 
@@ -78,8 +103,8 @@ export async function getPublishedGuides() {
     const guides = await Blog.find({ status: "published" }).sort({ createdAt: -1 }).lean();
     // Skip legacy/invalid slugs (e.g. containing spaces) so we never emit broken links.
     return (guides as Array<Record<string, unknown>>).filter((g) => isValidSlug(g.slug));
-  } catch {
-    return [];
+  } catch (error) {
+    return readFailed("getPublishedGuides", error, []);
   }
 }
 
@@ -88,8 +113,8 @@ export async function getGuideBySlug(slug: string) {
     await connectDB();
     const g = await Blog.findOne({ slug, status: "published" }).lean();
     return g ?? null;
-  } catch {
-    return null;
+  } catch (error) {
+    return readFailed(`getGuideBySlug(${slug})`, error, null);
   }
 }
 
@@ -99,8 +124,8 @@ export async function getPublishedFestivals() {
     await connectDB();
     const items = await FestivalModel.find({ status: "published" }).sort({ createdAt: -1 }).lean();
     return (items as Array<Record<string, unknown>>).filter((f) => isValidSlug(f.slug));
-  } catch {
-    return [];
+  } catch (error) {
+    return readFailed("getPublishedFestivals", error, []);
   }
 }
 
@@ -138,29 +163,29 @@ const published = { status: "published" as const };
 
 async function findPublished(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  model: { find: (q: any) => any },
+  model: { modelName: string; find: (q: any) => any },
   extra: Record<string, unknown> = {}
 ): Promise<Doc[]> {
   try {
     await connectDB();
     const docs = await model.find({ ...published, ...extra }).lean();
     return (docs as Doc[]).filter((d) => isValidSlug(d.slug));
-  } catch {
-    return [];
+  } catch (error) {
+    return readFailed(`findPublished(${model.modelName})`, error, []);
   }
 }
 
 async function findOnePublished(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  model: { findOne: (q: any) => any },
+  model: { modelName: string; findOne: (q: any) => any },
   query: Record<string, unknown>
 ): Promise<Doc | null> {
   try {
     await connectDB();
     const doc = await model.findOne({ ...published, ...query }).lean();
     return (doc as Doc) ?? null;
-  } catch {
-    return null;
+  } catch (error) {
+    return readFailed(`findOnePublished(${model.modelName})`, error, null);
   }
 }
 

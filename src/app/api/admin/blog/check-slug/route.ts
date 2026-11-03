@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getBlogBySlugController } from "@/src/controllers/admin/blogControllers";
+import { normalizeSlug } from "@/src/zodSchema/blogSchema";
 
 export async function  GET(req : NextRequest) {
     const slug = req.nextUrl.searchParams.get('slug');
@@ -8,5 +9,5 @@ export async function  GET(req : NextRequest) {
         return NextResponse.json({success : false, message : "Missing Query Parameter"}, {status : 400});
     }
 
-    return getBlogBySlugController(slug);
+    return getBlogBySlugController(normalizeSlug(slug));
 }

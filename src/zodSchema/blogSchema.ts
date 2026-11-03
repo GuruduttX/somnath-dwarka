@@ -31,11 +31,19 @@ const schemaData = z.object({
   description: z.string(),
 });
 
+/**
+ * "Places To Visit " → "places-to-visit". The site lists and links guides by this
+ * shape, so a typed capital or space would hide a guide from /guides/ and 404
+ * for anyone who doesn't paste the exact slug.
+ */
+export const normalizeSlug = (slug: string) =>
+  slug.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
 export const blogSchema = z
   .object({
     title: z.string().optional(),
     category: z.string().optional(),
-    slug: z.string().optional(),
+    slug: z.string().transform(normalizeSlug).optional(),
 
     author: z.string().optional(),
 
