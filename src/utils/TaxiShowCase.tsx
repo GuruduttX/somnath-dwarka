@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { MapPin, Phone, User, CarTaxiFront } from "lucide-react";
+import { submitEnquiry } from "@/src/lib/crm/atlasLead";
 
 export default function TaxiShowCase() {
 
@@ -40,17 +41,13 @@ export default function TaxiShowCase() {
     }
 
     try {
-      const response = await fetch("/api/enquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          phone,
-          service: "Taxi Booking",
-          details: { pickup, drop },
-          source:  "TaxiShowCase",
-          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
-        }),
+      const response = await submitEnquiry({
+        name,
+        phone,
+        service: "Taxi Booking",
+        details: { pickup, drop },
+        source:  "TaxiShowCase",
+        pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
       });
 
       const formsubmitData = await response.json();

@@ -2,6 +2,7 @@
 
 import { X, Check, CheckCircle2, Users, Clock } from "lucide-react"
 import { useEffect, useState } from "react"
+import { submitEnquiry } from "@/src/lib/crm/atlasLead"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -62,22 +63,18 @@ export default function LeadPopup() {
     const submission = payload ?? form
     try {
       setLoading(true)
-      const res = await fetch("/api/enquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name:    form.name,
-          phone:   form.phone,
-          email:   form.email,
-          service: "Tour Package",
-          message: form.content,
-          details: {
-            travelWith:    form.travelWith,
-            bookingTiming: submission.bookingTime ?? form.bookingTime,
-          },
-          source:  "LeadPopup",
-          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
-        }),
+      const res = await submitEnquiry({
+        name:    form.name,
+        phone:   form.phone,
+        email:   form.email,
+        service: "Tour Package",
+        message: form.content,
+        details: {
+          travelWith:    form.travelWith,
+          bookingTiming: submission.bookingTime ?? form.bookingTime,
+        },
+        source:  "LeadPopup",
+        pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
       })
       const data = await res.json()
       if (data.success) {

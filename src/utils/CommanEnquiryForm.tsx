@@ -4,6 +4,7 @@ import { X, Check, CheckCircle2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { CountryCodeSelector } from "./CountryCodeSelector";
 import { Map, Car, Hotel, Flame, MessageCircleMore } from "lucide-react";
+import { submitEnquiry } from "@/src/lib/crm/atlasLead";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -102,22 +103,18 @@ export default function CommonEnquiryForm({
     try {
       setLoading(true);
 
-      const res = await fetch("/api/enquiry", {
-        method:  "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name:        submission.name,
-          phone:       submission.phone,
-          countryCode: submission.countryCode || "+91",
-          email:       submission.email,
-          service:     defaultService,
-          details: {
-            travelWith:    submission.travelWith,
-            bookingTiming: submission.bookingTiming,
-          },
-          source:  "CommonEnquiryForm",
-          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
-        }),
+      const res = await submitEnquiry({
+        name:        submission.name,
+        phone:       submission.phone,
+        countryCode: submission.countryCode || "+91",
+        email:       submission.email,
+        service:     defaultService,
+        details: {
+          travelWith:    submission.travelWith,
+          bookingTiming: submission.bookingTiming,
+        },
+        source:  "CommonEnquiryForm",
+        pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
       });
 
       const data = await res.json();

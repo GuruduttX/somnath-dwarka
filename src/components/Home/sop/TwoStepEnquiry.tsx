@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, ChevronDown, Loader2 } from "lucide-react";
 import { track } from "@/src/lib/events";
+import { pushLeadToAtlas, submitEnquiry, type EnquiryBody } from "@/src/lib/crm/atlasLead";
 
 /**
  * Home §14 — two-step enquiry form, anchored in the page (never a popup).
@@ -16,7 +17,7 @@ import { track } from "@/src/lib/events";
 
 const STARTING_CITIES = ["Ahmedabad", "Rajkot", "Jamnagar", "Dwarka", "Somnath", "Mumbai", "Other"];
 
-type Lead = { id: string; token: string };
+type Lead = { id: string; token: string; body: EnquiryBody };
 
 /** "+91 98765 43210" / "098765 43210" → "9876543210". */
 const cleanPhone = (raw: string) => {
@@ -52,25 +53,22 @@ export default function TwoStepEnquiry({
     setStatus("sending");
     setError("");
     try {
-      const res = await fetch("/api/enquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.get("name"),
-          countryCode: "+91",
-          phone,
-          service: "Somnath Dwarka Tour Package",
-          details: { travelDate: data.get("month") || undefined },
-          source: "HomeTwoStepForm",
-          pageUrl: window.location.href,
-        }),
-      });
+      const body: EnquiryBody = {
+        name: data.get("name"),
+        countryCode: "+91",
+        phone,
+        service: "Somnath Dwarka Tour Package",
+        details: { travelDate: data.get("month") || undefined },
+        source: "HomeTwoStepForm",
+        pageUrl: window.location.href,
+      };
+      const res = await submitEnquiry(body);
       const json = await res.json();
       if (!json.success) throw new Error(json.message || "failed");
       // Step 1 is the conversion — it must fire even if step 2 is abandoned.
       track("generate_lead", { form: "home_two_step", step: 1, currency: "INR" });
       track("form_submit", { form: "home_two_step", step: 1, page_cluster: "home" });
-      setLead({ id: json.data?.id, token: json.data?.token });
+      setLead({ id: json.data?.id, token: json.data?.token, body });
       setStatus("idle");
       setStep(2);
     } catch (err) {
@@ -104,6 +102,14 @@ export default function TwoStepEnquiry({
       });
       const json = await res.json();
       if (!json.success) throw new Error(json.message || "failed");
+      // Same person and trip as step 1, so the CRM merges this into that enquiry.
+      await pushLeadToAtlas(lead.body, {
+        adults: data.get("adults"),
+        children: data.get("children") || 0,
+        starting_city: data.get("city"),
+        hotel_preference: data.get("tier"),
+        message: data.get("request"),
+      });
       track("form_submit", { form: "home_two_step", step: 2, page_cluster: "home" });
       setStatus("idle");
       setStep(3);

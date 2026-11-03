@@ -3,6 +3,7 @@
 import { FloatingInput } from "@/src/utils/FloatingInput";
 import { FloatingTextarea } from "@/src/utils/FloatingTextarea";
 import { useState } from "react";
+import { submitEnquiry } from "@/src/lib/crm/atlasLead";
 
 export default function SideForm() {
   const [loading, setLoading] = useState(false);
@@ -38,26 +39,20 @@ export default function SideForm() {
     const finalData = data || form;
 
 
-    const res = await fetch("/api/enquiry", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const res = await submitEnquiry({
+      name:    finalData.name,
+      phone:   finalData.phone,
+      email:   finalData.email,
+      service: "Tour Package",
+      message: finalData.message,
+      details: {
+        travelDate:    finalData.travelDate,
+        guests:        finalData.travellers,
+        travelWith:    finalData.travelWith,
+        bookingTiming: finalData.bookingTime,
       },
-      body: JSON.stringify({
-        name:    finalData.name,
-        phone:   finalData.phone,
-        email:   finalData.email,
-        service: "Tour Package",
-        message: finalData.message,
-        details: {
-          travelDate:    finalData.travelDate,
-          guests:        finalData.travellers,
-          travelWith:    finalData.travelWith,
-          bookingTiming: finalData.bookingTime,
-        },
-        source:  "TourPackageSideForm",
-        pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
-      }),
+      source:  "TourPackageSideForm",
+      pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
     });
 
     const response = await res.json();

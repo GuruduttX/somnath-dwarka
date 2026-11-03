@@ -2,6 +2,7 @@
 
 import { X, CarTaxiFront, MapPin, Phone, Calendar, User, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
+import { submitEnquiry } from "@/src/lib/crm/atlasLead";
 
 interface Props {
   open: boolean;
@@ -43,23 +44,19 @@ export default function TaxiEnquiryPopup({ open, onClose }: Props) {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/enquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name:    form.name,
-          phone:   form.phone,
-          email:   form.email,
-          service: "Taxi Booking",
-          message: form.message,
-          details: {
-            pickup:     form.pickup,
-            drop:       form.drop,
-            travelDate: form.date,
-          },
-          source:  "TaxiEnquiryPopup",
-          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
-        }),
+      const res = await submitEnquiry({
+        name:    form.name,
+        phone:   form.phone,
+        email:   form.email,
+        service: "Taxi Booking",
+        message: form.message,
+        details: {
+          pickup:     form.pickup,
+          drop:       form.drop,
+          travelDate: form.date,
+        },
+        source:  "TaxiEnquiryPopup",
+        pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
       });
 
       const data = await res.json();

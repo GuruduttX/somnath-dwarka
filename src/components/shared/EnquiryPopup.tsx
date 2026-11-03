@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { X, User, Mail, Phone, MessageSquare, CheckCircle2, Loader2 } from "lucide-react";
 import { isAdminSurface } from "@/src/config/routes";
+import { submitEnquiry } from "@/src/lib/crm/atlasLead";
 
 /**
  * Site-wide lead-capture popup. Opens 10s after each full page load / refresh —
  * and posts to /api/enquiry (the same endpoint every other form uses, so the
- * lead is saved, emailed and pushed to Sembark CRM).
+ * lead is saved, emailed and pushed to Sembark and the Atlas CRM).
  *
  * An in-memory (module-scoped) flag makes it open only once per loaded page: it
  * won't re-open as the visitor navigates between pages client-side, and won't
@@ -77,19 +78,15 @@ export default function EnquiryPopup() {
 
     setStatus("sending");
     try {
-      const res = await fetch("/api/enquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: form.name.trim(),
-          email: form.email.trim() || undefined,
-          countryCode: "+91",
-          phone,
-          service: "General Enquiry",
-          message: form.message.trim() || undefined,
-          source: "Website Popup",
-          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
-        }),
+      const res = await submitEnquiry({
+        name: form.name.trim(),
+        email: form.email.trim() || undefined,
+        countryCode: "+91",
+        phone,
+        service: "General Enquiry",
+        message: form.message.trim() || undefined,
+        source: "Website Popup",
+        pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
       });
       const json = await res.json();
       if (!json.success) throw new Error(json.message || "failed");

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { submitEnquiry } from "@/src/lib/crm/atlasLead";
 
 /**
  * Modern, Tailwind-only enquiry form for the guide-detail sticky sidebar.
@@ -18,18 +19,14 @@ export default function GuideEnquiryForm({ context }: { context: string }) {
     if (data.get("company")) return; // honeypot
     setStatus("sending");
     try {
-      const res = await fetch("/api/enquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.get("name"),
-          phone: data.get("phone"),
-          email: data.get("email") || undefined,
-          service: context,
-          details: { travelDate: data.get("dates") || undefined },
-          source: "GuideSidebarForm",
-          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
-        }),
+      const res = await submitEnquiry({
+        name: data.get("name"),
+        phone: data.get("phone"),
+        email: data.get("email") || undefined,
+        service: context,
+        details: { travelDate: data.get("dates") || undefined },
+        source: "GuideSidebarForm",
+        pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
       });
       const json = await res.json();
       if (!json.success) throw new Error("failed");

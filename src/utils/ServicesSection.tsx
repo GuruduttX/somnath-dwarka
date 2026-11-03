@@ -6,6 +6,7 @@ import {
   MapPin, Car, Hotel, Sparkles,
   Phone, Mail, Clock, CheckCircle2, ArrowRight, Users, Star, Award,
 } from "lucide-react";
+import { submitEnquiry } from "@/src/lib/crm/atlasLead";
 
 const stats = [
   { icon: Users, value: "5000+", label: "Happy Pilgrims" },
@@ -54,19 +55,15 @@ export default function ContactSection() {
     const payload = { ...form, timing };
     setLoading(true);
     try {
-      const res = await fetch("/api/enquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name:  payload.name,
-          phone: payload.phone,
-          email: payload.email,
-          // serviceOptions store short codes ("tour", "puja"…) — send the label.
-          service: serviceOptions.find((o) => o.value === payload.service)?.label,
-          details: { bookingTiming: timing },
-          source:  "ServicesSection",
-          pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
-        }),
+      const res = await submitEnquiry({
+        name:  payload.name,
+        phone: payload.phone,
+        email: payload.email,
+        // serviceOptions store short codes ("tour", "puja"…) — send the label.
+        service: serviceOptions.find((o) => o.value === payload.service)?.label,
+        details: { bookingTiming: timing },
+        source:  "ServicesSection",
+        pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
       });
       const data = await res.json();
       if (data.success) {

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { SITE_URL, BRAND, IS_STAGING } from "@/src/config/site";
+import { ATLAS_LEAD } from "@/src/lib/crm/atlasLead";
 import { organizationSchema, websiteSchema, localBusinessSchema } from "@/src/lib/seo";
 import JsonLd from "@/src/components/seo/JsonLd";
 import Analytics from "@/src/components/seo/Analytics";
@@ -75,6 +77,13 @@ export default function RootLayout({
         {/* Footer + sticky call/WhatsApp bar + lazy lead popup, hidden on the admin surface. */}
         <PublicChrome />
         <Analytics />
+        {/* CRM lead capture — the enquiry forms send through it (src/lib/crm/atlasLead.ts). */}
+        <Script
+          src={ATLAS_LEAD.scriptSrc}
+          data-key={ATLAS_LEAD.key}
+          data-api={ATLAS_LEAD.api}
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );
