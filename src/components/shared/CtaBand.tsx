@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { motion } from "framer-motion";
 import { ArrowRight, Phone, MapPin, Star, Sparkles, MessageSquare } from "lucide-react";
 import { waLink } from "@/src/config/site";

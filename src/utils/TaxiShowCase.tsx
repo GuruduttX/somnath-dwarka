@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { useState } from "react";
 import { MapPin, Phone, User, CarTaxiFront } from "lucide-react";
 import { submitEnquiry } from "@/src/lib/crm/atlasLead";

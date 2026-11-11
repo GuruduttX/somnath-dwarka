@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { waLink } from "@/src/config/site";
 import { FLEET_IMAGE } from "@/src/config/fleetImages";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 
 // Helper type for crumbs
 interface Crumb {

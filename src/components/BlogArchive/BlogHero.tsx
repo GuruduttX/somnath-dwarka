@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import Link from "next/link";
 import { Search, ArrowRight, BookOpen, Compass, MapPin , Home, ChevronRight} from "lucide-react";
 

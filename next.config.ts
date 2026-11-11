@@ -1,5 +1,16 @@
 import type { NextConfig } from "next";
 
+/** Host of the Cloudflare R2 bucket's public URL. Same fallback as src/lib/imageHost.ts. */
+const r2Host = (() => {
+  try {
+    return new URL(
+      process.env.NEXT_PUBLIC_R2_PUBLIC_URL || "https://img.somnathdwarkatourpackage.com"
+    ).hostname;
+  } catch {
+    return "";
+  }
+})();
+
 const nextConfig: NextConfig = {
   // Compress assets using Gzip / Brotli
   compress: true,
@@ -14,7 +25,10 @@ const nextConfig: NextConfig = {
     // home HTML by ~700 KB and cost more than the request it saves.
   },
   images: {
-    formats: ["image/avif", "image/webp"],
+    // WebP only. AVIF encoding is several times heavier on CPU and threads, and
+    // on Hostinger the optimizer's encoders count against the plan's process
+    // limit. R2 photos skip the optimizer altogether (src/components/shared/Img.tsx).
+    formats: ["image/webp"],
     // Required allowlist in Next 16. 75 is the default; 60 is for the
     // above-the-fold home cards (ChooseYourJourney) that load with the hero.
     qualities: [60, 75],
@@ -22,6 +36,13 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     remotePatterns: [
+      // Cloudflare R2. Img serves these unoptimized; listing them keeps a plain
+      // next/image pointed at R2 working too.
+      ...(r2Host ? [{ protocol: "https" as const, hostname: r2Host }] : []),
+      {
+        protocol: "https",
+        hostname: "**.r2.dev",
+      },
       {
         protocol: "https",
         hostname: "res.cloudinary.com",

@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { useState } from "react";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 

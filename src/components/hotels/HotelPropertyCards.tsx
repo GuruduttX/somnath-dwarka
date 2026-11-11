@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { motion } from "framer-motion";
 import {
   Star, MapPin, Wifi, Wind, Utensils, Waves, Car, ShieldCheck, Coffee,

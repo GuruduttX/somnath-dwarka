@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { SITE_URL, BRAND, IS_STAGING } from "@/src/config/site";
 import { ATLAS_LEAD } from "@/src/lib/crm/atlasLead";
+import { R2_ORIGIN } from "@/src/lib/imageHost";
 import { organizationSchema, websiteSchema, localBusinessSchema } from "@/src/lib/seo";
 import JsonLd from "@/src/components/seo/JsonLd";
 import Analytics from "@/src/components/seo/Analytics";
@@ -66,7 +67,9 @@ export default function RootLayout({
         {/* No Google Fonts preconnect: Poppins is self-hosted by next/font, so
             those early connections were opened and never used. */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        {/* Site photos load straight from the R2 bucket. (Cloudinary images
+            went through /_next/image, so the browser never connected there.) */}
+        {R2_ORIGIN && <link rel="dns-prefetch" href={R2_ORIGIN} />}
       </head>
       <body className={`${poppins.className} antialiased`} suppressHydrationWarning>
         <JsonLd

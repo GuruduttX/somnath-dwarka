@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 
 export default function BlogStickyCTA() {
   return (

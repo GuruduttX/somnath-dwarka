@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {

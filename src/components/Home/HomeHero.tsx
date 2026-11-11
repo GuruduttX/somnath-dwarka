@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { MapPin, Sparkles, Navigation, CalendarDays, Star, ClipboardList } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import TrackedLink from "@/src/components/Home/sop/TrackedLink";

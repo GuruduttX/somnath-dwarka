@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { ArrowUpRight } from "lucide-react";
 import { FLEET_IMAGE } from "@/src/config/fleetImages";
 import { canonicalPath } from "@/src/lib/links";
@@ -21,7 +21,7 @@ const TYPE_LABEL: Record<NonNullable<RelatedLink["type"]>, string> = {
 
 /**
  * Resolve a real image for a link target from keywords in its path. Every
- * branch points at a file in /public or a fleet photo on Cloudinary, so the
+ * branch points at a file in /public or a fleet photo on R2, so the
  * thumbnails always load (no broken images).
  */
 function linkImage(target: string): string {

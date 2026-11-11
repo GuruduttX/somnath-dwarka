@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { motion } from "framer-motion";
 import { ArrowRight, Phone } from "lucide-react";
 import TourEnquiryPopup from "@/src/utils/TourEnquiryPopUp";

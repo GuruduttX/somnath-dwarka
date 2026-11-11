@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { BookOpen, Sparkles, MapPin, Compass, Star, Camera } from "lucide-react";
 
 const HERO_IMG = "/images/home/SomnathLongImage.webp";

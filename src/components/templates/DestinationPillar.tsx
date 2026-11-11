@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import Link from "next/link";
 import { ArrowUpRight, Clock, Star, Route, Sparkles, MapPinned, CalendarHeart, ArrowRight, ShieldCheck, Camera, Video } from "lucide-react";
 import { buildMetadata, placeSchema } from "@/src/lib/seo";

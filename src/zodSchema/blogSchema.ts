@@ -51,7 +51,7 @@ export const blogSchema = z
     subContent: z.string().optional(),
 
     /**
-     * Absolute URL (Cloudinary upload) or a site-relative path (/images/…).
+     * Absolute URL (R2 or Cloudinary upload) or a site-relative path (/images/…).
      *
      * This was `z.string().url()`, which rejects a leading-slash path — and
      * every blog in the database stores one, so *every* update from the blog

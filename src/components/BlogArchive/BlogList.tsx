@@ -1,5 +1,5 @@
 "use client"
-import Image from 'next/image';
+import Image from "@/src/components/shared/Img";
 import Link from 'next/link'
 import { useEffect, useState, useMemo } from 'react'
 import DesktopPagination from './DesktopPagination';

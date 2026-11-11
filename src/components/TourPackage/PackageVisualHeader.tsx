@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { Clock, Sparkles, MapPin, X, ChevronLeft, ChevronRight, ShieldCheck, Star } from "lucide-react";
 
 type PackageImage = { image: string; alt: string };

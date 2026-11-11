@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Clock, MapPin, Shuffle } from "lucide-react";
 import { inr } from "@/src/config/homePage";

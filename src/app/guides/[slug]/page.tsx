@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { buildMetadata, articleSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import Faq from "@/src/components/shared/Faq";

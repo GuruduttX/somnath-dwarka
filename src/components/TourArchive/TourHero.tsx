@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { Star, ArrowRight, MessageCircle, MapPin, Sparkles } from "lucide-react";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 

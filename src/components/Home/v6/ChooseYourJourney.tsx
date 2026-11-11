@@ -1,9 +1,10 @@
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import Link from "next/link";
 import Section from "@/src/components/shared/Section";
 import { getPublishedHubs } from "@/src/lib/content";
 import { destinationPath } from "@/src/lib/destinationRoutes";
 import { s } from "@/src/lib/cms";
+import { r2Url } from "@/src/lib/imageHost";
 import DestinationSlider, { type DestinationSlide } from "./DestinationSlider";
 
 /**
@@ -68,12 +69,11 @@ const CARD_META: Record<
   },
 };
 
-/** Real destination photography, uploaded to Cloudinary under
- *  `somnath-dwarka/destinations/`. Version-less URLs so re-uploading the same
- *  public_id in Cloudinary swaps the photo with no code change; next/image
- *  handles resizing and format negotiation from these originals. */
-const DEST_PHOTO = (name: string) =>
-  `https://res.cloudinary.com/dnhau4zv2/image/upload/somnath-dwarka/destinations/${name}.jpg`;
+/** Real destination photography on Cloudflare R2 under
+ *  `somnath-dwarka/destinations/`, stored as 640px WebP (the cards render at
+ *  most 300px wide) and served as-is. Uploading a new file to the same key
+ *  swaps the photo with no code change. */
+const DEST_PHOTO = (name: string) => r2Url(`somnath-dwarka/destinations/${name}.webp`);
 
 /** Slide chrome for the destination rail. A hub's own CMS hero_image always wins over `image` here,
  *  so uploading a photo in admin replaces the fallback with no code change. */

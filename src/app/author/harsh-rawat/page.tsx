@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import Link from "next/link";
 import { buildMetadata, personSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";

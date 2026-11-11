@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 
 import { useState } from "react";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { Sparkles, Star, MapPin, BedDouble, MessageSquare, ArrowRight } from "lucide-react";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { waLink } from "@/src/config/site";

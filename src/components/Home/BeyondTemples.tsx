@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getPublishedPackages, packagePath } from "@/src/lib/content";
+import { r2Url } from "@/src/lib/imageHost";
 import BeyondTemplesRail, { type Layout, type RailCard } from "./BeyondTemplesRail";
 
 /**
@@ -43,8 +44,7 @@ const MIX: {
     title: "Somnath Dwarka with Diu",
     tag: "Coastal",
     tagColor: "rgba(14,165,233,0.88)",
-    image:
-      "https://res.cloudinary.com/dnhau4zv2/image/upload/somnath-dwarka/destinations/diu.jpg",
+    image: r2Url("somnath-dwarka/destinations/diu.webp"),
     layout: "wide",
   },
   {

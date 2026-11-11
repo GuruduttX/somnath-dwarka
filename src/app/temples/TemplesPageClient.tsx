@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Search, 

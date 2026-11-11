@@ -15,6 +15,7 @@
     "seed:origin-packages": "node --env-file=.env.local scripts/seed-origin-packages.mjs"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1164.0",
     "@tiptap/extension-image": "^3.23.4",
     "@tiptap/extension-link": "^3.23.4",
     "@tiptap/extension-table": "^3.23.4",

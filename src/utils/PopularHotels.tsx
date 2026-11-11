@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { motion, useAnimation } from "framer-motion";
 import { MapPin, Star, Heart, ChevronLeft, ChevronRight, ArrowRight, Wifi, Coffee, Shield } from "lucide-react";
 import { useEffect, useRef, useState } from "react";

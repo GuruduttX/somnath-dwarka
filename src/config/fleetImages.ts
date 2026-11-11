@@ -2,15 +2,16 @@
  * Photos of the three vehicles actually on the fleet (matching the `vehicle`
  * entries in the taxis CMS collection: Ertiga, Innova Crysta, Tempo Traveller).
  *
- * Hosted on Cloudinary under `somnath-dwarka/fleet/`, version-less so replacing
- * the image on the same public_id swaps it site-wide with no code change.
+ * Hosted on Cloudflare R2 under `somnath-dwarka/fleet/` as 960px WebP and
+ * served as-is. Uploading a new file to the same key swaps it site-wide with
+ * no code change.
  */
-const CLOUD = "https://res.cloudinary.com/dnhau4zv2/image/upload/somnath-dwarka/fleet";
+import { r2Url } from "@/src/lib/imageHost";
 
 export const FLEET_IMAGE = {
-  ertiga: `${CLOUD}/ertiga.jpg`,
-  innova: `${CLOUD}/innova-crysta.jpg`,
-  tempo: `${CLOUD}/tempo-traveller.jpg`,
+  ertiga: r2Url("somnath-dwarka/fleet/ertiga.webp"),
+  innova: r2Url("somnath-dwarka/fleet/innova-crysta.webp"),
+  tempo: r2Url("somnath-dwarka/fleet/tempo-traveller.webp"),
 } as const;
 
 /** Ertiga / Innova alternating, for card grids that just need a taxi photo. */

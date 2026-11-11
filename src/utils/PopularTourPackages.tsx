@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import Link from "next/link";
 import { Sun, Moon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";

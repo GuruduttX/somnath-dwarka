@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Image from "next/image";
+import Image from "@/src/components/shared/Img";
 import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Star } from "lucide-react";
 import { useState } from "react";
