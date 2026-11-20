@@ -6,8 +6,8 @@ import { CORS, json, preflight } from "@/src/lib/mcp/http";
 
 /*
   The MCP endpoint claude.ai connects to as a custom connector:
-  https://somnathdwarkatourpackage.com/mcp/ (with the trailing slash, like
-  every URL on this site). Every request needs an OAuth access token
+  https://somnathdwarkatourpackage.com/mcp (src/proxy.ts lets it answer
+  without the site's trailing slash; /mcp/ works too). Every request needs an OAuth access token
   (lib/mcp/oauth.ts; sign-in uses the admin panel login). Stateless: a fresh
   server per request, answered as plain JSON. Same design as the Vrindavan
   site's connector.
@@ -67,8 +67,17 @@ export async function POST(req: Request) {
   }
 }
 
-/* No sessions and no server-initiated stream, so GET and DELETE are not offered. */
-function notAllowed() {
+/*
+  No sessions and no server-initiated stream, so GET and DELETE are not
+  offered. A caller without a valid token still gets the 401 first, with the
+  sign-in pointer, whatever the method: clients discover how to sign in that way.
+*/
+async function notAllowed(req: Request) {
+  const origin = publicOrigin(req);
+  const token = (req.headers.get("authorization") ?? "").match(/^Bearer\s+(.+)$/i)?.[1]?.trim() ?? "";
+  if (!token) return unauthorized(origin, "Missing access token");
+  const stored = await verifyAccessToken(token, origin).catch(() => null);
+  if (!stored) return unauthorized(origin, "Invalid or expired access token");
   return json({ jsonrpc: "2.0", error: { code: -32000, message: "Method not allowed. Use POST." }, id: null }, 405, { Allow: "POST" });
 }
 export const GET = notAllowed;

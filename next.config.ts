@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
   compress: true,
   // One trailing-slash convention; Next 301s the non-slash variant (SOP §3).
   trailingSlash: true,
+  // The slash redirect itself runs in src/proxy.ts (Next's same two rules), so
+  // the Claude connector can answer at /mcp without a slash: MCP clients strip
+  // it from the connector URL and do not follow redirects.
+  skipTrailingSlashRedirect: true,
   // Tree-shake icon barrels to their per-icon modules so the home page ships
   // (and hydrates) less JS — Script Evaluation is the top main-thread cost.
   experimental: {

@@ -10,9 +10,11 @@ import { connectDB } from "@/src/lib/mongodb";
   is not set), so a database dump holds no live credential. Nothing here needs
   an environment variable the site lacks. Same design as the Vrindavan site.
 
-  The site runs with `trailingSlash: true`, so every endpoint is advertised
-  with its trailing slash (/mcp/, /mcp/oauth/token/, ...) and no client is
-  ever sent through a redirect. /.well-known/ paths are exempt from that rule.
+  The site runs with `trailingSlash: true`. The connector itself answers at
+  /mcp (src/proxy.ts exempts it, since MCP clients drop the slash and do not
+  follow redirects) and /mcp/ alike; the OAuth endpoints are advertised with
+  their trailing slash (/mcp/oauth/token/, ...), so no client is ever sent
+  through a redirect. /.well-known/ paths are exempt from the slash rule.
 */
 
 async function getDb() {
@@ -92,8 +94,8 @@ export function publicOrigin(req: Request): string {
   return `${proto}://${host}`;
 }
 
-/** The connector's URL, the one to paste into claude.ai. */
-export const resourceUrl = (origin: string) => `${origin}/mcp/`;
+/** The connector's URL, the one to paste into claude.ai (/mcp/ works too). */
+export const resourceUrl = (origin: string) => `${origin}/mcp`;
 /** An OAuth endpoint under /mcp/oauth/, with the site's trailing slash. */
 export const oauthUrl = (origin: string, name: "authorize" | "token" | "register" | "revoke" | "login") => `${origin}/mcp/oauth/${name}/`;
 
@@ -227,7 +229,7 @@ export async function authenticateClient(clientId: unknown, clientSecret: unknow
 
 /* ── Authorization ───────────────────────────────────────────────── */
 
-/** Only this site's /mcp/ endpoint gets tokens; a client may name it (with or without the slash) or the bare origin. */
+/** Only this site's /mcp endpoint gets tokens; a client may name it (with or without the slash) or the bare origin. */
 export function canonicalResource(resource: string | null, origin: string): string {
   if (!resource) return resourceUrl(origin);
   const trim = (u: string) => u.replace(/#.*$/, "").replace(/\/+$/, "");
