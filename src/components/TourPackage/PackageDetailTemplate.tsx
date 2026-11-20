@@ -16,6 +16,7 @@ import PackageTestimonials from "@/src/components/TourPackage/PackageTestimonial
 import TrustBuildingSection from "@/src/utils/TrustBuildingSection";
 import Policies from "@/src/components/TourPackage/Policies";
 import ItineraryRouteMap from "@/src/components/TourPackage/ItineraryRouteMap";
+import { PACKAGE_DETAIL_LABELS, type PackageDetailLabels, type RatingTile } from "@/src/components/TourPackage/copy";
 
 export type PackageImage = { image: string; alt: string };
 
@@ -77,6 +78,8 @@ export default function PackageDetailTemplate({
   breakdown,
   overviewHeading,
   assurance,
+  labels = PACKAGE_DETAIL_LABELS,
+  ratings,
 }: {
   pkg: PackageDetail;
   path: string;
@@ -87,6 +90,10 @@ export default function PackageDetailTemplate({
   overviewHeading: string;
   /** The third line of the price card — what this hub promises to handle. */
   assurance: string;
+  /** Section headings and price-card labels (the variant pages' CMS copy); code defaults when omitted. */
+  labels?: PackageDetailLabels;
+  /** The ProductRatings tiles; code defaults when omitted. */
+  ratings?: RatingTile[];
 }) {
   const paragraphs = (pkg.body ?? "")
     .split(/\n{2,}/)
@@ -105,7 +112,7 @@ export default function PackageDetailTemplate({
             <div className="w-full h-full overflow-hidden rounded-2xl border border-orange-100 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)] p-5 sm:p-6 relative flex flex-col justify-center">
               <div className="absolute inset-y-4 left-0 w-1.5 rounded-r-lg bg-gradient-to-b from-orange-500 to-amber-500" />
               <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-orange-700">
-                Package overview
+                {labels.overviewEyebrow}
               </p>
               <h2 id="package-overview-h" className="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl leading-snug">
                 {overviewHeading}
@@ -122,13 +129,13 @@ export default function PackageDetailTemplate({
           <div className="lg:col-span-4 flex">
             <div className="w-full h-full overflow-hidden rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50/50 via-white to-amber-50/50 p-5 sm:p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)] relative flex flex-col justify-center">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 to-amber-400" />
-              <p className="text-[10px] font-bold uppercase tracking-wider text-orange-700">Starts from</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-orange-700">{labels.priceLabel}</p>
               {pkg.price_from ? (
                 <p className="mt-1 text-2xl font-black tracking-tight text-[#B85C10] sm:text-3xl">
                   ₹{pkg.price_from.toLocaleString("en-IN")}
                 </p>
               ) : (
-                <p className="mt-1 text-2xl font-black tracking-tight text-[#B85C10]">On request</p>
+                <p className="mt-1 text-2xl font-black tracking-tight text-[#B85C10]">{labels.priceOnRequest}</p>
               )}
               <div className="mt-4 space-y-2.5 text-[13px] font-semibold text-slate-700">
                 <div className="flex items-center gap-2.5">
@@ -141,7 +148,7 @@ export default function PackageDetailTemplate({
                   <span className="p-1.5 rounded-md bg-orange-100/40 text-orange-600">
                     <Star size={15} className="fill-orange-400 text-orange-400" />
                   </span>
-                  <span>Hotel, breakfast & vehicle included</span>
+                  <span>{labels.includedLine}</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <span className="p-1.5 rounded-md bg-orange-100/40 text-orange-600">
@@ -169,7 +176,7 @@ export default function PackageDetailTemplate({
               <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white p-4 sm:p-6 lg:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
                 <h3 className="mb-3 flex items-start gap-2 text-lg font-bold text-slate-950 sm:mb-5 sm:text-xl">
                   <span className="mt-1 h-5 w-1 shrink-0 rounded-full bg-orange-500 inline-block sm:mt-1.5 sm:h-6" />
-                  Trip highlights
+                  {labels.highlightsHeading}
                 </h3>
                 {/* Flat rows: a bordered card per highlight wrapped two lines of
                     copy in its own box, which reads as noise on a phone. */}
@@ -204,7 +211,7 @@ export default function PackageDetailTemplate({
               <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white p-3 sm:p-6 lg:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
                 <h3 className="mb-3 flex items-center gap-2 px-1 text-lg font-bold text-slate-950 sm:mb-5 sm:px-0 sm:text-xl">
                   <span className="h-5 w-1 shrink-0 rounded-full bg-orange-500 inline-block sm:h-6" />
-                  Day-wise itinerary
+                  {labels.itineraryHeading}
                 </h3>
                 <ItineraryAccordion days={pkg.itinerary} />
               </div>
@@ -240,10 +247,10 @@ export default function PackageDetailTemplate({
       </div>
 
       <div className="cv-section"><CtaBand context={pkg.h1} /></div>
-      <div className="cv-section"><ProductRatings /></div>
+      <div className="cv-section"><ProductRatings items={ratings} /></div>
       <div className="cv-section"><PackageTestimonials PackageData={pkg} /></div>
       <div className="cv-section"><TrustBuildingSection /></div>
-      <div className="cv-section"><Faq items={pkg.faq} heading="Package FAQs" /></div>
+      <div className="cv-section"><Faq items={pkg.faq} heading={labels.faqHeading} /></div>
       <div className="cv-section"><RelatedLinks links={related} /></div>
       <div className="cv-section"><Policies PackageData={pkg} /></div>
 

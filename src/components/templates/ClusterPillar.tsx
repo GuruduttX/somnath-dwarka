@@ -19,15 +19,21 @@ import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import FactTag from "@/src/components/shared/FactTag";
 import MapEmbed from "@/src/components/shared/MapEmbed";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { findDestinationMeta } from "@/src/lib/seed/destinationMeta";
-import { buildRelatedLinks, type LinkContext } from "@/src/lib/links";
+import { buildRelatedLinks } from "@/src/lib/links";
 import { getPillarSpokesFor, getPlacesFor } from "@/src/lib/content";
 import { faqOf, h1Of, list, s, type Doc } from "@/src/lib/cms";
+import { getDatasetItem } from "@/src/lib/datasets/store";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import type { PageDef } from "@/src/lib/pages/types";
+import { HEROES_DATASET } from "@/src/lib/cms-groups/destinations";
+import { findPlacePhoto } from "@/src/lib/placePhotos";
 import DestinationHero from "./destination/DestinationHero";
 import DPSection from "./destination/DPSection";
 import Reveal from "./destination/Reveal";
 import { ICONS } from "./destination/icons";
-import { findPlacePhoto, findReachPhoto } from "@/src/lib/placePhotos";
+import { heroMeta } from "./destination/data";
+import type { ClusterCopy } from "./clusterContent";
+import { fillVars, toLinks } from "./copy";
 
 /**
  * Shared destination-cluster pillar. Renders exactly the layout GirPillar used
@@ -69,57 +75,37 @@ const ACCENT_THEMES = {
   },
 } as const;
 
+/**
+ * The code half of a cluster pillar: icons and accent. Every word and link is
+ * the pillar's page copy (`page`, editable through the CMS — see clusterContent.ts).
+ */
 export type ClusterConfig = {
   /** Pillar slug — drives the CMS query and all child links. */
   slug: string;
-  /** meta key in DESTINATION_META. Defaults to slug. */
+  /** Item key in the site_destination_heroes dataset. Defaults to slug. */
   metaKey?: string;
-  /** Short hero title ending in "Travel Guide" (the hero re-styles that word). */
-  heroTitle: string;
-  /** DestinationHero `destination` prop and breadcrumb label. */
-  label: string;
-  /** TouristAttraction schema name. */
-  placeName: string;
   accent: keyof typeof ACCENT_THEMES;
   spokeIcons: Record<string, LucideIcon>;
   spokeFallbackIcon: LucideIcon;
-  spokeOrder: string[];
-  journeys: { href: string; title: string; blurb: string; primary?: boolean }[];
-  overnight?: { href: string; label: string };
-  toc: { id: string; label: string }[];
-  copy: {
-    significanceTitle: string;
-    comeForLabel: string;
-    reachTitle: string;
-    clusterEyebrow: string;
-    clusterTitle: string;
-    clusterBanner: string;
-    clusterBannerIcon: LucideIcon;
-    placesEyebrow: string;
-    placesTitle: string;
-    distancesBanner: string;
-    journeysTitle: string;
-    mapTitle: string;
-    faqHeading: string;
-    ctaContext: string;
-    ctaTitle: string;
-    ctaSubtitle: string;
-  };
-  /** ACROSS/INTO links for the related-links block. */
-  related: Omit<LinkContext, "self">;
+  clusterBannerIcon: LucideIcon;
+  /** The pillar's CMS-editable copy. */
+  page: PageDef<ClusterCopy>;
 };
 
 export default async function ClusterPillar({ doc, config }: { doc: Doc; config: ClusterConfig }) {
-  const meta = findDestinationMeta(config.metaKey ?? config.slug);
-  if (!meta) return null;
-
-  const t = ACCENT_THEMES[config.accent];
-  const path = `/${config.slug}/`;
-
-  const [spokes, places] = await Promise.all([
+  const [hero, copy, spokes, places] = await Promise.all([
+    getDatasetItem(HEROES_DATASET, config.metaKey ?? config.slug),
+    getPageContent(config.page),
     getPillarSpokesFor(config.slug),
     getPlacesFor(config.slug),
   ]);
+  if (!hero) return null;
+  const meta = heroMeta(hero);
+
+  const t = ACCENT_THEMES[config.accent];
+  const path = `/${config.slug}/`;
+  const v = { destination: copy.label };
+  const overnight = copy.overnight.href ? copy.overnight : null;
 
   const h1 = h1Of(doc);
   const answerFirst = s(doc, "answer_first");
@@ -129,21 +115,38 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
   );
 
   const ordered = [...spokes].sort(
-    (a, b) => config.spokeOrder.indexOf(String(a.slug)) - config.spokeOrder.indexOf(String(b.slug)),
+    (a, b) => copy.spokeOrder.indexOf(String(a.slug)) - copy.spokeOrder.indexOf(String(b.slug)),
   );
 
   const crumbs = [
     { name: "Home", path: "/" },
-    { name: config.label, path },
+    { name: copy.label, path },
   ];
 
-  const related = buildRelatedLinks({ self: path, ...config.related });
+  const related = buildRelatedLinks({
+    self: path,
+    ...(copy.related.pillar.target ? { pillar: copy.related.pillar } : {}),
+    money: "packages",
+    siblings: toLinks(copy.related.siblings),
+    extra: toLinks(copy.related.extra),
+  });
   const PlaceIcon = ICONS[meta.placeIcon];
-  const BannerIcon = config.copy.clusterBannerIcon;
+  const BannerIcon = config.clusterBannerIcon;
 
   return (
     <PageShell crumbs={crumbs} flushHero lightCrumb>
-      <DestinationHero meta={meta} destination={config.label} h1={config.heroTitle} answerFirst={answerFirst} />
+      <DestinationHero
+        meta={meta}
+        destination={copy.label}
+        h1={copy.heroTitle}
+        answerFirst={answerFirst}
+        labels={{
+          titleSuffix: copy.hero.titleSuffix,
+          ctaLabel: fillVars(copy.hero.ctaLabel, v),
+          imageAlt: fillVars(copy.hero.imageAlt, v),
+          enquiryService: fillVars(copy.hero.enquiryService, v),
+        }}
+      />
 
       {/* ── Answer-first intro + on-page nav ── */}
       <div className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 sm:pt-28 lg:px-10 xl:px-12">
@@ -169,11 +172,11 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
             <nav aria-label="On this page" className="relative flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
               <span className="flex items-center gap-1.5 font-extrabold uppercase tracking-wider text-orange-650">
                 <Sparkles size={11} className="text-orange-500" />
-                <span>On this page</span>
+                <span>{copy.tocHeading}</span>
               </span>
               <span className="hidden text-orange-200 sm:inline">|</span>
               <ul className="flex flex-wrap gap-x-4 gap-y-1.5 font-bold tracking-wide text-[#6b4c38]">
-                {config.toc.map((it) => (
+                {copy.toc.map((it) => (
                   <li key={it.id}>
                     <a href={`#${it.id}`} className="transition-colors hover:text-orange-650">
                       {it.label}
@@ -193,7 +196,7 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
             className="pointer-events-none absolute inset-0 opacity-[0.02]"
             style={{ backgroundImage: "radial-gradient(#ea580c 1px, transparent 1px)", backgroundSize: "20px 20px" }}
           />
-          <DPSection id="significance" eyebrow="Why it matters" title={config.copy.significanceTitle}>
+          <DPSection id="significance" eyebrow={copy.significanceEyebrow} title={copy.significanceTitle}>
             <div className="grid gap-6 lg:grid-cols-[1.35fr_1fr]">
               <Reveal>
                 <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-orange-200 bg-gradient-to-br from-white via-orange-50/20 to-orange-100/10 p-6 transition-shadow hover:shadow-md sm:p-8">
@@ -214,7 +217,7 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
                       <CalendarHeart size={20} />
                     </span>
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-orange-650">Best time to visit</p>
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-orange-650">{copy.bestTimeLabel}</p>
                       <p className="mt-0.5 text-sm font-extrabold leading-snug text-[#2a1a10]">{s(doc, "best_time")}</p>
                     </div>
                   </div>
@@ -224,7 +227,7 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
                       <Star size={20} />
                     </span>
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-orange-650">{config.copy.comeForLabel}</p>
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-orange-650">{copy.comeForLabel}</p>
                       <p className="mt-0.5 text-base font-extrabold text-[#2a1a10]">{meta.deityShort}</p>
                     </div>
                   </div>
@@ -237,11 +240,12 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
 
       {/* ── How to reach ── */}
       <div className="relative w-full border-b border-orange-100/20 bg-gradient-to-b from-amber-50/10 via-white to-[#F2F7FB]/40 py-4">
-        <DPSection id="reach" eyebrow="Getting there" title={config.copy.reachTitle}>
+        <DPSection id="reach" eyebrow={copy.reachEyebrow} title={copy.reachTitle}>
           <div className="grid gap-6 sm:grid-cols-3">
             {meta.reach.map((r, i) => {
               const Icon = ICONS[r.icon];
-              const photo = findReachPhoto(r.icon);
+              const src = hero.reach[i]?.photo;
+              const photo = src ? { src, alt: hero.reach[i].photo_alt } : null;
               return (
                 <Reveal key={r.mode} delay={i * 0.08} className="h-full">
                   <div className="group relative h-full overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-[0_10px_30px_rgba(234,88,12,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-350 hover:shadow-[0_22px_50px_rgba(234,88,12,0.12)]">
@@ -292,14 +296,14 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
       {/* ── Spoke cluster (CMS-driven) ── */}
       {ordered.length ? (
         <div className="relative w-full border-b border-orange-100/20 bg-gradient-to-b from-[#F2F7FB]/40 via-white to-orange-50/15 py-4">
-          <DPSection id="cluster" eyebrow={config.copy.clusterEyebrow} title={config.copy.clusterTitle}>
+          <DPSection id="cluster" eyebrow={copy.clusterEyebrow} title={copy.clusterTitle}>
             <Reveal>
               <div className={`mb-6 flex flex-wrap items-center gap-3.5 rounded-2xl border bg-gradient-to-br to-white px-5 py-4.5 shadow-inner ${t.bannerBox}`}>
                 <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-white shadow-md ${t.bannerChip}`}>
                   <BannerIcon size={18} />
                 </span>
                 <p className="text-xs font-bold leading-relaxed text-[#4a3223] sm:text-[14px]">
-                  {config.copy.clusterBanner}
+                  {copy.clusterBanner}
                 </p>
               </div>
             </Reveal>
@@ -323,7 +327,7 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
                         </p>
                       ) : null}
                       <span className={`mt-5 inline-flex items-center gap-1.5 border-t border-orange-50/40 pt-3 text-[11.5px] font-extrabold uppercase tracking-wider ${t.spokeCta}`}>
-                        Read the guide
+                        {copy.spokeCta}
                         <ArrowRight size={12} className="transition-transform duration-200 group-hover:translate-x-0.5" />
                       </span>
                     </Link>
@@ -342,7 +346,7 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
             className="pointer-events-none absolute inset-0 opacity-[0.02]"
             style={{ backgroundImage: "radial-gradient(#ea580c 1px, transparent 1px)", backgroundSize: "20px 20px" }}
           />
-          <DPSection id="places" eyebrow={config.copy.placesEyebrow} title={config.copy.placesTitle}>
+          <DPSection id="places" eyebrow={copy.placesEyebrow} title={copy.placesTitle}>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {places.map((p, i) => {
                 const photo = findPlacePhoto(config.slug, String(p.slug));
@@ -390,7 +394,7 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
 
                       <span className="mt-5 inline-flex items-center gap-1.5 border-t border-orange-50/30 pt-2 text-xs font-bold text-orange-600 group-hover:text-orange-700">
                         <MapPinned size={13} className="text-orange-500" />
-                        <span>Explore Route Guide</span>
+                        <span>{copy.placeCta}</span>
                         <ArrowRight size={12} className="transition-transform duration-200 group-hover:translate-x-0.5" />
                       </span>
                     </div>
@@ -406,22 +410,22 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
       {/* ── Key distances ── */}
       {distances.length ? (
         <div className="relative w-full border-b border-orange-100/20 bg-gradient-to-b from-[#FAF6EE] via-white to-[#F6FAFD] py-4">
-          <DPSection id="distances" eyebrow="Plan the drive" title="Key distances">
+          <DPSection id="distances" eyebrow={copy.distancesEyebrow} title={copy.distancesTitle}>
             <Reveal>
               <div className="mb-6 flex flex-wrap items-center gap-3.5 rounded-2xl border border-orange-100/80 bg-gradient-to-br from-orange-50/40 to-amber-50/30 px-5 py-4.5 shadow-inner">
                 <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-orange-600 to-amber-500 text-white shadow-md">
                   <Route size={18} />
                 </span>
                 <p className="text-xs font-bold leading-relaxed text-[#4a3223] sm:text-[14px]">
-                  {config.copy.distancesBanner}
+                  {copy.distancesBanner}
                 </p>
               </div>
 
               <div className="rounded-2xl border border-orange-100/60 bg-white/70 p-4 shadow-[0_12px_36px_rgba(234,88,12,0.03)] backdrop-blur-md sm:p-6">
                 <DataTable
-                  columns={["From", "To", "Distance", "Time"]}
+                  columns={copy.distanceColumns}
                   rows={distances.map((d) => [d.from, d.to, d.distance ?? "—", d.duration ?? "—"])}
-                  verify={{ key: `${config.slug}-distances`, label: "Distances", value: "", verify: false }}
+                  verify={{ key: `${config.slug}-distances`, label: copy.distancesVerifyLabel, value: "", verify: false }}
                 />
               </div>
             </Reveal>
@@ -431,9 +435,9 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
 
       {/* ── Ways to visit ── */}
       <div className="relative w-full border-b border-orange-100/20 bg-gradient-to-b from-[#F6FAFD] via-white to-orange-50/15 py-4">
-        <DPSection id="journeys" eyebrow="Book it" title={config.copy.journeysTitle}>
+        <DPSection id="journeys" eyebrow={copy.journeysEyebrow} title={copy.journeysTitle}>
           <div className="grid gap-6 sm:grid-cols-2">
-            {config.journeys.map((j, i) => (
+            {copy.journeys.map((j, i) => (
               <Reveal key={j.href} delay={(i % 2) * 0.08}>
                 <Link
                   href={j.href}
@@ -459,12 +463,12 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
             ))}
           </div>
 
-          {config.overnight ? (
+          {overnight ? (
             <Reveal delay={0.1}>
               <p className="mt-6 text-sm font-semibold text-[#6b4c38]">
-                Staying overnight?{" "}
-                <Link href={config.overnight.href} className="font-bold text-orange-700 hover:underline">
-                  {config.overnight.label} →
+                {copy.overnightLead}{" "}
+                <Link href={overnight.href} className="font-bold text-orange-700 hover:underline">
+                  {overnight.label} →
                 </Link>
               </p>
             </Reveal>
@@ -475,26 +479,27 @@ export default async function ClusterPillar({ doc, config }: { doc: Doc; config:
       {/* ── Map ── */}
       {s(doc, "map_query") ? (
         <div className="relative w-full bg-gradient-to-b from-orange-50/15 via-white to-[#FFFDFC] py-4">
-          <DPSection id="map" eyebrow="Find it" title={config.copy.mapTitle}>
+          <DPSection id="map" eyebrow={copy.mapEyebrow} title={copy.mapTitle}>
             <Reveal className="overflow-hidden rounded-3xl border border-orange-100/60 [&_div]:my-0 [&_div]:rounded-3xl [&_div]:shadow-[0_18px_50px_rgba(234,88,12,0.10)]">
-              <MapEmbed query={s(doc, "map_query")} title={config.copy.mapTitle} />
+              <MapEmbed query={s(doc, "map_query")} title={copy.mapTitle} />
             </Reveal>
           </DPSection>
         </div>
       ) : null}
 
-      {faqOf(doc).length ? <Faq items={faqOf(doc)} heading={config.copy.faqHeading} /> : null}
+      {faqOf(doc).length ? <Faq items={faqOf(doc)} heading={copy.faqHeading} /> : null}
 
       <CtaBand
-        context={config.copy.ctaContext}
-        title={config.copy.ctaTitle}
-        subtitle={config.copy.ctaSubtitle}
+        context={copy.ctaContext}
+        title={copy.ctaTitle}
+        subtitle={copy.ctaSubtitle}
       />
       <RelatedLinks links={related} />
 
       {/* PageShell already emits the BreadcrumbList for these crumbs. */}
       <JsonLd data={webPageSchema({ name: h1, description: answerFirst || h1, path })} />
-      <JsonLd data={placeSchema({ name: config.placeName, description: answerFirst || h1, path })} />
+      <JsonLd data={placeSchema({ name: copy.placeName, description: answerFirst || h1, path })} />
+
     </PageShell>
   );
 }

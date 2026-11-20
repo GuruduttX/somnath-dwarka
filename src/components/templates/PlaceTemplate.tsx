@@ -8,41 +8,59 @@ import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import FactTag from "@/src/components/shared/FactTag";
 import VerifyStamp from "@/src/components/shared/VerifyStamp";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { findSeedDestination } from "@/src/lib/seed/destinations";
 import { buildRelatedLinks } from "@/src/lib/links";
 import { destinationPath, destinationPlacePath } from "@/src/lib/destinationRoutes";
+import { getDatasetItem } from "@/src/lib/datasets/store";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { PILLARS_DATASET } from "@/src/lib/cms-groups/destinations";
+import { PLACE_TEMPLATE_PAGE } from "./destination/content";
+import { fillVars } from "./copy";
 
-function getPlace(destination: string, place: string) {
-  const d = findSeedDestination(destination);
+/*
+  /somnath/places/<place>/ and /dwarka/places/<place>/. The place is an entry of
+  top_places in the destination's site_destination_pillars item; the words
+  around it are the "place-template" page copy. Both are editable through the CMS.
+*/
+
+async function getPlace(destination: string, place: string) {
+  const d = await getDatasetItem(PILLARS_DATASET, destination);
   const p = d?.top_places.find((x) => x.slug === place);
   return d && p ? { d, p } : null;
 }
 
-export function placeExists(destination: string, place: string) {
-  return !!getPlace(destination, place);
+const varsOf = (d: { destination: string; how_to_reach: string }, p: { name: string; blurb: string }) => ({
+  place: p.name,
+  destination: d.destination,
+  blurb: p.blurb,
+  how_to_reach: d.how_to_reach,
+});
+
+export async function placeExists(destination: string, place: string) {
+  return !!(await getPlace(destination, place));
 }
 
-export function placeMetadata(destination: string, place: string) {
-  const found = getPlace(destination, place);
+export async function placeMetadata(destination: string, place: string) {
+  const [found, c] = await Promise.all([getPlace(destination, place), getPageContent(PLACE_TEMPLATE_PAGE)]);
   if (!found) return {};
-  const { d, p } = found;
+  const v = varsOf(found.d, found.p);
   return buildMetadata({
-    title: `${p.name} — Timings, How to Reach & Guide`,
-    description: `${p.name} in ${d.destination}: ${p.blurb} How to reach, timings and visitor tips.`,
+    title: fillVars(c.metaTitle, v),
+    description: fillVars(c.metaDescription, v),
     path: destinationPlacePath(destination, place),
   });
 }
 
-export default function PlaceTemplate({ destination, place }: { destination: string; place: string }) {
-  const found = getPlace(destination, place);
+export default async function PlaceTemplate({ destination, place }: { destination: string; place: string }) {
+  const [found, c] = await Promise.all([getPlace(destination, place), getPageContent(PLACE_TEMPLATE_PAGE)]);
   if (!found) return null;
   const { d, p } = found;
+  const v = varsOf(d, p);
   const parentPath = destinationPath(destination);
   const selfPath = destinationPlacePath(destination, place);
 
   const related = buildRelatedLinks({
     self: selfPath,
-    pillar: { target: parentPath, anchor: `${d.destination} travel guide` },
+    pillar: { target: parentPath, anchor: fillVars(c.pillarAnchor, v) },
     money: "packages",
     siblings: d.top_places
       .filter((x) => x.slug !== place)
@@ -50,12 +68,7 @@ export default function PlaceTemplate({ destination, place }: { destination: str
       .map((x) => ({ target: destinationPlacePath(destination, x.slug), anchor: x.name, type: "sibling" as const })),
   });
 
-  const faq = [
-    {
-      question: `How do you reach ${p.name}?`,
-      answer: `${p.name} is in ${d.destination}. ${d.how_to_reach} A private cab is the easiest way to combine it with nearby darshans.`,
-    },
-  ];
+  const faq = c.faq.map((f) => ({ question: fillVars(f.question, v), answer: fillVars(f.answer, v) }));
 
   return (
     <PageShell
@@ -67,26 +80,23 @@ export default function PlaceTemplate({ destination, place }: { destination: str
     >
       <div className="max-w-4xl mx-auto px-4 pt-6">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{p.name}</h1>
-        <AnswerFirst>
-          {p.name} is one of the key places to visit in {d.destination}. {p.blurb} Below is how
-          to reach it, what to expect and how it fits into a Somnath–Dwarka itinerary.
-        </AnswerFirst>
+        <AnswerFirst>{fillVars(c.answerFirst, v)}</AnswerFirst>
       </div>
 
-      <Section id="reach" title="How to reach & timings">
+      <Section id="reach" title={c.reachTitle}>
         <p className="text-gray-700">{d.how_to_reach}</p>
         <div className="mt-2">
-          <VerifyStamp fact={{ key: "place", label: "Timings & access", value: "", verify: false }} />
+          <VerifyStamp fact={{ key: "place", label: c.verifyLabel, value: "", verify: false }} />
         </div>
       </Section>
 
-      <Section id="significance" title="Significance">
+      <Section id="significance" title={c.significanceTitle}>
         <div className="mb-2"><FactTag type="faith" /></div>
         <p className="text-gray-700">{d.significance}</p>
       </Section>
 
-      <Faq items={faq} heading={`${p.name} FAQs`} />
-      <CtaBand context={`${p.name}, ${d.destination}`} />
+      <Faq items={faq} heading={fillVars(c.faqHeading, v)} />
+      <CtaBand context={fillVars(c.ctaContext, v)} />
       <RelatedLinks links={related} />
 
       <JsonLd

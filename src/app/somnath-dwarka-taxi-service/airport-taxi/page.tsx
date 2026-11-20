@@ -5,23 +5,27 @@ import PageShell from "@/src/components/shared/PageShell";
 import Section from "@/src/components/shared/Section";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
-import { SEED_AIRPORT_TAXIS } from "@/src/lib/seed/cabs";
 import { buildRelatedLinks } from "@/src/lib/links";
 import TaxiHero from "@/src/components/taxi/TaxiHero";
 import { AirportCardGrid } from "@/src/components/taxi/TaxiCardGrids";
+import { getDataset } from "@/src/lib/datasets/store";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { AIRPORT_TAXIS_DATASET } from "@/src/lib/cms-groups/taxi";
+import { taxiRich } from "@/src/components/taxi/TaxiRich";
+import { AIRPORT_INDEX_PAGE } from "./content";
 
 const HUB = "/somnath-dwarka-taxi-service/";
 const PATH = `${HUB}airport-taxi/`;
+/* Copy lives in ./content.ts and is editable through the CMS; the airports are the site_airport_taxis dataset. */
 export const revalidate = 3600;
 
-export const metadata: Metadata = buildMetadata({
-  title: "Airport Taxi for Somnath & Dwarka — Transfers & Fares",
-  description:
-    "Pre-booked airport taxis from Diu, Rajkot, Jamnagar and Ahmedabad to Somnath and Dwarka. Meet-and-greet transfers with indicative fares by vehicle.",
-  path: PATH,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const c = await getPageContent(AIRPORT_INDEX_PAGE);
+  return buildMetadata({ title: c.meta.title, description: c.meta.description, path: PATH });
+}
 
-export default function AirportTaxiHubPage() {
+export default async function AirportTaxiHubPage() {
+  const [c, airports] = await Promise.all([getPageContent(AIRPORT_INDEX_PAGE), getDataset(AIRPORT_TAXIS_DATASET)]);
   const related = buildRelatedLinks({
     self: PATH,
     pillar: { target: HUB, anchor: "all taxi routes & fares" },
@@ -38,10 +42,10 @@ export default function AirportTaxiHubPage() {
   return (
     <PageShell crumbs={crumbs} flushHero>
       <TaxiHero
-        title="Airport Taxi for Somnath &amp; Dwarka"
-        description="Arriving by air? We arrange pre-booked airport taxis from Diu, Rajkot, Jamnagar, and Ahmedabad to Somnath and Dwarka, with meet-and-greet reception right at the arrival terminal."
+        title={c.h1}
+        description={c.intro}
         breadcrumbs={crumbs}
-        badge="Airport pick-up"
+        badge={c.badge}
         ctaContext="Airport taxi to Somnath Dwarka"
       />
 
@@ -53,22 +57,19 @@ export default function AirportTaxiHubPage() {
           <path d="M12 18 L19 11 L17 9 L10 16 Z" fill="currentColor" fillOpacity="0.2" />
         </svg>
 
-        <Section id="airports" title="Select departure airport" wide={true} className="!py-0">
-          <p className="text-sm text-gray-600 mb-4 max-w-2xl">
-            Choose the airport you are landing at to view driving distances, travel times, and vehicle fare options.
-          </p>
-          <AirportCardGrid airports={SEED_AIRPORT_TAXIS} basePath={PATH} />
+        <Section id="airports" title={c.airportsHeading} wide={true} className="!py-0">
+          <p className="text-sm text-gray-600 mb-4 max-w-2xl">{taxiRich(c.airportsIntro)}</p>
+          <AirportCardGrid airports={airports} basePath={PATH} />
         </Section>
       </div>
 
-      <CtaBand context="Airport taxi to Somnath Dwarka" title="Book an airport transfer" subtitle="Share your flight details for a firm fare." />
+      <CtaBand context="Airport taxi to Somnath Dwarka" title={c.ctaBand.title} subtitle={c.ctaBand.subtitle} />
       <RelatedLinks links={related} />
 
       <JsonLd
         data={serviceSchema({
-          name: "Airport Taxi for Somnath & Dwarka",
-          description:
-            "Pre-booked meet-and-greet airport transfers from Diu, Rajkot, Jamnagar and Ahmedabad to Somnath and Dwarka.",
+          name: c.schema.name,
+          description: c.schema.description,
           path: PATH,
           areaServed: "Saurashtra, Gujarat",
         })}

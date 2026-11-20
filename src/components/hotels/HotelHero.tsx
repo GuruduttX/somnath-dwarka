@@ -7,23 +7,21 @@ import Image from "@/src/components/shared/Img";
 import { Sparkles, Star, MapPin, Waves, BedDouble, ShieldCheck, MessageSquare, ArrowRight, BadgeCheck, Wifi } from "lucide-react";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { waLink } from "@/src/config/site";
+import { rich, type RichBold } from "@/src/lib/pages/rich";
+import type { HotelsPageCopy } from "@/src/app/hotels/content";
 
 const HERO_IMG = "/images/hotels/hero.webp";
 
-const CHIPS = [
-  { icon: MapPin, label: "Walkable to temples" },
-  { icon: Waves, label: "Sea-facing options" },
-  { icon: BedDouble, label: "Budget → Luxury" },
-  { icon: BadgeCheck, label: "Honest, no fake listings" },
-];
+/** Icons by position; the labels are CMS copy (page "hotels", hero.chips / hero.amenities). */
+const CHIP_ICONS = [MapPin, Waves, BedDouble, BadgeCheck];
+const AMENITY_ICONS = [Wifi, Waves, ShieldCheck];
 
-const AMENITIES = [
-  { icon: Wifi, label: "Free Wi-Fi" },
-  { icon: Waves, label: "Sea view" },
-  { icon: ShieldCheck, label: "Verified" },
-];
+const Bold: RichBold = ({ children }) => <strong className="font-semibold text-orange-700">{children}</strong>;
 
-export default function HotelHero() {
+/** The hero's copy comes from the parent server page (CMS page "hotels", field hero). */
+export default function HotelHero({ copy }: { copy: HotelsPageCopy["hero"] }) {
+  const chips = copy.chips.map((label, i) => ({ icon: CHIP_ICONS[i % CHIP_ICONS.length], label }));
+  const amenities = copy.amenities.map((label, i) => ({ icon: AMENITY_ICONS[i % AMENITY_ICONS.length], label }));
   const [open, setOpen] = useState(false);
 
   return (
@@ -67,21 +65,19 @@ export default function HotelHero() {
         
 
             <h1 className="h-up hd1 mt-4 text-4xl font-black leading-[1.08] tracking-[-0.02em] text-[#3a2416] sm:text-5xl lg:text-[3.35rem]">
-              Where to Stay near{" "}
+              {copy.h1Start}{" "}
               <span className="bg-[linear-gradient(100deg,#EA580C,#F97316,#F59E0B)] bg-clip-text text-transparent">
-                Somnath &amp; Dwarka
+                {copy.h1Highlight}
               </span>
             </h1>
 
             <p className="h-up hd2 mt-4 max-w-xl text-[15px] leading-[1.75] text-[#6b4c38]">
-              We help you choose and book the right hotel near the temples — across
-              <strong className="font-semibold text-orange-700"> budget, mid-range and premium</strong> tiers.
-              Honest area guidance, real inventory, and a firm quote for your dates.
+              {rich(copy.intro, undefined, Bold)}
             </p>
 
             {/* Chips */}
             <div className="h-up hd3 mt-6 flex flex-wrap gap-2.5">
-              {CHIPS.map(({ icon: Icon, label }) => (
+              {chips.map(({ icon: Icon, label }) => (
                 <span
                   key={label}
                   className="inline-flex items-center gap-1.5 rounded-full border border-orange-100 bg-white/80 px-3 py-1.5 text-[12px] font-semibold text-[#6b4c38] shadow-xs backdrop-blur-sm"
@@ -99,33 +95,29 @@ export default function HotelHero() {
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-7 py-3.5 text-sm font-bold text-white shadow-[0_12px_30px_rgba(234,88,12,0.35)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
               >
                 <BedDouble size={16} />
-                Get Hotel Help
+                {copy.primaryCta}
                 <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
               </button>
               <a
-                href={waLink("Hi, I need help booking a hotel near Somnath / Dwarka")}
+                href={waLink(copy.whatsappMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-7 py-3.5 text-sm font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white active:translate-y-0 cursor-pointer"
               >
                 <MessageSquare size={15} />
-                WhatsApp Us
+                {copy.whatsappCta}
               </a>
             </div>
 
             {/* Stats */}
             <div className="h-up hd5 mt-8 flex flex-nowrap items-center gap-3 border-t border-orange-200/60 pt-5 sm:gap-x-8">
-              {[
-                { v: "2", l: "Temple towns" },
-                { v: "3", l: "Comfort tiers" },
-                { v: "100%", l: "Real bookings" },
-              ].map((s, i) => (
+              {copy.stats.map(({ value: v, label: l }) => ({ v, l })).map((s, i, all) => (
                 <div key={s.l} className="flex items-center gap-3 sm:gap-8">
                   <div>
                     <div className="text-xl font-black leading-none text-orange-600 sm:text-2xl">{s.v}</div>
                     <div className="mt-1.5 text-[9px] font-bold uppercase tracking-[0.1em] text-[#9a7358] sm:text-[10px] sm:tracking-[0.12em]">{s.l}</div>
                   </div>
-                  {i < 2 && <div className="h-9 w-px bg-orange-200/70" />}
+                  {i < all.length - 1 && <div className="h-9 w-px bg-orange-200/70" />}
                 </div>
               ))}
             </div>
@@ -140,7 +132,7 @@ export default function HotelHero() {
               <div className="relative aspect-[4/5] w-full sm:aspect-[5/5]">
                 <Image
                   src={HERO_IMG}
-                  alt="Sea-facing resort near Somnath and Dwarka"
+                  alt={copy.imageAlt}
                   fill
                   priority
                   sizes="(max-width: 1024px) 90vw, 520px"
@@ -155,24 +147,24 @@ export default function HotelHero() {
                       <Star key={i} size={11} className="fill-[#F59E0B] text-[#F59E0B]" />
                     ))}
                   </div>
-                  <span className="text-[11px] font-bold text-[#3a2416]">Handpicked stays</span>
+                  <span className="text-[11px] font-bold text-[#3a2416]">{copy.ratingPill}</span>
                 </div>
 
                 {/* location chip */}
                 <div className="h-float-2 absolute right-4 top-16 flex items-center gap-1.5 rounded-xl border border-white/30 bg-black/45 px-3 py-2 shadow-lg backdrop-blur-md">
                   <MapPin size={13} className="text-orange-300" />
                   <div className="leading-tight">
-                    <p className="text-[11px] font-bold text-white">Near the Temple</p>
-                    <p className="text-[9px] text-white/70">A short walk to darshan</p>
+                    <p className="text-[11px] font-bold text-white">{copy.locationTitle}</p>
+                    <p className="text-[9px] text-white/70">{copy.locationText}</p>
                   </div>
                 </div>
 
                 {/* bottom info bar */}
                 <div className="absolute inset-x-0 bottom-0 p-4">
                   <div className="rounded-2xl border border-white/25 bg-white/15 p-3 backdrop-blur-md">
-                    <p className="text-[13px] font-bold text-white">Sea-facing comfort, temple-close convenience</p>
+                    <p className="text-[13px] font-bold text-white">{copy.infoTitle}</p>
                     <div className="mt-2 flex flex-wrap gap-2">
-                      {AMENITIES.map(({ icon: Icon, label }) => (
+                      {amenities.map(({ icon: Icon, label }) => (
                         <span key={label} className="inline-flex items-center gap-1 rounded-lg bg-white/90 px-2 py-1 text-[10px] font-bold text-[#6b4c38]">
                           <Icon size={11} className="text-orange-500" />
                           {label}
@@ -191,8 +183,8 @@ export default function HotelHero() {
                   <ShieldCheck size={17} />
                 </span>
                 <div className="leading-tight">
-                  <p className="text-[13px] font-black text-[#3a2416]">Best-fit guarantee</p>
-                  <p className="text-[10.5px] text-[#9a7358]">We match your budget &amp; dates</p>
+                  <p className="text-[13px] font-black text-[#3a2416]">{copy.floatTitle}</p>
+                  <p className="text-[10.5px] text-[#9a7358]">{copy.floatText}</p>
                 </div>
               </div>
             </div>

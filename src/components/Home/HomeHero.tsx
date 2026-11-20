@@ -3,7 +3,7 @@ import { MapPin, Sparkles, Navigation, CalendarDays, Star, ClipboardList } from 
 import { FaWhatsapp } from "react-icons/fa6";
 import TrackedLink from "@/src/components/Home/sop/TrackedLink";
 import { waLink } from "@/src/config/site";
-import { HOME_HERO, HOME_WA_TEXT } from "@/src/config/homePage";
+import { getHomeCopy } from "@/src/app/content";
 
 const CARD_SOMNATH = "/images/home/SomnathLongImage.webp";
 const CARD_DWARKA = "/images/home/DwarikaLongImage.webp";
@@ -45,9 +45,23 @@ function highlight(text: string, phrases: readonly string[]) {
  * Home §1 hero (home SOP). A server component: the only interactive pieces are
  * two links, so nothing here needs to hydrate before the LCP paint. The primary
  * action is WhatsApp, per the SOP; the secondary jumps to the in-page enquiry
- * form (the SOP asks for an anchored form, not a popup).
+ * form (the SOP asks for an anchored form, not a popup). The copy is
+ * CMS-editable (src/app/content.ts, page id "home").
  */
-export default function HomeHero() {
+export default async function HomeHero() {
+  const { hero, waText } = await getHomeCopy();
+  // The headline sets "Dwarka" in the gradient italic, wherever an edit puts it.
+  const at = hero.h1.indexOf("Dwarka");
+  const headline =
+    at === -1 ? (
+      hero.h1
+    ) : (
+      <>
+        {hero.h1.slice(0, at)}
+        <span className="headline-grad italic">Dwarka</span>
+        {hero.h1.slice(at + "Dwarka".length)}
+      </>
+    );
   return (
     <>
       <style>{`
@@ -178,28 +192,28 @@ export default function HomeHero() {
 
             {/* Headline */}
             <h1 className="font-playfair h-anim hd2 mt-5 text-[40px] font-black leading-[1.05] tracking-[-0.02em] text-[#3a2416] sm:text-5xl lg:text-6xl xl:text-[68px]">
-              Somnath <span className="headline-grad italic">Dwarka</span> Tour Package
+              {headline}
             </h1>
 
             {/* Lead and price in one paragraph; key phrases and the price
                 (with its occupancy basis) picked out in bold orange. */}
             <p className="speakable h-anim hd3 mt-5 max-w-[580px] text-[15px] leading-[1.8] text-[#6b4c38] lg:text-base">
-              {highlight(HOME_HERO.lead, HOME_HERO.highlights)}{" "}
-              <strong className="font-semibold text-orange-700">{HOME_HERO.priceLine}</strong>{" "}
-              {HOME_HERO.priceTail}
+              {highlight(hero.lead, hero.highlights)}{" "}
+              <strong className="font-semibold text-orange-700">{hero.priceLine}</strong>{" "}
+              {hero.priceTail}
             </p>
 
             {/* CTAs */}
             <div className="h-anim hd4 mt-7 flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:gap-3">
               <TrackedLink
-                href={waLink(HOME_WA_TEXT)}
+                href={waLink(waText)}
                 external
                 event="whatsapp_click"
                 label="home_hero"
                 className="btn-shine group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[#1FA855] px-5 py-3.5 text-[13.5px] font-semibold text-white shadow-[0_12px_30px_rgba(31,168,85,0.35)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:px-7 sm:text-sm"
               >
                 <FaWhatsapp size={18} className="relative z-[1] shrink-0" aria-hidden="true" />
-                <span className="relative z-[1] whitespace-nowrap">{HOME_HERO.cta}</span>
+                <span className="relative z-[1] whitespace-nowrap">{hero.cta}</span>
               </TrackedLink>
               <a
                 href="#enquire"

@@ -11,6 +11,10 @@
  * Review markup and the aggregate all read this one value, so they always
  * agree. Only add a review a named guest actually gave: a fabricated review is a lie about a real person's experience,
  * and in schema form it is a manual-action risk.
+ *
+ * TESTIMONIALS is the code default of the CMS dataset `site_testimonials`
+ * (src/lib/cms-groups/catalog.ts). Pages read the live list through
+ * getTestimonials() / getTestimonialReviews() in src/lib/testimonials.ts.
  */
 import type { RealReview } from "@/src/lib/seo";
 
@@ -38,14 +42,14 @@ export type CmsTestimonial = {
 };
 
 /** Avatar palette, cycled by index so adjacent cards never share a colour. */
-const AVATAR_PALETTE = [
+export const AVATAR_PALETTE = [
   { bg: "#FFF3EA", color: "#C2410C" },
   { bg: "#FFFBEB", color: "#B45309" },
   { bg: "#FFF0F3", color: "#9D174D" },
 ] as const;
 
 /** "Ankit & Sunita Patel" -> "AP"; falls back to a neutral mark. */
-const initialsFrom = (name: string) => {
+export const initialsFrom = (name: string) => {
   const words = name.trim().split(/\s+/).filter((w) => /[a-z]/i.test(w));
   if (!words.length) return "★";
   const first = words[0][0];

@@ -13,8 +13,13 @@ import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { getPackageBySlug, packagePath } from "@/src/lib/content";
-import { SEED_PACKAGES, findSeedPackage } from "@/src/lib/seed/packages";
-import { buildRelatedLinks, HEAD_TERM_ANCHOR, HEAD_TERM_HUB } from "@/src/lib/links";
+import { SEED_PACKAGES } from "@/src/lib/seed/packages";
+import { buildRelatedLinks } from "@/src/lib/links";
+import { getDataset } from "@/src/lib/datasets/store";
+import { SD_PACKAGES_DATASET } from "@/src/lib/cms-groups/packages";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { rich, type RichLink } from "@/src/lib/pages/rich";
+import { PACKAGE_VARIANT_PAGE } from "./content";
 import SideForm from "@/src/components/TourPackage/SideForm";
 import SpokeContent, { DecisionBlock, ProseSections, PriceMatrixTable } from "@/src/components/TourPackage/SpokeContent";
 import PackageDurationStrip from "@/src/components/TourPackage/PackageDurationStrip";
@@ -54,6 +59,12 @@ const FALLBACK_GALLERY: PackageImage[] = [
     alt: "Sacred Gujarat travel experience",
   },
 ];
+
+const HeadTermLink: RichLink = ({ href, children }) => (
+  <Link href={href} className="font-semibold text-orange-700 underline decoration-orange-300 underline-offset-2 hover:text-orange-800">
+    {children}
+  </Link>
+);
 
 function asPackageImage(value: unknown): PackageImage | null {
   if (!value || typeof value !== "object") return null;
@@ -144,7 +155,8 @@ async function resolvePackage(slug: string) {
       extras: readSpokeExtras(cms),
     };
   }
-  const seed = findSeedPackage(slug);
+  // No CMS package item: the code package with its CMS edits (dataset site_packages).
+  const seed = (await getDataset(SD_PACKAGES_DATASET)).find((p) => p.slug === slug);
   if (!seed) return null;
   return {
     ...seed,
@@ -221,6 +233,7 @@ function readSpokeExtras(cms: Record<string, unknown>): SpokeExtras {
   };
 }
 
+/* Prerenders the code packages; a CMS package item with another slug renders on first visit. */
 export async function generateStaticParams() {
   return SEED_PACKAGES.map((p) => ({ slug: p.slug }));
 }
@@ -241,6 +254,8 @@ export default async function PackageVariantPage({ params }: Params) {
   const { slug } = await params;
   const pkg = await resolvePackage(slug);
   if (!pkg) notFound();
+  const [copy, seeds] = await Promise.all([getPageContent(PACKAGE_VARIANT_PAGE), getDataset(SD_PACKAGES_DATASET)]);
+  const { labels, flagship } = copy;
 
   const breakdown = breakdownOf(pkg.durationbreakdown, pkg.itinerary);
 
@@ -249,7 +264,7 @@ export default async function PackageVariantPage({ params }: Params) {
     hub: true,
     pillar: { target: "/somnath-dwarka-tour-package/", anchor: "all Somnath Dwarka packages" },
     money: "taxi",
-    siblings: SEED_PACKAGES.filter((s) => s.slug !== slug)
+    siblings: seeds.filter((s) => s.slug !== slug)
       .slice(0, 3)
       .map((s) => ({ target: packagePath(s.slug), anchor: s.h1, type: "sibling" as const })),
   });
@@ -272,10 +287,10 @@ export default async function PackageVariantPage({ params }: Params) {
             <div className="w-full h-full overflow-hidden rounded-2xl border border-orange-100 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)] p-5 sm:p-6 relative flex flex-col justify-center">
               <div className="absolute inset-y-4 left-0 w-1.5 rounded-r-lg bg-gradient-to-b from-orange-500 to-amber-500" />
               <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-orange-700">
-                Package overview
+                {labels.overviewEyebrow}
               </p>
               <h2 id="package-overview-h" className="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl leading-snug">
-                A clear, temple-first plan for your Somnath Dwarka trip
+                {flagship.overviewHeading}
               </h2>
               {pkg.answer_first ? (
                 <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base mb-0">
@@ -283,13 +298,11 @@ export default async function PackageVariantPage({ params }: Params) {
                 </p>
               ) : null}
               {/* In-body up-link to the head-term hub (see HEAD_TERM_HUB). */}
-              <p className="mt-3 text-[13px] leading-relaxed text-slate-500 mb-0">
-                This is one variation of our{" "}
-                <Link href={HEAD_TERM_HUB} className="font-semibold text-orange-700 underline decoration-orange-300 underline-offset-2 hover:text-orange-800">
-                  {HEAD_TERM_ANCHOR}
-                </Link>
-                . See the main 2 night, 3 day plan with named hotels and tier prices.
-              </p>
+              {flagship.headTermLine ? (
+                <p className="mt-3 text-[13px] leading-relaxed text-slate-500 mb-0">
+                  {rich(flagship.headTermLine, HeadTermLink)}
+                </p>
+              ) : null}
             </div>
           </div>
 
@@ -297,13 +310,13 @@ export default async function PackageVariantPage({ params }: Params) {
           <div className="lg:col-span-4 flex">
             <div className="w-full h-full overflow-hidden rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50/50 via-white to-amber-50/50 p-5 sm:p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)] relative flex flex-col justify-center">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 to-amber-400" />
-              <p className="text-[10px] font-bold uppercase tracking-wider text-orange-700">Starts from</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-orange-700">{labels.priceLabel}</p>
               {pkg.price_from ? (
                 <p className="mt-1 text-2xl font-black tracking-tight text-[#B85C10] sm:text-3xl">
                   ₹{pkg.price_from.toLocaleString("en-IN")}
                 </p>
               ) : (
-                <p className="mt-1 text-2xl font-black tracking-tight text-[#B85C10]">On request</p>
+                <p className="mt-1 text-2xl font-black tracking-tight text-[#B85C10]">{labels.priceOnRequest}</p>
               )}
               <div className="mt-4 space-y-2.5 text-[13px] font-semibold text-slate-700">
                 <div className="flex items-center gap-2.5">
@@ -316,13 +329,13 @@ export default async function PackageVariantPage({ params }: Params) {
                   <span className="p-1.5 rounded-md bg-orange-100/40 text-orange-600">
                     <Star size={15} className="fill-orange-400 text-orange-400" />
                   </span>
-                  <span>Hotel, breakfast & vehicle included</span>
+                  <span>{labels.includedLine}</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <span className="p-1.5 rounded-md bg-orange-100/40 text-orange-600">
                     <ShieldCheck size={15} />
                   </span>
-                  <span>Private cab & hotel support</span>
+                  <span>{flagship.assurance}</span>
                 </div>
               </div>
             </div>
@@ -344,7 +357,7 @@ export default async function PackageVariantPage({ params }: Params) {
               <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white p-4 sm:p-6 lg:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
                 <h3 className="mb-3 flex items-start gap-2 text-lg font-bold text-slate-950 sm:mb-5 sm:text-xl">
                   <span className="mt-1 h-5 w-1 shrink-0 rounded-full bg-orange-500 inline-block sm:mt-1.5 sm:h-6" />
-                  Trip highlights
+                  {labels.highlightsHeading}
                 </h3>
                 {/* Flat rows: a bordered card per highlight wrapped two lines of
                     copy in its own box, which reads as noise on a phone. */}
@@ -372,7 +385,7 @@ export default async function PackageVariantPage({ params }: Params) {
               <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white p-3 sm:p-6 lg:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
                 <h3 className="mb-3 flex items-center gap-2 px-1 text-lg font-bold text-slate-950 sm:mb-5 sm:px-0 sm:text-xl">
                   <span className="h-5 w-1 shrink-0 rounded-full bg-orange-500 inline-block sm:h-6" />
-                  Day-wise itinerary
+                  {labels.itineraryHeading}
                 </h3>
                 <ItineraryAccordion days={pkg.itinerary} />
               </div>
@@ -385,10 +398,10 @@ export default async function PackageVariantPage({ params }: Params) {
               <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white p-6 sm:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
                 <h3 className="text-xl font-bold text-slate-950 mb-2 flex items-center gap-2">
                   <span className="h-6 w-1 rounded-full bg-orange-500 inline-block" />
-                  Pricing by tier
+                  {flagship.priceTiersHeading}
                 </h3>
                 <p className="mb-5 text-sm text-slate-500">
-                  Per person. The tier is the hotel; hotel, breakfast and your vehicle with driver are included in every tier.
+                  {flagship.priceTiersNote}
                 </p>
                 <div className="hide-scrollbar overflow-x-auto rounded-xl border border-orange-100">
                   <table className="w-full min-w-[520px] text-left text-sm">
@@ -458,10 +471,10 @@ export default async function PackageVariantPage({ params }: Params) {
       ) : null}
 
       <CtaBand context={pkg.h1} />
-      <ProductRatings />
+      <ProductRatings items={copy.ratings} />
       <PackageTestimonials PackageData={pkg} />
       <TrustBuildingSection />
-      <Faq items={pkg.faq} heading="Package FAQs" />
+      <Faq items={pkg.faq} heading={labels.faqHeading} />
       <RelatedLinks links={related} />
       <Policies PackageData={pkg} />
 

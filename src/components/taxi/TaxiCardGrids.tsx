@@ -6,7 +6,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "@/src/components/shared/Img";
 import { motion } from "framer-motion";
-import { MapPin, Clock, ArrowRight, Users, Check, Shield, Compass, Navigation, Plane, Star, Briefcase } from "lucide-react";
+import { MapPin, Clock, ArrowRight, Users, Check, Compass, Navigation, Plane, Briefcase } from "lucide-react";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { FLEET_ALTERNATE, fleetImageFor } from "@/src/config/fleetImages";
 
@@ -124,7 +124,27 @@ interface VehicleItem {
   suitable_for: string;
 }
 
-export function VehicleCardGrid({ vehicles, hubPath }: { vehicles: VehicleItem[]; hubPath: string }) {
+/** Card copy per vehicle, from the hub's CMS copy (src/app/somnath-dwarka-taxi-service/content.ts). */
+interface VehicleCardCopy {
+  /** Lowercase word looked for in the vehicle name. */
+  match: string;
+  /** Ribbon on the photo; empty shows none. */
+  badge: string;
+  luggage: string;
+  features: readonly string[];
+}
+
+export function VehicleCardGrid({
+  vehicles,
+  hubPath,
+  cards,
+  cardDefault,
+}: {
+  vehicles: VehicleItem[];
+  hubPath: string;
+  cards: readonly VehicleCardCopy[];
+  cardDefault: { luggage: string; features: readonly string[] };
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState("");
 
@@ -133,34 +153,9 @@ export function VehicleCardGrid({ vehicles, hubPath }: { vehicles: VehicleItem[]
     setIsOpen(true);
   };
 
-  const getVehicleFeatures = (name: string) => {
-    if (name.toLowerCase().includes("innova")) {
-      return [
-        "Dual AC vents & blower control",
-        "Adjustable Captain seats with armrests",
-        "Generous cargo volume (4 large suitcases)",
-        "Premium highway suspension comfort"
-      ];
-    } else if (name.toLowerCase().includes("ertiga")) {
-      return [
-        "Roof-mounted rear AC vents",
-        "Comfortable seating for up to 6 passenger seats",
-        "Flexible third-row boot layout",
-        "Best balance of cost and utility"
-      ];
-    }
-    return [
-      "AC climate control cabin",
-      "Experienced highway pilot driver",
-      "Fully sanitised dashboard & sheets",
-      "24/7 client roadside assistance"
-    ];
-  };
-
-  const getVehicleBaggage = (name: string) => {
-    if (name.toLowerCase().includes("innova")) return "4 bags";
-    if (name.toLowerCase().includes("ertiga")) return "3 bags";
-    return "2 bags";
+  const cardFor = (name: string) => {
+    const n = name.toLowerCase();
+    return cards.find((c) => c.match && n.includes(c.match.toLowerCase()));
   };
 
   return (
@@ -168,8 +163,9 @@ export function VehicleCardGrid({ vehicles, hubPath }: { vehicles: VehicleItem[]
       <CommonEnquiryForm open={isOpen} onClose={() => setIsOpen(false)} defaultService={selectedVehicle} />
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 my-6 max-w-6xl mx-auto">
         {vehicles.map((vehicle, idx) => {
-          const features = getVehicleFeatures(vehicle.vehicle_name);
-          const baggage = getVehicleBaggage(vehicle.vehicle_name);
+          const card = cardFor(vehicle.vehicle_name);
+          const features = card?.features ?? cardDefault.features;
+          const baggage = card?.luggage ?? cardDefault.luggage;
           return (
             <motion.div
               key={vehicle.slug}
@@ -192,12 +188,12 @@ export function VehicleCardGrid({ vehicles, hubPath }: { vehicles: VehicleItem[]
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-orange-600/15 to-transparent mix-blend-multiply" />
 
-                {/* Recommended badge for Innova */}
-                {vehicle.vehicle_name.toLowerCase().includes("innova") && (
+                {/* Ribbon (the Innova's "Premium Standard" by default) */}
+                {card?.badge ? (
                   <div className="absolute top-3.5 left-3.5 text-[9px] font-extrabold uppercase tracking-wider text-orange-950 bg-amber-400 border border-amber-300 px-3 py-1 rounded-full shadow-sm">
-                    ★ Premium Standard
+                    {card.badge}
                   </div>
-                )}
+                ) : null}
 
                 {/* Capacity Pills */}
                 <div className="absolute top-3.5 right-3.5 flex items-center gap-1.5">

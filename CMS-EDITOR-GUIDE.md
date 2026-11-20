@@ -12,6 +12,49 @@ Admin panel: `/admin-x9AqP7mK2` → log in. You'll see:
 - **Packages** — tour packages (rendered at `/somnath-dwarka-tour-package/{slug}/`)
 - **Content** — everything else (cabs, hotels, destinations, temple info,
   journeys, places, festivals, comparisons, tools, authors)
+- **Pages (Claude)** — custom pages and editable static pages, with draft previews
+- **Media upload** — put photos from your phone/computer on the image host and copy their URL
+
+## Editing through Claude (MCP connector)
+
+Everything above can also be created, edited and published by chatting with
+Claude: packages, guides, every Content type, brand-new pages, the copy of the
+home / about / contact / policy pages, and images.
+
+**Connect it once (claude.ai → Settings → Connectors → Add custom connector):**
+
+- URL: `https://somnathdwarkatourpackage.com/mcp/` (with the trailing slash)
+- Press **Connect** → a sign-in page opens → use the **same username and
+  password as this admin panel** → **Allow**.
+
+**What Claude can do**
+
+| Type | What it is |
+|------|------------|
+| `package` | Tour packages (`/somnath-dwarka-tour-package/{slug}/`) |
+| `blog` | Guides (`/guides/{slug}/`) |
+| `hub`, `destination`, `temple`, `place`, `festival`, `taxi`, … | Every Content type of the admin |
+| `custom_page` | A brand-new page at `/{slug}/` (hero, text, image, cards, package cards, table, CTA, FAQ, enquiry form) |
+| `page` | Copy of every code-built page and template: home, about, contact, policies, listing pages (packages, taxi, hotels, festivals, compare, tools, plan, guides, temples, reviews), destination pillars, page templates, `site-chrome` (Navbar, footer, sticky WhatsApp bar) and `site-settings` |
+| `site_*` | Lists kept in code, edited item by item: festivals, hotels, comparisons, tools, temple topics, plan guides, destination pillars/heroes/hubs, seed packages, cab routes, vehicles, airports, taxi copy, rate card, testimonials, reviews, … |
+| `find_page` | Give it any URL of the site: it lists every type + item that controls that page |
+| `upload_image` | Copies a photo from any public URL to the image host (as WebP) |
+
+Tip: ask Claude "change X on https://somnathdwarkatourpackage.com/…": it calls
+`find_page` first and edits the right item. With no edits saved, every page
+shows exactly its code text.
+
+New items start as **drafts**. Check them under **Pages (Claude)** (custom-page
+previews) or the usual admin lists, then ask Claude to publish. A photo attached
+in the chat cannot reach the site: upload it at **Media upload** and paste the
+URL into the chat.
+
+Home-page prices: edit the `tiers` of the `home` page; the title, hero price
+line and FAQ follow automatically (they use the `{{priceFrom}}`,
+`{{standardPrice}}`, `{{deluxePrice}}`, `{{premiumPrice}}` tokens).
+
+To switch the connector off without a code change, set `MCP_ENABLED=false` on
+the server.
 
 ## The golden rules (do not break these)
 

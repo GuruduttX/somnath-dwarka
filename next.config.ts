@@ -77,6 +77,18 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      // OAuth discovery for the /mcp/ connector (claude.ai): the standard
+      // well-known addresses are served by src/app/mcp/oauth (see
+      // src/lib/mcp/oauth.ts). /.well-known/ paths are exempt from the
+      // trailing-slash redirect, so both spellings are listed.
+      { source: "/.well-known/oauth-protected-resource", destination: "/mcp/oauth/resource/" },
+      { source: "/.well-known/oauth-protected-resource/:path*", destination: "/mcp/oauth/resource/" },
+      { source: "/.well-known/oauth-authorization-server", destination: "/mcp/oauth/metadata/" },
+      { source: "/.well-known/oauth-authorization-server/:path*", destination: "/mcp/oauth/metadata/" },
+    ];
+  },
   async redirects() {
     // 301 legacy paths to the SOP canonical URL scheme (SOP §3).
     return [

@@ -8,12 +8,12 @@ import JsonLd from "@/src/components/seo/JsonLd";
 import CustomPackageCTA from "@/src/components/shared/CustomPackageCTA";
 import { webPageSchema, type Crumb } from "@/src/lib/seo";
 import { waLink } from "@/src/config/site";
-import {
-  interestThemeFor,
-  INTEREST_SPOKE_IMAGES,
-  INTEREST_FALLBACK_IMAGES,
-} from "@/src/config/interestHubs";
+import { INTEREST_FALLBACK_IMAGES } from "@/src/config/interestHubs";
+import { getDatasetItem, getDatasetRecord } from "@/src/lib/datasets/store";
+import { INTEREST_HUBS_DATASET, INTEREST_SPOKE_IMAGES_DATASET } from "@/src/lib/cms-groups/destinations";
 import InterestCardImage from "./InterestCardImage";
+import { DEFAULT_INTEREST_HUB, type InterestLabels } from "./content";
+import { fillVars, withDefaults } from "../copy";
 
 /** A spoke of an interest hub, as read from the CMS. */
 export type InterestEntry = {
@@ -31,9 +31,9 @@ function splitHeadline(h1: string): { title: string; tail: string } {
   return { title: title.trim(), tail: rest.join(" — ").trim() };
 }
 
-function imageFor(slug: string, index: number): string {
+function imageFor(images: Record<string, { image: string }>, slug: string, index: number): string {
   return (
-    INTEREST_SPOKE_IMAGES[slug] ??
+    images[slug]?.image ||
     INTEREST_FALLBACK_IMAGES[index % INTEREST_FALLBACK_IMAGES.length]
   );
 }
@@ -238,28 +238,6 @@ function HeroSideArt({ slug }: { slug: string }) {
   );
 }
 
-const defaultFaq = (name: string) => [
-  {
-    question: `Can these be combined into one trip?`,
-    answer:
-      "Yes — most sit within a few hours of each other and slot into a wider Gujarat route. Tell us which ones matter to you and we will sequence them around the drives and opening times rather than the map.",
-  },
-  {
-    question: "Are entry tickets and permits included?",
-    answer:
-      "Entry tickets, safari permits and guide fees are charged at actuals and, where they can be booked ahead, we book them and share the confirmation. What a package covers is the vehicle, the stays and the planning.",
-  },
-  {
-    question: `When is the best time for ${name} in Gujarat?`,
-    answer:
-      "October to March suits almost everything here: the parks are open, the light is good and the days are walkable. The exceptions run the other way — the Dangs waterfalls need the monsoon, and the national parks close through it.",
-  },
-  {
-    question: "Do you arrange guides at the sites?",
-    answer:
-      "Where a site has an official guide service or a booked walk, we arrange it with your ticket. Elsewhere your driver knows the ground and we brief you on what is worth the time before you go.",
-  },
-];
 
 /**
  * The shared template for the interest hubs — /wildlife-nature-tours/ and
@@ -272,7 +250,7 @@ const defaultFaq = (name: string) => [
  * the editor's own subtitle from the spoke h1, and a label saying whether it is
  * somewhere to visit or something to read.
  */
-export default function InterestHubTemplate({
+export default async function InterestHubTemplate({
   slug,
   h1,
   crumbs,
@@ -295,7 +273,14 @@ export default function InterestHubTemplate({
   related: RelatedLink[];
   extraSchema?: Record<string, unknown> | null;
 }) {
-  const theme = interestThemeFor(slug);
+  // The hub's theme and labels: its site_interest_hubs item (editable through the CMS).
+  const [item, images] = await Promise.all([
+    getDatasetItem(INTEREST_HUBS_DATASET, slug),
+    getDatasetRecord(INTEREST_SPOKE_IMAGES_DATASET),
+  ]);
+  const theme = item ?? DEFAULT_INTEREST_HUB;
+  const labels: InterestLabels = withDefaults(theme.labels, DEFAULT_INTEREST_HUB.labels);
+  const v = { name: theme.name, count: entries.length, s: entries.length === 1 ? "" : "s" };
   const { title, tail } = splitHeadline(h1);
   const subtitleChips = tail
     ? tail.split(/,|\s+&\s+/).map((c) => c.trim()).filter(Boolean)
@@ -379,17 +364,17 @@ export default function InterestHubTemplate({
               href="#explore"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(234,88,12,0.35)] transition-transform duration-200 hover:-translate-y-0.5"
             >
-              Explore {entries.length} place{entries.length === 1 ? "" : "s"}
+              {fillVars(labels.exploreCta, v)}
               <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
             </a>
             <a
-              href={waLink(`Hi, I'd like to plan a ${theme.name} trip in Gujarat`)}
+              href={waLink(fillVars(labels.whatsappMessage, v))}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-7 py-3.5 text-sm font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white"
             >
               <Navigation size={15} />
-              Plan this with us
+              {labels.whatsappCta}
             </a>
           </div>
         </div>
@@ -401,7 +386,7 @@ export default function InterestHubTemplate({
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-orange-600">
-                {entries.length} to explore
+                {fillVars(labels.countLabel, v)}
               </p>
               <h2 className="font-playfair mt-2 text-3xl font-black tracking-[-0.02em] text-slate-900 sm:text-4xl">
                 {theme.gridHeading}
@@ -413,15 +398,14 @@ export default function InterestHubTemplate({
           {entries.length ? (
             <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {/* The first entry runs wide, as the way in. */}
-              <InterestCard entry={lead} hub={slug} index={0} featured />
+              <InterestCard entry={lead} hub={slug} image={imageFor(images, lead.slug, 0)} labels={labels} featured />
               {rest.map((e, i) => (
-                <InterestCard key={e.slug} entry={e} hub={slug} index={i + 1} />
+                <InterestCard key={e.slug} entry={e} hub={slug} image={imageFor(images, e.slug, i + 1)} labels={labels} />
               ))}
             </div>
           ) : (
             <p className="mt-8 text-sm text-slate-500">
-              Guides for this section are being written — tell us what you want to see and we will
-              plan around it.
+              {fillVars(labels.emptyText, v)}
             </p>
           )}
         </div>
@@ -445,12 +429,16 @@ export default function InterestHubTemplate({
       <CustomPackageCTA />
 
       <Faq
-        items={faq.length ? faq : defaultFaq(theme.name)}
-        heading="Planning around these — your questions answered"
-        subheading="Combining sites into one trip, what tickets cost and when to come."
+        items={
+          faq.length
+            ? faq
+            : labels.defaultFaq.map((f) => ({ question: fillVars(f.question, v), answer: fillVars(f.answer, v) }))
+        }
+        heading={fillVars(labels.faqHeading, v)}
+        subheading={fillVars(labels.faqSubheading, v)}
       />
 
-      <CtaBand context={theme.name} title="Plan this trip" />
+      <CtaBand context={theme.name} title={fillVars(labels.ctaTitle, v)} />
       <RelatedLinks links={related} />
 
       {/* BreadcrumbList JSON-LD comes from PageShell, which owns the single breadcrumb. */}
@@ -463,12 +451,14 @@ export default function InterestHubTemplate({
 function InterestCard({
   entry,
   hub,
-  index,
+  image,
+  labels,
   featured = false,
 }: {
   entry: InterestEntry;
   hub: string;
-  index: number;
+  image: string;
+  labels: InterestLabels;
   featured?: boolean;
 }) {
   const { title, tail } = splitHeadline(entry.h1);
@@ -482,13 +472,13 @@ function InterestCard({
       }`}
     >
       <div className={`relative overflow-hidden ${featured ? "h-56 sm:h-64" : "h-48"}`}>
-        <InterestCardImage src={imageFor(entry.slug, index)} />
+        <InterestCardImage src={image} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
 
         {/* Whether this is a place to visit or a guide to read. */}
         <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-bold text-[#7a4a2b] shadow-sm backdrop-blur-sm">
           {isGuide ? <BookOpen size={12} /> : <Ticket size={12} />}
-          {isGuide ? "Guide" : "Visit"}
+          {isGuide ? labels.guideBadge : labels.visitBadge}
         </span>
 
         <h3
@@ -510,7 +500,8 @@ function InterestCard({
           <p className="text-[13.5px] leading-relaxed text-slate-600">{entry.title}</p>
         )}
         <span className="inline-flex items-center gap-1.5 text-[13px] font-bold text-orange-600">
-          {isGuide ? "Read the guide" : "See timings & access"}
+          {isGuide ? labels.guideCta : labels.visitCta}
+
           <ArrowUpRight
             size={14}
             className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

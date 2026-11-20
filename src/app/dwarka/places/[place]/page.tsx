@@ -6,6 +6,7 @@ import { findSeedDestination } from "@/src/lib/seed/destinations";
 export const revalidate = 3600;
 type Params = { params: Promise<{ place: string }> };
 
+/* Prerenders the code places; places added to top_places through the CMS (site_destination_pillars) render on first visit. */
 export function generateStaticParams() {
   return (findSeedDestination("dwarka")?.top_places ?? []).map((p) => ({ place: p.slug }));
 }
@@ -17,6 +18,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function DwarkaPlacePage({ params }: Params) {
   const { place } = await params;
-  if (!placeExists("dwarka", place)) notFound();
+  if (!(await placeExists("dwarka", place))) notFound();
   return <PlaceTemplate destination="dwarka" place={place} />;
 }

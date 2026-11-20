@@ -12,15 +12,15 @@ import {
   sanitizeSchemaOverride,
   webPageSchema,
 } from "@/src/lib/seo";
-import { CORE_FACTS, waLink } from "@/src/config/site";
+import { waLink } from "@/src/config/site";
 import PageShell from "@/src/components/shared/PageShell";
 import Faq from "@/src/components/shared/Faq";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { getPublishedPackages, packagePath, getHubBySlug } from "@/src/lib/content";
-import { SEED_PACKAGES, type SeedPackage } from "@/src/lib/seed/packages";
+import type { SeedPackage } from "@/src/lib/seed/packages";
 import { isAuthorisedPackage, packageBucket, type PackageBucket } from "@/src/config/packageSpokes";
-import { buildRelatedLinks, HEAD_TERM_ANCHOR, HEAD_TERM_HUB } from "@/src/lib/links";
+import { buildRelatedLinks } from "@/src/lib/links";
 import { mapAdminPackagesToTourCards, type TourPackage } from "@/src/utils/TourData";
 import PackageExplorer from "@/src/components/TourArchive/PackageExplorer";
 import TourArchiveCTA from "@/src/components/TourArchive/TourArchiveCTA";
@@ -28,6 +28,11 @@ import CustomPackageCTA from "@/src/components/shared/CustomPackageCTA";
 import HangingDiyas from "@/src/components/TourArchive/HangingDiyas";
 import HubContent from "@/src/components/hub/HubContent";
 import { faqOf, s, bool, verifiedValue } from "@/src/lib/cms";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { rich, type RichBold, type RichLink } from "@/src/lib/pages/rich";
+import { getDataset } from "@/src/lib/datasets/store";
+import { SD_PACKAGES_DATASET } from "@/src/lib/cms-groups/packages";
+import { SD_PACKAGES_HUB_PAGE, type SdPackagesHubContent } from "./content";
 
 const PATH = "/somnath-dwarka-tour-package/";
 
@@ -38,21 +43,18 @@ export const revalidate = 3600;
  * Dwarka Tour Package from Rs.5,000" title, so it competed with home (which
  * says ₹8,999) for the same money query and Google ranked neither. Home owns
  * that term now (see HEAD_TERM_HUB); this page targets the comparison intent.
- * Title, H1 and description are fixed here rather than read from the CMS hub
- * doc because which page owns the head term is an architecture decision, not
- * copy: an editor re-entering the bare phrase would bring the split back. The
- * CMS still drives the hero copy, long-form blocks, FAQ, noindex and canonical.
+ * Title, H1 and description are not read from the CMS hub doc because which
+ * page owns the head term is an architecture decision: they live in the
+ * page's own copy (./content.ts, CMS "page" id somnath-dwarka-tour-package),
+ * whose notes tell the editor not to re-enter the bare phrase. The CMS hub doc
+ * still drives the hero text, long-form blocks, FAQ, noindex and canonical.
  */
-const PILLAR_TITLE = "Compare Somnath Dwarka Tour Packages by Days, City & Budget";
-const PILLAR_H1 = "Compare Somnath Dwarka Tour Packages";
-const PILLAR_DESCRIPTION =
-  "Compare Somnath Dwarka tour packages side by side: 1 to 6 days, from your city, by car, bus or train, budget to luxury, each with a day-wise itinerary.";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const hub = await getHubBySlug("somnath-dwarka-tour-package");
+  const [hub, c] = await Promise.all([getHubBySlug("somnath-dwarka-tour-package"), getPageContent(SD_PACKAGES_HUB_PAGE)]);
   return buildMetadata({
-    title: PILLAR_TITLE,
-    description: PILLAR_DESCRIPTION,
+    title: c.meta.title,
+    description: c.meta.description,
     path: PATH,
     noindex: bool(hub || {}, "noindex"),
     canonicalOverride: s(hub || {}, "canonical_override") || undefined,
@@ -61,7 +63,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 // Hero image composition (local temple photography). Four tiles flank the
 // headline on desktop — two down the left rail, two down the right — while
-// mobile keeps a single wide Somnath–Dwarka card above the headline.
+// mobile keeps a single wide Somnath–Dwarka card above the headline. The
+// tiles are copy (hero.tilesLeft / hero.tilesRight in ./content.ts).
 type HeroTile = { img: string; name: string; place: string; tag: string };
 
 // Pre-sized 660/880px variants of CTA.webp (shared with the home hero). The
@@ -70,15 +73,12 @@ const HERO_MOBILE = "/images/CTA-mobile.webp";
 const HERO_MOBILE_SRCSET = "/images/CTA-mobile-660.webp 660w, /images/CTA-mobile.webp 880w";
 const HERO_MOBILE_SIZES = "(max-width: 480px) calc(100vw - 40px), 440px";
 
-const HERO_TILES_LEFT: HeroTile[] = [
-  { img: "/images/places/somnath/somnath-temple.webp", name: "Somnath Temple", place: "Prabhas Patan", tag: "Jyotirlinga" },
-  { img: "/images/places/somnath/somnath-beach.webp", name: "Somnath Beach", place: "Veraval", tag: "Sunset" },
-];
-
-const HERO_TILES_RIGHT: HeroTile[] = [
-  { img: "/images/places/dwarka/nageshwar-jyotirlinga.webp", name: "Nageshwar", place: "Bet Dwarka road", tag: "Darshan" },
-  { img: "/images/places/dwarka/dwarkadhish-temple.webp", name: "Dwarkadhish", place: "Dwarka", tag: "Char Dham" },
-];
+const OrangeBold: RichBold = ({ children }) => <strong className="font-semibold text-orange-700">{children}</strong>;
+const PickerLink: RichLink = ({ href, children }) => (
+  <Link href={href} className="font-semibold text-orange-600 underline decoration-orange-300 underline-offset-2 hover:text-orange-700">
+    {children}
+  </Link>
+);
 
 // One photo tile in the hero rails: rounded, white-edged, captioned, and
 // drifting slowly so the rails feel alive next to the animated diyas.
@@ -141,7 +141,11 @@ function highlightHeadline(text: string) {
   );
 }
 
-function seedToTourPackage(seed: SeedPackage, index: number): TourPackage {
+function seedToTourPackage(
+  seed: SeedPackage,
+  index: number,
+  cards: SdPackagesHubContent["cards"],
+): TourPackage {
   const days = Number(seed.duration.match(/(\d+)/)?.[1] ?? 4);
   const rotated = [
     ...FALLBACK_CARD_IMAGES.slice(index % FALLBACK_CARD_IMAGES.length),
@@ -150,22 +154,26 @@ function seedToTourPackage(seed: SeedPackage, index: number): TourPackage {
 
   const location =
     seed.facet === "from-city"
-      ? `${seed.h1.replace(/^Somnath Dwarka Tour Package from /i, "")} to Dwarka & Somnath`
-      : "Dwarka, Bet Dwarka, Somnath";
+      ? `${seed.h1.replace(/^Somnath Dwarka Tour Package from /i, "")} ${cards.fromCityLocationTail}`
+      : cards.defaultLocation;
 
   const groupType =
-    seed.facet === "traveller" ? (seed.slug === "budget" ? "Budget Trip" : "Family Trip") : "Private Trip";
+    seed.facet === "traveller"
+      ? seed.slug === "budget"
+        ? cards.groupTypeBudget
+        : cards.groupTypeTraveller
+      : cards.groupTypeDefault;
 
   const badge =
     seed.facet === "from-city"
-      ? "Starts from your city"
+      ? cards.badgeFromCity
       : seed.facet === "traveller"
       ? seed.slug === "budget"
-        ? "Budget Pick"
-        : "Family Friendly"
+        ? cards.badgeBudget
+        : cards.badgeTraveller
       : index === 0
-      ? "Popular"
-      : "Curated";
+      ? cards.badgeFirst
+      : cards.badgeDefault;
 
   return {
     id: seed.slug,
@@ -187,12 +195,19 @@ function seedToTourPackage(seed: SeedPackage, index: number): TourPackage {
 }
 
 export default async function PackagePillarPage() {
-  const hub = await getHubBySlug("somnath-dwarka-tour-package");
-  const cms = await getPublishedPackages();
+  const [hub, cms, seeds, c] = await Promise.all([
+    getHubBySlug("somnath-dwarka-tour-package"),
+    getPublishedPackages(),
+    // The code packages with their CMS edits (dataset site_packages); a CMS package item wins over its seed.
+    getDataset(SD_PACKAGES_DATASET),
+    getPageContent(SD_PACKAGES_HUB_PAGE),
+  ]);
   const cmsTourPackages = mapAdminPackagesToTourCards(cms);
   const cmsSlugs = new Set(cmsTourPackages.map((p) => p.slug));
 
-  const seedTourPackages = SEED_PACKAGES.filter((s) => !cmsSlugs.has(s.slug)).map(seedToTourPackage);
+  const seedTourPackages = seeds
+    .filter((s) => !cmsSlugs.has(s.slug))
+    .map((seed, i) => seedToTourPackage(seed, i, c.cards));
 
   // Only variants the URL map authorises are listed. A record outside the map is
   // not part of the planned architecture, so it never reaches the money page.
@@ -229,45 +244,21 @@ export default async function PackagePillarPage() {
   });
 
   const dbFaq = hub ? faqOf(hub) : [];
-  const pillarFaq = dbFaq.length > 0
-    ? dbFaq
-    : [
-        {
-          question: "What does a Somnath Dwarka tour package include?",
-          answer:
-            "Most packages include hotel stays, a private vehicle with driver, daily breakfast and a temple-sequenced itinerary. Air/train fare and lunch/dinner are usually excluded. Exact inclusions are listed on each variant.",
-        },
-        {
-          question: "How much does a Somnath Dwarka tour package cost?",
-          answer:
-            "Prices shown are indicative starting points pending confirmation and vary by duration, starting city, hotel tier and group size. Share your dates for a firm quote.",
-        },
-        {
-          question: "How many days are ideal for Somnath and Dwarka?",
-          answer:
-            "Three days is the minimum to cover both temples; four to five days is more comfortable and adds Nageshwar, Bet Dwarka and Porbandar.",
-        },
-        {
-          question: "Can I customise the itinerary and starting city?",
-          answer:
-            "Yes — every package is a starting point. We can adjust the number of days, add pickup from your city, include extra stops like Porbandar or Bhalka Tirth, and tune the hotel tier to your budget. Share your dates and preferences for a tailored plan.",
-        },
-      ];
+  const pillarFaq = dbFaq.length > 0 ? dbFaq : c.faqs;
 
   const crumbs = [
     { name: "Home", path: "/" },
     { name: "Tour packages", path: PATH },
   ];
 
-  const description =
-    "Pilgrimage tour packages covering Somnath and Dwarka temples with private transport and hotels.";
+  const description = c.schema.description;
 
   /**
    * The page entity. The CMS override's TouristTrip points `isPartOf` at this
    * node's @id, so without it that reference dangled.
    */
   const pageNode = webPageSchema({
-    name: PILLAR_H1,
+    name: c.h1,
     description,
     path: PATH,
     type: "CollectionPage",
@@ -284,7 +275,7 @@ export default async function PackagePillarPage() {
     : null;
   // Same cards, in the same group order, that PackageExplorer renders.
   const packageList = itemListSchema({
-    name: "Somnath Dwarka Tour Packages",
+    name: c.schema.listName,
     path: PATH,
     key: "packages",
     items: [...byDuration, ...byCity, ...byType, ...byRoute, ...byTransport].map((p) => ({
@@ -478,16 +469,20 @@ export default async function PackagePillarPage() {
 
           {/* ══ LEFT PHOTO RAIL (desktop) ══ */}
           <div className="pkg-anim pkg-d2 hidden flex-col gap-24 xl:flex">
-            <HeroPhoto
-              tile={HERO_TILES_LEFT[0]}
-              floatClass="pkg-float pkg-float-a"
-              className="[--tilt:-2.2deg] aspect-[5/4] w-[92%]"
-            />
-            <HeroPhoto
-              tile={HERO_TILES_LEFT[1]}
-              floatClass="pkg-float pkg-float-b"
-              className="[--tilt:1.8deg] ml-auto aspect-[5/4] w-[92%]"
-            />
+            {c.hero.tilesLeft[0] ? (
+              <HeroPhoto
+                tile={c.hero.tilesLeft[0]}
+                floatClass="pkg-float pkg-float-a"
+                className="[--tilt:-2.2deg] aspect-[5/4] w-[92%]"
+              />
+            ) : null}
+            {c.hero.tilesLeft[1] ? (
+              <HeroPhoto
+                tile={c.hero.tilesLeft[1]}
+                floatClass="pkg-float pkg-float-b"
+                className="[--tilt:1.8deg] ml-auto aspect-[5/4] w-[92%]"
+              />
+            ) : null}
           </div>
 
           {/* ══ CENTER ══ */}
@@ -496,37 +491,28 @@ export default async function PackagePillarPage() {
             {/* Mobile / tablet rounded rectangle image box */}
             <div className="pkg-anim pkg-d1 relative mt-2 flex w-full justify-center xl:hidden">
               <div className="relative w-full max-w-[440px] [aspect-ratio:16/11] overflow-hidden rounded-[26px] border-4 border-white shadow-[0_20px_50px_rgba(234,88,12,0.25)]">
-                <img src={HERO_MOBILE} srcSet={HERO_MOBILE_SRCSET} sizes={HERO_MOBILE_SIZES} alt="Somnath and Dwarka temples" width={880} height={587} fetchPriority="high" className="h-full w-full object-cover" />
+                <img src={HERO_MOBILE} srcSet={HERO_MOBILE_SRCSET} sizes={HERO_MOBILE_SIZES} alt={c.hero.mobileImage.alt} width={880} height={587} fetchPriority="high" className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 px-4 pb-3.5 pt-8 text-left text-white">
-                  <p className="font-playfair text-base font-bold">Somnath &amp; Dwarka</p>
-                  <p className="mt-0.5 flex items-center gap-1.5 text-[11px] text-white/85"><MapPin size={10} /> Gujarat, India</p>
+                  <p className="font-playfair text-base font-bold">{c.hero.mobileImage.title}</p>
+                  <p className="mt-0.5 flex items-center gap-1.5 text-[11px] text-white/85"><MapPin size={10} /> {c.hero.mobileImage.region}</p>
                 </div>
               </div>
             </div>
 
             {/* Eyebrow (desktop only — mobile leads with the image card) */}
             <span className="pkg-anim pkg-d1 hidden items-center gap-1.5 rounded-full border border-orange-200/70 bg-white/70 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-orange-700 shadow-sm backdrop-blur-sm xl:inline-flex">
-              <Sparkles size={12} /> Jyotirlinga &amp; Char Dham circuit
+              <Sparkles size={12} /> {c.hero.eyebrow}
             </span>
 
             {/* Headline */}
             <h1 className="font-playfair pkg-anim pkg-d1 mt-6 text-4xl xl:mt-3.5 font-black leading-[1.12] tracking-[-0.03em] text-[#3a2416] sm:text-5xl xl:text-[3.35rem]">
-              {highlightHeadline(PILLAR_H1)}
+              {highlightHeadline(c.h1)}
             </h1>
 
             {/* Description */}
             <p className="pkg-anim pkg-d2 mx-auto mt-3.5 max-w-[600px] text-[12px] leading-[1.6] text-[#6b4c38] sm:text-[13px] sm:leading-[1.7] lg:text-[15px]">
-              {s(hub || {}, "answer_first") || (
-                <>
-                  Our Somnath Dwarka tour packages cover{" "}
-                  <strong className="font-semibold text-orange-700">Dwarkadhish Temple</strong>, Nageshwar Jyotirlinga,
-                  Bet Dwarka and{" "}
-                  <strong className="font-semibold text-orange-700">Somnath Temple</strong> with the evening aarti, using private transport and
-                  hand-picked hotels. Choose by duration, starting city or budget below — every plan
-                  is sequenced around darshan timings, and prices shown are indicative until confirmed.
-                </>
-              )}
+              {s(hub || {}, "answer_first") || rich(c.hero.text, undefined, OrangeBold)}
             </p>
 
             {/* CTAs */}
@@ -536,17 +522,17 @@ export default async function PackagePillarPage() {
                 className="pkg-btn-shine group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-6 py-2.5 text-xs sm:px-7 sm:py-3.5 sm:text-sm font-semibold text-white shadow-[0_12px_30px_rgba(234,88,12,0.4)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
               >
                 <Sparkles size={14} className="relative z-[1]" />
-                <span className="relative z-[1]">Browse Packages</span>
+                <span className="relative z-[1]">{c.hero.browseLabel}</span>
                 <ArrowRight size={14} className="relative z-[1] transition-transform group-hover:translate-x-1" />
               </a>
               <a
-                href={waLink("Hi, I'd like a Somnath Dwarka tour package quote")}
+                href={waLink(c.hero.whatsappMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-6 py-2.5 text-xs sm:px-7 sm:py-3.5 sm:text-sm font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white"
               >
                 <Navigation size={14} />
-                Chat on WhatsApp
+                {c.hero.whatsappLabel}
               </a>
             </div>
 
@@ -554,37 +540,41 @@ export default async function PackagePillarPage() {
             <div className="pkg-anim pkg-d4 mt-6 sm:mt-12 flex flex-row items-center justify-between gap-2 rounded-2xl border border-orange-200/40 bg-white/45 p-3 sm:p-4 shadow-sm backdrop-blur-xs w-full sm:w-auto">
               <div className="flex-1 text-center px-2">
                 <div className="font-playfair text-xl font-black leading-none text-orange-600 sm:text-3xl">{variants.length}+</div>
-                <div className="mt-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.08em] text-[#8c5e40] whitespace-nowrap">Curated plans</div>
+                <div className="mt-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.08em] text-[#8c5e40] whitespace-nowrap">{c.hero.stats.plansLabel}</div>
               </div>
               <div className="w-px h-8 sm:h-10 bg-orange-200/50 shrink-0" />
               <div className="flex-1 text-center px-2">
                 <div className="font-playfair text-xl font-black leading-none text-orange-600 sm:text-3xl">
                   {priceValueStr
                     ? `₹${Number(priceValueStr).toLocaleString("en-IN")}`
-                    : (minPrice ? `₹${minPrice.toLocaleString("en-IN")}` : "Custom")}
+                    : (minPrice ? `₹${minPrice.toLocaleString("en-IN")}` : c.hero.stats.priceFallback)}
                 </div>
-                <div className="mt-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.08em] text-[#8c5e40] whitespace-nowrap">Starts from*</div>
+                <div className="mt-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.08em] text-[#8c5e40] whitespace-nowrap">{c.hero.stats.priceLabel}</div>
               </div>
               <div className="w-px h-8 sm:h-10 bg-orange-200/50 shrink-0" />
               <div className="flex-1 text-center px-2">
-                <div className="font-playfair text-xl font-black leading-none text-orange-600 sm:text-3xl">4–5</div>
-                <div className="mt-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.08em] text-[#8c5e40] whitespace-nowrap">Days circuit</div>
+                <div className="font-playfair text-xl font-black leading-none text-orange-600 sm:text-3xl">{c.hero.stats.daysValue}</div>
+                <div className="mt-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.08em] text-[#8c5e40] whitespace-nowrap">{c.hero.stats.daysLabel}</div>
               </div>
             </div>
           </div>
 
           {/* ══ RIGHT PHOTO RAIL (desktop) ══ */}
           <div className="pkg-anim pkg-d3 hidden flex-col gap-24 xl:flex">
-            <HeroPhoto
-              tile={HERO_TILES_RIGHT[0]}
-              floatClass="pkg-float pkg-float-c"
-              className="[--tilt:2deg] ml-auto aspect-[5/4] w-[92%]"
-            />
-            <HeroPhoto
-              tile={HERO_TILES_RIGHT[1]}
-              floatClass="pkg-float pkg-float-d"
-              className="[--tilt:-1.6deg] mr-auto aspect-[5/4] w-[92%]"
-            />
+            {c.hero.tilesRight[0] ? (
+              <HeroPhoto
+                tile={c.hero.tilesRight[0]}
+                floatClass="pkg-float pkg-float-c"
+                className="[--tilt:2deg] ml-auto aspect-[5/4] w-[92%]"
+              />
+            ) : null}
+            {c.hero.tilesRight[1] ? (
+              <HeroPhoto
+                tile={c.hero.tilesRight[1]}
+                floatClass="pkg-float pkg-float-d"
+                className="[--tilt:-1.6deg] mr-auto aspect-[5/4] w-[92%]"
+              />
+            ) : null}
           </div>
         </div>
 
@@ -606,20 +596,17 @@ export default async function PackagePillarPage() {
         <div className="relative z-20 mx-auto max-w-3xl px-4 pt-14 text-center sm:pt-16">
         
           <h2 className="font-playfair mt-20 text-4xl font-black leading-[1.08] tracking-[-0.02em] sm:text-5xl">
-            <span className="text-orange-500">Somnath &amp; Dwarka</span>
-            <span className="mt-1 block text-[#111827]">Tour Packages</span>
+            <span className="text-orange-500">{c.intro.headingHighlight}</span>
+            <span className="mt-1 block text-[#111827]">{c.intro.headingRest}</span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-gray-500 sm:text-lg">
-            Handcrafted spiritual journeys with VIP darshan, comfortable stays, and expert
-            guides — made for families, pilgrims, and couples.
+            {c.intro.text}
           </p>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-gray-500">
-            Not sure which to pick? Most travellers start with our{" "}
-            <Link href={HEAD_TERM_HUB} className="font-semibold text-orange-600 underline decoration-orange-300 underline-offset-2 hover:text-orange-700">
-              {HEAD_TERM_ANCHOR}
-            </Link>
-            : 2 nights, 3 days, named hotels and three price tiers.
-          </p>
+          {c.intro.pickerText ? (
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-gray-500">
+              {rich(c.intro.pickerText, PickerLink)}
+            </p>
+          ) : null}
         </div>
 
         <PackageExplorer
@@ -628,6 +615,8 @@ export default async function PackagePillarPage() {
           traveller={byType}
           route={byRoute}
           transport={byTransport}
+          groupCopy={c.groups}
+          banner={c.yatraBanner}
         />
       </div>
 
@@ -638,13 +627,9 @@ export default async function PackagePillarPage() {
 
       <CustomPackageCTA />
 
-      <Faq
-        items={pillarFaq}
-        heading="Everything About Your Divine Gujarat Journey"
-        subheading="Find answers to the most common questions about Dwarka Somnath tours, spiritual journeys, temple darshan and Gujarat pilgrimage experiences."
-      />
+      <Faq items={pillarFaq} heading={c.faqHeading} subheading={c.faqSubheading} />
 
-      <TourArchiveCTA />
+      <TourArchiveCTA copy={c.archiveCta} />
 
       <RelatedLinks links={related} />
 

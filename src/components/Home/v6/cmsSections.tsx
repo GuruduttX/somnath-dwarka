@@ -7,8 +7,11 @@ import {
   getPublishedPackages,
 } from "@/src/lib/content";
 import { s } from "@/src/lib/cms";
-import { SEED_PACKAGES } from "@/src/lib/seed/packages";
+import { getDataset } from "@/src/lib/datasets/store";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { SD_PACKAGES_DATASET } from "@/src/lib/cms-groups/packages";
 import { DynamicIcon } from "./AnimatedIcons";
+import { HOME_CMS_SECTIONS_PAGE } from "./cmsSectionsContent";
 
 /**
  * CMS-backed home sections: §5 persona routing, §10 guides teaser,
@@ -129,26 +132,28 @@ function PersonaCard({ href, title, blurb, slug, className = "" }: { href: strin
   );
 }
 
-/** Persona -> package variant slug. Tiles appear as the variants are authored. */
-const PERSONAS = [
-  { slug: "for-family", label: "Families", blurb: "Pace and stops that suit children and elders" },
-  { slug: "for-senior-citizens", label: "Senior citizens", blurb: "Accessibility, shorter days, wheelchair help" },
-  { slug: "group", label: "Groups & satsang mandals", blurb: "Coaches, group darshan, bulk stays" },
-  { slug: "for-nri-international", label: "NRI & international", blurb: "Airport transfers, longer circuits" },
-];
+/*
+  The words of these sections (persona tiles, headings, intros) are copy:
+  ./cmsSectionsContent.ts, CMS "page" id home-package-sections.
+*/
 
+/** Persona -> package variant slug. Tiles appear as the variants are authored. */
 export async function PersonaRouting() {
-  const cms = await getPublishedPackages();
+  const [cms, seeds, copy] = await Promise.all([
+    getPublishedPackages(),
+    getDataset(SD_PACKAGES_DATASET),
+    getPageContent(HOME_CMS_SECTIONS_PAGE),
+  ]);
   const available = new Set<string>([
-    ...SEED_PACKAGES.map((p) => p.slug),
+    ...seeds.map((p) => p.slug),
     ...(cms as Array<Record<string, unknown>>).map((p) => String(p.slug)),
   ]);
 
-  const tiles = PERSONAS.filter((p) => available.has(p.slug));
+  const tiles = copy.personas.tiles.filter((p) => available.has(p.slug));
   if (!tiles.length) return null;
 
   return (
-    <Section id="plan-by-traveller-type" title="Plan by traveller type" full className="!py-6 sm:!py-8">
+    <Section id="plan-by-traveller-type" title={copy.personas.title} full className="!py-6 sm:!py-8">
       <ul className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {tiles.map((t, i) => (
           <PersonaCard
@@ -169,9 +174,10 @@ export async function PersonaRouting() {
 export async function GuidesTeaser() {
   const guides = (await getPublishedGuides()) as Array<Record<string, unknown>>;
   if (!guides.length) return null;
+  const copy = (await getPageContent(HOME_CMS_SECTIONS_PAGE)).guides;
 
   return (
-    <Section id="guides" title="Travel guides & resources" wide>
+    <Section id="guides" title={copy.title} wide>
       <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {guides.slice(0, 6).map((g) => (
           <Card
@@ -184,7 +190,7 @@ export async function GuidesTeaser() {
       </ul>
       <p className="mt-6 text-sm">
         <Link href="/guides/" className="font-semibold text-orange-700 hover:underline">
-          All travel guides →
+          {copy.allLink}
         </Link>
       </p>
     </Section>
@@ -227,24 +233,16 @@ function formatDate(value: string) {
     : d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }
 
-/** The three events the calendar note names, shown until festivals are published. */
-const KEY_FESTIVALS = [
-  { name: "Janmashtami", place: "Dwarka" },
-  { name: "Maha Shivratri", place: "Somnath" },
-  { name: "Girnar parikrama", place: "Junagadh" },
-];
-
 export async function FestivalsTeaser() {
-  const festivals = (await getPublishedFestivals()) as Array<Record<string, unknown>>;
+  const [festivals, sections] = await Promise.all([
+    getPublishedFestivals() as Promise<Array<Record<string, unknown>>>,
+    getPageContent(HOME_CMS_SECTIONS_PAGE),
+  ]);
+  const copy = sections.festivals;
 
   return (
     <section id="festivals" aria-labelledby="festivals-h" className={`scroll-mt-24 ${FULL_WIDTH}`}>
-      <SectionHeader
-        id="festivals"
-        eyebrow="When to plan"
-        title="Festivals & yatra calendar"
-        intro="Janmashtami at Dwarka, Maha Shivratri at Somnath, and the Girnar parikrama shape when the temples are busiest. Planning around these events makes darshan far smoother."
-      />
+      <SectionHeader id="festivals" eyebrow={copy.eyebrow} title={copy.title} intro={copy.intro} />
 
       <ul className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
         {festivals.length
@@ -271,14 +269,14 @@ export async function FestivalsTeaser() {
                 </li>
               );
             })
-          : KEY_FESTIVALS.map((f) => (
-              <li key={f.name} className="flex items-center gap-3.5 rounded-2xl border border-orange-100 bg-white p-5">
+          : copy.fallback.map((f, i) => (
+              <li key={`${f.name}-${i}`} className="flex items-center gap-3.5 rounded-2xl border border-orange-100 bg-white p-5">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600 ring-1 ring-amber-100">
                   <CalendarIcon />
                 </span>
                 <span>
                   <span className="block text-[16px] font-bold text-[#2D1B10]">{f.name}</span>
-                  <span className="block text-[13px] text-slate-500">{f.place} · busiest days at the temple</span>
+                  <span className="block text-[13px] text-slate-500">{f.place} · {copy.fallbackNote}</span>
                 </span>
               </li>
             ))}
@@ -289,8 +287,8 @@ export async function FestivalsTeaser() {
             className="group flex h-full items-center justify-between gap-3 rounded-2xl bg-gradient-to-br from-[#2D1B10] to-[#4a2a17] p-5 text-white transition hover:-translate-y-0.5"
           >
             <span>
-              <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-orange-300">Full calendar</span>
-              <span className="mt-1 block text-[16px] font-bold">See every festival date</span>
+              <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-orange-300">{copy.calendarEyebrow}</span>
+              <span className="mt-1 block text-[16px] font-bold">{copy.calendarLink}</span>
             </span>
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-orange-300 transition group-hover:translate-x-0.5 group-hover:bg-white/15">
               →
@@ -309,15 +307,11 @@ export async function FestivalsTeaser() {
 export async function DataAndResearch() {
   const pages = (await getPublishedDataPages()) as Array<Record<string, unknown>>;
   if (!pages.length) return null;
+  const copy = (await getPageContent(HOME_CMS_SECTIONS_PAGE)).data;
 
   return (
     <section id="data" aria-labelledby="data-h" className={`scroll-mt-24 ${FULL_WIDTH}`}>
-      <SectionHeader
-        id="data"
-        eyebrow="First-party research"
-        title="Our data & research"
-        intro="Datasets we keep for this route, from crowd patterns to fares and temple timings, so your plans rest on more than guesswork."
-      />
+      <SectionHeader id="data" eyebrow={copy.eyebrow} title={copy.title} intro={copy.intro} />
 
       <ul className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
         {pages.map((d) => {

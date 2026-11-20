@@ -7,6 +7,7 @@ import Image from "@/src/components/shared/Img";
 import { Sparkles, Star, MapPin, BedDouble, MessageSquare, ArrowRight } from "lucide-react";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { waLink } from "@/src/config/site";
+import type { HotelCityCopy } from "@/src/app/hotels/content";
 
 interface Tier {
   tier: string;
@@ -22,9 +23,11 @@ interface Props {
   tiers: Tier[];
   count: number;
   rating: number;
+  /** CMS copy (page "hotel-city", field hero) with {city}/{nearTemple} filled in by the server page. */
+  copy: HotelCityCopy["hero"];
 }
 
-export default function HotelCityHero({ city, h1, nearTemple, image, tiers, count, rating }: Props) {
+export default function HotelCityHero({ h1, nearTemple, image, tiers, count, rating, copy }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -43,7 +46,7 @@ export default function HotelCityHero({ city, h1, nearTemple, image, tiers, coun
       <section id="hotel-city-hero" className="font-dm relative -mt-28 flex min-h-[600px] w-full flex-col justify-end overflow-hidden lg:min-h-[660px]">
         {/* ── Background image ── */}
         <div className="absolute inset-0 z-0">
-          <Image src={image} alt={`Hotels in ${city} near ${nearTemple}`} fill priority className="object-cover" sizes="100vw" />
+          <Image src={image} alt={copy.imageAlt} fill priority className="object-cover" sizes="100vw" />
           {/* warm dark gradient for readability */}
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(30,12,4,0.55)_0%,rgba(30,12,4,0.30)_38%,rgba(20,8,2,0.78)_100%)]" />
           {/* saffron glow */}
@@ -56,7 +59,7 @@ export default function HotelCityHero({ city, h1, nearTemple, image, tiers, coun
           {/* No crumb trail here: PageShell renders the single page breadcrumb over the hero. */}
           <div className="hc-up hc1 inline-flex w-fit items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-orange-100 backdrop-blur-md">
             <Sparkles size={12} className="text-orange-300" />
-            Curated stays · {city}
+            {copy.eyebrow}
           </div>
 
           <h1 className="hc-up hc1 mt-4 max-w-3xl text-4xl font-black leading-[1.06] tracking-[-0.02em] text-white drop-shadow-sm sm:text-5xl lg:text-[3.6rem]">
@@ -67,15 +70,15 @@ export default function HotelCityHero({ city, h1, nearTemple, image, tiers, coun
           <div className="hc-up hc2 mt-5 flex flex-wrap items-center gap-3 text-sm text-white/85">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/35 px-3 py-1.5 font-semibold shadow-lg backdrop-blur-xl">
               <MapPin size={14} className="text-orange-300" />
-              Near {nearTemple}
+              {copy.nearPrefix} {nearTemple}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/35 px-3 py-1.5 font-semibold shadow-lg backdrop-blur-xl">
               <Star size={14} className="fill-orange-300 text-orange-300" />
-              {rating.toFixed(1)} on Tripadvisor
+              {rating.toFixed(1)} {copy.ratingSuffix}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-black/35 px-3 py-1.5 font-semibold shadow-lg backdrop-blur-xl">
               <BedDouble size={14} className="text-orange-300" />
-              {count} handpicked hotels
+              {count} {copy.countSuffix}
             </span>
           </div>
 
@@ -85,7 +88,7 @@ export default function HotelCityHero({ city, h1, nearTemple, image, tiers, coun
               <div key={t.tier} className="rounded-2xl border border-white/25 bg-black/35 p-3.5 shadow-lg backdrop-blur-xl">
                 <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-orange-200">{t.tier}</p>
                 <p className="mt-1 text-lg font-black text-white">{t.typical_range}</p>
-                <p className="mt-0.5 text-[11px] text-white/65">/ night · {t.area}</p>
+                <p className="mt-0.5 text-[11px] text-white/65">{copy.perNight} {t.area}</p>
               </div>
             ))}
           </div>
@@ -97,17 +100,17 @@ export default function HotelCityHero({ city, h1, nearTemple, image, tiers, coun
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-7 py-3.5 text-sm font-bold text-white shadow-[0_14px_34px_rgba(234,88,12,0.45)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
               <BedDouble size={16} />
-              Get a Recommendation
+              {copy.primaryCta}
               <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
             </button>
             <a
-              href={waLink(`Hi, I need a hotel in ${city} near ${nearTemple}`)}
+              href={waLink(copy.whatsappMessage)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/20 active:translate-y-0"
             >
               <MessageSquare size={15} />
-              WhatsApp Us
+              {copy.whatsappCta}
             </a>
           </div>
         </div>

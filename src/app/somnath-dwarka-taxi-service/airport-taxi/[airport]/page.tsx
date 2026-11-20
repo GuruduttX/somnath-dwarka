@@ -9,17 +9,16 @@ import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { SEED_AIRPORT_TAXIS, findSeedAirportTaxi } from "@/src/lib/seed/cabs";
+import { SEED_AIRPORT_TAXIS } from "@/src/lib/seed/cabs";
 import { buildRelatedLinks } from "@/src/lib/links";
 import TaxiHero from "@/src/components/taxi/TaxiHero";
-import {
-  airportCopyFor,
-  AIRPORT_SCOPE,
-  AIRPORT_AUTHOR,
-  MEET_AND_GREET_BODY,
-  AIRPORT_VEHICLES_INTRO,
-  OPERATOR,
-} from "@/src/config/taxiSpokes";
+import { OPERATOR } from "@/src/config/taxiSpokes";
+import { getDataset, getDatasetItem } from "@/src/lib/datasets/store";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { plain } from "@/src/lib/pages/rich";
+import { AIRPORT_COPY_DATASET, AIRPORT_TAXIS_DATASET } from "@/src/lib/cms-groups/taxi";
+import { fillSlots, taxiRich } from "@/src/components/taxi/TaxiRich";
+import { AIRPORT_TEMPLATE_PAGE } from "../content";
 import { Check, X, Star, ArrowRight, Phone } from "lucide-react";
 
 const HUB = "/somnath-dwarka-taxi-service/";
@@ -33,18 +32,19 @@ const card =
 const h2 = "text-2xl font-bold text-slate-950 mb-4 flex items-center gap-2";
 const bar = <span className="h-6 w-1 rounded-full bg-orange-500 inline-block" />;
 
+/* Prerenders the code airports; ones added through the CMS (site_airport_taxis) render on first visit. */
 export function generateStaticParams() {
   return SEED_AIRPORT_TAXIS.map((a) => ({ airport: a.slug }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { airport } = await params;
-  const a = findSeedAirportTaxi(airport);
+  const a = await getDatasetItem(AIRPORT_TAXIS_DATASET, airport);
   if (!a) return {};
-  const copy = airportCopyFor(airport);
+  const copy = await getDatasetItem(AIRPORT_COPY_DATASET, airport);
   return buildMetadata({
-    title: copy?.titleTag ?? a.title,
-    description: copy?.metaDescription ?? a.answer_first,
+    title: plain(copy?.titleTag ?? a.title),
+    description: plain(copy?.metaDescription ?? a.answer_first),
     path: `${BASE}${airport}/`,
   });
 }
@@ -52,24 +52,28 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 /**
  * Airport transfer page.
  *
- * Prose comes from AIRPORT_COPY in src/config/taxiSpokes.ts, keyed by slug; the
- * airport's own facts (name, what it serves, distance, duration, fares) still
- * come from src/lib/seed/cabs.ts. Airports are the one part of the taxi silo not
- * yet in the CMS — the taxi model's `kind` enum allows only route and vehicle.
- * An airport with no config entry still renders the data-driven sections.
+ * Prose is the airport's site_taxi_airport_copy item (defaulting to AIRPORT_COPY
+ * in src/config/taxiSpokes.ts); the airport's own facts (name, what it serves,
+ * distance, duration, fares) are its site_airport_taxis item (defaulting to
+ * src/lib/seed/cabs.ts) — the taxi model's `kind` enum allows only route and
+ * vehicle. Blocks shared by every airport page are the "taxi-airport-template"
+ * page copy. An airport with no copy item still renders the data-driven sections.
  */
 export default async function AirportTaxiPage({ params }: Params) {
   const { airport } = await params;
-  const a = findSeedAirportTaxi(airport);
+  const [a, copy, t, airports] = await Promise.all([
+    getDatasetItem(AIRPORT_TAXIS_DATASET, airport),
+    getDatasetItem(AIRPORT_COPY_DATASET, airport),
+    getPageContent(AIRPORT_TEMPLATE_PAGE),
+    getDataset(AIRPORT_TAXIS_DATASET),
+  ]);
   if (!a) notFound();
-
-  const copy = airportCopyFor(airport);
 
   const related = buildRelatedLinks({
     self: `${BASE}${airport}/`,
     pillar: { target: HUB, anchor: "all taxi routes & fares" },
     money: "packages",
-    siblings: SEED_AIRPORT_TAXIS.filter((x) => x.slug !== airport).map((x) => ({
+    siblings: airports.filter((x) => x.slug !== airport).map((x) => ({
       target: `${BASE}${x.slug}/`,
       anchor: `${x.airport} airport taxi`,
       type: "sibling" as const,
@@ -107,7 +111,7 @@ export default async function AirportTaxiPage({ params }: Params) {
       {copy ? (
         <Section wide>
           <div className={card}>
-            <h2 className={h2}>{bar}At a glance</h2>
+            <h2 className={h2}>{bar}{t.atAGlanceHeading}</h2>
             <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {copy.atAGlance.map((f) => (
                 <div
@@ -119,7 +123,7 @@ export default async function AirportTaxiPage({ params }: Params) {
                 </div>
               ))}
             </dl>
-            <p className="mt-6 text-slate-600 leading-relaxed">{copy.intro}</p>
+            <p className="mt-6 text-slate-600 leading-relaxed">{taxiRich(copy.intro)}</p>
           </div>
         </Section>
       ) : null}
@@ -129,12 +133,12 @@ export default async function AirportTaxiPage({ params }: Params) {
         <Section wide>
           <div className="grid gap-6 lg:grid-cols-2">
             <div className={card}>
-              <h2 className={h2}>{bar}Meet and greet at {a.airport} airport</h2>
-              <p className="text-slate-600 leading-relaxed">{MEET_AND_GREET_BODY}</p>
+              <h2 className={h2}>{bar}{fillSlots(t.meetAndGreetHeading, { airport: a.airport })}</h2>
+              <p className="text-slate-600 leading-relaxed">{taxiRich(t.meetAndGreetBody)}</p>
             </div>
             <div className={card}>
               <h2 className={h2}>{bar}{copy.transfers.heading}</h2>
-              <p className="text-slate-600 leading-relaxed">{copy.transfers.body}</p>
+              <p className="text-slate-600 leading-relaxed">{taxiRich(copy.transfers.body)}</p>
             </div>
           </div>
         </Section>
@@ -143,9 +147,9 @@ export default async function AirportTaxiPage({ params }: Params) {
       {/* ── Vehicles and fares ── */}
       <Section id="fares" wide>
         <div className={card}>
-          <h2 className={h2}>{bar}Vehicles and fares</h2>
+          <h2 className={h2}>{bar}{t.vehiclesHeading}</h2>
           <p className="text-slate-600 leading-relaxed">
-            {copy ? AIRPORT_VEHICLES_INTRO : "Pick your car by group size."}
+            {copy ? taxiRich(t.vehiclesIntro) : t.vehiclesIntroFallback}
           </p>
 
           {hasRealFares ? (
@@ -163,7 +167,7 @@ export default async function AirportTaxiPage({ params }: Params) {
               href={`${HUB}fare-rate-card/`}
               className="font-semibold text-orange-700 underline underline-offset-2 hover:text-orange-800"
             >
-              See every price on the fare rate card
+              {t.rateCardLinkLabel}
             </Link>
           </p>
         </div>
@@ -173,14 +177,14 @@ export default async function AirportTaxiPage({ params }: Params) {
       {copy ? (
         <Section wide>
           <div className={card}>
-            <h2 className={h2}>{bar}What your transfer includes, and what it does not</h2>
+            <h2 className={h2}>{bar}{t.scopeHeading}</h2>
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
                 <p className="mb-3 text-sm font-bold uppercase tracking-wide text-emerald-700">
-                  {AIRPORT_SCOPE.includedTitle}
+                  {t.scope.includedTitle}
                 </p>
                 <ul className="space-y-2.5">
-                  {AIRPORT_SCOPE.included.map((x) => (
+                  {t.scope.included.map((x) => (
                     <li key={x} className="flex gap-2.5 text-sm text-slate-700">
                       <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
                         <Check size={11} strokeWidth={3} />
@@ -192,10 +196,10 @@ export default async function AirportTaxiPage({ params }: Params) {
               </div>
               <div>
                 <p className="mb-3 text-sm font-bold uppercase tracking-wide text-rose-700">
-                  {AIRPORT_SCOPE.excludedTitle}
+                  {t.scope.excludedTitle}
                 </p>
                 <ul className="space-y-2.5">
-                  {AIRPORT_SCOPE.excluded.map((x) => (
+                  {t.scope.excluded.map((x) => (
                     <li key={x} className="flex gap-2.5 text-sm text-slate-700">
                       <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-rose-100 text-rose-700">
                         <X size={11} strokeWidth={3} />
@@ -227,8 +231,8 @@ export default async function AirportTaxiPage({ params }: Params) {
               ))}
             </ul>
             <p className="mt-6 text-sm text-slate-600 leading-relaxed">
-              {AIRPORT_AUTHOR.line}{" "}
-              {AIRPORT_AUTHOR.links.map((l, i) => (
+              {t.author.line}{" "}
+              {t.author.links.map((l, i) => (
                 <span key={l.href}>
                   <Link
                     href={l.href}
@@ -236,7 +240,7 @@ export default async function AirportTaxiPage({ params }: Params) {
                   >
                     {l.label}
                   </Link>
-                  {i < AIRPORT_AUTHOR.links.length - 1 ? ", " : "."}
+                  {i < t.author.links.length - 1 ? ", " : "."}
                 </span>
               ))}
             </p>
@@ -249,7 +253,7 @@ export default async function AirportTaxiPage({ params }: Params) {
         <Section wide>
           <div className="grid gap-6 lg:grid-cols-2">
             <div className={card}>
-              <h2 className={h2}>{bar}This transfer may not be the right fit if</h2>
+              <h2 className={h2}>{bar}{t.notForYouHeading}</h2>
               <ul className="space-y-3">
                 {copy.notForYou.map((x) => (
                   <li key={x} className="flex gap-2.5 text-sm text-slate-700 leading-relaxed">
@@ -262,7 +266,7 @@ export default async function AirportTaxiPage({ params }: Params) {
               </ul>
             </div>
             <div className={card}>
-              <h2 className={h2}>{bar}Before you fly in</h2>
+              <h2 className={h2}>{bar}{t.beforeYouFlyHeading}</h2>
               <ul className="space-y-3">
                 {copy.beforeYouFly.map((x) => (
                   <li key={x} className="flex gap-2.5 text-sm text-slate-700 leading-relaxed">
@@ -276,14 +280,14 @@ export default async function AirportTaxiPage({ params }: Params) {
         </Section>
       ) : null}
 
-      <Faq items={copy?.faq ? [...copy.faq] : a.faq} heading={`${a.airport} airport taxi FAQs`} />
+      <Faq items={copy?.faq?.length ? [...copy.faq] : a.faq} heading={fillSlots(t.faqHeading, { airport: a.airport })} />
 
       {/* ── Keep planning ── */}
       {copy ? (
         <Section wide>
           <div className={card}>
-            <h2 className={h2}>{bar}Keep planning</h2>
-            <p className="text-slate-600 leading-relaxed">{copy.keepPlanning.intro}</p>
+            <h2 className={h2}>{bar}{t.keepPlanningHeading}</h2>
+            <p className="text-slate-600 leading-relaxed">{taxiRich(copy.keepPlanning.intro)}</p>
             <div className="mt-4 flex flex-wrap gap-2.5">
               {copy.keepPlanning.links.map((l) => (
                 <Link
@@ -305,13 +309,13 @@ export default async function AirportTaxiPage({ params }: Params) {
         <Section wide>
           <div className={card}>
             <h2 className={h2}>{bar}{copy.cta.heading}</h2>
-            <p className="text-slate-600 leading-relaxed">{copy.cta.body}</p>
+            <p className="text-slate-600 leading-relaxed">{taxiRich(copy.cta.body)}</p>
             <a
               href={`tel:${OPERATOR.phone}`}
               className="mt-4 inline-flex items-center gap-2 rounded-full bg-orange-500 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-orange-600"
             >
               <Phone size={15} />
-              Call {OPERATOR.phone}
+              {t.callLabel} {OPERATOR.phone}
             </a>
           </div>
         </Section>
@@ -319,8 +323,8 @@ export default async function AirportTaxiPage({ params }: Params) {
 
       <CtaBand
         context={`${a.airport} airport taxi`}
-        title="Book an airport transfer"
-        subtitle="Send your flight details for a firm meet-and-greet fare."
+        title={t.ctaBand.title}
+        subtitle={t.ctaBand.subtitle}
       />
       <RelatedLinks links={related} />
 

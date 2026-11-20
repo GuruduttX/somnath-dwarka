@@ -10,10 +10,10 @@ import {
   ShieldCheck,
 } from "lucide-react";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
-import { HOME_FAQS as faqs } from "@/src/config/homeFaqs";
+/** The home FAQs come from the CMS-editable home copy (src/app/content.ts), passed by the page. */
 
 
-export default function HomeFaqSection() {
+export default function HomeFaqSection({ faqs }: { faqs: { question: string; answer: string }[] }) {
   const [active, setActive] = useState<number | null>(0);
   const [open, setOpen] = useState(false);
 

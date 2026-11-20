@@ -8,24 +8,33 @@ import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import FactTag from "@/src/components/shared/FactTag";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { SEED_FESTIVALS, findSeedFestival } from "@/src/lib/seed/destinations";
+import { SEED_FESTIVALS } from "@/src/lib/seed/destinations";
+import { getFestival } from "@/src/lib/festivals";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { fillVars } from "@/src/lib/sectionCopy";
+import { rich, type RichBold } from "@/src/lib/pages/rich";
 import { buildRelatedLinks } from "@/src/lib/links";
+import { FESTIVAL_DETAIL_PAGE } from "../content";
 import FestivalDetailHero from "@/src/components/festivals/FestivalDetailHero";
 import Reveal from "@/src/components/templates/destination/Reveal";
 
 export const revalidate = 3600;
 type Params = { params: Promise<{ festival: string }> };
 
+/* Prerenders the code festivals; ones added through the CMS (a site_festivals item or a published
+   Festival item, which wins for its slug) render on first visit. Shared copy: ../content.ts. */
 export function generateStaticParams() {
   return SEED_FESTIVALS.map((f) => ({ festival: f.slug }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { festival } = await params;
-  const f = findSeedFestival(festival);
+  const f = await getFestival(festival);
   if (!f) return {};
-  return buildMetadata({ title: f.title, description: f.answer_first, path: `/festivals/${festival}/` });
+  return buildMetadata({ title: f.metaTitle, description: f.metaDescription, path: `/festivals/${festival}/` });
 }
+
+const DateBold: RichBold = ({ children }) => <strong className="font-semibold">{children}</strong>;
 
 /** Eyebrow + heading used across the festival detail sections. */
 function Head({ eyebrow, title, sub }: { eyebrow: string; title: string; sub?: string }) {
@@ -46,8 +55,11 @@ function Head({ eyebrow, title, sub }: { eyebrow: string; title: string; sub?: s
 
 export default async function FestivalPage({ params }: Params) {
   const { festival } = await params;
-  const f = findSeedFestival(festival);
+  const f = await getFestival(festival);
   if (!f) notFound();
+  const vars = { festival: f.festival, city: f.city, venue: f.event_venue };
+  const c = await getPageContent(FESTIVAL_DETAIL_PAGE);
+  const v = (text: string) => fillVars(text, vars);
 
   const related = buildRelatedLinks({
     self: `/festivals/${festival}/`,
@@ -60,17 +72,14 @@ export default async function FestivalPage({ params }: Params) {
   });
 
   const glance = [
-    { icon: Flame, label: "Deity", value: f.deity },
-    { icon: CalendarDays, label: "Season", value: f.season },
-    { icon: Users, label: "Crowd", value: `${f.crowd}` },
-    { icon: MapPin, label: "Venue", value: f.event_venue },
+    { icon: Flame, label: c.glanceLabels.deity, value: f.deity },
+    { icon: CalendarDays, label: c.glanceLabels.season, value: f.season },
+    { icon: Users, label: c.glanceLabels.crowd, value: `${f.crowd}` },
+    { icon: MapPin, label: c.glanceLabels.venue, value: f.event_venue },
   ];
 
-  const tips = [
-    { icon: CalendarClock, title: "Book 6–10 weeks ahead", text: "Stays and cabs fill fast and tariffs climb during peak festival days." },
-    { icon: Clock, title: "Time your darshan", text: "Plan queues around the aarti timings to avoid the heaviest crush." },
-    { icon: BedDouble, title: "We handle logistics", text: "Hotels, transport and a festival-ready itinerary arranged in one place." },
-  ];
+  const TIP_ICONS = [CalendarClock, Clock, BedDouble];
+  const tips = c.tips.map((t, i) => ({ icon: TIP_ICONS[i % TIP_ICONS.length], title: v(t.title), text: v(t.text) }));
 
   const crumbs = [
     { name: "Home", path: "/" },
@@ -91,6 +100,13 @@ export default async function FestivalPage({ params }: Params) {
         crowd={f.crowd}
         eventVenue={f.event_venue}
         dateThisYear={f.date_this_year}
+        copy={{
+          datesPending: v(c.hero.datesPending),
+          crowdSuffix: v(c.hero.crowdSuffix),
+          primaryCta: v(c.hero.primaryCta),
+          whatsappCta: v(c.hero.whatsappCta),
+          whatsappMessage: v(c.hero.whatsappMessage),
+        }}
       />
 
       {/* ── At a glance ── */}
@@ -112,7 +128,7 @@ export default async function FestivalPage({ params }: Params) {
 
       {/* ── Rituals ── */}
       <section id="rituals" className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-        <Head eyebrow="Traditions" title="Rituals & observances" />
+        <Head eyebrow={v(c.rituals.eyebrow)} title={v(c.rituals.title)} />
         <Reveal>
           <div className="relative overflow-hidden rounded-3xl border border-orange-100 bg-[linear-gradient(135deg,#FFF8F1_0%,#FFEEDD_100%)] p-6 shadow-[0_16px_44px_rgba(234,88,12,0.08)] sm:p-8">
             <span className="pointer-events-none absolute -right-4 -top-6 select-none font-serif text-[120px] leading-none text-orange-500/[0.06]">ॐ</span>
@@ -125,7 +141,7 @@ export default async function FestivalPage({ params }: Params) {
       {/* ── Highlights ── */}
       {f.highlights?.length ? (
         <section id="highlights" className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-          <Head eyebrow="What to expect" title="Festival highlights" />
+          <Head eyebrow={v(c.highlights.eyebrow)} title={v(c.highlights.title)} />
           <div className="grid gap-4 sm:grid-cols-2">
             {f.highlights.map((h, i) => (
               <Reveal key={h} delay={(i % 2) * 0.08}>
@@ -143,7 +159,7 @@ export default async function FestivalPage({ params }: Params) {
 
       {/* ── Travel & booking advice ── */}
       <section id="travel-advice" className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-        <Head eyebrow="Plan smart" title="Travel & booking advice" sub={f.travel_advice} />
+        <Head eyebrow={v(c.travel.eyebrow)} title={v(c.travel.title)} sub={f.travel_advice} />
         <div className="grid gap-4 sm:grid-cols-3">
           {tips.map((t, i) => (
             <Reveal key={t.title} delay={i * 0.08}>
@@ -164,23 +180,22 @@ export default async function FestivalPage({ params }: Params) {
           <div className="mt-5 flex items-start gap-3 rounded-2xl border border-amber-200/70 bg-amber-50/60 px-5 py-4">
             <ShieldCheck size={20} className="mt-0.5 shrink-0 text-amber-600" />
             <p className="text-[13.5px] leading-relaxed text-[#7a5a2f]">
-              Exact festival dates change each year with the Hindu calendar. We confirm{" "}
-              <strong className="font-semibold">{f.festival}</strong> dates before the season rather than publishing an unverified one.
+              {rich(v(c.dateNote), undefined, DateBold)}
             </p>
           </div>
         </Reveal>
       </section>
 
-      <Faq items={f.faq} heading={`${f.festival} FAQs`} />
+      <Faq items={f.faq} heading={v(c.faqHeading)} />
 
-      <CtaBand context={`${f.festival} at ${f.event_venue}`} />
+      <CtaBand context={v(c.ctaContext)} />
 
       {/* ── Related guides & packages (Below CTA) ── */}
       <section id="related-pages" className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="border-t border-orange-100/60 pt-8">
           <p className="text-[11px] font-bold uppercase tracking-wider text-orange-600 mb-4 flex items-center gap-1.5">
             <Sparkles size={11} className="text-orange-500" />
-            <span>Related guides & packages</span>
+            <span>{v(c.relatedLabel)}</span>
           </p>
           <ul className="grid gap-4 sm:grid-cols-3">
             {related.map((l) => {

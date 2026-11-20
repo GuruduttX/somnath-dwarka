@@ -15,42 +15,19 @@ import {
 import TourCard from "@/src/utils/TourCard";
 import type { TourPackage } from "@/src/utils/TourData";
 import YatraBanner from "./YatraBanner";
+import { EXPLORER_GROUP_COPY, type ExplorerGroup, type YatraBannerCopy } from "./copy";
 
 /** Mirrors PackageBucket in config/packageSpokes.ts. */
-type Group = "duration" | "city" | "traveller" | "route" | "transport";
+type Group = ExplorerGroup;
 type Sort = "popular" | "price-asc" | "price-desc";
 
+/* Section ids and icons are code; the default titles and blurbs are copy (./copy.ts). */
 const GROUP_META: Record<Group, { id: string; title: string; blurb: string; icon: typeof Clock }> = {
-  duration: {
-    id: "by-duration",
-    title: "Choose by duration",
-    blurb: "From a single-day darshan to a relaxed 6-day circuit.",
-    icon: Clock,
-  },
-  city: {
-    id: "by-city",
-    title: "Choose by starting city",
-    blurb: "Private round trips with pickup and drop from your city.",
-    icon: MapPin,
-  },
-  traveller: {
-    id: "by-traveller",
-    title: "Choose by traveller & budget",
-    blurb: "Plans tuned for families or a lean, budget-friendly circuit.",
-    icon: Users,
-  },
-  route: {
-    id: "by-route",
-    title: "Add a destination",
-    blurb: "Extend the circuit with Gir, Diu, Porbandar or the Statue of Unity.",
-    icon: Compass,
-  },
-  transport: {
-    id: "by-transport",
-    title: "Choose by transport",
-    blurb: "Travel by car, tempo traveller, train or bus.",
-    icon: ArrowDownUp,
-  },
+  duration: { id: "by-duration", ...EXPLORER_GROUP_COPY.duration, icon: Clock },
+  city: { id: "by-city", ...EXPLORER_GROUP_COPY.city, icon: MapPin },
+  traveller: { id: "by-traveller", ...EXPLORER_GROUP_COPY.traveller, icon: Users },
+  route: { id: "by-route", ...EXPLORER_GROUP_COPY.route, icon: Compass },
+  transport: { id: "by-transport", ...EXPLORER_GROUP_COPY.transport, icon: ArrowDownUp },
 };
 
 const GROUP_ORDER: Group[] = ["duration", "city", "traveller", "route", "transport"];
@@ -70,6 +47,7 @@ export default function PackageExplorer({
   route = [],
   transport = [],
   groupCopy,
+  banner,
 }: {
   duration: TourPackage[];
   city: TourPackage[];
@@ -82,6 +60,8 @@ export default function PackageExplorer({
    * triangle, say) passes its own wording rather than forking this component.
    */
   groupCopy?: Partial<Record<Group, { title?: string; blurb?: string }>>;
+  /** Copy of the YatraBanner above the traveller section; its code defaults when omitted. */
+  banner?: YatraBannerCopy;
 }) {
   const groupMeta = useMemo(() => {
     if (!groupCopy) return GROUP_META;
@@ -373,15 +353,15 @@ export default function PackageExplorer({
                 const items = byGroup(g);
                 const meta = groupMeta[g];
                 const Icon = meta.icon;
-                const banner = g === "traveller"; // banner sits above the traveller section
+                const showBanner = g === "traveller"; // banner sits above the traveller section
 
-                if (!items.length && !banner) return null;
+                if (!items.length && !showBanner) return null;
 
                 return (
                   <div key={g}>
-                    {banner && (
+                    {showBanner && (
                       <div className="mb-12">
-                        <YatraBanner />
+                        <YatraBanner copy={banner} />
                       </div>
                     )}
                     {items.length > 0 && (

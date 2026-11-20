@@ -3,7 +3,11 @@ import { notFound } from "next/navigation";
 import PackageDetailTemplate from "@/src/components/TourPackage/PackageDetailTemplate";
 import { buildMetadata } from "@/src/lib/seo";
 import { GIR_HUB_SLUG, getHubSpoke, girPackagePath } from "@/src/lib/content";
-import { GIR_SEED_PACKAGES, findGirSeedPackage } from "@/src/lib/seed/girPackages";
+import { GIR_SEED_PACKAGES } from "@/src/lib/seed/girPackages";
+import { getDataset, getDatasetItem } from "@/src/lib/datasets/store";
+import { GIR_PACKAGES_DATASET } from "@/src/lib/cms-groups/packages";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { PACKAGE_VARIANT_PAGE } from "@/src/app/somnath-dwarka-tour-package/[slug]/content";
 import { isAuthorisedGirPackage } from "@/src/config/girPackageSpokes";
 import { buildRelatedLinks } from "@/src/lib/links";
 import { bool, faqOf, h1Of, list, s, titleOf, verifiedValue, type Doc } from "@/src/lib/cms";
@@ -33,7 +37,8 @@ const GALLERY: PackageImage[] = [
  */
 async function resolvePackage(slug: string) {
   if (!isAuthorisedGirPackage(slug)) return null;
-  const seed = findGirSeedPackage(slug);
+  // The code variant with its CMS edits (dataset site_gir_packages); the hub-spoke doc below wins field by field.
+  const seed = await getDatasetItem(GIR_PACKAGES_DATASET, slug);
   if (!seed) return null;
 
   const cms = (await getHubSpoke(GIR_HUB_SLUG, slug)) as Doc | null;
@@ -89,6 +94,7 @@ async function resolvePackage(slug: string) {
   };
 }
 
+/* Prerenders the code variants; existence and content come from the live dataset. */
 export function generateStaticParams() {
   return GIR_SEED_PACKAGES.map((p) => ({ slug: p.slug }));
 }
@@ -135,6 +141,7 @@ export default async function GirPackageVariantPage({ params }: Params) {
   const { slug } = await params;
   const pkg = await resolvePackage(slug);
   if (!pkg) notFound();
+  const [copy, seeds] = await Promise.all([getPageContent(PACKAGE_VARIANT_PAGE), getDataset(GIR_PACKAGES_DATASET)]);
 
   const breakdown = cmsBreakdown(pkg.durationbreakdown) ?? stopsOf(pkg.itinerary);
 
@@ -145,7 +152,7 @@ export default async function GirPackageVariantPage({ params }: Params) {
     money: "packages",
     siblings: [
       { target: "/gir/gir-safari-booking/", anchor: "how Gir safari booking works", type: "sibling" as const },
-      ...GIR_SEED_PACKAGES.filter((p) => p.slug !== slug)
+      ...seeds.filter((p) => p.slug !== slug)
         .slice(0, 3)
         .map((p) => ({ target: girPackagePath(p.slug), anchor: p.h1, type: "sibling" as const })),
     ],
@@ -162,8 +169,10 @@ export default async function GirPackageVariantPage({ params }: Params) {
       ]}
       related={related}
       breakdown={breakdown}
-      overviewHeading="A temple-first plan with the Gir safari built around its morning slot"
-      assurance="Safari booking handled for you"
+      overviewHeading={copy.gir.overviewHeading}
+      assurance={copy.gir.assurance}
+      labels={copy.labels}
+      ratings={copy.ratings}
     />
   );
 }

@@ -30,6 +30,9 @@ import type {
   PointBlock,
   NoteRow,
 } from "@/src/models/hubModel";
+import { getDatasetItem } from "@/src/lib/datasets/store";
+import { PACKAGE_HUB_SECTIONS_DATASET } from "@/src/lib/cms-groups/destinations";
+import { HUB_SECTION_LABEL_DEFAULTS } from "./content";
 
 type Doc = Record<string, unknown>;
 
@@ -37,8 +40,10 @@ type Doc = Record<string, unknown>;
  * Renders the money-circuit hub's long-form sales content from the CMS doc.
  * Every block is admin-editable (hubModel + contentSchemas) and hides when its
  * field is empty, so nothing here is hardcoded copy — the words come from admin.
+ * The section headings are this hub's site_package_hub_sections item (./content.ts).
  */
-export default function HubContent({ hub }: { hub: Doc }) {
+export default async function HubContent({ hub }: { hub: Doc }) {
+  const L = (await getDatasetItem(PACKAGE_HUB_SECTIONS_DATASET, s(hub, "slug"))) ?? HUB_SECTION_LABEL_DEFAULTS;
   const durationMatrix = list<DurationRow>(hub, "duration_matrix");
   const startCities = list<StartCityRow>(hub, "start_cities");
   const constraints = list<ConstraintRow>(hub, "constraint_table");
@@ -89,19 +94,16 @@ export default function HubContent({ hub }: { hub: Doc }) {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         {/* ── By duration / start city chooser ── */}
         {hasChooser ? (
-          <Section eyebrow="Choose your version" icon={<Route size={13} />} title="Every plan is a separate trip" intro={chooserIntro}>
+          <Section eyebrow={L.chooser.eyebrow} icon={<Route size={13} />} title={L.chooser.title} intro={chooserIntro}>
             {durationMatrix.length > 0 ? (
               <>
-                <SubHeading>By duration</SubHeading>
+                <SubHeading>{L.chooser.byDuration}</SubHeading>
                 <TableShell minW="720px">
                   <thead>
                     <HeadRow>
-                      <Th>Plan</Th>
-                      <Th>Nights</Th>
-                      <Th>3 star, pp</Th>
-                      <Th>4 star, pp</Th>
-                      <Th>5 star, pp</Th>
-                      <Th>Best for</Th>
+                      {L.chooser.durationColumns.map((h, i) => (
+                        <Th key={i}>{h}</Th>
+                      ))}
                     </HeadRow>
                   </thead>
                   <tbody>
@@ -131,12 +133,13 @@ export default function HubContent({ hub }: { hub: Doc }) {
 
             {startCities.length > 0 ? (
               <>
-                <SubHeading className="mt-10">By start city</SubHeading>
+                <SubHeading className="mt-10">{L.chooser.byStartCity}</SubHeading>
                 <TableShell minW="560px">
                   <thead>
                     <HeadRow>
-                      <Th>You start from</Th>
-                      <Th>Road reality</Th>
+                      {L.chooser.startCityColumns.map((h, i) => (
+                        <Th key={i}>{h}</Th>
+                      ))}
                     </HeadRow>
                   </thead>
                   <tbody>
@@ -166,15 +169,15 @@ export default function HubContent({ hub }: { hub: Doc }) {
 
         {/* ── The clock / constraint table (compact) ── */}
         {constraints.length > 0 ? (
-          <Section eyebrow="Read this first" icon={<Clock size={13} />} title="The clock that decides this circuit" intro={constraintIntro}>
+          <Section eyebrow={L.constraints.eyebrow} icon={<Clock size={13} />} title={L.constraints.title} intro={constraintIntro}>
             <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white shadow-[0_16px_50px_-32px_rgba(234,88,12,0.35)]">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-[13px]" style={{ minWidth: "640px" }}>
                   <thead>
                     <tr className="bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 text-white">
-                      <th className="px-4 py-2.5 text-[10.5px] font-bold uppercase tracking-wider">Fixed constraint</th>
-                      <th className="px-4 py-2.5 text-[10.5px] font-bold uppercase tracking-wider">The time</th>
-                      <th className="px-4 py-2.5 text-[10.5px] font-bold uppercase tracking-wider">What it forces</th>
+                      {L.constraints.columns.map((h, i) => (
+                        <th key={i} className="px-4 py-2.5 text-[10.5px] font-bold uppercase tracking-wider">{h}</th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
@@ -198,7 +201,7 @@ export default function HubContent({ hub }: { hub: Doc }) {
 
         {/* ── Hour-by-hour itinerary ── */}
         {itinerary.length > 0 ? (
-          <Section eyebrow="Sample plan" icon={<CalendarClock size={13} />} title="The standard four day circuit, hour by hour" intro={itineraryIntro}>
+          <Section eyebrow={L.itinerary.eyebrow} icon={<CalendarClock size={13} />} title={L.itinerary.title} intro={itineraryIntro}>
             <div className="grid gap-5 lg:grid-cols-2">
               {itinerary.map((day, i) => {
                 const steps = Array.isArray(day.steps) ? day.steps : [];
@@ -231,7 +234,7 @@ export default function HubContent({ hub }: { hub: Doc }) {
 
         {/* ── Price sheet ── */}
         {priceTiers.length > 0 || priceIntro ? (
-          <Section eyebrow="What it costs" icon={<Wallet size={13} />} title="Price sheet" intro={priceIntro}>
+          <Section eyebrow={L.price.eyebrow} icon={<Wallet size={13} />} title={L.price.title} intro={priceIntro}>
             {priceTiers.length > 0 ? (
               <div className="grid gap-5 sm:grid-cols-3">
                 {priceTiers.map((t, i) => (
@@ -246,10 +249,10 @@ export default function HubContent({ hub }: { hub: Doc }) {
                         {t.price}
                       </p>
                     ) : null}
-                    <p className="mb-4 text-[11px] font-medium text-gray-400">per person, per night</p>
+                    <p className="mb-4 text-[11px] font-medium text-gray-400">{L.price.perUnit}</p>
                     {t.hotels ? (
                       <div className="mb-2">
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-[#b07a4e]">Hotels</p>
+                        <p className="text-[10px] font-bold uppercase tracking-wide text-[#b07a4e]">{L.price.hotelsLabel}</p>
                         <p className="text-sm font-medium text-gray-700">{t.hotels}</p>
                       </div>
                     ) : null}
@@ -265,7 +268,7 @@ export default function HubContent({ hub }: { hub: Doc }) {
             ) : null}
 
             {priceTierNote ? (
-              <Callout tone="amber" icon={<Info size={16} />} title="About the 5 star tier, said plainly" className="mt-6">
+              <Callout tone="amber" icon={<Info size={16} />} title={L.price.tierNoteTitle} className="mt-6">
                 {priceTierNote}
               </Callout>
             ) : null}
@@ -273,13 +276,14 @@ export default function HubContent({ hub }: { hub: Doc }) {
             {/* Vehicle table */}
             {vehicles.length > 0 ? (
               <div className="mt-10">
-                <SubHeading icon={<Car size={16} className="text-orange-500" />}>Your vehicle comes with the package</SubHeading>
+                <SubHeading icon={<Car size={16} className="text-orange-500" />}>{L.price.vehicleHeading}</SubHeading>
                 {vehicleNote ? <Note className="-mt-1 mb-4">{vehicleNote}</Note> : null}
                 <TableShell minW="440px">
                   <thead>
                     <HeadRow>
-                      <Th>Travellers</Th>
-                      <Th>Vehicle</Th>
+                      {L.price.vehicleColumns.map((h, i) => (
+                        <Th key={i}>{h}</Th>
+                      ))}
                     </HeadRow>
                   </thead>
                   <tbody>
@@ -297,7 +301,7 @@ export default function HubContent({ hub }: { hub: Doc }) {
             {/* Exclusions */}
             {exclusions.length > 0 || exclusionsNote ? (
               <div className="mt-10">
-                <SubHeading>Not included, on any tier</SubHeading>
+                <SubHeading>{L.price.exclusionsHeading}</SubHeading>
                 {exclusions.length > 0 ? (
                   <ul className="flex flex-wrap gap-2.5">
                     {exclusions.map((e, i) => (
@@ -317,7 +321,7 @@ export default function HubContent({ hub }: { hub: Doc }) {
 
             {/* Fraud advisory */}
             {fraudAdvisory ? (
-              <Callout tone="red" icon={<AlertTriangle size={16} />} title="A warning worth reading" className="mt-6">
+              <Callout tone="red" icon={<AlertTriangle size={16} />} title={L.price.fraudTitle} className="mt-6">
                 {fraudAdvisory}
               </Callout>
             ) : null}
@@ -326,7 +330,7 @@ export default function HubContent({ hub }: { hub: Doc }) {
 
         {/* ── Why choose us ── */}
         {whyChoose.length > 0 ? (
-          <Section eyebrow="Why us" icon={<Sparkles size={13} />} title="Why choose Experience My India" intro={whyChooseIntro}>
+          <Section eyebrow={L.whyChoose.eyebrow} icon={<Sparkles size={13} />} title={L.whyChoose.title} intro={whyChooseIntro}>
             <div className="grid gap-5 md:grid-cols-2">
               {whyChoose.map((p, i) => (
                 <div
@@ -350,7 +354,7 @@ export default function HubContent({ hub }: { hub: Doc }) {
 
         {/* ── Not for you if ── */}
         {notForYou.length > 0 ? (
-          <Section eyebrow="Honest fit" icon={<ShieldAlert size={13} />} title="This circuit is not for you if">
+          <Section eyebrow={L.notForYou.eyebrow} icon={<ShieldAlert size={13} />} title={L.notForYou.title}>
             <div className="grid gap-4 md:grid-cols-2">
               {notForYou.map((p, i) => (
                 <div key={i} className="flex gap-3.5 rounded-3xl border border-rose-100 bg-gradient-to-br from-rose-50/60 to-white p-5 shadow-sm">
@@ -367,7 +371,8 @@ export default function HubContent({ hub }: { hub: Doc }) {
 
         {/* ── Practical notes ── */}
         {practical.length > 0 ? (
-          <Section eyebrow="Good to know" icon={<Info size={13} />} title="Practical notes for both temples">
+          <Section eyebrow={L.practical.eyebrow} icon={<Info size={13} />} title={L.practical.title}>
+
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {practical.map((n, i) => (
                 <div

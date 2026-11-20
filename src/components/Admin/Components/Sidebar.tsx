@@ -10,6 +10,8 @@ import {
     LogOutIcon,
     Hotel,
     Car,
+    ImageUp,
+    Files,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -20,6 +22,8 @@ const menu = [
     { name: "Packages", icon: Package, slug: "/admin-x9AqP7mK2/packages" },
     // { name: "Enquiries", icon: Inbox, slug: "/admin-x9AqP7mK2/enquiries" }, // hidden for now
     { name: "Content", icon: Settings, slug: "/admin-x9AqP7mK2/content" },
+    { name: "Pages (Claude)", icon: Files, slug: "/admin-x9AqP7mK2/custom-pages" },
+    { name: "Media upload", icon: ImageUp, slug: "/admin-x9AqP7mK2/media-upload" },
 ];
 
 export default function Sidebar({

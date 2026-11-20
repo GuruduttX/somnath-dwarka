@@ -10,8 +10,11 @@ import HangingDiyas from "@/src/components/TourArchive/HangingDiyas";
 import CustomPackageCTA from "@/src/components/shared/CustomPackageCTA";
 import { webPageSchema, type Crumb } from "@/src/lib/seo";
 import { waLink } from "@/src/config/site";
-import { themeFor } from "@/src/config/destinations";
 import type { TourPackage } from "@/src/utils/TourData";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { DESTINATION_HUB_TEMPLATE_PAGE } from "./content";
+import { getDestinationTheme } from "./themes";
+import { fillVars } from "../copy";
 
 export type DestinationVariant = { label: string; slug: string; blurb?: string };
 
@@ -98,17 +101,12 @@ function groupOf(slug: string): Group {
   return "traveller";
 }
 
-/**
- * Explorer copy for a destination hub. Its groups mean something different from
- * the circuit hubs': "traveller" here holds the themed ways to visit one place,
- * not budget tiers.
- */
-const GROUP_COPY = {
-  duration: { title: "Choose by duration", blurb: "Plans sized to how long you have." },
-  city: { title: "Choose by starting city", blurb: "Round trips with pickup and drop from your city." },
-  route: { title: "Add a destination", blurb: "Extend the trip with a nearby stop." },
-  traveller: { title: "Choose by experience", blurb: "The different ways people plan this trip." },
-} as const;
+/*
+  Explorer copy for a destination hub — the `groups` of the
+  "destination-hub-template" page copy (./content.ts). Its groups mean something
+  different from the circuit hubs': "traveller" here holds the themed ways to
+  visit one place, not budget tiers.
+*/
 
 function toTourPackage(
   v: DestinationVariant,
@@ -116,6 +114,7 @@ function toTourPackage(
   hub: string,
   photo: string | undefined,
   place: string,
+  labels: { flexibleDuration: string; mostAskedBadge: string },
 ): TourPackage {
   const days = Number(v.slug.match(/^(\d+)-day/)?.[1] ?? 0);
   const rotated = [
@@ -129,7 +128,7 @@ function toTourPackage(
     location: place,
     // No duration is claimed where the CMS holds none; the card shows the
     // descriptor instead of inventing "4 Days / 3 Nights".
-    duration: days ? `${days} Day${days === 1 ? "" : "s"}` : "Flexible",
+    duration: days ? `${days} Day${days === 1 ? "" : "s"}` : labels.flexibleDuration,
     groupType: describeVariant(v.slug, v.blurb),
     days,
     // Price stays 0 until an editor verifies one, so the card reads "Custom".
@@ -138,34 +137,10 @@ function toTourPackage(
     inclusions: [],
     images: photo ? [photo, ...rotated].slice(0, 5) : rotated.slice(0, 5),
     href: `/${hub}/${v.slug}/`,
-    badge: index === 0 ? "Most asked for" : undefined,
+    badge: index === 0 ? labels.mostAskedBadge : undefined,
     popular: index === 0,
   };
 }
-
-/** Answers that hold for any destination hub until an editor writes its own. */
-const defaultFaq = (place: string) => [
-  {
-    question: `What does a ${place} tour package include?`,
-    answer:
-      "A private vehicle with driver, hotel stays where the plan runs overnight, and a day-wise itinerary sequenced around opening and darshan times. Entry tickets, ropeway fares and safari permits are charged at actuals. Exact inclusions are listed on each package once your dates are confirmed.",
-  },
-  {
-    question: `How do I get a price for a ${place} trip?`,
-    answer:
-      "Share your dates, how many people are travelling and the hotel tier you want. Cost moves with all three, so a firm quote comes back against your specific trip rather than a headline number that changes later.",
-  },
-  {
-    question: "Can the itinerary be customised?",
-    answer:
-      "Yes. Every package here is a starting point — days can be added or dropped, the starting city changed and stops swapped in or out. Tell us what matters most and we sequence the rest around it.",
-  },
-  {
-    question: "How far ahead should I book?",
-    answer:
-      "As early as your dates are fixed, especially for festival weeks and the December–January peak, when hotels and any permit-based activity fill first.",
-  },
-];
 
 /**
  * The shared template for every destination hub — /gir-tour-package/,
@@ -178,7 +153,7 @@ const defaultFaq = (place: string) => [
  * filter explorer, the same FAQ above the CTA band — so a traveller moving
  * between pages meets one consistent interface.
  */
-export default function DestinationHubTemplate({
+export default async function DestinationHubTemplate({
   slug,
   h1,
   crumbs,
@@ -203,7 +178,8 @@ export default function DestinationHubTemplate({
   pillarPath?: string;
   extraSchema?: Record<string, unknown> | null;
 }) {
-  const theme = themeFor(slug);
+  const [theme, c] = await Promise.all([getDestinationTheme(slug), getPageContent(DESTINATION_HUB_TEMPLATE_PAGE)]);
+  const v = { name: theme.name, count: variants.length, s: variants.length === 1 ? "" : "s" };
   const { title, chips } = splitHeadline(h1);
 
   // The editor's own subtitle leads; the themed highlights top the row up to
@@ -226,20 +202,20 @@ export default function DestinationHubTemplate({
     .map((p) => p.trim())
     .filter(Boolean);
 
-  const cards = variants.map((v, i) => toTourPackage(v, i, slug, theme.photo, theme.name));
+  const cards = variants.map((variant, i) => toTourPackage(variant, i, slug, theme.photo, theme.name, c));
 
   // A hub with three or fewer packages splits into groups of one, which reads
   // as a broken grid. Below that threshold they all sit in one row instead.
   const singleRow = cards.length > 0 && cards.length <= 3;
   const groupCopy = singleRow
     ? {
-        ...GROUP_COPY,
+        ...c.groups,
         route: {
-          title: "All packages",
-          blurb: `Every ${theme.name} plan we run — open one for the full itinerary.`,
+          title: fillVars(c.allPackages.title, v),
+          blurb: fillVars(c.allPackages.blurb, v),
         },
       }
-    : GROUP_COPY;
+    : c.groups;
 
   // Stable per-slug pick, so the hero image does not change between builds.
   const placeholderImage =
@@ -270,7 +246,7 @@ export default function DestinationHubTemplate({
           {/* ══ LEFT ══ */}
           <div className="text-center lg:text-left">
             <p className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white/70 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-orange-700 backdrop-blur-sm">
-              <MapPin size={12} /> Destination · Gujarat
+              <MapPin size={12} /> {c.eyebrow}
             </p>
 
             <h1 className="font-playfair mt-7 text-4xl font-black leading-[1.08] tracking-[-0.03em] text-[#3a2416] sm:text-5xl lg:text-[3.4rem]">
@@ -303,17 +279,17 @@ export default function DestinationHubTemplate({
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(234,88,12,0.35)] transition-transform duration-200 hover:-translate-y-0.5"
               >
                 <Sparkles size={15} />
-                See {variants.length} package{variants.length === 1 ? "" : "s"}
+                {fillVars(c.packagesCta, v)}
                 <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
               </a>
               <a
-                href={waLink(`Hi, I'd like a ${theme.name} tour package quote`)}
+                href={waLink(fillVars(c.whatsappMessage, v))}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-7 py-3.5 text-sm font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white"
               >
                 <Navigation size={15} />
-                Chat on WhatsApp
+                {c.whatsappCta}
               </a>
             </div>
 
@@ -322,7 +298,7 @@ export default function DestinationHubTemplate({
                 href={pillarPath}
                 className="mt-7 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#8c5e40] underline-offset-4 transition-colors hover:text-orange-700 hover:underline"
               >
-                <BookOpen size={14} /> Read the {theme.name} travel guide first
+                <BookOpen size={14} /> {fillVars(c.guideLink, v)}
               </Link>
             ) : null}
           </div>
@@ -343,7 +319,7 @@ export default function DestinationHubTemplate({
                     <div className="absolute inset-x-0 bottom-0 p-6 text-center text-white">
                       <p className="font-playfair text-2xl font-bold">{theme.name}</p>
                       <p className="mt-1 flex items-center justify-center gap-1.5 text-[11px] text-white/85">
-                        <MapPin size={11} /> Gujarat, India
+                        <MapPin size={11} /> {c.photoCaption}
                       </p>
                     </div>
                   </>
@@ -374,11 +350,10 @@ export default function DestinationHubTemplate({
         <div className="relative z-20 mx-auto max-w-3xl px-4 pt-14 text-center sm:pt-16">
           <h2 className="font-playfair mt-20 text-4xl font-black leading-[1.08] tracking-[-0.02em] sm:text-5xl">
             <span className="text-orange-500">{theme.name}</span>
-            <span className="mt-1 block text-[#111827]">Tour Packages</span>
+            <span className="mt-1 block text-[#111827]">{c.packagesHeading}</span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-gray-500 sm:text-lg">
-            Every plan below opens in full — day by day, what is included and what is not, with an
-            enquiry form for a firm quote on your dates.
+            {fillVars(c.packagesIntro, v)}
           </p>
         </div>
 
@@ -392,8 +367,7 @@ export default function DestinationHubTemplate({
           />
         ) : (
           <p className="mx-auto max-w-3xl px-4 pb-16 text-center text-sm text-gray-500">
-            Packages for {theme.name} are being finalised — tell us your dates and we will plan one
-            around them.
+            {fillVars(c.emptyText, v)}
           </p>
         )}
       </div>
@@ -417,12 +391,17 @@ export default function DestinationHubTemplate({
 
       {/* FAQ sits above the CTA band, as on the other package pages. */}
       <Faq
-        items={faq.length ? faq : defaultFaq(theme.name)}
-        heading={`Planning a ${theme.name} trip — your questions answered`}
-        subheading="What the package covers, how pricing works and how far ahead to book."
+        items={
+          faq.length
+            ? faq
+            : c.defaultFaq.map((f) => ({ question: fillVars(f.question, v), answer: fillVars(f.answer, v) }))
+        }
+        heading={fillVars(c.faqHeading, v)}
+        subheading={fillVars(c.faqSubheading, v)}
       />
 
-      <CtaBand context={theme.name} title={`Plan your ${theme.name} trip`} />
+      <CtaBand context={theme.name} title={fillVars(c.ctaTitle, v)} />
+
       <RelatedLinks links={related} />
 
       {/* BreadcrumbList JSON-LD comes from PageShell, which owns the single breadcrumb. */}

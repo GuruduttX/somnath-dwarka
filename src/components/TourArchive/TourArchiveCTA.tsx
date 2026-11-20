@@ -7,16 +7,17 @@ import Image from "@/src/components/shared/Img";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { ArrowRight, Phone, MapPin, Star, Sparkles } from "lucide-react";
+import { rich, type RichBold } from "@/src/lib/pages/rich";
+import { TOUR_ARCHIVE_CTA_COPY, type TourArchiveCtaCopy } from "./copy";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 
-const HIGHLIGHTS = [
-  { icon: Star,     text: "VIP Jyotirlinga Darshan"  },
-  { icon: MapPin,   text: "Somnath & Dwarka Covered" },
-  { icon: Sparkles, text: "Custom Pilgrimage Plans"   },
-  { icon: Phone,    text: "24/7 Expert Support"       },
-] as const;
+/** Icons for the highlight pills, in order (repeating if more pills are added). */
+const HIGHLIGHT_ICONS = [Star, MapPin, Sparkles, Phone] as const;
 
-export default function TourArchiveCTA() {
+const WhiteBold: RichBold = ({ children }) => <strong className="font-semibold text-white">{children}</strong>;
+
+/** The words come from `copy` (each hub's CMS-editable PageDef passes it down). */
+export default function TourArchiveCTA({ copy = TOUR_ARCHIVE_CTA_COPY }: { copy?: TourArchiveCtaCopy }) {
   const [isFormOpen, setIsFromOpen] = useState(false);
 
   return (
@@ -84,7 +85,7 @@ export default function TourArchiveCTA() {
               >
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 px-3.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm">
                   <Sparkles size={9} />
-                  Plan Your Sacred Journey
+                  {copy.badge}
                 </span>
               </motion.div>
 
@@ -96,8 +97,8 @@ export default function TourArchiveCTA() {
                 viewport={{ once: true }}
                 className="font-serif text-[clamp(22px,3.8vw,40px)] font-bold leading-[1.12] tracking-tight text-white"
               >
-                Your Perfect Pilgrimage to{" "}
-                <span className="italic text-orange-200">Somnath &amp; Dwarka</span>
+                {copy.headingLead}{" "}
+                <span className="italic text-orange-200">{copy.headingHighlight}</span>
               </motion.h2>
 
               {/* Description */}
@@ -108,10 +109,7 @@ export default function TourArchiveCTA() {
                 viewport={{ once: true }}
                 className="text-[13px] leading-relaxed text-white/72 sm:text-sm lg:max-w-none"
               >
-                Our Gujarat specialists craft custom itineraries covering the sacred{" "}
-                <strong className="font-semibold text-white">Jyotirlinga of Somnath</strong> and the divine{" "}
-                <strong className="font-semibold text-white">Dwarkadhish Temple</strong> — with comfortable
-                stays, private transfers &amp; guided experiences.
+                {rich(copy.text, undefined, WhiteBold)}
               </motion.p>
 
               {/* Highlight pills */}
@@ -122,15 +120,18 @@ export default function TourArchiveCTA() {
                 viewport={{ once: true }}
                 className="flex flex-wrap justify-center gap-1.5 lg:justify-start"
               >
-                {HIGHLIGHTS.map(({ icon: Icon, text }) => (
-                  <span
-                    key={text}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-medium text-white"
-                  >
-                    <Icon size={10} className="text-orange-200" />
-                    {text}
-                  </span>
-                ))}
+                {copy.highlights.map((text, i) => {
+                  const Icon = HIGHLIGHT_ICONS[i % HIGHLIGHT_ICONS.length];
+                  return (
+                    <span
+                      key={`${text}-${i}`}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-medium text-white"
+                    >
+                      <Icon size={10} className="text-orange-200" />
+                      {text}
+                    </span>
+                  );
+                })}
               </motion.div>
 
               {/* CTAs */}
@@ -145,7 +146,7 @@ export default function TourArchiveCTA() {
                   onClick={() => setIsFromOpen(true)}
                   className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-orange-600 shadow-md shadow-black/12 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 sm:w-auto cursor-pointer"
                 >
-                  Speak With Our Expert
+                  {copy.expertLabel}
                   <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
                 </button>
                 <a
@@ -155,7 +156,7 @@ export default function TourArchiveCTA() {
                   className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/18 active:translate-y-0 sm:w-auto cursor-pointer"
                 >
                   <Phone size={14} />
-                  WhatsApp Us
+                  {copy.whatsappLabel}
                 </a>
               </motion.div>
             </div>
@@ -183,7 +184,7 @@ export default function TourArchiveCTA() {
               <div className="relative h-[180px] w-full max-w-sm overflow-hidden rounded-[20px] border-4 border-white/20 shadow-2xl shadow-black/20 sm:h-[210px] lg:h-[240px] lg:w-[400px]">
                 <Image
                   src="/images/CTA.webp"
-                  alt="Somnath Dwarka Tour Package"
+                  alt={copy.imageAlt}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 384px, 400px"
                   loading="lazy"
@@ -194,13 +195,13 @@ export default function TourArchiveCTA() {
                 {/* Bottom chip */}
                 <div className="absolute inset-x-3 bottom-3 flex items-center justify-between rounded-xl bg-white/92 px-3.5 py-2 backdrop-blur-md">
                   <div>
-                    <p className="text-xs font-semibold text-gray-900">Somnath + Dwarka</p>
+                    <p className="text-xs font-semibold text-gray-900">{copy.chipTitle}</p>
                     <p className="flex items-center gap-1 text-[10px] text-gray-400">
-                      <MapPin size={8} className="text-orange-500" /> Gujarat, India
+                      <MapPin size={8} className="text-orange-500" /> {copy.chipRegion}
                     </p>
                   </div>
                   <span className="rounded-lg bg-orange-100 px-2.5 py-1 text-[10px] font-semibold text-orange-700">
-                    From ₹4,999
+                    {copy.chipPrice}
                   </span>
                 </div>
               </div>
@@ -212,7 +213,7 @@ export default function TourArchiveCTA() {
                     <Star key={i} size={9} className="fill-orange-300 text-orange-300" strokeWidth={0} />
                   ))}
                 </div>
-                <span className="text-[10.5px] font-semibold text-white">4.9 · 2,400+ reviews</span>
+                <span className="text-[10.5px] font-semibold text-white">{copy.ratingBadge}</span>
               </div>
             </motion.div>
           </div>

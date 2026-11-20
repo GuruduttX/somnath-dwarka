@@ -7,25 +7,24 @@ import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { SEED_CAB_ROUTES, CAB_HUB, cabPath, type SeedCabRoute } from "@/src/lib/seed/cabs";
+import { CAB_HUB, cabPath, type SeedCabRoute } from "@/src/lib/seed/cabs";
 import { buildRelatedLinks } from "@/src/lib/links";
 import TaxiHero from "@/src/components/taxi/TaxiHero";
-import {
-  spokeCopyFor,
-  SPOKE_VEHICLES,
-  SPOKE_FARE_SCOPE,
-  SPOKE_AUTHOR,
-  OPERATOR,
-} from "@/src/config/taxiSpokes";
+import { OPERATOR } from "@/src/config/taxiSpokes";
+import type { RouteCopyItem } from "@/src/lib/cms-groups/taxi";
+import type { CAB_ROUTE_TEMPLATE_DEFAULTS } from "@/src/app/somnath-dwarka-taxi-service/[slug]/content";
+import { fillSlots, taxiRich } from "@/src/components/taxi/TaxiRich";
 import { Check, X, Star, ArrowRight, Phone } from "lucide-react";
 
 /**
  * Cab route page body.
  *
  * Data — distance, drive time, en-route stops, fares — comes from the CMS record
- * passed in as `route`. Prose comes from src/config/taxiSpokes.ts, keyed by slug.
- * A route with no config entry still renders the data-driven sections, so an
- * unbriefed route added in the admin produces a valid page rather than a blank.
+ * passed in as `route`. The route's prose is `copy` (its site_taxi_route_copy
+ * item, defaulting to src/config/taxiSpokes.ts), and the blocks shared by every
+ * route are `t` (the "taxi-route-template" page copy). A route with no copy item
+ * still renders the data-driven sections, so an unbriefed route added in the
+ * admin produces a valid page rather than a blank.
  */
 export type CabRoute = SeedCabRoute;
 
@@ -34,14 +33,25 @@ const card =
 const h2 = "text-2xl font-bold text-slate-950 mb-4 flex items-center gap-2";
 const bar = <span className="h-6 w-1 rounded-full bg-orange-500 inline-block" />;
 
-export default function CabRoutePage({ slug, route: r }: { slug: string; route: CabRoute }) {
-  const copy = spokeCopyFor(slug);
-
+export default function CabRoutePage({
+  slug,
+  route: r,
+  copy,
+  t,
+  siblings,
+}: {
+  slug: string;
+  route: CabRoute;
+  copy: RouteCopyItem | null;
+  t: typeof CAB_ROUTE_TEMPLATE_DEFAULTS;
+  /** The live cab route list, for the related links. */
+  siblings: SeedCabRoute[];
+}) {
   const related = buildRelatedLinks({
     self: cabPath(slug),
     pillar: { target: CAB_HUB, anchor: "all taxi routes & fares" },
     money: "packages",
-    siblings: SEED_CAB_ROUTES.filter((x) => x.slug !== slug).map((x) => ({
+    siblings: siblings.filter((x) => x.slug !== slug).map((x) => ({
       target: cabPath(x.slug),
       anchor: `${x.origin} to ${x.destination} taxi`,
       type: "sibling" as const,
@@ -60,7 +70,7 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
     (f) => /\d/.test(f.oneWay || "") || /\d/.test(f.roundTrip || ""),
   );
 
-  const faqItems = copy?.faq ? [...copy.faq] : r.faq;
+  const faqItems = copy?.faq?.length ? [...copy.faq] : r.faq;
 
   return (
     <PageShell crumbs={crumbs} flushHero>
@@ -79,7 +89,7 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
       {copy ? (
         <Section wide>
           <div className={card}>
-            <h2 className={h2}>{bar}At a glance</h2>
+            <h2 className={h2}>{bar}{t.atAGlanceHeading}</h2>
             <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {copy.atAGlance.map((f) => (
                 <div
@@ -91,7 +101,7 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
                 </div>
               ))}
             </dl>
-            <p className="mt-6 text-slate-600 leading-relaxed">{copy.intro}</p>
+            <p className="mt-6 text-slate-600 leading-relaxed">{taxiRich(copy.intro)}</p>
           </div>
         </Section>
       ) : null}
@@ -102,11 +112,11 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
           <div className="grid gap-6 lg:grid-cols-2">
             <div className={card}>
               <h2 className={h2}>{bar}{copy.driveSection.heading}</h2>
-              <p className="text-slate-600 leading-relaxed">{copy.driveSection.body}</p>
+              <p className="text-slate-600 leading-relaxed">{taxiRich(copy.driveSection.body)}</p>
             </div>
             <div className={card}>
               <h2 className={h2}>{bar}{copy.tripTypes.heading}</h2>
-              <p className="text-slate-600 leading-relaxed">{copy.tripTypes.body}</p>
+              <p className="text-slate-600 leading-relaxed">{taxiRich(copy.tripTypes.body)}</p>
             </div>
           </div>
         </Section>
@@ -115,17 +125,17 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
       {/* ── Vehicles, and fares where the CMS carries real ones ── */}
       <Section id="fares" wide>
         <div className={card}>
-          <h2 className={h2}>{bar}Vehicles and fares</h2>
-          {copy ? <p className="mb-5 text-slate-600 leading-relaxed">{copy.vehiclesIntro}</p> : null}
+          <h2 className={h2}>{bar}{t.vehiclesHeading}</h2>
+          {copy ? <p className="mb-5 text-slate-600 leading-relaxed">{taxiRich(copy.vehiclesIntro)}</p> : null}
 
           <DataTable
             columns={["Vehicle", "Seats", "Best suited for"]}
-            rows={SPOKE_VEHICLES.map((v) => [v.vehicle, v.seats, v.suited])}
+            rows={t.vehicleGuide.map((v) => [v.vehicle, v.seats, v.suited])}
           />
 
           {hasRealFares ? (
             <div className="mt-6">
-              <p className="mb-3 text-sm font-semibold text-slate-700">Indicative fares for this leg</p>
+              <p className="mb-3 text-sm font-semibold text-slate-700">{t.faresTableTitle}</p>
               <DataTable
                 columns={["Vehicle", "Seats", "One way", "Round trip"]}
                 rows={r.fares.map((f) => [f.vehicle, String(f.seats), f.oneWay, f.roundTrip])}
@@ -139,7 +149,7 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
               href={`${CAB_HUB}fare-rate-card/`}
               className="font-semibold text-orange-700 underline underline-offset-2 hover:text-orange-800"
             >
-              See every price on the fare rate card
+              {t.rateCardLinkLabel}
             </Link>
           </p>
         </div>
@@ -149,10 +159,8 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
       {r.stops?.length ? (
         <Section id="stops" wide>
           <div className={card}>
-            <h2 className={h2}>{bar}Stops en route</h2>
-            <p className="mb-4 text-slate-600 leading-relaxed">
-              With a private cab you can build these in. Tell us at booking and the driver plans the timing around them.
-            </p>
+            <h2 className={h2}>{bar}{t.stopsHeading}</h2>
+            <p className="mb-4 text-slate-600 leading-relaxed">{taxiRich(t.stopsIntro)}</p>
             <ul className="flex flex-wrap gap-2">
               {r.stops.map((s) => (
                 <li
@@ -171,14 +179,14 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
       {copy ? (
         <Section wide>
           <div className={card}>
-            <h2 className={h2}>{bar}What your fare includes, and what it does not</h2>
+            <h2 className={h2}>{bar}{t.fareScopeHeading}</h2>
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
                 <p className="mb-3 text-sm font-bold uppercase tracking-wide text-emerald-700">
-                  {SPOKE_FARE_SCOPE.includedTitle}
+                  {t.fareScope.includedTitle}
                 </p>
                 <ul className="space-y-2.5">
-                  {[...SPOKE_FARE_SCOPE.included, ...copy.faresIncluded].map((x) => (
+                  {[...t.fareScope.included, ...copy.faresIncluded].map((x) => (
                     <li key={x} className="flex gap-2.5 text-sm text-slate-700">
                       <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
                         <Check size={11} strokeWidth={3} />
@@ -190,10 +198,10 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
               </div>
               <div>
                 <p className="mb-3 text-sm font-bold uppercase tracking-wide text-rose-700">
-                  {SPOKE_FARE_SCOPE.excludedTitle}
+                  {t.fareScope.excludedTitle}
                 </p>
                 <ul className="space-y-2.5">
-                  {[...SPOKE_FARE_SCOPE.excluded, ...copy.faresExcluded].map((x) => (
+                  {[...t.fareScope.excluded, ...copy.faresExcluded].map((x) => (
                     <li key={x} className="flex gap-2.5 text-sm text-slate-700">
                       <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-rose-100 text-rose-700">
                         <X size={11} strokeWidth={3} />
@@ -225,8 +233,8 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
               ))}
             </ul>
             <p className="mt-6 text-sm text-slate-600 leading-relaxed">
-              {SPOKE_AUTHOR.line}{" "}
-              {SPOKE_AUTHOR.links.map((l, i) => (
+              {t.author.line}{" "}
+              {t.author.links.map((l, i) => (
                 <span key={l.href}>
                   <Link
                     href={l.href}
@@ -234,7 +242,7 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
                   >
                     {l.label}
                   </Link>
-                  {i < SPOKE_AUTHOR.links.length - 1 ? ", " : "."}
+                  {i < t.author.links.length - 1 ? ", " : "."}
                 </span>
               ))}
             </p>
@@ -247,7 +255,7 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
         <Section wide>
           <div className="grid gap-6 lg:grid-cols-2">
             <div className={card}>
-              <h2 className={h2}>{bar}This trip may not be the right fit if</h2>
+              <h2 className={h2}>{bar}{t.notForYouHeading}</h2>
               <ul className="space-y-3">
                 {copy.notForYou.map((x) => (
                   <li key={x} className="flex gap-2.5 text-sm text-slate-700 leading-relaxed">
@@ -260,7 +268,7 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
               </ul>
             </div>
             <div className={card}>
-              <h2 className={h2}>{bar}Before you travel</h2>
+              <h2 className={h2}>{bar}{t.beforeYouTravelHeading}</h2>
               <ul className="space-y-3">
                 {copy.beforeYouTravel.map((x) => (
                   <li key={x} className="flex gap-2.5 text-sm text-slate-700 leading-relaxed">
@@ -274,14 +282,14 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
         </Section>
       ) : null}
 
-      <Faq items={faqItems} heading={`${r.origin} to ${r.destination} taxi FAQs`} />
+      <Faq items={faqItems} heading={fillSlots(t.faqHeading, { origin: r.origin, destination: r.destination })} />
 
       {/* ── Keep planning ── */}
       {copy ? (
         <Section wide>
           <div className={card}>
-            <h2 className={h2}>{bar}Keep planning</h2>
-            <p className="text-slate-600 leading-relaxed">{copy.keepPlanning.intro}</p>
+            <h2 className={h2}>{bar}{t.keepPlanningHeading}</h2>
+            <p className="text-slate-600 leading-relaxed">{taxiRich(copy.keepPlanning.intro)}</p>
             <div className="mt-4 flex flex-wrap gap-2.5">
               {copy.keepPlanning.links.map((l) => (
                 <Link
@@ -303,13 +311,13 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
         <Section wide>
           <div className={card}>
             <h2 className={h2}>{bar}{copy.cta.heading}</h2>
-            <p className="text-slate-600 leading-relaxed">{copy.cta.body}</p>
+            <p className="text-slate-600 leading-relaxed">{taxiRich(copy.cta.body)}</p>
             <a
               href={`tel:${OPERATOR.phone}`}
               className="mt-4 inline-flex items-center gap-2 rounded-full bg-orange-500 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-orange-600"
             >
               <Phone size={15} />
-              Call {OPERATOR.phone}
+              {t.callLabel} {OPERATOR.phone}
             </a>
           </div>
         </Section>
@@ -317,8 +325,8 @@ export default function CabRoutePage({ slug, route: r }: { slug: string; route: 
 
       <CtaBand
         context={`${r.origin} to ${r.destination} taxi`}
-        title="Book this route"
-        subtitle="Get a firm one-way or round-trip fare."
+        title={t.ctaBand.title}
+        subtitle={t.ctaBand.subtitle}
       />
       <RelatedLinks links={related} />
 

@@ -1,16 +1,13 @@
+import { rich, type RichBold } from "@/src/lib/pages/rich";
+import type { AboutPageContent } from "@/src/app/about/content";
 
-const facts = [
-  "We visit the temples ourselves — every season, not once",
-  "We verify the darshan timings before publishing",
-  "We know when Dwarkadhish's aarti gets crowded during festivals",
-  "We know the best coastal routes to avoid seasonal traffic",
-  "We know which hotels have accessible rooms for elderly pilgrims",
-  "We know exactly how long the ferry takes from Okha to Bet Dwarka on a busy Sunday",
-  "Every vehicle we send is our vehicle — not a third-party contractor",
-  "Every guide we assign knows the Gujarat spiritual circuit the way we know it",
-];
+/* Copy comes from the CMS-editable about page (src/app/about/content.ts). */
 
-export default function AboutDifferent() {
+const DarkBold: RichBold = ({ children }) => <strong className="text-gray-900">{children}</strong>;
+const paraDelays = ["280", "340", "400", "460"] as const;
+
+export default function AboutDifferent({ content }: { content: AboutPageContent["different"] }) {
+  const c = content;
   return (
     <section id="what-sets-us-apart" className="relative overflow-hidden bg-white py-20">
       {/* Background Decorations */}
@@ -31,11 +28,11 @@ export default function AboutDifferent() {
         {/* Header */}
         <div className="mb-2 text-center">
           <span data-reveal="scale" className="mb-4 inline-block rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-sm font-semibold text-orange-600">
-            Our Difference
+            {c.eyebrow}
           </span>
           <h2 data-reveal="up" data-delay="80" className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
-            Why Somnath Dwarka Guide Is{" "}
-            <span className="text-orange-500">Different</span>
+            {c.headingLead}{" "}
+            <span className="text-orange-500">{c.headingHighlight}</span>
           </h2>
         </div>
 
@@ -44,10 +41,7 @@ export default function AboutDifferent() {
           {/* Left — text */}
           <div className="space-y-5 text-base leading-relaxed text-gray-700 sm:text-lg">
             <p data-reveal="left" className="text-gray-600">
-              Most travel websites covering Dwarka and Somnath are built at a desk, sourcing
-              information from other websites that source from other websites. Timings are copied
-              without verification. Itineraries are built without any understanding of crowd
-              patterns or temple rhythms. Accommodation is recommended without being visited.
+              {c.intro}
             </p>
 
             {/* Bold "we are here" statement — breathes after reveal */}
@@ -56,23 +50,15 @@ export default function AboutDifferent() {
               data-delay="160"
               className="about-breathe rounded-2xl bg-orange-500 px-7 py-7 text-2xl font-bold text-white shadow-xl sm:text-3xl"
             >
-              We are different for one simple reason:{" "}
-              <span className="italic text-orange-100">we are here.</span>
+              {c.statement}{" "}
+              <span className="italic text-orange-100">{c.statementHighlight}</span>
             </div>
 
-            <p data-reveal="left" data-delay="280">
-              Our team maintains an active physical presence on the{" "}
-              <strong className="text-gray-900">Dwarka–Somnath Highway, Gujarat</strong>.
-              That is not research. That is{" "}
-              <strong className="text-gray-900">residence.</strong>
-            </p>
-
-            <p data-reveal="left" data-delay="340">
-              This is also why we do not work with third-party operators.{" "}
-              <strong className="text-gray-900">
-                No handoffs, no outsourcing, no surprises.
-              </strong>
-            </p>
+            {c.paragraphs.map((p, i) => (
+              <p key={i} data-reveal="left" data-delay={paraDelays[i % paraDelays.length]}>
+                {rich(p, undefined, DarkBold)}
+              </p>
+            ))}
           </div>
 
           {/* Right — fact checklist, slides in from right */}
@@ -85,11 +71,11 @@ export default function AboutDifferent() {
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-100 text-sm font-bold text-orange-500">
                 ✓
               </span>
-              What &ldquo;We Are Here&rdquo; Actually Means
+              {c.factsTitle}
             </h3>
 
             <ul className="space-y-3.5">
-              {facts.map((fact, i) => (
+              {c.facts.map((fact, i) => (
                 <li
                   key={i}
                   className="about-check-item flex items-start gap-3 text-sm text-gray-700 sm:text-base"

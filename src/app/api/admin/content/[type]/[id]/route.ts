@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { isAdmin } from "@/src/lib/requireAdmin";
 import { getContent, updateContent, deleteContent } from "@/src/services/admin/contentService";
 import { getContentType } from "@/src/lib/contentRegistry";
+import { refreshSite } from "@/src/lib/refreshSite";
 
 type Ctx = { params: Promise<{ type: string; id: string }> };
 
@@ -24,6 +25,7 @@ export async function PUT(req: Request, { params }: Ctx) {
   try {
     const body = await req.json();
     const updated = await updateContent(type, id, body);
+    refreshSite();
     return NextResponse.json({ success: true, data: updated });
   } catch (e) {
     return NextResponse.json({ success: false, message: (e as Error).message }, { status: 400 });
@@ -36,6 +38,7 @@ export async function DELETE(_req: Request, { params }: Ctx) {
   if (!getContentType(type)) return NextResponse.json({ success: false, message: "Unknown type" }, { status: 404 });
   try {
     await deleteContent(type, id);
+    refreshSite();
     return NextResponse.json({ success: true });
   } catch (e) {
     return NextResponse.json({ success: false, message: (e as Error).message }, { status: 500 });

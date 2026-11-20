@@ -20,30 +20,23 @@ interface HotelCity {
   near_temple: string;
   tiers?: Tier[];
   h1?: string;
+  /** Card photo (the site_hotels item's card_image). */
+  card_image?: string;
 }
 
-// One distinct image per card. There are more cards than source images, so a few
-// repeat — the mapping keeps repeats far apart and never adjacent in the grid.
-const SLUG_IMAGE: Record<string, string> = {
-  "somnath-trust-guest-house-booking": "/images/hotels/somnath.webp",
-  "dwarka-guest-house-dharamshala": "/images/hotels/dwarka.webp",
-  "sasan-gir-hotels": "/images/hotels/properties/p1.webp",
-  "hotels-in-somnath": "/images/hotels/properties/p6.webp",
-  "hotels-in-dwarka": "/images/hotels/properties/p3.webp",
-  "hotels-near-somnath-temple": "/images/hotels/properties/p2.webp",
-  "budget-hotels-in-somnath": "/images/hotels/properties/p4.webp",
-  "luxury-hotels-in-somnath": "/images/hotels/properties/p5.webp",
-  "hotels-near-dwarkadhish": "/images/hotels/hero.webp",
-  "budget-hotels-in-dwarka": "/images/hotels/properties/p1.webp",
-  "luxury-hotels-in-dwarka": "/images/hotels/properties/p6.webp",
-  "heritage-hotels-palace-stays-gujarat": "/images/hotels/properties/p2.webp",
-  "homestays-in-kutch": "/images/hotels/properties/p4.webp",
-};
+/** Card labels: CMS copy (page "hotels", field cards), passed down by the server page. {city} is filled per card. */
+export interface HotelCardLabels {
+  handpicked: string;
+  nearPrefix: string;
+  tiersLabel: string;
+  ctaTrust: string;
+  ctaDharamshala: string;
+  ctaDefault: string;
+}
 
-function getCtaText(slug: string, city: string) {
-  if (slug.includes("trust")) return `Explore trust stays in ${city}`;
-  if (slug.includes("dharamshala")) return `Explore dharamshalas in ${city}`;
-  return `Explore hotels in ${city}`;
+function getCtaText(slug: string, city: string, labels: HotelCardLabels) {
+  const t = slug.includes("trust") ? labels.ctaTrust : slug.includes("dharamshala") ? labels.ctaDharamshala : labels.ctaDefault;
+  return t.split("{city}").join(city);
 }
 
 // Icon + accent per comfort tier.
@@ -54,7 +47,7 @@ function tierMeta(tier: string) {
   return { Icon: Building2, cls: "text-amber-600 bg-amber-50 ring-amber-100" };
 }
 
-export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
+export function HotelCityCards({ hotels, labels }: { hotels: HotelCity[]; labels: HotelCardLabels }) {
   const [enquiryOpen, setEnquiryOpen] = useState(false);
 
   return (
@@ -75,7 +68,7 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
             {/* Image banner */}
             <div className="relative m-2 h-40 overflow-hidden rounded-xl bg-[#f4ede7]">
               <Image
-                src={SLUG_IMAGE[h.slug] ?? "/images/hotels/hero.webp"}
+                src={h.card_image || "/images/hotels/hero.webp"}
                 alt={h.h1 || `Hotels in ${h.city} near ${h.near_temple}`}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -85,7 +78,7 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
               {/* handpicked pill */}
               <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1 shadow-sm ring-1 ring-black/5 backdrop-blur-sm">
                 <Star size={11} className="fill-[#F59E0B] text-[#F59E0B]" />
-                <span className="text-[11px] font-bold text-[#3a2416]">Handpicked</span>
+                <span className="text-[11px] font-bold text-[#3a2416]">{labels.handpicked}</span>
               </div>
             </div>
 
@@ -96,12 +89,12 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
               </h3>
               <p className="mt-1 flex items-center gap-1.5 text-[12.5px] font-medium text-[#8a6a54]">
                 <MapPin size={13} className="shrink-0 text-orange-500" />
-                <span className="truncate">Near {h.near_temple}</span>
+                <span className="truncate">{labels.nearPrefix} {h.near_temple}</span>
               </p>
 
               <div className="my-3.5 h-px bg-[#f0e7e0]" />
 
-              <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#9a7358]">Choose your comfort tier</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#9a7358]">{labels.tiersLabel}</span>
 
               <div className="mt-2.5 space-y-1.5">
                 {(h.tiers ?? []).slice(0, 2).map(({ tier, area }) => {
@@ -123,7 +116,7 @@ export function HotelCityCards({ hotels }: { hotels: HotelCity[] }) {
               {/* CTA row */}
               <div className="mt-auto flex items-center justify-between gap-2 pt-4">
                 <span className="text-[13px] font-bold text-orange-700 transition-colors group-hover:text-[#E87722]">
-                  {getCtaText(h.slug, h.city)}
+                  {getCtaText(h.slug, h.city, labels)}
                 </span>
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-orange-50 text-orange-600 transition-colors group-hover:bg-orange-500 group-hover:text-white">
                   <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />

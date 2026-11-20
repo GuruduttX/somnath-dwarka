@@ -64,7 +64,8 @@ const FALLBACK_IMAGES = [
 const photoFor = (image: string | undefined, idx: number) =>
   image?.trim() ? image : FALLBACK_IMAGES[idx % FALLBACK_IMAGES.length];
 
-export function HotelPropertyCards({ properties, city }: { properties: Property[]; city: string }) {
+/** `note` is CMS copy (page "hotel-city", listing.honestyNote), passed down by the server page. */
+export function HotelPropertyCards({ properties, city, note }: { properties: Property[]; city: string; note: string }) {
   const [open, setOpen] = useState(false);
   const [filter, setFilter] = useState<string>("All");
 
@@ -215,7 +216,7 @@ export function HotelPropertyCards({ properties, city }: { properties: Property[
       {/* honesty note */}
       <p className="mt-8 flex items-center justify-center gap-2 text-center text-[12.5px] text-[#9a7358]">
         <Sparkles size={14} className="text-orange-400" />
-        Sample stays for guidance. Prices are indicative and confirmed when we quote a real hotel for your dates.
+        {note}
       </p>
     </>
   );

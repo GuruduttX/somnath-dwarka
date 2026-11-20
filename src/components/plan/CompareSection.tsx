@@ -1,17 +1,25 @@
 import Link from "next/link";
 import { Scale, ArrowUpRight, ArrowRight, Sparkles } from "lucide-react";
-import { SEED_COMPARISONS } from "@/src/lib/seed/destinations";
+import { getDataset } from "@/src/lib/datasets/store";
+import { getPageCopy } from "@/src/lib/sectionCopy";
+import { COMPARISONS_DATASET } from "@/src/lib/cms-groups/catalog";
+import { COMPARE_PAGE } from "@/src/app/compare/content";
 
 /**
  * "Compare & decide" section for the plan hub. Lists every /compare/ page as a
  * card so travellers weighing an option (which package, how many days, which
  * transport) can reach the honest side-by-side pages from one place.
  *
- * Reads SEED_COMPARISONS, so a new comparison appears here the moment it is
- * added to the seed — no second list to keep in sync.
+ * Reads the live site_comparisons dataset, so a comparison added through the
+ * CMS appears here too — no second list to keep in sync. Its copy is the
+ * planSection field of the "compare" page copy (src/app/compare/content.ts).
  */
-export default function CompareSection() {
-  if (!SEED_COMPARISONS.length) return null;
+export default async function CompareSection() {
+  const [comparisons, { planSection: copy }] = await Promise.all([
+    getDataset(COMPARISONS_DATASET),
+    getPageCopy(COMPARE_PAGE),
+  ]);
+  if (!comparisons.length) return null;
 
   return (
     <div className="bg-gradient-to-b from-white via-orange-50/20 to-white">
@@ -19,19 +27,18 @@ export default function CompareSection() {
         <div className="mx-auto max-w-2xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange-700">
             <Scale size={14} />
-            Compare &amp; decide
+            {copy.badge}
           </span>
           <h2 className="mt-5 text-3xl font-black leading-[1.1] tracking-[-0.02em] text-[#111827] sm:text-4xl">
-            Weighing your <span className="text-orange-500">options?</span>
+            {copy.headingStart} <span className="text-orange-500">{copy.headingHighlight}</span>
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-gray-500">
-            Honest, side-by-side comparisons — which package, how many days, and how to get around —
-            so you can decide before you book.
+            {copy.intro}
           </p>
         </div>
 
         <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SEED_COMPARISONS.map((c) => {
+          {comparisons.map((c) => {
             const options = [c.optionA, c.optionB, c.optionC].filter(Boolean) as string[];
             return (
               <li key={c.slug}>
@@ -74,7 +81,7 @@ export default function CompareSection() {
                   </p>
 
                   <span className="relative mt-5 inline-flex items-center gap-1.5 border-t border-orange-50 pt-3 text-[11.5px] font-extrabold uppercase tracking-wider text-orange-600">
-                    Read the comparison
+                    {copy.cardCta}
                     <ArrowRight size={12} className="transition-transform duration-200 group-hover:translate-x-0.5" />
                   </span>
                 </Link>
@@ -89,7 +96,7 @@ export default function CompareSection() {
             className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white px-5 py-3 text-sm font-bold text-orange-800 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50 hover:shadow-md"
           >
             <Sparkles size={15} className="text-orange-500" />
-            See all comparisons
+            {copy.allLink}
             <ArrowRight size={15} />
           </Link>
         </div>

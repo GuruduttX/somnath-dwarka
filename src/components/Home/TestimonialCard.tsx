@@ -3,11 +3,11 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Star, MapPin, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { TESTIMONIALS } from "@/src/config/testimonials";
+import type { Testimonial } from "@/src/config/testimonials";
 
-
-// Shared with the guide pages — see src/config/testimonials.ts.
-const testimonials = TESTIMONIALS;
+// The list comes from the parent server component: `await getTestimonials()`
+// (src/lib/testimonials.ts, CMS dataset site_testimonials). Never import the
+// config list here: a client component must not read editable data itself.
 
 const VISIBLE_DESKTOP = 2;
 const AUTO_INTERVAL = 3400;
@@ -23,7 +23,7 @@ function StarRow({ count, size = 13, color = "#FBBF24" }: { count: number; size?
   );
 }
 
-export default function TestimonialsSection() {
+export default function TestimonialsSection({ testimonials }: { testimonials: Testimonial[] }) {
   const [activeIdx, setActiveIdx] = useState(0);
   const [featFading, setFeatFading] = useState(false);
   const [displayedT, setDisplayedT] = useState(testimonials[0]);
@@ -40,7 +40,7 @@ export default function TestimonialsSection() {
   const isHorizontalSwipe = useRef(false);
   const touchDetermined = useRef(false);
 
-  const swapFeatured = useCallback((t: typeof testimonials[0]) => {
+  const swapFeatured = useCallback((t: Testimonial) => {
     setFeatFading(true);
     setTimeout(() => {
       setDisplayedT(t);
@@ -59,7 +59,7 @@ export default function TestimonialsSection() {
         userPausedRef.current = false;
       }, PAUSE_AFTER_INTERACTION);
     }
-  }, [swapFeatured]);
+  }, [swapFeatured, testimonials]);
 
   // Auto-scroll (desktop only — pause entirely on mobile)
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function TestimonialsSection() {
       }
     }, AUTO_INTERVAL);
     return () => { if (autoRef.current) clearInterval(autoRef.current); };
-  }, [swapFeatured]);
+  }, [swapFeatured, testimonials]);
 
   // Desktop track scroll
   useEffect(() => {
@@ -84,7 +84,7 @@ export default function TestimonialsSection() {
     const maxScroll = Math.max(0, (testimonials.length - VISIBLE_DESKTOP) * (cardH + gap));
     const targetScroll = Math.max(0, Math.min((activeIdx - 0.3) * (cardH + gap), maxScroll));
     track.style.transform = `translateY(-${targetScroll}px)`;
-  }, [activeIdx]);
+  }, [activeIdx, testimonials.length]);
 
   // ── FIX 2: Replace scrollIntoView with manual scrollLeft — no page scroll side effects ──
   useEffect(() => {
@@ -196,7 +196,7 @@ export default function TestimonialsSection() {
           >
             <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full pointer-events-none" style={{ background: "rgba(255,255,255,0.07)" }} />
             <div className="absolute -bottom-8 -left-5 w-32 h-32 rounded-full pointer-events-none" style={{ background: "rgba(255,255,255,0.05)" }} />
-            <span aria-hidden="true" className="absolute top-3 left-7 text-[80px] leading-none pointer-events-none select-none" style={{ color: "rgba(255,255,255,0.16)", fontFamily: "Georgia,serif" }}>"</span>
+            <span aria-hidden="true" className="absolute top-3 left-7 text-[80px] leading-none pointer-events-none select-none" style={{ color: "rgba(255,255,255,0.16)", fontFamily: "Georgia,serif" }}>&quot;</span>
 
             <div className="relative z-10">
               <StarRow count={t.rating} size={15} color="#FDE68A" />
@@ -204,7 +204,7 @@ export default function TestimonialsSection() {
                 className="mt-4 text-[16px] leading-[1.85] text-white/95 italic transition-all duration-200"
                 style={{ opacity: featFading ? 0 : 1, transform: featFading ? "translateY(8px)" : "translateY(0)" }}
               >
-                "{t.review}"
+                &quot;{t.review}&quot;
               </p>
             </div>
 
@@ -271,7 +271,7 @@ export default function TestimonialsSection() {
                       </div>
                       <StarRow count={item.rating} size={10} />
                     </div>
-                    <p className="text-[11.5px] text-[#666] leading-[1.65] line-clamp-2">"{item.review}"</p>
+                    <p className="text-[11.5px] text-[#666] leading-[1.65] line-clamp-2">&quot;{item.review}&quot;</p>
                     <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md mt-2" style={{ background: item.bg, color: item.color }}>
                       {item.destination}
                     </span>
@@ -310,7 +310,7 @@ export default function TestimonialsSection() {
               lengths doesn't push the cards/dots below up and down. */}
           <div className="relative flex flex-col rounded-[18px] p-6 sm:p-8 mb-5 overflow-hidden min-h-[320px] sm:min-h-[300px]" style={{ background: "#EA580C" }}>
             <div className="absolute -top-8 -right-8 w-36 h-36 rounded-full pointer-events-none" style={{ background: "rgba(255,255,255,0.07)" }} />
-            <span aria-hidden="true" className="absolute top-2 left-5 text-[60px] leading-none pointer-events-none select-none" style={{ color: "rgba(255,255,255,0.14)", fontFamily: "Georgia,serif" }}>"</span>
+            <span aria-hidden="true" className="absolute top-2 left-5 text-[60px] leading-none pointer-events-none select-none" style={{ color: "rgba(255,255,255,0.14)", fontFamily: "Georgia,serif" }}>&quot;</span>
 
             <div className="relative z-10 flex flex-1 flex-col">
               <StarRow count={t.rating} size={14} color="#FDE68A" />
@@ -318,7 +318,7 @@ export default function TestimonialsSection() {
                 className="mt-3 text-[14px] sm:text-[15px] leading-[1.75] text-white/95 italic transition-all duration-200 line-clamp-6"
                 style={{ opacity: featFading ? 0 : 1, transform: featFading ? "translateY(6px)" : "translateY(0)" }}
               >
-                "{t.review}"
+                &quot;{t.review}&quot;
               </p>
               <div className="flex items-center justify-between flex-wrap gap-3 mt-auto pt-4 border-t border-white/15">
                 <div className="flex items-center gap-2.5">
@@ -382,7 +382,7 @@ export default function TestimonialsSection() {
                   </div>
                   <StarRow count={item.rating} size={10} />
                 </div>
-                <p className="text-[11.5px] text-[#666] leading-[1.65] line-clamp-3">"{item.review}"</p>
+                <p className="text-[11.5px] text-[#666] leading-[1.65] line-clamp-3">&quot;{item.review}&quot;</p>
                 <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md mt-2" style={{ background: item.bg, color: item.color }}>
                   {item.destination}
                 </span>

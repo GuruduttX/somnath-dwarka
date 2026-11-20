@@ -8,18 +8,22 @@ import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import FestivalsHero from "@/src/components/festivals/FestivalsHero";
 import { FestivalCards, type FestivalItem } from "@/src/components/festivals/FestivalCards";
-import { SEED_FESTIVALS } from "@/src/lib/seed/destinations";
+import { getDataset } from "@/src/lib/datasets/store";
+import { FESTIVALS_DATASET } from "@/src/lib/cms-groups/catalog";
 import { getPublishedFestivals } from "@/src/lib/content";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { FESTIVALS_PAGE } from "./content";
 
-const PATH = "/festivals/";
+const PATH = FESTIVALS_PAGE.path;
+/* Copy lives in ./content.ts and is editable through the CMS (page "festivals"). */
 export const revalidate = 3600;
 
-export const metadata: Metadata = buildMetadata({
-  title: "Somnath Dwarka Festivals — Dates, Rituals & Travel Guide",
-  description:
-    "Major festivals at Somnath and Dwarka including Janmashtami and Maha Shivratri: what to expect, travel advice and how to plan darshan around the crowds.",
-  path: PATH,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const c = await getPageContent(FESTIVALS_PAGE);
+  return buildMetadata({ title: c.meta.title, description: c.meta.description, path: PATH });
+}
+
+const PLAN_AHEAD_ICONS = [CalendarClock, Users, BedDouble];
 
 // Map an admin/DB festival doc onto the card shape, filling gaps from sensible defaults.
 function fromDb(f: Record<string, unknown>): FestivalItem {
@@ -38,40 +42,13 @@ function fromDb(f: Record<string, unknown>): FestivalItem {
   };
 }
 
-const FAQ = [
-  {
-    question: "What are the biggest festivals at Somnath and Dwarka?",
-    answer:
-      "Janmashtami at Dwarka (Krishna's birth) and Maha Shivratri at Somnath are the largest celebrations. Kartik Purnima (Dev Diwali) at Somnath is a quieter, scenic alternative with a holy dip at Triveni Sangam.",
-  },
-  {
-    question: "When is Janmashtami celebrated in Dwarka?",
-    answer:
-      "Janmashtami falls in August–September and the exact date changes each year with the Hindu calendar. We confirm the dates before each season rather than publishing an unverified one.",
-  },
-  {
-    question: "How early should I book for a festival trip?",
-    answer:
-      "Reserve stays and cabs 6–10 weeks ahead for peak festivals. Tariffs rise and rooms near the temples fill quickly during Janmashtami and Maha Shivratri.",
-  },
-  {
-    question: "Are the temples very crowded during festivals?",
-    answer:
-      "Yes — expect heavy crowds and long darshan queues, especially overnight on Maha Shivratri and around midnight on Janmashtami. Plan your darshan around the aarti timings to avoid the biggest rush.",
-  },
-  {
-    question: "Can you plan a festival itinerary for me?",
-    answer:
-      "Yes. We arrange hotels, transport and a festival-ready day-wise itinerary covering both temple towns, timed around the crowds.",
-  },
-];
-
 export default async function FestivalHubPage() {
+  const c = await getPageContent(FESTIVALS_PAGE);
   const dbFestivals = (await getPublishedFestivals()) as Array<Record<string, unknown>>;
   // Admin-published festivals win; otherwise fall back to the seeded guides.
   const festivals: FestivalItem[] = dbFestivals.length
     ? dbFestivals.map(fromDb)
-    : SEED_FESTIVALS.map((f) => ({
+    : (await getDataset(FESTIVALS_DATASET)).map((f) => ({
         slug: f.slug,
         festival: f.festival,
         h1: f.h1,
@@ -87,7 +64,7 @@ export default async function FestivalHubPage() {
 
   return (
     <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Festivals", path: PATH }]} flushHero>
-      <FestivalsHero count={festivals.length} />
+      <FestivalsHero count={festivals.length} copy={c.hero} />
 
       {/* ── Festival guides ── */}
       <div className="bg-white">
@@ -95,14 +72,13 @@ export default async function FestivalHubPage() {
           <div className="mx-auto max-w-2xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange-700">
               <Sparkles size={14} />
-              Festival guides
+              {c.guides.badge}
             </span>
             <h2 className="mt-5 text-3xl font-black leading-[1.1] tracking-[-0.02em] text-[#111827] sm:text-4xl">
-              Celebrate at <span className="text-orange-500">Somnath &amp; Dwarka</span>
+              {c.guides.headingStart} <span className="text-orange-500">{c.guides.headingHighlight}</span>
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-gray-500">
-              Each guide covers the rituals, what to expect and how to plan travel and darshan
-              around the crowds. Exact dates change yearly and are confirmed before publishing.
+              {c.guides.intro}
             </p>
           </div>
 
@@ -118,22 +94,22 @@ export default async function FestivalHubPage() {
                 </span>
                 <div>
                   <h3 className="text-[15px] font-extrabold text-[#3a2416] leading-tight">
-                    Explore the Complete Festival Calendar
+                    {c.calendarBanner.title}
                   </h3>
                   <p className="text-xs text-[#6b4c38] mt-1 leading-relaxed">
-                    View upcoming dates (2026 – 2027), auspicious timing details, locations, and special darshan crowd tips.
+                    {c.calendarBanner.text}
                   </p>
                 </div>
               </div>
               <span className="flex items-center gap-1.5 px-4.5 py-2.5 rounded-full bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold transition shadow-md shadow-orange-600/10 group-hover:shadow-orange-600/20 whitespace-nowrap">
-                Open Calendar
+                {c.calendarBanner.button}
                 <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
               </span>
             </Link>
           </div>
 
           <div className="mt-12 pb-2">
-            <FestivalCards festivals={festivals} />
+            <FestivalCards festivals={festivals} ctaLabel={c.cardCta} />
           </div>
         </div>
       </div>
@@ -141,11 +117,7 @@ export default async function FestivalHubPage() {
       {/* ── Plan-ahead strip ── */}
       <div className="mx-auto max-w-5xl px-4 py-12">
         <div className="grid gap-4 sm:grid-cols-3">
-          {[
-            { Icon: CalendarClock, t: "Book early", s: "Reserve stays and cabs 6–10 weeks ahead for peak festivals." },
-            { Icon: Users, t: "Time your darshan", s: "Plan queues around aarti timings to avoid the biggest rush." },
-            { Icon: BedDouble, t: "We handle logistics", s: "Hotels, transport and a festival-ready itinerary in one place." },
-          ].map(({ Icon, t, s }) => (
+          {c.planAhead.map(({ title: t, text: s }, i) => ({ Icon: PLAN_AHEAD_ICONS[i % PLAN_AHEAD_ICONS.length], t, s })).map(({ Icon, t, s }) => (
             <div key={t} className="group relative h-full overflow-hidden rounded-3xl border border-orange-100 bg-white p-6 shadow-[0_10px_30px_rgba(234,88,12,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_22px_50px_rgba(234,88,12,0.14)]">
               <span className="absolute -right-6 -top-6 h-20 w-20 rounded-full bg-orange-50 transition-transform duration-300 group-hover:scale-125" />
               <span className="relative grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 text-white shadow-md">
@@ -158,24 +130,19 @@ export default async function FestivalHubPage() {
         </div>
       </div>
 
-      <Faq items={FAQ} heading="Festival FAQs" subheading="Planning a trip around Somnath and Dwarka's festivals." />
+      <Faq items={c.faqs} heading={c.faqHeading} subheading={c.faqSubheading} />
 
-      <CtaBand context="Festival trip to Somnath Dwarka" />
+      <CtaBand context={c.ctaContext} />
 
       {/* ── Related guides & services (Below CTA) ── */}
       <div className="mx-auto max-w-5xl px-4 py-12">
         <div className="border-t border-orange-100/60 pt-8">
           <p className="text-[11px] font-bold uppercase tracking-wider text-orange-600 mb-4 flex items-center gap-1.5">
             <Sparkles size={11} className="text-orange-500" />
-            <span>Related guides & services</span>
+            <span>{c.relatedLabel}</span>
           </p>
           <ul className="grid gap-4 sm:grid-cols-4">
-            {[
-              { target: "/somnath/", anchor: "Somnath Travel Guide", type: "pillar" },
-              { target: "/dwarka/", anchor: "Dwarka Travel Guide", type: "pillar" },
-              { target: "/somnath-dwarka-taxi-service/", anchor: "Book Taxi Service", type: "sibling" },
-              { target: "/somnath-dwarka-tour-package/", anchor: "Tour Packages", type: "money" },
-            ].map((l) => {
+            {c.related.map((l) => {
               let Icon = Calendar;
               let label = "Read more";
               if (l.type === "pillar") {
@@ -221,9 +188,8 @@ export default async function FestivalHubPage() {
       <JsonLd
         data={webPageSchema({
           type: "CollectionPage",
-          name: "Somnath & Dwarka Festivals",
-          description:
-            "Guides to major festivals at Somnath and Dwarka — dates, rituals and how to plan darshan around the crowds.",
+          name: c.schema.name,
+          description: c.schema.description,
           path: PATH,
           crumbs: [
             { name: "Home", path: "/" },

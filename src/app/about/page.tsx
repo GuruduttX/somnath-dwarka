@@ -5,35 +5,38 @@ import AboutWhoWeAre from "@/src/components/About/AboutWhoWeAre"
 import AboutDifferent from "@/src/components/About/AboutDifferent"
 import { buildMetadata, webPageSchema, breadcrumbSchema } from "@/src/lib/seo"
 import JsonLd from "@/src/components/seo/JsonLd"
+import { getPageContent } from "@/src/lib/pages/getPageContent"
+import { ABOUT_PAGE } from "./content"
 
-const PATH = "/about/"
+const PATH = ABOUT_PAGE.path
 
-export const metadata: Metadata = buildMetadata({
-  title: "About Us: Local Dwarka Team Behind Your Yatra",
-  description:
-    "Who we are and how we help pilgrims plan the Somnath–Dwarka circuit with tailored itineraries, private cabs and hotel assistance.",
-  path: PATH,
-})
+/* Copy lives in ./content.ts and is editable through the CMS; a save refreshes this page at once. */
+export const revalidate = 3600
+
+export async function generateMetadata(): Promise<Metadata> {
+  const c = await getPageContent(ABOUT_PAGE)
+  return buildMetadata({ title: c.meta.title, description: c.meta.description, path: PATH })
+}
 
 const CRUMBS = [
   { name: "Home", path: "/" },
   { name: "About", path: PATH },
 ]
 
-export default function page(){
+export default async function page(){
+    const c = await getPageContent(ABOUT_PAGE)
     return (
         <>
          <Navbar/>
          <AboutHero/>
-         <AboutWhoWeAre/>
-         <AboutDifferent/>
+         <AboutWhoWeAre content={c.whoWeAre}/>
+         <AboutDifferent content={c.different}/>
          <JsonLd
            data={[
              webPageSchema({
                type: "AboutPage",
-               name: "About Somnath Dwarka Tour Package",
-               description:
-                 "Who we are and how we help pilgrims plan the Somnath–Dwarka circuit.",
+               name: c.schema.name,
+               description: c.schema.description,
                path: PATH,
                crumbs: CRUMBS,
              }),

@@ -17,16 +17,8 @@ import {
 } from "@/src/lib/seo";
 import { BRAND, EXPERIENCE_VIDEO } from "@/src/config/site";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { HOME_FAQS } from "@/src/config/homeFaqs";
-import { TESTIMONIAL_REVIEWS } from "@/src/config/testimonials";
-import {
-  HOME_HERO,
-  HOME_ITINERARY,
-  HOME_PRICE_FROM,
-  HOME_ROUTE_STOPS,
-  HOME_TIERS,
-  inr,
-} from "@/src/config/homePage";
+import { getTestimonialReviews } from "@/src/lib/testimonials";
+import { getHomeCopy } from "@/src/app/content";
 import { getPublishedPackages } from "@/src/lib/content";
 import {
   mapAdminPackagesToTourCards,
@@ -85,16 +77,16 @@ import PackageSlider from "@/src/components/Home/sop/PackageSlider";
  * whose title and H1 are the bare phrase. The /somnath-dwarka-tour-package/
  * listing targets "compare … packages" and every spoke carries its own
  * qualifier (by car, from Ahmedabad, budget…), so the site no longer competes
- * with itself for the money query. The price comes from HOME_TIERS so the
- * title, the price cards and the Offer schema can never disagree.
+ * with itself for the money query. The price comes from the home copy's
+ * tiers so the title, the price cards and the Offer schema can never disagree.
+ *
+ * The title and description are CMS-editable (src/app/content.ts, page id
+ * "home"); their {{priceFrom}} token is the cheapest tier price.
  */
-const HOME_TITLE = `Somnath Dwarka Tour Package from ₹${inr(HOME_PRICE_FROM)} — Local Guide`;
-
-export const metadata: Metadata = buildMetadata({
-  title: HOME_TITLE,
-  description: `Somnath Dwarka tour package by a Dwarka local: named 4 and 5 star hotels, private AC car, darshan help and honest pricing from ₹${inr(HOME_PRICE_FROM)}. Get a day-wise plan.`,
-  path: "/",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const copy = await getHomeCopy();
+  return buildMetadata({ title: copy.meta.title, description: copy.meta.description, path: "/" });
+}
 
 /**
  * Refresh hourly, like the pillar. Without this the home page was built once
@@ -143,6 +135,9 @@ function upcomingMonths(count = 12): string[] {
 }
 
 export default async function Home() {
+  const copy = await getHomeCopy();
+  // Guest reviews are a CMS dataset (site_testimonials); the same list feeds <HomeReviews> and the schema.
+  const testimonialReviews = await getTestimonialReviews();
   // Packages come from the CMS only — deliberately no static fallback here, so
   // an empty collection renders empty package sections rather than demo data.
   const adminPackages = await getPublishedPackages();
@@ -254,7 +249,7 @@ export default async function Home() {
         <div className="cv-section"><DataAndResearch /></div>
 
         {/* §16 FAQ — last section on the page. */}
-        <div className="cv-section"><HomeFaqSection /></div>
+        <div className="cv-section"><HomeFaqSection faqs={copy.faqs} /></div>
       </main>
 
       {/* One connected graph: WebPage → breadcrumb, the package (Product +
@@ -265,8 +260,8 @@ export default async function Home() {
       <JsonLd
         data={[
           webPageSchema({
-            name: HOME_TITLE,
-            description: HOME_HERO.lead,
+            name: copy.meta.title,
+            description: copy.hero.lead,
             path: "/",
             speakable: true,
             primaryImage: BRAND.ogImage,
@@ -277,17 +272,17 @@ export default async function Home() {
           touristTripSchema({
             id: "/#trip",
             name: "Somnath Dwarka Tour Package (2 Nights 3 Days)",
-            description: `${HOME_HERO.lead} ${HOME_HERO.priceLine} ${HOME_HERO.priceTail}`,
+            description: `${copy.hero.lead} ${copy.hero.priceLine} ${copy.hero.priceTail}`,
             path: "/",
-            tiers: HOME_TIERS.map((t) => ({ name: t.name, price: t.price, description: t.hotels })),
+            tiers: copy.tiers.map((t) => ({ name: t.name, price: t.price, description: t.hotels })),
             images: [BRAND.ogImage, "/images/home/DwarikaLongImage.webp", "/images/home/SomnathLongImage.webp"],
-            itinerary: HOME_ROUTE_STOPS,
-            duration: `P${HOME_ITINERARY.length}D`,
+            itinerary: copy.routeStops,
+            duration: `P${copy.itinerary.length}D`,
             touristType: ["Pilgrims", "Families", "Senior citizens"],
             sku: "SDTP-2N3D",
-            reviews: TESTIMONIAL_REVIEWS.slice(0, 9),
+            reviews: testimonialReviews.slice(0, 9),
           }),
-          faqSchema(HOME_FAQS),
+          faqSchema(copy.faqs),
           itemListSchema({
             name: "Somnath Dwarka tour packages",
             path: "/",

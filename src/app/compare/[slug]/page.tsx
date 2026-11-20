@@ -10,32 +10,39 @@ import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { SEED_COMPARISONS, findSeedComparison } from "@/src/lib/seed/destinations";
+import { SEED_COMPARISONS } from "@/src/lib/seed/destinations";
 import { buildRelatedLinks } from "@/src/lib/links";
+import { getDatasetItem } from "@/src/lib/datasets/store";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { COMPARISONS_DATASET } from "@/src/lib/cms-groups/catalog";
+import { COMPARE_DETAIL_PAGE } from "../content";
 
 export const revalidate = 3600;
 type Params = { params: Promise<{ slug: string }> };
 
+/* Prerenders the code comparisons; ones added through the CMS (site_comparisons) render on first visit.
+   Shared copy: ../content.ts (CMS page "compare-detail"). */
 export function generateStaticParams() {
   return SEED_COMPARISONS.map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const c = findSeedComparison(slug);
+  const c = await getDatasetItem(COMPARISONS_DATASET, slug);
   if (!c) return {};
   return buildMetadata({ title: c.title, description: c.answer_first, path: `/compare/${slug}/` });
 }
 
 export default async function ComparisonPage({ params }: Params) {
   const { slug } = await params;
-  const c = findSeedComparison(slug);
+  const c = await getDatasetItem(COMPARISONS_DATASET, slug);
   if (!c) notFound();
+  const copy = await getPageContent(COMPARE_DETAIL_PAGE);
 
   const related = buildRelatedLinks({
     self: `/compare/${slug}/`,
     hub: true,
-    pillar: { target: "/compare/", anchor: "all comparisons" },
+    pillar: { target: "/compare/", anchor: copy.relatedPillarAnchor },
     money: "packages",
     siblings: [
       { target: "/somnath/", anchor: "Somnath travel guide", type: "sibling" },
@@ -61,14 +68,14 @@ export default async function ComparisonPage({ params }: Params) {
         <AnswerFirst tag="opinion">{c.answer_first}</AnswerFirst>
       </div>
 
-      <Section id="table" title="Side by side">
+      <Section id="table" title={copy.tableTitle}>
         {/* The URL map has three-way comparisons; the third column renders only
             when the record defines optionC. */}
         <DataTable
           columns={
             c.optionC
-              ? ["Criterion", c.optionA, c.optionB, c.optionC]
-              : ["Criterion", c.optionA, c.optionB]
+              ? [copy.criterionLabel, c.optionA, c.optionB, c.optionC]
+              : [copy.criterionLabel, c.optionA, c.optionB]
           }
           rows={c.rows.map((r) =>
             c.optionC ? [r.criterion, r.a, r.b, r.c ?? "—"] : [r.criterion, r.a, r.b],
@@ -76,19 +83,19 @@ export default async function ComparisonPage({ params }: Params) {
         />
       </Section>
 
-      <Section id="verdict" title="Verdict">
+      <Section id="verdict" title={copy.verdictTitle}>
         <p className="text-gray-700">{c.verdict}</p>
         {c.recommended_target ? (
           <Link
             href={c.recommended_target}
             className="inline-block mt-4 px-5 py-3 rounded-full bg-[#E87722] text-white font-semibold"
           >
-            See recommended packages
+            {copy.recommendedCta}
           </Link>
         ) : null}
       </Section>
 
-      <Faq items={c.faq} heading="FAQs" />
+      <Faq items={c.faq} heading={copy.faqHeading} />
       <CtaBand context={c.h1} />
       <RelatedLinks links={related} />
 

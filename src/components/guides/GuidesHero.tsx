@@ -2,16 +2,22 @@
 
 import Image from "@/src/components/shared/Img";
 import { BookOpen, Sparkles, MapPin, Compass, Star, Camera } from "lucide-react";
+import { rich } from "@/src/lib/pages/rich";
+import { fillVars } from "@/src/components/templates/copy";
+import type { GuidesHeroCopy } from "@/src/app/guides/content";
 
-const HERO_IMG = "/images/home/SomnathLongImage.webp";
+/** Icon keys the CMS copy may use for the chips. */
+const CHIP_ICONS = { compass: Compass, pin: MapPin, camera: Camera, star: Star, book: BookOpen, sparkles: Sparkles } as const;
+const chipIcon = (k: string) => CHIP_ICONS[k as keyof typeof CHIP_ICONS] ?? Compass;
 
-const CHIPS = [
-  { icon: Compass, label: "Itineraries" },
-  { icon: MapPin, label: "Temple tips" },
-  { icon: Camera, label: "What to expect" },
-];
+const Bold = ({ children }: { children: React.ReactNode }) => (
+  <strong className="font-semibold text-orange-700">{children}</strong>
+);
 
-export default function GuidesHero({ count }: { count: number }) {
+/** The /guides/ hero. Its copy is the "guides" page's `hero` (src/app/guides/content.ts), passed in by the server page. */
+export default function GuidesHero({ count, copy }: { count: number; copy: GuidesHeroCopy }) {
+  const HERO_IMG = copy.image;
+  const CHIPS = copy.chips.map((c) => ({ icon: chipIcon(c.icon), label: c.label }));
   return (
     <>
       <style>{`
@@ -41,20 +47,18 @@ export default function GuidesHero({ count }: { count: number }) {
           <div className="flex flex-col">
             <div className="gd-up gd0 inline-flex w-fit items-center gap-1.5 rounded-full border border-orange-200/80 bg-white/70 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-orange-800 shadow-sm backdrop-blur-sm">
               <Compass size={12} className="text-orange-500" />
-              Verified Travel Guides
+              {copy.eyebrow}
             </div>
 
             <h1 className="gd-up gd1 mt-4 text-4xl font-black leading-[1.08] tracking-[-0.02em] text-[#3a2416] sm:text-5xl lg:text-[3.35rem]">
-              Somnath Dwarka{" "}
+              {copy.h1.before}{" "}
               <span className="bg-[linear-gradient(100deg,#EA580C,#F97316,#F59E0B)] bg-clip-text text-transparent">
-                travel guides
+                {copy.h1.highlight}
               </span>
             </h1>
 
             <p className="gd-up gd2 mt-4 max-w-xl text-[15px] leading-[1.75] text-[#6b4c38]">
-              First-hand guides to help you plan the circuit — from{" "}
-              <strong className="font-semibold text-orange-700">itineraries and temple timings</strong> to
-              travel tips and what to expect on the ground.
+              {rich(copy.intro, undefined, Bold)}
             </p>
 
             <div className="gd-up gd3 mt-6 flex flex-wrap gap-2.5">
@@ -72,7 +76,7 @@ export default function GuidesHero({ count }: { count: number }) {
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-7 py-3.5 text-sm font-bold text-white shadow-[0_12px_30px_rgba(234,88,12,0.35)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
               >
                 <BookOpen size={16} />
-                Browse {count > 0 ? `${count} guides` : "guides"}
+                {count > 0 ? fillVars(copy.browseCta, { count }) : copy.browseCtaEmpty}
               </a>
             </div>
           </div>
@@ -82,11 +86,11 @@ export default function GuidesHero({ count }: { count: number }) {
             <div className="absolute -inset-3 -rotate-2 rounded-[36px] bg-[linear-gradient(135deg,rgba(234,88,12,0.16),rgba(245,158,11,0.08))]" aria-hidden="true" />
             <div className="relative overflow-hidden rounded-[28px] border-[6px] border-white shadow-[0_30px_70px_rgba(234,88,12,0.20)]">
               <div className="relative aspect-[4/3] w-full">
-                <Image src={HERO_IMG} alt="Somnath temple travel guide" fill priority sizes="(max-width:1024px) 90vw, 480px" className="object-cover" />
+                <Image src={HERO_IMG} alt={copy.imageAlt} fill priority sizes="(max-width:1024px) 90vw, 480px" className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/5" />
                 <div className="absolute inset-x-0 bottom-0 p-4">
-                  <p className="text-[14px] font-bold text-white">Somnath &amp; Dwarka, Gujarat</p>
-                  <p className="mt-0.5 flex items-center gap-1 text-[11px] text-white/80"><MapPin size={11} /> Pilgrimage circuit</p>
+                  <p className="text-[14px] font-bold text-white">{copy.imageCaption}</p>
+                  <p className="mt-0.5 flex items-center gap-1 text-[11px] text-white/80"><MapPin size={11} /> {copy.imageSubcaption}</p>
                 </div>
               </div>
             </div>
@@ -98,15 +102,16 @@ export default function GuidesHero({ count }: { count: number }) {
                   <Star size={16} />
                 </span>
                 <div className="leading-tight">
-                  <p className="text-[13px] font-black text-[#3a2416]">Local know-how</p>
-                  <p className="text-[10.5px] text-[#9a7358]">Written by our team</p>
+                  <p className="text-[13px] font-black text-[#3a2416]">{copy.badgeTitle}</p>
+                  <p className="text-[10.5px] text-[#9a7358]">{copy.badgeText}</p>
                 </div>
               </div>
             </div>
 
             <div className="gd-float absolute -right-3 top-6 hidden rounded-xl border border-orange-100 bg-white/95 px-3 py-2 shadow-lg backdrop-blur-sm md:flex md:items-center md:gap-1.5" style={{ animationDelay: "-2s" }}>
               <Sparkles size={13} className="text-orange-500" />
-              <span className="text-[11px] font-bold text-[#3a2416]">Updated regularly</span>
+              <span className="text-[11px] font-bold text-[#3a2416]">{copy.updatedBadge}</span>
+
             </div>
           </div>
         </div>

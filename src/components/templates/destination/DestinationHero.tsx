@@ -7,24 +7,29 @@ import Image from "@/src/components/shared/Img";
 import { Sparkles, ArrowRight } from "lucide-react";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import type { DestinationMeta } from "@/src/lib/seed/destinationMeta";
+import type { HeroLabels } from "./content";
 import { ICONS } from "./icons";
 
 export default function DestinationHero({
   meta,
-  destination,
   h1,
   answerFirst,
+  labels,
 }: {
   meta: DestinationMeta;
   destination: string;
   h1: string;
   answerFirst: string;
+  /** CMS copy with {destination} already filled in by the server parent. */
+  labels: HeroLabels;
 }) {
   const [open, setOpen] = useState(false);
+  const suffix = labels.titleSuffix;
+  const title = suffix && h1.endsWith(` ${suffix}`) ? h1.slice(0, -(suffix.length + 1)) : h1;
 
   return (
     <>
-      <CommonEnquiryForm open={open} onClose={() => setOpen(false)} defaultService={`Tour Package for ${destination}`} />
+      <CommonEnquiryForm open={open} onClose={() => setOpen(false)} defaultService={labels.enquiryService} />
 
       <style>{`
         /* Transform-only entrance: an opacity:0 start kept the hero out of the first
@@ -54,7 +59,7 @@ export default function DestinationHero({
           {meta.heroImage ? (
             <Image
               src={meta.heroImage}
-              alt={`${destination}, Gujarat`}
+              alt={labels.imageAlt}
               fill
               priority
               sizes="100vw"
@@ -174,9 +179,9 @@ export default function DestinationHero({
 
             {/* Title Section */}
             <h1 className="dh-up dh2 mt-0 text-[28px] xs:text-[34px] sm:text-5xl lg:text-[4.25rem] font-black leading-[1.1] tracking-tight text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.8)] font-dm">
-              <span className="inline-block mr-2">{h1.replace(/ Travel Guide$/, "")}</span>
+              <span className="inline-block mr-2">{title}</span>
               <span className="inline-block bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-500 bg-clip-text text-transparent font-black whitespace-nowrap">
-                Travel Guide
+                {suffix}
               </span>
             </h1>
 
@@ -217,7 +222,7 @@ export default function DestinationHero({
                 className="group inline-flex flex-1 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 px-4 py-3 text-[13px] font-bold text-white shadow-[0_16px_36px_rgba(234,88,12,0.45)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 sm:flex-none sm:gap-2 sm:px-8 sm:py-3.5 sm:text-sm font-dm"
               >
                 <Sparkles size={14} className="shrink-0 animate-spin-slow" style={{ animationDuration: '6s' }} />
-                Plan a {destination} Trip
+                {labels.ctaLabel}
                 <ArrowRight size={14} className="shrink-0 transition-transform group-hover:translate-x-1" />
               </button>
             </div>

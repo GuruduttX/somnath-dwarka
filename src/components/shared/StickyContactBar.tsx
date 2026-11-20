@@ -6,7 +6,7 @@ import { CONTACT, waLink, telLink } from "@/src/config/site";
  * Icon-only (Call left, WhatsApp right) with real <a> deep links (tel: + wa.me)
  * — works with JS disabled. aria-labels keep it accessible (SOP §10).
  */
-export default function StickyContactBar() {
+export default function StickyContactBar({ whatsappText }: { whatsappText: string }) {
   return (
     <nav className="sticky-contact-bar" aria-label="Contact us">
       <a className="scb-call" href={telLink()} aria-label={`Call ${CONTACT.phoneDisplay}`}>
@@ -14,7 +14,7 @@ export default function StickyContactBar() {
       </a>
       <a
         className="scb-wa"
-        href={waLink("Hi, I'd like to plan a Somnath–Dwarka trip.")}
+        href={waLink(whatsappText)}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`WhatsApp ${CONTACT.phoneDisplay}`}

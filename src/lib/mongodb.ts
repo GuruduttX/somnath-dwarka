@@ -16,7 +16,7 @@ if (!cached) {
 }
 
 
-export async function connectDB() {
+export async function connectDB(): Promise<typeof mongoose> {
 
     if (cached.conn) {
         return cached.conn

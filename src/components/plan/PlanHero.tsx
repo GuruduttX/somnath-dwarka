@@ -6,21 +6,22 @@ import { useState } from "react";
 import { Sparkles, MapPin, Clock, CalendarDays, Route, MessageSquare, ArrowRight, Compass } from "lucide-react";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { waLink } from "@/src/config/site";
+import { rich } from "@/src/lib/pages/rich";
+import type { PlanHeroCopy } from "@/src/app/plan/content";
 
-const FACTS = [
-  { icon: Route, label: "≈ 233 km", sub: "Dwarka ↔ Somnath" },
-  { icon: Clock, label: "4.5–5 hr", sub: "Drive time" },
-  { icon: CalendarDays, label: "3–5 days", sub: "Ideal circuit" },
-];
+/** Icon keys the CMS copy may use for the fact chips. */
+const FACT_ICONS = { route: Route, clock: Clock, calendar: CalendarDays, pin: MapPin, compass: Compass } as const;
+const factIcon = (k: string) => FACT_ICONS[k as keyof typeof FACT_ICONS] ?? Route;
 
-const STOPS = [
-  { name: "Dwarka", d: "Day 1" },
-  { name: "Porbandar", d: "En route" },
-  { name: "Somnath", d: "Day 2–3" },
-];
+const Bold = ({ children }: { children: React.ReactNode }) => (
+  <strong className="font-semibold text-orange-700">{children}</strong>
+);
 
-export default function PlanHero() {
+/** The /plan/ hero. Its copy is the "plan" page's `hero` (src/app/plan/content.ts), passed in by the server page. */
+export default function PlanHero({ copy }: { copy: PlanHeroCopy }) {
   const [open, setOpen] = useState(false);
+  const FACTS = copy.facts.map((f) => ({ icon: factIcon(f.icon), label: f.label, sub: f.sub }));
+  const STOPS = copy.card.stops;
 
   return (
     <>
@@ -53,16 +54,15 @@ export default function PlanHero() {
           <div className="flex flex-col">
 
             <h1 className="pl-up pl1 mt-4 text-4xl font-black leading-[1.08] tracking-[-0.02em] text-[#3a2416] sm:text-5xl lg:text-[3.35rem]">
-              Plan your{" "}
+              {copy.h1.before}{" "}
               <span className="bg-[linear-gradient(100deg,#EA580C,#F97316,#F59E0B)] bg-clip-text text-transparent">
-                Somnath Dwarka
+                {copy.h1.highlight}
               </span>{" "}
-              trip
+              {copy.h1.after}
             </h1>
 
             <p className="pl-up pl2 mt-4 max-w-xl text-[15px] leading-[1.75] text-[#6b4c38]">
-              Everything you need before you book — distance and drive time, how many days you
-              need, which temple to visit first, and ready-made <strong className="font-semibold text-orange-700">day-wise itineraries</strong>.
+              {rich(copy.intro, undefined, Bold)}
             </p>
 
             {/* fact chips */}
@@ -87,17 +87,17 @@ export default function PlanHero() {
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-7 py-3.5 text-sm font-bold text-white shadow-[0_12px_30px_rgba(234,88,12,0.35)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
               >
                 <Sparkles size={16} />
-                Plan My Trip
+                {copy.ctaLabel}
                 <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
               </button>
               <a
-                href={waLink("Hi, help me plan a Somnath Dwarka trip")}
+                href={waLink(copy.whatsappMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-7 py-3.5 text-sm font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white active:translate-y-0 cursor-pointer"
               >
                 <MessageSquare size={15} />
-                Ask on WhatsApp
+                {copy.whatsappLabel}
               </a>
             </div>
           </div>
@@ -114,11 +114,11 @@ export default function PlanHero() {
                     <Route size={16} />
                   </span>
                   <div className="leading-tight">
-                    <p className="text-[13px] font-black text-[#3a2416]">Journey at a glance</p>
-                    <p className="text-[10.5px] text-[#9a7358]">Classic 3-day circuit</p>
+                    <p className="text-[13px] font-black text-[#3a2416]">{copy.card.title}</p>
+                    <p className="text-[10.5px] text-[#9a7358]">{copy.card.subtitle}</p>
                   </div>
                 </div>
-                <span className="rounded-full border border-orange-200 bg-white px-2.5 py-1 text-[10px] font-bold text-orange-700 shadow-xs">≈ 233 km</span>
+                <span className="rounded-full border border-orange-200 bg-white px-2.5 py-1 text-[10px] font-bold text-orange-700 shadow-xs">{copy.card.badge}</span>
               </div>
 
               {/* route line */}
@@ -145,11 +145,8 @@ export default function PlanHero() {
 
               {/* footer day chips */}
               <div className="mt-2 grid grid-cols-3 gap-2 border-t border-orange-100 pt-4">
-                {[
-                  { d: "Day 1", t: "Dwarka darshan" },
-                  { d: "Day 2", t: "Drive + aarti" },
-                  { d: "Day 3", t: "Somnath" },
-                ].map((c) => (
+                {copy.card.days.map((c) => (
+
                   <div key={c.d} className="rounded-xl bg-orange-50/60 p-2.5 text-center">
                     <p className="text-[10px] font-bold uppercase tracking-wide text-orange-600">{c.d}</p>
                     <p className="mt-0.5 text-[10.5px] font-semibold text-[#6b4c38]">{c.t}</p>

@@ -11,7 +11,7 @@ import Faq from "@/src/components/shared/Faq";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { GIR_HUB_SLUG, getHubBySlug, getPublishedHubSpokes, girPackagePath } from "@/src/lib/content";
-import { GIR_SEED_PACKAGES, type GirSeedPackage } from "@/src/lib/seed/girPackages";
+import type { GirSeedPackage } from "@/src/lib/seed/girPackages";
 import {
   isAuthorisedGirPackage,
   girPackageBucket,
@@ -26,25 +26,28 @@ import HangingDiyas from "@/src/components/TourArchive/HangingDiyas";
 import PackageHubHero from "@/src/components/TourArchive/PackageHubHero";
 import HubContent from "@/src/components/hub/HubContent";
 import { faqOf, s, bool, verifiedValue, relatedOf, h1Of, titleOf } from "@/src/lib/cms";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { rich, type RichBold } from "@/src/lib/pages/rich";
+import { getDataset } from "@/src/lib/datasets/store";
+import { GIR_PACKAGES_DATASET } from "@/src/lib/cms-groups/packages";
+import { GIR_HUB_PAGE, type GirHubContent } from "./content";
 
 const PATH = "/somnath-dwarka-gir-tour-package/";
 
 export const revalidate = 3600;
 
-const DEFAULT_TITLE = "Somnath Dwarka Gir Tour Package";
-const DEFAULT_DESCRIPTION =
-  "Somnath Dwarka Gir tour packages with day-wise itinerary, safari planning, inclusions and indicative prices. Choose by duration, starting city or traveller.";
+const OrangeBold: RichBold = ({ children }) => <strong className="font-semibold text-orange-700">{children}</strong>;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const hub = await getHubBySlug(GIR_HUB_SLUG);
+  const [hub, c] = await Promise.all([getHubBySlug(GIR_HUB_SLUG), getPageContent(GIR_HUB_PAGE)]);
   if (!hub) {
-    return buildMetadata({ title: DEFAULT_TITLE, description: DEFAULT_DESCRIPTION, path: PATH });
+    return buildMetadata({ title: c.meta.title, description: c.meta.description, path: PATH });
   }
   return buildMetadata({
-    title: titleOf(hub) || DEFAULT_TITLE,
+    title: titleOf(hub) || c.meta.title,
     // The scaffolded hub docs carry an empty meta_description; an empty
     // description tag is worse than the hand-written fallback.
-    description: s(hub, "meta_description") || DEFAULT_DESCRIPTION,
+    description: s(hub, "meta_description") || c.meta.description,
     path: PATH,
     noindex: bool(hub, "noindex"),
     canonicalOverride: s(hub, "canonical_override") || undefined,
@@ -55,7 +58,6 @@ export async function generateMetadata(): Promise<Metadata> {
 const HERO_SOMNATH = "/images/home/SomnathLongImage.webp";
 const HERO_DWARKA = "/images/home/DwarikaLongImage.webp";
 const HERO_GIR = "/images/gir/gir-hero.webp";
-const HERO_MOBILE = "/images/gir/gir-hero.webp";
 
 // Rotating pool of temple/forest imagery for variants that have no CMS photos yet.
 const FALLBACK_CARD_IMAGES = [
@@ -88,6 +90,7 @@ function seedToTourPackage(
   seed: GirSeedPackage,
   index: number,
   override: SpokeOverride | undefined,
+  cards: GirHubContent["cards"],
 ): TourPackage {
   const duration = override?.duration || seed.duration;
   const days = Number(duration.match(/(\d+)/)?.[1] ?? 4);
@@ -98,28 +101,28 @@ function seedToTourPackage(
 
   const location =
     seed.facet === "from-city"
-      ? `${seed.h1.replace(/^Somnath Dwarka Gir Tour Package from /i, "")} to Dwarka, Somnath & Gir`
-      : "Dwarka, Somnath, Sasan Gir";
+      ? `${seed.h1.replace(/^Somnath Dwarka Gir Tour Package from /i, "")} ${cards.fromCityLocationTail}`
+      : cards.defaultLocation;
 
   const groupType =
     seed.facet === "traveller"
       ? seed.slug === "group"
-        ? "Group Trip"
-        : "Family Trip"
-      : "Private Trip";
+        ? cards.groupTypeGroup
+        : cards.groupTypeTraveller
+      : cards.groupTypeDefault;
 
   const badge =
     seed.facet === "from-city"
-      ? "Starts from your city"
+      ? cards.badgeFromCity
       : seed.facet === "addon"
-      ? "Extended circuit"
+      ? cards.badgeAddon
       : seed.facet === "traveller"
       ? seed.slug === "for-senior-citizens"
-        ? "Easy pace"
-        : "Family Friendly"
+        ? cards.badgeSeniors
+        : cards.badgeTraveller
       : index === 0
-      ? "Popular"
-      : "Curated";
+      ? cards.badgeFirst
+      : cards.badgeDefault;
 
   return {
     id: seed.slug,
@@ -140,26 +143,15 @@ function seedToTourPackage(
   };
 }
 
-/** Explorer copy for this hub — its groups mean different things than the flagship's. */
-const GROUP_COPY = {
-  duration: {
-    blurb: "From a compressed 3-day run to an unhurried 6-day loop with a spare safari morning.",
-  },
-  city: {
-    blurb: "Private round trips with pickup and drop from your city, with Gir on the return leg.",
-  },
-  traveller: {
-    title: "Choose by traveller",
-    blurb: "Plans tuned for families, senior travellers or a group with several safari jeeps.",
-  },
-  route: {
-    title: "Add a destination",
-    blurb: "Extend the circuit with Diu's beaches or Junagadh and the Girnar climb.",
-  },
-} as const;
+/* Explorer copy for this hub (its groups mean different things than the flagship's) is `groups` in ./content.ts. */
 
 export default async function GirPackagePillarPage() {
-  const hub = await getHubBySlug(GIR_HUB_SLUG);
+  const [hub, c, seeds] = await Promise.all([
+    getHubBySlug(GIR_HUB_SLUG),
+    getPageContent(GIR_HUB_PAGE),
+    // The code variants with their CMS edits (dataset site_gir_packages).
+    getDataset(GIR_PACKAGES_DATASET),
+  ]);
   // h1Of strips the URL map's "— Itinerary, Price & Booking" keyword tail.
   const heroHeadline = hub ? h1Of(hub) : "";
 
@@ -180,8 +172,8 @@ export default async function GirPackagePillarPage() {
 
   // Only variants the URL map authorises are listed. A record outside the map
   // is not part of the planned architecture, so it never reaches the money page.
-  const variants: TourPackage[] = GIR_SEED_PACKAGES.filter((p) => isAuthorisedGirPackage(p.slug)).map(
-    (seed, i) => seedToTourPackage(seed, i, overrides.get(seed.slug)),
+  const variants: TourPackage[] = seeds.filter((p) => isAuthorisedGirPackage(p.slug)).map(
+    (seed, i) => seedToTourPackage(seed, i, overrides.get(seed.slug), c.cards),
   );
 
   const inBucket = (bucket: GirPackageBucket) =>
@@ -211,47 +203,17 @@ export default async function GirPackagePillarPage() {
   });
 
   const dbFaq = hub ? faqOf(hub) : [];
-  const pillarFaq =
-    dbFaq.length > 0
-      ? dbFaq
-      : [
-          {
-            question: "What does a Somnath Dwarka Gir tour package include?",
-            answer:
-              "Hotel stays, a private vehicle with driver, daily breakfast, a temple-sequenced itinerary and help booking your Gir safari. The safari permit and jeep are charged separately at actuals, and air/train fare and lunch/dinner are excluded. Exact inclusions are listed on each variant.",
-          },
-          {
-            question: "How many days do I need for Somnath, Dwarka and Gir?",
-            answer:
-              "Four days is the working minimum, because the safari has to be a morning departure and the drive from Somnath to Sasan Gir takes most of a day. Five days is the comfortable version and leaves a fallback morning if a safari slot falls through.",
-          },
-          {
-            question: "Is the Gir safari included in the package price?",
-            answer:
-              "No. Safari permits and jeeps are booked through the forest department's online system and charged at actuals — we handle the booking and share the confirmation, but the price is not ours to quote.",
-          },
-          {
-            question: "When is Gir closed?",
-            answer:
-              "The park shuts for the monsoon — roughly mid-June to mid-October. The forest department sets the exact dates each year, so we confirm them against your travel window before you book. The Devalia Interpretation Zone often stays open when the main park does not.",
-          },
-          {
-            question: "Can I customise the itinerary and starting city?",
-            answer:
-              "Yes — every package here is a starting point. We can change the number of days, add pickup from your city, swap in Diu or Junagadh, and tune the hotel tier to your budget. Share your dates for a tailored plan.",
-          },
-        ];
+  const pillarFaq = dbFaq.length > 0 ? dbFaq : c.faqs;
 
   const crumbs = [
     { name: "Home", path: "/" },
     { name: "Somnath Dwarka Gir packages", path: PATH },
   ];
 
-  const description =
-    "Pilgrimage and wildlife tour packages covering Somnath, Dwarka and Gir National Park with private transport and hotels.";
+  const description = c.schema.description;
 
   const pageNode = webPageSchema({
-    name: "Somnath Dwarka Gir Tour Package",
+    name: c.schema.name,
     description,
     path: PATH,
     type: "CollectionPage",
@@ -260,7 +222,7 @@ export default async function GirPackagePillarPage() {
   });
 
   const fallbackTrip = touristTripSchema({
-    name: "Somnath Dwarka Gir Tour Package",
+    name: c.schema.name,
     description,
     path: PATH,
   });
@@ -271,7 +233,7 @@ export default async function GirPackagePillarPage() {
     : null;
   // Same cards, in the same group order, that PackageExplorer renders.
   const packageList = itemListSchema({
-    name: "Somnath Dwarka Gir Tour Packages",
+    name: c.schema.listName,
     path: PATH,
     key: "packages",
     items: [...byDuration, ...byCity, ...byType, ...byRoute].map((p) => ({
@@ -293,43 +255,28 @@ export default async function GirPackagePillarPage() {
             highlightHeadline(heroHeadline)
           ) : (
             <>
-              Somnath Dwarka Gir{" "}
-              <span className="pkg-headline-grad inline-block pr-[0.12em] pb-[0.1em] italic">Tour Package</span>
+              {c.headline.lead}{" "}
+              <span className="pkg-headline-grad inline-block pr-[0.12em] pb-[0.1em] italic">{c.headline.highlight}</span>
             </>
           )
         }
-        description={
-          s(hub || {}, "answer_first") || (
-            <>
-              These packages run the Saurashtra triangle —{" "}
-              <strong className="font-semibold text-orange-700">Dwarkadhish Temple</strong>, Nageshwar
-              Jyotirlinga, <strong className="font-semibold text-orange-700">Somnath Temple</strong> with the
-              evening aarti, and a morning safari in{" "}
-              <strong className="font-semibold text-orange-700">Gir National Park</strong>. Every plan is
-              sequenced around darshan timings and the safari&apos;s morning slot; prices shown are indicative
-              until confirmed, and the safari permit is booked separately at actuals.
-            </>
-          )
-        }
-        mobileImage={{
-          src: HERO_MOBILE,
-          alt: "Gir National Park, Somnath and Dwarka",
-          title: "Somnath, Dwarka & Gir",
-          region: "Saurashtra, Gujarat",
-        }}
+        description={s(hub || {}, "answer_first") || rich(c.heroText, undefined, OrangeBold)}
+        mobileImage={c.mobileImage}
         stats={[
-          { value: `${variants.length}+`, label: "Curated plans" },
+          { value: `${variants.length}+`, label: c.stats.plansLabel },
           {
             value: priceValueStr
               ? `₹${Number(priceValueStr).toLocaleString("en-IN")}`
               : minPrice
               ? `₹${minPrice.toLocaleString("en-IN")}`
-              : "Custom",
-            label: "Starts from*",
+              : c.stats.priceFallback,
+            label: c.stats.priceLabel,
           },
-          { value: "4–6", label: "Days circuit" },
+          { value: c.stats.daysValue, label: c.stats.daysLabel },
         ]}
-        waMessage="Hi, I'd like a Somnath Dwarka Gir tour package quote"
+        waMessage={c.whatsappMessage}
+        browseLabel={c.browseLabel}
+        whatsappLabel={c.whatsappLabel}
       />
 
       {/* ── PACKAGE GRIDS ── */}
@@ -339,12 +286,11 @@ export default async function GirPackagePillarPage() {
         {/* Section intro */}
         <div className="relative z-20 mx-auto max-w-3xl px-4 pt-14 text-center sm:pt-16">
           <h2 className="font-playfair mt-20 text-4xl font-black leading-[1.08] tracking-[-0.02em] sm:text-5xl">
-            <span className="text-orange-500">Somnath, Dwarka &amp; Gir</span>
-            <span className="mt-1 block text-[#111827]">Tour Packages</span>
+            <span className="text-orange-500">{c.intro.headingHighlight}</span>
+            <span className="mt-1 block text-[#111827]">{c.intro.headingRest}</span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-gray-500 sm:text-lg">
-            Two jyotirlinga-circuit temples, the Dwarkadhish darshan and a morning with Asia&apos;s only
-            wild lions — planned as one trip, with the safari booked around your dates.
+            {c.intro.text}
           </p>
         </div>
 
@@ -353,7 +299,8 @@ export default async function GirPackagePillarPage() {
           city={byCity}
           traveller={byType}
           route={byRoute}
-          groupCopy={GROUP_COPY}
+          groupCopy={c.groups}
+          banner={c.yatraBanner}
         />
       </div>
 
@@ -363,13 +310,9 @@ export default async function GirPackagePillarPage() {
 
       <CustomPackageCTA />
 
-      <Faq
-        items={pillarFaq}
-        heading="Somnath, Dwarka & Gir — Your Questions Answered"
-        subheading="Safari slots, park closures, darshan timings and what the package price actually covers."
-      />
+      <Faq items={pillarFaq} heading={c.faqHeading} subheading={c.faqSubheading} />
 
-      <TourArchiveCTA />
+      <TourArchiveCTA copy={c.archiveCta} />
 
       <RelatedLinks links={related} />
 

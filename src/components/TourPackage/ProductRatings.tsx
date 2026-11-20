@@ -1,31 +1,15 @@
 "use client";
 
 import { Heart, Star, PhoneCall, Users } from "lucide-react";
+import { PRODUCT_RATING_TILES, type RatingTile } from "./copy";
 
-const features = [
-  {
-    icon: Users,
-    title: "3 Million+",
-    desc: "Happy travelers from 70+ countries.",
-  },
-  {
-    icon: Star,
-    title: "4.8 / 5",
-    desc: "Top-rated experiences on Google & TripAdvisor.",
-  },
-  {
-    icon: Heart,
-    title: "Curated with Care",
-    desc: "Thoughtfully designed spiritual journeys.",
-  },
-  {
-    icon: PhoneCall,
-    title: "24/7 Support",
-    desc: "Assistance before, during & after travel.",
-  },
-];
+/** Icons for the tiles, in order (repeating if more tiles are added). */
+const ICONS = [Users, Star, Heart, PhoneCall] as const;
 
-export default function ProductRatings() {
+/** The words come from `items` (the variant pages' CMS-editable copy); code defaults when omitted. */
+export default function ProductRatings({ items = PRODUCT_RATING_TILES }: { items?: RatingTile[] }) {
+  const features = items.map((t, i) => ({ ...t, icon: ICONS[i % ICONS.length] }));
+  if (!features.length) return null;
   return (
     <section id="ratings" className="w-full py-8 md:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">

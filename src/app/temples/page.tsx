@@ -5,15 +5,19 @@ import { getPublishedTemples, getHubBySlug } from "@/src/lib/content";
 import { breadcrumbSchema, buildMetadata, webPageSchema } from "@/src/lib/seo";
 import { SITE_URL } from "@/src/config/site";
 import JsonLd from "@/src/components/seo/JsonLd";
+import { getDataset } from "@/src/lib/datasets/store";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { TEMPLE_CARDS_DATASET } from "@/src/lib/cms-groups/destinations";
+import { TEMPLES_PAGE } from "./content";
 
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const hub = await getHubBySlug("temples");
-  
-  // Safe fallbacks in case the CMS hub isn't fully configured
-  const title = (hub?.title_tag as string) || "Temples of Gujarat — Timings, Darshan Guide & Tour Packages";
-  const description = (hub?.meta_description as string) || "Pilgrimage guide to famous temples of Gujarat, including Dakor Ranchhodrai, Virpur Jalaram, Salangpur Hanuman, Chotila, Koteshwar, Akshardham. Verified timings & details.";
+  const [hub, c] = await Promise.all([getHubBySlug("temples"), getPageContent(TEMPLES_PAGE)]);
+
+  // Fallbacks (./content.ts, editable through the CMS) in case the CMS hub isn't fully configured
+  const title = (hub?.title_tag as string) || c.meta.title;
+  const description = (hub?.meta_description as string) || c.meta.description;
 
   return buildMetadata({
     title,
@@ -24,10 +28,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function TemplesPage() {
-  const [temples, hub] = await Promise.all([
+  const [temples, hub, copy, cards] = await Promise.all([
     getPublishedTemples(),
     getHubBySlug("temples"),
+    getPageContent(TEMPLES_PAGE),
+    getDataset(TEMPLE_CARDS_DATASET),
   ]);
+  // Card details per temple slug (site_temple_cards), passed to the client as plain data.
+  const details = Object.fromEntries(cards.map(({ slug, ...rest }) => [slug, rest]));
 
   // Map Mongoose documents to plain objects for safe client boundary passing
   const serializedTemples = temples.map(t => ({
@@ -43,7 +51,7 @@ export default async function TemplesPage() {
     distance_from_ahmedabad: String(t.distance_from_ahmedabad || ""),
     dress_code: String(t.dress_code || ""),
     status: String(t.status || "published"),
-    timings_table: Array.isArray(t.timings_table) ? t.timings_table.map((row: any) => ({
+    timings_table: Array.isArray(t.timings_table) ? t.timings_table.map((row: { label?: unknown; open?: unknown; close?: unknown }) => ({
       label: String(row.label || ""),
       open: String(row.open || ""),
       close: String(row.close || ""),
@@ -62,15 +70,14 @@ export default async function TemplesPage() {
     { name: "Temples", path: "/temples/" },
   ];
 
-  const description =
-    serializedHub?.answer_first ||
-    "Pilgrimage guide to the famous temples of Gujarat — timings, darshan and travel details.";
+  const description = serializedHub?.answer_first || copy.schemaDescription;
 
   return (
     <>
       <Navbar />
       <main id="main-content" className="min-h-screen bg-[#FFFBF7]">
-        <TemplesPageClient temples={serializedTemples} hub={serializedHub} />
+        <TemplesPageClient temples={serializedTemples} hub={serializedHub} copy={copy} details={details} />
+
       </main>
       {/*
         This page renders its own shell rather than PageShell, so it was the one

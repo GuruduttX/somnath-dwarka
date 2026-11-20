@@ -8,19 +8,24 @@ import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { SEED_VEHICLES, CAB_HUB, cabPath, type SeedVehicle } from "@/src/lib/seed/cabs";
+import { CAB_HUB, cabPath, type SeedVehicle } from "@/src/lib/seed/cabs";
 import { buildRelatedLinks } from "@/src/lib/links";
 import TaxiHero from "@/src/components/taxi/TaxiHero";
-import { vehicleCopyFor, VEHICLE_SCOPE, VEHICLE_AUTHOR, OPERATOR } from "@/src/config/taxiSpokes";
+import { OPERATOR } from "@/src/config/taxiSpokes";
+import type { VehicleCopyItem } from "@/src/lib/cms-groups/taxi";
+import type { VEHICLE_TEMPLATE_DEFAULTS } from "@/src/app/somnath-dwarka-taxi-service/[slug]/content";
+import { fillSlots, taxiRich } from "@/src/components/taxi/TaxiRich";
 import { Check, X, Star, ArrowRight, Phone } from "lucide-react";
 
 /**
  * Vehicle page body (/somnath-dwarka-taxi-service/{vehicle}/).
  *
  * Same split as the route spokes: seats, luggage, "best suited for", rates and
- * the photo come from the CMS record; the prose comes from the VEHICLE_COPY
- * block in src/config/taxiSpokes.ts, keyed by slug. A vehicle with no config
- * entry still renders the data-driven sections.
+ * the photo come from the CMS record; the prose is `copy` (its
+ * site_taxi_vehicle_copy item, defaulting to VEHICLE_COPY in
+ * src/config/taxiSpokes.ts) and the blocks shared by every vehicle page are `t`
+ * (the "taxi-vehicle-template" page copy). A vehicle with no copy item still
+ * renders the data-driven sections.
  */
 
 const card =
@@ -28,14 +33,25 @@ const card =
 const h2 = "text-2xl font-bold text-slate-950 mb-4 flex items-center gap-2";
 const bar = <span className="h-6 w-1 rounded-full bg-orange-500 inline-block" />;
 
-export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicle: SeedVehicle }) {
-  const copy = vehicleCopyFor(slug);
-
+export default function VehiclePage({
+  slug,
+  vehicle: v,
+  copy,
+  t,
+  siblings,
+}: {
+  slug: string;
+  vehicle: SeedVehicle;
+  copy: VehicleCopyItem | null;
+  t: typeof VEHICLE_TEMPLATE_DEFAULTS;
+  /** The live vehicle list, for the related links. */
+  siblings: SeedVehicle[];
+}) {
   const related = buildRelatedLinks({
     self: cabPath(slug),
     pillar: { target: CAB_HUB, anchor: "all cabs & fares" },
     money: "packages",
-    siblings: SEED_VEHICLES.filter((x) => x.slug !== slug).map((x) => ({
+    siblings: siblings.filter((x) => x.slug !== slug).map((x) => ({
       target: cabPath(x.slug),
       anchor: `${x.vehicle_name} fare`,
       type: "sibling" as const,
@@ -68,7 +84,7 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
       {copy ? (
         <Section wide>
           <div className={card}>
-            <h2 className={h2}>{bar}At a glance</h2>
+            <h2 className={h2}>{bar}{t.atAGlanceHeading}</h2>
             <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {copy.atAGlance.map((f) => (
                 <div
@@ -80,7 +96,7 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
                 </div>
               ))}
             </dl>
-            <p className="mt-6 text-slate-600 leading-relaxed">{copy.intro}</p>
+            <p className="mt-6 text-slate-600 leading-relaxed">{taxiRich(copy.intro)}</p>
           </div>
         </Section>
       ) : null}
@@ -110,7 +126,7 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
                   className="h-full w-full object-cover"
                 />
                 <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-4 py-2.5 text-xs font-semibold text-white">
-                  {v.vehicle_name} — up to {v.seats} seats
+                  {fillSlots(t.imageCaption, { vehicle: v.vehicle_name, seats: v.seats })}
                 </figcaption>
               </figure>
             ) : null}
@@ -124,17 +140,17 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
           <div className="grid gap-6 lg:grid-cols-2">
             <div className={card}>
               <h2 className={h2}>{bar}{copy.whoItSuits.heading}</h2>
-              <p className="text-slate-600 leading-relaxed">{copy.whoItSuits.body}</p>
+              <p className="text-slate-600 leading-relaxed">{taxiRich(copy.whoItSuits.body)}</p>
             </div>
             <div className={card}>
               <h2 className={h2}>{bar}{copy.ratesBooking.heading}</h2>
-              <p className="text-slate-600 leading-relaxed">{copy.ratesBooking.body}</p>
+              <p className="text-slate-600 leading-relaxed">{taxiRich(copy.ratesBooking.body)}</p>
               <p className="mt-4 text-sm">
                 <Link
                   href={`${CAB_HUB}fare-rate-card/`}
                   className="font-semibold text-orange-700 underline underline-offset-2 hover:text-orange-800"
                 >
-                  See every price on the fare rate card
+                  {t.rateCardLinkLabel}
                 </Link>
               </p>
             </div>
@@ -145,8 +161,8 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
       {/* ── Popular routes, and CMS rates where real ── */}
       <Section id="fares" wide>
         <div className={card}>
-          <h2 className={h2}>{bar}{copy?.popularRoutes.heading ?? "Indicative fares"}</h2>
-          {copy ? <p className="text-slate-600 leading-relaxed">{copy.popularRoutes.body}</p> : null}
+          <h2 className={h2}>{bar}{copy?.popularRoutes.heading ?? t.faresHeadingFallback}</h2>
+          {copy ? <p className="text-slate-600 leading-relaxed">{taxiRich(copy.popularRoutes.body)}</p> : null}
 
           {hasRealRates ? (
             <div className="mt-6">
@@ -163,14 +179,14 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
       {copy ? (
         <Section wide>
           <div className={card}>
-            <h2 className={h2}>{bar}What your booking includes, and what it does not</h2>
+            <h2 className={h2}>{bar}{t.scopeHeading}</h2>
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
                 <p className="mb-3 text-sm font-bold uppercase tracking-wide text-emerald-700">
-                  {VEHICLE_SCOPE.includedTitle}
+                  {t.scope.includedTitle}
                 </p>
                 <ul className="space-y-2.5">
-                  {[copy.includedFirst, ...VEHICLE_SCOPE.included].map((x) => (
+                  {[copy.includedFirst, ...t.scope.included].filter(Boolean).map((x) => (
                     <li key={x} className="flex gap-2.5 text-sm text-slate-700">
                       <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
                         <Check size={11} strokeWidth={3} />
@@ -182,10 +198,10 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
               </div>
               <div>
                 <p className="mb-3 text-sm font-bold uppercase tracking-wide text-rose-700">
-                  {VEHICLE_SCOPE.excludedTitle}
+                  {t.scope.excludedTitle}
                 </p>
                 <ul className="space-y-2.5">
-                  {[...VEHICLE_SCOPE.excluded, copy.excludedExtra].map((x) => (
+                  {[...t.scope.excluded, copy.excludedExtra].filter(Boolean).map((x) => (
                     <li key={x} className="flex gap-2.5 text-sm text-slate-700">
                       <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-rose-100 text-rose-700">
                         <X size={11} strokeWidth={3} />
@@ -217,8 +233,8 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
               ))}
             </ul>
             <p className="mt-6 text-sm text-slate-600 leading-relaxed">
-              {VEHICLE_AUTHOR.line}{" "}
-              {VEHICLE_AUTHOR.links.map((l, i) => (
+              {t.author.line}{" "}
+              {t.author.links.map((l, i) => (
                 <span key={l.href}>
                   <Link
                     href={l.href}
@@ -226,7 +242,7 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
                   >
                     {l.label}
                   </Link>
-                  {i < VEHICLE_AUTHOR.links.length - 1 ? ", " : "."}
+                  {i < t.author.links.length - 1 ? ", " : "."}
                 </span>
               ))}
             </p>
@@ -238,7 +254,7 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
       {copy ? (
         <Section wide>
           <div className={card}>
-            <h2 className={h2}>{bar}This vehicle may not be the right fit if</h2>
+            <h2 className={h2}>{bar}{t.notForYouHeading}</h2>
             <ul className="space-y-3">
               {copy.notForYou.map((x) => (
                 <li key={x} className="flex gap-2.5 text-sm text-slate-700 leading-relaxed">
@@ -253,14 +269,14 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
         </Section>
       ) : null}
 
-      <Faq items={copy?.faq ? [...copy.faq] : v.faq} heading={`${v.vehicle_name} FAQs`} />
+      <Faq items={copy?.faq?.length ? [...copy.faq] : v.faq} heading={fillSlots(t.faqHeading, { vehicle: v.vehicle_name, seats: v.seats })} />
 
       {/* ── Keep planning ── */}
       {copy ? (
         <Section wide>
           <div className={card}>
-            <h2 className={h2}>{bar}Keep planning</h2>
-            <p className="text-slate-600 leading-relaxed">{copy.keepPlanning.intro}</p>
+            <h2 className={h2}>{bar}{t.keepPlanningHeading}</h2>
+            <p className="text-slate-600 leading-relaxed">{taxiRich(copy.keepPlanning.intro)}</p>
             <div className="mt-4 flex flex-wrap gap-2.5">
               {copy.keepPlanning.links.map((l) => (
                 <Link
@@ -282,13 +298,13 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
         <Section wide>
           <div className={card}>
             <h2 className={h2}>{bar}{copy.cta.heading}</h2>
-            <p className="text-slate-600 leading-relaxed">{copy.cta.body}</p>
+            <p className="text-slate-600 leading-relaxed">{taxiRich(copy.cta.body)}</p>
             <a
               href={`tel:${OPERATOR.phone}`}
               className="mt-4 inline-flex items-center gap-2 rounded-full bg-orange-500 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-orange-600"
             >
               <Phone size={15} />
-              Call {OPERATOR.phone}
+              {t.callLabel} {OPERATOR.phone}
             </a>
           </div>
         </Section>
@@ -296,8 +312,8 @@ export default function VehiclePage({ slug, vehicle: v }: { slug: string; vehicl
 
       <CtaBand
         context={`${v.vehicle_name} for Somnath Dwarka`}
-        title="Book this vehicle"
-        subtitle="Share your route and dates for a firm fare."
+        title={t.ctaBand.title}
+        subtitle={t.ctaBand.subtitle}
       />
       <RelatedLinks links={related} />
 

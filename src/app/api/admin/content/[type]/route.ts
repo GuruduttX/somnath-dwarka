@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { isAdmin } from "@/src/lib/requireAdmin";
 import { listContent, createContent } from "@/src/services/admin/contentService";
 import { getContentType } from "@/src/lib/contentRegistry";
+import { refreshSite } from "@/src/lib/refreshSite";
 
 type Ctx = { params: Promise<{ type: string }> };
 
@@ -23,6 +24,7 @@ export async function POST(req: Request, { params }: Ctx) {
   try {
     const body = await req.json();
     const created = await createContent(type, body);
+    refreshSite();
     return NextResponse.json({ success: true, data: created }, { status: 201 });
   } catch (e) {
     return NextResponse.json({ success: false, message: (e as Error).message }, { status: 400 });

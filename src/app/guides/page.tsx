@@ -9,45 +9,25 @@ import CtaBand from "@/src/components/shared/CtaBand";
 import GuidesHero from "@/src/components/guides/GuidesHero";
 import { GuidesGrid, type GuideItem } from "@/src/components/guides/GuidesGrid";
 import { getPublishedGuides } from "@/src/lib/content";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { rich } from "@/src/lib/pages/rich";
+import { GUIDES_PAGE } from "./content";
 
 const PATH = "/guides/";
+/* Copy lives in ./content.ts and is editable through the CMS; the guides are the CMS blog items. */
 export const revalidate = 3600;
 
-export const metadata: Metadata = buildMetadata({
-  title: "Somnath Dwarka Travel Guides & Tips",
-  description:
-    "In-depth guides for planning a Somnath–Dwarka pilgrimage: itineraries, temple tips, travel advice and local know-how from our team.",
-  path: PATH,
-});
-
-const FAQ = [
-  {
-    question: "What do your travel guides cover?",
-    answer:
-      "Day-wise itineraries, temple timings and darshan tips, routes and distances, the best time to visit, and practical local know-how for the Somnath–Dwarka pilgrimage circuit.",
-  },
-  {
-    question: "Are the guides free to read?",
-    answer:
-      "Yes, every guide is free to read. When you're ready, you can request a matching tour package, cab or hotel quote from the same page.",
-  },
-  {
-    question: "How current is the information?",
-    answer:
-      "We review and refresh the guides regularly and clearly flag any detail that is still pending confirmation, so faith or legend is never presented as verified fact.",
-  },
-  {
-    question: "Can you turn a guide into a booked trip?",
-    answer:
-      "Yes. Tell us which itinerary suits you and we arrange stays, private transport and darshan planning across Somnath and Dwarka.",
-  },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  const c = await getPageContent(GUIDES_PAGE);
+  return buildMetadata({ title: c.meta.title, description: c.meta.description, path: PATH });
+}
 
 export default async function GuidesHubPage() {
-  const raw = (await getPublishedGuides()) as Array<Record<string, unknown>>;
+  const [rawGuides, c] = await Promise.all([getPublishedGuides(), getPageContent(GUIDES_PAGE)]);
+  const raw = rawGuides as Array<Record<string, unknown>>;
   const guides: GuideItem[] = raw.map((g) => ({
     slug: String(g.slug),
-    title: String(g.title ?? "Untitled guide"),
+    title: String(g.title ?? c.grid.untitled),
     subContent: g.subContent ? String(g.subContent) : undefined,
     image: g.image ? String(g.image) : undefined,
     alt: g.alt ? String(g.alt) : undefined,
@@ -55,7 +35,7 @@ export default async function GuidesHubPage() {
 
   return (
     <PageShell crumbs={[{ name: "Home", path: "/" }, { name: "Guides", path: PATH }]} flushHero>
-      <GuidesHero count={guides.length} />
+      <GuidesHero count={guides.length} copy={c.hero} />
 
       {/* ── All guides ── */}
       <div id="all-guides" className="scroll-mt-24 bg-white">
@@ -63,41 +43,35 @@ export default async function GuidesHubPage() {
           <div className="mx-auto max-w-2xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-orange-700">
               <Sparkles size={14} />
-              All guides
+              {c.list.eyebrow}
             </span>
             <h2 className="mt-5 text-3xl font-black leading-[1.1] tracking-[-0.02em] text-[#111827] sm:text-4xl">
-              Read up before you <span className="text-orange-500">go</span>
+              {c.list.heading.before} <span className="text-orange-500">{c.list.heading.highlight}</span>
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-gray-500">
-              Practical, first-hand advice on temples, timings, routes and local tips for the
-              Somnath–Dwarka circuit.
+              {rich(c.list.intro)}
             </p>
           </div>
 
           <div className="mt-10 pb-4">
-            <GuidesGrid guides={guides} />
+            <GuidesGrid guides={guides} copy={c.grid} />
           </div>
         </div>
       </div>
 
-      <Faq items={FAQ} heading="Travel guide FAQs" subheading="How our Somnath–Dwarka guides work." />
+      <Faq items={c.faqs} heading={c.faqHeading} subheading={c.faqSubheading} />
 
-      <CtaBand context="Somnath Dwarka trip planning" />
+      <CtaBand context={c.ctaContext} />
 
       {/* ── Related guides & services (Below CTA) ── */}
       <div className="mx-auto max-w-5xl px-4 py-12">
         <div className="border-t border-orange-100/60 pt-8">
           <p className="text-[11px] font-bold uppercase tracking-wider text-orange-600 mb-4 flex items-center gap-1.5">
             <Sparkles size={11} className="text-orange-500" />
-            <span>Related guides & services</span>
+            <span>{c.relatedHeading}</span>
           </p>
           <ul className="grid gap-4 sm:grid-cols-4">
-            {[
-              { target: "/somnath/", anchor: "Somnath Travel Guide", type: "pillar" },
-              { target: "/dwarka/", anchor: "Dwarka Travel Guide", type: "pillar" },
-              { target: "/somnath-dwarka-taxi-service/", anchor: "Book Taxi Service", type: "sibling" },
-              { target: "/somnath-dwarka-tour-package/", anchor: "Tour Packages", type: "money" },
-            ].map((l) => {
+            {c.related.map((l) => {
               let Icon = Calendar;
               let label = "Read more";
               if (l.type === "pillar") {
@@ -144,9 +118,8 @@ export default async function GuidesHubPage() {
         data={[
           webPageSchema({
             type: "CollectionPage",
-            name: "Somnath Dwarka Travel Guides",
-            description:
-              "Practical travel guides for planning a Somnath–Dwarka pilgrimage — itineraries, distances, timings and tips.",
+            name: c.schema.name,
+            description: c.schema.description,
             path: PATH,
             crumbs: [
               { name: "Home", path: "/" },
@@ -154,7 +127,7 @@ export default async function GuidesHubPage() {
             ],
           }),
           itemListSchema({
-            name: "Somnath Dwarka Travel Guides",
+            name: c.schema.name,
             path: PATH,
             key: "guides",
             items: guides

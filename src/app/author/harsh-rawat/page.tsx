@@ -4,54 +4,33 @@ import Link from "next/link";
 import { buildMetadata, personSchema } from "@/src/lib/seo";
 import PageShell from "@/src/components/shared/PageShell";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { SEED_AUTHOR } from "@/src/lib/seed/destinations";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { fillVars } from "@/src/components/templates/copy";
+import { AUTHOR_PAGE } from "./content";
 
-const PATH = "/author/harsh-rawat/";
+const PATH = AUTHOR_PAGE.path;
+/* Copy lives in ./content.ts and is editable through the CMS; a save refreshes this page at once. */
 export const revalidate = 3600;
 
 /**
  * Placeholder author profile — dummy content for layout/design. Swap `bio`,
- * `stats`, `expertise`, `guides` and `sameAs` for verified data before this
- * page is allowed into the index (see `bio_verified` in SEED_AUTHOR).
+ * `stats`, `expertise`, `guides` and `sameAs` (./content.ts, or through the CMS)
+ * for verified data before this page is allowed into the index (`bio_verified`).
  */
-const AUTHOR = {
-  ...SEED_AUTHOR,
-  bio: [
-    "Harsh Rawat has spent the better part of a decade walking the pilgrim trail between Somnath and Dwarka — from the pre-dawn aarti at the Somnath Jyotirlinga to the flag-change ceremony atop the Dwarkadhish temple. What began as a personal pilgrimage turned into a full-time calling: mapping the routes, timing the ferries to Bet Dwarka, and learning which dharamshalas actually hold a booking when the festival crowds arrive.",
-    "He writes the way a good local guide talks — practical first. Every itinerary on this site is one he has travelled himself, cross-checked against temple timings, seasonal road closures and the real cost of a shared cab in peak season. When something changes on the ground, the guide changes with it.",
-    "Off the road, Harsh documents the folk traditions of coastal Gujarat and mentors first-time solo pilgrims planning the Char Dham of the west.",
-  ],
-  stats: [
-    { label: "Years on the circuit", value: "9+" },
-    { label: "Guides published", value: "40+" },
-    { label: "Temples covered", value: "25" },
-    { label: "Pilgrims helped", value: "12k+" },
-  ],
-  expertise: [
-    "Somnath–Dwarka pilgrimage routes",
-    "Temple darshan timings & rituals",
-    "Bet Dwarka ferry logistics",
-    "Budget & senior-friendly travel",
-    "Festival-season planning",
-    "Coastal Gujarat folk heritage",
-  ],
-  guides: [
-    { title: "Somnath to Dwarka: the complete 3-day itinerary", path: "/guides/dwarka-somnath-itinerary-3-days/" },
-    { title: "Dwarkadhish Temple: darshan timings & aarti guide", path: "/dwarka/dwarkadhish-temple-timings/" },
-    { title: "How to reach Bet Dwarka (ferry + road)", path: "/guides/dwarka-to-bet-dwarka-distance/" },
-    { title: "Best time to visit Somnath", path: "/somnath/best-time-to-visit-somnath/" },
-  ],
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const a = await getPageContent(AUTHOR_PAGE);
+  const v = { name: a.name, job_title: a.job_title, firstStat: a.stats[0]?.value ?? "" };
+  return buildMetadata({
+    title: fillVars(a.meta.title, v),
+    description: fillVars(a.meta.description, v),
+    path: PATH,
+    // E-E-A-T: this is placeholder content, so keep the page out of the index.
+    noindex: !a.bio_verified,
+  });
+}
 
-export const metadata: Metadata = buildMetadata({
-  title: `${AUTHOR.name} — Author, Somnath Dwarka Guides`,
-  description: `About ${AUTHOR.name}, ${AUTHOR.job_title}. ${AUTHOR.stats[0].value} years travelling and documenting the Somnath–Dwarka pilgrim circuit.`,
-  path: PATH,
-  // E-E-A-T: this is placeholder content, so keep the page out of the index.
-  noindex: !SEED_AUTHOR.bio_verified,
-});
-
-export default function AuthorPage() {
+export default async function AuthorPage() {
+  const AUTHOR = await getPageContent(AUTHOR_PAGE);
   return (
     <PageShell
       crumbs={[
@@ -75,7 +54,7 @@ export default function AuthorPage() {
             ) : null}
             <div className="min-w-0 flex-1">
               <p className="text-xs font-semibold uppercase tracking-widest text-orange-600">
-                Author
+                {AUTHOR.eyebrow}
               </p>
               <h1 className="mt-1 text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
                 {AUTHOR.name}
@@ -103,7 +82,7 @@ export default function AuthorPage() {
           <div className="min-w-0">
             <section id="bio" className="scroll-mt-24" aria-labelledby="bio-h">
               <h2 id="bio-h" className="text-2xl font-bold text-gray-900 mb-4">
-                Biography
+                {AUTHOR.bioHeading}
               </h2>
               <div className="space-y-4 text-[17px] leading-relaxed text-gray-700">
                 {AUTHOR.bio.map((para, i) => (
@@ -114,7 +93,7 @@ export default function AuthorPage() {
 
             <section id="guides" className="scroll-mt-24 mt-12" aria-labelledby="guides-h">
               <h2 id="guides-h" className="text-2xl font-bold text-gray-900 mb-4">
-                Recent guides by {AUTHOR.name.split(" ")[0]}
+                {fillVars(AUTHOR.guidesHeading, { firstName: AUTHOR.name.split(" ")[0] })}
               </h2>
               <ul className="divide-y divide-gray-100 rounded-xl border border-gray-100">
                 {AUTHOR.guides.map((g) => (
@@ -136,7 +115,7 @@ export default function AuthorPage() {
           <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
             <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-                Areas of expertise
+                {AUTHOR.expertiseHeading}
               </h2>
               <ul className="mt-4 flex flex-wrap gap-2">
                 {AUTHOR.expertise.map((tag) => (
@@ -159,7 +138,7 @@ export default function AuthorPage() {
           path: PATH,
           jobTitle: AUTHOR.job_title,
           image: AUTHOR.photo || undefined,
-          sameAs: SEED_AUTHOR.sameAs,
+          sameAs: AUTHOR.sameAs,
         })}
       />
     </PageShell>

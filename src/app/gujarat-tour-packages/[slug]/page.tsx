@@ -3,7 +3,11 @@ import { notFound } from "next/navigation";
 import PackageDetailTemplate from "@/src/components/TourPackage/PackageDetailTemplate";
 import { buildMetadata } from "@/src/lib/seo";
 import { GUJARAT_HUB_SLUG, getHubSpoke, gujaratPackagePath } from "@/src/lib/content";
-import { GUJARAT_SEED_PACKAGES, findGujaratSeedPackage } from "@/src/lib/seed/gujaratPackages";
+import { GUJARAT_SEED_PACKAGES } from "@/src/lib/seed/gujaratPackages";
+import { getDataset, getDatasetItem } from "@/src/lib/datasets/store";
+import { GUJARAT_PACKAGES_DATASET } from "@/src/lib/cms-groups/packages";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { PACKAGE_VARIANT_PAGE } from "@/src/app/somnath-dwarka-tour-package/[slug]/content";
 import { isAuthorisedGujaratPackage } from "@/src/config/gujaratPackageSpokes";
 import { buildRelatedLinks } from "@/src/lib/links";
 import { bool, faqOf, h1Of, list, s, titleOf, verifiedValue, type Doc } from "@/src/lib/cms";
@@ -33,7 +37,8 @@ const GALLERY: PackageImage[] = [
  */
 async function resolvePackage(slug: string) {
   if (!isAuthorisedGujaratPackage(slug)) return null;
-  const seed = findGujaratSeedPackage(slug);
+  // The code variant with its CMS edits (dataset site_gujarat_packages); the hub-spoke doc below wins field by field.
+  const seed = await getDatasetItem(GUJARAT_PACKAGES_DATASET, slug);
   if (!seed) return null;
 
   const cms = (await getHubSpoke(GUJARAT_HUB_SLUG, slug)) as Doc | null;
@@ -92,6 +97,7 @@ async function resolvePackage(slug: string) {
   };
 }
 
+/* Prerenders the code variants; existence and content come from the live dataset. */
 export function generateStaticParams() {
   return GUJARAT_SEED_PACKAGES.map((p) => ({ slug: p.slug }));
 }
@@ -149,6 +155,7 @@ export default async function GujaratPackageVariantPage({ params }: Params) {
   const { slug } = await params;
   const pkg = await resolvePackage(slug);
   if (!pkg) notFound();
+  const [copy, seeds] = await Promise.all([getPageContent(PACKAGE_VARIANT_PAGE), getDataset(GUJARAT_PACKAGES_DATASET)]);
 
   const breakdown = cmsBreakdown(pkg.durationbreakdown) ?? stopsOf(pkg.itinerary);
 
@@ -158,7 +165,7 @@ export default async function GujaratPackageVariantPage({ params }: Params) {
     money: "packages",
     siblings: [
       { target: "/somnath-dwarka-tour-package/", anchor: "Somnath Dwarka tour packages", type: "sibling" as const },
-      ...GUJARAT_SEED_PACKAGES.filter((p) => p.slug !== slug)
+      ...seeds.filter((p) => p.slug !== slug)
         .slice(0, 3)
         .map((p) => ({ target: gujaratPackagePath(p.slug), anchor: p.h1, type: "sibling" as const })),
     ],
@@ -175,8 +182,10 @@ export default async function GujaratPackageVariantPage({ params }: Params) {
       ]}
       related={related}
       breakdown={breakdown}
-      overviewHeading="A day-wise plan built around darshan timings and the drives between them"
-      assurance="Tickets & permits arranged for you"
+      overviewHeading={copy.gujarat.overviewHeading}
+      assurance={copy.gujarat.assurance}
+      labels={copy.labels}
+      ratings={copy.ratings}
     />
   );
 }

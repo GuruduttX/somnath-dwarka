@@ -16,7 +16,7 @@ import {
   getPublishedHubSpokes,
   gujaratPackagePath,
 } from "@/src/lib/content";
-import { GUJARAT_SEED_PACKAGES, type GujaratSeedPackage } from "@/src/lib/seed/gujaratPackages";
+import type { GujaratSeedPackage } from "@/src/lib/seed/gujaratPackages";
 import {
   isAuthorisedGujaratPackage,
   gujaratPackageBucket,
@@ -31,33 +31,33 @@ import HangingDiyas from "@/src/components/TourArchive/HangingDiyas";
 import PackageHubHero from "@/src/components/TourArchive/PackageHubHero";
 import HubContent from "@/src/components/hub/HubContent";
 import { faqOf, s, bool, verifiedValue, relatedOf, h1Of, titleOf } from "@/src/lib/cms";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { rich, type RichBold } from "@/src/lib/pages/rich";
+import { getDataset } from "@/src/lib/datasets/store";
+import { GUJARAT_PACKAGES_DATASET } from "@/src/lib/cms-groups/packages";
+import { GUJARAT_HUB_PAGE, type GujaratHubContent } from "./content";
 
 const PATH = "/gujarat-tour-packages/";
 
 export const revalidate = 3600;
 
-const DEFAULT_TITLE = "Gujarat Tour Packages";
-const DEFAULT_DESCRIPTION =
-  "Gujarat tour packages with day-wise itineraries, inclusions and indicative prices — jyotirlinga circuits, Saurashtra darshan, UNESCO heritage, wildlife safaris and short temple trips.";
+const OrangeBold: RichBold = ({ children }) => <strong className="font-semibold text-orange-700">{children}</strong>;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const hub = await getHubBySlug(GUJARAT_HUB_SLUG);
+  const [hub, c] = await Promise.all([getHubBySlug(GUJARAT_HUB_SLUG), getPageContent(GUJARAT_HUB_PAGE)]);
   if (!hub) {
-    return buildMetadata({ title: DEFAULT_TITLE, description: DEFAULT_DESCRIPTION, path: PATH });
+    return buildMetadata({ title: c.meta.title, description: c.meta.description, path: PATH });
   }
   return buildMetadata({
-    title: titleOf(hub) || DEFAULT_TITLE,
+    title: titleOf(hub) || c.meta.title,
     // The scaffolded hub docs carry an empty meta_description; an empty
     // description tag is worse than the hand-written fallback.
-    description: s(hub, "meta_description") || DEFAULT_DESCRIPTION,
+    description: s(hub, "meta_description") || c.meta.description,
     path: PATH,
     noindex: bool(hub, "noindex"),
     canonicalOverride: s(hub, "canonical_override") || undefined,
   });
 }
-
-// Hero image composition (local photography).
-const HERO_MOBILE = "/images/home/StatueOfUnity.webp";
 
 // Rotating pool of state-wide imagery for variants that have no CMS photos yet.
 const FALLBACK_CARD_IMAGES = [
@@ -91,6 +91,7 @@ function seedToTourPackage(
   seed: GujaratSeedPackage,
   index: number,
   override: SpokeOverride | undefined,
+  cards: GujaratHubContent["cards"],
 ): TourPackage {
   const duration = override?.duration || seed.duration;
   const days = Number(duration.match(/(\d+)/)?.[1] ?? 1);
@@ -100,24 +101,28 @@ function seedToTourPackage(
   ];
 
   const groupType =
-    seed.facet === "traveller" ? "Corporate Group" : seed.facet === "duration" ? "Short Trip" : "Private Trip";
+    seed.facet === "traveller"
+      ? cards.groupTypeTraveller
+      : seed.facet === "duration"
+      ? cards.groupTypeDuration
+      : cards.groupTypeDefault;
 
   const badge =
     seed.facet === "from-city"
-      ? "Starts from your city"
+      ? cards.badgeFromCity
       : seed.facet === "traveller"
-      ? "For teams"
+      ? cards.badgeTraveller
       : seed.facet === "duration"
-      ? "Short trip"
+      ? cards.badgeDuration
       : index === 0
-      ? "Popular"
-      : "Curated";
+      ? cards.badgeFirst
+      : cards.badgeDefault;
 
   return {
     id: seed.slug,
     slug: seed.slug,
     title: override?.h1 || seed.h1,
-    location: seed.location || "Gujarat",
+    location: seed.location || cards.defaultLocation,
     duration,
     groupType,
     days,
@@ -136,28 +141,16 @@ function seedToTourPackage(
  * Explorer copy for this hub. The umbrella sells circuits and short temple
  * trips rather than one route at different lengths, so the default group
  * headings ("Choose by duration") would misdescribe what the cards are.
+ * The wording is `groups` in ./content.ts.
  */
-const GROUP_COPY = {
-  route: {
-    title: "Choose your circuit",
-    blurb: "Multi-day routes across the state — jyotirlingas, Saurashtra, heritage, wildlife.",
-  },
-  duration: {
-    title: "Short pilgrimage trips",
-    blurb: "One- and two-day temple runs that work from Ahmedabad or Vadodara.",
-  },
-  city: {
-    title: "Choose by starting city",
-    blurb: "Plans that begin at your arrival airport or station in Gujarat.",
-  },
-  traveller: {
-    title: "For teams",
-    blurb: "Corporate offsites with a conference room, coach transport and free afternoons.",
-  },
-} as const;
 
 export default async function GujaratPackagePillarPage() {
-  const hub = await getHubBySlug(GUJARAT_HUB_SLUG);
+  const [hub, c, seeds] = await Promise.all([
+    getHubBySlug(GUJARAT_HUB_SLUG),
+    getPageContent(GUJARAT_HUB_PAGE),
+    // The code variants with their CMS edits (dataset site_gujarat_packages).
+    getDataset(GUJARAT_PACKAGES_DATASET),
+  ]);
   // h1Of strips the URL map's "— Itinerary, Price & Booking" keyword tail.
   const heroHeadline = hub ? h1Of(hub) : "";
 
@@ -178,9 +171,9 @@ export default async function GujaratPackagePillarPage() {
 
   // Only variants the URL map authorises are listed. A record outside the map
   // is not part of the planned architecture, so it never reaches the money page.
-  const variants: TourPackage[] = GUJARAT_SEED_PACKAGES.filter((p) =>
-    isAuthorisedGujaratPackage(p.slug),
-  ).map((seed, i) => seedToTourPackage(seed, i, overrides.get(seed.slug)));
+  const variants: TourPackage[] = seeds
+    .filter((p) => isAuthorisedGujaratPackage(p.slug))
+    .map((seed, i) => seedToTourPackage(seed, i, overrides.get(seed.slug), c.cards));
 
   const inBucket = (bucket: GujaratPackageBucket) =>
     variants.filter((v) => gujaratPackageBucket(v.slug) === bucket);
@@ -208,42 +201,17 @@ export default async function GujaratPackagePillarPage() {
   });
 
   const dbFaq = hub ? faqOf(hub) : [];
-  const pillarFaq =
-    dbFaq.length > 0
-      ? dbFaq
-      : [
-          {
-            question: "How many days do I need for a Gujarat tour?",
-            answer:
-              "It depends what you are after. Four days covers the two jyotirlingas at Somnath and Nageshwar; a week does the Saurashtra loop with Gir and Palitana; ten days is the full state including Kutch and the Statue of Unity. Short temple trips like Dakor or Modhera run in one or two days from Ahmedabad.",
-          },
-          {
-            question: "What does a Gujarat tour package include?",
-            answer:
-              "Hotel stays, a private vehicle with driver, daily breakfast and a planned day-wise itinerary. Monument tickets, ropeway fares and safari permits are charged at actuals, and air/train fare and lunch/dinner are excluded. Exact inclusions are listed on each package.",
-          },
-          {
-            question: "When is the best time to visit Gujarat?",
-            answer:
-              "October to March. Summer gets hot enough to make midday sightseeing unpleasant, and the monsoon closes Gir and floods the Rann. December and January are peak — book early if your dates fall near the Rann Utsav or the holiday weeks.",
-          },
-          {
-            question: "Can you build a custom Gujarat itinerary?",
-            answer:
-              "Yes — every package here is a starting point. We can change the length, start from your arrival city, combine circuits, and tune the hotel tier to your budget. Share your dates and what you most want to see.",
-          },
-        ];
+  const pillarFaq = dbFaq.length > 0 ? dbFaq : c.faqs;
 
   const crumbs = [
     { name: "Home", path: "/" },
     { name: "Gujarat tour packages", path: PATH },
   ];
 
-  const description =
-    "Tour packages across Gujarat — jyotirlinga and temple circuits, Saurashtra darshan, UNESCO heritage sites and wildlife safaris, with private transport and hotels.";
+  const description = c.schema.description;
 
   const pageNode = webPageSchema({
-    name: "Gujarat Tour Packages",
+    name: c.schema.name,
     description,
     path: PATH,
     type: "CollectionPage",
@@ -252,7 +220,7 @@ export default async function GujaratPackagePillarPage() {
   });
 
   const fallbackTrip = touristTripSchema({
-    name: "Gujarat Tour Packages",
+    name: c.schema.name,
     description,
     path: PATH,
   });
@@ -263,7 +231,7 @@ export default async function GujaratPackagePillarPage() {
     : null;
   // Same cards, in the same group order, that PackageExplorer renders.
   const packageList = itemListSchema({
-    name: "Gujarat Tour Packages",
+    name: c.schema.listName,
     path: PATH,
     key: "packages",
     items: [...byDuration, ...byCity, ...byType, ...byRoute].map((p) => ({
@@ -285,42 +253,29 @@ export default async function GujaratPackagePillarPage() {
             highlightHeadline(heroHeadline)
           ) : (
             <>
-              Gujarat{" "}
-              <span className="pkg-headline-grad inline-block pr-[0.12em] pb-[0.1em] italic">Tour Packages</span>
+              {c.headline.lead}{" "}
+              <span className="pkg-headline-grad inline-block pr-[0.12em] pb-[0.1em] italic">{c.headline.highlight}</span>
             </>
           )
         }
-        description={
-          s(hub || {}, "answer_first") || (
-            <>
-              One state, four very different trips: the jyotirlinga coast at{" "}
-              <strong className="font-semibold text-orange-700">Somnath and Dwarka</strong>, the Saurashtra
-              loop through <strong className="font-semibold text-orange-700">Gir and Palitana</strong>, four
-              UNESCO World Heritage sites, and short temple runs to Dakor, Pavagadh and Modhera. Pick a
-              circuit below — prices shown are indicative until confirmed, and tickets are charged at actuals.
-            </>
-          )
-        }
-        mobileImage={{
-          src: HERO_MOBILE,
-          alt: "The Statue of Unity in Gujarat",
-          title: "Gujarat",
-          region: "Western India",
-        }}
+        description={s(hub || {}, "answer_first") || rich(c.heroText, undefined, OrangeBold)}
+        mobileImage={c.mobileImage}
         stats={[
-          { value: `${variants.length}+`, label: "Curated plans" },
+          { value: `${variants.length}+`, label: c.stats.plansLabel },
           {
             value: priceValueStr
               ? `₹${Number(priceValueStr).toLocaleString("en-IN")}`
               : minPrice
               ? `₹${minPrice.toLocaleString("en-IN")}`
-              : "Custom",
-            label: "Starts from*",
+              : c.stats.priceFallback,
+            label: c.stats.priceLabel,
           },
-          { value: "1–10", label: "Days on offer" },
+          { value: c.stats.daysValue, label: c.stats.daysLabel },
         ]}
-        waMessage="Hi, I'd like a Gujarat tour package quote"
+        waMessage={c.whatsappMessage}
         browseHref="#by-route"
+        browseLabel={c.browseLabel}
+        whatsappLabel={c.whatsappLabel}
       />
 
       {/* ── PACKAGE GRIDS ── */}
@@ -330,12 +285,11 @@ export default async function GujaratPackagePillarPage() {
         {/* Section intro */}
         <div className="relative z-20 mx-auto max-w-3xl px-4 pt-14 text-center sm:pt-16">
           <h2 className="font-playfair mt-20 text-4xl font-black leading-[1.08] tracking-[-0.02em] sm:text-5xl">
-            <span className="text-orange-500">Gujarat</span>
-            <span className="mt-1 block text-[#111827]">Tour Packages</span>
+            <span className="text-orange-500">{c.intro.headingHighlight}</span>
+            <span className="mt-1 block text-[#111827]">{c.intro.headingRest}</span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-gray-500 sm:text-lg">
-            Temple circuits, heritage routes and wildlife trails across the state — each one sequenced
-            around darshan timings, safari slots and the drives that actually connect them.
+            {c.intro.text}
           </p>
         </div>
 
@@ -344,7 +298,8 @@ export default async function GujaratPackagePillarPage() {
           city={byCity}
           traveller={byType}
           route={byRoute}
-          groupCopy={GROUP_COPY}
+          groupCopy={c.groups}
+          banner={c.yatraBanner}
         />
       </div>
 
@@ -354,13 +309,9 @@ export default async function GujaratPackagePillarPage() {
 
       <CustomPackageCTA />
 
-      <Faq
-        items={pillarFaq}
-        heading="Planning a Gujarat Trip — Your Questions Answered"
-        subheading="How long to take, what the price covers, when to come and what can be customised."
-      />
+      <Faq items={pillarFaq} heading={c.faqHeading} subheading={c.faqSubheading} />
 
-      <TourArchiveCTA />
+      <TourArchiveCTA copy={c.archiveCta} />
 
       <RelatedLinks links={related} />
 

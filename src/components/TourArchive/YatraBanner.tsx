@@ -16,28 +16,21 @@ import {
 } from "lucide-react";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { BRAND, CONTACT, telLink } from "@/src/config/site";
+import { YATRA_BANNER_COPY, type YatraBannerCopy } from "./copy";
 
-const STATS = [
-  { value: "4,800+", label: "Happy Yatris" },
-  { value: "4.9★", label: "Avg Rating" },
-  { value: "12+", label: "Years of Service" },
-  { value: "98%", label: "Recommend Us" },
-] as const;
-
-const TRUST = [
-  { icon: ShieldCheck, text: "Secure Booking" },
-  { icon: RefreshCw, text: "Free Cancellation" },
-  { icon: Headphones, text: "24/7 Support" },
-  { icon: BadgeCheck, text: "Expert Guides" },
-] as const;
+/** Icons for the trust chips, in order (repeating if more chips are added). */
+const TRUST_ICONS = [ShieldCheck, RefreshCw, Headphones, BadgeCheck] as const;
 
 /**
  * "Begin Your Sacred Dwarka & Somnath Yatra" conversion banner — a self
  * contained card with the two primary actions, social-proof stats, trust chips
  * and the NAP footer. Sits inside the package explorer above the traveller
  * section as a mid-page CTA.
+ *
+ * The words come from `copy` (the hub's CMS-editable PageDef passes it down);
+ * the phone, email and brand name stay with site config.
  */
-export default function YatraBanner() {
+export default function YatraBanner({ copy = YATRA_BANNER_COPY }: { copy?: YatraBannerCopy }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -63,20 +56,20 @@ export default function YatraBanner() {
             <div className="max-w-2xl">
               <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.16em] text-orange-700">
                 <span className="h-2 w-2 rounded-full bg-orange-500" />
-                Limited Seats This Season
+                {copy.badge}
               </span>
 
               <h2
                 id="yatra-banner-h"
                 className="font-playfair mt-5 text-4xl font-black leading-[1.08] tracking-[-0.02em] text-[#111827] sm:text-5xl"
               >
-                Begin Your Sacred{" "}
-                <span className="text-orange-500">Dwarka &amp; Somnath</span> Yatra
+                {copy.headingLead}{" "}
+                <span className="text-orange-500">{copy.headingHighlight}</span>
+                {copy.headingTail ? ` ${copy.headingTail}` : null}
               </h2>
 
               <p className="mt-4 max-w-xl text-[15px] leading-[1.7] text-gray-500 sm:text-lg">
-                Everything arranged, every darshan planned. All you need to carry is your
-                devotion — we handle the rest.
+                {copy.text}
               </p>
             </div>
 
@@ -87,7 +80,7 @@ export default function YatraBanner() {
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_55%,#FB923C_100%)] px-8 py-4 text-[15px] font-bold text-white shadow-[0_14px_34px_rgba(234,88,12,0.34)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
               >
                 <Flame size={17} />
-                Book Your Yatra
+                {copy.bookLabel}
                 <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
               </button>
               <a
@@ -95,7 +88,7 @@ export default function YatraBanner() {
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-200 bg-white px-8 py-4 text-[15px] font-bold text-[#111827] transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50"
               >
                 <Phone size={16} className="text-orange-500" />
-                Talk to an Expert
+                {copy.callLabel}
               </a>
             </div>
           </div>
@@ -107,8 +100,8 @@ export default function YatraBanner() {
           <div className="flex flex-col gap-7 xl:flex-row xl:items-center xl:justify-between">
             {/* stats */}
             <div className="flex flex-wrap items-center gap-x-7 gap-y-4 sm:gap-x-9">
-              {STATS.map((s, i) => (
-                <div key={s.label} className="flex items-center gap-7 sm:gap-9">
+              {copy.stats.map((s, i) => (
+                <div key={`${s.label}-${i}`} className="flex items-center gap-7 sm:gap-9">
                   {i > 0 && <span className="hidden h-9 w-px bg-orange-100 sm:block" />}
                   <div>
                     <div className="font-playfair text-2xl font-extrabold leading-none text-orange-600 sm:text-[27px]">
@@ -124,15 +117,18 @@ export default function YatraBanner() {
 
             {/* trust chips */}
             <div className="flex flex-wrap gap-2.5">
-              {TRUST.map(({ icon: Icon, text }) => (
-                <span
-                  key={text}
-                  className="inline-flex items-center gap-2 rounded-full bg-gray-50 px-4 py-2 text-[13px] font-semibold text-gray-600"
-                >
-                  <Icon size={15} className="text-orange-500" />
-                  {text}
-                </span>
-              ))}
+              {copy.trust.map((text, i) => {
+                const Icon = TRUST_ICONS[i % TRUST_ICONS.length];
+                return (
+                  <span
+                    key={`${text}-${i}`}
+                    className="inline-flex items-center gap-2 rounded-full bg-gray-50 px-4 py-2 text-[13px] font-semibold text-gray-600"
+                  >
+                    <Icon size={15} className="text-orange-500" />
+                    {text}
+                  </span>
+                );
+              })}
             </div>
           </div>
 
@@ -148,7 +144,7 @@ export default function YatraBanner() {
                 </span>
                 <span>
                   <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                    Call Us
+                    {copy.callUsLabel}
                   </span>
                   <span className="block text-[15px] font-bold text-[#111827] group-hover:text-orange-600">
                     {CONTACT.phoneDisplay}
@@ -161,7 +157,7 @@ export default function YatraBanner() {
                 </span>
                 <span>
                   <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
-                    Email
+                    {copy.emailLabel}
                   </span>
                   <span className="block text-[15px] font-bold text-[#111827] group-hover:text-orange-600">
                     {CONTACT.email}
@@ -179,7 +175,7 @@ export default function YatraBanner() {
                   {BRAND.shortName}
                 </span>
                 <span className="block text-[12px] font-medium text-gray-400">
-                  Sacred Gujarat Tours
+                  {copy.brandTagline}
                 </span>
               </span>
             </div>

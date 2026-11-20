@@ -1,28 +1,24 @@
 import { SITE_URL, BRAND, CONTACT, CORE_FACTS } from "@/src/config/site";
-import { SEED_PACKAGES } from "@/src/lib/seed/packages";
-import { SEED_CAB_ROUTES, SEED_VEHICLES } from "@/src/lib/seed/cabs";
-import {
-  SEED_COMPARISONS,
-  SEED_FESTIVALS,
-  SEED_HOTELS,
-  SEED_JOURNEYS,
-  SEED_TEMPLE_INFO,
-  SEED_TOOLS,
-} from "@/src/lib/seed/destinations";
+import { getDataset } from "@/src/lib/datasets/store";
+import { SD_PACKAGES_DATASET } from "@/src/lib/cms-groups/packages";
+import { CAB_ROUTES_DATASET, TAXI_VEHICLES_DATASET, TOOLS_DATASET } from "@/src/lib/cms-groups/taxi";
+import { PLAN_GUIDES_DATASET, TEMPLE_TOPICS_DATASET } from "@/src/lib/cms-groups/destinations";
+import { COMPARISONS_DATASET, FESTIVALS_DATASET, HOTELS_DATASET } from "@/src/lib/cms-groups/catalog";
 
 /**
  * llms.txt at root (SOP §11): the curated index an answer engine reads to learn
  * what this site covers and which URL answers which question.
  *
- * The section lists are generated from the same seed registries the pages and
+ * The section lists are generated from the same CMS datasets the pages and
  * the sitemap are built from, so the file cannot drift out of sync the way a
- * hand-written list does — adding a spoke adds its line here for free.
+ * hand-written list does — adding a spoke (in code or through the /mcp/
+ * connector) adds its line here for free. Rebuilt hourly.
  *
  * Facts flagged unverified are labelled indicative; we never hand an answer
  * engine an unconfirmed number as though it were established. Every fact below
  * also appears as plain crawlable text on the relevant page.
  */
-export const dynamic = "force-static";
+export const revalidate = 3600;
 
 const line = (path: string, label: string, note?: string) =>
   `- [${label}](${SITE_URL}${path})${note ? `: ${note}` : ""}`;
@@ -33,7 +29,19 @@ const firstSentence = (s: string, max = 160) => {
   return t.length <= max ? t : t.slice(0, max - 1).trimEnd() + "…";
 };
 
-export function GET() {
+export async function GET() {
+  const [SEED_PACKAGES, SEED_CAB_ROUTES, SEED_VEHICLES, SEED_TEMPLE_INFO, SEED_JOURNEYS, SEED_HOTELS, SEED_FESTIVALS, SEED_COMPARISONS, SEED_TOOLS] =
+    await Promise.all([
+      getDataset(SD_PACKAGES_DATASET),
+      getDataset(CAB_ROUTES_DATASET),
+      getDataset(TAXI_VEHICLES_DATASET),
+      getDataset(TEMPLE_TOPICS_DATASET),
+      getDataset(PLAN_GUIDES_DATASET),
+      getDataset(HOTELS_DATASET),
+      getDataset(FESTIVALS_DATASET),
+      getDataset(COMPARISONS_DATASET),
+      getDataset(TOOLS_DATASET),
+    ]);
   const fact = (k: keyof typeof CORE_FACTS) => {
     const f = CORE_FACTS[k];
     return `- ${f.label}: ${f.value}${

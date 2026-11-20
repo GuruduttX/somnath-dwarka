@@ -6,6 +6,7 @@ import { SEED_TEMPLE_INFO } from "@/src/lib/seed/destinations";
 export const revalidate = 3600;
 type Params = { params: Promise<{ topic: string }> };
 
+/* Prerenders the code topics; ones added through the CMS (site_temple_topics) render on first visit. */
 export function generateStaticParams() {
   return SEED_TEMPLE_INFO.filter((t) => t.destination === "somnath").map((t) => ({ topic: t.slug }));
 }
@@ -17,6 +18,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function SomnathTopicPage({ params }: Params) {
   const { topic } = await params;
-  if (!templeExists("somnath", topic)) notFound();
+  if (!(await templeExists("somnath", topic))) notFound();
   return <TempleInfo destination="somnath" topic={topic} />;
 }

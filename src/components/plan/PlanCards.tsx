@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Route, CalendarDays, Compass, MapPin, Clock, ArrowRight, HelpCircle } from "lucide-react";
+import type { PlanCardLabels } from "@/src/app/plan/content";
+import { fillVars } from "@/src/components/templates/copy";
 
 interface Mode {
   mode: string;
@@ -25,21 +27,22 @@ interface Journey {
 }
 
 // Classify a journey into a visual category.
-function meta(j: Journey) {
+function meta(j: Journey, labels: PlanCardLabels) {
   if (j.itinerary && j.itinerary.length > 0) {
-    return { Icon: CalendarDays, label: "Day-wise itinerary", accent: "text-orange-600 bg-orange-50 ring-orange-100" };
+    return { Icon: CalendarDays, label: labels.itineraryLabel, accent: "text-orange-600 bg-orange-50 ring-orange-100" };
   }
   if (j.modes && j.modes.length > 0) {
-    return { Icon: Route, label: "Distance & route", accent: "text-amber-600 bg-amber-50 ring-amber-100" };
+    return { Icon: Route, label: labels.routeLabel, accent: "text-amber-600 bg-amber-50 ring-amber-100" };
   }
-  return { Icon: Compass, label: "Planning tip", accent: "text-emerald-600 bg-emerald-50 ring-emerald-100" };
+  return { Icon: Compass, label: labels.tipLabel, accent: "text-emerald-600 bg-emerald-50 ring-emerald-100" };
 }
 
-export function PlanCards({ journeys }: { journeys: Journey[] }) {
+/** Cards of the /plan/ page: journeys are the site_plan_guides items, labels the "plan" page's `cards` copy. */
+export function PlanCards({ journeys, labels }: { journeys: Journey[]; labels: PlanCardLabels }) {
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {journeys.map((j, idx) => {
-        const { Icon, label, accent } = meta(j);
+        const { Icon, label, accent } = meta(j, labels);
         const road = j.modes?.find((m) => m.mode.toLowerCase().includes("road"));
         const days = j.itinerary?.length;
         return (
@@ -91,7 +94,7 @@ export function PlanCards({ journeys }: { journeys: Journey[] }) {
                   )}
                   {days && (
                     <span className="inline-flex items-center gap-1 rounded-lg bg-orange-50 px-2 py-1 text-[11px] font-bold text-orange-700">
-                      <CalendarDays size={11} /> {days}-day plan
+                      <CalendarDays size={11} /> {fillVars(labels.dayPlan, { days })}
                     </span>
                   )}
                 </div>
@@ -99,7 +102,8 @@ export function PlanCards({ journeys }: { journeys: Journey[] }) {
 
               {/* read link */}
               <div className="relative mt-5 flex items-center gap-1.5 border-t border-orange-50 pt-4 text-[13px] font-bold text-orange-700">
-                Read the guide
+                {labels.readMore}
+
                 <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
               </div>
             </Link>

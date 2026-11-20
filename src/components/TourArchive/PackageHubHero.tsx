@@ -24,6 +24,8 @@ export default function PackageHubHero({
   stats,
   waMessage,
   browseHref = "#by-duration",
+  browseLabel = "Browse Packages",
+  whatsappLabel = "Chat on WhatsApp",
 }: {
   headline: ReactNode;
   description: ReactNode;
@@ -31,6 +33,8 @@ export default function PackageHubHero({
   stats: HubHeroStat[];
   waMessage: string;
   browseHref?: string;
+  browseLabel?: string;
+  whatsappLabel?: string;
 }) {
   return (
     <section id="hero" className="font-dm relative -mt-28 flex flex-col overflow-hidden">
@@ -151,7 +155,7 @@ export default function PackageHubHero({
               className="pkg-btn-shine group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-6 py-2.5 text-xs sm:px-7 sm:py-3.5 sm:text-sm font-semibold text-white shadow-[0_12px_30px_rgba(234,88,12,0.4)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
             >
               <Sparkles size={14} className="relative z-[1]" />
-              <span className="relative z-[1]">Browse Packages</span>
+              <span className="relative z-[1]">{browseLabel}</span>
               <ArrowRight size={14} className="relative z-[1] transition-transform group-hover:translate-x-1" />
             </a>
             <a
@@ -161,7 +165,7 @@ export default function PackageHubHero({
               className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-6 py-2.5 text-xs sm:px-7 sm:py-3.5 sm:text-sm font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white"
             >
               <Navigation size={14} />
-              Chat on WhatsApp
+              {whatsappLabel}
             </a>
           </div>
 

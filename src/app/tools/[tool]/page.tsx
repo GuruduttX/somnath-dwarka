@@ -9,33 +9,45 @@ import Faq from "@/src/components/shared/Faq";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import ToolWidget from "@/src/components/shared/ToolWidget";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { SEED_TOOLS, findSeedTool } from "@/src/lib/seed/destinations";
+import { SEED_TOOLS } from "@/src/lib/seed/destinations";
+import { getDataset, getDatasetItem } from "@/src/lib/datasets/store";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { plain } from "@/src/lib/pages/rich";
+import { RATE_CARD_DATASET, TOOLS_DATASET } from "@/src/lib/cms-groups/taxi";
+import { taxiRich } from "@/src/components/taxi/TaxiRich";
+import { TOOL_TEMPLATE_PAGE } from "../content";
 import { buildRelatedLinks } from "@/src/lib/links";
 
 export const revalidate = 3600;
 type Params = { params: Promise<{ tool: string }> };
 
+/* Prerenders the code tools; ones added through the CMS (site_tools) render on first visit. */
 export function generateStaticParams() {
   return SEED_TOOLS.map((t) => ({ tool: t.slug }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { tool } = await params;
-  const t = findSeedTool(tool);
+  const t = await getDatasetItem(TOOLS_DATASET, tool);
   if (!t) return {};
-  return buildMetadata({ title: t.title, description: t.answer_first, path: `/tools/${tool}/` });
+  return buildMetadata({ title: plain(t.title), description: plain(t.answer_first), path: `/tools/${tool}/` });
 }
 
 export default async function ToolPage({ params }: Params) {
   const { tool } = await params;
-  const t = findSeedTool(tool);
+  const [t, tools, c, fareRoutes] = await Promise.all([
+    getDatasetItem(TOOLS_DATASET, tool),
+    getDataset(TOOLS_DATASET),
+    getPageContent(TOOL_TEMPLATE_PAGE),
+    getDataset(RATE_CARD_DATASET),
+  ]);
   if (!t) notFound();
 
   const related = buildRelatedLinks({
     self: `/tools/${tool}/`,
     pillar: { target: "/tools/", anchor: "all tools" },
     money: t.tool_type === "fare-calculator" ? "taxi" : "packages",
-    siblings: SEED_TOOLS.filter((x) => x.slug !== tool).map((x) => ({
+    siblings: tools.filter((x) => x.slug !== tool).map((x) => ({
       target: `/tools/${x.slug}/`,
       anchor: x.h1,
       type: "sibling" as const,
@@ -44,7 +56,7 @@ export default async function ToolPage({ params }: Params) {
 
   const crumbs = [
     { name: "Home", path: "/" },
-    { name: "Tools", path: "/tools/" },
+    { name: c.crumbLabel, path: "/tools/" },
     { name: t.h1, path: `/tools/${tool}/` },
   ];
 
@@ -56,16 +68,16 @@ export default async function ToolPage({ params }: Params) {
       </div>
 
       {/* Interactive layer — enhances the static shell below */}
-      <Section id="tool" title="Try it">
-        <ToolWidget type={t.tool_type} />
+      <Section id="tool" title={c.tryItHeading}>
+        <ToolWidget type={t.tool_type} copy={{ planner: c.planner, calculator: c.calculator }} routes={fareRoutes} />
       </Section>
 
       {/* Static, crawlable shell — always in the HTML (SOP §1) */}
-      <Section id="explainer" title="How it works">
-        <p className="text-gray-700">{t.static_shell_copy}</p>
+      <Section id="explainer" title={c.explainerHeading}>
+        <p className="text-gray-700">{taxiRich(t.static_shell_copy)}</p>
       </Section>
 
-      <Faq items={t.faq} heading="Tool FAQs" />
+      <Faq items={t.faq} heading={c.faqHeading} />
       <RelatedLinks links={related} />
 
       {/* Faq emits the FAQPage node itself; this is the page entity. A

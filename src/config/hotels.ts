@@ -48,11 +48,14 @@ const whyBook = (heading: string, vettedLine: string) => ({
 
 const BUNDLE = {
   heading: "Stay, cab and tour on one booking",
+  /** The two buttons under the bundle text. */
   links: [
     { label: "Somnath Dwarka taxi service", href: "/somnath-dwarka-taxi-service/" },
-    { label: "tour package", href: "/somnath-dwarka-tour-package/" },
+    { label: "Tour packages", href: "/somnath-dwarka-tour-package/" },
   ],
 };
+
+const KEEP_PLANNING_HEADING = "Keep planning";
 
 const LANGUAGES_FAQ = {
   question: "Which languages does your team speak?",
@@ -74,13 +77,13 @@ export type HotelPageCopy = {
   whereToStay?: { heading: string; body: string };
   chooseByBudget: { heading: string; intro?: string; items: string[] };
   arriveAndStay?: { heading: string; body: string };
-  bundle: { heading: string; body: string };
+  bundle: { heading: string; body: string; links: { label: string; href: string }[] };
   stayIncludes: ReturnType<typeof stayIncludes>;
   whyBook: ReturnType<typeof whyBook>;
   notForYou: { heading: string; items: string[] };
   beforeYouBook: { heading: string; items: string[] };
   faq: { question: string; answer: string }[];
-  keepPlanning: { intro: string; links: { label: string; href: string }[] };
+  keepPlanning: { heading: string; intro: string; links: { label: string; href: string }[] };
   cta: { heading: string; body: string };
   /** Shown under the hotel table. */
   propertiesNote: string;
@@ -114,6 +117,7 @@ export const HOTELS_HUB: HotelPageCopy = {
     ],
   },
   bundle: {
+    links: BUNDLE.links,
     heading: BUNDLE.heading,
     body: "Most travellers let one team handle the whole yatra. We book the hotel near the temple, arrange the drive, and can wrap both into a tour package built around aarti timings. It means one point of contact for the room, the driver and the plan, in a language you speak.",
   },
@@ -166,6 +170,7 @@ export const HOTELS_HUB: HotelPageCopy = {
     LANGUAGES_FAQ,
   ],
   keepPlanning: {
+    heading: KEEP_PLANNING_HEADING,
     intro:
       "Plan the trip around your stay. Arrange the drive, bundle a tour package, or read the temple guides for timings.",
     links: [
@@ -216,6 +221,7 @@ export const HOTELS_SOMNATH: HotelPageCopy = {
     body: "Flying in? The nearest airports to Somnath are Diu and Rajkot, and we run transfers straight to your hotel. Driving the circuit? Price the Somnath to Dwarka taxi or the short Veraval to Somnath taxi.",
   },
   bundle: {
+    links: BUNDLE.links,
     heading: BUNDLE.heading,
     body: "Let one team handle the yatra. We book your Somnath hotel near the temple, arrange the drive, and can wrap both into a tour package built around aarti timings, in a language you speak.",
   },
@@ -270,6 +276,7 @@ export const HOTELS_SOMNATH: HotelPageCopy = {
     LANGUAGES_FAQ,
   ],
   keepPlanning: {
+    heading: KEEP_PLANNING_HEADING,
     intro:
       "Back to all stays on the hotels hub, or see Dwarka hotels for the other side of the circuit. Arrange the drive, bundle a tour package, or read the Somnath guide.",
     links: [
@@ -321,6 +328,7 @@ export const HOTELS_DWARKA: HotelPageCopy = {
     body: "Flying in? The nearest airports to Dwarka are Jamnagar and Porbandar, and we run transfers to your hotel. Driving the circuit? Price the Rajkot to Dwarka taxi, the Jamnagar to Dwarka taxi or the Somnath to Dwarka taxi.",
   },
   bundle: {
+    links: BUNDLE.links,
     heading: BUNDLE.heading,
     body: "Let one team handle the yatra. We book your Dwarka hotel near the temple, arrange the drive, and can wrap both into a tour package built around aarti timings, in a language you speak.",
   },
@@ -373,6 +381,7 @@ export const HOTELS_DWARKA: HotelPageCopy = {
     LANGUAGES_FAQ,
   ],
   keepPlanning: {
+    heading: KEEP_PLANNING_HEADING,
     intro:
       "Back to all stays on the hotels hub, or see Somnath hotels for the other side of the circuit. Arrange the drive, bundle a tour package, or read the Dwarka guide.",
     links: [
@@ -397,3 +406,30 @@ export const HOTEL_CITY_COPY: Record<string, HotelPageCopy> = {
 };
 
 export const hotelCopyFor = (slug: string): HotelPageCopy | null => HOTEL_CITY_COPY[slug] ?? null;
+
+/**
+ * Card photo for each hotel page on the /hotels/ hub (the default `card_image`
+ * of the site_hotels dataset items). There are more cards than source images,
+ * so a few repeat — the mapping keeps repeats far apart and never adjacent.
+ */
+export const HOTEL_CARD_IMAGES: Record<string, string> = {
+  "somnath-trust-guest-house-booking": "/images/hotels/somnath.webp",
+  "dwarka-guest-house-dharamshala": "/images/hotels/dwarka.webp",
+  "sasan-gir-hotels": "/images/hotels/properties/p1.webp",
+  "hotels-in-somnath": "/images/hotels/properties/p6.webp",
+  "hotels-in-dwarka": "/images/hotels/properties/p3.webp",
+  "hotels-near-somnath-temple": "/images/hotels/properties/p2.webp",
+  "budget-hotels-in-somnath": "/images/hotels/properties/p4.webp",
+  "luxury-hotels-in-somnath": "/images/hotels/properties/p5.webp",
+  "hotels-near-dwarkadhish": "/images/hotels/hero.webp",
+  "budget-hotels-in-dwarka": "/images/hotels/properties/p1.webp",
+  "luxury-hotels-in-dwarka": "/images/hotels/properties/p6.webp",
+  "heritage-hotels-palace-stays-gujarat": "/images/hotels/properties/p2.webp",
+  "homestays-in-kutch": "/images/hotels/properties/p4.webp",
+};
+
+/** Hero banner by city on a hotel page (the default `hero_image` of the site_hotels items). */
+export const HOTEL_CITY_IMAGES: Record<string, string> = {
+  Somnath: "/images/hotels/somnath.webp",
+  Dwarka: "/images/hotels/dwarka.webp",
+};

@@ -5,19 +5,30 @@ import { getPublishedFestivals } from "@/src/lib/content";
 import { buildMetadata, webPageSchema } from "@/src/lib/seo";
 import { SITE_URL } from "@/src/config/site";
 import JsonLd from "@/src/components/seo/JsonLd";
+import { getDataset } from "@/src/lib/datasets/store";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { FESTIVAL_CALENDAR_DATASET } from "@/src/lib/cms-groups/catalog";
+import { CALENDAR_PAGE, type CalendarEvent } from "./content";
 
+/* Entries: the site_festival_calendar dataset; copy: ./content.ts (CMS page "festival-calendar"). */
 export const revalidate = 3600;
 
-export const metadata: Metadata = buildMetadata({
-  title: "Somnath Dwarka Festival Calendar — 2026 & 2027 Dates & Guide",
-  description:
-    "Complete month-wise festival calendar for Somnath, Dwarka, Dakor, and Salangpur. Find auspicious tithis, exact dates for Janmashtami & Shivratri, and crowd advisory guides.",
-  path: "/festivals/festival-calendar/",
-  noindex: false,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const c = await getPageContent(CALENDAR_PAGE);
+  return buildMetadata({
+    title: c.meta.title,
+    description: c.meta.description,
+    path: "/festivals/festival-calendar/",
+    noindex: false,
+  });
+}
 
 export default async function FestivalCalendarPage() {
-  const dbFestivals = await getPublishedFestivals();
+  const [dbFestivals, entries, c] = await Promise.all([
+    getPublishedFestivals(),
+    getDataset(FESTIVAL_CALENDAR_DATASET),
+    getPageContent(CALENDAR_PAGE),
+  ]);
 
   // Safe Mongoose-to-JSON serialization
   const serializedDbFestivals = dbFestivals.map((f) => ({
@@ -34,6 +45,20 @@ export default async function FestivalCalendarPage() {
     crowd: String(f.crowd || ""),
     highlights: Array.isArray(f.highlights) ? f.highlights.map(String) : [],
   }));
+
+  // A published Festival CMS item with an entry's slug overrides that entry's fields.
+  const events: CalendarEvent[] = entries.map((entry) => {
+    const db = serializedDbFestivals.find((d) => d.slug === entry.slug);
+    if (!db) return entry;
+    const e = { ...entry };
+    if (db.date_this_year && db.date_verified) e.date2026 = db.date_this_year;
+    if (db.rituals) e.rituals = db.rituals;
+    if (db.travel_advice) e.travelAdvice = db.travel_advice;
+    if (db.event_venue) e.location = db.event_venue;
+    if (db.deity) e.deity = db.deity;
+    if (db.crowd) e.crowdLevel = db.crowd;
+    return e;
+  });
 
   const crumbs = [
     { name: "Home", path: "/" },
@@ -53,13 +78,12 @@ export default async function FestivalCalendarPage() {
 
   return (
     <PageShell crumbs={crumbs}>
-      <CalendarClient dbFestivals={serializedDbFestivals} />
+      <CalendarClient events={events} copy={c} />
       <JsonLd
         data={[
           webPageSchema({
-            name: "Somnath Dwarka Festival Calendar",
-            description:
-              "Month-wise festival calendar for Somnath, Dwarka, Dakor and Salangpur, with dates and crowd advisories.",
+            name: c.schema.name,
+            description: c.schema.description,
             path: "/festivals/festival-calendar/",
             type: "CollectionPage",
             crumbs,

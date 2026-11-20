@@ -63,20 +63,16 @@ export default function HotelSopSections({ copy }: { copy: HotelPageCopy }) {
             <h2 className={h2}>{bar}{copy.bundle.heading}</h2>
             <p className="text-slate-600 leading-relaxed">{copy.bundle.body}</p>
             <div className="mt-4 flex flex-wrap gap-2.5">
-              <Link
-                href="/somnath-dwarka-taxi-service/"
-                className="inline-flex items-center gap-1.5 rounded-full border border-orange-200 bg-white px-4 py-2 text-sm font-semibold text-orange-800 transition hover:border-orange-300 hover:bg-orange-50"
-              >
-                Somnath Dwarka taxi service
-                <ArrowRight size={14} />
-              </Link>
-              <Link
-                href="/somnath-dwarka-tour-package/"
-                className="inline-flex items-center gap-1.5 rounded-full border border-orange-200 bg-white px-4 py-2 text-sm font-semibold text-orange-800 transition hover:border-orange-300 hover:bg-orange-50"
-              >
-                Tour packages
-                <ArrowRight size={14} />
-              </Link>
+              {copy.bundle.links.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-orange-200 bg-white px-4 py-2 text-sm font-semibold text-orange-800 transition hover:border-orange-300 hover:bg-orange-50"
+                >
+                  {l.label}
+                  <ArrowRight size={14} />
+                </Link>
+              ))}
             </div>
           </div>
         </div>
@@ -185,7 +181,7 @@ export default function HotelSopSections({ copy }: { copy: HotelPageCopy }) {
       <div className={wrap}>
         <div className={row}>
         <div className={card}>
-          <h2 className={h2}>{bar}Keep planning</h2>
+          <h2 className={h2}>{bar}{copy.keepPlanning.heading}</h2>
           <p className="text-slate-600 leading-relaxed">{copy.keepPlanning.intro}</p>
           <div className="mt-4 flex flex-wrap gap-2.5">
             {copy.keepPlanning.links.map((l) => (

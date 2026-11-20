@@ -7,16 +7,18 @@ import Image from "@/src/components/shared/Img";
 import { Sparkles, CalendarDays, Flame, Users, MessageSquare, ArrowRight, PartyPopper, MapPin } from "lucide-react";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { waLink } from "@/src/config/site";
+import { rich, type RichBold } from "@/src/lib/pages/rich";
+import type { FESTIVALS_PAGE_DEFAULTS } from "@/src/app/festivals/content";
 
 const HERO_IMG = "/images/festivals/festival-hero.webp";
 
-const CHIPS = [
-  { icon: Flame, label: "Aartis & rituals" },
-  { icon: Users, label: "Crowd planning" },
-  { icon: CalendarDays, label: "Seasonal dates" },
-];
+/** Chip icons by position; the labels are CMS copy (festivals page, hero.chips). */
+const CHIP_ICONS = [Flame, Users, CalendarDays];
 
-export default function FestivalsHero({ count }: { count: number }) {
+const Bold: RichBold = ({ children }) => <strong className="font-semibold text-orange-700">{children}</strong>;
+
+/** The hero's copy comes from the parent server page (CMS page "festivals", field hero). */
+export default function FestivalsHero({ count, copy }: { count: number; copy: (typeof FESTIVALS_PAGE_DEFAULTS)["hero"] }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -55,29 +57,30 @@ export default function FestivalsHero({ count }: { count: number }) {
           <div className="flex flex-col">
             <div className="fv-up fv0 inline-flex w-fit items-center gap-1.5 rounded-full border border-orange-200/80 bg-white/70 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-orange-800 shadow-sm backdrop-blur-sm">
               <PartyPopper size={12} className="text-orange-500" />
-              Festivals &amp; Celebrations
+              {copy.badge}
             </div>
 
             <h1 className="fv-up fv1 mt-4 text-4xl font-black leading-[1.06] tracking-[-0.02em] text-[#3a2416] sm:text-5xl lg:text-[3.35rem]">
-              Festivals at{" "}
+              {copy.h1Start}{" "}
               <span className="bg-[linear-gradient(100deg,#EA580C,#F97316,#F59E0B)] bg-clip-text text-transparent">
-                Somnath &amp; Dwarka
+                {copy.h1Highlight}
               </span>
             </h1>
 
             <p className="fv-up fv2 mt-4 max-w-xl text-[15px] leading-[1.75] text-[#6b4c38]">
-              From <strong className="font-semibold text-orange-700">Janmashtami at Dwarka</strong> to{" "}
-              <strong className="font-semibold text-orange-700">Maha Shivratri at Somnath</strong> — what to
-              expect, the rituals, and how to plan travel and darshan around the crowds.
+              {rich(copy.intro, undefined, Bold)}
             </p>
 
             <div className="fv-up fv3 mt-6 flex flex-wrap gap-2.5">
-              {CHIPS.map(({ icon: Icon, label }) => (
+              {copy.chips.map((label, i) => {
+                const Icon = CHIP_ICONS[i % CHIP_ICONS.length];
+                return (
                 <span key={label} className="inline-flex items-center gap-1.5 rounded-full border border-orange-100 bg-white/80 px-3 py-1.5 text-[12px] font-semibold text-[#6b4c38] shadow-xs backdrop-blur-sm">
                   <Icon size={13} className="text-orange-500" />
                   {label}
                 </span>
-              ))}
+                );
+              })}
             </div>
 
             <div className="fv-up fv4 mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -86,22 +89,22 @@ export default function FestivalsHero({ count }: { count: number }) {
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-7 py-3.5 text-sm font-bold text-white shadow-[0_12px_30px_rgba(234,88,12,0.35)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
               >
                 <Sparkles size={16} />
-                Plan a Festival Trip
+                {copy.primaryCta}
                 <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
               </button>
               <a
-                href={waLink("Hi, I want to plan a festival trip to Somnath / Dwarka")}
+                href={waLink(copy.whatsappMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-7 py-3.5 text-sm font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white active:translate-y-0 cursor-pointer"
               >
                 <MessageSquare size={15} />
-                Ask on WhatsApp
+                {copy.whatsappCta}
               </a>
             </div>
 
             <p className="fv-up fv4 mt-6 text-[12.5px] font-medium text-[#9a7358]">
-              {count} festival {count === 1 ? "guide" : "guides"} · dates confirmed before each season
+              {count} festival {count === 1 ? "guide" : "guides"} · {copy.countNote}
             </p>
           </div>
 
@@ -110,7 +113,7 @@ export default function FestivalsHero({ count }: { count: number }) {
             <div className="absolute -inset-3 rotate-2 rounded-[36px] bg-[linear-gradient(135deg,rgba(234,88,12,0.18),rgba(245,158,11,0.10))]" aria-hidden="true" />
             <div className="relative overflow-hidden rounded-[28px] border-[6px] border-white shadow-[0_30px_70px_rgba(234,88,12,0.22)]">
               <div className="relative aspect-[4/5] w-full sm:aspect-[5/5]">
-                <Image src={HERO_IMG} alt="Temple lit up during a festival" fill priority sizes="(max-width:1024px) 90vw, 500px" className="object-cover" />
+                <Image src={HERO_IMG} alt={copy.imageAlt} fill priority sizes="(max-width:1024px) 90vw, 500px" className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10" />
 
                 {/* rising diyas */}
@@ -143,8 +146,8 @@ export default function FestivalsHero({ count }: { count: number }) {
                   <CalendarDays size={16} />
                 </span>
                 <div className="leading-tight">
-                  <p className="text-[13px] font-black text-[#3a2416]">Plan 6–10 weeks ahead</p>
-                  <p className="text-[10.5px] text-[#9a7358]">Stays &amp; cabs fill fast</p>
+                  <p className="text-[13px] font-black text-[#3a2416]">{copy.floatTitle}</p>
+                  <p className="text-[10.5px] text-[#9a7358]">{copy.floatText}</p>
                 </div>
               </div>
             </div>

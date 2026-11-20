@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import { buildMetadata, touristTripSchema } from "@/src/lib/seo";
-import { themeFor } from "@/src/config/destinations";
+import { getDestinationTheme } from "@/src/components/templates/destination/themes";
 
 /** Legacy root-level URLs that should permanently 301 redirect to canonical destinations. */
 const LEGACY_ROOT_REDIRECTS: Record<string, string> = {
@@ -26,6 +26,11 @@ import InterestHubTemplate, { type InterestEntry } from "@/src/components/templa
 import GirPillar from "@/src/components/templates/GirPillar";
 import JunagadhGirnarPillar from "@/src/components/templates/JunagadhGirnarPillar";
 import { getDestinationGuidePath, getHubSpokesFor, getRootSlugs, resolveRootSlug } from "@/src/lib/content";
+import CustomPageView from "@/src/components/CustomPage/CustomPageView";
+import { getPublishedCustomPage } from "@/src/lib/customPageLookup";
+import { customPageMovedTo, customPagePath } from "@/src/lib/customPages";
+import { prepareCustomPage } from "@/src/lib/customPageRender";
+import { plain } from "@/src/lib/pages/rich";
 import {
   bool,
   descOf,
@@ -65,21 +70,39 @@ export async function generateStaticParams() {
 const MONEY_HUB_KINDS = ["circuit", "triangle", "umbrella", "destination", "vertical"];
 
 /** Package hubs sell trips, so they get a package-shaped description. */
-function hubDescription(slug: string, d: Doc) {
+function hubDescription(d: Doc, standfirst?: string) {
   const kind = s(d, "hub_kind");
   if (!MONEY_HUB_KINDS.includes(kind)) return descOf(d);
-  return packageDescOf(d, kind === "destination" ? themeFor(slug).standfirst : undefined);
+  return packageDescOf(d, kind === "destination" ? standfirst : undefined);
+}
+
+/** A destination hub's standfirst (site_destination_hubs, editable through the CMS), the fallback description. */
+async function standfirstOf(slug: string, d: Doc) {
+  return s(d, "hub_kind") === "destination" ? (await getDestinationTheme(slug)).standfirst : undefined;
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { rootSlug } = await params;
   if (LEGACY_ROOT_REDIRECTS[rootSlug]) return {};
   const match = await resolveRootSlug(rootSlug);
-  if (!match) return {};
+  if (!match) {
+    // Custom pages made through the CMS connector (lib/customPages.ts) fill the
+    // root slugs no hub, pillar or trust page owns.
+    const custom = await getPublishedCustomPage(rootSlug);
+    if (!custom) return {};
+    const { page } = await prepareCustomPage(custom);
+    return buildMetadata({
+      title: plain(page.meta.title || page.title),
+      description: plain(page.meta.description || page.hero.subheading || page.title),
+      path: customPagePath(page.slug),
+      noindex: page.meta.noindex,
+      ...(page.meta.ogImage || page.hero.image ? { ogImage: page.meta.ogImage || page.hero.image } : {}),
+    });
+  }
   const d = match.doc;
   return buildMetadata({
     title: titleOf(d),
-    description: hubDescription(rootSlug, d),
+    description: hubDescription(d, await standfirstOf(rootSlug, d)),
     path: `/${rootSlug}/`,
     noindex: bool(d, "noindex"),
     canonicalOverride: s(d, "canonical_override") || undefined,
@@ -91,11 +114,13 @@ function HubBody({
   d,
   guidePath,
   entries,
+  standfirst,
 }: {
   slug: string;
   d: Doc;
   guidePath?: string | null;
   entries?: InterestEntry[];
+  standfirst?: string;
 }) {
   const kind = s(d, "hub_kind");
   const pillar = s(d, "pillar_path");
@@ -125,7 +150,7 @@ function HubBody({
 
   const tripSchema = touristTripSchema({
     name: h1Of(d),
-    description: hubDescription(slug, d),
+    description: hubDescription(d, standfirst),
     path: `/${slug}/`,
     ...(price ? { price: Number(price) || undefined } : {}),
   });
@@ -265,7 +290,17 @@ export default async function RootSlugPage({ params }: Params) {
   }
 
   const match = await resolveRootSlug(rootSlug);
-  if (!match) notFound();
+  if (!match) {
+    const custom = await getPublishedCustomPage(rootSlug);
+    if (custom) {
+      const { page, packages } = await prepareCustomPage(custom);
+      return <CustomPageView page={page} packages={packages} />;
+    }
+    // A custom page whose slug was changed keeps its old URL working.
+    const movedTo = await customPageMovedTo(rootSlug);
+    if (movedTo) permanentRedirect(customPagePath(movedTo));
+    notFound();
+  }
 
   if (match.kind === "hub") {
     // Destination hubs link out to their travel guide; most docs do not record
@@ -290,7 +325,16 @@ export default async function RootSlugPage({ params }: Params) {
         .sort((a, b) => rank(a.slug) - rank(b.slug));
     }
 
-    return <HubBody slug={rootSlug} d={match.doc} guidePath={guidePath} entries={entries} />;
+    return (
+      <HubBody
+        slug={rootSlug}
+        d={match.doc}
+        guidePath={guidePath}
+        entries={entries}
+        standfirst={await standfirstOf(rootSlug, match.doc)}
+      />
+    );
+
   }
   if (match.kind === "pillar") {
     const Bespoke = PILLAR_TEMPLATES[rootSlug];

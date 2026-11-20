@@ -21,172 +21,11 @@ import {
   Calendar
 } from "lucide-react";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
+import type { TempleCardDetails, TemplesCopy } from "./content";
+import { fillVars } from "@/src/components/templates/copy";
 
-// Category → representative temple photo (all files exist in /public, so the
-// card headers always render an image behind the coloured category overlay).
-const CATEGORY_IMAGE: Record<string, string> = {
-  "Shiva & Jyotirlinga": "/images/home/SomnathLongImage.webp",
-  "Krishna & Vishnu": "/images/home/DwarikaLongImage.webp",
-  "Shakti/Mata": "/images/junagadh-girnar/junagadh-girnar-hero.webp",
-  "Saint Yatras": "/images/CTA.webp",
-  "Kutch & Border": "/images/festivals/festival-hero.webp",
-  "Virtual Portal": "/images/CTA.webp",
-};
-const CATEGORY_IMAGE_FALLBACK = "/images/CTA.webp";
-
-// ==========================================
-// STATIC ENRICHMENT DATA FOR CARD DISPLAY
-// ==========================================
-const TEMPLE_DETAILS_MAPPING: Record<string, {
-  deity: string;
-  town: string;
-  district: string;
-  significance: string;
-  distance: string;
-  dressCode: string;
-  category: string;
-  timingsFallback: { label: string; open: string; close: string }[];
-}> = {
-  "dakor-ranchhodrai-temple": {
-    deity: "Lord Krishna (Ranchhodrai)",
-    town: "Dakor",
-    district: "Kheda",
-    significance: "The center of Central Gujarat's Krishna devotion. Legend says the deity of Ranchhodrai walked from Dwarka with a devotee, Bodana, in the 12th century.",
-    distance: "94 km",
-    dressCode: "Modest traditional attire. Avoid shorts and tank tops.",
-    category: "Krishna & Vishnu",
-    timingsFallback: [
-      { label: "Mangla Darshan", open: "06:45", close: "07:30" },
-      { label: "Shangar Darshan", open: "08:30", close: "12:00" },
-      { label: "Evening Darshan", open: "16:00", close: "19:00" }
-    ]
-  },
-  "virpur-jalaram-temple": {
-    deity: "Saint Jalaram Bapa",
-    town: "Virpur",
-    district: "Rajkot",
-    significance: "Dedicated to the revered 19th-century saint Jalaram Bapa. It is globally unique for accepting no monetary or material donations since the year 2000, while serving free food to all.",
-    distance: "235 km",
-    dressCode: "Simple, conservative clothing. Head covering recommended.",
-    category: "Saint Yatras",
-    timingsFallback: [
-      { label: "Morning Darshan", open: "07:00", close: "13:00" },
-      { label: "Sadavrat (Prasad)", open: "11:30", close: "15:00" },
-      { label: "Evening Darshan", open: "15:00", close: "20:00" }
-    ]
-  },
-  "salangpur-hanuman-temple": {
-    deity: "Lord Hanuman (Kashtbhanjan Dev)",
-    town: "Salangpur",
-    district: "Botad",
-    significance: "Under the Swaminarayan Sampraday, this powerful temple is dedicated to Hanumanji as Kashtbhanjan (remover of difficulties). Features a massive, historic black stone deity.",
-    distance: "150 km",
-    dressCode: "Traditional and modest attire.",
-    category: "Saint Yatras",
-    timingsFallback: [
-      { label: "Mangla Aarti", open: "05:30", close: "06:00" },
-      { label: "Shangar Darshan", open: "07:00", close: "12:00" },
-      { label: "Evening Darshan", open: "15:15", close: "21:00" }
-    ]
-  },
-  "chotila-chamunda-mata-temple": {
-    deity: "Chamunda Mata",
-    town: "Chotila",
-    district: "Surendranagar",
-    significance: "A sacred hilltop shrine located on the Chotila Hill. Devotees climb approximately 600 stone steps to reach the top. It is a highly revered seat of Shakti worship.",
-    distance: "170 km",
-    dressCode: "Modest and flexible clothing suitable for climbing steps.",
-    category: "Shakti/Mata",
-    timingsFallback: [
-      { label: "Morning Aarti", open: "05:30", close: "06:00" },
-      { label: "Temple Open", open: "05:00", close: "19:30" },
-      { label: "Evening Aarti", open: "19:00", close: "19:30" }
-    ]
-  },
-  "live-darshan-online-aarti": {
-    deity: "Virtual Darshan Streams",
-    town: "Digital Portal",
-    district: "Gujarat",
-    significance: "A specialized online portal linking pilgrims to verified live video darshan feeds and daily aarti webcasts from major temple trusts in Gujarat.",
-    distance: "0 km (Online)",
-    dressCode: "None (Digital Access)",
-    category: "Virtual Portal",
-    timingsFallback: [
-      { label: "Somnath Stream", open: "06:00", close: "21:30" },
-      { label: "Dwarka Stream", open: "06:30", close: "21:45" },
-      { label: "Dakor Stream", open: "06:45", close: "19:00" }
-    ]
-  },
-  "mata-no-madh-ashapura-temple": {
-    deity: "Ashapura Mata",
-    town: "Mata no Madh",
-    district: "Kutch",
-    significance: "The ancestral seat of Ashapura Mata, the patron goddess of Kutch rulers. Revered for fulfilling wishes, it sees millions of foot-pilgrims (padyatris) during Navratri.",
-    distance: "435 km",
-    dressCode: "Traditional Indian clothing. Avoid modern western wear.",
-    category: "Kutch & Border",
-    timingsFallback: [
-      { label: "Morning Aarti", open: "05:00", close: "05:30" },
-      { label: "General Darshan", open: "05:30", close: "20:30" },
-      { label: "Sandhya Aarti", open: "19:00", close: "19:30" }
-    ]
-  },
-  "narayan-sarovar": {
-    deity: "Lord Vishnu (Trivikramraiji)",
-    town: "Narayan Sarovar",
-    district: "Kutch",
-    significance: "One of India's five sacred lakes (Panch Sarovar) mentioned in the Shrimad Bhagavata. Houses a beautiful complex of temples built by the Queen of Kutch.",
-    distance: "450 km",
-    dressCode: "Modest clothes. Swimwear restricted to designated ghats.",
-    category: "Kutch & Border",
-    timingsFallback: [
-      { label: "Morning Darshan", open: "06:00", close: "12:00" },
-      { label: "Afternoon Darshan", open: "14:00", close: "19:00" }
-    ]
-  },
-  "koteshwar": {
-    deity: "Lord Shiva (Koteshwar Mahadev)",
-    town: "Koteshwar",
-    district: "Kutch",
-    significance: "Marking India's westernmost boundary, this historic seaside stone temple overlooks the Arabian Sea. It is linked to the mythology of Ravana and the Koti Lingas.",
-    distance: "452 km",
-    dressCode: "Traditional wear. Shoulders and knees must be covered.",
-    category: "Shiva & Jyotirlinga",
-    timingsFallback: [
-      { label: "Morning Darshan", open: "06:00", close: "13:00" },
-      { label: "Afternoon Darshan", open: "15:00", close: "20:00" },
-      { label: "Evening Aarti", open: "19:00", close: "19:30" }
-    ]
-  },
-  "bagdana-temple-bajrangdas-bapa": {
-    deity: "Saint Bajrangdas Bapa",
-    town: "Bagdana",
-    district: "Bhavnagar",
-    significance: "A peaceful spiritual ashram dedicated to Bapa Sitaram. Renowned for its massive volunteer base and community kitchens serving breakfast, lunch, and dinner daily.",
-    distance: "230 km",
-    dressCode: "Modest attire. Covering head during darshan is customary.",
-    category: "Saint Yatras",
-    timingsFallback: [
-      { label: "Morning Aarti", open: "05:00", close: "05:30" },
-      { label: "Darshan Hours", open: "06:00", close: "21:00" },
-      { label: "Evening Aarti", open: "19:00", close: "19:30" }
-    ]
-  },
-  "akshardham-gandhinagar": {
-    deity: "Lord Swaminarayan",
-    town: "Gandhinagar",
-    district: "Gandhinagar",
-    significance: "A monumental 23-acre cultural complex constructed from 6,000 tons of pink sandstone. Showcases traditional architecture, spiritual exhibition halls, and musical water shows.",
-    distance: "25 km",
-    dressCode: "Strict modest dress code. Short clothing and cellphones not permitted inside.",
-    category: "Monuments & Heritage",
-    timingsFallback: [
-      { label: "Complex Timings", open: "10:00", close: "20:00" },
-      { label: "Exhibition Shows", open: "11:00", close: "18:00" },
-      { label: "Sat-Chit-Anand Water Show", open: "19:00", close: "19:45" }
-    ]
-  }
-};
+// Card photos, card details and every label come from the server (./content.ts and
+// the site_temple_cards dataset, editable through the CMS) as props.
 
 // ==========================================
 // DYNAMIC SVG ICONS FOR DEITIES/CATEGORIES
@@ -319,8 +158,8 @@ const getTempleIcon = (category: string) => {
   }
 };
 
+/** The category filters ("All" is copy.allCategoriesLabel). Fixed in code: each one has its own icon. */
 const CATEGORIES = [
-  "All",
   "Shiva & Jyotirlinga",
   "Krishna & Vishnu",
   "Shakti/Mata",
@@ -358,37 +197,45 @@ interface HubDoc {
 interface TemplesPageClientProps {
   temples: TempleDoc[];
   hub: HubDoc | null;
+  /** The page's CMS copy (TEMPLES_PAGE in ./content.ts). */
+  copy: TemplesCopy;
+  /** Card details per temple slug (the site_temple_cards dataset). */
+  details: Record<string, TempleCardDetails>;
 }
 
-export default function TemplesPageClient({ temples, hub }: TemplesPageClientProps) {
+const ALL = "All";
+
+export default function TemplesPageClient({ temples, hub, copy, details }: TemplesPageClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState(ALL);
+  const categoryImage = (category: string) =>
+    copy.categoryImages.find((c) => c.category === category)?.image || copy.categoryImageFallback;
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   // Split title dynamically to apply gradient only to the main heading part
   const [mainTitle, subTitle] = useMemo(() => {
-    const rawH1 = hub?.h1 || "Famous Temples In Gujarat";
+    const rawH1 = hub?.h1 || copy.h1;
     if (rawH1.includes(" — ")) {
       const idx = rawH1.indexOf(" — ");
       return [rawH1.substring(0, idx), rawH1.substring(idx + 3)];
     }
     return [rawH1, ""];
-  }, [hub]);
+  }, [hub, copy.h1]);
 
   // 1. MERGE DATABASE RECORDS WITH LOCAL ENRICHED CONTENT
   const enrichedTemples = useMemo(() => {
     return temples
       .filter(t => t.slug !== "live-darshan-online-aarti")
       .map(t => {
-      const enrichment = TEMPLE_DETAILS_MAPPING[t.slug] || {
-        deity: t.deity || "Deity",
-        town: t.town || "Gujarat",
+      const enrichment = details[t.slug] || {
+        deity: t.deity || copy.fallback.deity,
+        town: t.town || copy.fallback.town,
         district: t.district || "",
-        significance: t.significance || "Revered temple yatra in Gujarat.",
-        distance: t.distance_from_ahmedabad || "Contact us",
-        dressCode: t.dress_code || "Modest attire",
-        category: t.slug === "live-darshan-online-aarti" ? "Virtual Portal" : "Monuments & Heritage",
+        significance: t.significance || copy.fallback.significance,
+        distance: t.distance_from_ahmedabad || copy.fallback.distance,
+        dressCode: t.dress_code || copy.fallback.dressCode,
+        category: t.slug === "live-darshan-online-aarti" ? "Virtual Portal" : copy.fallback.category,
         timingsFallback: t.timings_table || []
       };
 
@@ -404,12 +251,12 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
         timings: t.timings_table && t.timings_table.length > 0 ? t.timings_table : enrichment.timingsFallback
       };
     });
-  }, [temples]);
+  }, [temples, details, copy.fallback]);
 
   // 2. FILTER & SEARCH FILTERING LOGIC
   const filteredTemples = useMemo(() => {
     return enrichedTemples.filter(t => {
-      const matchesCategory = activeCategory === "All" || t.category === activeCategory;
+      const matchesCategory = activeCategory === ALL || t.category === activeCategory;
       const matchesSearch = 
         t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         t.temple.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -527,7 +374,7 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/20 bg-orange-500/10 text-orange-600 text-xs font-semibold uppercase tracking-wider mb-6"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            Gujarat Devotion Silo
+            {copy.eyebrow}
           </motion.div>
 
           <motion.h1
@@ -553,8 +400,7 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
             transition={{ duration: 0.6, delay: 0.2 }}
             className="max-w-2xl mx-auto text-slate-700 text-base md:text-lg mb-10 leading-relaxed font-dm"
           >
-            {hub?.answer_first || 
-              "Gujarat is home to some of India's most ancient and powerful holy shrines. Beyond Somnath and Dwarka, explore these highly revered temples, complete with verified darshan schedules, dress guidelines, and pilgrim travel logistics."}
+            {hub?.answer_first || copy.answerFirst}
           </motion.p>
 
           {/* ==========================================
@@ -570,7 +416,7 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
               <Search className="w-5.5 h-5.5 text-orange-500 mr-3" />
               <input
                 type="text"
-                placeholder="Search temples by name, deity, town or significance..."
+                placeholder={copy.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-transparent text-slate-850 placeholder-slate-400 text-sm focus:outline-none"
@@ -580,7 +426,7 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
                   onClick={() => setSearchQuery("")}
                   className="text-slate-500 hover:text-slate-700 text-xs bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-md transition"
                 >
-                  Clear
+                  {copy.clearLabel}
                 </button>
               )}
             </div>
@@ -595,7 +441,7 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
             transition={{ duration: 0.5, delay: 0.4 }}
             className="flex flex-wrap items-center justify-center gap-2 md:gap-3"
           >
-            {CATEGORIES.map((category) => (
+            {[ALL, ...CATEGORIES].map((category) => (
               <button
                 key={category}
                 onClick={() => {
@@ -608,7 +454,7 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
                     : "bg-white text-slate-700 border-orange-100 hover:border-orange-300 hover:text-orange-600 hover:bg-orange-50/50 shadow-sm"
                 }`}
               >
-                {category}
+                {category === ALL ? copy.allCategoriesLabel : category}
               </button>
             ))}
           </motion.div>
@@ -620,11 +466,11 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
             transition={{ duration: 0.5, delay: 0.5 }}
             className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[12.5px] font-medium text-slate-500"
           >
-            <span className="inline-flex items-center gap-1.5"><MapPin className="w-4 h-4 text-orange-500" /> {enrichedTemples.length}+ sacred sites</span>
+            <span className="inline-flex items-center gap-1.5"><MapPin className="w-4 h-4 text-orange-500" /> {fillVars(copy.trust.sites, { count: enrichedTemples.length })}</span>
             <span className="hidden sm:inline text-orange-200">•</span>
-            <span className="inline-flex items-center gap-1.5"><Clock className="w-4 h-4 text-orange-500" /> Verified darshan timings</span>
+            <span className="inline-flex items-center gap-1.5"><Clock className="w-4 h-4 text-orange-500" /> {copy.trust.timings}</span>
             <span className="hidden sm:inline text-orange-200">•</span>
-            <span className="inline-flex items-center gap-1.5"><Car className="w-4 h-4 text-orange-500" /> Cab &amp; travel help</span>
+            <span className="inline-flex items-center gap-1.5"><Car className="w-4 h-4 text-orange-500" /> {copy.trust.travel}</span>
           </motion.div>
         </div>
       </section>
@@ -636,11 +482,11 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
         {/* Results indicator */}
         <div className="mb-6 flex items-center justify-between">
           <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-            Showing {filteredTemples.length} of {enrichedTemples.length} Sacred Sites
+            {fillVars(copy.resultsLabel, { shown: filteredTemples.length, total: enrichedTemples.length })}
           </p>
           {searchQuery && (
             <span className="text-xs text-orange-600 font-semibold">
-              Filter active
+              {copy.filterActive}
             </span>
           )}
         </div>
@@ -652,9 +498,9 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
             className="text-center py-16 bg-white border border-orange-50 rounded-2xl shadow-sm p-8"
           >
             <Info className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-slate-800 mb-1">No Temples Found</h3>
+            <h3 className="text-lg font-bold text-slate-800 mb-1">{copy.noResults.title}</h3>
             <p className="text-sm text-slate-600">
-              Try adjusting your search criteria or category filter.
+              {copy.noResults.text}
             </p>
           </motion.div>
         ) : (
@@ -682,7 +528,7 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
                       <div className="h-52 relative overflow-hidden">
                         {/* Temple photo */}
                         <Image
-                          src={CATEGORY_IMAGE[temple.category] || CATEGORY_IMAGE_FALLBACK}
+                          src={categoryImage(temple.category)}
                           alt={temple.temple}
                           fill
                           sizes="(max-width:768px) 100vw, (max-width:1024px) 50vw, 400px"
@@ -713,7 +559,7 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
                         {/* Deity Badge */}
                         <div className="flex items-center gap-1.5 mb-3">
                           <span className="text-xs font-semibold text-slate-800 bg-orange-50 border border-orange-100 px-3 py-1 rounded-full">
-                            Deity: {temple.deity}
+                            {fillVars(copy.card.deityLabel, { deity: temple.deity })}
                           </span>
                         </div>
 
@@ -726,13 +572,13 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
                         <div className="space-y-2 border-t border-slate-100 pt-3 mb-3">
                           <div className="flex items-center text-xs text-slate-700">
                             <MapPin className="w-4 h-4 text-orange-500 mr-2 shrink-0" />
-                            <span className="font-semibold text-slate-900 mr-1">Location:</span>
-                            {temple.town}{temple.district ? `, ${temple.district} Dist.` : ""}
+                            <span className="font-semibold text-slate-900 mr-1">{copy.card.locationLabel}</span>
+                            {temple.town}{temple.district ? `, ${temple.district} ${copy.card.districtSuffix}` : ""}
                           </div>
 
                           <div className="flex items-center text-xs text-slate-700">
                             <Car className="w-4 h-4 text-orange-500 mr-2 shrink-0" />
-                            <span className="font-semibold text-slate-900 mr-1">Distance (from Ahmedabad):</span>
+                            <span className="font-semibold text-slate-900 mr-1">{copy.card.distanceLabel}</span>
                             {temple.distance_from_ahmedabad}
                           </div>
 
@@ -740,7 +586,7 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
                             <div className="flex items-start text-xs text-slate-700">
                               <AlertTriangle className="w-4 h-4 text-amber-500 mr-2 shrink-0 mt-0.5" />
                               <div>
-                                <span className="font-semibold text-slate-900 mr-1">Dress Code:</span>
+                                <span className="font-semibold text-slate-900 mr-1">{copy.card.dressCodeLabel}</span>
                                 <span className="text-slate-650">{temple.dress_code}</span>
                               </div>
                             </div>
@@ -761,10 +607,10 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
                             {temple.timings_verified ? (
                               <span className="text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 flex items-center gap-1">
                                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
-                                Timings Verified
+                                {copy.card.timingsVerified}
                               </span>
                             ) : (
-                              <span>Darshan & Aarti Timings</span>
+                              <span>{copy.card.timingsLabel}</span>
                             )}
                           </span>
                           {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -786,12 +632,12 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
                                     <div key={rIdx} className="flex justify-between items-center py-1 border-b border-dashed border-slate-100 last:border-0">
                                       <span className="font-semibold text-slate-800">{row.label}</span>
                                       <span className="text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-100">
-                                        {row.open && row.close ? `${row.open} – ${row.close}` : row.open || row.close || "Contact Trust"}
+                                        {row.open && row.close ? `${row.open} – ${row.close}` : row.open || row.close || copy.card.contactTrust}
                                       </span>
                                     </div>
                                   ))
                                 ) : (
-                                  <p className="text-slate-500 italic text-center py-1">Timings pending trust verification.</p>
+                                  <p className="text-slate-500 italic text-center py-1">{copy.card.timingsPending}</p>
                                 )}
                               </div>
                             </motion.div>
@@ -807,7 +653,7 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
                             className="w-full py-2.5 rounded-xl text-center text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white transition-all shadow-md shadow-rose-600/10 hover:shadow-rose-600/25 flex items-center justify-center gap-1.5"
                           >
                             <Tv className="w-3.5 h-3.5" />
-                            Access Live Darshan
+                            {copy.card.liveDarshanCta}
                           </Link>
                         ) : (
                           <>
@@ -815,14 +661,14 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
                               href={`/temples/${temple.slug}/`}
                               className="flex-1 py-2.5 rounded-xl text-center text-xs font-bold border border-slate-200 hover:bg-slate-50 text-slate-700 transition"
                             >
-                              Details
+                              {copy.card.detailsCta}
                             </Link>
                             <button
                               onClick={() => setIsFormOpen(true)}
                               className="flex-1 py-2.5 rounded-xl text-center text-xs font-bold bg-orange-600 hover:bg-orange-700 text-white transition-all shadow-md shadow-orange-600/15 hover:shadow-orange-600/30 flex items-center justify-center gap-1 cursor-pointer"
                             >
                               <Map className="w-3.5 h-3.5" />
-                              Plan Trip
+                              {copy.card.planCta}
                             </button>
                           </>
                         )}
@@ -843,25 +689,24 @@ export default function TemplesPageClient({ temples, hub }: TemplesPageClientPro
         <div className="max-w-4xl mx-auto text-center">
           <Calendar className="w-12 h-12 text-orange-600 mx-auto mb-4" />
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 font-playfair mb-4">
-            Need Help Arranging a Temple Circuit?
+            {copy.callout.title}
           </h2>
           <p className="text-slate-650 text-sm md:text-base mb-8 max-w-2xl mx-auto font-dm leading-relaxed">
-            Planning a pilgrimage to multiple cities in Gujarat like Somnath, Dwarka, Dakor, or Kutch? 
-            Our expert local travel team designs custom, temple-sequenced itineraries with verified timings, 
-            private cabs, and hand-selected hotels near temple areas.
+            {copy.callout.text}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href="/somnath-dwarka-tour-package/"
+              href={copy.callout.packagesCta.href}
               className="w-full sm:w-auto px-6 py-3.5 rounded-xl text-sm font-bold bg-orange-600 hover:bg-orange-700 text-white transition-all shadow-lg shadow-orange-600/20"
             >
-              Explore Tour Packages
+              {copy.callout.packagesCta.label}
             </Link>
             <Link
-              href="/somnath-dwarka-taxi-service/"
+              href={copy.callout.cabCta.href}
               className="w-full sm:w-auto px-6 py-3.5 rounded-xl text-sm font-bold bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 transition"
             >
-              Book Private Cab & Driver
+              {copy.callout.cabCta.label}
+
             </Link>
           </div>
         </div>

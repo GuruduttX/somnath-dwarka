@@ -1,7 +1,9 @@
 import Image from "@/src/components/shared/Img";
 import Link from "next/link";
 import { MapPin, ArrowRight } from "lucide-react";
-import { OPERATOR } from "@/src/config/taxiSpokes";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { fillVars } from "@/src/components/templates/copy";
+import { GUIDE_BLOCKS_PAGE } from "@/src/app/guides/content";
 
 /**
  * "About the author" card closing every guide body.
@@ -9,17 +11,12 @@ import { OPERATOR } from "@/src/config/taxiSpokes";
  * E-E-A-T attribution, so it only states what the rest of the site already
  * states as fact — who maintains the routes, since when, and where to reach
  * him. No years-of-experience or credential claims: those stay behind the
- * verification gate on /author/harsh-rawat/ (see SEED_AUTHOR.bio_verified).
+ * verification gate on /author/harsh-rawat/ (see `bio_verified` there).
+ * Its words are the `author` copy of the "guide-page-blocks" page
+ * (src/app/guides/content.ts), editable through the CMS.
  */
-const AUTHOR = {
-  name: OPERATOR.founder,
-  role: "Somnath–Dwarka circuit planning",
-  photo: "/images/Harsh-Rawat.webp",
-  path: "/author/harsh-rawat/",
-  bio: `${OPERATOR.founder} runs ${OPERATOR.localUnit} on the ground in Gujarat, part of ${OPERATOR.parent}. Since ${OPERATOR.foundingDate} he has been planning and driving the Somnath–Dwarka circuit — the darshan timings, the road hours between temples and the stops worth adding — and the routes, fares and timings published across this site are the ones he maintains.`,
-};
-
-export default function GuideAuthorBio() {
+export default async function GuideAuthorBio() {
+  const AUTHOR = (await getPageContent(GUIDE_BLOCKS_PAGE)).author;
   return (
     <section aria-labelledby="guide-author" className="mt-12">
       <div className="overflow-hidden rounded-2xl border border-orange-100 bg-white shadow-[0_10px_40px_rgba(234,88,12,0.07)]">
@@ -31,7 +28,7 @@ export default function GuideAuthorBio() {
             id="guide-author"
             className="px-5 pt-3 text-[11px] font-bold uppercase tracking-[0.18em] text-white/85 sm:px-7"
           >
-            About the author
+            {AUTHOR.heading}
           </p>
         </div>
 
@@ -61,10 +58,10 @@ export default function GuideAuthorBio() {
           <div className="mt-5 flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-100 bg-orange-50 px-3 py-1.5 text-[12px] font-semibold text-amber-800">
               <MapPin size={13} className="text-orange-500" />
-              Somnath · Dwarka · Gujarat
+              {AUTHOR.regionChip}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-100 bg-orange-50 px-3 py-1.5 text-[12px] font-semibold text-amber-800">
-              Travelling since {OPERATOR.foundingDate}
+              {AUTHOR.sinceChip}
             </span>
           </div>
 
@@ -73,7 +70,7 @@ export default function GuideAuthorBio() {
               href={AUTHOR.path}
               className="inline-flex items-center gap-1.5 text-orange-600 transition hover:text-orange-700"
             >
-              More about {AUTHOR.name.split(" ")[0]}
+              {fillVars(AUTHOR.moreLink, { firstName: AUTHOR.name.split(" ")[0] })}
               <ArrowRight size={14} />
             </Link>
           </div>

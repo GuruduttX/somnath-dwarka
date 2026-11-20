@@ -7,6 +7,7 @@ import Image from "@/src/components/shared/Img";
 import { MapPin, Sparkles, ArrowRight, MessageSquare, CalendarDays, Users, Flame } from "lucide-react";
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { waLink } from "@/src/config/site";
+import type { FESTIVAL_DETAIL_DEFAULTS } from "@/src/app/festivals/content";
 
 const FALLBACK = "/images/festivals/festival-hero.webp";
 
@@ -28,6 +29,7 @@ export default function FestivalDetailHero({
   crowd,
   eventVenue,
   dateThisYear,
+  copy,
 }: {
   image: string;
   festival: string;
@@ -39,6 +41,8 @@ export default function FestivalDetailHero({
   crowd: string;
   eventVenue: string;
   dateThisYear: string;
+  /** CMS copy (page "festival-detail", field hero) with {festival}/{city} already filled in by the server page. */
+  copy: (typeof FESTIVAL_DETAIL_DEFAULTS)["hero"];
 }) {
   const [open, setOpen] = useState(false);
 
@@ -101,7 +105,7 @@ export default function FestivalDetailHero({
             </span>
             <span className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[12.5px] font-semibold text-white backdrop-blur-md ${crowdCls(crowd)}`}>
               <Users size={13} />
-              {crowd} crowd
+              {crowd} {copy.crowdSuffix}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-[12.5px] font-semibold text-white backdrop-blur-md">
               <MapPin size={13} className="text-orange-300" />
@@ -109,7 +113,7 @@ export default function FestivalDetailHero({
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-[12.5px] font-semibold text-white backdrop-blur-md">
               <Sparkles size={13} className="text-orange-300" />
-              {dateThisYear ? dateThisYear : "Dates confirmed each season"}
+              {dateThisYear ? dateThisYear : copy.datesPending}
             </span>
           </div>
 
@@ -120,17 +124,17 @@ export default function FestivalDetailHero({
               className="group inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-7 py-3.5 text-sm font-bold text-white shadow-[0_14px_34px_rgba(234,88,12,0.45)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
             >
               <Sparkles size={16} />
-              Plan a {festival} Trip
+              {copy.primaryCta}
               <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
             </button>
             <a
-              href={waLink(`Hi, I want to plan a trip for ${festival} at ${city}`)}
+              href={waLink(copy.whatsappMessage)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/20 active:translate-y-0"
             >
               <MessageSquare size={15} className="text-orange-200" />
-              Ask on WhatsApp
+              {copy.whatsappCta}
             </a>
           </div>
         </div>

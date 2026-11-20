@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAdminPackagesService, createAdminPackageService, updateAdminPackagesService, getAdminPackageByIdService , getPackageBySlugServices, deleteAdminPackageService} from "@/src/services/admin/packageService";
 import { tourPackageSchema } from "@/src/zodSchema/packageSchema";
+import { refreshSite } from "@/src/lib/refreshSite";
 
 
 // Get All
@@ -43,6 +44,8 @@ export async function createAdminTourController(req: Request) {
     
 
     const tour = await createAdminPackageService(data);
+    // Packages show on the home page, listings and hubs: refresh them all at once.
+    refreshSite();
 
     return NextResponse.json({
       success: true,
@@ -86,6 +89,7 @@ export async function updateAdminTourController(
     const data = result.data;
 
     const updatedTour = await updateAdminPackagesService(id, data);
+    refreshSite();
 
     return NextResponse.json({
       success: true,
@@ -109,6 +113,7 @@ export async function deleteAdminTourController(
       const {id} = params;
 
       const deltedTour = await  deleteAdminPackageService(id)
+      refreshSite();
 
       return NextResponse.json({
          success : true,

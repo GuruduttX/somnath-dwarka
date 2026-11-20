@@ -10,6 +10,8 @@ import JsonLd from "@/src/components/seo/JsonLd";
 import Analytics from "@/src/components/seo/Analytics";
 import SuppressPrefetchFetchErrors from "@/src/components/shared/SuppressPrefetchFetchErrors";
 import PublicChrome from "@/src/components/shared/PublicChrome";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { SITE_CHROME } from "@/src/lib/cms-groups/site";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -56,11 +58,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Footer and sticky-bar copy are CMS-editable (page "site-chrome").
+  const chrome = await getPageContent(SITE_CHROME);
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -78,7 +82,7 @@ export default function RootLayout({
         <SuppressPrefetchFetchErrors />
         {children}
         {/* Footer + sticky call/WhatsApp bar + lazy lead popup, hidden on the admin surface. */}
-        <PublicChrome />
+        <PublicChrome chrome={{ footer: chrome.footer, stickyBar: chrome.stickyBar }} />
         <Analytics />
         {/* CRM lead capture — the enquiry forms send through it (src/lib/crm/atlasLead.ts). */}
         <Script

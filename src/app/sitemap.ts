@@ -2,8 +2,10 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/src/config/site";
 import { STATIC_ROUTES } from "@/src/config/routes";
 import { getSitemapEntries } from "@/src/lib/content";
-import { getSeedRoutePaths } from "@/src/lib/seed/routes";
+import { getLiveSeedRoutePaths } from "@/src/lib/liveRoutes";
 import { SEED_AUTHOR } from "@/src/lib/seed/destinations";
+import { publishedCustomPagesForSitemap } from "@/src/lib/customPages";
+import { hiddenPagePaths } from "@/src/lib/pages/visibility";
 
 /**
  * XML sitemap (SOP §11): only index,follow canonical URLs; excludes noindex;
@@ -26,13 +28,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // The author page is noindex until its bio is verified; submitting a noindex
   // URL is a Search Console error, so it joins the sitemap when it joins the index.
   const excluded = new Set(SEED_AUTHOR.bio_verified ? [] : ["/author/harsh-rawat/"]);
+  // Code-built pages hidden through the CMS (they answer 404 or redirect).
+  for (const path of await hiddenPagePaths()) excluded.add(path);
 
   STATIC_ROUTES.filter((r) => !excluded.has(r.path)).forEach((r) =>
     add(out, r.path, { lastModified: now, changeFrequency: r.changeFreq ?? "monthly", priority: r.priority ?? 0.5 })
   );
 
   // Seed-backed strategic spokes (indexable even before a CMS entry exists).
-  getSeedRoutePaths().forEach((path) =>
+  // Seed-backed spokes, as edited through the CMS (added items join, removed ones leave).
+  (await getLiveSeedRoutePaths()).forEach((path) =>
     add(out, path, { lastModified: now, changeFrequency: "weekly", priority: 0.6 })
   );
 
@@ -45,6 +50,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   } catch {
     // DB unreachable at build — ship the static + seed sitemap.
   }
+
+  // Custom pages made through the Claude connector (never throws).
+  (await publishedCustomPagesForSitemap()).forEach((e) =>
+    add(out, e.path, { lastModified: e.lastModified ?? now, changeFrequency: "monthly", priority: 0.5 })
+  );
 
   return out;
 }

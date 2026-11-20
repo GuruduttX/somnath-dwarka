@@ -10,34 +10,41 @@ import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { SEED_JOURNEYS, findSeedJourney } from "@/src/lib/seed/destinations";
+import { SEED_JOURNEYS } from "@/src/lib/seed/destinations";
 import { buildRelatedLinks } from "@/src/lib/links";
+import { getDataset, getDatasetItem } from "@/src/lib/datasets/store";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { PLAN_GUIDES_DATASET } from "@/src/lib/cms-groups/destinations";
+import { PLAN_GUIDE_TEMPLATE_PAGE } from "../content";
 
+/* The guide is its site_plan_guides item and the headings the "plan-guide-template" copy, both editable through the CMS. */
 export const revalidate = 3600;
 type Params = { params: Promise<{ topic: string }> };
 
+/* Prerenders the code guides; ones added through the CMS render on first visit. */
 export function generateStaticParams() {
   return SEED_JOURNEYS.map((j) => ({ topic: j.slug }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { topic } = await params;
-  const j = findSeedJourney(topic);
+  const j = await getDatasetItem(PLAN_GUIDES_DATASET, topic);
   if (!j) return {};
   return buildMetadata({ title: j.title, description: j.direct_answer, path: `/plan/${topic}/` });
 }
 
 export default async function JourneyPage({ params }: Params) {
   const { topic } = await params;
-  const j = findSeedJourney(topic);
+  const [all, c] = await Promise.all([getDataset(PLAN_GUIDES_DATASET), getPageContent(PLAN_GUIDE_TEMPLATE_PAGE)]);
+  const j = all.find((x) => x.slug === topic);
   if (!j) notFound();
 
   const related = buildRelatedLinks({
     self: `/plan/${topic}/`,
     hub: true,
-    pillar: { target: "/plan/", anchor: "all trip-planning guides" },
+    pillar: { target: "/plan/", anchor: c.pillarAnchor },
     money: "packages",
-    siblings: SEED_JOURNEYS.filter((x) => x.slug !== topic).map((x) => ({
+    siblings: all.filter((x) => x.slug !== topic).map((x) => ({
       target: `/plan/${x.slug}/`,
       anchor: x.question,
       type: "sibling" as const,
@@ -46,7 +53,7 @@ export default async function JourneyPage({ params }: Params) {
 
   const crumbs = [
     { name: "Home", path: "/" },
-    { name: "Plan", path: "/plan/" },
+    { name: c.crumbLabel, path: "/plan/" },
     { name: j.h1, path: `/plan/${topic}/` },
   ];
 
@@ -60,31 +67,32 @@ export default async function JourneyPage({ params }: Params) {
       </div>
 
       {j.modes?.length ? (
-        <Section id="modes" title="Distance & modes">
+        <Section id="modes" title={c.modes.title}>
           <DataTable
-            columns={["Mode", "Distance", "Time", "Notes"]}
+            columns={c.modes.columns}
             rows={j.modes.map((m) => [m.mode, m.distance, m.duration, m.note])}
-            verify={{ key: "modes", label: "Distances & times", value: "", verify: false }}
+            verify={{ key: "modes", label: c.modes.verifyLabel, value: "", verify: false }}
           />
         </Section>
       ) : null}
 
       {j.month_table?.length ? (
-        <Section id="month-grid" title="Month by month">
+        <Section id="month-grid" title={c.months.title}>
           <DataTable
-            columns={["Month", "Weather", "Crowds", "Worth knowing"]}
+            columns={c.months.columns}
             rows={j.month_table.map((m) => [m.month, m.weather, m.crowd, m.note])}
           />
         </Section>
       ) : null}
 
       {j.itinerary?.length ? (
-        <Section id="itinerary" title="Sample itinerary">
+        <Section id="itinerary" title={c.itineraryTitle}>
           <ItineraryAccordion days={j.itinerary} />
         </Section>
       ) : null}
 
-      <Faq items={j.faq} heading="FAQs" />
+      <Faq items={j.faq} heading={c.faqHeading} />
+
       <CtaBand context={j.h1} />
       <RelatedLinks links={related} />
 

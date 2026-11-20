@@ -3,7 +3,11 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { buildMetadata, touristTripSchema, placeSchema } from "@/src/lib/seo";
 import CmsPage from "@/src/components/templates/cms/CmsPage";
 import PackageDetailTemplate from "@/src/components/TourPackage/PackageDetailTemplate";
-import { themeFor } from "@/src/config/destinations";
+import { getDestinationTheme } from "@/src/components/templates/destination/themes";
+import { DESTINATION_HUB_TEMPLATE_PAGE } from "@/src/components/templates/destination/content";
+import { fillVars } from "@/src/components/templates/copy";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { PACKAGE_VARIANT_PAGE } from "@/src/app/somnath-dwarka-tour-package/[slug]/content";
 import {
   DatasetTable,
   InclusionsExclusions,
@@ -89,10 +93,13 @@ async function resolve(rootSlug: string, spoke: string): Promise<Resolved | null
   return null;
 }
 
-/** A money spoke is a package page, so it gets a package-shaped description. */
-function spokeDescription(found: Resolved, rootSlug: string) {
+/**
+ * A money spoke is a package page, so it gets a package-shaped description; the
+ * hub's standfirst (site_destination_hubs, editable through the CMS) is its fallback.
+ */
+async function spokeDescription(found: Resolved, rootSlug: string) {
   const isMoney = found.kind === "hub-spoke" && s(found.doc, "spoke_kind") === "money";
-  return isMoney ? packageDescOf(found.doc, themeFor(rootSlug).standfirst) : descOf(found.doc);
+  return isMoney ? packageDescOf(found.doc, (await getDestinationTheme(rootSlug)).standfirst) : descOf(found.doc);
 }
 
 export async function generateStaticParams() {
@@ -122,7 +129,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const d = found.doc;
   return buildMetadata({
     title: titleOf(d),
-    description: spokeDescription(found, rootSlug),
+    description: await spokeDescription(found, rootSlug),
     path: `/${rootSlug}/${spoke}/`,
     noindex: bool(d, "noindex"),
     canonicalOverride: s(d, "canonical_override") || undefined,
@@ -166,10 +173,11 @@ export default async function SpokePage({ params }: Params) {
   const price = verifiedValue(d, "price_from");
   const isMoney = found.kind === "hub-spoke" && s(d, "spoke_kind") === "money";
 
+  const description = await spokeDescription(found, rootSlug);
   const extraSchema = isMoney
     ? touristTripSchema({
         name: h1Of(d),
-        description: spokeDescription(found, rootSlug),
+        description,
         path,
         ...(price ? { price: Number(price) || undefined } : {}),
       })
@@ -180,7 +188,12 @@ export default async function SpokePage({ params }: Params) {
   // A destination hub's money spoke is a package, so it opens the same
   // package-detail page the circuit hubs use rather than the generic CMS shell.
   if (found.kind === "hub-spoke" && found.hubKind === "destination" && isMoney) {
-    const theme = themeFor(rootSlug);
+    const [theme, hubCopy, variantCopy] = await Promise.all([
+      getDestinationTheme(rootSlug),
+      getPageContent(DESTINATION_HUB_TEMPLATE_PAGE),
+      getPageContent(PACKAGE_VARIANT_PAGE),
+    ]);
+    const tv = { name: theme.name };
     const itinerary = list<{
       day: number;
       title: string;
@@ -192,7 +205,7 @@ export default async function SpokePage({ params }: Params) {
     const inclusions = list<string>(d, "inclusions").filter(Boolean);
     const inclusionText = inclusions.join(" ");
     const gallery = theme.photo
-      ? [{ image: theme.photo, alt: `${theme.name}, Gujarat` }]
+      ? [{ image: theme.photo, alt: fillVars(hubCopy.packagePage.imageAlt, tv) }]
       : [];
 
     /**
@@ -219,7 +232,7 @@ export default async function SpokePage({ params }: Params) {
           // Only a verified CMS price reaches the page, so nothing is invented.
           price_verified: Boolean(price),
           answer_first: s(d, "answer_first"),
-          meta_description: spokeDescription(found, rootSlug),
+          meta_description: description,
           body: s(d, "body") || undefined,
           highlights: [],
           itinerary: itinerary.map((x) => ({
@@ -242,7 +255,7 @@ export default async function SpokePage({ params }: Params) {
           sightseeing_included: true,
           policies: [],
           routePlaces,
-          location: `${theme.name}, Gujarat`,
+          location: fillVars(hubCopy.packagePage.location, tv),
         }}
         path={path}
         crumbs={crumbs}
@@ -255,8 +268,11 @@ export default async function SpokePage({ params }: Params) {
             place: x.title || theme.name,
           }))
         }
-        overviewHeading={`What the ${theme.name} plan covers`}
-        assurance="Hotels, vehicle & permits arranged"
+        overviewHeading={fillVars(hubCopy.packagePage.overviewHeading, tv)}
+        assurance={hubCopy.packagePage.assurance}
+        labels={variantCopy.labels}
+        ratings={variantCopy.ratings}
+
       />
     );
   }

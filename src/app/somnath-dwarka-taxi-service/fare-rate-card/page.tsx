@@ -10,38 +10,39 @@ import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { CAB_HUB, cabPath } from "@/src/lib/seed/cabs";
 import { buildRelatedLinks } from "@/src/lib/links";
-import { SPOKE_AUTHOR, OPERATOR } from "@/src/config/taxiSpokes";
-import {
-  FARE_RATE_CARD as C,
-  RATE_CARD_ROUTES,
-  RATE_CARD_VEHICLES,
-  RATE_CARD_DISCLAIMER,
-} from "@/src/config/taxiFares";
+import { OPERATOR } from "@/src/config/taxiSpokes";
+import { getDataset } from "@/src/lib/datasets/store";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { plain } from "@/src/lib/pages/rich";
+import { RATE_CARD_DATASET } from "@/src/lib/cms-groups/taxi";
+import { taxiRich } from "@/src/components/taxi/TaxiRich";
+import { FARE_RATE_CARD_PAGE } from "./content";
 import { Check, X, Star, ArrowRight, Phone } from "lucide-react";
 
 /**
  * /somnath-dwarka-taxi-service/fare-rate-card/ — the "taxi rates per km" head.
  * A static folder, so it takes precedence over the sibling [slug] segment.
  *
- * Route and vehicle pricing comes from src/config/taxiFares.ts, which is also
- * what the fare calculator reads, so the tool and this page can never disagree.
+ * The copy is ./content.ts (from src/config/taxiFares.ts), editable through the
+ * CMS. The route rows are the site_taxi_rate_card dataset, which is also what the
+ * fare calculator reads, so the tool and this page can never disagree.
  */
 const PATH = `${CAB_HUB}fare-rate-card/`;
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = buildMetadata({
-  title: C.titleTag,
-  description: C.metaDescription,
-  path: PATH,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const C = await getPageContent(FARE_RATE_CARD_PAGE);
+  return buildMetadata({ title: plain(C.titleTag), description: plain(C.metaDescription), path: PATH });
+}
 
 const card =
   "overflow-hidden rounded-2xl border border-orange-100 bg-white p-6 sm:p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]";
 const h2 = "text-2xl font-bold text-slate-950 mb-4 flex items-center gap-2";
 const bar = <span className="h-6 w-1 rounded-full bg-orange-500 inline-block" />;
 
-export default function FareRateCardPage() {
+export default async function FareRateCardPage() {
+  const [C, rateRoutes] = await Promise.all([getPageContent(FARE_RATE_CARD_PAGE), getDataset(RATE_CARD_DATASET)]);
   const crumbs = [
     { name: "Home", path: "/" },
     { name: "Taxi service", path: CAB_HUB },
@@ -52,7 +53,7 @@ export default function FareRateCardPage() {
     self: PATH,
     pillar: { target: CAB_HUB, anchor: "all taxi routes & fares" },
     money: "packages",
-    siblings: RATE_CARD_ROUTES.slice(0, 3).map((r) => ({
+    siblings: rateRoutes.slice(0, 3).map((r) => ({
       target: cabPath(r.slug),
       anchor: `${r.label} taxi`,
       type: "sibling" as const,
@@ -69,7 +70,7 @@ export default function FareRateCardPage() {
       {/* ── At a glance ── */}
       <Section wide>
         <div className={card}>
-          <h2 className={h2}>{bar}At a glance</h2>
+          <h2 className={h2}>{bar}{C.atAGlanceHeading}</h2>
           <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {C.atAGlance.map((f) => (
               <div
@@ -81,7 +82,7 @@ export default function FareRateCardPage() {
               </div>
             ))}
           </dl>
-          <p className="mt-6 text-slate-600 leading-relaxed">{C.intro}</p>
+          <p className="mt-6 text-slate-600 leading-relaxed">{taxiRich(C.intro)}</p>
         </div>
       </Section>
 
@@ -104,18 +105,18 @@ export default function FareRateCardPage() {
       <Section id="by-route" wide>
         <div className={card}>
           <h2 className={h2}>{bar}{C.routes.heading}</h2>
-          <p className="mb-5 text-slate-600 leading-relaxed">{C.routes.intro}</p>
+          <p className="mb-5 text-slate-600 leading-relaxed">{taxiRich(C.routes.intro)}</p>
           <DataTable
             columns={["Route", "Distance", "Fare"]}
-            rows={RATE_CARD_ROUTES.map((r) => [
+            rows={rateRoutes.map((r) => [
               r.label,
               r.distance,
               // Only one leg carries a quoted price; the rest say so plainly
               // rather than showing a number that was never agreed.
-              r.fare ?? "Confirmed at booking",
+              r.fare || C.noFareLabel,
             ])}
           />
-          <p className="mt-4 text-sm text-slate-500 leading-relaxed">{RATE_CARD_DISCLAIMER}</p>
+          <p className="mt-4 text-sm text-slate-500 leading-relaxed">{taxiRich(C.disclaimer)}</p>
         </div>
       </Section>
 
@@ -123,13 +124,13 @@ export default function FareRateCardPage() {
       <Section id="by-vehicle" wide>
         <div className={card}>
           <h2 className={h2}>{bar}{C.vehicles.heading}</h2>
-          <p className="mb-5 text-slate-600 leading-relaxed">{C.vehicles.intro}</p>
+          <p className="mb-5 text-slate-600 leading-relaxed">{taxiRich(C.vehicles.intro)}</p>
           <DataTable
             columns={["Vehicle", "Seats", "Priced"]}
-            rows={RATE_CARD_VEHICLES.map((v) => [v.vehicle, v.seats, v.priced])}
+            rows={C.vehicleRows.map((v) => [v.vehicle, v.seats, v.priced])}
           />
           <div className="mt-4 flex flex-wrap gap-2.5">
-            {RATE_CARD_VEHICLES.map((v) => (
+            {C.vehicleRows.map((v) => (
               <Link
                 key={v.slug}
                 href={cabPath(v.slug)}
@@ -199,7 +200,7 @@ export default function FareRateCardPage() {
           </ul>
           <p className="mt-6 text-sm text-slate-600 leading-relaxed">
             {C.whyBook.author}{" "}
-            {SPOKE_AUTHOR.links.map((l, i) => (
+            {C.authorLinks.map((l, i) => (
               <span key={l.href}>
                 <Link
                   href={l.href}
@@ -207,20 +208,20 @@ export default function FareRateCardPage() {
                 >
                   {l.label}
                 </Link>
-                {i < SPOKE_AUTHOR.links.length - 1 ? ", " : "."}
+                {i < C.authorLinks.length - 1 ? ", " : "."}
               </span>
             ))}
           </p>
         </div>
       </Section>
 
-      <Faq items={[...C.faq]} heading="Fare and rate card FAQs" />
+      <Faq items={[...C.faq]} heading={C.faqHeading} />
 
       {/* ── Keep planning ── */}
       <Section wide>
         <div className={card}>
-          <h2 className={h2}>{bar}Keep planning</h2>
-          <p className="text-slate-600 leading-relaxed">{C.keepPlanning.intro}</p>
+          <h2 className={h2}>{bar}{C.keepPlanningHeading}</h2>
+          <p className="text-slate-600 leading-relaxed">{taxiRich(C.keepPlanning.intro)}</p>
           <div className="mt-4 flex flex-wrap gap-2.5">
             {C.keepPlanning.links.map((l) => (
               <Link
@@ -240,18 +241,18 @@ export default function FareRateCardPage() {
       <Section wide>
         <div className={card}>
           <h2 className={h2}>{bar}{C.cta.heading}</h2>
-          <p className="text-slate-600 leading-relaxed">{C.cta.body}</p>
+          <p className="text-slate-600 leading-relaxed">{taxiRich(C.cta.body)}</p>
           <a
             href={`tel:${OPERATOR.phone}`}
             className="mt-4 inline-flex items-center gap-2 rounded-full bg-orange-500 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-orange-600"
           >
             <Phone size={15} />
-            Call {OPERATOR.phone}
+            {C.callLabel} {OPERATOR.phone}
           </a>
         </div>
       </Section>
 
-      <CtaBand context="Somnath Dwarka taxi fare" title="Get your fare" subtitle="Send your route and dates for a firm all-in price." />
+      <CtaBand context="Somnath Dwarka taxi fare" title={C.ctaBand.title} subtitle={C.ctaBand.subtitle} />
       <RelatedLinks links={related} />
 
       {/* BreadcrumbList comes from PageShell, FAQPage from <Faq>. */}

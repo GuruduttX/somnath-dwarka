@@ -28,7 +28,8 @@ function crowdCls(crowd: string) {
   return "bg-emerald-500/95";
 }
 
-export function FestivalCards({ festivals }: { festivals: FestivalItem[] }) {
+/** `ctaLabel` is CMS copy (festivals page, cardCta), passed down by the server page. */
+export function FestivalCards({ festivals, ctaLabel }: { festivals: FestivalItem[]; ctaLabel: string }) {
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {festivals.map((f, idx) => (
@@ -101,7 +102,7 @@ export function FestivalCards({ festivals }: { festivals: FestivalItem[] }) {
               href={`/festivals/${f.slug}/`}
               className="mt-5 inline-flex items-center justify-between gap-2 rounded-xl border border-orange-100 bg-orange-50/40 px-4 py-2.5 text-[13px] font-bold text-orange-700 transition hover:border-orange-300 hover:bg-orange-50"
             >
-              Festival guide &amp; travel tips
+              {ctaLabel}
               <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
             </Link>
           </div>

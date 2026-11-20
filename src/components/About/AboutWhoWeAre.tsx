@@ -1,30 +1,28 @@
-
-const pillars = [
-  {
-    emoji: "",
-    title: "Gujarat-Born Team",
-    desc: "Our team grew up in Dwarka and Somnath. These are not destinations — they are home.",
-  },
-  {
-    emoji: "🤝",
-    title: "No Third-Party Handoffs",
-    desc: "We handle every aspect in-house. No outsourcing, no middlemen, no surprises.",
-  },
-  {
-    emoji: "🛕",
-    title: "Temple-First Planning",
-    desc: "Every itinerary is designed around the spiritual rhythm of the Gujarat circuit.",
-  },
-  {
-    emoji: "🌿",
-    title: "Seva Bhav Approach",
-    desc: "This is not a business transaction. It is an act of service — the way Gurudutt built it.",
-  },
-];
+import { rich, type RichBold, type RichLink } from "@/src/lib/pages/rich";
+import type { AboutPageContent } from "@/src/app/about/content";
 
 const delays = ["80", "160", "280", "400"] as const;
+const paraDelays = [undefined, "120", "220"] as const;
 
-export default function AboutWhoWeAre() {
+/* Copy comes from the CMS-editable about page (src/app/about/content.ts). */
+
+const AboutLink: RichLink = ({ href, children }) => {
+  const outside = /^https?:\/\//i.test(href);
+  return (
+    <a
+      href={href}
+      {...(outside ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className="font-bold text-orange-500 underline decoration-orange-300 underline-offset-2 transition hover:text-orange-600"
+    >
+      {children}
+    </a>
+  );
+};
+const DarkBold: RichBold = ({ children }) => <strong className="text-gray-900">{children}</strong>;
+const PlainBold: RichBold = ({ children }) => <strong className="not-italic">{children}</strong>;
+
+export default function AboutWhoWeAre({ content }: { content: AboutPageContent["whoWeAre"] }) {
+  const c = content;
   return (
     <section id="who-we-are" className="relative overflow-hidden bg-white py-5 md:py-20">
 
@@ -37,10 +35,10 @@ export default function AboutWhoWeAre() {
         {/* Header */}
         <div className="mb-2 text-center">
           <span data-reveal="scale" className="mb-4 inline-block rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-sm font-semibold text-orange-600">
-            Our Identity
+            {c.eyebrow}
           </span>
           <h2 data-reveal="up" data-delay="80" className="text-3xl font-bold text-gray-900 sm:text-4xl md:text-5xl">
-            Who We <span className="text-orange-500">Are</span>
+            {c.headingLead} <span className="text-orange-500">{c.headingHighlight}</span>
           </h2>
         </div>
 
@@ -48,49 +46,31 @@ export default function AboutWhoWeAre() {
 
           {/* Left — text */}
           <div className="space-y-5 text-base leading-relaxed text-gray-700 sm:text-lg">
-            <p data-reveal="left">
-              <strong className="text-gray-900">Somnath Dwarka Guide</strong> is a dedicated
-              pilgrimage travel platform created and operated by{" "}
-              <a href="https://experiencemyindia.com/" target="_blank" rel="noopener noreferrer" className="font-bold text-orange-500 underline decoration-orange-300 underline-offset-2 transition hover:text-orange-600">Experience My India</a> — a travel
-              organization with deep roots in India&apos;s most sacred destinations.
-            </p>
-
-            <p data-reveal="left" data-delay="120">
-              While Experience My India serves travellers across the country, Somnath Dwarka
-              Guide was built for one specific purpose: to be the most trusted, most accurate, and
-              most human resource for anyone travelling to the{" "}
-              <strong className="text-gray-900">Gujarat Spiritual Circuit</strong> — Dwarka, Somnath,
-              Nageshwar, Bet Dwarka, and the larger Saurashtra pilgrimage circuit.
-            </p>
-
-            <p data-reveal="left" data-delay="220">
-              We are not a content aggregator. We are not a booking portal that outsources your
-              yatra to third parties. We are a team of people who were born here, live here, and
-              have spent years understanding what a pilgrim truly needs — not just which temples to
-              visit, but how to visit them with peace, preparation, and spiritual clarity.
-            </p>
+            {c.paragraphs.map((p, i) => (
+              <p key={i} data-reveal="left" {...(paraDelays[i] ? { "data-delay": paraDelays[i] } : {})}>
+                {rich(p, AboutLink, DarkBold)}
+              </p>
+            ))}
 
             {/* Pull quote — slides in from left with left-border accent */}
-            <div
-              data-reveal="left"
-              data-delay="340"
-              className="rounded-r-2xl border-l-4 border-orange-500 bg-orange-50 p-5 italic text-gray-800"
-            >
-              When you plan your Somnath Dwarka yatra with us, you are in the hands of people
-              who know the sound of Dwarkadhish&apos;s aarti at dawn, the feeling of walking the
-              Somnath shore at dusk, and the exact time the light &amp; sound show begins to glow. That
-              is not information we researched.{" "}
-              <strong className="not-italic">That is our daily life.</strong>
-            </div>
+            {c.quote && (
+              <div
+                data-reveal="left"
+                data-delay="340"
+                className="rounded-r-2xl border-l-4 border-orange-500 bg-orange-50 p-5 italic text-gray-800"
+              >
+                {rich(c.quote, AboutLink, PlainBold)}
+              </div>
+            )}
           </div>
 
           {/* Right — pillar cards stagger in */}
           <div className="space-y-4">
-            {pillars.map((item, i) => (
+            {c.pillars.map((item, i) => (
               <div
                 key={i}
                 data-reveal="right"
-                data-delay={delays[i]}
+                data-delay={delays[i % delays.length]}
                 className="flex gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-md transition-all duration-300 hover:border-orange-200 hover:-translate-y-0.5 hover:shadow-lg"
               >
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-50 text-2xl transition-transform duration-300 hover:scale-110">

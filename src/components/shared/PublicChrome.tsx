@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Footer from "@/src/utils/Footer";
 import StickyContactBar from "@/src/components/shared/StickyContactBar";
 import { isAdminSurface } from "@/src/config/routes";
+import type { SiteChrome } from "@/src/lib/cms-groups/site";
 
 const EnquiryPopup = dynamic(() => import("@/src/components/shared/EnquiryPopup"), {
   ssr: false,
@@ -24,14 +25,14 @@ const EnquiryPopup = dynamic(() => import("@/src/components/shared/EnquiryPopup"
  * renders nothing but two server-safe children, so the cost is one tiny client
  * boundary rather than pulling the footer itself into the browser bundle.
  */
-export default function PublicChrome() {
+export default function PublicChrome({ chrome }: { chrome: Pick<SiteChrome, "footer" | "stickyBar"> }) {
   const pathname = usePathname();
   if (isAdminSurface(pathname)) return null;
 
   return (
     <>
-      <Footer />
-      <StickyContactBar />
+      <Footer content={chrome.footer} />
+      <StickyContactBar whatsappText={chrome.stickyBar.whatsappText} />
       <EnquiryPopup />
     </>
   );

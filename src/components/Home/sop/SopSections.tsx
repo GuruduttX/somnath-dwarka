@@ -1,7 +1,8 @@
 /**
  * Home page body sections, in the home SOP's scroll order (§2–§13, §15).
  *
- * All server components: the copy is static, lives in config/homePage.ts, and
+ * All server components: the copy lives in config/homePage.ts as defaults, is
+ * editable through the CMS (src/app/content.ts, read with getHomeCopy()), and
  * must be in the raw HTML for crawlers and answer engines. The only client
  * pieces are the tracked WhatsApp/call links.
  */
@@ -32,32 +33,9 @@ import { FaWhatsapp } from "react-icons/fa6";
 import TrackedLink from "@/src/components/Home/sop/TrackedLink";
 import TwoStepEnquiry from "@/src/components/Home/sop/TwoStepEnquiry";
 import { CONTACT, OPERATOR, telLink, waLink } from "@/src/config/site";
-import { TESTIMONIALS } from "@/src/config/testimonials";
-import {
-  HOME_AT_A_GLANCE,
-  HOME_BEST_TIME,
-  HOME_BEST_TIME_LINKS,
-  HOME_CONCERNS,
-  HOME_EXCLUDED,
-  HOME_EXCLUDED_NOTE,
-  HOME_HOTELS,
-  HOME_HOTELS_BUDGET_NOTE,
-  HOME_HOTEL_PROMISE,
-  HOME_INCLUDED,
-  HOME_MONTH_SEASONS,
-  HOME_ITINERARY,
-  HOME_OPERATOR,
-  HOME_PRICE_FROM,
-  HOME_PRICE_COMPARE,
-  HOME_REACH,
-  HOME_SEASONS,
-  HOME_TIERS,
-  HOME_WA_TEXT,
-  HOME_WHY_DIFFERENT,
-  HOME_WHY_DIRECT,
-  HOME_WHY_LOCAL_POINTS,
-  inr,
-} from "@/src/config/homePage";
+import { getTestimonials } from "@/src/lib/testimonials";
+import { HOME_OPERATOR, inr } from "@/src/config/homePage";
+import { getHomeCopy } from "@/src/app/content";
 
 /* --------------------------------- chrome --------------------------------- */
 
@@ -131,9 +109,10 @@ const GLANCE_ICONS: Record<string, typeof Clock> = {
   "Guide and darshan": Landmark,
 };
 
-export function AtAGlance() {
+export async function AtAGlance() {
+  const H = await getHomeCopy();
   // The price row gets its own card; everything else sits in one divided panel.
-  const facts = HOME_AT_A_GLANCE.filter((r) => r.label !== "Starting price");
+  const facts = H.atAGlance.filter((r) => r.label !== "Starting price");
 
   return (
     <section
@@ -154,7 +133,7 @@ export function AtAGlance() {
           <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-orange-500/25 blur-2xl" aria-hidden="true" />
           <div className="relative">
             <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-orange-300">Starting price</p>
-            <p className="mt-2 text-3xl font-bold leading-none">Rs {inr(HOME_PRICE_FROM)}</p>
+            <p className="mt-2 text-3xl font-bold leading-none">Rs {inr(H.priceFrom)}</p>
             <p className="mt-2 text-[13px] leading-snug text-orange-100/80">
               Per person on twin-sharing, for the 2 nights and 3 days route
             </p>
@@ -190,7 +169,8 @@ export function AtAGlance() {
 
 /* --------------------------- §4 why it is different -------------------------- */
 
-export function WhyDifferent() {
+export async function WhyDifferent() {
+  const H = await getHomeCopy();
   return (
     <section
       id="why-different"
@@ -205,7 +185,7 @@ export function WhyDifferent() {
           </h2>
           <span className="mt-4 block h-1 w-14 rounded-full bg-gradient-to-r from-orange-500 to-amber-400" aria-hidden="true" />
           <div className="mt-5 space-y-4 text-[15.5px] leading-[1.8] text-slate-700">
-            {HOME_WHY_DIFFERENT.map((p) => (
+            {H.whyDifferent.map((p) => (
               <p key={p.slice(0, 24)}>{p}</p>
             ))}
           </div>
@@ -215,7 +195,7 @@ export function WhyDifferent() {
           <div className="rounded-2xl border border-orange-100 bg-white p-5 sm:p-6">
             <p className="text-[13px] font-bold uppercase tracking-[0.12em] text-[#2D1B10]">What local means on your trip</p>
             <ul className="mt-4 space-y-3">
-              {HOME_WHY_LOCAL_POINTS.map((point) => (
+              {H.whyLocalPoints.map((point) => (
                 <li key={point} className="flex items-start gap-3 text-[14.5px] leading-snug text-slate-700">
                   <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange-100 text-orange-600">
                     <Check size={12} strokeWidth={3} aria-hidden="true" />
@@ -229,8 +209,8 @@ export function WhyDifferent() {
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#2D1B10] to-[#4a2a17] p-5 text-[14.5px] leading-relaxed text-orange-50/85 sm:p-6">
             <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-orange-500/25 blur-2xl" aria-hidden="true" />
             <p className="relative">
-              <strong className="font-semibold text-white">{HOME_WHY_DIRECT.lead}</strong>
-              {HOME_WHY_DIRECT.rest}
+              <strong className="font-semibold text-white">{H.whyDirect.lead}</strong>
+              {H.whyDirect.rest}
             </p>
           </div>
         </div>
@@ -241,7 +221,8 @@ export function WhyDifferent() {
 
 /* -------------------------- §5 why the price is what it is ------------------- */
 
-export function PriceJustification() {
+export async function PriceJustification() {
+  const H = await getHomeCopy();
   const cell = "border-b border-orange-100 px-5 py-3.5 align-top text-[14px] leading-snug";
   return (
     <section id="why-the-price" aria-labelledby="why-the-price-h" className={`scroll-mt-24 py-10 md:py-14 ${FULL_WIDTH}`}>
@@ -279,8 +260,8 @@ export function PriceJustification() {
           </tr>
         </thead>
         <tbody>
-          {HOME_PRICE_COMPARE.map((r, i) => {
-            const last = i === HOME_PRICE_COMPARE.length - 1;
+          {H.priceCompare.map((r, i) => {
+            const last = i === H.priceCompare.length - 1;
             return (
               <tr key={r.what}>
                 <th scope="row" className={`${cell} text-left font-semibold text-[#2D1B10] ${last ? "border-b-0" : ""}`}>
@@ -310,7 +291,7 @@ export function PriceJustification() {
 
       {/* Phones: one compact card per row. */}
       <dl className="mt-6 divide-y divide-orange-100 overflow-hidden rounded-2xl border border-orange-100 bg-white md:hidden">
-        {HOME_PRICE_COMPARE.map((r) => (
+        {H.priceCompare.map((r) => (
           <div key={r.what} className="px-4 py-3.5">
             <dt className="text-[11px] font-extrabold uppercase tracking-wider text-orange-600">{r.what}</dt>
             <dd className="mt-1.5 flex items-start gap-2 text-[13px] leading-snug text-slate-500">
@@ -339,7 +320,8 @@ function splitTierName(name: string): [string, string | undefined] {
 /** Short labels for the inclusions every tier shares (same facts as HOME_INCLUDED). */
 const TIER_SHARED = ["Private AC car with driver", "Daily breakfast", "Fuel, tolls and parking", "Darshan and aarti help"];
 
-export function PricingTiers() {
+export async function PricingTiers() {
+  const H = await getHomeCopy();
   return (
     <section
       id="price"
@@ -360,7 +342,7 @@ export function PricingTiers() {
       </div>
 
       <div className="mt-8 grid gap-4 md:grid-cols-3 lg:gap-5">
-        {HOME_TIERS.map((t, i) => {
+        {H.tiers.map((t, i) => {
           const featured = i === 1;
           const [label, sub] = splitTierName(t.name);
           // "A or B in Dwarka, C or D in Somnath" → one line per city.
@@ -470,7 +452,8 @@ export function PricingTiers() {
 
 /* ---------------------------- §7 day-wise itinerary -------------------------- */
 
-export function DayWiseItinerary() {
+export async function DayWiseItinerary() {
+  const H = await getHomeCopy();
   return (
     <section id="itinerary" aria-labelledby="itinerary-h" className={`scroll-mt-24 py-10 md:py-14 ${FULL_WIDTH}`}>
       <div className="grid gap-3 lg:grid-cols-2 lg:items-end lg:gap-12">
@@ -493,7 +476,7 @@ export function DayWiseItinerary() {
           className="pointer-events-none absolute left-[16.66%] right-[16.66%] top-5 hidden h-0.5 bg-gradient-to-r from-orange-300 via-amber-300 to-orange-300 lg:block"
           aria-hidden="true"
         />
-        {HOME_ITINERARY.map((d) => (
+        {H.itinerary.map((d) => (
           <li key={d.day} className="relative flex flex-col">
             <div className="relative z-[1] mb-3 flex items-center gap-3 lg:justify-center">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-orange-600 to-amber-500 text-[15px] font-bold text-white ring-4 ring-white">
@@ -553,7 +536,8 @@ export function DayWiseItinerary() {
 
 /* -------------------------- §8 named hotels + promise ------------------------ */
 
-export function NamedHotels() {
+export async function NamedHotels() {
+  const H = await getHomeCopy();
   return (
     <section
       id="hotels"
@@ -572,13 +556,13 @@ export function NamedHotels() {
             <p className="relative flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-orange-300">
               <ShieldCheck size={15} aria-hidden="true" /> Our promise
             </p>
-            <p className="relative mt-3 text-[14px] leading-relaxed text-orange-50/85">{HOME_HOTEL_PROMISE}</p>
+            <p className="relative mt-3 text-[14px] leading-relaxed text-orange-50/85">{H.hotelPromise}</p>
           </div>
         </div>
 
         <div className="flex flex-col gap-4">
           <div className="grid gap-4 sm:grid-cols-2">
-            {HOME_HOTELS.map((c) => (
+            {H.hotels.map((c) => (
               <div key={c.city} className="rounded-2xl border border-orange-100 bg-white p-5">
                 <div className="flex items-center justify-between">
                   <h3 className="flex items-center gap-2 text-[17px] font-bold text-[#2D1B10]">
@@ -602,7 +586,7 @@ export function NamedHotels() {
           </div>
 
           <div className="flex flex-col gap-2 rounded-2xl border border-orange-100 bg-white px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-            <p className="text-[14px] font-medium leading-snug text-[#2D1B10]">{HOME_HOTELS_BUDGET_NOTE}</p>
+            <p className="text-[14px] font-medium leading-snug text-[#2D1B10]">{H.hotelsBudgetNote}</p>
             <Link
               href="/hotels/"
               className="inline-flex shrink-0 items-center gap-1.5 text-[13.5px] font-semibold text-orange-700 hover:underline"
@@ -618,7 +602,8 @@ export function NamedHotels() {
 
 /* --------------------------- §9 included / not included ---------------------- */
 
-export function Inclusions() {
+export async function Inclusions() {
+  const H = await getHomeCopy();
   return (
     <section id="inclusions" aria-labelledby="inclusions-h" className={`scroll-mt-24 py-10 md:py-14 ${FULL_WIDTH}`}>
       <div className="grid gap-3 lg:grid-cols-2 lg:items-end lg:gap-12">
@@ -629,7 +614,7 @@ export function Inclusions() {
           </h2>
         </div>
         <p className="text-[15px] leading-relaxed text-slate-600">
-          The same list for every comfort level. {HOME_EXCLUDED_NOTE}
+          The same list for every comfort level. {H.excludedNote}
         </p>
       </div>
 
@@ -642,7 +627,7 @@ export function Inclusions() {
             Included
           </h3>
           <ul className="grid gap-x-6 gap-y-3 p-5 sm:grid-cols-2">
-            {HOME_INCLUDED.map((x) => (
+            {H.included.map((x) => (
               <li key={x} className="flex items-start gap-2.5 text-[14px] leading-snug text-slate-700">
                 <Check size={15} strokeWidth={2.5} className="mt-0.5 shrink-0 text-green-600" aria-hidden="true" />
                 {x}
@@ -659,7 +644,7 @@ export function Inclusions() {
             Not included
           </h3>
           <ul className="grid gap-x-6 gap-y-3 p-5 sm:grid-cols-2">
-            {HOME_EXCLUDED.map((x) => (
+            {H.excluded.map((x) => (
               <li key={x} className="flex items-start gap-2.5 text-[14px] leading-snug text-slate-600">
                 <X size={15} strokeWidth={2.5} className="mt-0.5 shrink-0 text-slate-400" aria-hidden="true" />
                 {x}
@@ -695,7 +680,8 @@ const REACH_MODES = [
   { mode: "Road", title: "By road", Icon: Car },
 ] as const;
 
-export function HowToReach() {
+export async function HowToReach() {
+  const H = await getHomeCopy();
   return (
     <section
       id="how-to-reach"
@@ -709,7 +695,7 @@ export function HowToReach() {
       <div className="mt-7 grid gap-4 md:grid-cols-3 lg:gap-5">
         {REACH_MODES.map(({ mode, title, Icon }) => {
           // "Air, Dwarka side" → mode "Air", route "Dwarka side".
-          const rows = HOME_REACH.filter((r) => r.from.startsWith(`${mode},`));
+          const rows = H.reach.filter((r) => r.from.startsWith(`${mode},`));
           return (
             <div key={mode} className="rounded-2xl border border-orange-100 bg-white p-5">
               <h3 className="flex items-center gap-2.5 text-[16px] font-bold text-[#2D1B10]">
@@ -763,27 +749,31 @@ const SEASON_STYLE = {
   monsoon: { bar: "bg-sky-400", chip: "bg-sky-50 text-sky-800 ring-sky-200", dot: "bg-sky-400" },
 } as const;
 
+/** A season's colours; an unknown key (a CMS typo) falls back to the best-season style. */
+const seasonStyle = (key: string | undefined) => SEASON_STYLE[key as keyof typeof SEASON_STYLE] ?? SEASON_STYLE.best;
+
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-export function BestTime() {
-  const [a, b] = HOME_BEST_TIME_LINKS;
+export async function BestTime() {
+  const H = await getHomeCopy();
+  const [a, b] = H.bestTimeLinks;
   return (
     <section id="best-time" aria-labelledby="best-time-h" className={`scroll-mt-24 ${FULL_WIDTH}`}>
       <SplitHeader id="best-time" eyebrow="When to go" title="Best time to visit Dwarka and Somnath">
-        {HOME_BEST_TIME}
+        {H.bestTime}
       </SplitHeader>
 
       <div className="mt-7 rounded-2xl border border-orange-100 bg-white p-4 sm:p-5">
         {/* Month strip: one cell per month, coloured by season. */}
         <ol className="grid grid-cols-6 gap-1.5 sm:grid-cols-12" aria-label="Season by month">
           {MONTHS.map((m, i) => {
-            const season = HOME_MONTH_SEASONS[i];
+            const season = H.monthSeasons[i];
             return (
               <li key={m} className="text-center">
-                <span className={`block h-2 rounded-full ${SEASON_STYLE[season].bar}`} aria-hidden="true" />
+                <span className={`block h-2 rounded-full ${seasonStyle(season).bar}`} aria-hidden="true" />
                 <span className="mt-1.5 block text-[12px] font-semibold text-slate-600">
                   {m}
-                  <span className="sr-only">: {HOME_SEASONS.find((x) => x.key === season)?.label}</span>
+                  <span className="sr-only">: {H.seasons.find((x) => x.key === season)?.label}</span>
                 </span>
               </li>
             );
@@ -791,13 +781,13 @@ export function BestTime() {
         </ol>
 
         <div className="mt-5 grid gap-3 md:grid-cols-3">
-          {HOME_SEASONS.map((x) => (
+          {H.seasons.map((x) => (
             <div key={x.key} className="flex items-start gap-3 rounded-xl bg-slate-50/70 p-3.5">
-              <span className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${SEASON_STYLE[x.key].dot}`} aria-hidden="true" />
+              <span className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${seasonStyle(x.key).dot}`} aria-hidden="true" />
               <div>
                 <p className="flex flex-wrap items-center gap-2">
                   <span className="text-[14.5px] font-bold text-[#2D1B10]">{x.months}</span>
-                  <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ring-1 ${SEASON_STYLE[x.key].chip}`}>
+                  <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ring-1 ${seasonStyle(x.key).chip}`}>
                     {x.label}
                   </span>
                 </p>
@@ -829,7 +819,8 @@ export function BestTime() {
 
 const CONCERN_ICONS = [Users, IndianRupee, RefreshCw, UserRound];
 
-export function CommonConcerns() {
+export async function CommonConcerns() {
+  const H = await getHomeCopy();
   return (
     <section
       id="concerns"
@@ -840,7 +831,7 @@ export function CommonConcerns() {
         <span className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between lg:justify-end lg:gap-4">
           <span>Something else on your mind?</span>
           <TrackedLink
-            href={waLink(HOME_WA_TEXT)}
+            href={waLink(H.waText)}
             external
             event="whatsapp_click"
             label="home_concerns"
@@ -852,7 +843,7 @@ export function CommonConcerns() {
       </SplitHeader>
 
       <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
-        {HOME_CONCERNS.map((c, i) => {
+        {H.concerns.map((c, i) => {
           const Icon = CONCERN_ICONS[i] ?? UserRound;
           return (
             <div key={c.q} className="flex flex-col rounded-2xl border border-orange-100 bg-white p-5">
@@ -878,7 +869,8 @@ const ENQUIRE_POINTS = [
 ];
 
 /** Anchored in the page, never a popup (home SOP §14). */
-export function EnquireSection({ months }: { months: string[] }) {
+export async function EnquireSection({ months }: { months: string[] }) {
+  const H = await getHomeCopy();
   return (
     <section id="enquire" aria-labelledby="enquire-h" className={`scroll-mt-24 ${FULL_WIDTH}`}>
       <div className="grid overflow-hidden rounded-3xl border border-orange-100 bg-white lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
@@ -904,7 +896,7 @@ export function EnquireSection({ months }: { months: string[] }) {
               ))}
             </ul>
             <TrackedLink
-              href={waLink(HOME_WA_TEXT)}
+              href={waLink(H.waText)}
               external
               event="whatsapp_click"
               label="home_enquire_panel"
@@ -917,7 +909,7 @@ export function EnquireSection({ months }: { months: string[] }) {
         </div>
 
         <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-10">
-          <TwoStepEnquiry months={months} tiers={HOME_TIERS.map((t) => t.name)} />
+          <TwoStepEnquiry months={months} tiers={H.tiers.map((t) => t.name)} />
         </div>
       </div>
     </section>
@@ -946,8 +938,8 @@ function Stars({ rating, size = 15 }: { rating: number; size?: number }) {
  * Review / AggregateRating on the home TouristTrip node, so each card's score
  * comes from the review data — never typed into the markup separately.
  */
-export function HomeReviews() {
-  const reviews = TESTIMONIALS.slice(0, 9);
+export async function HomeReviews() {
+  const reviews = (await getTestimonials()).slice(0, 9);
   if (!reviews.length) return null;
 
   return (
@@ -992,7 +984,8 @@ export function HomeReviews() {
 /* ------------------------------ hero-adjacent CTA ---------------------------- */
 
 /** A slim repeat of the primary CTA, used after the price and itinerary blocks. */
-export function InlineWhatsAppCta({ label }: { label: string }) {
+export async function InlineWhatsAppCta({ label }: { label: string }) {
+  const H = await getHomeCopy();
   return (
     <div className="bg-white px-4 pb-4">
       <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 rounded-3xl bg-[#2D1B10] px-6 py-5 text-center sm:flex-row sm:text-left">
@@ -1000,7 +993,7 @@ export function InlineWhatsAppCta({ label }: { label: string }) {
           Want this plan with your dates and hotel names? We reply the same day.
         </p>
         <TrackedLink
-          href={waLink(HOME_WA_TEXT)}
+          href={waLink(H.waText)}
           external
           event="whatsapp_click"
           label={label}

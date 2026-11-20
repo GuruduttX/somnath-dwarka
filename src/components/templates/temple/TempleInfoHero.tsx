@@ -7,20 +7,29 @@ import { Clock, Sparkles, ArrowRight, MessageSquare, BadgeCheck, AlertCircle } f
 const CommonEnquiryForm = dynamic(() => import("@/src/utils/CommanEnquiryForm"), { ssr: false });
 import { waLink } from "@/src/config/site";
 
+/** CMS copy of the hero (the "temple-topic-template" page), placeholders already filled by the server parent. */
+export type TempleHeroLabels = {
+  sessionsChip: string;
+  verifiedChip: string;
+  unverifiedChip: string;
+  ctaLabel: string;
+  whatsappLabel: string;
+  whatsappMessage: string;
+};
+
 export default function TempleInfoHero({
   h1,
   answerFirst,
-  destination,
   kicker,
   verified,
-  sessionCount,
+  labels,
 }: {
   h1: string;
   answerFirst: string;
   destination: string;
   kicker: string;
   verified: boolean;
-  sessionCount: number;
+  labels: TempleHeroLabels;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -72,17 +81,17 @@ export default function TempleInfoHero({
             <div className="ti-up ti3 mt-6 flex flex-wrap gap-2.5">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-100 bg-white/80 px-3 py-1.5 text-[12px] font-semibold text-[#6b4c38] shadow-xs backdrop-blur-sm">
                 <Clock size={13} className="text-orange-500" />
-                {sessionCount} darshan windows
+                {labels.sessionsChip}
               </span>
               {verified ? (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[12px] font-semibold text-emerald-700">
                   <BadgeCheck size={13} />
-                  Verified against official source
+                  {labels.verifiedChip}
                 </span>
               ) : (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-[12px] font-semibold text-amber-700">
                   <AlertCircle size={13} />
-                  Indicative · confirm before travel
+                  {labels.unverifiedChip}
                 </span>
               )}
             </div>
@@ -93,17 +102,18 @@ export default function TempleInfoHero({
                 className="group inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#EA580C_0%,#F97316_50%,#FB923C_100%)] px-7 py-3.5 text-sm font-bold text-white shadow-[0_12px_30px_rgba(234,88,12,0.35)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
               >
                 <Sparkles size={16} />
-                Plan Darshan With Us
+                {labels.ctaLabel}
                 <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
               </button>
               <a
-                href={waLink(`Hi, I want help planning darshan at ${destination}`)}
+                href={waLink(labels.whatsappMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-orange-300 bg-white/70 px-7 py-3.5 text-sm font-semibold text-orange-700 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-400 hover:bg-white active:translate-y-0"
               >
                 <MessageSquare size={15} />
-                Ask on WhatsApp
+                {labels.whatsappLabel}
+
               </a>
             </div>
           </div>

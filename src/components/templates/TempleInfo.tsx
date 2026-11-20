@@ -5,20 +5,33 @@ import Faq from "@/src/components/shared/Faq";
 import CtaBand from "@/src/components/shared/CtaBand";
 import RelatedLinks from "@/src/components/shared/RelatedLinks";
 import JsonLd from "@/src/components/seo/JsonLd";
-import { findSeedTempleInfo, findSeedDestination } from "@/src/lib/seed/destinations";
 import { buildRelatedLinks } from "@/src/lib/links";
 import { destinationPath, destinationTopicPath } from "@/src/lib/destinationRoutes";
+import { getDatasetItem } from "@/src/lib/datasets/store";
+import { getPageContent } from "@/src/lib/pages/getPageContent";
+import { PILLARS_DATASET, TEMPLE_TOPICS_DATASET } from "@/src/lib/cms-groups/destinations";
 import TempleInfoHero from "./temple/TempleInfoHero";
 import Reveal from "./destination/Reveal";
+import { TEMPLE_TOPIC_TEMPLATE_PAGE } from "./temple/content";
+import { fillVars, toLinks } from "./copy";
 
-export function templeMetadata(destination: string, topic: string) {
-  const t = findSeedTempleInfo(destination, topic);
+/*
+  /somnath/<topic>/ and /dwarka/<topic>/. The page's content is its
+  site_temple_topics item (key "<destination>/<slug>"); the headings and labels
+  are the "temple-topic-template" page copy. Both are editable through the CMS.
+*/
+
+const findTopic = (destination: string, topic: string) =>
+  getDatasetItem(TEMPLE_TOPICS_DATASET, `${destination}/${topic}`);
+
+export async function templeMetadata(destination: string, topic: string) {
+  const t = await findTopic(destination, topic);
   if (!t) return {};
   return buildMetadata({ title: t.title, description: t.answer_first, path: destinationTopicPath(destination, topic) });
 }
 
-export function templeExists(destination: string, topic: string) {
-  return !!findSeedTempleInfo(destination, topic);
+export async function templeExists(destination: string, topic: string) {
+  return !!(await findTopic(destination, topic));
 }
 
 /** Pick a time-of-day icon for a session label so the timeline reads at a glance. */
@@ -30,23 +43,25 @@ function sessionIcon(label: string, open: string) {
   return Sunset;
 }
 
-export default function TempleInfo({ destination, topic }: { destination: string; topic: string }) {
-  const t = findSeedTempleInfo(destination, topic);
-  const parent = findSeedDestination(destination);
+export default async function TempleInfo({ destination, topic }: { destination: string; topic: string }) {
+  const [t, parent, c] = await Promise.all([
+    findTopic(destination, topic),
+    getDatasetItem(PILLARS_DATASET, destination),
+    getPageContent(TEMPLE_TOPIC_TEMPLATE_PAGE),
+  ]);
   if (!t) return null;
 
-  const kicker = topic === "darshan" ? "Darshan & Aarti Schedule" : "Timings & Aarti Schedule";
+  // The route param is the page slug, so this compares the slug (kept as it was).
+  const kicker = topic === "darshan" ? c.kickers.darshan : c.kickers.other;
   const parentPath = destinationPath(destination);
   const selfPath = destinationTopicPath(destination, topic);
+  const v = { destination: parent?.destination ?? destination, count: t.timings.length };
 
   const related = buildRelatedLinks({
     self: selfPath,
-    pillar: { target: parentPath, anchor: `${parent?.destination ?? destination} travel guide` },
+    pillar: { target: parentPath, anchor: fillVars(c.pillarAnchor, v) },
     money: "packages",
-    siblings: [
-      { target: "/somnath-dwarka-taxi-service/", anchor: "book a cab for darshan", type: "money" },
-      { target: "/plan/how-many-days-for-somnath-dwarka/", anchor: "plan your days", type: "sibling" },
-    ],
+    siblings: toLinks(c.related),
   });
 
   return (
@@ -66,7 +81,14 @@ export default function TempleInfo({ destination, topic }: { destination: string
           destination={parent?.destination ?? destination}
           kicker={kicker}
           verified={t.verified}
-          sessionCount={t.timings.length}
+          labels={{
+            sessionsChip: fillVars(c.hero.sessionsChip, v),
+            verifiedChip: c.hero.verifiedChip,
+            unverifiedChip: c.hero.unverifiedChip,
+            ctaLabel: c.hero.ctaLabel,
+            whatsappLabel: c.hero.whatsappLabel,
+            whatsappMessage: fillVars(c.hero.whatsappMessage, v),
+          }}
         />
       </div>
 
@@ -75,11 +97,11 @@ export default function TempleInfo({ destination, topic }: { destination: string
         <Reveal className="mb-7">
           <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-orange-700">
             <Sparkles size={12} />
-            Daily schedule
+            {c.timings.eyebrow}
           </span>
           <h2 className="mt-3 flex items-center gap-3 text-2xl font-black tracking-tight text-[#2a1a10] sm:text-[1.9rem]">
             <span className="h-7 w-1.5 rounded-full bg-gradient-to-b from-orange-500 to-amber-400" />
-            Darshan &amp; aarti timings
+            {c.timings.title}
           </h2>
         </Reveal>
 
@@ -119,7 +141,7 @@ export default function TempleInfo({ destination, topic }: { destination: string
           >
             <span className={`inline-flex items-center gap-2 text-[13.5px] font-semibold ${t.verified ? "text-emerald-700" : "text-amber-700"}`}>
               {t.verified ? <BadgeCheck size={18} /> : <AlertCircle size={18} />}
-              {t.verified ? "Verified against the official source." : "Indicative schedule — confirm on the official site before you travel."}
+              {t.verified ? c.timings.verifiedNote : c.timings.unverifiedNote}
             </span>
             <a
               href={t.official_source_url}
@@ -127,7 +149,7 @@ export default function TempleInfo({ destination, topic }: { destination: string
               rel="noopener noreferrer nofollow"
               className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[13px] font-bold text-orange-700 shadow-sm ring-1 ring-orange-100 transition hover:ring-orange-300"
             >
-              Official source
+              {c.timings.sourceLabel}
               <ExternalLink size={14} />
             </a>
           </div>
@@ -139,18 +161,18 @@ export default function TempleInfo({ destination, topic }: { destination: string
         <Reveal className="mb-6">
           <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-orange-700">
             <Sparkles size={12} />
-            Before you enter
+            {c.rules.eyebrow}
           </span>
           <h2 className="mt-3 flex items-center gap-3 text-2xl font-black tracking-tight text-[#2a1a10] sm:text-[1.9rem]">
             <span className="h-7 w-1.5 rounded-full bg-gradient-to-b from-orange-500 to-amber-400" />
-            Dress code &amp; photography
+            {c.rules.title}
           </h2>
         </Reveal>
 
         <div className="grid gap-4 sm:grid-cols-2">
           {[
-            { icon: Shirt, title: "Dress code", text: t.dress_code },
-            { icon: Camera, title: "Photography", text: t.photography_rule },
+            { icon: Shirt, title: c.rules.dressCodeTitle, text: t.dress_code },
+            { icon: Camera, title: c.rules.photographyTitle, text: t.photography_rule },
           ].map((c, i) => (
             <Reveal key={c.title} delay={i * 0.08}>
               <div className="group h-full rounded-3xl border border-orange-100 bg-white p-6 shadow-[0_10px_30px_rgba(234,88,12,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_20px_45px_rgba(234,88,12,0.12)]">
@@ -165,8 +187,9 @@ export default function TempleInfo({ destination, topic }: { destination: string
         </div>
       </section>
 
-      <Faq items={t.faq} heading="Timings FAQs" />
-      <CtaBand context={`${t.h1}`} title="Plan darshan with us" subtitle="We time the itinerary around aarti and darshan windows." />
+      <Faq items={t.faq} heading={c.faqHeading} />
+      <CtaBand context={`${t.h1}`} title={c.ctaTitle} subtitle={c.ctaSubtitle} />
+
       <RelatedLinks links={related} />
 
       {/* FAQPage is emitted by <Faq> above; here we add the page-type node. */}
