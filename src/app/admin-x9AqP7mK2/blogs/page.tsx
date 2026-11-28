@@ -59,9 +59,12 @@ export default function BlogsPage() {
 
       if (data.success) {
         setBlogs(data.data);
+      } else {
+        toast.error(data.message || "Failed to load blogs");
       }
     } catch (error) {
       console.error("Blog fetch error:", error);
+      toast.error("Failed to load blogs. Please refresh.");
     } finally {
       setLoading(false);
     }
@@ -75,7 +78,7 @@ export default function BlogsPage() {
 
   const filteredBlogs = blogs
     .filter((blog) => {
-      const matchesSearch = blog?.title || "" 
+      const matchesSearch = (blog?.title || "")
         .toLowerCase()
         .includes(search.toLowerCase());
 

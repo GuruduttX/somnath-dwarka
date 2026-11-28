@@ -15,7 +15,12 @@ export const createAdminBlogService = async (data: Partial<IBlog>) => {
 
 export const getAllAdminBlogsService = async () => {
   try {
-    const blogs = await Blog.find().sort({ createdAt: -1 });
+    // List fields only: the full article bodies of ~300 posts are ~7 MB, which
+    // left the admin list loading for over a minute. Editors fetch one blog by id.
+    const blogs = await Blog.find()
+      .select("title slug status category image alt subContent author createdAt updatedAt")
+      .sort({ createdAt: -1 })
+      .lean();
     return blogs;
   } catch (error: any) {
     throw new Error(error.message || "Failed to fetch blogs");
