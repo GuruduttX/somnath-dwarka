@@ -14,7 +14,6 @@ import {
     Files,
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 const menu = [
     { name: "Dashboard", icon: LayoutDashboard, slug: "/admin-x9AqP7mK2" },
@@ -33,7 +32,6 @@ export default function Sidebar({
     isOpen: boolean;
     onClose: () => void;
 }) {
-    const router = useRouter();
 
     return (
         <aside
@@ -68,8 +66,8 @@ export default function Sidebar({
                 <button
                     onClick={async () => {
                         await fetch("/api/auth/logout", { method: "POST" });
-                        router.push("/x9AqP7mK2-login");
-                        router.refresh();
+                        // Full page load (see the login page): drops every cached admin payload.
+                        window.location.assign("/x9AqP7mK2-login/");
                     }}
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-lg
           text-red-400 hover:bg-red-900/30 transition"

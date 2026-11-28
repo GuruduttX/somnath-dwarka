@@ -20,10 +20,17 @@ const nextConfig: NextConfig = {
   // the Claude connector can answer at /mcp without a slash: MCP clients strip
   // it from the connector URL and do not follow redirects.
   skipTrailingSlashRedirect: true,
+  // /sitemap.xml, /sitemap and /guides read every published CMS doc at build;
+  // with all workers hitting MongoDB at once they pass Next's 60s default.
+  staticPageGenerationTimeout: 180,
   // Tree-shake icon barrels to their per-icon modules so the home page ships
   // (and hydrates) less JS — Script Evaluation is the top main-thread cost.
   experimental: {
     optimizePackageImports: ["lucide-react", "react-icons", "date-fns"],
+    // Build workers. Unset = Next's default (CPU count - 1). Set NEXT_BUILD_CPUS
+    // (e.g. 2) on a machine low on memory: each worker renders pages in parallel
+    // and a full set can run out of memory ("Zone Allocation failed").
+    cpus: Number(process.env.NEXT_BUILD_CPUS) || undefined,
     // Not inlineCss: the sitewide stylesheet is ~360 KB raw / 45 KB gzipped and
     // Next inlines it twice (a <style> tag + the RSC payload), which grew the
     // home HTML by ~700 KB and cost more than the request it saves.

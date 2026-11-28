@@ -13,6 +13,13 @@ export const metadata: Metadata = {
     robots: { index: false, follow: false, nocache: true },
 };
 
+/**
+ * Render every admin page per request. Static admin pages were sent with only
+ * `s-maxage`, so the browser could keep a copy, including the RSC payload, and
+ * show it as raw text on a later visit. Dynamic pages are sent `no-store`.
+ */
+export const dynamic = "force-dynamic";
+
 export default function AdminRootLayout({ children }: { children: React.ReactNode }) {
     return (
         <div className="bg-[#020617]">

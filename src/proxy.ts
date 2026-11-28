@@ -37,6 +37,17 @@ function trailingSlashRedirect(request: NextRequest): NextResponse | null {
     return NextResponse.redirect(url, 308);
 }
 
+/**
+ * Login/admin redirect, straight to the slash URL (no second hop) and never
+ * cached: its answer depends on the cookie, and a cached redirect or the RSC
+ * payload behind it would be replayed to the browser as raw text.
+ */
+function authRedirect(path: string, request: NextRequest): NextResponse {
+    const res = NextResponse.redirect(new URL(path, request.url));
+    res.headers.set("Cache-Control", "private, no-store");
+    return res;
+}
+
 export async function proxy(request: NextRequest) {
     const slash = trailingSlashRedirect(request);
     if (slash) return slash;
@@ -72,14 +83,14 @@ export async function proxy(request: NextRequest) {
     // Protect the admin dashboard and draft previews: redirect unauthenticated users to login.
     if (under(pathname, ADMIN_PREFIX) || under(pathname, PREVIEW_PREFIX)) {
         if (!isAuthed) {
-            return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
+            return authRedirect(`${LOGIN_PATH}/`, request);
         }
         return NextResponse.next();
     }
 
     // If already logged in, keep the admin away from the login page.
     if (pathname === LOGIN_PATH && isAuthed) {
-        return NextResponse.redirect(new URL(ADMIN_PREFIX, request.url));
+        return authRedirect(`${ADMIN_PREFIX}/`, request);
     }
 
     return NextResponse.next();

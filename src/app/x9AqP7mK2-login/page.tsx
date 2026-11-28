@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Lock, User, LogIn } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function AdminLoginPage() {
-    const router = useRouter();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -25,8 +23,10 @@ export default function AdminLoginPage() {
 
             if (res.ok && data.success) {
                 toast.success("Login successful");
-                router.push("/admin-x9AqP7mK2");
-                router.refresh();
+                // A full page load, not router.push: a client-side navigation fetches
+                // the RSC payload, and the browser can then cache that payload under
+                // the page URL and later show it as raw text instead of the page.
+                window.location.assign("/admin-x9AqP7mK2/");
             } else {
                 toast.error(data.message || "Invalid credentials");
             }
